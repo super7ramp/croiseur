@@ -8,10 +8,9 @@ import java.util.function.BiPredicate;
 /**
  * A 2-SAP problem.
  *
- * @param <Variable> type of the variable
- * @param <Candidate> type of the value
+ * @param <T> type of the value
  */
-public interface SatisfactionProblem<Variable, Candidate> {
+public interface SatisfactionProblem<T> {
 
     /**
      * A constraint, i.e. a relation which links two variable assignments.
@@ -25,13 +24,13 @@ public interface SatisfactionProblem<Variable, Candidate> {
      *
      * @return the variables to assign and their candidate values
      */
-    Map<Variable, Set<Candidate>> variables();
+    Map<Variable<T>, Set<T>> variables();
 
     /**
      * The constraints to satisfy.
      *
      * @return the constraint to satisfy
      */
-    Map<Variable, Collection<Constraint<Candidate>>> constraints();
+    Map<Variable<T>, Collection<Constraint<T>>> constraints();
 
 }

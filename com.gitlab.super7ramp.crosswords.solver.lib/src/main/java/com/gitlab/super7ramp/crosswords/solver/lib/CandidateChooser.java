@@ -59,7 +59,7 @@ final class CandidateChooser {
      * @return a new set of variables
      */
     private Collection<WordVariable> probe(final WordVariable variable, final String probedCandidate) {
-        return problem.assign(variable.uid(), probedCandidate).variables();
+        return problem.probe(variable.uid(), probedCandidate).variables();
     }
 
     /**

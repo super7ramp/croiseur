@@ -1,30 +1,28 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import com.gitlab.super7ramp.crosswords.grid.VariableIdentifier;
+import com.gitlab.super7ramp.crosswords.util.solver.Variable;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 /**
  * Represents a variable in the crossword problem, i.e. a slot for a word.
- *
- * Implementation:
- * <ul>
- *     <li>stores letters propagated by constraints.
- *     <li>is immutable
- * </ul>
- *
  */
-public final class WordVariable {
+public final class WordVariable implements Variable<String> {
 
-    /** Default value. */
+    /**
+     * Default value.
+     */
     private static final char NO_VALUE = 0;
-
-    /** Parts of the variable already filled by constraints or assignment. */
-    private final char[] characters;
-
-    /** Unique identifier. */
+    /**
+     * Unique identifier.
+     */
     private final VariableIdentifier uid;
+    /**
+     * Parts of the variable already filled by constraints or assignment.
+     */
+    private char[] characters;
 
     /**
      * Constructor for an unassigned variable.
@@ -69,8 +67,16 @@ public final class WordVariable {
     public WordVariable withPart(final char part, int index) {
         validateIndex(index);
         final WordVariable result = new WordVariable(uid, characters.length);
-        result.addLetter(index, part);
+        result.setLetter(index, part);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "WordVariable{" +
+                "characters=" + Arrays.toString(characters) +
+                ", uid=" + uid +
+                '}';
     }
 
     /**
@@ -80,31 +86,22 @@ public final class WordVariable {
         return uid;
     }
 
-    private void validateAssignment(String value) {
-        if(characters.length != value.length()) {
-            throw new IllegalArgumentException();
-        }
-    }
-
     /**
      * @return the value of the variable, if it has been assigned
      */
     public Optional<String> value() {
+        for (final char c : characters) {
+            if (c == NO_VALUE) {
+                return Optional.empty();
+            }
+        }
         return Optional.of(String.valueOf(characters));
     }
 
     /**
-     * @return the length of the variable
+     * @param index the index
+     * @return the letter at given index, if present, otherwise {@link Optional#empty()}
      */
-    public int length() {
-        return characters.length;
-    }
-
-    private void addLetter(int index, char value) {
-        validateIndex(index);
-        characters[index] = value;
-    }
-
     public Optional<Character> getLetter(int index) {
         validateIndex(index);
         final char character = characters[index];
@@ -117,22 +114,41 @@ public final class WordVariable {
         return result;
     }
 
+    /**
+     * @return the length of the variable
+     */
+    public int length() {
+        return characters.length;
+    }
+
+    void assign(final String value) {
+        validateAssignment(value);
+        value.getChars(0, value.length(), characters, 0);
+    }
+
+    void unassign(final BacktrackHint hint) {
+        removeLetter(hint.indexToUnassign());
+    }
+
+    void setLetter(int index, char value) {
+        validateIndex(index);
+        characters[index] = value;
+    }
+
     private void removeLetter(int index) {
         validateIndex(index);
         characters[index] = NO_VALUE;
+    }
+
+    private void validateAssignment(String value) {
+        if (characters.length != value.length()) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void validateIndex(int index) {
         if (index < 0 || index >= characters.length) {
             throw new IllegalArgumentException();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "WordVariable{" +
-                "characters=" + Arrays.toString(characters) +
-                ", uid=" + uid +
-                '}';
     }
 }

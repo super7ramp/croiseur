@@ -5,10 +5,18 @@ import java.util.Objects;
 /**
  * Unique identifier for a variable inside a given problem.
  */
-public class VariableIdentifier {
+public final class VariableIdentifier {
 
+    /**
+     * Just an integer.
+     */
     private final int id;
 
+    /**
+     * Constructor.
+     *
+     * @param anId the identifier
+     */
     public VariableIdentifier(final int anId) {
         id = anId;
     }

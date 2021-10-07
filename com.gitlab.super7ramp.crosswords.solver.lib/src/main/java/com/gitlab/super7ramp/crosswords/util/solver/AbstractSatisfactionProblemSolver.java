@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  * <h2>Variable instantiation</h2>
  *
  * When a variable is chosen, it must be instantiated to a valid value. It is materialized here by the
- * {@link Optional<Candidate>} returned by the {@link #candidate(Variable)} method.
+ * {@link Optional<VariableT>} returned by the {@link #candidate(VariableT)} method.
  *
  * <h2>Backtracking</h2>
  *
@@ -35,18 +36,20 @@ import java.util.logging.Logger;
  * instantiated. In order to continue the search of a valid solution, one or several already instantiated variables
  * must be changed. This heuristic is performed via the {@link #backtrackFrom(Variable)} method.
  *
- * @param <Variable> variable type
- * @param <Candidate> candidate type
+ * @param <VariableT> type of variable
+ * @param <ValueT> type of value assignable to the variables
  */
-public abstract class AbstractSatisfactionProblemSolver<Variable, Candidate>  {
+public abstract class AbstractSatisfactionProblemSolver<VariableT extends Variable<ValueT>, ValueT> {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(AbstractSatisfactionProblemSolver.class.getName());
 
-    /** The assignment being built, i.e. an assignment of a value for each variable.
-     * TODO check visibility; currently children need it
+    /**
+     * The assignment being built, i.e. an assignment of a value for each variable.
      */
-    protected final Map<Variable, Candidate> assignment;
+    private final Map<VariableT, ValueT> assignment;
 
     /**
      * Constructor.
@@ -61,20 +64,20 @@ public abstract class AbstractSatisfactionProblemSolver<Variable, Candidate>  {
      * @return an assignment for the given problem, if any found
      * @throws InterruptedException if interrupted while solving
      */
-    public final Optional<Map<Variable, Candidate>> solve() throws InterruptedException {
+    public final Optional<Map<VariableT, ValueT>> solve() throws InterruptedException {
 
-        final Iterator<Variable> variables = variables();
+        final Iterator<VariableT> variables = variables();
         while (!Thread.currentThread().isInterrupted() && variables.hasNext()) {
 
-            final Variable variable = variables.next();
-            final Optional<Candidate> candidate = candidate(variable);
+            final VariableT variable = variables.next();
+            final Optional<ValueT> candidate = candidate(variable);
 
             if (candidate.isPresent()) {
                 LOGGER.fine(() -> "Assigning [" + candidate.get() + "] to variable [" + variable + "]");
-                assignVariable(variable, candidate.get());
+                assign(variable, candidate.get());
             } else {
                 LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
-                backtrackFrom(variable);
+                backtrackFrom(variable).forEach(this::unassign);
             }
         }
 
@@ -94,7 +97,7 @@ public abstract class AbstractSatisfactionProblemSolver<Variable, Candidate>  {
      *
      * @return an iterator on variables
      */
-    protected abstract Iterator<Variable> variables();
+    protected abstract Iterator<VariableT> variables();
 
     /**
      * The candidate to select for the given variable.
@@ -102,27 +105,47 @@ public abstract class AbstractSatisfactionProblemSolver<Variable, Candidate>  {
      * @param variable the variable to look candidate for
      * @return the selected value
      */
-    protected abstract Optional<Candidate> candidate(final Variable variable);
+    protected abstract Optional<ValueT> candidate(final VariableT variable);
 
     /**
      * Apply the backtrack strategy when variable cannot be instantiated.
      *
      * @param variable variable which cannot be instantiated
+     * @return the unassigned variables
      */
-    protected abstract void backtrackFrom(final Variable variable);
+    protected abstract Set<VariableT> backtrackFrom(final VariableT variable);
+
+    /**
+     * Assign a value to a variable variable.
+     *
+     * @param variable the variable to assign
+     * @param value    the chosen candidate value
+     */
+    protected abstract void instantiate(VariableT variable, ValueT value);
 
     /**
      * Assign a value to a variable, i.e. instantiate the variable.
      *
      * @param variable the variable to assign
-     * @param value the chosen candidate value
+     * @param value    the chosen candidate value
      */
-    private void assignVariable(final Variable variable, final Candidate value) {
+    private void assign(final VariableT variable, final ValueT value) {
+        instantiate(variable, value);
         assignment.put(variable, value);
     }
 
     /**
+     * Un-assign the value of a variable.
+     *
+     * @param variable the variable to un-assign
+     */
+    private void unassign(final VariableT variable) {
+        assignment.remove(variable);
+    }
+
+    /**
      * Check whether the current assignment is complete.
+     *
      * @return <code>true</code> if the assignment is complete, <code>false</code> otherwise
      */
     private boolean isAssignmentComplete() {
