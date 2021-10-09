@@ -1,8 +1,11 @@
-package com.gitlab.super7ramp.crosswords.db;
+package com.gitlab.super7ramp.crosswords.solver.lib.db;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.WordVariable;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -12,6 +15,11 @@ import java.util.stream.Collectors;
  * Mock for {@link WordDatabase}.
  */
 final class WordDatabaseMock implements WordDatabase {
+
+    /**
+     * Blacklist.
+     */
+    private Map<WordVariable, Set<String>> blacklist;
 
     private static class MatchingWord implements Predicate<String> {
 
@@ -42,6 +50,7 @@ final class WordDatabaseMock implements WordDatabase {
 
     WordDatabaseMock(String... someWords) {
         words = Arrays.stream(someWords).collect(Collectors.toUnmodifiableSet());
+        blacklist = new HashMap<>();
     }
 
     @Override
@@ -55,6 +64,17 @@ final class WordDatabaseMock implements WordDatabase {
     @Override
     public long countPossibleValues(final WordVariable wordVariable) {
         return findPossibleValues(wordVariable).size();
+    }
+
+    @Override
+    public void blacklist(final WordVariable wordVariable, final String value) {
+        blacklist.computeIfAbsent(wordVariable, key -> new HashSet<>());
+        blacklist.get(wordVariable).add(value);
+    }
+
+    @Override
+    public void resetBlacklist() {
+        blacklist.clear();
     }
 
 }

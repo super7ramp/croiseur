@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.grid;
+package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import java.util.Objects;
 

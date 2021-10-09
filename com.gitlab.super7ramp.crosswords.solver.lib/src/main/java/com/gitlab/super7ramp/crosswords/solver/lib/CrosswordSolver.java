@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.db.WordDatabase;
 import com.gitlab.super7ramp.crosswords.solver.lib.comparators.Comparators;
-import com.gitlab.super7ramp.crosswords.util.solver.AbstractSatisfactionProblemSolver;
+import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
+import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfactionProblemSolver;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -24,6 +24,12 @@ public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<Wor
     private final CandidateChooser candidateChooser;
 
     /**
+     * Manages the dead-ends (i.e. unassign one or more variables and blacklist their values so that other solutions
+     * can be tried).
+     */
+    private final Backtracker backtracker;
+
+    /**
      * The grid.
      */
     private final CrosswordProblem crosswordProblem;
@@ -40,6 +46,7 @@ public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<Wor
         crosswordProblem = grid;
         variables = new WordVariableIterator(grid, Comparators.byNumberOfCandidates(dictionary));
         candidateChooser = new CandidateChooser(grid, dictionary);
+        backtracker = new BacktrackerImpl(grid, dictionary);
     }
 
     @Override
@@ -54,7 +61,7 @@ public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<Wor
 
     @Override
     protected Set<WordVariable> backtrackFrom(final WordVariable wordVariable) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return backtracker.backtrackFrom(wordVariable);
     }
 
     @Override

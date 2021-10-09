@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.util.solver;
+package com.gitlab.super7ramp.crosswords.solver.lib.util.solver;
 
 import java.util.Optional;
 

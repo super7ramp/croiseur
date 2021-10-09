@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.comparators;
 
-import com.gitlab.super7ramp.crosswords.db.WordDatabase;
 import com.gitlab.super7ramp.crosswords.solver.lib.WordVariable;
+import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
 
 import java.util.Comparator;
 

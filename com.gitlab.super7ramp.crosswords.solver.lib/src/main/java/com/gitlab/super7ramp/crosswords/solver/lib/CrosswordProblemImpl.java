@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.grid.VariableIdentifier;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.VariableIdentifier;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +41,12 @@ public final class CrosswordProblemImpl implements CrosswordProblem {
     }
 
     @Override
-    public CrosswordProblem probe(final VariableIdentifier varId, final String value) {
+    public Set<CrosswordConstraint> constraints() {
+        return Collections.unmodifiableSet(constraints);
+    }
+
+    @Override
+    public CrosswordProblem probeAssignment(final VariableIdentifier varId, final String value) {
 
         /* 1. Add updated variable. */
         final Map<VariableIdentifier, WordVariable> updatedVariables = new HashMap<>();
@@ -67,6 +72,22 @@ public final class CrosswordProblemImpl implements CrosswordProblem {
                 .forEach(constraint -> updateConnectedVariable(variableIdentifier, value, constraint));
     }
 
+    @Override
+    public void unassign(VariableIdentifier variableIdentifier) {
+        variable(variableIdentifier).unassign();
+        constraints.stream()
+                .filter(constraint -> constraint.isRelatedTo(variableIdentifier))
+                .forEach(constraint -> updateConnectedVariable(variableIdentifier, constraint));
+    }
+
+    @Override
+    public WordVariable variable(VariableIdentifier varId) {
+        final WordVariable result = variables.get(varId);
+        if (result != null) {
+            return result;
+        }
+        throw new IllegalArgumentException("Variable identifier " + varId + " is unknown");
+    }
 
     /**
      * On a variable assignment, updates variables connected to this variable by a constraint.
@@ -83,6 +104,20 @@ public final class CrosswordProblemImpl implements CrosswordProblem {
         final int updatedPartIndex = constraint.index(connectedVarId);
 
         variable(connectedVarId).setLetter(updatedPartIndex, updatedPart);
+    }
+
+    /**
+     * On a variable un-assignment, updates variables connected to this variable by a constraint.
+     *
+     * @param varId      the updated variable
+     * @param constraint the constraint that connects the variables
+     */
+    private void updateConnectedVariable(final VariableIdentifier varId,
+                                         final CrosswordConstraint constraint) {
+        final VariableIdentifier connectedVarId = constraint.connectedVariableIdentifier(varId);
+        final int updatedPartIndex = constraint.index(connectedVarId);
+
+        variable(connectedVarId).removeLetter(updatedPartIndex);
     }
 
     /**
@@ -105,18 +140,4 @@ public final class CrosswordProblemImpl implements CrosswordProblem {
         return Map.entry(connectedVarId, updatedConnectedVariable);
     }
 
-    /**
-     * Get variable from variable identifier.
-     *
-     * @param varId the variable identifier
-     * @return the variable
-     * @throws IllegalArgumentException if variable id is unknown
-     */
-    private WordVariable variable(VariableIdentifier varId) {
-        final WordVariable result = variables.get(varId);
-        if (result != null) {
-            return result;
-        }
-        throw new IllegalArgumentException("Variable identifier " + varId + " is unknown");
-    }
 }

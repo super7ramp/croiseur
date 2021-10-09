@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.grid.VariableIdentifier;
-import com.gitlab.super7ramp.crosswords.util.solver.SatisfactionProblem;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.VariableIdentifier;
+import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.SatisfactionProblem;
 
 import java.util.Objects;
 

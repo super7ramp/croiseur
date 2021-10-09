@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.grid.VariableIdentifier;
-import com.gitlab.super7ramp.crosswords.util.solver.Variable;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.VariableIdentifier;
+import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.Variable;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -71,6 +71,20 @@ public final class WordVariable implements Variable<String> {
         return result;
     }
 
+    /**
+     * Returns a new {@link WordVariable} with the same ID and removed part.
+     *
+     * @param index the index of the part to remove
+     * @return the new partially assigned {@link WordVariable}
+     * @throws IllegalArgumentException if part cannot be assigned
+     */
+    public WordVariable withoutPart(int index) {
+        validateIndex(index);
+        final WordVariable result = new WordVariable(uid, characters.length);
+        result.removeLetter(index);
+        return result;
+    }
+
     @Override
     public String toString() {
         return "WordVariable{" +
@@ -126,8 +140,8 @@ public final class WordVariable implements Variable<String> {
         value.getChars(0, value.length(), characters, 0);
     }
 
-    void unassign(final BacktrackHint hint) {
-        removeLetter(hint.indexToUnassign());
+    void unassign() {
+        Arrays.fill(characters, NO_VALUE);
     }
 
     void setLetter(int index, char value) {
@@ -135,9 +149,8 @@ public final class WordVariable implements Variable<String> {
         characters[index] = value;
     }
 
-    private void removeLetter(int index) {
-        validateIndex(index);
-        characters[index] = NO_VALUE;
+    void removeLetter(int index) {
+        setLetter(index, NO_VALUE);
     }
 
     private void validateAssignment(String value) {

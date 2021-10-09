@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.db.WordDatabase;
-import com.gitlab.super7ramp.crosswords.util.function.Accumulators;
+import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
+import com.gitlab.super7ramp.crosswords.solver.lib.util.function.Accumulators;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -59,7 +59,7 @@ final class CandidateChooser {
      * @return a new set of variables
      */
     private Collection<WordVariable> probe(final WordVariable variable, final String probedCandidate) {
-        return problem.probe(variable.uid(), probedCandidate).variables();
+        return problem.probeAssignment(variable.uid(), probedCandidate).variables();
     }
 
     /**

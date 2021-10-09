@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.grid.VariableIdentifier;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.VariableIdentifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

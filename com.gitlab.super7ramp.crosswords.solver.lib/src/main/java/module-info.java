@@ -15,6 +15,5 @@ module com.gitlab.super7ramp.crosswords.solver.lib {
 
     // Implemented SPIs.
     requires com.gitlab.super7ramp.crosswords.solver.api;
-    provides CrosswordSolverProvider
-            with CrosswordSolverProviderImpl;
+    provides CrosswordSolverProvider with CrosswordSolverProviderImpl;
 }

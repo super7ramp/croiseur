@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.util.function;
+package com.gitlab.super7ramp.crosswords.solver.lib.util.function;
 
 import java.util.function.BinaryOperator;
 
