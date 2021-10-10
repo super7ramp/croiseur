@@ -1,8 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.util.solver;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -39,32 +37,26 @@ import java.util.logging.Logger;
  * @param <VariableT> type of variable
  * @param <ValueT> type of value assignable to the variables
  */
-public abstract class AbstractSatisfactionProblemSolver<VariableT extends Variable<ValueT>, ValueT> {
+public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends Variable<ValueT>, ValueT> {
 
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AbstractSatisfactionProblemSolver.class.getName());
-
-    /**
-     * The assignment being built, i.e. an assignment of a value for each variable.
-     */
-    private final Map<VariableT, ValueT> assignment;
+    private static final Logger LOGGER = Logger.getLogger(AbstractSatisfactionProblemSolverEngine.class.getName());
 
     /**
      * Constructor.
      */
-    public AbstractSatisfactionProblemSolver() {
-        assignment = new HashMap<>();
+    public AbstractSatisfactionProblemSolverEngine() {
+        // Nothing to do.
     }
 
     /**
-     * Try to solve the satisfaction problem.
+     * Start the satisfaction problem exploration loop.
      *
-     * @return an assignment for the given problem, if any found
      * @throws InterruptedException if interrupted while solving
      */
-    public final Optional<Map<VariableT, ValueT>> solve() throws InterruptedException {
+    public final void solve() throws InterruptedException {
 
         final Iterator<VariableT> variables = variables();
         while (!Thread.currentThread().isInterrupted() && variables.hasNext()) {
@@ -74,22 +66,18 @@ public abstract class AbstractSatisfactionProblemSolver<VariableT extends Variab
 
             if (candidate.isPresent()) {
                 LOGGER.fine(() -> "Assigning [" + candidate.get() + "] to variable [" + variable + "]");
-                assign(variable, candidate.get());
+                variable.assign(candidate.get());
             } else {
                 LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
-                backtrackFrom(variable).forEach(this::unassign);
+                backtrackFrom(variable).forEach(Variable::unassign);
             }
         }
 
         if (Thread.currentThread().isInterrupted()) {
+            LOGGER.warning("Solver interrupted");
             throw new InterruptedException();
         }
 
-        if (isAssignmentComplete()) {
-            return Optional.of(assignment);
-        }
-
-        return Optional.empty();
     }
 
     /**
@@ -114,43 +102,5 @@ public abstract class AbstractSatisfactionProblemSolver<VariableT extends Variab
      * @return the unassigned variables
      */
     protected abstract Set<VariableT> backtrackFrom(final VariableT variable);
-
-    /**
-     * Assign a value to a variable variable.
-     *
-     * @param variable the variable to assign
-     * @param value    the chosen candidate value
-     */
-    protected abstract void instantiate(VariableT variable, ValueT value);
-
-    /**
-     * Assign a value to a variable, i.e. instantiate the variable.
-     *
-     * @param variable the variable to assign
-     * @param value    the chosen candidate value
-     */
-    private void assign(final VariableT variable, final ValueT value) {
-        instantiate(variable, value);
-        assignment.put(variable, value);
-    }
-
-    /**
-     * Un-assign the value of a variable.
-     *
-     * @param variable the variable to un-assign
-     */
-    private void unassign(final VariableT variable) {
-        assignment.remove(variable);
-    }
-
-    /**
-     * Check whether the current assignment is complete.
-     *
-     * @return <code>true</code> if the assignment is complete, <code>false</code> otherwise
-     */
-    private boolean isAssignmentComplete() {
-        // TODO check constraints are respected
-        return true;
-    }
 
 }

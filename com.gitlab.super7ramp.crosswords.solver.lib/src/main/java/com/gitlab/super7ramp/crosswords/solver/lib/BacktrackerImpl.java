@@ -2,10 +2,8 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.comparators.Comparators;
 import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
-import com.gitlab.super7ramp.crosswords.solver.lib.grid.VariableIdentifier;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,7 +14,7 @@ final class BacktrackerImpl implements Backtracker {
     /**
      * Access to the grid.
      */
-    private final CrosswordProblem grid;
+    private final Puzzle puzzle;
 
     /**
      * Dictionary.
@@ -26,36 +24,24 @@ final class BacktrackerImpl implements Backtracker {
     /**
      * Constructor.
      *
-     * @param aGrid access to the grid
+     * @param aPuzzle access to the grid
      */
-    BacktrackerImpl(final CrosswordProblem aGrid, final WordDatabase aDictionary) {
-        grid = aGrid;
+    BacktrackerImpl(final Puzzle aPuzzle, final WordDatabase aDictionary) {
+        puzzle = aPuzzle;
         dictionary = aDictionary;
     }
 
     @Override
-    public Set<WordVariable> backtrackFrom(final WordVariable variable) {
-        final WordVariable mostProblematicConnectedVariable = grid.constraints().stream()
-                .filter(c -> c.isRelatedTo(variable.uid()))
-                .map(c -> {
-                    final VariableIdentifier connectedVarId = c.connectedVariableIdentifier(variable.uid());
-                    final WordVariable connectedVar = grid.variable(connectedVarId);
-                    return Map.entry(c, connectedVar);
-                })
-                .filter(entry -> entry.getValue().value().isPresent())
-                .map(entry -> {
-                    final CrosswordConstraint constraint = entry.getKey();
-                    final WordVariable connectedVar = entry.getValue();
-                    return connectedVar.withoutPart(constraint.index(connectedVar.uid()));
-                })
+    public Set<Slot> backtrackFrom(final Slot variable) {
+
+        final Slot connectedToRevert = puzzle.connectedSlots(variable).stream()
+                .filter(connected -> connected.value().isPresent())
                 .min(Comparators.byNumberOfCandidates(dictionary))
                 .orElseThrow(() -> new IllegalStateException("Failed to backtrack, aborting"));
 
         dictionary.resetBlacklist();
-        dictionary.blacklist(mostProblematicConnectedVariable,
-                grid.variable(mostProblematicConnectedVariable.uid()).value().orElseThrow(IllegalStateException::new));
-        grid.unassign(mostProblematicConnectedVariable.uid());
+        dictionary.blacklist(connectedToRevert.uid(), connectedToRevert.value().get());
 
-        return Collections.singleton(mostProblematicConnectedVariable);
+        return Collections.singleton(connectedToRevert);
     }
 }

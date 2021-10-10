@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.db;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.WordVariable;
+import com.gitlab.super7ramp.crosswords.solver.lib.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
 
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public interface WordDatabase {
      * @param wordVariable a variable
      * @return the candidates for given variable
      */
-    Set<String> findPossibleValues(final WordVariable wordVariable);
+    Set<String> findPossibleValues(final Slot wordVariable);
 
     /**
      * Returns the number of candidates for given variables.
@@ -23,7 +24,7 @@ public interface WordDatabase {
      * @param wordVariable a variable
      * @return the candidates for given variable
      */
-    long countPossibleValues(final WordVariable wordVariable);
+    long countPossibleValues(final Slot wordVariable);
 
     /**
      * Blacklist the given value for given variable.
@@ -31,7 +32,7 @@ public interface WordDatabase {
      * @param wordVariable the variable for which the value should be blacklisted
      * @param value        the value to blacklist
      */
-    void blacklist(final WordVariable wordVariable, final String value);
+    void blacklist(final SlotIdentifier wordVariable, final String value);
 
     /**
      * Rehabilitate all blacklisted elements.

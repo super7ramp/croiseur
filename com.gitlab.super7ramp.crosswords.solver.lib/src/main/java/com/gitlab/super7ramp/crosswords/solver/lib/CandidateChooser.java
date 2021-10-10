@@ -12,19 +12,24 @@ import java.util.Optional;
  */
 final class CandidateChooser {
 
-    /** The dictionary to pick candidates from. */
+    /**
+     * The dictionary to pick candidates from.
+     */
     private final WordDatabase dictionary;
 
-    /** The problem. */
-    private final CrosswordProblem problem;
+    /**
+     * The puzzle.
+     */
+    private final ProbablePuzzle puzzle;
 
     /**
      * Constructor.
      *
+     * @param aPuzzle     the puzzle to solve
      * @param aDictionary the dictionary to pick candidates from
      */
-    CandidateChooser(final CrosswordProblem aProblem, final WordDatabase aDictionary) {
-        problem = aProblem;
+    CandidateChooser(final ProbablePuzzle aPuzzle, final WordDatabase aDictionary) {
+        puzzle = aPuzzle;
         dictionary = aDictionary;
     }
 
@@ -34,7 +39,7 @@ final class CandidateChooser {
      * @param wordVariable word variable to choose a candidate for
      * @return the appropriate candidate, or {@link Optional#empty()} if no suitable candidate can be found
      */
-    Optional<String> find(final WordVariable wordVariable) {
+    Optional<String> find(final Slot wordVariable) {
         /*
          * Select the candidate which brings as little constraints on the grid as possible.
          */
@@ -51,15 +56,15 @@ final class CandidateChooser {
      * @param wordVariable the variable for which this candidate is tried
      * @return as described above
      */
-    private Comparator<String> byNumberOfSolutionsLeft(final WordVariable wordVariable) {
+    private Comparator<String> byNumberOfSolutionsLeft(final Slot wordVariable) {
         return Comparator.comparingLong((candidate) -> computeNumberOfSolutions(wordVariable, candidate));
     }
 
     /**
      * @return a new set of variables
      */
-    private Collection<WordVariable> probe(final WordVariable variable, final String probedCandidate) {
-        return problem.probeAssignment(variable.uid(), probedCandidate).variables();
+    private Collection<Slot> probe(final Slot variable, final String probedCandidate) {
+        return puzzle.probe(Assignment.of(variable.uid(), probedCandidate)).slots();
     }
 
     /**
@@ -69,8 +74,8 @@ final class CandidateChooser {
      * @param candidate the candidate to probe
      * @return the "number of solutions" for the grid if this candidate is chosen
      */
-    private long computeNumberOfSolutions(final WordVariable variable, final String candidate) {
-        final Collection<WordVariable> probeResult = probe(variable, candidate);
+    private long computeNumberOfSolutions(final Slot variable, final String candidate) {
+        final Collection<Slot> probeResult = probe(variable, candidate);
         return probeResult.stream()
                 .map(dictionary::countPossibleValues)
                 .reduce(Accumulators.multiplyLong())

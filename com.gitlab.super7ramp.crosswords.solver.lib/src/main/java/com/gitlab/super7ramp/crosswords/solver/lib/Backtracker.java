@@ -2,7 +2,16 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import java.util.Set;
 
+/**
+ * Strategy to apply when dead-end is reached.
+ */
 interface Backtracker {
 
-    Set<WordVariable> backtrackFrom(final WordVariable variable);
+    /**
+     * Determines the variables to unassign to solve the dead-end reached on given variable.
+     *
+     * @param variable unassignable variable
+     * @return the variables that should be unassigned
+     */
+    Set<Slot> backtrackFrom(final Slot variable);
 }

@@ -2,21 +2,21 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.comparators.Comparators;
 import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
-import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfactionProblemSolver;
+import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfactionProblemSolverEngine;
 
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
 /**
- * Implementation of {@link AbstractSatisfactionProblemSolver} for crosswords.
+ * Implementation of {@link AbstractSatisfactionProblemSolverEngine} for crosswords.
  */
-public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<WordVariable, String> {
+public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolverEngine<Slot, String> {
 
     /**
      * Manages the selection of variable to instantiate.
      */
-    private final Iterator<WordVariable> variables;
+    private final Iterator<Slot> variables;
 
     /**
      * Manages the instantiation of a variable (i.e. its assignment).
@@ -32,7 +32,7 @@ public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<Wor
     /**
      * The grid.
      */
-    private final CrosswordProblem crosswordProblem;
+    private final Puzzle puzzle;
 
     /**
      * Constructor.
@@ -40,33 +40,28 @@ public final class CrosswordSolver extends AbstractSatisfactionProblemSolver<Wor
      * @param grid       the grid
      * @param dictionary the dictionary
      */
-    CrosswordSolver(
-            final CrosswordProblem grid,
+    CrosswordSolverEngine(
+            final ProbablePuzzle grid,
             final WordDatabase dictionary) {
-        crosswordProblem = grid;
-        variables = new WordVariableIterator(grid, Comparators.byNumberOfCandidates(dictionary));
+        puzzle = grid;
+        variables = new SlotIterator(grid, Comparators.byNumberOfCandidates(dictionary));
         candidateChooser = new CandidateChooser(grid, dictionary);
         backtracker = new BacktrackerImpl(grid, dictionary);
     }
 
     @Override
-    protected Iterator<WordVariable> variables() {
+    protected Iterator<Slot> variables() {
         return variables;
     }
 
     @Override
-    protected Optional<String> candidate(final WordVariable wordVariable) {
+    protected Optional<String> candidate(final Slot wordVariable) {
         return candidateChooser.find(wordVariable);
     }
 
     @Override
-    protected Set<WordVariable> backtrackFrom(final WordVariable wordVariable) {
+    protected Set<Slot> backtrackFrom(final Slot wordVariable) {
         return backtracker.backtrackFrom(wordVariable);
-    }
-
-    @Override
-    protected void instantiate(final WordVariable variable, final String value) {
-        crosswordProblem.assign(variable.uid(), value);
     }
 
 }

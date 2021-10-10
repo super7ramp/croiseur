@@ -4,8 +4,10 @@ import java.util.Objects;
 
 /**
  * Unique identifier for a variable inside a given problem.
+ * <p>
+ * TODO check visibility and usage (not sure yet whether it should be used outside of implementation of this package)
  */
-public final class VariableIdentifier {
+public final class SlotIdentifier {
 
     /**
      * Just an integer.
@@ -17,7 +19,7 @@ public final class VariableIdentifier {
      *
      * @param anId the identifier
      */
-    public VariableIdentifier(final int anId) {
+    public SlotIdentifier(final int anId) {
         id = anId;
     }
 
@@ -25,7 +27,7 @@ public final class VariableIdentifier {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final VariableIdentifier that = (VariableIdentifier) o;
+        final SlotIdentifier that = (SlotIdentifier) o;
         return id == that.id;
     }
 
