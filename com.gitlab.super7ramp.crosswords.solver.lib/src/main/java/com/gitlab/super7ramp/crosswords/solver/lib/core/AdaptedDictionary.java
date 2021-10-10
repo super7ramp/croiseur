@@ -1,6 +1,5 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.db;
+package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
 
 import java.util.Set;
@@ -8,7 +7,7 @@ import java.util.Set;
 /**
  * TODO split blacklist methods in a separate interface extending this one
  */
-public interface WordDatabase {
+public interface AdaptedDictionary {
 
     /**
      * Returns the candidates for given variable.

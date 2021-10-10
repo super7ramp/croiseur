@@ -3,10 +3,20 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.solver.api.spi.CrosswordSolverProvider;
 
-public class CrosswordSolverProviderImpl implements CrosswordSolverProvider {
+/**
+ * Implementation of {@link CrosswordSolverProvider}.
+ */
+public final class CrosswordSolverProviderImpl implements CrosswordSolverProvider {
+
+    /**
+     * Constructor.
+     */
+    public CrosswordSolverProviderImpl() {
+        // Nothing to do.
+    }
 
     @Override
     public CrosswordSolver solver() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new CrosswordSolverImpl();
     }
 }

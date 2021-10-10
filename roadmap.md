@@ -18,7 +18,7 @@ Introduce a basic structure to solve crossword puzzle:
    1. Code => OK
    2. Unit tests => TODO
 3. Basic backtrack
-   1. Code => In progress
+   1. Code => OK
    2. Unit tests => TODO
 4. Test the assembled module
    1. Mock the dictionary

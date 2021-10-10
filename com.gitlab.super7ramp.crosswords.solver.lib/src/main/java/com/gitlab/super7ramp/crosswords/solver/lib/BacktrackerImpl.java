@@ -1,7 +1,10 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.comparators.Comparators;
-import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.AdaptedDictionary;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Backtracker;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Puzzle;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 
 import java.util.Collections;
 import java.util.Set;
@@ -19,14 +22,14 @@ final class BacktrackerImpl implements Backtracker {
     /**
      * Dictionary.
      */
-    private final WordDatabase dictionary;
+    private final AdaptedDictionary dictionary;
 
     /**
      * Constructor.
      *
      * @param aPuzzle access to the grid
      */
-    BacktrackerImpl(final Puzzle aPuzzle, final WordDatabase aDictionary) {
+    BacktrackerImpl(final Puzzle aPuzzle, final AdaptedDictionary aDictionary) {
         puzzle = aPuzzle;
         dictionary = aDictionary;
     }

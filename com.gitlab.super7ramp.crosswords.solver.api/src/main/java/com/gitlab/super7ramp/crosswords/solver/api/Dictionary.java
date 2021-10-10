@@ -1,20 +1,12 @@
-package com.gitlab.super7ramp.crosswords.db.api;
+package com.gitlab.super7ramp.crosswords.solver.api;
 
-import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * Dictionary interface (to be provided).
+ */
 public interface Dictionary {
-
-    /**
-     * The {@link Locale} associated to this dictionary.
-     * <p>
-     * TODO proper noun: Locale-independent?
-     * TODO more than one locale per dictionary?
-     *
-     * @return the {@link Locale} associated to this dictionary
-     */
-    Locale locale();
 
     /**
      * Search for words matching the given {@link Predicate}.

@@ -1,6 +1,10 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.db.WordDatabase;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.AdaptedDictionary;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Assignment;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.CandidateChooser;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.util.function.Accumulators;
 
 import java.util.Collection;
@@ -10,12 +14,12 @@ import java.util.Optional;
 /**
  * Encapsulates the heuristics for selecting the value of a variable.
  */
-final class CandidateChooser {
+final class CandidateChooserImpl implements CandidateChooser {
 
     /**
      * The dictionary to pick candidates from.
      */
-    private final WordDatabase dictionary;
+    private final AdaptedDictionary dictionary;
 
     /**
      * The puzzle.
@@ -28,18 +32,13 @@ final class CandidateChooser {
      * @param aPuzzle     the puzzle to solve
      * @param aDictionary the dictionary to pick candidates from
      */
-    CandidateChooser(final ProbablePuzzle aPuzzle, final WordDatabase aDictionary) {
+    CandidateChooserImpl(final ProbablePuzzle aPuzzle, final AdaptedDictionary aDictionary) {
         puzzle = aPuzzle;
         dictionary = aDictionary;
     }
 
-    /**
-     * Choose a candidate for the given variable.
-     *
-     * @param wordVariable word variable to choose a candidate for
-     * @return the appropriate candidate, or {@link Optional#empty()} if no suitable candidate can be found
-     */
-    Optional<String> find(final Slot wordVariable) {
+    @Override
+    public Optional<String> find(final Slot wordVariable) {
         /*
          * Select the candidate which brings as little constraints on the grid as possible.
          */

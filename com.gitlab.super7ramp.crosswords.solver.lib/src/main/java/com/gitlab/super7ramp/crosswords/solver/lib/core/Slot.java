@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.solver.lib;
+package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.Variable;

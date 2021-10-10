@@ -1,10 +1,11 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
+import com.gitlab.super7ramp.crosswords.solver.api.Coordinates;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -105,46 +106,6 @@ final class GridData {
     }
 
     /**
-     * (x,y) coordinates.
-     */
-    private static class Coordinate {
-
-        /**
-         * Horizontal.
-         */
-        private final int x;
-
-        /**
-         * Vertical.
-         */
-        private final int y;
-
-        /**
-         * Constructor.
-         *
-         * @param aX horizontal coordinate
-         * @param aY vertical coordinate
-         */
-        Coordinate(final int aX, final int aY) {
-            x = aX;
-            y = aY;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Coordinate that = (Coordinate) o;
-            return x == that.x && y == that.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-    }
-
-    /**
      * A box containing a letter.
      */
     private static class BoxData {
@@ -195,7 +156,7 @@ final class GridData {
         /**
          * The shaded boxes.
          */
-        private final Set<Coordinate> shaded;
+        private final Set<Coordinates> shaded;
         /**
          * The UID to use for next slot.
          */
@@ -247,7 +208,7 @@ final class GridData {
          * @return this builder
          */
         public GridDataBuilder withShaded(final int x, final int y) {
-            shaded.add(new Coordinate(x, y));
+            shaded.add(new Coordinates(x, y));
             return this;
         }
 
@@ -294,7 +255,7 @@ final class GridData {
             if (width <= 0 || height <= 0) {
                 throw new IllegalArgumentException("Invalid dimensions");
             }
-            if (shaded.stream().anyMatch(s -> s.x < 0 || s.x >= width || s.y < 0 || s.y >= height)) {
+            if (shaded.stream().anyMatch(s -> s.x() < 0 || s.x() >= width || s.y() < 0 || s.y() >= height)) {
                 throw new IllegalArgumentException("Invalid shaded definitions");
             }
         }

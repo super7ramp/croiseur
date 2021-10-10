@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.Assignment;
-import com.gitlab.super7ramp.crosswords.solver.lib.ProbablePuzzle;
-import com.gitlab.super7ramp.crosswords.solver.lib.Puzzle;
-import com.gitlab.super7ramp.crosswords.solver.lib.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Assignment;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Puzzle;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 
 import java.util.Set;
 import java.util.stream.Collectors;
