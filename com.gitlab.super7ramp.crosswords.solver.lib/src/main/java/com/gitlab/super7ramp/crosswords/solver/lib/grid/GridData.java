@@ -1,13 +1,9 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinates;
+import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Stores a crossword puzzle data.
@@ -18,6 +14,7 @@ final class GridData {
      * The grid.
      */
     private final BoxData[][] grid;
+
     /**
      * The word slots.
      */
@@ -156,7 +153,7 @@ final class GridData {
         /**
          * The shaded boxes.
          */
-        private final Set<Coordinates> shaded;
+        private final Set<Coordinate> shaded;
         /**
          * The UID to use for next slot.
          */
@@ -203,12 +200,27 @@ final class GridData {
         /**
          * Specify the position of a shaded box.
          *
-         * @param x horizontal coordinate
-         * @param y vertical coordinate
+         * @param coordinate coordinate
          * @return this builder
          */
-        public GridDataBuilder withShaded(final int x, final int y) {
-            shaded.add(new Coordinates(x, y));
+        public GridDataBuilder withShaded(final Coordinate coordinate) {
+            shaded.add(coordinate);
+            return this;
+        }
+
+        /**
+         * Use a {@link PuzzleDefinition} to build the grid.
+         *
+         * @param puzzle the {@link PuzzleDefinition}
+         * @return this {@link GridDataBuilder}
+         */
+        public GridDataBuilder from(final PuzzleDefinition puzzle) {
+            width = puzzle.width();
+            height = puzzle.height();
+            puzzle.shaded().addAll(shaded);
+            if (!puzzle.prefilled().isEmpty()) {
+                throw new UnsupportedOperationException("Prefilled boxes not supported yet");
+            }
             return this;
         }
 

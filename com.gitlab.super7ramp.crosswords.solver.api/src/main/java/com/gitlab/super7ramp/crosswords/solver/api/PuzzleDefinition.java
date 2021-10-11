@@ -1,16 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.api;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
  * Definition of the crossword puzzle.
  */
-public class CrosswordPuzzle {
+public final class PuzzleDefinition {
 
     /**
      * Width of the grid.
@@ -25,12 +21,12 @@ public class CrosswordPuzzle {
     /**
      * Shaded boxes.
      */
-    private final Set<Coordinates> shaded;
+    private final Set<Coordinate> shaded;
 
     /**
      * Prefilled boxes.
      */
-    private final Map<Coordinates, Character> prefilled;
+    private final Map<Coordinate, Character> prefilled;
 
     /**
      * Constructor.
@@ -40,8 +36,8 @@ public class CrosswordPuzzle {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    public CrosswordPuzzle(int aWidth, int aHeight, Set<Coordinates> someShaded,
-                           Map<Coordinates, Character> somePrefilled) {
+    public PuzzleDefinition(int aWidth, int aHeight, Set<Coordinate> someShaded,
+                            Map<Coordinate, Character> somePrefilled) {
         validate(aWidth, aHeight, someShaded, somePrefilled);
 
         width = aWidth;
@@ -58,8 +54,8 @@ public class CrosswordPuzzle {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    private static void validate(int aWidth, int aHeight, Set<Coordinates> someShaded,
-                                 Map<Coordinates, Character> somePrefilled) {
+    private static void validate(int aWidth, int aHeight, Set<Coordinate> someShaded,
+                                 Map<Coordinate, Character> somePrefilled) {
         if (aWidth <= 0 || aHeight <= 0) {
             throw new IllegalArgumentException("Invalid grid dimensions");
         }
@@ -78,9 +74,9 @@ public class CrosswordPuzzle {
      * @param height height of the grid
      * @return the validation function
      */
-    private static Consumer<Coordinates> validateCoordinates(final int width, final int height) {
-        return coordinates -> {
-            if (coordinates.x() >= width || coordinates.y() >= height) {
+    private static Consumer<Coordinate> validateCoordinates(final int width, final int height) {
+        return coordinate -> {
+            if (coordinate.x() >= width || coordinate.y() >= height) {
                 throw new IllegalArgumentException("Invalid coordinates");
             }
         };
@@ -103,14 +99,14 @@ public class CrosswordPuzzle {
     /**
      * @return the shaded boxes
      */
-    public Set<Coordinates> shaded() {
+    public Set<Coordinate> shaded() {
         return shaded;
     }
 
     /**
      * @return the prefilled boxes
      */
-    public Map<Coordinates, Character> getPrefilled() {
+    public Map<Coordinate, Character> prefilled() {
         return prefilled;
     }
 }
