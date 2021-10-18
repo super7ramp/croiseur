@@ -62,8 +62,15 @@ final class SlotImpl implements Slot {
     }
 
     @Override
+    public String toString() {
+        return "SlotImpl{" +
+                "data=" + data +
+                ", uid=" + uid +
+                '}';
+    }
+
+    @Override
     public void unassign() {
         data.clear();
     }
-
 }

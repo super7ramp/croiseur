@@ -6,11 +6,9 @@ import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.AdaptedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.CrosswordSolverEngine;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
 import com.gitlab.super7ramp.crosswords.solver.lib.db.AdaptedDictionaryImpl;
-import com.gitlab.super7ramp.crosswords.solver.lib.grid.PuzzleFactory;
-
-import java.util.Collections;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.Grid;
+import com.gitlab.super7ramp.crosswords.solver.lib.grid.GridFactory;
 
 final class CrosswordSolverImpl implements CrosswordSolver {
 
@@ -24,15 +22,16 @@ final class CrosswordSolverImpl implements CrosswordSolver {
     @Override
     public SolverResult solve(final PuzzleDefinition puzzleDefinition, final Dictionary externalDictionary) throws InterruptedException {
 
-        final ProbablePuzzle puzzle = PuzzleFactory.createPuzzle(puzzleDefinition);
+        final Grid grid = GridFactory.createGrid(puzzleDefinition);
         final AdaptedDictionary dictionary = new AdaptedDictionaryImpl(externalDictionary);
 
-        final SlotIteratorImpl slotChooser = new SlotIteratorImpl(puzzle, dictionary);
-        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(puzzle, dictionary);
-        final BacktrackerImpl backtracker = new BacktrackerImpl(puzzle, dictionary);
+        final SlotIteratorImpl slotChooser = new SlotIteratorImpl(grid.puzzle(), dictionary);
+        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(), dictionary);
+        final BacktrackerImpl backtracker = new BacktrackerImpl(grid.puzzle(), dictionary);
 
-        new CrosswordSolverEngine(slotChooser, candidateChooser, backtracker).solve();
+        new CrosswordSolverEngine(slotChooser, candidateChooser, backtracker, dictionary).solve();
 
-        return Collections::emptyMap;
+        return grid::boxes;
     }
+
 }

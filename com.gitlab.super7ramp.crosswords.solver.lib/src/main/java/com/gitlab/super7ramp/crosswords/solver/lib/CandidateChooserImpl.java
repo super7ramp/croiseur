@@ -1,10 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.AdaptedDictionary;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Assignment;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CandidateChooser;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.*;
 import com.gitlab.super7ramp.crosswords.solver.lib.util.function.Accumulators;
 
 import java.util.Collection;
@@ -56,7 +52,9 @@ final class CandidateChooserImpl implements CandidateChooser {
      * @return as described above
      */
     private Comparator<String> byNumberOfSolutionsLeft(final Slot wordVariable) {
-        return Comparator.comparingLong((candidate) -> computeNumberOfSolutions(wordVariable, candidate));
+        return Comparator
+                .comparingLong((String candidate) -> computeNumberOfSolutions(wordVariable, candidate))
+                .thenComparing(Comparator.naturalOrder());
     }
 
     /**

@@ -66,10 +66,10 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
 
             if (candidate.isPresent()) {
                 LOGGER.fine(() -> "Assigning [" + candidate.get() + "] to variable [" + variable + "]");
-                variable.assign(candidate.get());
+                assign(variable, candidate.get());
             } else {
                 LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
-                backtrackFrom(variable).forEach(Variable::unassign);
+                backtrackFrom(variable).forEach(this::unassign);
             }
         }
 
@@ -78,6 +78,27 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
             throw new InterruptedException();
         }
 
+    }
+
+    /**
+     * Unassign a variable.
+     *
+     * @param variable variable to unassign
+     */
+    private void unassign(VariableT variable) {
+        onUnassignment(variable);
+        variable.unassign();
+    }
+
+    /**
+     * Assign a value to a variable.
+     *
+     * @param variable the variable
+     * @param value    the value
+     */
+    private void assign(VariableT variable, ValueT value) {
+        variable.assign(value);
+        onAssignment(variable);
     }
 
     /**
@@ -103,4 +124,22 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      */
     protected abstract Set<VariableT> backtrackFrom(final VariableT variable);
 
+    /**
+     * Action to be performed on assignment of a variable.<p>
+     * This method is called after assignment, meaning variable has a value when this method is called.
+     *
+     * @param variable assigned variable (after assignment)
+     */
+    protected void onAssignment(final VariableT variable) {
+        // Do nothing per default.
+    }
+
+    /**
+     * Action to be performed on unassignment of a variable.
+     *
+     * @param variable unassigned variable (before unassignment)
+     */
+    protected void onUnassignment(final VariableT variable) {
+        // Do nothing per default.
+    }
 }

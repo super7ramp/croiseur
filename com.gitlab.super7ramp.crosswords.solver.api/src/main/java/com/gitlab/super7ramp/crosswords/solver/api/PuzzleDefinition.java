@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * Definition of the crossword puzzle.
+ * Definition of a crossword puzzle.
  */
 public final class PuzzleDefinition {
 
@@ -24,9 +24,9 @@ public final class PuzzleDefinition {
     private final Set<Coordinate> shaded;
 
     /**
-     * Prefilled boxes.
+     * Filled boxes.
      */
-    private final Map<Coordinate, Character> prefilled;
+    private final Map<Coordinate, Character> filled;
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ public final class PuzzleDefinition {
         width = aWidth;
         height = aHeight;
         shaded = new HashSet<>(someShaded);
-        prefilled = new HashMap<>(somePrefilled);
+        filled = new HashMap<>(somePrefilled);
     }
 
     /**
@@ -104,9 +104,9 @@ public final class PuzzleDefinition {
     }
 
     /**
-     * @return the prefilled boxes
+     * @return the filled boxes
      */
-    public Map<Coordinate, Character> prefilled() {
-        return prefilled;
+    public Map<Coordinate, Character> filled() {
+        return filled;
     }
 }

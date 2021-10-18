@@ -32,7 +32,18 @@ public final class SlotIdentifier {
     }
 
     @Override
+    public String toString() {
+        return "SlotIdentifier{" +
+                "id=" + id +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public int id() {
+        return id;
     }
 }

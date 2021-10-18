@@ -103,49 +103,6 @@ final class GridData {
     }
 
     /**
-     * A box containing a letter.
-     */
-    private static class BoxData {
-
-        /**
-         * Empty character value.
-         */
-        private static final char EMPTY = 0;
-
-        private char character;
-
-        /**
-         * Constructor.
-         */
-        BoxData() {
-            // Nothing to do
-        }
-
-        /**
-         * Copy constructor.
-         */
-        BoxData(final BoxData other) {
-            character = other.character;
-        }
-
-        Optional<Character> value() {
-            if (character == EMPTY) {
-                return Optional.empty();
-            }
-            return Optional.of(character);
-        }
-
-        void set(final char aCharacter) {
-            character = aCharacter;
-        }
-
-        void reset() {
-            character = EMPTY;
-        }
-
-    }
-
-    /**
      * A {@link GridData} builder.
      */
     static class GridDataBuilder {
@@ -154,10 +111,12 @@ final class GridData {
          * The shaded boxes.
          */
         private final Set<Coordinate> shaded;
+
         /**
-         * The UID to use for next slot.
+         * The prefilled (not shaded) boxes.
          */
-        private int currentUid;
+        private final Map<Coordinate, Character> prefilled;
+
         /**
          * The height.
          */
@@ -172,7 +131,7 @@ final class GridData {
          */
         private GridDataBuilder() {
             shaded = new HashSet<>();
-            currentUid = 1;
+            prefilled = new HashMap<>();
         }
 
         /**
@@ -217,10 +176,8 @@ final class GridData {
         public GridDataBuilder from(final PuzzleDefinition puzzle) {
             width = puzzle.width();
             height = puzzle.height();
-            puzzle.shaded().addAll(shaded);
-            if (!puzzle.prefilled().isEmpty()) {
-                throw new UnsupportedOperationException("Prefilled boxes not supported yet");
-            }
+            shaded.addAll(puzzle.shaded());
+            prefilled.putAll(puzzle.filled());
             return this;
         }
 
@@ -236,21 +193,62 @@ final class GridData {
         }
 
         private Map<SlotIdentifier, SlotDefinition> buildSlots() {
-            if (!shaded.isEmpty()) {
-                throw new UnsupportedOperationException("Shaded not yet implemented");
-            }
-
-            // TODO consider shaded
             final Map<SlotIdentifier, SlotDefinition> slots = new HashMap<>();
+            int id = 1;
             for (int x = 0; x < width; x++) {
                 // Vertical slots
-                slots.put(getAndIncrementUid(), new SlotDefinition(x, 0, height, SlotDefinition.Type.VERTICAL));
+                for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0);
+                     yStart < height;
+                     yStart = nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd, SlotDefinition.Type.VERTICAL));
+                }
             }
             for (int y = 0; y < height; y++) {
                 // Horizontal slots
-                slots.put(getAndIncrementUid(), new SlotDefinition(y, 0, height, SlotDefinition.Type.HORIZONTAL));
+                for (int xStart = 0, xEnd = nextShadedOnLine(y, 0);
+                     xStart < width;
+                     xStart = nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd, SlotDefinition.Type.HORIZONTAL));
+                }
             }
+
             return slots;
+        }
+
+        private int nextShadedOnLine(final int y, final int xStart) {
+            for (int x = xStart; x < width; x++) {
+                if (shaded.contains(new Coordinate(x, y))) {
+                    return x;
+                }
+            }
+            return width;
+        }
+
+        private int nextShadedOnColumn(final int x, final int yStart) {
+            for (int y = yStart; y < height; y++) {
+                if (shaded.contains(new Coordinate(x, y))) {
+                    return y;
+                }
+            }
+            return height;
+        }
+
+        private int nextVerticalSlot(final int x, final int yStart) {
+            for (int y = yStart; y < height; y++) {
+                if (!shaded.contains(new Coordinate(x, y))) {
+                    return y;
+                }
+            }
+            return height;
+        }
+
+        private int nextHorizontalSlot(final int y, final int xStart) {
+            for (int x = xStart; x < width; x++) {
+                if (!shaded.contains(new Coordinate(x, y))) {
+                    return x;
+                }
+            }
+            return width;
         }
 
         private BoxData[][] buildGrid() {
@@ -258,6 +256,12 @@ final class GridData {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     result[x][y] = new BoxData();
+                    final Coordinate coord = new Coordinate(x, y);
+                    if (shaded.contains(coord)) {
+                        result[x][y].set(BoxData.SHADED);
+                    } else if (prefilled.containsKey(coord)) {
+                        result[x][y].set(prefilled.get(coord));
+                    }
                 }
             }
             return result;
@@ -272,10 +276,6 @@ final class GridData {
             }
         }
 
-        private SlotIdentifier getAndIncrementUid() {
-            return new SlotIdentifier(currentUid++);
-        }
-
     }
 
     /**
@@ -286,6 +286,13 @@ final class GridData {
         private final BoxData[][] grid;
         private final SlotDefinition definition;
 
+        @Override
+        public String toString() {
+            return "SlotData{" +
+                    "definition=" + definition +
+                    '}';
+        }
+
         SlotData(final SlotDefinition aDefinition, BoxData[][] aGrid) {
             definition = aDefinition;
             grid = aGrid;
@@ -293,6 +300,10 @@ final class GridData {
 
         int length() {
             return definition.length();
+        }
+
+        SlotDefinition.Type type() {
+            return definition.type();
         }
 
         Optional<Character> letterAt(final int index) {
@@ -336,12 +347,13 @@ final class GridData {
             return box;
         }
 
+
     }
 
     /**
      * Slot definition.
      */
-    private static class SlotDefinition {
+    static class SlotDefinition {
 
         /**
          * Offset.
@@ -368,11 +380,21 @@ final class GridData {
          * @param aEnd     end of slot (excluded)
          * @param aType    type of slot
          */
-        SlotDefinition(final int anOffset, final int aStart, final int aEnd, final Type aType) {
+        private SlotDefinition(final int anOffset, final int aStart, final int aEnd, final Type aType) {
             offset = anOffset;
             start = aStart;
             end = aEnd;
             type = aType;
+        }
+
+        @Override
+        public String toString() {
+            return "SlotDefinition{" +
+                    "offset=" + offset +
+                    ", start=" + start +
+                    ", end=" + end +
+                    ", type=" + type +
+                    '}';
         }
 
         boolean isHorizontal() {
@@ -392,7 +414,11 @@ final class GridData {
         }
 
         int length() {
-            return end - start - 1;
+            return end - start;
+        }
+
+        Type type() {
+            return type;
         }
 
         boolean isConnected(final SlotDefinition other) {
@@ -402,7 +428,7 @@ final class GridData {
         /**
          * Type of slot.
          */
-        private enum Type {
+        enum Type {
             /**
              * A horizontally aligned slot.
              */
@@ -410,7 +436,86 @@ final class GridData {
             /**
              * A vertically aligned slot.
              */
-            VERTICAL
+            VERTICAL;
+
+            boolean isHorizontal() {
+                return this == HORIZONTAL;
+            }
+
+            boolean isVertical() {
+                return this == VERTICAL;
+            }
         }
+    }
+
+    /**
+     * A box, either containing a letter or shaded.
+     */
+    private static class BoxData {
+
+        /**
+         * Empty character value.
+         */
+        private static final char EMPTY = 0;
+
+        /**
+         * Shaded value.
+         */
+        private static final char SHADED = '#';
+
+        /** The value. */
+        private char character;
+
+        /**
+         * Constructor.
+         */
+        BoxData() {
+            // Nothing to do
+        }
+
+        /**
+         * Copy constructor.
+         */
+        BoxData(final BoxData other) {
+            character = other.character;
+        }
+
+        Optional<Character> value() {
+            if (character == EMPTY) {
+                return Optional.empty();
+            }
+            return Optional.of(character);
+        }
+
+        boolean isShaded() {
+            return character == SHADED;
+        }
+
+        void set(final char aCharacter) {
+            character = aCharacter;
+        }
+
+        void reset() {
+            character = EMPTY;
+        }
+
+    }
+
+    Map<Coordinate, Character> toBoxes() {
+        final Map<Coordinate, Character> result = new HashMap<>();
+        for (int x = 0; x < grid.length; x++) {
+            final BoxData[] line = grid[x];
+            for (int y = 0; y < line.length; y++) {
+                if (!line[y].isShaded()) {
+                    final Optional<Character> boxValue = line[y].value();
+                    if (boxValue.isPresent()) {
+                        result.put(new Coordinate(x, y), boxValue.get());
+                    } else {
+                        return Collections.emptyMap();
+                    }
+                }
+            }
+        }
+        return result;
     }
 }

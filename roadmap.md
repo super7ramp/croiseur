@@ -60,5 +60,6 @@ Ideas:
   - Add other locales
   - Add client: Desktop GUI? Web? iOS? Android?
   - Improve CLI
+  - API: Returns a Stream of result instead of a unique result (i.e. search for several solutions)
 - Future:
   - Crossword solving *based on provided definition* (deep-learning?) 

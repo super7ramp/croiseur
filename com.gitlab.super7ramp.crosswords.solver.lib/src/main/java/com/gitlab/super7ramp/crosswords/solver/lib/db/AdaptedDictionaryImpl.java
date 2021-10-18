@@ -5,10 +5,7 @@ import com.gitlab.super7ramp.crosswords.solver.lib.core.AdaptedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementation of {@link AdaptedDictionary}.
@@ -23,7 +20,12 @@ public class AdaptedDictionaryImpl implements AdaptedDictionary {
     /**
      * Blacklist.
      */
-    private Map<SlotIdentifier, Set<String>> blacklist;
+    private final Map<SlotIdentifier, Set<String>> blacklist;
+
+    /**
+     * Lock list.
+     */
+    private final Set<String> locklist;
 
     /**
      * Constructor.
@@ -32,17 +34,36 @@ public class AdaptedDictionaryImpl implements AdaptedDictionary {
      */
     public AdaptedDictionaryImpl(final Dictionary aDictionary) {
         dictionary = aDictionary;
+        blacklist = new HashMap<>();
+        locklist = new HashSet<>();
     }
 
     @Override
     public Set<String> findPossibleValues(final Slot wordVariable) {
         return dictionary.lookup(
-                word -> wordVariable.isCompatibleWith(word) && !isBlacklisted(wordVariable.uid(), word));
+                word -> wordVariable.isCompatibleWith(word) &&
+                        !isBlacklisted(wordVariable.uid(), word) &&
+                        !isAlreadyUsed(word));
     }
 
     @Override
     public long countPossibleValues(final Slot wordVariable) {
         return dictionary.countMatches(wordVariable::isCompatibleWith);
+    }
+
+    @Override
+    public boolean contains(String value) {
+        return dictionary.contains(value);
+    }
+
+    @Override
+    public void lock(final String value) {
+        locklist.add(value);
+    }
+
+    @Override
+    public void unlock(final String value) {
+        locklist.remove(value);
     }
 
     @Override
@@ -58,5 +79,9 @@ public class AdaptedDictionaryImpl implements AdaptedDictionary {
 
     private boolean isBlacklisted(final SlotIdentifier uid, final String word) {
         return blacklist.getOrDefault(uid, Collections.emptySet()).contains(word);
+    }
+
+    private boolean isAlreadyUsed(final String word) {
+        return locklist.contains(word);
     }
 }

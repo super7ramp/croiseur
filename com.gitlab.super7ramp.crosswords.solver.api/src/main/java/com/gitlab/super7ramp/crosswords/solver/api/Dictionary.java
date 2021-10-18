@@ -23,4 +23,12 @@ public interface Dictionary {
      * @return the number of matches for given predicate
      */
     long countMatches(final Predicate<String> predicate);
+
+    /**
+     * Returns <code>true</code> if and only if the dictionary contains the given value.
+     *
+     * @param value the value to test
+     * @return <code>true</code> if and only if the dictionary contains the given value
+     */
+    boolean contains(final String value);
 }

@@ -27,17 +27,25 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     private final Backtracker backtracker;
 
     /**
+     * Dictionary.
+     */
+    private final AdaptedDictionary dictionary;
+
+    /**
      * Constructor.
      *
      * @param aSlotIterator     iterator on slots
      * @param aCandidateChooser a {@link CandidateChooser}
      * @param aBacktracker      a {@link Backtracker}
      */
-    public CrosswordSolverEngine(Iterator<Slot> aSlotIterator, CandidateChooser aCandidateChooser,
-                                 Backtracker aBacktracker) {
+    public CrosswordSolverEngine(final Iterator<Slot> aSlotIterator,
+                                 final CandidateChooser aCandidateChooser,
+                                 final Backtracker aBacktracker,
+                                 final AdaptedDictionary aDictionary) {
         slotIterator = aSlotIterator;
         candidateChooser = aCandidateChooser;
         backtracker = aBacktracker;
+        dictionary = aDictionary;
     }
 
     @Override
@@ -55,5 +63,21 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
         return backtracker.backtrackFrom(wordVariable);
     }
 
+    @Override
+    protected void onAssignment(final Slot variable) {
+        // Prevent value from being reused for another word
+        dictionary.lock(variable.value().orElseThrow(IllegalStateException::new));
+    }
+
+    @Override
+    protected void onUnassignment(final Slot variable) {
+        final String unassignedValue = variable.value().orElseThrow(IllegalStateException::new);
+
+        // Value can be reused for another word
+        dictionary.unlock(unassignedValue);
+
+        // Prevent this value to be used again for this variable
+        dictionary.blacklist(variable.uid(), unassignedValue);
+    }
 }
 

@@ -42,9 +42,6 @@ final class BacktrackerImpl implements Backtracker {
                 .min(Comparators.byNumberOfCandidates(dictionary))
                 .orElseThrow(() -> new IllegalStateException("Failed to backtrack, aborting"));
 
-        dictionary.resetBlacklist();
-        dictionary.blacklist(connectedToRevert.uid(), connectedToRevert.value().get());
-
         return Collections.singleton(connectedToRevert);
     }
 }
