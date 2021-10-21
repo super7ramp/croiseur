@@ -1,6 +1,8 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <JavaCodeStyleSettings>
+      <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="25" />
+      <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="25" />
       <option name="JD_KEEP_INVALID_TAGS" value="false" />
       <option name="JD_DO_NOT_WRAP_ONE_LINE_COMMENTS" value="true" />
     </JavaCodeStyleSettings>
@@ -10,11 +12,32 @@
           <section>
             <rule>
               <match>
+                <INTERFACE>true</INTERFACE>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <ENUM>true</ENUM>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
                 <AND>
                   <CLASS>true</CLASS>
                   <STATIC>true</STATIC>
                   <visibility />
                 </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <CLASS>true</CLASS>
               </match>
             </rule>
           </section>
@@ -239,27 +262,6 @@
             <rule>
               <match>
                 <METHOD>true</METHOD>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <ENUM>true</ENUM>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <INTERFACE>true</INTERFACE>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <CLASS>true</CLASS>
               </match>
             </rule>
           </section>

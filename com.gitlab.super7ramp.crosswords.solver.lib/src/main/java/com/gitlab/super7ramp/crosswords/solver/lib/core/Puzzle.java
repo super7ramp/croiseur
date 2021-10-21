@@ -21,5 +21,4 @@ public interface Puzzle {
      * @return slots connected to given slot
      */
     Set<Slot> connectedSlots(final Slot aSlot);
-
 }

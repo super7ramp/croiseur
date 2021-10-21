@@ -3,7 +3,12 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Stores a crossword puzzle data.
@@ -11,119 +16,20 @@ import java.util.*;
 final class GridData {
 
     /**
-     * The grid.
-     */
-    private final BoxData[][] grid;
-
-    /**
-     * The word slots.
-     */
-    private final Map<SlotIdentifier, SlotDefinition> slots;
-
-    /**
-     * Constructor.
-     *
-     * @param aGrid     the grid
-     * @param someSlots the word slots
-     */
-    private GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotDefinition> someSlots) {
-        grid = aGrid;
-        slots = Collections.unmodifiableMap(someSlots);
-    }
-
-    /**
-     * Copy constructor.
-     *
-     * @param other other data
-     */
-    private GridData(final GridData other) {
-        grid = new BoxData[other.grid.length][other.grid[0].length];
-        for (int x = 0; x < other.grid.length; x++) {
-            for (int y = 0; y < other.grid[0].length; y++) {
-                grid[x][y] = new BoxData(other.grid[x][y]);
-            }
-        }
-
-        // Unmodifiable map of immutable objects, no need to copy
-        slots = other.slots;
-    }
-
-    /**
-     * Creates a new {@link GridDataBuilder}.
-     *
-     * @return a new {@link GridDataBuilder}
-     */
-    static GridDataBuilder newBuilder() {
-        return new GridDataBuilder();
-    }
-
-    /**
-     * Returns a deep-copy of this {@link GridData}.
-     *
-     * @return a deep-copy of this {@link GridData}
-     */
-    GridData copy() {
-        return new GridData(this);
-    }
-
-    /**
-     * Returns the {@link SlotData} for given {@link SlotIdentifier}.
-     *
-     * @param slotId the {@link SlotIdentifier}
-     * @return the corresponding {@link SlotData}
-     */
-    SlotData slot(final SlotIdentifier slotId) {
-        return new SlotData(slots.get(slotId), grid);
-    }
-
-    /**
-     * Returns all the {@link SlotData}.
-     *
-     * @return all the {@link SlotData}
-     */
-    Map<SlotIdentifier, SlotData> slots() {
-        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet().stream()
-                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
-        return result;
-    }
-
-    /**
-     * Returns the slots connected to given slot identifier
-     */
-    Map<SlotIdentifier, SlotData> connectedSlots(final SlotIdentifier slotId) {
-        final SlotDefinition slotDefinition = slots.get(slotId);
-        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet().stream()
-                .filter(entry -> entry.getValue().isConnected(slotDefinition))
-                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
-        return result;
-    }
-
-    /**
      * A {@link GridData} builder.
      */
     static class GridDataBuilder {
 
-        /**
-         * The shaded boxes.
-         */
+        /** The shaded boxes. */
         private final Set<Coordinate> shaded;
 
-        /**
-         * The prefilled (not shaded) boxes.
-         */
+        /** The prefilled (not shaded) boxes. */
         private final Map<Coordinate, Character> prefilled;
 
-        /**
-         * The height.
-         */
+        /** The height. */
         private int height;
-        /**
-         * The width.
-         */
+
+        /** The width. */
         private int width;
 
         /**
@@ -283,8 +189,22 @@ final class GridData {
      */
     static class SlotData {
 
+        /** The whole grid data. */
         private final BoxData[][] grid;
+
+        /** The slot definition. */
         private final SlotDefinition definition;
+
+        /**
+         * Constructor.
+         *
+         * @param aDefinition the slot definition
+         * @param aGrid       the whole grid data
+         */
+        SlotData(final SlotDefinition aDefinition, BoxData[][] aGrid) {
+            definition = aDefinition;
+            grid = aGrid;
+        }
 
         @Override
         public String toString() {
@@ -293,17 +213,8 @@ final class GridData {
                     '}';
         }
 
-        SlotData(final SlotDefinition aDefinition, BoxData[][] aGrid) {
-            definition = aDefinition;
-            grid = aGrid;
-        }
-
         int length() {
             return definition.length();
-        }
-
-        SlotDefinition.Type type() {
-            return definition.type();
         }
 
         Optional<Character> letterAt(final int index) {
@@ -339,37 +250,65 @@ final class GridData {
 
         private BoxData boxAt(final int i) {
             final BoxData box;
-            if (definition.isHorizontal()) {
+            if (definition.type().isHorizontal()) {
                 box = grid[definition.offset()][definition.start() + i];
             } else {
                 box = grid[definition.start() + i][definition.offset()];
             }
             return box;
         }
-
-
     }
 
     /**
      * Slot definition.
+     * <p>
+     * Example of {@link Type#HORIZONTAL horizontal} slot:
+     * <pre>
+     *      0 1 2 3 4 5 6
+     *   0 | | | | | | | |
+     *   1 | |#|A|B|C|#| | <-- offset = 1
+     *   2 | | | | | | | |
+     *          ^   ^
+     *          |   ` end = 4
+     *          `- start = 2
+     * </pre>
+     * Example of {@link Type#VERTICAL vertical} slot:
+     * <pre>
+     *      0 1 2 3 4 5 6
+     *   0 | | | |B| | | | <-- start = 0
+     *   1 | |#| |B| |#| |
+     *   2 | | | |B| | | | <-- end = 1
+     *            ^
+     *            ` offset = 3
+     * </pre>
      */
     static class SlotDefinition {
 
         /**
-         * Offset.
+         * Type of slot.
          */
+        enum Type {
+            /** A horizontally aligned slot. */
+            HORIZONTAL,
+            /** A vertically aligned slot. */
+            VERTICAL;
+
+            /** @return whether this is {@link #HORIZONTAL} */
+            boolean isHorizontal() {
+                return this == HORIZONTAL;
+            }
+        }
+
+        /** Offset. */
         private final int offset;
-        /**
-         * Start of slot (included).
-         */
+
+        /** Start of slot (included). */
         private final int start;
-        /**
-         * End of slot (excluded).
-         */
+
+        /** End of slot (excluded). */
         private final int end;
-        /**
-         * Type.
-         */
+
+        /** Type. */
         private final Type type;
 
         /**
@@ -397,8 +336,8 @@ final class GridData {
                     '}';
         }
 
-        boolean isHorizontal() {
-            return type == Type.HORIZONTAL;
+        Type type() {
+            return type;
         }
 
         int offset() {
@@ -409,42 +348,12 @@ final class GridData {
             return start;
         }
 
-        int end() {
-            return end;
-        }
-
         int length() {
             return end - start;
         }
 
-        Type type() {
-            return type;
-        }
-
         boolean isConnected(final SlotDefinition other) {
             return type != other.type && offset >= other.start && offset <= other.end;
-        }
-
-        /**
-         * Type of slot.
-         */
-        enum Type {
-            /**
-             * A horizontally aligned slot.
-             */
-            HORIZONTAL,
-            /**
-             * A vertically aligned slot.
-             */
-            VERTICAL;
-
-            boolean isHorizontal() {
-                return this == HORIZONTAL;
-            }
-
-            boolean isVertical() {
-                return this == VERTICAL;
-            }
         }
     }
 
@@ -453,14 +362,10 @@ final class GridData {
      */
     private static class BoxData {
 
-        /**
-         * Empty character value.
-         */
+        /** Empty character value. */
         private static final char EMPTY = 0;
 
-        /**
-         * Shaded value.
-         */
+        /** Shaded value. */
         private static final char SHADED = '#';
 
         /** The value. */
@@ -470,7 +375,7 @@ final class GridData {
          * Constructor.
          */
         BoxData() {
-            // Nothing to do
+            // Nothing to do.
         }
 
         /**
@@ -499,6 +404,94 @@ final class GridData {
             character = EMPTY;
         }
 
+    }
+
+    /** The grid. */
+    private final BoxData[][] grid;
+
+    /** The word slots. */
+    private final Map<SlotIdentifier, SlotDefinition> slots;
+
+    /**
+     * Constructor.
+     *
+     * @param aGrid     the grid
+     * @param someSlots the word slots
+     */
+    private GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotDefinition> someSlots) {
+        grid = aGrid;
+        slots = Collections.unmodifiableMap(someSlots);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other other data
+     */
+    private GridData(final GridData other) {
+        grid = new BoxData[other.grid.length][other.grid[0].length];
+        for (int x = 0; x < other.grid.length; x++) {
+            for (int y = 0; y < other.grid[0].length; y++) {
+                grid[x][y] = new BoxData(other.grid[x][y]);
+            }
+        }
+
+        // Unmodifiable map of immutable objects, no need to copy
+        slots = other.slots;
+    }
+
+    /**
+     * Creates a new {@link GridDataBuilder}.
+     *
+     * @return a new {@link GridDataBuilder}
+     */
+    static GridDataBuilder newBuilder() {
+        return new GridDataBuilder();
+    }
+
+    /**
+     * Returns a deep-copy of this {@link GridData}.
+     *
+     * @return a deep-copy of this {@link GridData}
+     */
+    GridData copy() {
+        return new GridData(this);
+    }
+
+    /**
+     * Returns the {@link SlotData} for given {@link SlotIdentifier}.
+     *
+     * @param slotId the {@link SlotIdentifier}
+     * @return the corresponding {@link SlotData}
+     */
+    SlotData slot(final SlotIdentifier slotId) {
+        return new SlotData(slots.get(slotId), grid);
+    }
+
+    /**
+     * Returns all the {@link SlotData}.
+     *
+     * @return all the {@link SlotData}
+     */
+    Map<SlotIdentifier, SlotData> slots() {
+        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
+        slots.entrySet().stream()
+                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
+                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        return result;
+    }
+
+    /**
+     * Returns the slots connected to given slot identifier
+     */
+    Map<SlotIdentifier, SlotData> connectedSlots(final SlotIdentifier slotId) {
+        final SlotDefinition slotDefinition = slots.get(slotId);
+        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
+        slots.entrySet().stream()
+                .filter(entry -> entry.getValue().isConnected(slotDefinition))
+                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
+                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        return result;
     }
 
     Map<Coordinate, Character> toBoxes() {

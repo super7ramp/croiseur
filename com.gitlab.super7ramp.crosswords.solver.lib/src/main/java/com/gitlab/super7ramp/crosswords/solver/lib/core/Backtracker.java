@@ -14,4 +14,5 @@ public interface Backtracker {
      * @return the variables that should be unassigned
      */
     Set<Slot> backtrackFrom(final Slot variable);
+
 }

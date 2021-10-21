@@ -65,7 +65,6 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
             final Optional<ValueT> candidate = candidate(variable);
 
             if (candidate.isPresent()) {
-                LOGGER.fine(() -> "Assigning [" + candidate.get() + "] to variable [" + variable + "]");
                 assign(variable, candidate.get());
             } else {
                 LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
@@ -86,6 +85,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * @param variable variable to unassign
      */
     private void unassign(VariableT variable) {
+        LOGGER.fine(() -> "Unassigning variable [" + variable + "]");
         onUnassignment(variable);
         variable.unassign();
     }
@@ -97,6 +97,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * @param value    the value
      */
     private void assign(VariableT variable, ValueT value) {
+        LOGGER.fine(() -> "Assigning [" + value + "] to variable [" + variable + "]");
         variable.assign(value);
         onAssignment(variable);
     }

@@ -11,25 +11,20 @@ import java.util.Set;
  */
 public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolverEngine<Slot, String> {
 
-    /**
-     * Slot iterator.
-     */
+    /** Slot iterator. */
     private final Iterator<Slot> slotIterator;
 
-    /**
-     * Candidate chooser.
-     */
+    /** Candidate chooser. */
     private final CandidateChooser candidateChooser;
 
-    /**
-     * Backtracker.
-     */
+    /** Backtracker. */
     private final Backtracker backtracker;
 
-    /**
-     * Dictionary.
-     */
+    /** Dictionary. */
     private final AdaptedDictionary dictionary;
+
+    /** History. */
+    private final History history;
 
     /**
      * Constructor.
@@ -41,11 +36,13 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     public CrosswordSolverEngine(final Iterator<Slot> aSlotIterator,
                                  final CandidateChooser aCandidateChooser,
                                  final Backtracker aBacktracker,
-                                 final AdaptedDictionary aDictionary) {
+                                 final AdaptedDictionary aDictionary,
+                                 final History aHistory) {
         slotIterator = aSlotIterator;
         candidateChooser = aCandidateChooser;
         backtracker = aBacktracker;
         dictionary = aDictionary;
+        history = aHistory;
     }
 
     @Override
@@ -65,15 +62,19 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
 
     @Override
     protected void onAssignment(final Slot variable) {
+        final String value = variable.value().orElseThrow(IllegalStateException::new);
+        history.recordAssignment(variable, value);
+
         // Prevent value from being reused for another word
-        dictionary.lock(variable.value().orElseThrow(IllegalStateException::new));
+        dictionary.lock(value);
     }
 
     @Override
     protected void onUnassignment(final Slot variable) {
-        final String unassignedValue = variable.value().orElseThrow(IllegalStateException::new);
+        history.recordUnassignment(variable);
 
-        // Value can be reused for another word
+        // Value can now be reused for another word
+        final String unassignedValue = variable.value().orElseThrow(IllegalStateException::new);
         dictionary.unlock(unassignedValue);
 
         // Prevent this value to be used again for this variable

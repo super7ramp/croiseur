@@ -2,6 +2,9 @@ package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
 import java.util.Optional;
 
+/**
+ * Encapsulates the heuristics for selecting the value of a variable.
+ */
 public interface CandidateChooser {
 
     /**
