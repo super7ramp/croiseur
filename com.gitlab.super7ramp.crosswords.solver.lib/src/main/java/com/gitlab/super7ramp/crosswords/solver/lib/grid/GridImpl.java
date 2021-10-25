@@ -55,14 +55,10 @@ final class GridImpl implements Grid {
         }
     }
 
-    /**
-     * The underlying data.
-     */
+    /** The underlying data. */
     private final GridData data;
 
-    /**
-     * The {@link ProbablePuzzle} implementation.
-     */
+    /** The {@link ProbablePuzzle} implementation. */
     private ProbablePuzzle puzzle;
 
     /**

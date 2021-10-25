@@ -21,7 +21,7 @@ public final class GridFactory {
      * @return the Puzzle
      */
     public static Grid createGrid(final PuzzleDefinition puzzleDefinition) {
-        final GridData.GridDataBuilder gridBuilder = GridData.newBuilder();
+        final GridDataBuilder gridBuilder = new GridDataBuilder();
         gridBuilder.from(puzzleDefinition);
         return new GridImpl(gridBuilder.build());
     }

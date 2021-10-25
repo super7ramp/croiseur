@@ -41,6 +41,28 @@ final class CrosswordSolverBasicsTest {
     }
 
     @Test
+    void empty3x4() throws InterruptedException {
+        final PuzzleDefinition puzzle = parsePuzzle(
+                """
+                        | | | |
+                        | | | |
+                        | | | |
+                        | | | |
+                        """);
+        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD", "ABCE", "ABCF");
+
+        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+
+        assertEquals(
+                """
+                        |A|A|A|
+                        |B|B|B|
+                        |C|C|C|
+                        |D|E|F|
+                        """, result);
+    }
+
+    @Test
     void prefilled3x3() {
         // TODO Not implemented yet
         // need a different way to store prefilled value so that they can't be removed by backtracking

@@ -40,10 +40,10 @@ final class PuzzleDefinitionParser {
         final int height = lines.length;
         final int width = (int) CHARACTER_SEPARATOR.matcher(lines[0]).results().count() - 1;
 
-        for (int x = 0; x < height; x++) {
-            final String[] characters = CHARACTER_SEPARATOR.split(lines[x].substring(1) /* ignore starting "" */);
-            for (int y = 0; y < width; y++) {
-                final String parsed = characters[y].trim();
+        for (int y = 0; y < height; y++) {
+            final String[] characters = CHARACTER_SEPARATOR.split(lines[y].substring(1) /* ignore starting "" */);
+            for (int x = 0; x < width; x++) {
+                final String parsed = characters[x].trim();
                 if (!parsed.isEmpty()) {
                     final Character character = parsed.charAt(0);
                     final Coordinate coordinate = new Coordinate(x, y);

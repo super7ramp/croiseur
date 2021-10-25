@@ -9,14 +9,10 @@ import java.util.Optional;
  */
 final class SlotImpl implements Slot {
 
-    /**
-     * Raw data access to slot.
-     */
-    private final GridData.SlotData data;
+    /** Raw data access to slot. */
+    private final SlotData data;
 
-    /**
-     * Uid.
-     */
+    /** Uid. */
     private final SlotIdentifier uid;
 
     /**
@@ -25,7 +21,7 @@ final class SlotImpl implements Slot {
      * @param anUid    a {@link SlotIdentifier}
      * @param someData raw data access
      */
-    SlotImpl(final SlotIdentifier anUid, final GridData.SlotData someData) {
+    SlotImpl(final SlotIdentifier anUid, final SlotData someData) {
         uid = anUid;
         data = someData;
     }
