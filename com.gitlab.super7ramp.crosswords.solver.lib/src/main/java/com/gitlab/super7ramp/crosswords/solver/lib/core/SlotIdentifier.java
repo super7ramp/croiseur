@@ -1,17 +1,13 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.grid;
+package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
 import java.util.Objects;
 
 /**
  * Unique identifier for a variable inside a given problem.
- * <p>
- * TODO check visibility and usage (not sure yet whether it should be used outside of implementation of this package)
  */
 public final class SlotIdentifier {
 
-    /**
-     * Just an integer.
-     */
+    /** Just an integer. */
     private final int id;
 
     /**
@@ -43,6 +39,11 @@ public final class SlotIdentifier {
         return Objects.hashCode(id);
     }
 
+    /**
+     * The identifier as an integer.
+     *
+     * @return the identifier as an integer
+     */
     public int id() {
         return id;
     }

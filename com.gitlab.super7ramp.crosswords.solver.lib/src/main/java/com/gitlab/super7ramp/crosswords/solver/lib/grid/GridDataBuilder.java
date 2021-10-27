@@ -2,6 +2,7 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -99,7 +100,11 @@ public final class GridDataBuilder {
             for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0);
                  yStart < height;
                  yStart = nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
-                slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd, SlotDefinition.Type.VERTICAL));
+                if (yEnd - yStart > 1) {
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd, SlotDefinition.Type.VERTICAL));
+                } else {
+                    // Ignore empty slot (row starting by a shaded box) or single-letter slot
+                }
             }
         }
         for (int y = 0; y < height; y++) {
@@ -107,7 +112,11 @@ public final class GridDataBuilder {
             for (int xStart = 0, xEnd = nextShadedOnLine(y, 0);
                  xStart < width;
                  xStart = nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
-                slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd, SlotDefinition.Type.HORIZONTAL));
+                if (xEnd - xStart > 1) {
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd, SlotDefinition.Type.HORIZONTAL));
+                } else {
+                    // Ignore empty slot (line starting by a shaded box) or single-letter slot
+                }
             }
         }
 

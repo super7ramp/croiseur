@@ -1,11 +1,11 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Stores a crossword puzzle data.
@@ -94,14 +94,12 @@ final class GridData {
     Map<Coordinate, Character> toBoxes() {
         final Map<Coordinate, Character> result = new HashMap<>();
         for (int x = 0; x < grid.length; x++) {
-            final BoxData[] line = grid[x];
-            for (int y = 0; y < line.length; y++) {
-                if (!line[y].isShaded()) {
-                    final Optional<Character> boxValue = line[y].value();
-                    if (boxValue.isPresent()) {
-                        result.put(new Coordinate(x, y), boxValue.get());
-                    } else {
-                        return Collections.emptyMap();
+            final BoxData[] row = grid[x];
+            for (int y = 0; y < row.length; y++) {
+                if (!row[y].isShaded()) {
+                    final char boxValue = row[y].value();
+                    if (boxValue != BoxData.EMPTY && boxValue != BoxData.SHADED) {
+                        result.put(new Coordinate(x, y), boxValue);
                     }
                 }
             }

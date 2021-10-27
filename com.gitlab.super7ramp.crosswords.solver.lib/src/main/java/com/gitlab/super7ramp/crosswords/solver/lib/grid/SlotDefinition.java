@@ -61,10 +61,17 @@ final class SlotDefinition {
      * @param aType    type of slot
      */
     SlotDefinition(final int anOffset, final int aStart, final int aEnd, final Type aType) {
+        validateRange(aStart, aEnd);
         offset = anOffset;
         start = aStart;
         end = aEnd;
         type = aType;
+    }
+
+    private static void validateRange(final int aStart, final int aEnd) {
+        if (aEnd <= aStart) {
+            throw new IllegalArgumentException("Invalid slot definition");
+        }
     }
 
     @Override

@@ -39,9 +39,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends Variable<ValueT>, ValueT> {
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(AbstractSatisfactionProblemSolverEngine.class.getName());
 
     /**
@@ -85,7 +83,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * @param variable variable to unassign
      */
     private void unassign(VariableT variable) {
-        LOGGER.fine(() -> "Unassigning variable [" + variable + "]");
+        LOGGER.info(() -> "Unassigning variable [" + variable + "]");
         onUnassignment(variable);
         variable.unassign();
     }
@@ -97,7 +95,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * @param value    the value
      */
     private void assign(VariableT variable, ValueT value) {
-        LOGGER.fine(() -> "Assigning [" + value + "] to variable [" + variable + "]");
+        LOGGER.info(() -> "Assigning [" + value + "] to variable [" + variable + "]");
         variable.assign(value);
         onAssignment(variable);
     }
@@ -126,8 +124,9 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
     protected abstract Set<VariableT> backtrackFrom(final VariableT variable);
 
     /**
-     * Action to be performed on assignment of a variable.<p>
-     * This method is called after assignment, meaning variable has a value when this method is called.
+     * Action to be performed on assignment of a variable.
+     * <p>
+     * This method is called after assignment, which means that the variable has a value when this method is called.
      *
      * @param variable assigned variable (after assignment)
      */
@@ -137,6 +136,9 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
 
     /**
      * Action to be performed on unassignment of a variable.
+     * <p>
+     * This method is called before unassignment, which means that the variable has still a value (or partial value)
+     * when this method is called.
      *
      * @param variable unassigned variable (before unassignment)
      */

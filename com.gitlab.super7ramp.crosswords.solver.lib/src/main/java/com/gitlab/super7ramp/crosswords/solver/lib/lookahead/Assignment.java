@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.core;
+package com.gitlab.super7ramp.crosswords.solver.lib.lookahead;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 /**
  * Represents the assignment of a slot with a value.

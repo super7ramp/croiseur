@@ -5,11 +5,15 @@ import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfact
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Concrete implementation of {@link AbstractSatisfactionProblemSolverEngine} for crossword solving.
  */
 public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolverEngine<Slot, String> {
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(CrosswordSolverEngine.class.getName());
 
     /** Slot iterator. */
     private final Iterator<Slot> slotIterator;
@@ -21,10 +25,13 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     private final Backtracker backtracker;
 
     /** Dictionary. */
-    private final AdaptedDictionary dictionary;
+    private final InternalDictionary dictionary;
 
     /** History. */
     private final History history;
+
+    /** The puzzle. TODO move out if possible. */
+    private final Connectable puzzle;
 
     /**
      * Constructor.
@@ -33,11 +40,13 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
      * @param aCandidateChooser a {@link CandidateChooser}
      * @param aBacktracker      a {@link Backtracker}
      */
-    public CrosswordSolverEngine(final Iterator<Slot> aSlotIterator,
+    public CrosswordSolverEngine(final Connectable aPuzzle,
+                                 final Iterator<Slot> aSlotIterator,
                                  final CandidateChooser aCandidateChooser,
                                  final Backtracker aBacktracker,
-                                 final AdaptedDictionary aDictionary,
+                                 final InternalDictionary aDictionary,
                                  final History aHistory) {
+        puzzle = aPuzzle;
         slotIterator = aSlotIterator;
         candidateChooser = aCandidateChooser;
         backtracker = aBacktracker;
@@ -66,19 +75,29 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
         history.recordAssignment(variable, value);
 
         // Prevent value from being reused for another word
-        dictionary.lock(value);
+        dictionary.use(value);
     }
 
     @Override
     protected void onUnassignment(final Slot variable) {
         history.recordUnassignment(variable);
 
-        // Value can now be reused for another word
-        final String unassignedValue = variable.value().orElseThrow(IllegalStateException::new);
-        dictionary.unlock(unassignedValue);
+        if (variable.value().isPresent()) {
+            final String unassignedValue = variable.value().get();
 
-        // Prevent this value to be used again for this variable
-        dictionary.blacklist(variable.uid(), unassignedValue);
+            // Value can now be reused for another word
+            dictionary.free(unassignedValue);
+
+            // This value should not be used again for this variable, each word in the grid should be unique
+            dictionary.blacklist(variable, unassignedValue);
+        } else {
+            LOGGER.warning(() -> "Unassigning non-complete slot " + variable);
+        }
+
+        // Connected slots will be amputated from one letter, their previous value shouldn't be reserved anymore
+        for (final Slot connectedSlot : puzzle.connectedSlots(variable)) {
+            connectedSlot.value().ifPresent(dictionary::free);
+        }
     }
 }
 

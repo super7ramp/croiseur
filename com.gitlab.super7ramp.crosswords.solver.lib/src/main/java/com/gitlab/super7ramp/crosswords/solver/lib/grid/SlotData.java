@@ -35,7 +35,7 @@ final class SlotData {
         return definition.length();
     }
 
-    Optional<Character> letterAt(final int index) {
+    char letterAt(final int index) {
         return boxAt(index).value();
     }
 
@@ -57,11 +57,11 @@ final class SlotData {
     Optional<String> value() {
         final char[] readValue = new char[definition.length()];
         for (int i = 0; i < definition.length(); i++) {
-            final Optional<Character> letter = boxAt(i).value();
-            if (letter.isEmpty()) {
+            final char letter = boxAt(i).value();
+            if (letter == BoxData.EMPTY) {
                 return Optional.empty();
             }
-            readValue[i] = letter.get();
+            readValue[i] = letter;
         }
         return Optional.of(String.valueOf(readValue));
     }

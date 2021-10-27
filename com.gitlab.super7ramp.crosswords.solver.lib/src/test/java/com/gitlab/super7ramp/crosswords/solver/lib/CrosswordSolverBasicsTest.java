@@ -3,6 +3,7 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertEquals;
@@ -13,7 +14,7 @@ import static com.gitlab.super7ramp.crosswords.solver.lib.PuzzleDefinitionParser
  * <p>
  * These tests verify basics:
  * <ul>
- *     <li>Simple grids with as little backtracking as possible</li>
+ *     <li>Simple grids with no backtracking necessary</li>
  *     <li>Handling of shaded boxes</li>
  *     <li>Handling of prefilled boxes</li>
  * </ul>
@@ -34,9 +35,9 @@ final class CrosswordSolverBasicsTest {
 
         assertEquals(
                 """
-                        |A|A|A|
-                        |B|B|B|
-                        |C|D|E|
+                        |A|B|C|
+                        |A|B|D|
+                        |A|B|E|
                         """, result);
     }
 
@@ -63,9 +64,9 @@ final class CrosswordSolverBasicsTest {
     }
 
     @Test
+    @Disabled("not implemented yet")
     void prefilled3x3() {
-        // TODO Not implemented yet
-        // need a different way to store prefilled value so that they can't be removed by backtracking
+        // TODO need a different way to store prefilled value so that they can't be removed by backtracking
     }
 
     @Test
@@ -82,9 +83,9 @@ final class CrosswordSolverBasicsTest {
 
         assertEquals(
                 """
-                        |A|A|A|
-                        |B|B|B|
-                        |C|D|#|
+                        |A|B|C|
+                        |A|B|D|
+                        |A|B|#|
                         """, result);
     }
 

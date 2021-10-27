@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-final class PuzzleDefinitionParser {
+public final class PuzzleDefinitionParser {
 
     private static Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");
 
@@ -33,7 +33,7 @@ final class PuzzleDefinitionParser {
      * @param puzzle the string representation
      * @return the {@link PuzzleDefinition}
      */
-    static PuzzleDefinition parsePuzzle(final String puzzle) {
+    public static PuzzleDefinition parsePuzzle(final String puzzle) {
         final Set<Coordinate> shaded = new HashSet<>();
         final Map<Coordinate, Character> prefilled = new HashMap<>();
         final String[] lines = puzzle.split(System.lineSeparator());

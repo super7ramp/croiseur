@@ -1,13 +1,11 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.grid.SlotIdentifier;
-
-import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * TODO split blacklist methods in a separate interface extending this one
  */
-public interface AdaptedDictionary {
+public interface InternalDictionary {
 
     /**
      * Returns the candidates for given variable.
@@ -15,7 +13,7 @@ public interface AdaptedDictionary {
      * @param wordVariable a variable
      * @return the candidates for given variable
      */
-    Set<String> findPossibleValues(final Slot wordVariable);
+    Stream<String> findPossibleValues(final Slot wordVariable);
 
     /**
      * Returns the number of candidates for given variables.
@@ -34,18 +32,22 @@ public interface AdaptedDictionary {
     boolean contains(final String value);
 
     /**
-     * Prevent this value from being used.
+     * Mark this value as used.
+     * <p>
+     * This value will not show up in search results anymore, unless {@link #free(String)} is called.
      *
-     * @param value value to lock
+     * @param value value to mark as used
+     * @see #free(String)
      */
-    void lock(final String value);
+    void use(final String value);
 
     /**
-     * Allows a previously locked value to be used again.
+     * Mark this value as free to be used again.
      *
-     * @param value value to unlock
+     * @param value value to mark as free
+     * @see #use(String)
      */
-    void unlock(final String value);
+    void free(final String value);
 
     /**
      * Blacklist the given value for given variable.
@@ -53,10 +55,5 @@ public interface AdaptedDictionary {
      * @param wordVariable the variable for which the value should be blacklisted
      * @param value        the value to blacklist
      */
-    void blacklist(final SlotIdentifier wordVariable, final String value);
-
-    /**
-     * Rehabilitate all blacklisted elements.
-     */
-    void resetBlacklist();
+    void blacklist(final Slot wordVariable, final String value);
 }

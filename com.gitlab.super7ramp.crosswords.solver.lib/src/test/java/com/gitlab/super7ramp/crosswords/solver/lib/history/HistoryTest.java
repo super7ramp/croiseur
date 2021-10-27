@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests on {@link com.gitlab.super7ramp.crosswords.solver.lib.history.HistoryImpl}.
+ * Tests on {@link HistoryImpl}.
  */
 final class HistoryTest {
 

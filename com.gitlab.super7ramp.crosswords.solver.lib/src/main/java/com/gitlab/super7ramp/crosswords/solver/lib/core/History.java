@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public interface History {
@@ -10,4 +11,5 @@ public interface History {
 
     Optional<Slot> lastAssignedSlot();
 
+    Iterator<Slot> explorer();
 }

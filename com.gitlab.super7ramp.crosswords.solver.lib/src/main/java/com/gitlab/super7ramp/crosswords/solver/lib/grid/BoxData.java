@@ -1,7 +1,5 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import java.util.Optional;
-
 /**
  * A box, either containing a letter or shaded.
  */
@@ -30,11 +28,8 @@ final class BoxData {
         character = other.character;
     }
 
-    Optional<Character> value() {
-        if (character == EMPTY) {
-            return Optional.empty();
-        }
-        return Optional.of(character);
+    char value() {
+        return character;
     }
 
     boolean isShaded() {

@@ -1,10 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Assignment;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
+import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Unassignment;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,14 +17,16 @@ import java.util.stream.Collectors;
 final class GridImpl implements Grid {
 
     /**
-     * Implementation of {@link ProbablePuzzle}.
+     * Implementation of {@link Puzzle}.
      */
-    private static class PuzzleImpl implements ProbablePuzzle {
+    private static class PuzzleImpl implements Puzzle {
 
-        /**
-         * The underlying data.
-         */
+        /** The underlying data. */
         private final GridData data;
+
+        /** The slots. */
+        private final Set<Slot> slots;
+
 
         /**
          * Constructor.
@@ -31,13 +35,14 @@ final class GridImpl implements Grid {
          */
         PuzzleImpl(final GridData someData) {
             data = someData;
+            slots = data.slots().entrySet().stream()
+                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.toSet());
         }
 
         @Override
         public Set<Slot> slots() {
-            return data.slots().entrySet().stream()
-                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
-                    .collect(Collectors.toSet());
+            return Collections.unmodifiableSet(slots);
         }
 
         @Override
@@ -48,18 +53,25 @@ final class GridImpl implements Grid {
         }
 
         @Override
-        public ProbablePuzzle probe(final Assignment assignment) {
+        public Collection<Slot> probe(final Assignment assignment) {
             final GridData probedData = data.copy();
             probedData.slot(assignment.slotUid()).write(assignment.word());
-            return new PuzzleImpl(probedData);
+            return new PuzzleImpl(probedData).slots();
+        }
+
+        @Override
+        public Collection<Slot> probe(final Unassignment unassignment) {
+            final GridData probedData = data.copy();
+            probedData.slot(unassignment.slotUid()).clear();
+            return new PuzzleImpl(probedData).slots();
         }
     }
 
     /** The underlying data. */
     private final GridData data;
 
-    /** The {@link ProbablePuzzle} implementation. */
-    private ProbablePuzzle puzzle;
+    /** The {@link Puzzle} implementation. */
+    private Puzzle puzzle;
 
     /**
      * Constructor.
@@ -72,7 +84,7 @@ final class GridImpl implements Grid {
     }
 
     @Override
-    public ProbablePuzzle puzzle() {
+    public Puzzle puzzle() {
         return puzzle;
     }
 

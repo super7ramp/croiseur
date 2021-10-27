@@ -17,14 +17,6 @@ public interface Dictionary {
     Set<String> lookup(final Predicate<String> predicate);
 
     /**
-     * Count matches for given {@link Predicate}.
-     *
-     * @param predicate the predicate for which to count matches
-     * @return the number of matches for given predicate
-     */
-    long countMatches(final Predicate<String> predicate);
-
-    /**
      * Returns <code>true</code> if and only if the dictionary contains the given value.
      *
      * @param value the value to test

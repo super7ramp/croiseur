@@ -5,6 +5,7 @@ import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.Optional;
 
 /**
@@ -34,9 +35,11 @@ public final class HistoryImpl implements History {
 
     @Override
     public Optional<Slot> lastAssignedSlot() {
-        if (assignedSlots.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(assignedSlots.getLast());
+        return Optional.ofNullable(assignedSlots.peekLast());
+    }
+
+    @Override
+    public Iterator<Slot> explorer() {
+        return assignedSlots.descendingIterator();
     }
 }

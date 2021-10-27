@@ -1,7 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.ProbablePuzzle;
 
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public interface Grid {
      *
      * @return the puzzle
      */
-    ProbablePuzzle puzzle();
+    Puzzle puzzle();
 
     /**
      * The grid, i.e. the physical view of the problem.

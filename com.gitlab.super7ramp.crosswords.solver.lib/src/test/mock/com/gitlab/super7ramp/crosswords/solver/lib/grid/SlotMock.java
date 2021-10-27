@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 import java.util.Optional;
 
