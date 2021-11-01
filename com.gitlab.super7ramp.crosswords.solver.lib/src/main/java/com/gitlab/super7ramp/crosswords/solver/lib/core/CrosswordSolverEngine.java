@@ -4,7 +4,6 @@ import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfact
 
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -27,10 +26,7 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     /** Dictionary. */
     private final InternalDictionary dictionary;
 
-    /** History. */
-    private final History history;
-
-    /** The puzzle. TODO move out if possible. */
+    /** The puzzle. */
     private final Connectable puzzle;
 
     /**
@@ -44,14 +40,12 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
                                  final Iterator<Slot> aSlotIterator,
                                  final CandidateChooser aCandidateChooser,
                                  final Backtracker aBacktracker,
-                                 final InternalDictionary aDictionary,
-                                 final History aHistory) {
+                                 final InternalDictionary aDictionary) {
         puzzle = aPuzzle;
         slotIterator = aSlotIterator;
         candidateChooser = aCandidateChooser;
         backtracker = aBacktracker;
         dictionary = aDictionary;
-        history = aHistory;
     }
 
     @Override
@@ -65,34 +59,24 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     }
 
     @Override
-    protected Set<Slot> backtrackFrom(final Slot wordVariable) {
-        return backtracker.backtrackFrom(wordVariable);
+    protected Slot backtrackFrom(final Slot unassignable) {
+        return backtracker.backtrackFrom(unassignable);
     }
 
     @Override
     protected void onAssignment(final Slot variable) {
         final String value = variable.value().orElseThrow(IllegalStateException::new);
-        history.recordAssignment(variable, value);
-
         // Prevent value from being reused for another word
         dictionary.use(value);
     }
 
     @Override
     protected void onUnassignment(final Slot variable) {
-        history.recordUnassignment(variable);
-
-        if (variable.value().isPresent()) {
-            final String unassignedValue = variable.value().get();
-
-            // Value can now be reused for another word
-            dictionary.free(unassignedValue);
-
-            // This value should not be used again for this variable, each word in the grid should be unique
-            dictionary.blacklist(variable, unassignedValue);
-        } else {
-            LOGGER.warning(() -> "Unassigning non-complete slot " + variable);
-        }
+        // Value can now be reused for another word
+        variable.value().ifPresentOrElse(
+                dictionary::free,
+                () -> LOGGER.warning(() -> "Unassigning non-complete slot " + variable)
+        );
 
         // Connected slots will be amputated from one letter, their previous value shouldn't be reserved anymore
         for (final Slot connectedSlot : puzzle.connectedSlots(variable)) {

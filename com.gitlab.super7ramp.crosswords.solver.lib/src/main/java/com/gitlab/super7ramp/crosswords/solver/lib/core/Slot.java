@@ -19,5 +19,6 @@ public interface Slot extends Variable<String> {
      * @param value the value to test
      * @return <code>true</code> if the given value fits inside this slot
      */
+    // TODO move out from Slot type
     boolean isCompatibleWith(final String value);
 }

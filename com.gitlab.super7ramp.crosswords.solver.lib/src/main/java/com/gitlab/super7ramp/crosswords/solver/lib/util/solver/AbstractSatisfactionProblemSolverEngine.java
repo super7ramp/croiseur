@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.solver.lib.util.solver;
 
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -66,7 +65,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
                 assign(variable, candidate.get());
             } else {
                 LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
-                backtrackFrom(variable).forEach(this::unassign);
+                unassign(backtrackFrom(variable));
             }
         }
 
@@ -119,9 +118,9 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * Apply the backtrack strategy when variable cannot be instantiated.
      *
      * @param variable variable which cannot be instantiated
-     * @return the unassigned variables
+     * @return the unassigned variable
      */
-    protected abstract Set<VariableT> backtrackFrom(final VariableT variable);
+    protected abstract VariableT backtrackFrom(final VariableT variable);
 
     /**
      * Action to be performed on assignment of a variable.

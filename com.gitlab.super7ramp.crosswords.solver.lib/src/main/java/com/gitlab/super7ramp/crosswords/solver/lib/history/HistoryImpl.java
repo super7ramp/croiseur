@@ -1,45 +1,30 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.history;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.History;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.Optional;
-
 /**
  * Implementation of {@link History}.
  */
 public final class HistoryImpl implements History {
 
-    /** Assigned slots, from old to young. */
-    private Deque<Slot> assignedSlots;
+    private final InstantiationHistory instantiationHistory;
+
+    /** Dead-end history. */
+    private final BacktrackHistory backtrackHistory;
 
     /**
      * Constructor.
      */
     public HistoryImpl() {
-        assignedSlots = new ArrayDeque<>();
+        instantiationHistory = new InstantiationHistoryImpl();
+        backtrackHistory = new BacktrackHistoryImpl();
     }
 
     @Override
-    public void recordAssignment(Slot slot, String value) {
-        assignedSlots.add(slot);
+    public InstantiationHistory instantiation() {
+        return instantiationHistory;
     }
 
     @Override
-    public void recordUnassignment(Slot slot) {
-        assignedSlots.remove(slot);
-    }
-
-    @Override
-    public Optional<Slot> lastAssignedSlot() {
-        return Optional.ofNullable(assignedSlots.peekLast());
-    }
-
-    @Override
-    public Iterator<Slot> explorer() {
-        return assignedSlots.descendingIterator();
+    public BacktrackHistory backtrack() {
+        return backtrackHistory;
     }
 }

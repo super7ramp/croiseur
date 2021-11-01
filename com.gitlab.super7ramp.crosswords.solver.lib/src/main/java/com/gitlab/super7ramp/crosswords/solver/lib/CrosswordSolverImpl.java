@@ -31,18 +31,17 @@ final class CrosswordSolverImpl implements CrosswordSolver {
     public SolverResult solve(final PuzzleDefinition puzzleDefinition, final Dictionary externalDictionary) throws InterruptedException {
 
         final Grid grid = GridFactory.createGrid(puzzleDefinition);
-        final InternalDictionary dictionary = new ProgressiveLookupDictionary(
-                new CachedDictionary(externalDictionary),
-                MAX_NUMBER_OF_CANDIDATES_BY_DICTIONARY_SEARCH);
         final HistoryImpl history = new HistoryImpl();
+        final InternalDictionary dictionary = new ProgressiveLookupDictionary(
+                new CachedDictionary(externalDictionary, history.backtrack()),
+                MAX_NUMBER_OF_CANDIDATES_BY_DICTIONARY_SEARCH);
 
         final SlotIteratorImpl slotChooser = new SlotIteratorImpl(grid.puzzle().slots(), dictionary);
-        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(), dictionary);
-        final Backtracker backtracker = Backtrackers.simple(history);
-        //final Backtracker backtracker = Backtrackers.smartBackjump(grid.puzzle(), dictionary, history);
-        //final Backtracker backtracker = Backtrackers.backjump(grid.puzzle(), history);
+        final CandidateChooserImpl candidateChooser =
+                new CandidateChooserImpl(grid.puzzle(), dictionary, history.instantiation());
+        final Backtracker backtracker = Backtrackers.backmark(history);
 
-        new CrosswordSolverEngine(grid.puzzle(), slotChooser, candidateChooser, backtracker, dictionary, history).solve();
+        new CrosswordSolverEngine(grid.puzzle(), slotChooser, candidateChooser, backtracker, dictionary).solve();
 
         return new SolverResultImpl(grid.boxes());
     }

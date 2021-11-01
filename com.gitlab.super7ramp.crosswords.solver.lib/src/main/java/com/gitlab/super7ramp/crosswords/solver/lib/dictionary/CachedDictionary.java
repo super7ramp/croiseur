@@ -4,7 +4,7 @@ import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
-import com.gitlab.super7ramp.crosswords.solver.lib.util.SingleElementHashMap;
+import com.gitlab.super7ramp.crosswords.solver.lib.history.BacktrackHistoryReader;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,8 +31,8 @@ public class CachedDictionary implements InternalDictionary {
      */
     private final Map<SlotIdentifier, Set<String>> cache;
 
-    /** Blacklist. */
-    private final Map<SlotIdentifier, Set<String>> blacklist;
+    /** History. */
+    private final BacktrackHistoryReader history;
 
     /** List of already used words. */
     private final Set<String> used;
@@ -42,10 +42,10 @@ public class CachedDictionary implements InternalDictionary {
      *
      * @param aDictionary a dictionary
      */
-    public CachedDictionary(final Dictionary aDictionary) {
+    public CachedDictionary(final Dictionary aDictionary, final BacktrackHistoryReader aHistory) {
         externalDictionary = aDictionary;
+        history = aHistory;
         cache = new HashMap<>();
-        blacklist = new SingleElementHashMap<>();
         used = new HashSet<>();
     }
 
@@ -78,11 +78,6 @@ public class CachedDictionary implements InternalDictionary {
         used.remove(value);
     }
 
-    @Override
-    public void blacklist(final Slot wordVariable, final String value) {
-        blacklist.computeIfAbsent(wordVariable.uid(), key -> new HashSet<>()).add(value);
-    }
-
     private Stream<String> search(final Set<String> input, final Slot wordVariable) {
         return input.stream().filter(isCompatibleWith(wordVariable));
     }
@@ -101,7 +96,7 @@ public class CachedDictionary implements InternalDictionary {
     }
 
     private boolean isBlacklisted(final SlotIdentifier uid, final String word) {
-        return blacklist.getOrDefault(uid, Collections.emptySet()).contains(word);
+        return history.blacklist().getOrDefault(uid, Collections.emptySet()).contains(word);
     }
 
     private boolean isAlreadyUsed(final String word) {

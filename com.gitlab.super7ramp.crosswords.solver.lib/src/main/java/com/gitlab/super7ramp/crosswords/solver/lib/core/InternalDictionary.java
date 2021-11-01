@@ -3,8 +3,9 @@ package com.gitlab.super7ramp.crosswords.solver.lib.core;
 import java.util.stream.Stream;
 
 /**
- * TODO split blacklist methods in a separate interface extending this one
+ *
  */
+// TODO Split use/free methods.
 public interface InternalDictionary {
 
     /**
@@ -49,11 +50,4 @@ public interface InternalDictionary {
      */
     void free(final String value);
 
-    /**
-     * Blacklist the given value for given variable.
-     *
-     * @param wordVariable the variable for which the value should be blacklisted
-     * @param value        the value to blacklist
-     */
-    void blacklist(final Slot wordVariable, final String value);
 }

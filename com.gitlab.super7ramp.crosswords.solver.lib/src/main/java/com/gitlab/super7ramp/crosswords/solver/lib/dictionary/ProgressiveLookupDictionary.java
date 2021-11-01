@@ -27,15 +27,6 @@ public final class ProgressiveLookupDictionary implements InternalDictionary {
         maximumNumberOfResults = aMaximumNumberOfResults;
     }
 
-    /**
-     * Constructor.
-     *
-     * @param anActual actual dictionary
-     */
-    public ProgressiveLookupDictionary(final InternalDictionary anActual) {
-        this(anActual, Long.MAX_VALUE);
-    }
-
     @Override
     public Stream<String> findPossibleValues(final Slot wordVariable) {
         return actual.findPossibleValues(wordVariable).limit(maximumNumberOfResults);
@@ -59,10 +50,5 @@ public final class ProgressiveLookupDictionary implements InternalDictionary {
     @Override
     public void free(final String value) {
         actual.free(value);
-    }
-
-    @Override
-    public void blacklist(final Slot wordVariable, final String value) {
-        actual.blacklist(wordVariable, value);
     }
 }

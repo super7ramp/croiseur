@@ -1,31 +1,39 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.backtrack;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Backtracker;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.History;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-
-import java.util.Collections;
-import java.util.Set;
+import com.gitlab.super7ramp.crosswords.solver.lib.history.BacktrackHistory;
+import com.gitlab.super7ramp.crosswords.solver.lib.history.DeadEnd;
+import com.gitlab.super7ramp.crosswords.solver.lib.history.InstantiationHistoryConsumer;
 
 /**
- * {@link Backtracker} implementation that simply selects the last assigned variable.
+ * {@link Backtracker} implementation that:
+ * <ul>
+ *     <li>chooses as variable to be unassigned the last assigned variable</li>
+ *     <li>blacklist the unassigned value for the unassigned variable</li>
+ *     <li>clear blacklist for other variables</li>
+ * </ul>
  */
-final class Backtrack implements Backtracker {
+final class Backtrack extends AbstractBacktracker {
 
-    /** Assignment history. */
-    private final History history;
+    /** Backtrack history. */
+    private final BacktrackHistory backtrackHistory;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param anHistory assignment history
+     * @param anInstantiationHistory assignment history
+     * @param aBacktrackHistory      un-assignment history
      */
-    Backtrack(final History anHistory) {
-        history = anHistory;
+    Backtrack(final InstantiationHistoryConsumer anInstantiationHistory, final BacktrackHistory aBacktrackHistory) {
+        super(anInstantiationHistory);
+        backtrackHistory = aBacktrackHistory;
     }
 
     @Override
-    public Set<Slot> backtrackFrom(final Slot variable) {
-        return Collections.singleton(history.lastAssignedSlot().orElseThrow(IllegalStateException::new));
+    protected void updateBlackList(final DeadEnd deadEnd, final String unassignedValue) {
+        if (!backtrackHistory.blacklist().containsKey(deadEnd.unassigned())) {
+            backtrackHistory.clearBlacklist();
+        }
+        backtrackHistory.blacklist(deadEnd.unassigned(), unassignedValue);
     }
 }

@@ -29,12 +29,11 @@ public final class Prober {
     }
 
     /**
-     * Compute <em>an estimation</em> of the number of solutions of grid after applying the given assignment by
-     * multiplying the number of candidates left for each variable.
+     * Compute <em>an estimation</em> of the number of solutions for the grid after applying the given assignment by
+     * multiplying the estimated number of candidates left for each variable.
      * <p>
-     * Note that estimation may return a value > 0 despite the grid not having an actual solution, e.g. if n variables
-     * share n-1 candidates.
-     * <p>
+     * Note that the estimation may return a value > 0 despite the grid not having an actual solution, as the constraint
+     * that candidate cannot be used twice per grid is not taken into account.
      *
      * @param assignment the assignment to evaluate
      * @return the estimated number of solutions for the grid after assignment; As the estimation can be very large,

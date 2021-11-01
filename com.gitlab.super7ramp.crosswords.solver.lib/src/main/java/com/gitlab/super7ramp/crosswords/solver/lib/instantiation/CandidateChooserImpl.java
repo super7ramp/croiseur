@@ -3,16 +3,15 @@ package com.gitlab.super7ramp.crosswords.solver.lib.instantiation;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.CandidateChooser;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.history.InstantiationHistoryProducer;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Probable;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Prober;
-import com.gitlab.super7ramp.crosswords.solver.lib.util.Pair;
 
 import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Implementation of {@link CandidateChooser}.
@@ -24,22 +23,30 @@ import java.util.logging.Logger;
  */
 public final class CandidateChooserImpl implements CandidateChooser {
 
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(CandidateChooserImpl.class.getName());
-
-    /** Filter candidates with at least one puzzle solution. */
-    private static final Predicate<Pair<String, BigInteger>> WITH_SOLUTION = probe ->
-            probe.right().compareTo(BigInteger.ZERO) > 0;
+    /**
+     * Associates a candidate to the estimated number of solutions of the grid.
+     */
+    private static record NumberOfSolutionsPerCandidate(String candidate, BigInteger numberOfSolutions) {
+        // Nothing to add.
+    }
 
     /**
      * Compare candidates by their estimated number of puzzle solutions.<p>
-     * The secondary comparator by lexicographic order is for reproducibility.
+     * The secondary comparator by lexicographic order on candidate is for reproducibility.
      */
-    private static final Comparator<Pair<String, BigInteger>> BY_NUMBER_OF_SOLUTIONS =
-            Comparator.comparing(Pair<String, BigInteger>::right).thenComparing(Pair::left);
+    private static final Comparator<NumberOfSolutionsPerCandidate> BY_NUMBER_OF_SOLUTIONS =
+            Comparator.comparing(NumberOfSolutionsPerCandidate::numberOfSolutions)
+                    .thenComparing(NumberOfSolutionsPerCandidate::candidate);
+
+    /** Filter candidates with at least one puzzle solution. */
+    private static final Predicate<NumberOfSolutionsPerCandidate> WITH_SOLUTION = probe ->
+            probe.numberOfSolutions.compareTo(BigInteger.ZERO) > 0;
 
     /** The dictionary to pick candidates from. */
     private final InternalDictionary dictionary;
+
+    /** History. */
+    private final InstantiationHistoryProducer history;
 
     /** Lookahead util. */
     private final Prober prober;
@@ -50,30 +57,42 @@ public final class CandidateChooserImpl implements CandidateChooser {
      * @param aPuzzle     the puzzle to solve
      * @param aDictionary the dictionary to pick candidates from
      */
-    public CandidateChooserImpl(final Probable aPuzzle, final InternalDictionary aDictionary) {
+    public CandidateChooserImpl(final Probable aPuzzle,
+                                final InternalDictionary aDictionary,
+                                final InstantiationHistoryProducer anHistory) {
         dictionary = aDictionary;
+        history = anHistory;
         prober = new Prober(aPuzzle, aDictionary);
     }
 
     @Override
     public Optional<String> find(final Slot wordVariable) {
-        return dictionary
+        final Optional<String> optFound = dictionary
                 .findPossibleValues(wordVariable)
                 .map(candidate -> probe(wordVariable, candidate))
                 .filter(WITH_SOLUTION)
                 .max(BY_NUMBER_OF_SOLUTIONS)
-                .map(Pair::left);
+                .map(NumberOfSolutionsPerCandidate::candidate);
+
+        optFound.ifPresent(found -> history.recordAssignment(wordVariable, found));
+
+        return optFound;
     }
 
     /**
-     * Builds a new {@link Pair} of a candidate with the looked-ahead number of solutions for the grid.
+     * Builds a new {@link NumberOfSolutionsPerCandidate} of a candidate with the looked-ahead number of solutions for
+     * the grid.
      *
      * @param wordVariable the variable
      * @param candidate    the candidate
-     * @return a new {@link Pair} of a candidate with the looked-ahead number of solutions for the grid
+     * @return a new {@link NumberOfSolutionsPerCandidate} of a candidate with the looked-ahead number of solutions for
+     * the grid
      */
-    private Pair<String, BigInteger> probe(final Slot wordVariable, final String candidate) {
-        return new Pair<>(candidate, prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate)));
+    private NumberOfSolutionsPerCandidate probe(final Slot wordVariable, final String candidate) {
+        return new NumberOfSolutionsPerCandidate(
+                candidate,
+                prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate))
+        );
     }
 
 }
