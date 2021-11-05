@@ -1,46 +1,20 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-/**
- * A box, either containing a letter or shaded.
- */
-final class BoxData {
+interface BoxData {
 
     /** Empty character value. */
-    static final char EMPTY = 0;
+    char EMPTY_VALUE = 0;
 
     /** Shaded value. */
-    static final char SHADED = '#';
+    char SHADED_VALUE = '#';
 
-    /** The value. */
-    private char character;
+    char value();
 
-    /**
-     * Constructor.
-     */
-    BoxData() {
-        // Nothing to do.
-    }
+    boolean isShaded();
 
-    /**
-     * Copy constructor.
-     */
-    BoxData(final BoxData other) {
-        character = other.character;
-    }
+    void set(final char aCharacter);
 
-    char value() {
-        return character;
-    }
+    void reset();
 
-    boolean isShaded() {
-        return character == SHADED;
-    }
-
-    void set(final char aCharacter) {
-        character = aCharacter;
-    }
-
-    void reset() {
-        character = EMPTY;
-    }
+    BoxData copy();
 }

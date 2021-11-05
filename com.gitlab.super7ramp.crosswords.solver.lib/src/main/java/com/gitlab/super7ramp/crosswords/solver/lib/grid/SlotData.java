@@ -58,7 +58,7 @@ final class SlotData {
         final char[] readValue = new char[definition.length()];
         for (int i = 0; i < definition.length(); i++) {
             final char letter = boxAt(i).value();
-            if (letter == BoxData.EMPTY) {
+            if (letter == BoxData.EMPTY_VALUE) {
                 return Optional.empty();
             }
             readValue[i] = letter;

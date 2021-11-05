@@ -26,3 +26,10 @@ Likely gradle.
 ## Test graalvm
 
 See if performances are improved - but just make backtrack more decent first
+
+## Cleanup
+
+Some parts need some love:
+- GridDataBuilder:
+    - Make it more readable
+    - Should ID creation/incrementation be in GridDataBuilder?

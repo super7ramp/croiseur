@@ -46,7 +46,7 @@ final class SlotImpl implements Slot {
 
         for (int i = 0; i < data.length(); i++) {
             final char letter = data.letterAt(i);
-            if (letter != BoxData.EMPTY && letter != value.charAt(i)) {
+            if (letter != BoxData.EMPTY_VALUE && letter != value.charAt(i)) {
                 return false;
             }
         }

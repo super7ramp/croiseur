@@ -163,12 +163,13 @@ public final class GridDataBuilder {
         final BoxData[][] result = new BoxData[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                result[x][y] = new BoxData();
                 final Coordinate coord = new Coordinate(x, y);
                 if (shaded.contains(coord)) {
-                    result[x][y].set(BoxData.SHADED);
+                    result[x][y] = Boxes.shaded();
                 } else if (prefilled.containsKey(coord)) {
-                    result[x][y].set(prefilled.get(coord));
+                    result[x][y] = Boxes.prefilled(prefilled.get(coord));
+                } else {
+                    result[x][y] = Boxes.computed();
                 }
             }
         }

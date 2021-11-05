@@ -38,7 +38,7 @@ final class GridData {
         grid = new BoxData[other.grid.length][other.grid[0].length];
         for (int x = 0; x < other.grid.length; x++) {
             for (int y = 0; y < other.grid[0].length; y++) {
-                grid[x][y] = new BoxData(other.grid[x][y]);
+                grid[x][y] = other.grid[x][y].copy();
             }
         }
 
@@ -98,7 +98,7 @@ final class GridData {
             for (int y = 0; y < row.length; y++) {
                 if (!row[y].isShaded()) {
                     final char boxValue = row[y].value();
-                    if (boxValue != BoxData.EMPTY && boxValue != BoxData.SHADED) {
+                    if (boxValue != BoxData.EMPTY_VALUE && boxValue != BoxData.SHADED_VALUE) {
                         result.put(new Coordinate(x, y), boxValue);
                     }
                 }

@@ -42,14 +42,25 @@ final class GridDataTest {
     }
 
     @Test
-    void wideGridWithShaded() {
+    void wideGridWithShadedAndOneSingleLetterSlot() {
+        final GridData grid = new GridDataBuilder()
+                .withHeight(4)
+                .withWidth(8)
+                .withShaded(new Coordinate(2, 2))
+                .build();
+
+        assertEquals(13, grid.slots().size());
+    }
+
+    @Test
+    void wideGridWithShadedAndTwoSingleLetterSlot() {
         final GridData grid = new GridDataBuilder()
                 .withHeight(4)
                 .withWidth(8)
                 .withShaded(new Coordinate(1, 2))
                 .build();
 
-        assertEquals(14, grid.slots().size());
+        assertEquals(12, grid.slots().size());
     }
 
     @Test
