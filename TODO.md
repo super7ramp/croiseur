@@ -1,12 +1,10 @@
 # TODO
 
-## Add prefilled word support
-
-Create an immutable BoxData.
-
 ## Implement db module
 
-Hunspell dictionaries first.
+- Hunspell dictionaries first.
+    - Parser by hand
+    - Alt implementation using antlr?
 
 ## Create CLI
 
@@ -32,4 +30,4 @@ See if performances are improved - but just make backtrack more decent first
 Some parts need some love:
 - GridDataBuilder:
     - Make it more readable
-    - Should ID creation/incrementation be in GridDataBuilder?
+    - Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for backtracking
