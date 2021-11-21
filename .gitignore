@@ -1,1 +1,4 @@
 **/*.class
+
+# intellij output folder
+out

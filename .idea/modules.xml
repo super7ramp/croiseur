@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.db.api/com.gitlab.super7ramp.crosswords.db.api.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.db.api/com.gitlab.super7ramp.crosswords.db.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.api/com.gitlab.super7ramp.crosswords.dictionary.api.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.api/com.gitlab.super7ramp.crosswords.dictionary.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.hunspell/com.gitlab.super7ramp.crosswords.dictionary.hunspell.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.hunspell/com.gitlab.super7ramp.crosswords.dictionary.hunspell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.internal/com.gitlab.super7ramp.crosswords.dictionary.internal.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.dictionary.internal/com.gitlab.super7ramp.crosswords.dictionary.internal.iml" />
       <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.solver.api/com.gitlab.super7ramp.crosswords.solver.api.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.solver.api/com.gitlab.super7ramp.crosswords.solver.api.iml" />
       <module fileurl="file://$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.solver.lib/com.gitlab.super7ramp.crosswords.solver.lib.iml" filepath="$PROJECT_DIR$/com.gitlab.super7ramp.crosswords.solver.lib/com.gitlab.super7ramp.crosswords.solver.lib.iml" />
     </modules>
