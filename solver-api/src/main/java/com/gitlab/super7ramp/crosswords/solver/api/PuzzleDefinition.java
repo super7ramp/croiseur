@@ -1,6 +1,10 @@
 package com.gitlab.super7ramp.crosswords.solver.api;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
