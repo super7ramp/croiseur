@@ -1,0 +1,8 @@
+/**
+ * Conventions for Java libraries.
+ */
+
+plugins {
+    id 'java-library'
+    id 'com.gitlab.super7ramp.crosswords.java-conventions'
+}

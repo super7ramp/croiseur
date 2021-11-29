@@ -1,0 +1,8 @@
+/**
+ * Conventions for Java applications.
+ */
+
+plugins {
+    id 'application'
+    id 'com.gitlab.super7ramp.crosswords.java-conventions'
+}

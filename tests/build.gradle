@@ -1,0 +1,7 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-acceptance-tests-conventions'
+}
+
+dependencies {
+    testImplementation project(':cli')
+}

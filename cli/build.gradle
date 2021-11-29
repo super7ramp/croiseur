@@ -1,0 +1,16 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-application-conventions'
+}
+
+dependencies {
+    implementation project(':dictionary-api')
+    implementation project(':solver-api')
+
+    runtimeOnly project(':dictionary-hunspell')
+    runtimeOnly project(':dictionary-internal')
+    runtimeOnly project(':solver-lib')
+}
+
+application {
+    mainClass = 'com.gitlab.super7ramp.crosswords.cli.Main'
+}

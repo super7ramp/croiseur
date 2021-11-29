@@ -1,0 +1,16 @@
+rootProject.name = 'crosswords'
+
+// Dictionary
+include 'dictionary-api'
+include 'dictionary-hunspell'
+include 'dictionary-internal'
+
+// Solver
+include 'solver-api'
+include 'solver-lib'
+
+// CLI
+include 'cli'
+
+// Acceptance tests
+include 'tests'

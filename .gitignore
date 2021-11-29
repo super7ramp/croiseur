@@ -1,4 +1,13 @@
-**/*.class
-
-# intellij output folder
+# IntelliJ stuff
 out
+.idea
+**.iml
+
+# Gradle stuff
+.gradle
+**/build/*
+
+# Use "gradle wrapper --build-file=wrapper.gradle" to generate a compatible wrapper in your local tree
+# if you'd like but please don't add it to SCM, thanks.
+gradle/wrapper
+gradlew*
