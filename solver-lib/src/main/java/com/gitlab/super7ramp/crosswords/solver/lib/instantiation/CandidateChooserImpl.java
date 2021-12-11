@@ -24,11 +24,9 @@ import java.util.function.Predicate;
 public final class CandidateChooserImpl implements CandidateChooser {
 
     /**
-     * Associates a candidate to the estimated number of solutions of the grid.
+     * Max number of candidates with solutions to compare.
      */
-    private static record NumberOfSolutionsPerCandidate(String candidate, BigInteger numberOfSolutions) {
-        // Nothing to add.
-    }
+    private static final long MAX_NUMBER_OF_CANDIDATES_TO_COMPARE = 10;
 
     /**
      * Compare candidates by their estimated number of puzzle solutions.<p>
@@ -38,17 +36,22 @@ public final class CandidateChooserImpl implements CandidateChooser {
             Comparator.comparing(NumberOfSolutionsPerCandidate::numberOfSolutions)
                     .thenComparing(NumberOfSolutionsPerCandidate::candidate);
 
-    /** Filter candidates with at least one puzzle solution. */
+    /**
+     * Filter candidates with at least one puzzle solution.
+     */
     private static final Predicate<NumberOfSolutionsPerCandidate> WITH_SOLUTION = probe ->
             probe.numberOfSolutions.compareTo(BigInteger.ZERO) > 0;
-
-    /** The dictionary to pick candidates from. */
+    /**
+     * The dictionary to pick candidates from.
+     */
     private final InternalDictionary dictionary;
-
-    /** History. */
+    /**
+     * History.
+     */
     private final InstantiationHistoryProducer history;
-
-    /** Lookahead util. */
+    /**
+     * Lookahead util.
+     */
     private final Prober prober;
 
     /**
@@ -71,12 +74,20 @@ public final class CandidateChooserImpl implements CandidateChooser {
                 .findPossibleValues(wordVariable)
                 .map(candidate -> probe(wordVariable, candidate))
                 .filter(WITH_SOLUTION)
+                .limit(MAX_NUMBER_OF_CANDIDATES_TO_COMPARE)
                 .max(BY_NUMBER_OF_SOLUTIONS)
                 .map(NumberOfSolutionsPerCandidate::candidate);
 
         optFound.ifPresent(found -> history.recordAssignment(wordVariable, found));
 
         return optFound;
+    }
+
+    /**
+     * Associates a candidate to the estimated number of solutions of the grid.
+     */
+    private record NumberOfSolutionsPerCandidate(String candidate, BigInteger numberOfSolutions) {
+        // Nothing to add.
     }
 
     /**

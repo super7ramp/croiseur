@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation project(':dictionary-api')
     implementation project(':solver-api')
+    implementation 'info.picocli:picocli:4.6.2'
 
     runtimeOnly project(':dictionary-hunspell')
     runtimeOnly project(':dictionary-internal')

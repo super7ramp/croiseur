@@ -16,10 +16,14 @@ import java.util.function.Predicate;
 public final class SlotIteratorImpl implements SlotIterator {
 
     /**
-     * Associates a {@link Slot} to its number of candidates.
+     * Constructor.
+     *
+     * @param slots       the slots
+     * @param aDictionary the dictionary
      */
-    private static record NumberOfCandidatesPerSlot(Slot slot, long numberOfCandidates) {
-        // Nothing to add.
+    public SlotIteratorImpl(final Collection<Slot> slots, final InternalDictionary aDictionary) {
+        variables = Collections.unmodifiableCollection(slots);
+        dictionary = aDictionary;
     }
 
     /** Comparator of {@link Slot} by number of candidates in {@link InternalDictionary}. */
@@ -34,15 +38,10 @@ public final class SlotIteratorImpl implements SlotIterator {
     private final InternalDictionary dictionary;
 
     /**
-     * Constructor.
-     *
-     * @param slots       the slots
-     * @param aDictionary the dictionary
+     * Associates a {@link Slot} to its number of candidates.
      */
-    public SlotIteratorImpl(
-            final Collection<Slot> slots, final InternalDictionary aDictionary) {
-        variables = Collections.unmodifiableCollection(slots);
-        dictionary = aDictionary;
+    private record NumberOfCandidatesPerSlot(Slot slot, long numberOfCandidates) {
+        // Nothing to add.
     }
 
     @Override

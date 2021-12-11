@@ -8,15 +8,21 @@ import java.util.stream.Stream;
 /**
  * {@link WordFormGenerator} relying on Hunspell applications spawned as external processes.
  */
-public final class ExternalWordFormGenerator implements WordFormGenerator {
+final class ExternalWordFormGenerator implements WordFormGenerator {
 
-    /** Unmunch command name. */
+    /**
+     * Unmunch command name.
+     */
     private static final String UNMUNCH = "unmunch";
 
-    /** The .aff file. */
+    /**
+     * The .aff file.
+     */
     private final Path affFile;
 
-    /** The .dic file. */
+    /**
+     * The .dic file.
+     */
     private final Path dicFile;
 
     /**

@@ -1,33 +1,50 @@
 # TODO
 
-## Implement db module
+## Features
 
-- Hunspell dictionaries first.
-    - Parser by hand
-    - Alt implementation using antlr?
+### Add English dictionary
 
-## Create CLI
+### UTF8
 
-Microcli?
+- Don't think it's necessary for French, it might be useful for other languages
 
-## Add build system
+## Improvements
 
-Likely gradle.
+### Solver
 
-## Rework backtrack
+#### Backtrack
 
 - Likely backtrack and iterator should be coupled more.
-- Refactory Backtracker, SlotIerator and History.
-- Take the time to read and understand Gashnig algorithms applied for 8-Queens SAP and translate them to crossword
-  => create wiki page about it
+- Refactor Backtracker, SlotIerator and History.
+- Doc to read:
+  - (again) Gashnig algorithms applied for 8-Queens SAP
+  - Knuth's fascicle on satisfiability
 
-## Test graalvm
+#### GridDataBuilder
 
-See if performances are improved - but just make backtrack more decent first
+- Make it more readable
+- Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for backtracking
 
-## Cleanup
+#### Dictionary wrapper
 
-Some parts need some love:
-- GridDataBuilder:
-    - Make it more readable
-    - Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for backtracking
+- Improve cache (for contains in particular)
+
+#### Progress indication
+
+- Percentage of filled slot every 30s?
+- Remaining slot
+- Record stats? Number of dead-ends encountered, number of assignments, stats on number of assignments before dead-ends
+
+### Dictionary
+
+- Filtering
+
+### CandidateChooser
+
+- Perfs: Check if probe parallelization improves performances with default k and with bigger k
+
+### Others
+
+#### GraalVM
+
+To test. See if performances are improved - but just make backtrack more decent first

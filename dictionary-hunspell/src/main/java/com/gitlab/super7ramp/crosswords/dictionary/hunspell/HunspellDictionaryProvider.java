@@ -21,13 +21,34 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
         // Nothing to do.
     }
 
+    private static Stream<URL> streamOf(final URL... dictionaryPaths) {
+        final Stream<URL> paths;
+        if (dictionaryPaths.length == 0) {
+            paths = DefaultDictionaries.get().stream();
+        } else {
+            paths = Stream.of(dictionaryPaths);
+        }
+        return paths;
+    }
+
     @Override
-    public Collection<Dictionary> get(final URL... dictionaryPaths) {
-        return Stream.of(dictionaryPaths).map(HunspellDictionary::new).collect(Collectors.toList());
+    public String name() {
+        return "hunspell";
+    }
+
+    @Override
+    public String description() {
+        return "Hunspell dictionary backend";
     }
 
     @Override
     public Quality quality() {
         return Quality.BAD;
     }
+
+    @Override
+    public Collection<Dictionary> get(final URL... dictionaryPaths) {
+        return streamOf(dictionaryPaths).map(HunspellDictionary::new).collect(Collectors.toList());
+    }
+
 }

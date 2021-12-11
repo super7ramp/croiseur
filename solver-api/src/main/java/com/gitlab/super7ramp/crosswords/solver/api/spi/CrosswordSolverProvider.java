@@ -7,5 +7,10 @@ import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
  */
 public interface CrosswordSolverProvider {
 
+    /**
+     * Return a new instance of solver.
+     *
+     * @return a new instance of solver
+     */
     CrosswordSolver solver();
 }

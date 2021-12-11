@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell.util;
+package com.gitlab.super7ramp.crosswords.util;
 
 import java.net.URL;
 

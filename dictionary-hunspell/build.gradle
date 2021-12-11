@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api project(':dictionary-api')
+    implementation project(':util')
 }

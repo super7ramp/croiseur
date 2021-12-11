@@ -2,7 +2,7 @@ package com.gitlab.super7ramp.crosswords.dictionary.hunspell.external;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.external.wordforms.WordFormGenerator;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.util.SegmentableUrl;
+import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,13 +15,19 @@ import java.util.stream.Collectors;
 
 public final class HunspellDictionary implements Dictionary {
 
-    /** Extension of dictionary file. */
-    private static String DIC_EXTENSION = ".dic";
+    /**
+     * Extension of dictionary file.
+     */
+    private static final String DIC_EXTENSION = ".dic";
 
-    /** Extension of affix file. */
-    private static String AFF_EXTENSION = ".aff";
+    /**
+     * Extension of affix file.
+     */
+    private static final String AFF_EXTENSION = ".aff";
 
-    /** URL of dictionary. */
+    /**
+     * URL of dictionary.
+     */
     private final URL dicURL;
 
     /**
@@ -42,6 +48,11 @@ public final class HunspellDictionary implements Dictionary {
     @Override
     public Set<String> lookup(final Predicate<String> predicate) {
         return WordFormGenerator.of(affPath(), dicPath()).generate().collect(Collectors.toSet());
+    }
+
+    @Override
+    public String name() {
+        return new SegmentableUrl(dicURL).lastPathSegment();
     }
 
     private String languageTag() {

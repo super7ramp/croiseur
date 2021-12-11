@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.dictionary.internal;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
+import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,11 +16,20 @@ import java.util.stream.Collectors;
 
 public final class InternalDictionaryService implements Dictionary {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(InternalDictionaryService.class.getName());
 
-    /** The actual data. */
+    /**
+     * The actual data.
+     */
     private final InternalDictionary data;
+
+    /**
+     * The dictionary name.
+     */
+    private final String name;
 
     /**
      * Constructor.
@@ -28,8 +38,15 @@ public final class InternalDictionaryService implements Dictionary {
      */
     InternalDictionaryService(final URL path) {
         data = deserialize(path);
+        name = new SegmentableUrl(path).lastPathSegment();
     }
 
+    /**
+     * Deserialize a {@link InternalDictionary} at given path.
+     *
+     * @param path serialized object path
+     * @return the deserialized object
+     */
     private static InternalDictionary deserialize(final URL path) {
         Objects.requireNonNull(path);
         try (final ObjectInputStream ois = new ObjectInputStream(path.openStream())) {
@@ -48,5 +65,10 @@ public final class InternalDictionaryService implements Dictionary {
     @Override
     public Set<String> lookup(final Predicate<String> predicate) {
         return data.entries().stream().filter(predicate).collect(Collectors.toSet());
+    }
+
+    @Override
+    public String name() {
+        return name;
     }
 }

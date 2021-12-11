@@ -3,7 +3,6 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -123,8 +122,10 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     @Test
-    @Disabled("Solver not performant enough for now")
     void shaded15x15() throws URISyntaxException, IOException, InterruptedException {
+        /*
+         * This takes ~10 min to solve - which is way too long.
+         */
         final PuzzleDefinition puzzle = parsePuzzle(
                 """
                         | | | | |#| | | | | |#| | | | |
@@ -149,21 +150,21 @@ final class CrosswordSolverSymmetricGridTest {
 
         assertEquals(
                 """
-                        | | | | |#| | | | | |#| | | | |
-                        | | | | |#| | | | | |#| | | | |
-                        | | | | |#| | | | | |#| | | | |
-                        | | | | | | | | |#| | | | | | |
-                        |#|#|#| | | | |#| | | | |#|#|#|
-                        | | | | | | |#| | | | | | | | |
-                        | | | | | |#| | | | | |#| | | |
-                        | | | | |#| | | | | |#| | | | |
-                        | | | |#| | | | | |#| | | | | |
-                        | | | | | | | | |#| | | | | | |
-                        |#|#|#| | | | |#| | | | |#|#|#|
-                        | | | | | | |#| | | | | | | | |
-                        | | | | |#| | | | | |#| | | | |
-                        | | | | |#| | | | | |#| | | | |
-                        | | | | |#| | | | | |#| | | | |
+                        |M|O|A|B|#|C|A|L|E|R|#|G|R|A|M|
+                        |O|R|D|I|#|A|L|U|L|E|#|A|I|G|U|
+                        |O|D|I|N|#|B|E|G|U|M|#|R|E|I|S|
+                        |C|O|L|O|C|A|S|E|#|P|E|R|L|O|T|
+                        |#|#|#|D|A|L|E|#|T|I|N|O|#|#|#|
+                        |S|A|V|A|N|E|#|B|O|L|E|T|A|L|E|
+                        |H|U|I|L|E|#|D|I|N|E|E|#|B|U|G|
+                        |A|C|R|E|#|C|U|T|E|R|#|F|A|R|O|
+                        |N|U|E|#|A|E|R|E|R|#|L|I|C|O|U|
+                        |E|N|R|H|U|N|E|R|#|M|A|N|A|N|T|
+                        |#|#|#|A|R|T|E|#|A|A|B|A|#|#|#|
+                        |C|A|B|I|A|I|#|A|R|R|O|N|D|I|R|
+                        |O|M|A|N|#|B|A|L|A|I|#|C|O|L|O|
+                        |L|E|L|A|#|A|R|A|B|E|#|E|C|O|T|
+                        |T|R|I|N|#|R|E|N|O|M|#|R|U|T|H|
                         """, result);
     }
 }

@@ -18,7 +18,21 @@ public interface DictionaryProvider {
     }
 
     /**
-     * @return {@link Dictionary dictionaries} found in given search paths
+     * @return name of this dictionary provider
+     */
+    String name();
+
+    /**
+     * @return a description of this dictionary provider
+     */
+    String description();
+
+    /**
+     * Retrieve the available dictionaries.
+     *
+     * @return retrieve available dictionaries from given paths; if no path is given, implementation may look for
+     * available dictionaries at default locations (e.g. built-in dictionaries, well-known system paths, at the
+     * discretion of implementation).
      */
     Collection<Dictionary> get(final URL... dictionaryPaths);
 

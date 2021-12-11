@@ -9,6 +9,9 @@ module com.gitlab.super7ramp.crosswords.dictionary.hunspell {
     // Base modules
     requires java.logging;
 
+    // Utilities
+    requires com.gitlab.super7ramp.crosswords.util;
+
     // Implemented SPIs.
     requires com.gitlab.super7ramp.crosswords.dictionary.api;
     provides DictionaryProvider with HunspellDictionaryProvider, HunspellExtDictionaryProvider;

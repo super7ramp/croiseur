@@ -40,8 +40,8 @@ public final class PuzzleDefinition {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    public PuzzleDefinition(int aWidth, int aHeight, Set<Coordinate> someShaded,
-                            Map<Coordinate, Character> somePrefilled) {
+    public PuzzleDefinition(final int aWidth, final int aHeight, final Set<Coordinate> someShaded,
+                            final Map<Coordinate, Character> somePrefilled) {
         validate(aWidth, aHeight, someShaded, somePrefilled);
 
         width = aWidth;
@@ -58,8 +58,8 @@ public final class PuzzleDefinition {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    private static void validate(int aWidth, int aHeight, Set<Coordinate> someShaded,
-                                 Map<Coordinate, Character> somePrefilled) {
+    private static void validate(final int aWidth, final int aHeight, final Set<Coordinate> someShaded,
+                                 final Map<Coordinate, Character> somePrefilled) {
         if (aWidth <= 0 || aHeight <= 0) {
             throw new IllegalArgumentException("Invalid grid dimensions");
         }
@@ -81,7 +81,7 @@ public final class PuzzleDefinition {
     private static Consumer<Coordinate> validateCoordinates(final int width, final int height) {
         return coordinate -> {
             if (coordinate.x() >= width || coordinate.y() >= height) {
-                throw new IllegalArgumentException("Invalid coordinates");
+                throw new IllegalArgumentException("Coordinates outside grid: " + coordinate);
             }
         };
     }

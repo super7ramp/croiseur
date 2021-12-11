@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.common.P
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.DicParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.wordforms.WordFormGenerator;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.util.SegmentableUrl;
+import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,16 +30,24 @@ import java.util.stream.Stream;
  */
 public final class HunspellDictionary implements Dictionary {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(HunspellDictionary.class.getName());
 
-    /** Extension of dictionary file. */
-    private static String DIC_EXTENSION = ".dic";
+    /**
+     * Extension of dictionary file.
+     */
+    private static final String DIC_EXTENSION = ".dic";
 
-    /** Extension of affix file. */
-    private static String AFF_EXTENSION = ".aff";
+    /**
+     * Extension of affix file.
+     */
+    private static final String AFF_EXTENSION = ".aff";
 
-    /** URL of dictionary. */
+    /**
+     * URL of dictionary.
+     */
     private final URL dicURL;
 
     /**
@@ -66,6 +74,11 @@ public final class HunspellDictionary implements Dictionary {
         try (final Stream<String> entries = readEntries()) {
             return entries.filter(predicate).collect(Collectors.toSet());
         }
+    }
+
+    @Override
+    public String name() {
+        return new SegmentableUrl(dicURL).lastPathSegment();
     }
 
     private Stream<String> readEntries() {

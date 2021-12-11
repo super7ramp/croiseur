@@ -24,4 +24,10 @@ public interface Dictionary {
      */
     Set<String> lookup(final Predicate<String> predicate);
 
+    /**
+     * Dictionary name.
+     *
+     * @return the dictionary name
+     */
+    String name();
 }

@@ -1,7 +1,5 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.util;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.external.wordforms.ExternalWordFormGenerator;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,16 +44,24 @@ public final class ProcessStreamer {
         }
     }
 
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(ExternalWordFormGenerator.class.getName());
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(ProcessStreamer.class.getName());
 
-    /** Time to wait for external process termination after destroy action. */
+    /**
+     * Time to wait for external process termination after destroy action.
+     */
     private static final Duration DESTROY_TIMEOUT = Duration.ofSeconds(3);
 
-    /** The actual error stream. */
+    /**
+     * The actual error stream.
+     */
     private final Stream<String> errorStream;
 
-    /** The actual input stream. */
+    /**
+     * The actual input stream.
+     */
     private final Stream<String> inputStream;
 
     /**

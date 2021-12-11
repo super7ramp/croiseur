@@ -12,5 +12,8 @@ include 'solver-lib'
 // CLI
 include 'cli'
 
+// Util
+include 'util'
+
 // Acceptance tests
 include 'tests'
