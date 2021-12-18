@@ -18,15 +18,16 @@
 
 - Add an option `--threshold` in CLI
 - Implementation:
-  - Interrupt solver once threshold reached? Not reliable as solver may already have backtracked when interrupted status
-    takes effect
-  - Add a decorator on slot iterator so that its `hasNext()` returns `false` when threshold is reached? Requires
-    modification in solver
+  - Interrupt solver once threshold reached? Not reliable as solver may already have backtracked
+    when interrupted status takes effect
+  - Add a decorator on slot iterator so that its `hasNext()` returns `false` when threshold is
+    reached? Requires modification in solver
 
 ### More dictionaries (dictionary, tools)
 
 - All Hunspell dictionaries available.
-- Create gradle task to automate call to tool to convert Hunspell format to Java object serialized format
+- Create gradle task to automate call to tool to convert Hunspell format to Java object serialized
+  format
 - Create a dictionary-data subproject to store dictionaries
 
 ### Support UTF8 (solver, dictionary)
@@ -48,7 +49,8 @@
 #### GridDataBuilder
 
 - Make it more readable
-- Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for backtracking
+- Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for
+  backtracking
 
 #### More progress indications
 

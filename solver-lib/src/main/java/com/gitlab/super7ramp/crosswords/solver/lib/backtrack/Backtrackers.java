@@ -16,7 +16,8 @@ public final class Backtrackers {
     }
 
     /**
-     * A {@link Backtracker} implementation that simply selects the last assigned variable and maintains a blacklist for
+     * A {@link Backtracker} implementation that simply selects the last assigned variable and
+     * maintains a blacklist for
      * a single slot at a time.
      *
      * @param history assignment history
@@ -27,12 +28,15 @@ public final class Backtrackers {
     }
 
     /**
-     * Similar to {@link #backtrack(History) simple backtrack} but avoids re-testing some candidate values by keeping
+     * Similar to {@link #backtrack(History) simple backtrack} but avoids re-testing some
+     * candidate values by keeping
      * all previously blacklisted values in memory and use them when necessary.
      * <p>
-     * In other words, it remembers already visited branches of the search tree in order to avoid visiting them again.
+     * In other words, it remembers already visited branches of the search tree in order to avoid
+     * visiting them again.
      * <p>
-     * To be preferred over {@link #backtrack(History)} unless the search space is very small. The CPU-time gain is such
+     * To be preferred over {@link #backtrack(History)} unless the search space is very small.
+     * The CPU-time gain is such
      * that the memory overhead is negligible.
      *
      * @param history assignment history
@@ -45,8 +49,9 @@ public final class Backtrackers {
     /**
      * Backjump.
      * <p>
-     * Selects the last assigned variable which is connected to the slot that initiated the backtrack. If no connected
-     * variable found, fallback to {@link #backtrack(History)} simple backtrack.
+     * Selects the last assigned variable which is connected to the slot that initiated the
+     * backtrack. If no connected variable found, fallback to {@link #backtrack(History)} simple
+     * backtrack.
      *
      * @return the backjump {@link Backtracker}
      */
@@ -58,7 +63,8 @@ public final class Backtrackers {
      * Backjump with lookahead.
      * <p>
      * Similar to {@link #backjump()} with the difference that a lookahead is performed to ensure
-     * that the selected variable to unassign actually addresses the difficulty that lead to backtracking.
+     * that the selected variable to unassign actually addresses the difficulty that lead to
+     * backtracking.
      *
      * @return the smart backjump {@link Backtracker}
      */

@@ -26,7 +26,8 @@ enum AffItemKind {
     /** General option: Two-fold prefix stripping. */
     GENERAL_COMPLEX_PREFIXES("^COMPLEXPREFIXES$"),
     /** General option: Character encoding of words and morphemes in affix and dictionary files. */
-    GENERAL_ENCODING("^SET (UTF-8|ISO8859-1|ISO8859-10|ISO8859-13|ISO8859-15|KOI8-R|KOI8-U|microsoft-cp1251|ISCII-DEVANAGARI)$"),
+    GENERAL_ENCODING("^SET (UTF-8|ISO8859-1|ISO8859-10|ISO8859-13|ISO8859-15|KOI8-R|KOI8-U" +
+            "|microsoft-cp1251|ISCII-DEVANAGARI)$"),
     /** General option: Flag type. */
     GENERAL_FLAG_TYPE("^FLAG (UTF-8|long|num)$"),
     /** General option: Languages specific code. */
@@ -35,11 +36,17 @@ enum AffItemKind {
     OTHERS_CIRCUMFIX("^CIRCUMFIX [^ ]+$"),
     /** Other option: TODO document, */
     OTHERS_FORBIDDEN_WORD("^FORBIDDENWORD [^ ]+$"),
-    /** Other option: Affix rules can strip full words, not only one less characters, before adding the affixes, */
+    /**
+     * Other option: Affix rules can strip full words, not only one less characters, before
+     * adding the affixes,
+     */
     OTHERS_FULL_STRIP("^FULLSTRIP$"),
     /** Other option: Input conversion table header. */
     OTHERS_INPUT_CONVERSION_TABLE_HEADER("^ICONV [0-9]+$"),
-    /** Other option: Input conversion table entry, used e.g. to convert one type of quote to another one. */
+    /**
+     * Other option: Input conversion table entry, used e.g. to convert one type of quote to
+     * another one.
+     */
     OTHERS_INPUT_CONVERSION_TABLE_ENTRY("^ICONV [^ ]+ [^ ]+$"),
     /** Other option: TODO document. */
     OTHERS_KEEP_CASE("^KEEPCASE [^ ]+$"),
@@ -51,7 +58,10 @@ enum AffItemKind {
     OTHERS_OUTPUT_CONVERSION_TABLE_ENTRY("^OCONV [^ ]+ [^ ]+$"),
     /** Other option: Characters specified are meant to extend Hunspell CLI tokenizer. */
     OTHERS_WORD_CHARS("^WORDCHARS [^ ]+$"),
-    /** Suggestion option: Neighbor characters, word is suggested by replacing one character by a neighbor character. */
+    /**
+     * Suggestion option: Neighbor characters, word is suggested by replacing one character by a
+     * neighbor character.
+     */
     SUGGESTION_KEY("^KEY [^ \\|]+(\\|[^ \\|]+)*"),
     /** Suggestion option: A map table entry; represents a list of related characters. */
     SUGGESTION_RELATED_CHARACTERS_TABLE_ENTRY("^MAP [^ ]+$"),
@@ -67,7 +77,10 @@ enum AffItemKind {
     SUGGESTION_NO_SPLIT("^NOSPLITSUGS$"),
     /** Option for suggestion: Words signed with flags should not be suggested. */
     SUGGESTION_NO_SUGGEST("^NOSUGGEST [^ ]+$"),
-    /** Option for suggestion: Suggest when word differs from the right word form by one of these characters */
+    /**
+     * Option for suggestion: Suggest when word differs from the right word form by one of these
+     * characters
+     */
     SUGGESTION_TRY("^TRY [^ ]+$");
 
     /** The pattern that identifies a parsed line. */
@@ -89,9 +102,7 @@ enum AffItemKind {
      * @return the {@link AffItemKind} corresponding to this line, if any
      */
     static Optional<AffItemKind> identify(final String line) {
-        return Arrays.stream(values())
-                .filter(affItemKind -> affItemKind.matches(line))
-                .findFirst();
+        return Arrays.stream(values()).filter(affItemKind -> affItemKind.matches(line)).findFirst();
     }
 
     /**

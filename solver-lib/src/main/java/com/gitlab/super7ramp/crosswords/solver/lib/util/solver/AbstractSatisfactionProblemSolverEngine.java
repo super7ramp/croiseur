@@ -5,35 +5,38 @@ import java.util.Optional;
 
 /**
  * Base abstraction for SAP solving.
- *
- * <p>This class splits the resolution of the satisfaction problem into three sub-problems:
- *
+ * <p>
+ * This class splits the resolution of the satisfaction problem into three sub-problems:
+ * </p>
  * <ul>
  *     <li>Variable choice</li>
  *     <li>Variable instantiation</li>
  *     <li>Backtracking</li>
  * </ul>
- *
- * This base abstraction combines the implementation for these three sub-problems to solve the satisfaction problem.
- *
+ * <p>
+ * This base abstraction combines the implementation for these three sub-problems to solve the
+ * satisfaction problem.
+ * </p>
  * <h2>Variable choice</h2>
- *
- * This consists in choosing the next variable to instantiate. It is materialized here by the {@link Iterator}
- * returned by the {@link #variables()} method.
- *
+ * <p>
+ * This consists in choosing the next variable to instantiate. It is materialized here by the
+ * {@link Iterator} returned by the {@link #variables()} method.
+ * </p>
  * <h2>Variable instantiation</h2>
- *
- * When a variable is chosen, it must be instantiated to a valid value. It is materialized here by the
- * {@link Optional<VariableT>} returned by the {@link #candidate(VariableT)} method.
- *
+ * <p>
+ * When a variable is chosen, it must be instantiated to a valid value. It is materialized here
+ * by the {@link Optional<VariableT>} returned by the {@link #candidate(VariableT)} method.
+ * </p>
  * <h2>Backtracking</h2>
- *
- * Backtracking is the strategy to apply when a dead-end is reached, i.e. when the chosen variable cannot be
- * instantiated. In order to continue the search of a valid solution, one or several already instantiated variables
- * must be changed. This heuristic is performed via the {@link #backtrackFrom(VariableT)} method.
+ * <p>
+ * Backtracking is the strategy to apply when a dead-end is reached, i.e. when the chosen
+ * variable cannot be instantiated. In order to continue the search of a valid solution, one or
+ * several already instantiated variables must be changed. This heuristic is performed via the
+ * {@link #backtrackFrom(VariableT)} method.
+ * </p>
  *
  * @param <VariableT> type of variable
- * @param <ValueT> type of value assignable to the variables
+ * @param <ValueT>    type of value assignable to the variables
  */
 public abstract class AbstractSatisfactionProblemSolverEngine<VariableT, ValueT> {
 

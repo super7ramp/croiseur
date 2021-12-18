@@ -27,10 +27,8 @@ final class DefaultDictionaries {
     /**
      * Well-known Hunspell dictionary paths.
      */
-    private static final Path[] DICTIONARY_PATHS = {
-            Path.of("/", "usr", "share", "hunspell"),
-            Path.of("/", "usr", "share", "myspell")
-    };
+    private static final Path[] DICTIONARY_PATHS = {Path.of("/", "usr", "share", "hunspell"),
+            Path.of("/", "usr", "share", "myspell")};
 
     /**
      * Dictionary extension.
@@ -54,11 +52,10 @@ final class DefaultDictionaries {
         for (final Path directory : DICTIONARY_PATHS) {
             if (Files.isDirectory(directory)) {
                 try (final Stream<Path> files = Files.list(directory)) {
-                    files
-                            .filter(not(Files::isSymbolicLink))
-                            .filter(f -> f.getFileName().toString().endsWith(DIC_EXTENSION))
-                            .map(DefaultDictionaries::toUrl)
-                            .forEach(defaultPaths::add);
+                    files.filter(not(Files::isSymbolicLink))
+                         .filter(f -> f.getFileName().toString().endsWith(DIC_EXTENSION))
+                         .map(DefaultDictionaries::toUrl)
+                         .forEach(defaultPaths::add);
                 } catch (final IOException e) {
                     LOGGER.log(Level.WARNING, "Failed to open Hunspell dictionary directory", e);
                 }

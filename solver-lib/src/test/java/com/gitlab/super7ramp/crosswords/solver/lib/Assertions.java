@@ -23,7 +23,8 @@ final class Assertions {
      * @param result   the actual result
      */
     static void assertSuccess(final String expected, final SolverResult result) {
-        final SolverResultImpl expectedResult = SolverResultImpl.success(parsePuzzle(expected).filled());
+        final SolverResultImpl expectedResult =
+                SolverResultImpl.success(parsePuzzle(expected).filled());
         org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
     }
 
@@ -34,7 +35,8 @@ final class Assertions {
      * @param result   the actual result
      */
     static void assertImpossible(final String expected, final SolverResult result) {
-        final SolverResultImpl expectedResult = SolverResultImpl.impossible(parsePuzzle(expected).filled());
+        final SolverResultImpl expectedResult =
+                SolverResultImpl.impossible(parsePuzzle(expected).filled());
         org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
     }
 

@@ -42,12 +42,12 @@ final class DictionaryMock implements Dictionary {
 
     DictionaryMock(final Path dicFile) throws IOException {
         words = Files.lines(dicFile)
-                .filter(DIC_ENTRY.asPredicate())
-                .map(DictionaryMock::removeAffixes)
-                .map(DictionaryMock::removeHyphen)
-                .map(DictionaryMock::removeAccentuation)
-                .map(String::toUpperCase)
-                .collect(Collectors.toCollection(HashSet::new));
+                     .filter(DIC_ENTRY.asPredicate())
+                     .map(DictionaryMock::removeAffixes)
+                     .map(DictionaryMock::removeHyphen)
+                     .map(DictionaryMock::removeAccentuation)
+                     .map(String::toUpperCase)
+                     .collect(Collectors.toCollection(HashSet::new));
     }
 
     private static String removeAffixes(String word) {

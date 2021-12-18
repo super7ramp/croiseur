@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 
 public final class PuzzleDefinitionParser {
 
-    private static Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");
+    private static final Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");
 
-    private static Character SHADED_CHARACTER = '#';
+    private static final Character SHADED_CHARACTER = '#';
 
     /**
      * Constructor.
@@ -41,7 +41,8 @@ public final class PuzzleDefinitionParser {
         final int width = (int) CHARACTER_SEPARATOR.matcher(lines[0]).results().count() - 1;
 
         for (int y = 0; y < height; y++) {
-            final String[] characters = CHARACTER_SEPARATOR.split(lines[y].substring(1) /* ignore starting "" */);
+            final String[] characters = CHARACTER_SEPARATOR.split(lines[y].substring(1) /* ignore
+             starting "" */);
             for (int x = 0; x < width; x++) {
                 final String parsed = characters[x].trim();
                 if (!parsed.isEmpty()) {

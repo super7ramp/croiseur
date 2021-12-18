@@ -61,8 +61,12 @@ final class SlotImpl implements Slot {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         final SlotImpl slot = (SlotImpl) o;
         return uid.equals(slot.uid);
     }
@@ -79,10 +83,7 @@ final class SlotImpl implements Slot {
 
     @Override
     public String toString() {
-        return "SlotImpl{" +
-                "data=" + data +
-                ", uid=" + uid +
-                '}';
+        return "SlotImpl{" + "data=" + data + ", uid=" + uid + '}';
     }
 
     @Override

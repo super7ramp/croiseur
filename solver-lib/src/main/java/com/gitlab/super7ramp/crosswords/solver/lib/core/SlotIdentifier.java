@@ -21,17 +21,19 @@ public final class SlotIdentifier {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         final SlotIdentifier that = (SlotIdentifier) o;
         return id == that.id;
     }
 
     @Override
     public String toString() {
-        return "SlotIdentifier{" +
-                "id=" + id +
-                '}';
+        return "SlotIdentifier{" + "id=" + id + '}';
     }
 
     @Override

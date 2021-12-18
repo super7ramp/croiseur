@@ -33,7 +33,8 @@ public final class HunspellDictionary implements Dictionary {
     /**
      * Constructor.
      *
-     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same basename and extension .aff
+     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same
+     *                basename and extension .aff
      */
     public HunspellDictionary(final URL aDicURL) {
         dicURL = Objects.requireNonNull(aDicURL);

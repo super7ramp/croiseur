@@ -18,7 +18,8 @@ import java.util.logging.Logger;
 public class HunspellDictionaryExpander {
 
     /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(HunspellDictionaryExpander.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(HunspellDictionaryExpander.class.getName());
 
     private static final Predicate<String> ALL_ENTRIES = entry -> true;
 

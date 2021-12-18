@@ -28,8 +28,8 @@ public record Coordinate(int x, int y) {
     public static Coordinate valueOf(final String value) {
         final Matcher matcher = PATTERN.matcher(value);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern()
-                    + ", was " + value);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
+                    ", was " + value);
         }
 
         final int x = Integer.parseInt(matcher.group("x"));
@@ -39,9 +39,6 @@ public record Coordinate(int x, int y) {
 
     @Override
     public String toString() {
-        return "Coordinate{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "Coordinate{" + "x=" + x + ", y=" + y + '}';
     }
 }

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 final class FlagTypeParser {
 
     /** Identification patterns. */
-    private static Map<FlagType, Pattern> PATTERNS;
+    private static final Map<FlagType, Pattern> PATTERNS;
 
     static {
         PATTERNS = new EnumMap<>(FlagType.class);
@@ -33,10 +33,11 @@ final class FlagTypeParser {
      * @return the parsed {@link FlagType}
      */
     static FlagType parse(final String line) {
-        return PATTERNS.entrySet().stream()
-                .filter(entry -> entry.getValue().matcher(line).matches())
-                .findFirst()
-                .map(Map.Entry::getKey)
-                .orElseThrow(IllegalArgumentException::new);
+        return PATTERNS.entrySet()
+                       .stream()
+                       .filter(entry -> entry.getValue().matcher(line).matches())
+                       .findFirst()
+                       .map(Map.Entry::getKey)
+                       .orElseThrow(IllegalArgumentException::new);
     }
 }

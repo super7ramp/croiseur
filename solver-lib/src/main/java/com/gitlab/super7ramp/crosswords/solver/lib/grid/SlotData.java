@@ -26,9 +26,7 @@ final class SlotData {
 
     @Override
     public String toString() {
-        return "SlotData{" +
-                "definition=" + definition +
-                '}';
+        return "SlotData{" + "definition=" + definition + '}';
     }
 
     int length() {

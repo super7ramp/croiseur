@@ -12,63 +12,51 @@ final class GridDataTest {
 
     @Test
     void squareGrid() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(8)
-                .withWidth(8)
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(8).withWidth(8).build();
 
         assertEquals(16, grid.slots().size());
     }
 
     @Test
     void squareGridWithShaded() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(8)
-                .withWidth(8)
-                .withShaded(new Coordinate(3, 3))
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(8)
+                                                   .withWidth(8)
+                                                   .withShaded(new Coordinate(3, 3))
+                                                   .build();
 
         assertEquals(18, grid.slots().size());
     }
 
     @Test
     void wideGrid() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(4)
-                .withWidth(8)
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(4).withWidth(8).build();
 
         assertEquals(12, grid.slots().size());
     }
 
     @Test
     void wideGridWithShadedAndOneSingleLetterSlot() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(4)
-                .withWidth(8)
-                .withShaded(new Coordinate(2, 2))
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(4)
+                                                   .withWidth(8)
+                                                   .withShaded(new Coordinate(2, 2))
+                                                   .build();
 
         assertEquals(13, grid.slots().size());
     }
 
     @Test
     void wideGridWithShadedAndTwoSingleLetterSlot() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(4)
-                .withWidth(8)
-                .withShaded(new Coordinate(1, 2))
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(4)
+                                                   .withWidth(8)
+                                                   .withShaded(new Coordinate(1, 2))
+                                                   .build();
 
         assertEquals(12, grid.slots().size());
     }
 
     @Test
     void narrowGrid() {
-        final GridData grid = new GridDataBuilder()
-                .withHeight(8)
-                .withWidth(4)
-                .build();
+        final GridData grid = new GridDataBuilder().withHeight(8).withWidth(4).build();
 
         assertEquals(12, grid.slots().size());
     }

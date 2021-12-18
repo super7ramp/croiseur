@@ -52,9 +52,12 @@ public final class AffParser {
 
     private static Map<AffItemKind, Parser> parsers() {
         final EnumMap<AffItemKind, Parser> map = new EnumMap<>(AffItemKind.class);
-        map.put(AffItemKind.AFFIX_HEADER, (builder, line) -> builder.addAffixHeader(AffixHeader.valueOf(line)));
-        map.put(AffItemKind.AFFIX_RULE, (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line)));
-        map.put(AffItemKind.GENERAL_FLAG_TYPE, (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
+        map.put(AffItemKind.AFFIX_HEADER,
+                (builder, line) -> builder.addAffixHeader(AffixHeader.valueOf(line)));
+        map.put(AffItemKind.AFFIX_RULE,
+                (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line)));
+        map.put(AffItemKind.GENERAL_FLAG_TYPE,
+                (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
         return map;
     }
 
@@ -71,7 +74,8 @@ public final class AffParser {
 
         while (lines.hasNext()) {
             final String line = lines.next();
-            final AffItemKind kind = AffItemKind.identify(line).orElseThrow(() -> new UnknownAffItemException(line));
+            final AffItemKind kind = AffItemKind.identify(line)
+                                                .orElseThrow(() -> new UnknownAffItemException(line));
             parser(kind).parse(modelBuilder, line);
         }
 

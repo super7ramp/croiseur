@@ -27,8 +27,8 @@ final class TypeConverter<T> implements ITypeConverter<T> {
     }
 
     /**
-     * Wrap parsing function in a {@link ITypeConverter}. Basically {@link TypeConverter} is just a decarator
-     * which catches all exceptions and turn them into {@link TypeConversionException}.
+     * Wrap parsing function in a {@link ITypeConverter}. Basically {@link TypeConverter} is just
+     * a decarator which catches all exceptions and turn them into {@link TypeConversionException}.
      *
      * @param parser the parser function
      * @param <T>    the type of the object that is the result of the conversion

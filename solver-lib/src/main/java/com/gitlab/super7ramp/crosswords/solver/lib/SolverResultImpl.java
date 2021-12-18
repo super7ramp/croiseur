@@ -13,29 +13,19 @@ import java.util.Objects;
  */
 public final class SolverResultImpl implements SolverResult {
 
-    /**
-     * Not filled/shaded character.
-     */
+    /** Not filled/shaded character. */
     private static final char NOT_FILLED = '#';
 
-    /**
-     * Column separator.
-     */
+    /** Column separator. */
     private static final char COLUMN_SEPARATOR = '|';
 
-    /**
-     * Line separator.
-     */
+    /** Line separator. */
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
-    /**
-     * The solved grid as boxes.
-     */
+    /** The solved grid as boxes. */
     private final Map<Coordinate, Character> boxes;
 
-    /**
-     * The kind of result.
-     */
+    /** The kind of result. */
     private final Kind kind;
 
     /**
@@ -68,15 +58,17 @@ public final class SolverResultImpl implements SolverResult {
 
     @Override
     public String toString() {
-        final int width = boxes.keySet().stream()
-                .map(coordinate -> coordinate.x() + 1)
-                .max(Comparator.naturalOrder())
-                .orElse(0);
+        final int width = boxes.keySet()
+                               .stream()
+                               .map(coordinate -> coordinate.x() + 1)
+                               .max(Comparator.naturalOrder())
+                               .orElse(0);
 
-        final int height = boxes.keySet().stream()
-                .map(coordinate -> coordinate.y() + 1)
-                .max(Comparator.naturalOrder())
-                .orElse(0);
+        final int height = boxes.keySet()
+                                .stream()
+                                .map(coordinate -> coordinate.y() + 1)
+                                .max(Comparator.naturalOrder())
+                                .orElse(0);
 
         final StringBuilder sb = new StringBuilder();
         sb.append("Result: ").append(kind.toString()).append(System.lineSeparator());
@@ -99,8 +91,12 @@ public final class SolverResultImpl implements SolverResult {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SolverResultImpl that = (SolverResultImpl) o;
         return boxes.equals(that.boxes) && kind == that.kind;
     }

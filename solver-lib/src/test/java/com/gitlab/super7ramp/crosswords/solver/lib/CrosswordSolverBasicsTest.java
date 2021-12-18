@@ -23,44 +23,41 @@ final class CrosswordSolverBasicsTest {
 
     @Test
     void empty3x3() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle(
-                """
-                        | | | |
-                        | | | |
-                        | | | |
-                        """);
+        final PuzzleDefinition puzzle = parsePuzzle("""
+                | | | |
+                | | | |
+                | | | |
+                """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess(
-                """
-                        |A|B|C|
-                        |A|B|D|
-                        |A|B|E|
-                        """, result);
+        assertSuccess("""
+                |A|B|C|
+                |A|B|D|
+                |A|B|E|
+                """, result);
     }
 
     @Test
     void empty3x4() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle(
-                """
-                        | | | |
-                        | | | |
-                        | | | |
-                        | | | |
-                        """);
-        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD", "ABCE", "ABCF");
+        final PuzzleDefinition puzzle = parsePuzzle("""
+                | | | |
+                | | | |
+                | | | |
+                | | | |
+                """);
+        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD",
+                "ABCE", "ABCF");
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess(
-                """
-                        |A|A|A|
-                        |B|B|B|
-                        |C|C|C|
-                        |D|E|F|
-                        """, result);
+        assertSuccess("""
+                |A|A|A|
+                |B|B|B|
+                |C|C|C|
+                |D|E|F|
+                """, result);
     }
 
 }

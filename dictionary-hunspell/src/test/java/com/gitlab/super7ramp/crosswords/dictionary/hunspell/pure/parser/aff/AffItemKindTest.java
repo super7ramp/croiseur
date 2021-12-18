@@ -14,7 +14,8 @@ final class AffItemKindTest {
 
     @Test
     void identifyValidKey() {
-        final String key = "KEY azertyuiop|qsdfghjklmù|wxcvbn|aéz|yèu|iço|oàp|aqz|zse|edr|rft|tgy|yhu|uji|iko|olpm|qws|sxd|dcf|fvg|gbh|hnj";
+        final String key = "KEY azertyuiop|qsdfghjklmù|wxcvbn|aéz|yèu|iço|oàp|aqz|zse|edr|rft|tgy"
+                + "|yhu|uji|iko|olpm|qws|sxd|dcf|fvg|gbh|hnj";
 
         final Optional<AffItemKind> optKind = AffItemKind.identify(key);
 

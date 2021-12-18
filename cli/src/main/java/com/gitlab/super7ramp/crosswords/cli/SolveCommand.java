@@ -19,15 +19,34 @@ import static java.util.stream.Collectors.toSet;
 /**
  * "solve" subcommand.
  */
-@Command(
-        name = "solve",
-        description = "Solve a crossword puzzle"
-)
+@Command(name = "solve", description = "Solve a crossword puzzle")
 final class SolveCommand implements Runnable {
 
     /**
-     * Logger.
+     * Implementation of {@link ProgressListener}.
      */
+    static final class ProgressListenerImpl implements ProgressListener {
+
+        /** The best completion percentage reached. */
+        private short bestCompletionPercentage;
+
+        /**
+         * Constructor.
+         */
+        ProgressListenerImpl() {
+            // Nothing to do.
+        }
+
+        @Override
+        public void onSolverProgressUpdate(final short completionPercentage) {
+            if (completionPercentage > bestCompletionPercentage) {
+                bestCompletionPercentage = completionPercentage;
+            }
+            System.err.print("\rCompletion: " + completionPercentage + " %\t[best: " + bestCompletionPercentage + " " + "%]");
+        }
+    }
+
+    /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(SolveCommand.class.getName());
 
     @Option(names = {"-s", "--size"}, arity = "1", required = true, description = "Grid dimension")
@@ -35,8 +54,8 @@ final class SolveCommand implements Runnable {
 
     // TODO allow optional => use default dictionary => sort dictionaries
     //  (prefer system's locale, implement criteria on provider)
-    @Option(names = {"-d", "--dictionary"}, arity = "1", required = true,
-            paramLabel = "<[provider:]dictionary>", description = "Dictionary identifier")
+    @Option(names = {"-d", "--dictionary"}, arity = "1", required = true, paramLabel =
+            "<[provider:]dictionary>", description = "Dictionary identifier")
     private String dictionary;
 
     @Option(names = {"-S", "--shaded"}, arity = "1..*", description = "Shaded box coordinates")
@@ -63,46 +82,26 @@ final class SolveCommand implements Runnable {
         }
 
         final Dictionary dictionary =
-                DictionaryLoader.get(DictionaryLoader.Search.includeAll(), DictionaryLoader.Search.byName("fr" +
-                        ".obj")).values().iterator().next().iterator().next();
+                DictionaryLoader.get(DictionaryLoader.Search.includeAll(),
+                                        DictionaryLoader.Search.byName("fr" + ".obj"))
+                                .values()
+                                .iterator()
+                                .next()
+                                .iterator()
+                                .next();
 
         final PuzzleDefinition puzzle = new PuzzleDefinition(size.width(), size.height(),
                 Arrays.stream(shaded).collect(toSet()), Collections.emptyMap());
 
-        final com.gitlab.super7ramp.crosswords.solver.api.Dictionary adaptedDictionary = wrap(dictionary);
+        final com.gitlab.super7ramp.crosswords.solver.api.Dictionary adaptedDictionary =
+                wrap(dictionary);
         try {
-            final SolverResult result = CrosswordSolverLoader.get().solve(puzzle, adaptedDictionary,
-                    new ProgressListenerImpl());
+            final SolverResult result = CrosswordSolverLoader.get()
+                                                             .solve(puzzle, adaptedDictionary,
+                                                                     new ProgressListenerImpl());
             System.out.println(result);
         } catch (final InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Implementation of {@link ProgressListener}.
-     */
-    static final class ProgressListenerImpl implements ProgressListener {
-
-        /**
-         * The best completion percentage reached.
-         */
-        private short bestCompletionPercentage;
-
-        /**
-         * Constructor.
-         */
-        ProgressListenerImpl() {
-            // Nothing to do.
-        }
-
-        @Override
-        public void onSolverProgressUpdate(final short completionPercentage) {
-            if (completionPercentage > bestCompletionPercentage) {
-                bestCompletionPercentage = completionPercentage;
-            }
-            System.err.print("\rCompletion: " + completionPercentage + " %\t[best: " + bestCompletionPercentage + " " +
-                    "%]");
         }
     }
 }

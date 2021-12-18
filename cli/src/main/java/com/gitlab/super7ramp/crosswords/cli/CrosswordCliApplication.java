@@ -24,8 +24,9 @@ final class CrosswordCliApplication {
      * Load the logging configuration.
      */
     private static void loadLoggingConfiguration() {
-        try (final InputStream is =
-                     CrosswordCliApplication.class.getClassLoader().getResourceAsStream("logging.properties")) {
+        try (final InputStream is = CrosswordCliApplication.class.getClassLoader()
+                                                                 .getResourceAsStream("logging" +
+                                                                         ".properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {
             System.err.println("Failed to load logging parameters: " + e.getMessage());
@@ -40,12 +41,13 @@ final class CrosswordCliApplication {
      */
     int run(final String[] args) {
 
-        final CommandLine command = new CommandLine(new TopLevelCommand())
-                .addSubcommand(new SolveCommand())
-                .addSubcommand(new DictionaryCommand())
-                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
-                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
-                .registerConverter(Coordinate.class, TypeConverter.wrap(Coordinate::valueOf));
+        final CommandLine command = new CommandLine(new TopLevelCommand());
+
+        command.addSubcommand(new SolveCommand())
+               .addSubcommand(new DictionaryCommand())
+               .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
+               .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
+               .registerConverter(Coordinate.class, TypeConverter.wrap(Coordinate::valueOf));
 
         return command.execute(args);
     }

@@ -9,18 +9,18 @@ import java.util.regex.Pattern;
 /**
  * Represents a parsed affix rule.
  */
-public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCharacters, String affix,
-                        Optional<String> continuationClasses, Optional<String> condition) {
+public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCharacters,
+                        String affix, Optional<String> continuationClasses,
+                        Optional<String> condition) {
 
     /** The pattern of an affix header. */
-    private static final Pattern PATTERN = Pattern.compile(
-            "^(?<kind>(PFX|SFX)) " +
-                    "(?<flag>[^ /]+) " +
-                    "(0|(?<strippingCharacters>[^ /]+)) " +
+    private static final Pattern PATTERN =
+            Pattern.compile("^(?<kind>(PFX|SFX)) " +
+                    "(?<flag>[^ /]+) (0|" +
+                    "(?<strippingCharacters>[^ /]+)) " +
                     "(?<affix>[^ /]+)" +
                     "(/(?<continuationClasses>[^ /]+))? " +
-                    "(\\.|(?<condition>[^ /]+))$"
-    );
+                    "(\\.|(?<condition>[^ /]+))$");
 
     /**
      * Parses an affix rule.
@@ -36,13 +36,16 @@ public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCha
 
         final AffixKind kind = AffixKind.valueOf(matcher.group("kind"));
         final Flag flag = new Flag(matcher.group("flag"));
-        final Optional<String> strippingCharacters = Optional.ofNullable(matcher.group("strippingCharacters"));
+        final Optional<String> strippingCharacters = Optional.ofNullable(matcher.group(
+                "strippingCharacters"));
         final String affix = matcher.group("affix");
         // FIXME should be a Collection<Flag> but we don't know flag type before hand
-        final Optional<String> continuationClasses = Optional.ofNullable(matcher.group("continuationClasses"));
+        final Optional<String> continuationClasses = Optional.ofNullable(matcher.group(
+                "continuationClasses"));
         final Optional<String> condition = Optional.ofNullable(matcher.group("condition"));
 
-        return new AffixRule(kind, flag, strippingCharacters, affix, continuationClasses, condition);
+        return new AffixRule(kind, flag, strippingCharacters, affix, continuationClasses,
+                condition);
     }
 
 }

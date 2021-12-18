@@ -42,20 +42,25 @@ final class WordFormGeneratorImplTest {
 
     @Test
     void generateSimple() throws URISyntaxException {
-        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/simple.aff").toURI());
-        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/simple.dic").toURI());
+        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/simple.aff")
+                                                                    .toURI());
+        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/simple.dic")
+                                                                    .toURI());
 
-        final Set<String> actual =
-                createGenerator(affFile, dicFile).generate().collect(Collectors.toSet());
+        final Set<String> actual = createGenerator(affFile, dicFile).generate()
+                                                                    .collect(Collectors.toSet());
 
-        final Set<String> expected = Set.of("hello", "try", "tried", "work", "worked", "reworked", "rework");
+        final Set<String> expected = Set.of("hello", "try", "tried", "work", "worked", "reworked"
+                , "rework");
         assertEquals(expected, actual);
     }
 
     @Test
     void generateFr() throws URISyntaxException {
-        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.aff").toURI());
-        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.dic").toURI());
+        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.aff")
+                                                                    .toURI());
+        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.dic")
+                                                                    .toURI());
 
         final long count = createGenerator(affFile, dicFile).generate().count();
 
@@ -64,21 +69,23 @@ final class WordFormGeneratorImplTest {
 
     @Test
     void generateFrConjugation() throws URISyntaxException {
-        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.aff").toURI());
-        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.dic").toURI());
+        final Path affFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.aff")
+                                                                    .toURI());
+        final Path dicFile = Path.of(WordFormGeneratorImplTest.class.getResource("/fr.dic")
+                                                                    .toURI());
         final Predicate<String> filter = Pattern.compile("mang").asPredicate();
 
-        final Set<String> actual = createGenerator(affFile, dicFile)
-                .generate()
-                .filter(filter)
-                .collect(Collectors.toSet());
+        final Set<String> actual = createGenerator(affFile, dicFile).generate()
+                                                                    .filter(filter)
+                                                                    .collect(Collectors.toSet());
 
-        final Set<String> expected = Set.of("mangeras", "mangeât", "mangerions", "mangeant", "mangerez", "mangez",
-                "mangeasses", "mangeassions", "mangerai", "mangeriez", "mangeons", "mangerons", "mangeront", "mangé",
-                "mangeraient", "mangèrent", "mange", "mangions", "mangeassent", "mangeasse", "mangeas", "mangea",
-                "mangée", "mangeâtes", "mangées", "mangeai", "mangeâmes", "mangera", "mangeassiez", "manger", "manges",
-                "mangers", "mangent", "mangeait", "mangerait", "mangiez", "mangerais", "mangeaient", "mangés",
-                "mangeais");
+        final Set<String> expected = Set.of("mangeras", "mangeât", "mangerions", "mangeant",
+                "mangerez", "mangez", "mangeasses", "mangeassions", "mangerai", "mangeriez",
+                "mangeons", "mangerons", "mangeront", "mangé", "mangeraient", "mangèrent", "mange"
+                , "mangions", "mangeassent", "mangeasse", "mangeas", "mangea", "mangée",
+                "mange" + "âtes", "mangées", "mangeai", "mangeâmes", "mangera", "mangeassiez",
+                "manger", "manges", "mangers", "mangent", "mangeait", "mangerait", "mangiez",
+                "mangerais", "mangeaient", "mangés", "mangeais");
         assertTrue(actual.containsAll(expected));
     }
 

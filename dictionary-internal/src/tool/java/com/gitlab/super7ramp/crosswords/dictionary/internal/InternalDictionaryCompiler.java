@@ -10,12 +10,14 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
- * Just build an {@link InternalDictionary} from a text file and serialize the object in another file.
+ * Just build an {@link InternalDictionary} from a text file and serialize the object in another
+ * file.
  */
 public final class InternalDictionaryCompiler {
 
     /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(InternalDictionaryCompiler.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(InternalDictionaryCompiler.class.getName());
 
     /**
      * Entry point.
@@ -47,7 +49,6 @@ public final class InternalDictionaryCompiler {
 
     private static Locale localeOf(final Path inputPath) {
         final String fileName = inputPath.getFileName().toString();
-        return Locale.forLanguageTag(
-                fileName.replace(".txt", "").replace("_", "-"));
+        return Locale.forLanguageTag(fileName.replace(".txt", "").replace("_", "-"));
     }
 }

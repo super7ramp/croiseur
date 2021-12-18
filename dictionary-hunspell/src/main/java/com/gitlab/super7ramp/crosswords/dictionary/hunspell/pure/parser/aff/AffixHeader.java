@@ -11,12 +11,10 @@ import java.util.regex.Pattern;
 public record AffixHeader(AffixKind kind, Flag flag, boolean crossProduct, int numberOfRules) {
 
     /** The pattern of an affix header. */
-    private static final Pattern PATTERN = Pattern.compile(
-            "^(?<kind>(PFX|SFX)) " +
-                    "(?<flag>[^ /]+) " +
-                    "(?<crossProduct>[YN]) " +
-                    "(?<numberOfRules>[0-9]+)$"
-    );
+    private static final Pattern PATTERN = Pattern.compile("^(?<kind>(PFX|SFX)) " +
+            "(?<flag>[^ /]+) " +
+            "(?<crossProduct>[YN]) " +
+            "(?<numberOfRules>[0-9]+)$");
 
     /**
      * Parse an affix header line.

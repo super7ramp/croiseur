@@ -20,22 +20,20 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void partiallyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle(
-                """
-                        | | | |
-                        | | | |
-                        | | |#|
-                        """);
+        final PuzzleDefinition puzzle = parsePuzzle("""
+                | | | |
+                | | | |
+                | | |#|
+                """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CD", "ABC", "ABD", "AB");
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess(
-                """
-                        |A|B|C|
-                        |A|B|D|
-                        |A|B|#|
-                        """, result);
+        assertSuccess("""
+                |A|B|C|
+                |A|B|D|
+                |A|B|#|
+                """, result);
     }
 
     /**
@@ -45,21 +43,19 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void entirelyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle(
-                """
-                        |#|#|#|
-                        |#|#|#|
-                        |#|#|#|
-                        """);
+        final PuzzleDefinition puzzle = parsePuzzle("""
+                |#|#|#|
+                |#|#|#|
+                |#|#|#|
+                """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CD", "ABC", "ABD", "AB");
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess(
-                """
-                        |#|#|#|
-                        |#|#|#|
-                        |#|#|#|
-                        """, result);
+        assertSuccess("""
+                |#|#|#|
+                |#|#|#|
+                |#|#|#|
+                """, result);
     }
 }

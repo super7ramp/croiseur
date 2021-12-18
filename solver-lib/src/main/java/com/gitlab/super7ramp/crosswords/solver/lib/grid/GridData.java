@@ -72,9 +72,10 @@ final class GridData {
      */
     Map<SlotIdentifier, SlotData> slots() {
         final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet().stream()
-                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        slots.entrySet()
+             .stream()
+             .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
+             .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
         return result;
     }
 
@@ -84,10 +85,11 @@ final class GridData {
     Map<SlotIdentifier, SlotData> connectedSlots(final SlotIdentifier slotId) {
         final SlotDefinition slotDefinition = slots.get(slotId);
         final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet().stream()
-                .filter(entry -> entry.getValue().isConnected(slotDefinition))
-                .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-                .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        slots.entrySet()
+             .stream()
+             .filter(entry -> entry.getValue().isConnected(slotDefinition))
+             .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
+             .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
         return result;
     }
 

@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Alternative Hunspell {@link DictionaryProvider} relying on deprecated "unmunch" utility of Hunspell, called as an
+ * Alternative Hunspell {@link DictionaryProvider} relying on deprecated "unmunch" utility of
+ * Hunspell, called as an
  * external process.
  */
 public final class HunspellExtDictionaryProvider implements DictionaryProvider {

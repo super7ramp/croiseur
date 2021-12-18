@@ -39,7 +39,8 @@ final class CrosswordSolverImpl implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleDefinition puzzleDefinition, final Dictionary externalDictionary,
+    public SolverResult solve(final PuzzleDefinition puzzleDefinition,
+                              final Dictionary externalDictionary,
                               final ProgressListener progressListener) throws InterruptedException {
 
         progressListener.onInitialisationStart();
@@ -49,18 +50,21 @@ final class CrosswordSolverImpl implements CrosswordSolver {
 
         final HistoryImpl history = new HistoryImpl();
 
-        final CachedDictionaryImpl dictionary = new CachedDictionaryImpl(externalDictionary, slots, grid.puzzle(),
-                history.backtrack());
+        final CachedDictionaryImpl dictionary = new CachedDictionaryImpl(externalDictionary,
+                slots, grid.puzzle(), history.backtrack());
 
         final SlotIteratorProgressDecorator slotChooser =
-                new SlotIteratorProgressDecorator(new SlotIteratorImpl(slots, dictionary), slots, progressListener);
+                new SlotIteratorProgressDecorator(new SlotIteratorImpl(slots, dictionary), slots,
+                        progressListener);
 
-        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(), dictionary);
+        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(),
+                dictionary);
 
         final Backtracker backtracker = Backtrackers.enhancedBacktrack(history);
 
-        final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(slotChooser, candidateChooser,
-                backtracker).withListener(dictionary).withListener(history.instantiation());
+        final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(slotChooser,
+                candidateChooser, backtracker).withListener(dictionary)
+                                              .withListener(history.instantiation());
 
         progressListener.onInitialisationEnd();
 

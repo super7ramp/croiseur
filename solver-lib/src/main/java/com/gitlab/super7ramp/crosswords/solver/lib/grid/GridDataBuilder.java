@@ -97,11 +97,11 @@ public final class GridDataBuilder {
         int id = 1;
         for (int x = 0; x < width; x++) {
             // Vertical slots
-            for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0);
-                 yStart < height;
-                 yStart = nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
+            for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0); yStart < height; yStart =
+                    nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
                 if (yEnd - yStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd, SlotDefinition.Type.VERTICAL));
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd,
+                            SlotDefinition.Type.VERTICAL));
                 } else {
                     // Ignore empty slot (row starting by a shaded box) or single-letter slot
                 }
@@ -109,11 +109,11 @@ public final class GridDataBuilder {
         }
         for (int y = 0; y < height; y++) {
             // Horizontal slots
-            for (int xStart = 0, xEnd = nextShadedOnLine(y, 0);
-                 xStart < width;
-                 xStart = nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
+            for (int xStart = 0, xEnd = nextShadedOnLine(y, 0); xStart < width; xStart =
+                    nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
                 if (xEnd - xStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd, SlotDefinition.Type.HORIZONTAL));
+                    slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd,
+                            SlotDefinition.Type.HORIZONTAL));
                 } else {
                     // Ignore empty slot (line starting by a shaded box) or single-letter slot
                 }
@@ -180,7 +180,8 @@ public final class GridDataBuilder {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Invalid dimensions");
         }
-        if (shaded.stream().anyMatch(s -> s.x() < 0 || s.x() >= width || s.y() < 0 || s.y() >= height)) {
+        if (shaded.stream()
+                  .anyMatch(s -> s.x() < 0 || s.x() >= width || s.y() < 0 || s.y() >= height)) {
             throw new IllegalArgumentException("Invalid shaded definitions");
         }
     }

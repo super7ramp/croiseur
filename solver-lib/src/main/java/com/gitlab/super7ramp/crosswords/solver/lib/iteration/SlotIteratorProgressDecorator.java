@@ -44,7 +44,8 @@ public final class SlotIteratorProgressDecorator implements SlotIterator {
      *
      * @param anActual the actual iterator
      */
-    public SlotIteratorProgressDecorator(final SlotIterator anActual, final Collection<Slot> slots,
+    public SlotIteratorProgressDecorator(final SlotIterator anActual,
+                                         final Collection<Slot> slots,
                                          final ProgressListener aProgressListener) {
         actual = anActual;
         variables = Collections.unmodifiableCollection(slots);
@@ -60,7 +61,8 @@ public final class SlotIteratorProgressDecorator implements SlotIterator {
     @Override
     public Slot next() {
         final Instant now = Instant.now();
-        if (Duration.between(lastProgressNotificationTime, now).compareTo(PROGRESS_NOTIFICATION_INTERVAL) >= 0) {
+        if (Duration.between(lastProgressNotificationTime, now)
+                    .compareTo(PROGRESS_NOTIFICATION_INTERVAL) >= 0) {
             lastProgressNotificationTime = now;
             progressListener.onSolverProgressUpdate(completionPercentage());
         }

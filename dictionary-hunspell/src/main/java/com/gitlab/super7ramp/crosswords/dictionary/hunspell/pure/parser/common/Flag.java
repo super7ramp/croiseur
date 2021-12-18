@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 public record Flag(String identifier) {
 
     /** The pattern per flag type. */
-    private static final Map<FlagType, Pattern> PATTERNS =
-            Map.of(FlagType.SINGLE_ASCII, Pattern.compile("[\\x00-\\xFF]"),
-                    FlagType.LONG_ASCII, Pattern.compile("[\\x00-\\xFF]{2}"),
-                    FlagType.NUMERICAL, Pattern.compile("[1-9][0-9]{0,4}")
-                    /* TODO UTF-8 */);
+    private static final Map<FlagType, Pattern> PATTERNS = Map.of(
+            FlagType.SINGLE_ASCII, Pattern.compile("[\\x00-\\xFF]"),
+            FlagType.LONG_ASCII, Pattern.compile("[\\x00-\\xFF]{2}"),
+            FlagType.NUMERICAL, Pattern.compile("[1-9][0-9]{0,4}")
+            /* TODO UTF-8 */);
 
     /**
      * Split flag vector according to given flag type.

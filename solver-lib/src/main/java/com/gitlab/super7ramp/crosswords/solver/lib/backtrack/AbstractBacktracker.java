@@ -9,13 +9,12 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
- * Abstract {@link Backtracker} suitable for implementations always unassigning last assigned variable.
+ * Abstract {@link Backtracker} suitable for implementations always unassigning last assigned
+ * variable.
  */
 abstract class AbstractBacktracker implements Backtracker {
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(Backtrack.class.getName());
 
     /** Assignment history. */
@@ -36,11 +35,11 @@ abstract class AbstractBacktracker implements Backtracker {
 
         if (optUnassigned.isPresent()) {
             final Slot unassigned = optUnassigned.get();
-            unassigned.value().ifPresentOrElse(
-                    unassignedValue -> updateBlackList(new DeadEnd(variable.uid(), unassigned.uid()),
-                            unassignedValue),
-                    () -> LOGGER.warning("Unassigning a non-complete slot")
-            );
+            unassigned.value()
+                      .ifPresentOrElse(
+                              unassignedValue -> updateBlackList(new DeadEnd(variable.uid(),
+                                      unassigned.uid()), unassignedValue),
+                              () -> LOGGER.warning("Unassigning a non-complete slot"));
         }
 
         return optUnassigned;

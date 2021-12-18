@@ -16,19 +16,21 @@ import java.util.function.Predicate;
 public final class SlotIteratorImpl implements SlotIterator {
 
     /**
-     * Comparator of {@link Slot} by number of candidates in {@link CachedDictionary}.
+     * Associates a {@link Slot} to its number of candidates.
      */
+    private record NumberOfCandidatesPerSlot(Slot slot, long numberOfCandidates) {
+        // Nothing to add.
+    }
+
+    /** Comparator of {@link Slot} by number of candidates in {@link CachedDictionary}. */
     private static final Comparator<NumberOfCandidatesPerSlot> BY_NUMBER_OF_CANDIDATES =
             Comparator.comparingLong(NumberOfCandidatesPerSlot::numberOfCandidates)
-                    .thenComparingInt(pair -> pair.slot.uid().id());
-    /**
-     * The dictionary.
-     */
+                      .thenComparingInt(pair -> pair.slot.uid().id());
+
+    /** The dictionary. */
     private final CachedDictionary dictionary;
 
-    /**
-     * All variables.
-     */
+    /** All variables. */
     private final Collection<Slot> variables;
 
     /**
@@ -42,13 +44,6 @@ public final class SlotIteratorImpl implements SlotIterator {
         dictionary = aDictionary;
     }
 
-    /**
-     * Associates a {@link Slot} to its number of candidates.
-     */
-    private record NumberOfCandidatesPerSlot(Slot slot, long numberOfCandidates) {
-        // Nothing to add.
-    }
-
     @Override
     public boolean hasNext() {
         return variables.stream().anyMatch(unassignedSlot());
@@ -57,11 +52,12 @@ public final class SlotIteratorImpl implements SlotIterator {
     @Override
     public Slot next() {
         return variables.stream()
-                .filter(unassignedSlot())
-                .map(slot -> new NumberOfCandidatesPerSlot(slot, dictionary.candidatesCount(slot)))
-                .min(BY_NUMBER_OF_CANDIDATES)
-                .map(NumberOfCandidatesPerSlot::slot)
-                .orElseThrow(NoSuchElementException::new);
+                        .filter(unassignedSlot())
+                        .map(slot -> new NumberOfCandidatesPerSlot(slot,
+                                dictionary.candidatesCount(slot)))
+                        .min(BY_NUMBER_OF_CANDIDATES)
+                        .map(NumberOfCandidatesPerSlot::slot)
+                        .orElseThrow(NoSuchElementException::new);
     }
 
     /**
@@ -70,6 +66,7 @@ public final class SlotIteratorImpl implements SlotIterator {
      * @return the filter
      */
     private Predicate<Slot> unassignedSlot() {
-        return slot -> slot.value().isEmpty() || !dictionary.candidatesContains(slot, slot.value().get());
+        return slot -> slot.value().isEmpty() || !dictionary.candidatesContains(slot, slot.value()
+                                                                                          .get());
     }
 }

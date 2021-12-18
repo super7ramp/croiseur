@@ -13,11 +13,9 @@ import java.util.regex.Pattern;
 public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags) {
 
     /** The pattern of a dictionary entry. */
-    private static final Pattern PATTERN = Pattern.compile(
-            "^(?<forbidden>\\*)?" +
-                    "(?<word>[^ /]+)" +
-                    "(/(?<flags>[^ /]+))?"
-    );
+    private static final Pattern PATTERN = Pattern.compile("^(?<forbidden>\\*)?" +
+            "(?<word>[^ /]+)" +
+            "(/(?<flags>[^ /]+))?");
 
     /**
      * Parse a {@link DicEntry}.

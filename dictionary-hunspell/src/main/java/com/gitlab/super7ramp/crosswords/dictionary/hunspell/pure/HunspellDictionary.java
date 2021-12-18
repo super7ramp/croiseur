@@ -53,7 +53,8 @@ public final class HunspellDictionary implements Dictionary {
     /**
      * Constructor.
      *
-     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same basename and extension .aff
+     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same
+     *                basename and extension .aff
      */
     public HunspellDictionary(final URL aDicURL) {
         dicURL = Objects.requireNonNull(aDicURL);
@@ -94,11 +95,11 @@ public final class HunspellDictionary implements Dictionary {
         }
 
         return WordFormGenerator.of(optAff.get(), optDic.get())
-                .generate()
-                .filter(Filters.atLeastTwoCharacters())
-                .map(Transformers::removeHyphen)
-                .map(Transformers::removeAccentuation)
-                .map(String::toUpperCase);
+                                .generate()
+                                .filter(Filters.atLeastTwoCharacters())
+                                .map(Transformers::removeHyphen)
+                                .map(Transformers::removeAccentuation)
+                                .map(String::toUpperCase);
     }
 
     private Optional<Aff> readAff() {
@@ -124,8 +125,9 @@ public final class HunspellDictionary implements Dictionary {
 
     private URL affUrl() {
         try {
-            final String affUrlExternalForm =
-                    Pattern.compile(DIC_EXTENSION + "$").matcher(dicURL.toExternalForm()).replaceFirst(AFF_EXTENSION);
+            final String affUrlExternalForm = Pattern.compile(DIC_EXTENSION + "$")
+                                                     .matcher(dicURL.toExternalForm())
+                                                     .replaceFirst(AFF_EXTENSION);
             return new URL(affUrlExternalForm);
         } catch (final MalformedURLException e) {
             throw new IllegalArgumentException(e);

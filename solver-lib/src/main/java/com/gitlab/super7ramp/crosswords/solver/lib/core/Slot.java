@@ -32,7 +32,8 @@ public interface Slot {
     Optional<String> unassign();
 
     /**
-     * Returns if given string fits inside slot - without consideration on the given string being in a dictionary or
+     * Returns if given string fits inside slot - without consideration on the given string being
+     * in a dictionary or
      * not.
      *
      * @param value the value to test
@@ -41,7 +42,8 @@ public interface Slot {
     boolean isCompatibleWith(final String value);
 
     /**
-     * Whether this slot has been pre-filled at grid construction. It is immutable - solver shall not try to assign
+     * Whether this slot has been pre-filled at grid construction. It is immutable - solver shall
+     * not try to assign
      * anything, otherwise a runtime exception will be run.
      *
      * @return whether this slot has been pre-filled

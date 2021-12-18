@@ -13,7 +13,8 @@ final class InternalDictionaryServiceTest {
     void validSerializedFr() {
         final URL serialized = InternalDictionaryServiceTest.class.getResource("/fr.obj");
 
-        final InternalDictionaryService dictionaryService = new InternalDictionaryService(serialized);
+        final InternalDictionaryService dictionaryService =
+                new InternalDictionaryService(serialized);
 
         assertEquals(Locale.FRENCH, dictionaryService.locale());
         assertEquals(482_297, dictionaryService.lookup(e -> true).size());

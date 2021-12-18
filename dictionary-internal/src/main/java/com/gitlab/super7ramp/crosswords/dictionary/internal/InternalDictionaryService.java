@@ -19,7 +19,8 @@ public final class InternalDictionaryService implements Dictionary {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(InternalDictionaryService.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(InternalDictionaryService.class.getName());
 
     /**
      * The actual data.

@@ -24,7 +24,8 @@ final class Backtrack extends AbstractBacktracker {
      * @param anInstantiationHistory assignment history
      * @param aBacktrackHistory      un-assignment history
      */
-    Backtrack(final InstantiationHistoryConsumer anInstantiationHistory, final BacktrackHistory aBacktrackHistory) {
+    Backtrack(final InstantiationHistoryConsumer anInstantiationHistory,
+              final BacktrackHistory aBacktrackHistory) {
         super(anInstantiationHistory);
         backtrackHistory = aBacktrackHistory;
     }

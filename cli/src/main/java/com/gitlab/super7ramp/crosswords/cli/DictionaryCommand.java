@@ -17,9 +17,7 @@ import java.util.function.Predicate;
 /**
  * "dictionary" subcommand.
  */
-@Command(
-        name = "dictionary",
-        description = "List and print available dictionaries",
+@Command(name = "dictionary", description = "List and print available dictionaries",
         synopsisSubcommandLabel = "COMMAND" // instead of [COMMAND], because subcommand is mandatory
 )
 final class DictionaryCommand {
@@ -38,27 +36,27 @@ final class DictionaryCommand {
     private static void printDictionaries(final Map<DictionaryProvider, Collection<Dictionary>> dictionariesByProvider) {
         System.out.printf(LIST_OUTPUT_FORMAT, "Provider", "Name", "Locale");
         System.out.printf(LIST_OUTPUT_FORMAT, "--------", "----", "------");
-        for (final Map.Entry<DictionaryProvider, Collection<Dictionary>> entry : dictionariesByProvider.entrySet()) {
+        for (final Map.Entry<DictionaryProvider, Collection<Dictionary>> entry :
+                dictionariesByProvider.entrySet()) {
             final DictionaryProvider provider = entry.getKey();
             final Collection<Dictionary> dictionaries = entry.getValue();
 
-            dictionaries.forEach(dictionary ->
-                    System.out.printf(LIST_OUTPUT_FORMAT, provider.name(), dictionary.name(),
-                            dictionary.locale().getDisplayName())
-            );
+            dictionaries.forEach(dictionary -> System.out.printf(LIST_OUTPUT_FORMAT,
+                    provider.name(), dictionary.name(), dictionary.locale()
+                                                                  .getDisplayName()));
         }
     }
 
     private static Predicate<DictionaryProvider> filterFrom(final String backend) {
         return Optional.ofNullable(backend)
-                .map(DictionaryLoader.Search::byProvider)
-                .orElseGet(DictionaryLoader.Search::includeAll);
+                       .map(DictionaryLoader.Search::byProvider)
+                       .orElseGet(DictionaryLoader.Search::includeAll);
     }
 
     private static Predicate<Dictionary> filterFrom(final Locale locale) {
         return Optional.ofNullable(locale)
-                .map(DictionaryLoader.Search::byLocale)
-                .orElseGet(DictionaryLoader.Search::includeAll);
+                       .map(DictionaryLoader.Search::byLocale)
+                       .orElseGet(DictionaryLoader.Search::includeAll);
     }
 
     @Command(name = "providers", description = "List available dictionary providers")
@@ -69,9 +67,8 @@ final class DictionaryCommand {
         } else {
             System.out.printf(PROVIDERS_OUTPUT_FORMAT, "Provider", "Description");
             System.out.printf(PROVIDERS_OUTPUT_FORMAT, "--------", "-----------");
-            providers.forEach(provider ->
-                    System.out.printf(PROVIDERS_OUTPUT_FORMAT, provider.name(), provider.description())
-            );
+            providers.forEach(provider -> System.out.printf(PROVIDERS_OUTPUT_FORMAT,
+                    provider.name(), provider.description()));
         }
 
     }
@@ -91,8 +88,8 @@ final class DictionaryCommand {
         }
 
         final Map<DictionaryProvider, Collection<Dictionary>> dictionaries =
-                DictionaryLoader.get(
-                        providerName.map(DictionaryLoader.Search::byProvider).orElseGet(DictionaryLoader.Search::includeAll),
+                DictionaryLoader.get(providerName.map(DictionaryLoader.Search::byProvider)
+                                                 .orElseGet(DictionaryLoader.Search::includeAll),
                         DictionaryLoader.Search.byName(dictionaryName));
 
         if (dictionaries.isEmpty()) {
@@ -101,12 +98,19 @@ final class DictionaryCommand {
             System.out.println("Ambiguous dictionary name, candidates are:");
             printDictionaries(dictionaries);
         } else {
-            final Dictionary dictionary = dictionaries.entrySet().iterator().next().getValue().iterator().next();
+            final Dictionary dictionary = dictionaries.entrySet()
+                                                      .iterator()
+                                                      .next()
+                                                      .getValue()
+                                                      .iterator()
+                                                      .next();
             final Iterator<String> wordIterator = dictionary.lookup(word -> true).iterator();
 
-            // As output may be very large, it is likely the output is going to be piped (grep, head, ...). Checking
-            // error status on System.out allows detecting broken pipe and fast exit.
-            // TODO confirm it actually works, it doesn't seem to be the case when program is launched via gradle
+            // As output may be very large, it is likely the output is going to be piped (grep,
+            // head, ...). Checking error status on System.out allows detecting broken pipe and
+            // fast exit.
+            // TODO confirm it actually works, it doesn't seem to be the case when program is
+            //  launched via gradle
             while (wordIterator.hasNext() && !System.out.checkError()) {
                 System.out.println(wordIterator.next());
             }
@@ -115,8 +119,8 @@ final class DictionaryCommand {
     }
 
     @Command(name = "list", description = "List available dictionaries")
-    void list(@Option(names = {"-p", "--provider"}) final String providerOption,
-              @Option(names = {"-l", "--locale"}) final Locale localeOption) {
+    void list(@Option(names = {"-p", "--provider"}) final String providerOption, @Option(names =
+            {"-l", "--locale"}) final Locale localeOption) {
 
         final Map<DictionaryProvider, Collection<Dictionary>> availableDictionaries =
                 DictionaryLoader.get(filterFrom(providerOption), filterFrom(localeOption));

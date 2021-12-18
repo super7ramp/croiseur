@@ -11,31 +11,22 @@ import java.util.logging.Logger;
 /**
  * Concrete implementation of {@link AbstractSatisfactionProblemSolverEngine} for crossword solving.
  */
-public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolverEngine<Slot, String> {
+public final class CrosswordSolverEngine extends
+        AbstractSatisfactionProblemSolverEngine<Slot, String> {
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(CrosswordSolverEngine.class.getName());
 
-    /**
-     * Slot iterator.
-     */
+    /** Slot iterator. */
     private final Iterator<Slot> slotIterator;
 
-    /**
-     * Candidate chooser.
-     */
+    /** Candidate chooser. */
     private final CandidateChooser candidateChooser;
 
-    /**
-     * Backtracker.
-     */
+    /** Backtracker. */
     private final Backtracker backtracker;
 
-    /**
-     * Listeners to assignment/unassignment.
-     */
+    /** Listeners to assignment/unassignment. */
     private final Collection<SolverUpdateListener> listeners;
 
     /**
@@ -96,7 +87,8 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
         final Optional<String> optRemovedValue = toUnassign.unassign();
 
         optRemovedValue.ifPresentOrElse(
-                removedValue -> listeners.forEach(listener -> listener.onUnassignment(toUnassign, removedValue)),
+                removedValue -> listeners.forEach(
+                        listener -> listener.onUnassignment(toUnassign, removedValue)),
                 () -> {
                     LOGGER.warning(() -> "Unassigning non-complete variable " + toUnassign);
                     listeners.forEach(listener -> listener.onPartialUnassignment(toUnassign));

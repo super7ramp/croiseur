@@ -76,12 +76,8 @@ final class SlotDefinition {
 
     @Override
     public String toString() {
-        return "SlotDefinition{" +
-                "offset=" + offset +
-                ", start=" + start +
-                ", end=" + end +
-                ", type=" + type +
-                '}';
+        return "SlotDefinition{" + "offset=" + offset + ", start=" + start + ", end=" + end + ", "
+                + "type=" + type + '}';
     }
 
     Type type() {

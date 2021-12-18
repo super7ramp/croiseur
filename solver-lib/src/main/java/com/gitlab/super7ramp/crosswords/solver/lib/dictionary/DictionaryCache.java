@@ -18,7 +18,8 @@ final class DictionaryCache<SlotT, ValueT> {
     /**
      * Contains the initial candidates for each slot, after lookup in the real dictionary.
      * <p>
-     * It serves as a first cache to avoid filtering all the dictionary again. It is assumed that subsequent requests
+     * It serves as a first cache to avoid filtering all the dictionary again. It is assumed that
+     * subsequent requests
      * will be more restrictive than the first lookup.
      */
     private final Map<SlotT, Collection<ValueT>> initial;
@@ -85,7 +86,8 @@ final class DictionaryCache<SlotT, ValueT> {
      * Update cache given an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidateCache(SlotT, ValueT) invalidation}, the smaller the cache will be, the faster the results
+     * {@link #invalidateCache(SlotT, ValueT) invalidation}, the smaller the cache will be, the
+     * faster the results
      * will be.
      *
      * @param refreshNeeded the predicate that specifies which slot should be re-evaluated

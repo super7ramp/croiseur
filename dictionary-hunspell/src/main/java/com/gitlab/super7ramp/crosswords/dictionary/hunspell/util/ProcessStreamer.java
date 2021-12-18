@@ -69,7 +69,8 @@ public final class ProcessStreamer {
      *
      * @param anInputStream the actual process input stream
      */
-    private ProcessStreamer(final Stream<String> anInputStream, final Stream<String> anErrorStream) {
+    private ProcessStreamer(final Stream<String> anInputStream,
+                            final Stream<String> anErrorStream) {
         inputStream = anInputStream;
         errorStream = anErrorStream;
     }
@@ -116,7 +117,8 @@ public final class ProcessStreamer {
      * @param commands command and its arguments
      * @return a new {@link ProcessStreamer}
      */
-    private static ProcessStreamer of(final Set<InputProcessStream> desiredStreams, final String... commands) {
+    private static ProcessStreamer of(final Set<InputProcessStream> desiredStreams,
+                                      final String... commands) {
         final Process process = startProcess(desiredStreams, commands);
         final Stream<String> inputStream = inputStream(process);
         final Stream<String> errorStream = errorStream(process);
@@ -129,7 +131,8 @@ public final class ProcessStreamer {
      * @param command the command and its arguments
      * @return the launched external process
      */
-    private static Process startProcess(final Set<InputProcessStream> desiredStreams, final String... command) {
+    private static Process startProcess(final Set<InputProcessStream> desiredStreams,
+                                        final String... command) {
         try {
             final ProcessBuilder processBuilder = new ProcessBuilder().command(command);
             if (!desiredStreams.contains(InputProcessStream.INPUT)) {
@@ -167,7 +170,8 @@ public final class ProcessStreamer {
         } catch (final ExecutionException e) {
             LOGGER.warning(() -> "External process failed: " + e.getMessage());
         } catch (final TimeoutException e) {
-            LOGGER.warning("External process did not shutdown after " + DESTROY_TIMEOUT + ", hard killing.");
+            LOGGER.warning("External process did not shutdown after " + DESTROY_TIMEOUT + ", " +
+                    "hard" + " killing.");
             process.destroyForcibly();
         }
 
@@ -215,10 +219,13 @@ public final class ProcessStreamer {
     /**
      * Get the input stream.
      * <p>
-     * If instance is created via {@link #errorOnly}, then this method returns {@link Stream#empty()}.
+     * If instance is created via {@link #errorOnly}, then this method returns
+     * {@link Stream#empty()}.
      * <p>
-     * The returned stream will stop the underlying external process upon {@link Stream#close()}. Since the underlying
-     * process may not terminate until stream is entirely consumed, consider using the try-with-resources construct if
+     * The returned stream will stop the underlying external process upon {@link Stream#close()}.
+     * Since the underlying
+     * process may not terminate until stream is entirely consumed, consider using the
+     * try-with-resources construct if
      * the stream is not meant to be entirely consumed.
      *
      * @return the actual {@link Stream}
@@ -230,10 +237,13 @@ public final class ProcessStreamer {
     /**
      * Get the error stream.
      * <p>
-     * If instance is created via {@link #inputOnly}, then this method returns {@link Stream#empty()}.
+     * If instance is created via {@link #inputOnly}, then this method returns
+     * {@link Stream#empty()}.
      * <p>
-     * The returned stream will stop the underlying external process upon {@link Stream#close()}. Since the underlying
-     * process may not terminate until stream is entirely consumed, consider using the try-with-resources construct if
+     * The returned stream will stop the underlying external process upon {@link Stream#close()}.
+     * Since the underlying
+     * process may not terminate until stream is entirely consumed, consider using the
+     * try-with-resources construct if
      * the stream is not meant to be entirely consumed.
      *
      * @return the actual {@link Stream}

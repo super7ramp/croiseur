@@ -12,24 +12,16 @@ import java.util.function.Consumer;
  */
 public final class PuzzleDefinition {
 
-    /**
-     * Width of the grid.
-     */
+    /** Width of the grid. */
     private final int width;
 
-    /**
-     * Height of the grid.
-     */
+    /** Height of the grid. */
     private final int height;
 
-    /**
-     * Shaded boxes.
-     */
+    /** Shaded boxes. */
     private final Set<Coordinate> shaded;
 
-    /**
-     * Filled boxes.
-     */
+    /** Filled boxes. */
     private final Map<Coordinate, Character> filled;
 
     /**
@@ -58,7 +50,8 @@ public final class PuzzleDefinition {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    private static void validate(final int aWidth, final int aHeight, final Set<Coordinate> someShaded,
+    private static void validate(final int aWidth, final int aHeight,
+                                 final Set<Coordinate> someShaded,
                                  final Map<Coordinate, Character> somePrefilled) {
         if (aWidth <= 0 || aHeight <= 0) {
             throw new IllegalArgumentException("Invalid grid dimensions");

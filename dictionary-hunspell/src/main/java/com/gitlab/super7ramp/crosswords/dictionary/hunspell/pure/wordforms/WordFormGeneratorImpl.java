@@ -27,7 +27,10 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     /** Affixes indexed by name to avoid looping the affix list all the time. */
     private final Map<Flag, Affix> affixes;
 
-    /** Affix applicators indexed by affix rule to avoid re-creating the same applicator over and over. */
+    /**
+     * Affix applicators indexed by affix rule to avoid re-creating the same applicator over and
+     * over.
+     */
     private final Map<AffixRule, AffixApplicator> affixApplicators;
 
     /**
@@ -47,8 +50,9 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
 
     @Override
     public Stream<String> generate() {
-        return dic.entries().stream()
-                .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
+        return dic.entries()
+                  .stream()
+                  .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
     }
 
     private BiConsumer<DicEntry, Consumer<String>> affixForms() {
@@ -78,20 +82,22 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
                         accumulator.accept(stemWithAffix);
 
                         if (affix.header().crossProduct()) {
-                            entry.flags().stream()
-                                    .map(affixes::get)
-                                    .mapMulti((BiConsumer<Affix, Consumer<AffixRule>>) (crossProductAffix, crossProductRules) -> {
-                                        if (crossProductAffix != null) {
-                                            crossProductAffix.rules().forEach(crossProductRules::accept);
-                                        } else {
-                                            // flag refers to another option than PFX/SFX
-                                        }
-                                    })
-                                    .filter(rule -> rule.kind() != affixRule.kind())
-                                    .map(rule -> applyAffix(rule, stemWithAffix))
-                                    .filter(Optional::isPresent)
-                                    .limit(2)
-                                    .forEach(result -> accumulator.accept(result.get()));
+                            entry.flags()
+                                 .stream()
+                                 .map(affixes::get)
+                                 .mapMulti((BiConsumer<Affix, Consumer<AffixRule>>) (crossProductAffix, crossProductRules) -> {
+                                     if (crossProductAffix != null) {
+                                         crossProductAffix.rules()
+                                                          .forEach(crossProductRules::accept);
+                                     } else {
+                                         // flag refers to another option than PFX/SFX
+                                     }
+                                 })
+                                 .filter(rule -> rule.kind() != affixRule.kind())
+                                 .map(rule -> applyAffix(rule, stemWithAffix))
+                                 .filter(Optional::isPresent)
+                                 .limit(2)
+                                 .forEach(result -> accumulator.accept(result.get()));
                         }
                     }
                 }
@@ -100,7 +106,9 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     }
 
     private Optional<String> applyAffix(final AffixRule affixRule, final String baseWord) {
-        return affixApplicators.computeIfAbsent(affixRule, rule -> AffixApplicators.ofRule(affixRule)).apply(baseWord);
+        return affixApplicators.computeIfAbsent(affixRule,
+                                       rule -> AffixApplicators.ofRule(affixRule))
+                               .apply(baseWord);
     }
 
 }

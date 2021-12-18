@@ -17,16 +17,6 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
 final class GridImpl implements Grid {
 
     /**
-     * The {@link Puzzle} implementation.
-     */
-    private final Puzzle puzzle;
-
-    /**
-     * The underlying data.
-     */
-    private final GridData data;
-
-    /**
      * Implementation of {@link Puzzle}.
      */
     private static class PuzzleImpl implements Puzzle {
@@ -47,9 +37,11 @@ final class GridImpl implements Grid {
 
         @Override
         public Collection<Slot> slots() {
-            return data.slots().entrySet().stream()
-                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
-                    .collect(toUnmodifiableSet());
+            return data.slots()
+                       .entrySet()
+                       .stream()
+                       .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
+                       .collect(toUnmodifiableSet());
         }
 
         @Override
@@ -71,6 +63,16 @@ final class GridImpl implements Grid {
             return new PuzzleImpl(probedData).slots();
         }
     }
+
+    /**
+     * The {@link Puzzle} implementation.
+     */
+    private final Puzzle puzzle;
+
+    /**
+     * The underlying data.
+     */
+    private final GridData data;
 
     /**
      * Constructor.

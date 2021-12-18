@@ -13,7 +13,8 @@ public final class CrosswordSolverLoader {
     /**
      * Service implementation loader.
      */
-    private static final ServiceLoader<CrosswordSolverProvider> LOADER = ServiceLoader.load(CrosswordSolverProvider.class);
+    private static final ServiceLoader<CrosswordSolverProvider> LOADER =
+            ServiceLoader.load(CrosswordSolverProvider.class);
 
     /**
      * Constructor.
@@ -28,8 +29,10 @@ public final class CrosswordSolverLoader {
      * @return the default {@link CrosswordSolver}
      */
     public static CrosswordSolver get() {
-        return LOADER.findFirst().map(CrosswordSolverProvider::solver).orElseThrow(() ->
-                new NoSuchElementException("No crossword solver implementation found"));
+        return LOADER.findFirst()
+                     .map(CrosswordSolverProvider::solver)
+                     .orElseThrow(() -> new NoSuchElementException("No crossword solver " +
+                             "implementation found"));
     }
 
 }

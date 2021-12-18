@@ -36,7 +36,8 @@ public class InternalDictionaryProvider implements DictionaryProvider {
     private static List<URL> defaultPaths() {
         final List<URL> defaultPaths = new ArrayList<>();
         for (final Locale locale : Locale.getAvailableLocales()) {
-            final URL path = InternalDictionaryProvider.class.getResource("/" + locale.toString() + ".obj");
+            final URL path =
+                    InternalDictionaryProvider.class.getResource("/" + locale.toString() + ".obj");
             if (path != null) {
                 defaultPaths.add(path);
             }
@@ -61,6 +62,7 @@ public class InternalDictionaryProvider implements DictionaryProvider {
 
     @Override
     public Collection<Dictionary> get(final URL... dictionaryPaths) {
-        return toStream(dictionaryPaths).map(InternalDictionaryService::new).collect(Collectors.toList());
+        return toStream(dictionaryPaths).map(InternalDictionaryService::new)
+                                        .collect(Collectors.toList());
     }
 }
