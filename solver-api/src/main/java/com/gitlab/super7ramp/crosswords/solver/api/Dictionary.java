@@ -15,12 +15,4 @@ public interface Dictionary {
      * @return a set of words matching the given pattern
      */
     Set<String> lookup(final Predicate<String> predicate);
-
-    /**
-     * Returns <code>true</code> if and only if the dictionary contains the given value.
-     *
-     * @param value the value to test
-     * @return <code>true</code> if and only if the dictionary contains the given value
-     */
-    boolean contains(final String value);
 }

@@ -2,14 +2,14 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Unassignment;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 /**
  * Implementation of {@link Grid}.
@@ -17,16 +17,24 @@ import java.util.stream.Collectors;
 final class GridImpl implements Grid {
 
     /**
+     * The {@link Puzzle} implementation.
+     */
+    private final Puzzle puzzle;
+
+    /**
+     * The underlying data.
+     */
+    private final GridData data;
+
+    /**
      * Implementation of {@link Puzzle}.
      */
     private static class PuzzleImpl implements Puzzle {
 
-        /** The underlying data. */
+        /**
+         * The underlying data.
+         */
         private final GridData data;
-
-        /** The slots. */
-        private final Set<Slot> slots;
-
 
         /**
          * Constructor.
@@ -35,21 +43,18 @@ final class GridImpl implements Grid {
          */
         PuzzleImpl(final GridData someData) {
             data = someData;
-            slots = data.slots().entrySet().stream()
-                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
-                    .collect(Collectors.toSet());
         }
 
         @Override
-        public Set<Slot> slots() {
-            return Collections.unmodifiableSet(slots);
+        public Collection<Slot> slots() {
+            return data.slots().entrySet().stream()
+                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
+                    .collect(toUnmodifiableSet());
         }
 
         @Override
-        public Set<Slot> connectedSlots(final Slot slot) {
-            return data.connectedSlots(slot.uid()).entrySet().stream()
-                    .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
-                    .collect(Collectors.toSet());
+        public boolean areSlotsConnected(final SlotIdentifier first, final SlotIdentifier second) {
+            return data.slot(first).definition().isConnected(data.slot(second).definition());
         }
 
         @Override
@@ -66,12 +71,6 @@ final class GridImpl implements Grid {
             return new PuzzleImpl(probedData).slots();
         }
     }
-
-    /** The underlying data. */
-    private final GridData data;
-
-    /** The {@link Puzzle} implementation. */
-    private Puzzle puzzle;
 
     /**
      * Constructor.

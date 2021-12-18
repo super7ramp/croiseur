@@ -1,9 +1,8 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.instantiation;
 
+import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.CandidateChooser;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.history.InstantiationHistoryProducer;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Probable;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Prober;
@@ -44,11 +43,8 @@ public final class CandidateChooserImpl implements CandidateChooser {
     /**
      * The dictionary to pick candidates from.
      */
-    private final InternalDictionary dictionary;
-    /**
-     * History.
-     */
-    private final InstantiationHistoryProducer history;
+    private final CachedDictionary dictionary;
+
     /**
      * Lookahead util.
      */
@@ -61,26 +57,22 @@ public final class CandidateChooserImpl implements CandidateChooser {
      * @param aDictionary the dictionary to pick candidates from
      */
     public CandidateChooserImpl(final Probable aPuzzle,
-                                final InternalDictionary aDictionary,
-                                final InstantiationHistoryProducer anHistory) {
+                                final CachedDictionary aDictionary) {
         dictionary = aDictionary;
-        history = anHistory;
         prober = new Prober(aPuzzle, aDictionary);
     }
 
     @Override
     public Optional<String> find(final Slot wordVariable) {
-        final Optional<String> optFound = dictionary
-                .findPossibleValues(wordVariable)
+
+        return dictionary
+                .candidates(wordVariable)
                 .map(candidate -> probe(wordVariable, candidate))
                 .filter(WITH_SOLUTION)
                 .limit(MAX_NUMBER_OF_CANDIDATES_TO_COMPARE)
                 .max(BY_NUMBER_OF_SOLUTIONS)
                 .map(NumberOfSolutionsPerCandidate::candidate);
 
-        optFound.ifPresent(found -> history.recordAssignment(wordVariable, found));
-
-        return optFound;
     }
 
     /**

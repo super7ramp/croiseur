@@ -1,8 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.backtrack;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Backtracker;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.Connectable;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.History;
 
 /**
@@ -40,8 +38,8 @@ public final class Backtrackers {
      * @param history assignment history
      * @return a {@link Backtracker} implementation that simply selects the last assigned variable
      */
-    public static Backtracker backmark(final History history) {
-        return new Backmark(history.instantiation(), history.backtrack());
+    public static Backtracker enhancedBacktrack(final History history) {
+        return new EnhancedBacktrack(history.instantiation(), history.backtrack());
     }
 
     /**
@@ -50,27 +48,21 @@ public final class Backtrackers {
      * Selects the last assigned variable which is connected to the slot that initiated the backtrack. If no connected
      * variable found, fallback to {@link #backtrack(History)} simple backtrack.
      *
-     * @param puzzle  access to slot connection information
-     * @param history assignment history
      * @return the backjump {@link Backtracker}
      */
-    public static Backtracker backjump(final Connectable puzzle, final History history) {
+    public static Backtracker backjump() {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
      * Backjump with lookahead.
      * <p>
-     * Similar to {@link #backjump(Connectable, History)} with the difference that a lookahead is performed to ensure
+     * Similar to {@link #backjump()} with the difference that a lookahead is performed to ensure
      * that the selected variable to unassign actually addresses the difficulty that lead to backtracking.
      *
-     * @param puzzle     access to slot connection information and lookahead functions
-     * @param history    assignment history
-     * @param dictionary the dictionary
      * @return the smart backjump {@link Backtracker}
      */
-    public static Backtracker smartBackjump(final Backjumpable puzzle, final History history,
-                                            final InternalDictionary dictionary) {
+    public static Backtracker smartBackjump() {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

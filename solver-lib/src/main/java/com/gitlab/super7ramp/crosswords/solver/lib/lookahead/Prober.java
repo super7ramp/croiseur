@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.lookahead;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 
 import java.math.BigInteger;
@@ -11,11 +11,15 @@ import java.util.Collection;
  */
 public final class Prober {
 
-    /** The puzzle to probe. */
+    /**
+     * The puzzle to probe.
+     */
     private final Probable puzzle;
 
-    /** The dictionary. */
-    private final InternalDictionary dictionary;
+    /**
+     * The dictionary.
+     */
+    private final CachedDictionary dictionary;
 
     /**
      * Constructor.
@@ -23,7 +27,7 @@ public final class Prober {
      * @param aPuzzle     a puzzle to probe
      * @param aDictionary a dictionary
      */
-    public Prober(final Probable aPuzzle, final InternalDictionary aDictionary) {
+    public Prober(final Probable aPuzzle, final CachedDictionary aDictionary) {
         puzzle = aPuzzle;
         dictionary = aDictionary;
     }
@@ -45,7 +49,7 @@ public final class Prober {
 
         return probeResult.stream()
                 .filter(slot -> slot.value().isEmpty())
-                .map(dictionary::countPossibleValues)
+                .map(slot -> dictionary.refreshedCandidatesCount(slot, assignment.slotUid()))
                 .map(BigInteger::valueOf)
                 .reduce(BigInteger::multiply)
                 .orElse(BigInteger.ONE);

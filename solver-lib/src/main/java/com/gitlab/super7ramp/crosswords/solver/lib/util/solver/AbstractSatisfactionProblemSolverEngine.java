@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.solver.lib.util.solver;
 
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Base abstraction for SAP solving.
@@ -31,32 +30,31 @@ import java.util.logging.Logger;
  *
  * Backtracking is the strategy to apply when a dead-end is reached, i.e. when the chosen variable cannot be
  * instantiated. In order to continue the search of a valid solution, one or several already instantiated variables
- * must be changed. This heuristic is performed via the {@link #backtrackFrom(Variable)} method.
+ * must be changed. This heuristic is performed via the {@link #backtrackFrom(VariableT)} method.
  *
  * @param <VariableT> type of variable
  * @param <ValueT> type of value assignable to the variables
  */
-public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends Variable<ValueT>, ValueT> {
-
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(AbstractSatisfactionProblemSolverEngine.class.getName());
+public abstract class AbstractSatisfactionProblemSolverEngine<VariableT, ValueT> {
 
     /**
      * Constructor.
      */
-    public AbstractSatisfactionProblemSolverEngine() {
+    protected AbstractSatisfactionProblemSolverEngine() {
         // Nothing to do.
     }
 
     /**
      * Start the satisfaction problem exploration loop.
      *
+     * @return <code>true</code> iff solver loop has terminated without error
      * @throws InterruptedException if interrupted while solving
      */
-    public final void solve() throws InterruptedException {
+    public final boolean solve() throws InterruptedException {
 
         final Iterator<VariableT> variables = variables();
-        while (!Thread.currentThread().isInterrupted() && variables.hasNext()) {
+        boolean backtrackError = false;
+        while (!Thread.currentThread().isInterrupted() && !backtrackError && variables.hasNext()) {
 
             final VariableT variable = variables.next();
             final Optional<ValueT> candidate = candidate(variable);
@@ -64,27 +62,15 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
             if (candidate.isPresent()) {
                 assign(variable, candidate.get());
             } else {
-                LOGGER.fine(() -> "No candidate for [" + variable + "], backtracking.");
-                unassign(backtrackFrom(variable));
+                backtrackError = !backtrackFrom(variable);
             }
         }
 
         if (Thread.currentThread().isInterrupted()) {
-            LOGGER.warning("Solver interrupted");
-            throw new InterruptedException();
+            throw new InterruptedException("Solver interrupted");
         }
 
-    }
-
-    /**
-     * Unassign a variable.
-     *
-     * @param variable variable to unassign
-     */
-    private void unassign(VariableT variable) {
-        LOGGER.info(() -> "Unassigning variable [" + variable + "]");
-        onUnassignment(variable);
-        variable.unassign();
+        return !backtrackError;
     }
 
     /**
@@ -93,11 +79,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * @param variable the variable
      * @param value    the value
      */
-    private void assign(VariableT variable, ValueT value) {
-        LOGGER.info(() -> "Assigning [" + value + "] to variable [" + variable + "]");
-        variable.assign(value);
-        onAssignment(variable);
-    }
+    protected abstract void assign(final VariableT variable, final ValueT value);
 
     /**
      * An iterator on variables.
@@ -118,30 +100,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT extends 
      * Apply the backtrack strategy when variable cannot be instantiated.
      *
      * @param variable variable which cannot be instantiated
-     * @return the unassigned variable
+     * @return <code>true</code> iff backtrack has succeeded
      */
-    protected abstract VariableT backtrackFrom(final VariableT variable);
-
-    /**
-     * Action to be performed on assignment of a variable.
-     * <p>
-     * This method is called after assignment, which means that the variable has a value when this method is called.
-     *
-     * @param variable assigned variable (after assignment)
-     */
-    protected void onAssignment(final VariableT variable) {
-        // Do nothing per default.
-    }
-
-    /**
-     * Action to be performed on unassignment of a variable.
-     * <p>
-     * This method is called before unassignment, which means that the variable has still a value (or partial value)
-     * when this method is called.
-     *
-     * @param variable unassigned variable (before unassignment)
-     */
-    protected void onUnassignment(final VariableT variable) {
-        // Do nothing per default.
-    }
+    protected abstract boolean backtrackFrom(final VariableT variable);
 }

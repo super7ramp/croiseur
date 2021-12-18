@@ -9,13 +9,13 @@ import com.gitlab.super7ramp.crosswords.solver.lib.backtrack.Backtrackers;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Backtracker;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.CrosswordSolverEngine;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.crosswords.solver.lib.dictionary.CachedDictionaryImpl;
 import com.gitlab.super7ramp.crosswords.solver.lib.grid.Grid;
 import com.gitlab.super7ramp.crosswords.solver.lib.grid.GridFactory;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.HistoryImpl;
 import com.gitlab.super7ramp.crosswords.solver.lib.instantiation.CandidateChooserImpl;
-import com.gitlab.super7ramp.crosswords.solver.lib.iterator.SlotIteratorImpl;
-import com.gitlab.super7ramp.crosswords.solver.lib.iterator.SlotIteratorProgressDecorator;
+import com.gitlab.super7ramp.crosswords.solver.lib.iteration.SlotIteratorImpl;
+import com.gitlab.super7ramp.crosswords.solver.lib.iteration.SlotIteratorProgressDecorator;
 
 import java.util.Collection;
 
@@ -28,6 +28,16 @@ final class CrosswordSolverImpl implements CrosswordSolver {
         // Nothing to do.
     }
 
+    private static SolverResultImpl result(final Grid grid, final boolean success) {
+        final SolverResultImpl solverResult;
+        if (success) {
+            solverResult = SolverResultImpl.success(grid.boxes());
+        } else {
+            solverResult = SolverResultImpl.impossible(grid.boxes());
+        }
+        return solverResult;
+    }
+
     @Override
     public SolverResult solve(final PuzzleDefinition puzzleDefinition, final Dictionary externalDictionary,
                               final ProgressListener progressListener) throws InterruptedException {
@@ -35,23 +45,26 @@ final class CrosswordSolverImpl implements CrosswordSolver {
         progressListener.onInitialisationStart();
 
         final Grid grid = GridFactory.createGrid(puzzleDefinition);
-        final HistoryImpl history = new HistoryImpl();
-        final CachedDictionary dictionary = new CachedDictionary(externalDictionary, history.backtrack());
         final Collection<Slot> slots = grid.puzzle().slots();
+
+        final HistoryImpl history = new HistoryImpl();
+
+        final CachedDictionaryImpl dictionary = new CachedDictionaryImpl(externalDictionary, slots, grid.puzzle(),
+                history.backtrack());
+
         final SlotIteratorProgressDecorator slotChooser =
                 new SlotIteratorProgressDecorator(new SlotIteratorImpl(slots, dictionary), slots, progressListener);
-        final CandidateChooserImpl candidateChooser =
-                new CandidateChooserImpl(grid.puzzle(), dictionary, history.instantiation());
-        final Backtracker backtracker = Backtrackers.backmark(history);
 
-        final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(grid.puzzle(), slotChooser,
-                candidateChooser, backtracker, dictionary);
+        final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(), dictionary);
+
+        final Backtracker backtracker = Backtrackers.enhancedBacktrack(history);
+
+        final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(slotChooser, candidateChooser,
+                backtracker).withListener(dictionary).withListener(history.instantiation());
 
         progressListener.onInitialisationEnd();
 
-        solverEngine.solve();
-
-        return new SolverResultImpl(grid.boxes());
+        return result(grid, solverEngine.solve());
     }
 
 }

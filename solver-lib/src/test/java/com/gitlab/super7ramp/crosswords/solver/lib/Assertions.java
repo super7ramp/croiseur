@@ -22,8 +22,19 @@ final class Assertions {
      * @param expected the expected result
      * @param result   the actual result
      */
-    static void assertEquals(final String expected, final SolverResult result) {
-        final SolverResultImpl expectedResult = new SolverResultImpl(parsePuzzle(expected).filled());
+    static void assertSuccess(final String expected, final SolverResult result) {
+        final SolverResultImpl expectedResult = SolverResultImpl.success(parsePuzzle(expected).filled());
+        org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
+    }
+
+    /**
+     * Assert {@link SolverResult} matches the expected solution, given as a multi-line string.
+     *
+     * @param expected the expected result
+     * @param result   the actual result
+     */
+    static void assertImpossible(final String expected, final SolverResult result) {
+        final SolverResultImpl expectedResult = SolverResultImpl.impossible(parsePuzzle(expected).filled());
         org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
     }
 

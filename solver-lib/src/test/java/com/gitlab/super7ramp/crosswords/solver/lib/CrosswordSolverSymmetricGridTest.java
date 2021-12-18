@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
-import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertEquals;
+import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertSuccess;
 import static com.gitlab.super7ramp.crosswords.solver.lib.PuzzleDefinitionParser.parsePuzzle;
 
 /**
@@ -17,7 +17,9 @@ import static com.gitlab.super7ramp.crosswords.solver.lib.PuzzleDefinitionParser
  */
 final class CrosswordSolverSymmetricGridTest {
 
-    /** Test dictionary filename. */
+    /**
+     * Test dictionary filename.
+     */
     private static final String DIC_FILE = "/fr.dic";
 
     private static Dictionary createDictionary() throws IOException, URISyntaxException {
@@ -25,6 +27,9 @@ final class CrosswordSolverSymmetricGridTest {
         return new DictionaryMock(dicPath);
     }
 
+    /*
+     * This takes < 3 s to solve at 1 GHz.
+     */
     @Test
     void shaded5x5() throws URISyntaxException, IOException, InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle(
@@ -39,16 +44,19 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
-                        |#|#|A|N|R|
-                        |#|A|D|O|S|
-                        |A|B|A|C|A|
-                        |D|O|M|E|#|
-                        |P|I|S|#|#|
+                        |#|#|C|I|L|
+                        |#|R|A|L|E|
+                        |A|G|L|A|E|
+                        |B|A|I|N|#|
+                        |C|A|N|#|#|
                         """, result);
     }
 
+    /*
+     * This takes < 5 s to solve at 1 GHz.
+     */
     @Test
     void shaded9x9() throws URISyntaxException, IOException, InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle(
@@ -67,20 +75,23 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
-                        |#|#|#|A|B|S|#|#|#|
-                        |#|#|A|M|O|U|R|#|#|
-                        |#|A|S|I|N|I|E|N|#|
-                        |A|B|E|R|#|F|A|I|M|
-                        |D|I|X|#|#|#|L|O|I|
-                        |P|E|U|R|#|J|I|L|L|
-                        |#|S|E|A|G|A|T|E|#|
-                        |#|#|L|I|A|N|E|#|#|
-                        |#|#|#|L|I|E|#|#|#|
+                        |#|#|#|R|A|M|#|#|#|
+                        |#|#|C|O|R|O|N|#|#|
+                        |#|A|U|B|E|N|A|S|#|
+                        |A|B|L|E|#|A|I|E|A|
+                        |B|A|I|#|#|#|V|I|I|
+                        |A|C|E|R|#|M|E|N|E|
+                        |#|A|R|A|B|I|T|E|#|
+                        |#|#|E|T|A|L|E|#|#|
+                        |#|#|#|P|R|E|#|#|#|
                         """, result);
     }
 
+    /*
+     * This takes < 10s to solve at 1 GHz.
+     */
     @Test
     void shaded13x13() throws URISyntaxException, IOException, InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle(
@@ -103,29 +114,73 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
-                        |D|E|S|S|#|B|A|L|#|A|B|O|T|
-                        |E|X|I|T|#|L|I|E|#|L|A|B|O|
-                        |M|O|R|E|#|U|E|M|#|L|E|U|R|
-                        |E|N|E|R|V|E|#|A|G|A|S|S|E|
-                        |#|#|#|N|E|T|#|N|D|T|#|#|#|
-                        |K|H|M|E|R|#|#|#|F|E|R|M|I|
-                        |W|A|I|#|#|#|#|#|#|#|E|I|O|
-                        |C|L|E|B|S|#|#|#|A|A|R|O|N|
-                        |#|#|#|L|A|D|#|P|D|G|#|#|#|
-                        |E|S|P|E|C|E|#|U|N|E|S|C|O|
-                        |B|E|A|U|#|C|A|F|#|N|A|O|S|
-                        |L|A|R|E|#|O|D|F|#|D|A|T|E|
-                        |E|T|A|T|#|R|O|Y|#|A|B|E|R|
+                        |S|O|R|E|#|B|O|A|#|P|A|R|A|
+                        |A|R|E|S|#|E|S|S|#|A|N|O|N|
+                        |R|E|I|S|#|R|E|M|#|S|A|M|E|
+                        |D|E|N|A|I|N|#|A|S|T|R|E|E|
+                        |#|#|#|R|I|E|#|A|S|I|#|#|#|
+                        |E|P|I|T|E|#|#|#|I|S|A|A|C|
+                        |R|A|I|#|#|#|#|#|#|#|V|I|L|
+                        |E|L|I|A|S|#|#|#|B|R|E|L|E|
+                        |#|#|#|B|A|C|#|C|A|O|#|#|#|
+                        |A|L|T|A|I|R|#|A|L|B|A|N|E|
+                        |B|O|R|T|#|A|R|T|#|A|M|A|L|
+                        |E|R|I|E|#|I|I|I|#|G|E|N|E|
+                        |L|I|N|E|#|G|A|N|#|E|L|A|N|
                         """, result);
     }
 
+    /*
+     * This takes < 20s to solve at 1 GHz - which is too long.
+     */
+    @Test
+    void shaded13x13WithLongWords() throws URISyntaxException, IOException, InterruptedException {
+        final PuzzleDefinition puzzle = parsePuzzle(
+                """
+                        | | | | |#| | | |#| | | | |
+                        | | | | |#| | | |#| | | | |
+                        | | | | |#| | | |#| | | | |
+                        | | | | | | | | | | | | | |
+                        |#|#|#| | | |#| | | |#|#|#|
+                        | | | | | |#|#|#| | | | | |
+                        | | | | |#|#|#|#|#| | | | |
+                        | | | | | |#|#|#| | | | | |
+                        |#|#|#| | | |#| | | |#|#|#|
+                        | | | | | | | | | | | | | |
+                        | | | | |#| | | |#| | | | |
+                        | | | | |#| | | |#| | | | |
+                        | | | | |#| | | |#| | | | |
+                        """);
+        final Dictionary dictionary = createDictionary();
+
+        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+
+        assertSuccess(
+                """
+                        |S|A|L|E|#|P|P|P|#|M|O|X|A|
+                        |A|L|I|X|#|E|R|E|#|O|L|L|N|
+                        |A|D|N|C|#|N|E|T|#|N|E|V|E|
+                        |D|I|A|L|E|C|T|O|L|O|G|I|E|
+                        |#|#|#|U|R|E|#|N|E|M|#|#|#|
+                        |B|A|I|S|E|#|#|#|V|O|C|A|L|
+                        |I|M|S|I|#|#|#|#|#|R|O|S|E|
+                        |P|I|A|V|E|#|#|#|S|P|L|I|T|
+                        |#|#|#|E|S|A|#|B|A|H|#|#|#|
+                        |P|Y|G|M|A|L|I|O|N|I|S|M|E|
+                        |H|A|L|E|#|L|O|L|#|S|A|A|D|
+                        |I|L|A|N|#|O|D|E|#|M|A|Y|A|
+                        |L|E|S|T|#|C|E|E|#|E|D|A|M|
+                         """, result);
+    }
+
+    /*
+     * This takes < 40 s to solve at 1 GHz - which is too long.
+     */
     @Test
     void shaded15x15() throws URISyntaxException, IOException, InterruptedException {
-        /*
-         * This takes ~10 min to solve - which is way too long.
-         */
+
         final PuzzleDefinition puzzle = parsePuzzle(
                 """
                         | | | | |#| | | | | |#| | | | |
@@ -148,23 +203,23 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
-                        |M|O|A|B|#|C|A|L|E|R|#|G|R|A|M|
-                        |O|R|D|I|#|A|L|U|L|E|#|A|I|G|U|
-                        |O|D|I|N|#|B|E|G|U|M|#|R|E|I|S|
-                        |C|O|L|O|C|A|S|E|#|P|E|R|L|O|T|
-                        |#|#|#|D|A|L|E|#|T|I|N|O|#|#|#|
-                        |S|A|V|A|N|E|#|B|O|L|E|T|A|L|E|
-                        |H|U|I|L|E|#|D|I|N|E|E|#|B|U|G|
-                        |A|C|R|E|#|C|U|T|E|R|#|F|A|R|O|
-                        |N|U|E|#|A|E|R|E|R|#|L|I|C|O|U|
-                        |E|N|R|H|U|N|E|R|#|M|A|N|A|N|T|
-                        |#|#|#|A|R|T|E|#|A|A|B|A|#|#|#|
-                        |C|A|B|I|A|I|#|A|R|R|O|N|D|I|R|
-                        |O|M|A|N|#|B|A|L|A|I|#|C|O|L|O|
-                        |L|E|L|A|#|A|R|A|B|E|#|E|C|O|T|
-                        |T|R|I|N|#|R|E|N|O|M|#|R|U|T|H|
+                        |R|A|J|A|#|A|L|T|G|R|#|C|N|R|S|
+                        |A|R|E|C|#|D|A|R|I|O|#|R|O|U|E|
+                        |T|U|E|R|#|R|I|A|N|T|#|O|I|N|T|
+                        |E|M|P|O|R|I|U|M|#|A|S|T|R|E|E|
+                        |#|#|#|B|A|E|S|#|P|R|E|T|#|#|#|
+                        |C|O|P|A|I|N|#|R|A|I|N|E|T|E|R|
+                        |A|R|I|T|E|#|P|A|T|E|E|#|I|V|E|
+                        |R|I|P|E|#|R|A|M|O|N|#|B|A|I|N|
+                        |R|O|I|#|M|A|T|O|N|#|M|A|R|E|E|
+                        |E|N|T|R|A|V|O|N|#|G|A|L|E|R|E|
+                        |#|#|#|O|R|E|N|#|D|A|N|A|#|#|#|
+                        |A|I|R|A|I|N|#|A|I|M|A|N|T|I|N|
+                        |R|E|I|N|#|A|L|L|E|E|#|I|I|I|E|
+                        |N|E|O|N|#|L|I|A|N|T|#|T|A|I|N|
+                        |M|E|M|E|#|A|N|N|E|E|#|E|N|E|E|
                         """, result);
     }
 }

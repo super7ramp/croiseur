@@ -2,6 +2,8 @@ package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.util.solver.AbstractSatisfactionProblemSolverEngine;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -11,23 +13,30 @@ import java.util.logging.Logger;
  */
 public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolverEngine<Slot, String> {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(CrosswordSolverEngine.class.getName());
 
-    /** Slot iterator. */
+    /**
+     * Slot iterator.
+     */
     private final Iterator<Slot> slotIterator;
 
-    /** Candidate chooser. */
+    /**
+     * Candidate chooser.
+     */
     private final CandidateChooser candidateChooser;
 
-    /** Backtracker. */
+    /**
+     * Backtracker.
+     */
     private final Backtracker backtracker;
 
-    /** Dictionary. */
-    private final InternalDictionary dictionary;
-
-    /** The puzzle. */
-    private final Connectable puzzle;
+    /**
+     * Listeners to assignment/unassignment.
+     */
+    private final Collection<SolverUpdateListener> listeners;
 
     /**
      * Constructor.
@@ -36,16 +45,32 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
      * @param aCandidateChooser a {@link CandidateChooser}
      * @param aBacktracker      a {@link Backtracker}
      */
-    public CrosswordSolverEngine(final Connectable aPuzzle,
-                                 final Iterator<Slot> aSlotIterator,
+    public CrosswordSolverEngine(final Iterator<Slot> aSlotIterator,
                                  final CandidateChooser aCandidateChooser,
-                                 final Backtracker aBacktracker,
-                                 final InternalDictionary aDictionary) {
-        puzzle = aPuzzle;
+                                 final Backtracker aBacktracker) {
         slotIterator = aSlotIterator;
         candidateChooser = aCandidateChooser;
         backtracker = aBacktracker;
-        dictionary = aDictionary;
+        listeners = new ArrayList<>();
+    }
+
+    /**
+     * Add a listener to this {@link CrosswordSolverEngine}.
+     *
+     * @param listener a listener
+     * @return this {@link CrosswordSolverEngine}
+     */
+    public CrosswordSolverEngine withListener(final SolverUpdateListener listener) {
+        listeners.add(listener);
+        return this;
+    }
+
+    @Override
+    protected void assign(final Slot variable, final String value) {
+        LOGGER.info(() -> "Assigning [" + value + "] to variable [" + variable + "]");
+        variable.assign(value);
+
+        listeners.forEach(listener -> listener.onAssignment(variable, value));
     }
 
     @Override
@@ -59,29 +84,24 @@ public final class CrosswordSolverEngine extends AbstractSatisfactionProblemSolv
     }
 
     @Override
-    protected Slot backtrackFrom(final Slot unassignable) {
-        return backtracker.backtrackFrom(unassignable);
+    protected boolean backtrackFrom(final Slot unassignable) {
+        LOGGER.fine(() -> "No candidate for [" + unassignable + "], backtracking.");
+        final Optional<Slot> optToUnassign = backtracker.backtrackFrom(unassignable);
+        optToUnassign.ifPresent(this::unassign);
+        return optToUnassign.isPresent();
     }
 
-    @Override
-    protected void onAssignment(final Slot variable) {
-        final String value = variable.value().orElseThrow(IllegalStateException::new);
-        // Prevent value from being reused for another word
-        dictionary.use(value);
-    }
+    private void unassign(final Slot toUnassign) {
+        LOGGER.info(() -> "Unassigning variable [" + toUnassign + "]");
+        final Optional<String> optRemovedValue = toUnassign.unassign();
 
-    @Override
-    protected void onUnassignment(final Slot variable) {
-        // Value can now be reused for another word
-        variable.value().ifPresentOrElse(
-                dictionary::free,
-                () -> LOGGER.warning(() -> "Unassigning non-complete slot " + variable)
+        optRemovedValue.ifPresentOrElse(
+                removedValue -> listeners.forEach(listener -> listener.onUnassignment(toUnassign, removedValue)),
+                () -> {
+                    LOGGER.warning(() -> "Unassigning non-complete variable " + toUnassign);
+                    listeners.forEach(listener -> listener.onPartialUnassignment(toUnassign));
+                }
         );
-
-        // Connected slots will be amputated from one letter, their previous value shouldn't be reserved anymore
-        for (final Slot connectedSlot : puzzle.connectedSlots(variable)) {
-            connectedSlot.value().ifPresent(dictionary::free);
-        }
     }
 }
 

@@ -8,9 +8,28 @@ import java.util.Map;
 public interface SolverResult {
 
     /**
-     * The boxes of the puzzle filled.
+     * @return the result kind
+     */
+    Kind kind();
+
+    /**
+     * The boxes of the puzzle filled if {@link #kind()} is {@link Kind#SUCCESS}; the last known state otherwise.
      *
-     * @return the boxes of the puzzle filled
+     * @return The boxes of the puzzle filled if {@link #kind()} is {@link Kind#SUCCESS}; the last known state otherwise
      */
     Map<Coordinate, Character> boxes();
+
+    /**
+     * Kind of result.
+     */
+    enum Kind {
+        /**
+         * The grid has been successfully solved.
+         */
+        SUCCESS,
+        /**
+         * No solution exists.
+         */
+        IMPOSSIBLE
+    }
 }

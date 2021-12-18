@@ -54,6 +54,10 @@ final class SlotData {
         }
     }
 
+    SlotDefinition definition() {
+        return definition;
+    }
+
     Optional<String> value() {
         final char[] readValue = new char[definition.length()];
         for (int i = 0; i < definition.length(); i++) {

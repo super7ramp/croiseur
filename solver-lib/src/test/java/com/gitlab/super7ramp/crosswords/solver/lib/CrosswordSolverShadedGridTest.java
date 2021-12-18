@@ -5,7 +5,7 @@ import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 import org.junit.jupiter.api.Test;
 
-import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertEquals;
+import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertSuccess;
 import static com.gitlab.super7ramp.crosswords.solver.lib.PuzzleDefinitionParser.parsePuzzle;
 
 /**
@@ -30,7 +30,7 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
                         |A|B|C|
                         |A|B|D|
@@ -55,7 +55,7 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
                         |#|#|#|
                         |#|#|#|

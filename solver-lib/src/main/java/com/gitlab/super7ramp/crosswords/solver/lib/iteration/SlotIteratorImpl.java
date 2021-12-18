@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.iterator;
+package com.gitlab.super7ramp.crosswords.solver.lib.iteration;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.InternalDictionary;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIterator;
 
@@ -16,26 +16,31 @@ import java.util.function.Predicate;
 public final class SlotIteratorImpl implements SlotIterator {
 
     /**
+     * Comparator of {@link Slot} by number of candidates in {@link CachedDictionary}.
+     */
+    private static final Comparator<NumberOfCandidatesPerSlot> BY_NUMBER_OF_CANDIDATES =
+            Comparator.comparingLong(NumberOfCandidatesPerSlot::numberOfCandidates)
+                    .thenComparingInt(pair -> pair.slot.uid().id());
+    /**
+     * The dictionary.
+     */
+    private final CachedDictionary dictionary;
+
+    /**
+     * All variables.
+     */
+    private final Collection<Slot> variables;
+
+    /**
      * Constructor.
      *
      * @param slots       the slots
      * @param aDictionary the dictionary
      */
-    public SlotIteratorImpl(final Collection<Slot> slots, final InternalDictionary aDictionary) {
+    public SlotIteratorImpl(final Collection<Slot> slots, final CachedDictionary aDictionary) {
         variables = Collections.unmodifiableCollection(slots);
         dictionary = aDictionary;
     }
-
-    /** Comparator of {@link Slot} by number of candidates in {@link InternalDictionary}. */
-    private static final Comparator<NumberOfCandidatesPerSlot> BY_NUMBER_OF_CANDIDATES =
-            Comparator.comparingLong(NumberOfCandidatesPerSlot::numberOfCandidates)
-                    .thenComparingInt(pair -> pair.slot.uid().id());
-
-    /** All variables. */
-    private final Collection<Slot> variables;
-
-    /** The dictionary. */
-    private final InternalDictionary dictionary;
 
     /**
      * Associates a {@link Slot} to its number of candidates.
@@ -53,7 +58,7 @@ public final class SlotIteratorImpl implements SlotIterator {
     public Slot next() {
         return variables.stream()
                 .filter(unassignedSlot())
-                .map(slot -> new NumberOfCandidatesPerSlot(slot, dictionary.countPossibleValues(slot)))
+                .map(slot -> new NumberOfCandidatesPerSlot(slot, dictionary.candidatesCount(slot)))
                 .min(BY_NUMBER_OF_CANDIDATES)
                 .map(NumberOfCandidatesPerSlot::slot)
                 .orElseThrow(NoSuchElementException::new);
@@ -65,6 +70,6 @@ public final class SlotIteratorImpl implements SlotIterator {
      * @return the filter
      */
     private Predicate<Slot> unassignedSlot() {
-        return slot -> slot.value().isEmpty() || !dictionary.contains(slot.value().get());
+        return slot -> slot.value().isEmpty() || !dictionary.candidatesContains(slot, slot.value().get());
     }
 }

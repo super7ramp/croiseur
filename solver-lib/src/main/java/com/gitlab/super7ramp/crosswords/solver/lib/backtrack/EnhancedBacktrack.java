@@ -17,12 +17,16 @@ import java.util.logging.Logger;
  *     <li>blacklist the value of the unassigned variable</li>
  * </ul>
  */
-final class Backmark extends AbstractBacktracker {
+final class EnhancedBacktrack extends AbstractBacktracker {
 
-    /** Logger. */
-    private static Logger LOGGER = Logger.getLogger(Backmark.class.getName());
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(EnhancedBacktrack.class.getName());
 
-    /** Backtrack history. */
+    /**
+     * Backtrack history.
+     */
     private final BacktrackHistoryWriter backtrackHistory;
 
     /**
@@ -31,7 +35,7 @@ final class Backmark extends AbstractBacktracker {
      * @param anInstantiationHistory assignment history
      * @param aBacktrackHistory      un-assignment history
      */
-    Backmark(final InstantiationHistoryConsumer anInstantiationHistory, final BacktrackHistoryWriter aBacktrackHistory) {
+    EnhancedBacktrack(final InstantiationHistoryConsumer anInstantiationHistory, final BacktrackHistoryWriter aBacktrackHistory) {
         super(anInstantiationHistory);
         backtrackHistory = aBacktrackHistory;
     }

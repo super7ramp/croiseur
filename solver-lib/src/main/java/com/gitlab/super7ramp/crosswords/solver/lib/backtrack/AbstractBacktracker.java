@@ -5,6 +5,7 @@ import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.DeadEnd;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.InstantiationHistoryConsumer;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -12,8 +13,10 @@ import java.util.logging.Logger;
  */
 abstract class AbstractBacktracker implements Backtracker {
 
-    /** Logger. */
-    private static Logger LOGGER = Logger.getLogger(Backtrack.class.getName());
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(Backtrack.class.getName());
 
     /** Assignment history. */
     private final InstantiationHistoryConsumer instantiationHistory;
@@ -28,13 +31,19 @@ abstract class AbstractBacktracker implements Backtracker {
     }
 
     @Override
-    public final Slot backtrackFrom(final Slot variable) {
-        final Slot unassigned = instantiationHistory.lastAssignedSlot().orElseThrow(IllegalStateException::new);
-        unassigned.value().ifPresentOrElse(
-                unassignedValue -> updateBlackList(new DeadEnd(variable.uid(), unassigned.uid()), unassignedValue),
-                () -> LOGGER.warning("Unassigning a non-complete slot")
-        );
-        return unassigned;
+    public final Optional<Slot> backtrackFrom(final Slot variable) {
+        final Optional<Slot> optUnassigned = instantiationHistory.lastAssignedSlot();
+
+        if (optUnassigned.isPresent()) {
+            final Slot unassigned = optUnassigned.get();
+            unassigned.value().ifPresentOrElse(
+                    unassignedValue -> updateBlackList(new DeadEnd(variable.uid(), unassigned.uid()),
+                            unassignedValue),
+                    () -> LOGGER.warning("Unassigning a non-complete slot")
+            );
+        }
+
+        return optUnassigned;
     }
 
     /**

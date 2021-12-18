@@ -3,10 +3,10 @@ package com.gitlab.super7ramp.crosswords.solver.lib;
 import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertEquals;
+import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertImpossible;
+import static com.gitlab.super7ramp.crosswords.solver.lib.Assertions.assertSuccess;
 import static com.gitlab.super7ramp.crosswords.solver.lib.PuzzleDefinitionParser.parsePuzzle;
 
 final class CrosswordSolverPrefilledGridTest {
@@ -23,7 +23,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
                         |A|A|A|
                         |B|B|B|
@@ -32,7 +32,6 @@ final class CrosswordSolverPrefilledGridTest {
     }
 
     @Test
-    @Disabled("Solver shouldn't return an IllegalStateException when no bactracking solution found")
     void filledSlotNotInDictionary() throws InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle(
                 """
@@ -44,7 +43,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertImpossible(
                 """
                         |X| | |
                         |Y| | |
@@ -64,7 +63,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertEquals(
+        assertSuccess(
                 """
                         |A|A|A|
                         |B|B|B|

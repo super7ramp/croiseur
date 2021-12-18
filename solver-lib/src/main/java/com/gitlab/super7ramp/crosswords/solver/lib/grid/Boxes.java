@@ -84,7 +84,9 @@ final class Boxes {
 
         @Override
         public void set(final char aCharacter) {
-            // Do nothing.
+            if (character != aCharacter) {
+                throw new UnsupportedOperationException("Prefilled box value shall not be modified");
+            }
         }
 
         @Override

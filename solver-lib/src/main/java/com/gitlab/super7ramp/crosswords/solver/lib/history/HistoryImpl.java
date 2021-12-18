@@ -5,10 +5,12 @@ package com.gitlab.super7ramp.crosswords.solver.lib.history;
  */
 public final class HistoryImpl implements History {
 
-    private final InstantiationHistory instantiationHistory;
+    private final InstantiationHistoryImpl instantiationHistory;
 
-    /** Dead-end history. */
-    private final BacktrackHistory backtrackHistory;
+    /**
+     * Dead-end history.
+     */
+    private final BacktrackHistoryImpl backtrackHistory;
 
     /**
      * Constructor.

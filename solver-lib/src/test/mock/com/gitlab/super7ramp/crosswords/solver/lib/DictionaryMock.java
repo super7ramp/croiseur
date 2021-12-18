@@ -67,9 +67,4 @@ final class DictionaryMock implements Dictionary {
     public Set<String> lookup(final Predicate<String> predicate) {
         return words.stream().filter(predicate).collect(Collectors.toUnmodifiableSet());
     }
-
-    @Override
-    public boolean contains(final String value) {
-        return words.contains(value);
-    }
 }

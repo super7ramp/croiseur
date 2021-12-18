@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.iterator;
+package com.gitlab.super7ramp.crosswords.solver.lib.iteration;
 
 import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;

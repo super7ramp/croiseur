@@ -96,6 +96,7 @@ final class GridData {
         for (int x = 0; x < grid.length; x++) {
             final BoxData[] row = grid[x];
             for (int y = 0; y < row.length; y++) {
+                // FIXME why 2 checks on shaded?
                 if (!row[y].isShaded()) {
                     final char boxValue = row[y].value();
                     if (boxValue != BoxData.EMPTY_VALUE && boxValue != BoxData.SHADED_VALUE) {

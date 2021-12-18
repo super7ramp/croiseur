@@ -12,14 +12,12 @@ import picocli.CommandLine.Option;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Set;
-import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toSet;
 
 /**
- * "solve-grid" subcommand.
+ * "solve" subcommand.
  */
 @Command(
         name = "solve",
@@ -31,13 +29,16 @@ final class SolveCommand implements Runnable {
      * Logger.
      */
     private static final Logger LOGGER = Logger.getLogger(SolveCommand.class.getName());
+
     @Option(names = {"-s", "--size"}, arity = "1", required = true, description = "Grid dimension")
     private GridSize size;
+
     // TODO allow optional => use default dictionary => sort dictionaries
     //  (prefer system's locale, implement criteria on provider)
     @Option(names = {"-d", "--dictionary"}, arity = "1", required = true,
             paramLabel = "<[provider:]dictionary>", description = "Dictionary identifier")
     private String dictionary;
+
     @Option(names = {"-S", "--shaded"}, arity = "1..*", description = "Shaded box coordinates")
     private Coordinate[] shaded;
 
@@ -49,18 +50,7 @@ final class SolveCommand implements Runnable {
     }
 
     private static com.gitlab.super7ramp.crosswords.solver.api.Dictionary wrap(Dictionary dictionary) {
-        return new com.gitlab.super7ramp.crosswords.solver.api.Dictionary() {
-            @Override
-            public Set<String> lookup(Predicate<String> predicate) {
-                return dictionary.lookup(predicate);
-            }
-
-            @Override
-            public boolean contains(String value) {
-                // FIXME should not be solver dictionary API
-                return !dictionary.lookup(value::equals).isEmpty();
-            }
-        };
+        return dictionary::lookup;
     }
 
     @Override
@@ -95,6 +85,11 @@ final class SolveCommand implements Runnable {
     static final class ProgressListenerImpl implements ProgressListener {
 
         /**
+         * The best completion percentage reached.
+         */
+        private short bestCompletionPercentage;
+
+        /**
          * Constructor.
          */
         ProgressListenerImpl() {
@@ -103,7 +98,11 @@ final class SolveCommand implements Runnable {
 
         @Override
         public void onSolverProgressUpdate(final short completionPercentage) {
-            System.out.println("Completion: " + completionPercentage + " %");
+            if (completionPercentage > bestCompletionPercentage) {
+                bestCompletionPercentage = completionPercentage;
+            }
+            System.err.print("\rCompletion: " + completionPercentage + " %\t[best: " + bestCompletionPercentage + " " +
+                    "%]");
         }
     }
 }

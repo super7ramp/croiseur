@@ -13,25 +13,52 @@ import java.util.Objects;
  */
 public final class SolverResultImpl implements SolverResult {
 
-    /** Not filled/shaded character. */
+    /**
+     * Not filled/shaded character.
+     */
     private static final char NOT_FILLED = '#';
 
-    /** Column separator. */
+    /**
+     * Column separator.
+     */
     private static final char COLUMN_SEPARATOR = '|';
 
-    /** Line separator. */
+    /**
+     * Line separator.
+     */
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
-    /** The solved grid as boxes. */
+    /**
+     * The solved grid as boxes.
+     */
     private final Map<Coordinate, Character> boxes;
+
+    /**
+     * The kind of result.
+     */
+    private final Kind kind;
 
     /**
      * Constructor.
      *
      * @param someBoxes the solved grid
      */
-    SolverResultImpl(final Map<Coordinate, Character> someBoxes) {
+    private SolverResultImpl(final Map<Coordinate, Character> someBoxes, final Kind aKind) {
         boxes = someBoxes;
+        kind = aKind;
+    }
+
+    static SolverResultImpl success(final Map<Coordinate, Character> someBoxes) {
+        return new SolverResultImpl(someBoxes, Kind.SUCCESS);
+    }
+
+    static SolverResultImpl impossible(final Map<Coordinate, Character> someBoxes) {
+        return new SolverResultImpl(someBoxes, Kind.IMPOSSIBLE);
+    }
+
+    @Override
+    public Kind kind() {
+        return kind;
     }
 
     @Override
@@ -52,6 +79,8 @@ public final class SolverResultImpl implements SolverResult {
                 .orElse(0);
 
         final StringBuilder sb = new StringBuilder();
+        sb.append("Result: ").append(kind.toString()).append(System.lineSeparator());
+        sb.append("Grid:").append(System.lineSeparator());
         for (int y = 0; y < height; y++) {
             sb.append('|');
             for (int x = 0; x < width; x++) {
@@ -69,15 +98,15 @@ public final class SolverResultImpl implements SolverResult {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final SolverResultImpl that = (SolverResultImpl) o;
-        return Objects.equals(boxes, that.boxes);
+        SolverResultImpl that = (SolverResultImpl) o;
+        return boxes.equals(that.boxes) && kind == that.kind;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(boxes);
+        return Objects.hash(boxes, kind);
     }
 }
