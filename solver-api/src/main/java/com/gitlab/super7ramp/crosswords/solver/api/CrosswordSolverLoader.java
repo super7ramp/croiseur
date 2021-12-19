@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.api;
 
-import com.gitlab.super7ramp.crosswords.solver.api.spi.CrosswordSolverProvider;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
@@ -10,17 +10,16 @@ import java.util.ServiceLoader;
  */
 public final class CrosswordSolverLoader {
 
-    /**
-     * Service implementation loader.
-     */
-    private static final ServiceLoader<CrosswordSolverProvider> LOADER =
-            ServiceLoader.load(CrosswordSolverProvider.class);
+    /** Service implementation loader. */
+    private final ServiceLoader<CrosswordSolverProvider> loader;
 
     /**
      * Constructor.
+     *
+     * @param aLoader the actual loader
      */
-    private CrosswordSolverLoader() {
-        // Nothing to do
+    public CrosswordSolverLoader(final ServiceLoader<CrosswordSolverProvider> aLoader) {
+        loader = aLoader;
     }
 
     /**
@@ -28,8 +27,8 @@ public final class CrosswordSolverLoader {
      *
      * @return the default {@link CrosswordSolver}
      */
-    public static CrosswordSolver get() {
-        return LOADER.findFirst()
+    public CrosswordSolver get() {
+        return loader.findFirst()
                      .map(CrosswordSolverProvider::solver)
                      .orElseThrow(() -> new NoSuchElementException("No crossword solver " +
                              "implementation found"));

@@ -12,8 +12,13 @@ import picocli.CommandLine.Option;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+import java.util.function.BinaryOperator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -25,7 +30,7 @@ final class SolveCommand implements Runnable {
     /**
      * Implementation of {@link ProgressListener}.
      */
-    static final class ProgressListenerImpl implements ProgressListener {
+    private static final class ProgressListenerImpl implements ProgressListener {
 
         /** The best completion percentage reached. */
         private short bestCompletionPercentage;
@@ -42,47 +47,70 @@ final class SolveCommand implements Runnable {
             if (completionPercentage > bestCompletionPercentage) {
                 bestCompletionPercentage = completionPercentage;
             }
-            System.err.print("\rCompletion: " + completionPercentage + " %\t[best: " + bestCompletionPercentage + " " + "%]");
+            System.err.printf("\rCompletion: %3d %% [best: %3d %%]", completionPercentage,
+                    bestCompletionPercentage);
         }
     }
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(SolveCommand.class.getName());
 
-    @Option(names = {"-s", "--size"}, arity = "1", required = true, description = "Grid dimension")
+    /** Dictionary service loader. */
+    private final DictionaryLoader dictionaryLoader;
+
+    /** Solver service loader. */
+    private final CrosswordSolverLoader solverLoader;
+
+    @Option(names = {"-s", "--size"}, arity = "1", required = true, description = "Grid " +
+            "dimension, e.g. '--size 7x15' for a grid of width 7 and height 15")
     private GridSize size;
 
     // TODO allow optional => use default dictionary => sort dictionaries
     //  (prefer system's locale, implement criteria on provider)
     @Option(names = {"-d", "--dictionary"}, arity = "1", required = true, paramLabel =
-            "<[provider:]dictionary>", description = "Dictionary identifier")
+            "<[PROVIDER:]DICTIONARY>", description = "Dictionary identifier")
     private String dictionary;
 
-    @Option(names = {"-S", "--shaded"}, arity = "1..*", description = "Shaded box coordinates")
-    private Coordinate[] shaded;
+    @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", description =
+            "Shaded boxes, e.g. '--shaded-boxes (1,2) (3,4)...'",
+            paramLabel = "<COORDINATE> ")
+    private Coordinate[] shadedBoxes;
+
+    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", description = "Pre-filled boxes, " +
+            "e.g. " +
+            "'--boxes ((1,2),A) ((3,4),B)...'",
+            paramLabel = "<(COORDINATE,LETTER)> ")
+    private PrefilledBox[] prefilledBoxes;
+
+    @Option(names = {"-H", "--horizontal"}, arity = "1..*", description = "Pre-filled horizontal " +
+            "slot(s), e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
+            paramLabel = "<(START_COORDINATE,WORD)> ")
+    private PrefilledSlot[] prefilledHorizontalSlots;
+
+    @Option(names = {"-V", "--vertical"}, arity = "1..*", description = "Pre-filled vertical " +
+            "slot(s), e.g. '--vertical ((0,0),hello) ((5,0),world)...",
+            paramLabel = "<(START_COORDINATE,WORD)> ")
+    private PrefilledSlot[] prefilledVerticalSlots;
+
+    @Option(names = {"-p", "--progress"}, description = "Show solver progress")
+    private boolean progress;
 
     /**
      * Constructor.
+     *
+     * @param aDictionaryLoader dictionary service loader
+     * @param aSolverLoader     solver service loader
      */
-    SolveCommand() {
-        // Nothing to do.
-    }
-
-    private static com.gitlab.super7ramp.crosswords.solver.api.Dictionary wrap(Dictionary dictionary) {
-        return dictionary::lookup;
+    SolveCommand(final CrosswordSolverLoader aSolverLoader,
+                 final DictionaryLoader aDictionaryLoader) {
+        solverLoader = aSolverLoader;
+        dictionaryLoader = aDictionaryLoader;
     }
 
     @Override
     public void run() {
-        LOGGER.info("solve-grid command launched");
-        LOGGER.info("Size is " + size);
-        LOGGER.info("Dictionary is " + dictionary);
-        if (shaded.length > 0) {
-            LOGGER.info("Shaded boxes are " + Arrays.toString(shaded));
-        }
-
         final Dictionary dictionary =
-                DictionaryLoader.get(DictionaryLoader.Search.includeAll(),
+                dictionaryLoader.get(DictionaryLoader.Search.includeAll(),
                                         DictionaryLoader.Search.byName("fr" + ".obj"))
                                 .values()
                                 .iterator()
@@ -91,17 +119,89 @@ final class SolveCommand implements Runnable {
                                 .next();
 
         final PuzzleDefinition puzzle = new PuzzleDefinition(size.width(), size.height(),
-                Arrays.stream(shaded).collect(toSet()), Collections.emptyMap());
+                Arrays.stream(shadedBoxes).collect(toSet()), mergePrefilledBoxes());
 
-        final com.gitlab.super7ramp.crosswords.solver.api.Dictionary adaptedDictionary =
-                wrap(dictionary);
+        final ProgressListener progressListener = createProgressListener();
         try {
-            final SolverResult result = CrosswordSolverLoader.get()
-                                                             .solve(puzzle, adaptedDictionary,
-                                                                     new ProgressListenerImpl());
+            final SolverResult result = solverLoader.get()
+                                                    .solve(puzzle, dictionary::lookup,
+                                                            progressListener);
             System.out.println(result);
         } catch (final InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Solver interrupted", e);
+            Thread.currentThread().interrupt();
         }
+    }
+
+    /**
+     * Create the {@link ProgressListener}.
+     *
+     * @return the progress listener
+     */
+    private ProgressListener createProgressListener() {
+        final ProgressListener progressListener;
+        if (progress) {
+            progressListener = new ProgressListenerImpl();
+        } else {
+            progressListener = ProgressListener.DUMMY_LISTENER;
+        }
+        return progressListener;
+    }
+
+    /**
+     * Merge {@link #prefilledBoxes}, {@link #prefilledHorizontalSlots} and
+     * {@link #prefilledVerticalSlots} into a single map.
+     *
+     * @return the merged map
+     * @throws IllegalArgumentException if boxes overlap
+     */
+    private Map<Coordinate, Character> mergePrefilledBoxes() {
+
+        final BinaryOperator<Character> mergeFunction = (a, b) -> {
+            if (a.equals(b)) {
+                return a;
+            }
+            throw new IllegalArgumentException("Conflict in prefilled boxes");
+        };
+
+        final Map<Coordinate, Character> singleBoxes;
+        if (prefilledBoxes != null) {
+            singleBoxes = Arrays.stream(prefilledBoxes)
+                                .collect(toMap(PrefilledBox::coordinate, PrefilledBox::value));
+        } else {
+            singleBoxes = Collections.emptyMap();
+        }
+
+        final Map<Coordinate, Character> horizontalSlots;
+        if (prefilledHorizontalSlots != null) {
+            horizontalSlots =
+                    Arrays.stream(prefilledHorizontalSlots)
+                          .flatMap(slot ->
+                                  OrientedPrefilledSlot.horizontal(slot)
+                                                       .toMap()
+                                                       .entrySet()
+                                                       .stream())
+                          .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
+        } else {
+            horizontalSlots = Collections.emptyMap();
+        }
+
+        final Map<Coordinate, Character> verticalSlots;
+        if (prefilledVerticalSlots != null) {
+            verticalSlots = Arrays.stream(prefilledVerticalSlots)
+                                  .flatMap(slot ->
+                                          OrientedPrefilledSlot.vertical(slot)
+                                                               .toMap()
+                                                               .entrySet()
+                                                               .stream())
+                                  .collect(toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                          mergeFunction));
+        } else {
+            verticalSlots = Collections.emptyMap();
+        }
+
+        return Stream.of(singleBoxes, horizontalSlots, verticalSlots)
+                     .flatMap(map -> map.entrySet().stream())
+                     .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
     }
 }

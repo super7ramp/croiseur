@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
-import com.gitlab.super7ramp.crosswords.solver.api.spi.CrosswordSolverProvider;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 
 /**
  * Implementation of {@link CrosswordSolverProvider}.

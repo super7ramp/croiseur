@@ -1,5 +1,5 @@
-import com.gitlab.super7ramp.crosswords.dictionary.api.spi.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.dictionary.internal.InternalDictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 
 /**
  * {@link DictionaryProvider} based on a basic serialized representation.

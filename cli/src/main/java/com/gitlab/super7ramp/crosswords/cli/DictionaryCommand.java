@@ -2,7 +2,7 @@ package com.gitlab.super7ramp.crosswords.cli;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
-import com.gitlab.super7ramp.crosswords.dictionary.api.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -26,11 +26,16 @@ final class DictionaryCommand {
 
     private static final String LIST_OUTPUT_FORMAT = "%-16s\t%-16s\t%-16s%n";
 
+    /** The dictionary service loader. */
+    private final DictionaryLoader dictionaryLoader;
+
     /**
      * Constructor.
+     *
+     * @param aDictionaryLoader the dictionary service loader
      */
-    DictionaryCommand() {
-        // Nothing to do.
+    DictionaryCommand(final DictionaryLoader aDictionaryLoader) {
+        dictionaryLoader = aDictionaryLoader;
     }
 
     private static void printDictionaries(final Map<DictionaryProvider, Collection<Dictionary>> dictionariesByProvider) {
@@ -61,7 +66,7 @@ final class DictionaryCommand {
 
     @Command(name = "providers", description = "List available dictionary providers")
     void providers() {
-        final Collection<DictionaryProvider> providers = DictionaryLoader.providers();
+        final Collection<DictionaryProvider> providers = dictionaryLoader.providers();
         if (providers.isEmpty()) {
             System.out.println("No dictionary provider found.");
         } else {
@@ -88,7 +93,7 @@ final class DictionaryCommand {
         }
 
         final Map<DictionaryProvider, Collection<Dictionary>> dictionaries =
-                DictionaryLoader.get(providerName.map(DictionaryLoader.Search::byProvider)
+                dictionaryLoader.get(providerName.map(DictionaryLoader.Search::byProvider)
                                                  .orElseGet(DictionaryLoader.Search::includeAll),
                         DictionaryLoader.Search.byName(dictionaryName));
 
@@ -123,7 +128,7 @@ final class DictionaryCommand {
             {"-l", "--locale"}) final Locale localeOption) {
 
         final Map<DictionaryProvider, Collection<Dictionary>> availableDictionaries =
-                DictionaryLoader.get(filterFrom(providerOption), filterFrom(localeOption));
+                dictionaryLoader.get(filterFrom(providerOption), filterFrom(localeOption));
 
         if (availableDictionaries.isEmpty()) {
             System.out.println("No dictionary found.");

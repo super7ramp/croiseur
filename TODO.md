@@ -2,18 +2,6 @@
 
 ## Features
 
-### Allow user to define shaded box (CLI)
-
-- CLI: Finish implementing the `--shaded` option.
-
-### Allow user to provide prefilled slots (CLI)
-
-- CLI: Add repeatable options:
-  - `--box <coordinate> <character>`
-  - `--vertical-slot <start-coordinate> <string>`
-  - `--horizontal-slot <start-coordinate> <string>`
-- Solver part done (maybe bugs to fix)
-
 ### Allow user to stop the solver after completion threshold reached (CLI, maybe solver too)
 
 - Add an option `--threshold` in CLI

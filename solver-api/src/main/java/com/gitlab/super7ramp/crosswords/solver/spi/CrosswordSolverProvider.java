@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.solver.api.spi;
+package com.gitlab.super7ramp.crosswords.solver.spi;
 
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
 

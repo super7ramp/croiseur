@@ -1,5 +1,5 @@
-import com.gitlab.super7ramp.crosswords.solver.api.spi.CrosswordSolverProvider;
 import com.gitlab.super7ramp.crosswords.solver.lib.CrosswordSolverProviderImpl;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 
 /*
  * Solver module.

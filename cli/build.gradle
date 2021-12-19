@@ -13,5 +13,6 @@ dependencies {
 }
 
 application {
+    mainModule = 'com.gitlab.super7ramp.crosswords.cli' // name defined in module-info.java
     mainClass = 'com.gitlab.super7ramp.crosswords.cli.Main'
 }

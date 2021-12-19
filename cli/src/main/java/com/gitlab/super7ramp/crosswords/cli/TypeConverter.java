@@ -12,9 +12,7 @@ import java.util.function.Function;
  */
 final class TypeConverter<T> implements ITypeConverter<T> {
 
-    /**
-     * The actual parser.
-     */
+    /** The actual parser. */
     private final Function<String, T> parser;
 
     /**

@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.api;
 
-import com.gitlab.super7ramp.crosswords.dictionary.api.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -73,14 +73,20 @@ public final class DictionaryLoader {
     }
 
     /** Service implementation loader. */
-    private static final ServiceLoader<DictionaryProvider> LOADER =
-            ServiceLoader.load(DictionaryProvider.class);
+    private final ServiceLoader<DictionaryProvider> loader;
 
     /**
-     * Private constructor, static methods only.
+     * Constructor.
+     *
+     * @param aLoader the actual service loader
      */
-    private DictionaryLoader() {
-        // Nothing to do.
+    public DictionaryLoader(final ServiceLoader<DictionaryProvider> aLoader) {
+        loader = aLoader;
+    }
+
+    private static Collection<Dictionary> dictionaries(final DictionaryProvider dictionaryProvider,
+                                                       final Predicate<Dictionary> predicate) {
+        return dictionaryProvider.get().stream().filter(predicate).toList();
     }
 
     /**
@@ -88,7 +94,7 @@ public final class DictionaryLoader {
      *
      * @return the available {@link DictionaryProvider}s
      */
-    public static Collection<DictionaryProvider> providers() {
+    public Collection<DictionaryProvider> providers() {
         return providers(Search.includeAll()).toList();
     }
 
@@ -99,19 +105,17 @@ public final class DictionaryLoader {
      * @param dictionaryFilter predicate on the dictionary itself
      * @return the dictionaries matching the given predicates
      */
-    public static Map<DictionaryProvider, Collection<Dictionary>> get(final Predicate<DictionaryProvider> providerFilter, final Predicate<Dictionary> dictionaryFilter) {
+    public Map<DictionaryProvider, Collection<Dictionary>> get(
+            final Predicate<DictionaryProvider> providerFilter,
+            final Predicate<Dictionary> dictionaryFilter) {
         return providers(providerFilter).map(provider -> new AbstractMap.SimpleEntry<>(provider,
                                                 dictionaries(provider, dictionaryFilter)))
                                         .filter(entry -> !entry.getValue().isEmpty())
                                         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private static Stream<DictionaryProvider> providers(final Predicate<DictionaryProvider> predicate) {
-        return LOADER.stream().map(ServiceLoader.Provider::get).filter(predicate);
-    }
-
-    private static Collection<Dictionary> dictionaries(final DictionaryProvider dictionaryProvider, final Predicate<Dictionary> predicate) {
-        return dictionaryProvider.get().stream().filter(predicate).toList();
+    private Stream<DictionaryProvider> providers(final Predicate<DictionaryProvider> predicate) {
+        return loader.stream().map(ServiceLoader.Provider::get).filter(predicate);
     }
 
 }

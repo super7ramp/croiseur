@@ -1,6 +1,6 @@
-import com.gitlab.super7ramp.crosswords.dictionary.api.spi.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.HunspellDictionaryProvider;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.HunspellExtDictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 
 /**
  * {@link DictionaryProvider}s for Hunspell dictionaries.
