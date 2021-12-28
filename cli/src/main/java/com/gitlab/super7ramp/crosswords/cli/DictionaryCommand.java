@@ -79,7 +79,7 @@ final class DictionaryCommand {
     }
 
     @Command(name = "cat", description = "Display dictionary entries")
-    void cat(@Parameters(index = "0", paramLabel = "<[provider:]dictionary>") final String dictionaryId) {
+    void cat(@Parameters(index = "0", paramLabel = "<[PROVIDER:]DICTIONARY>") final String dictionaryId) {
 
         final String[] parts = dictionaryId.split(":");
         final Optional<String> providerName;

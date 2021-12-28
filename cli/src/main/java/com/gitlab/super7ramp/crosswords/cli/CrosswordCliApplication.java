@@ -6,6 +6,7 @@ import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
 import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 import picocli.CommandLine;
+import picocli.CommandLine.HelpCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +35,8 @@ final class CrosswordCliApplication {
         final CrosswordSolverLoader solver =
                 new CrosswordSolverLoader(ServiceLoader.load(CrosswordSolverProvider.class));
 
-        command.addSubcommand(new SolveCommand(solver, dictionary))
+        command.addSubcommand(HelpCommand.class)
+               .addSubcommand(new SolveCommand(solver, dictionary))
                .addSubcommand(new DictionaryCommand(dictionary));
 
         command.registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
