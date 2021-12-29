@@ -18,6 +18,12 @@ public interface Slot {
     Optional<String> value();
 
     /**
+     * @return <code>true</code> iff the variable has been formally assigned and has not been
+     * unassigned yet and has a value (i.e. a connected slot hasn't been unassigned)
+     */
+    boolean isInstantiated();
+
+    /**
      * Assign a value to the variable.
      *
      * @param value the value to assign
@@ -33,20 +39,10 @@ public interface Slot {
 
     /**
      * Returns if given string fits inside slot - without consideration on the given string being
-     * in a dictionary or
-     * not.
+     * in a dictionary or not.
      *
      * @param value the value to test
      * @return <code>true</code> if the given value fits inside this slot
      */
     boolean isCompatibleWith(final String value);
-
-    /**
-     * Whether this slot has been pre-filled at grid construction. It is immutable - solver shall
-     * not try to assign
-     * anything, otherwise a runtime exception will be run.
-     *
-     * @return whether this slot has been pre-filled
-     */
-    boolean isPrefilled();
 }

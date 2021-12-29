@@ -54,7 +54,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 5 s to solve at 1 GHz.
+     * This takes < 5 s to solve at 1 GHz. No backtrack necessary.
      */
     @Test
     void shaded9x9() throws URISyntaxException, IOException, InterruptedException {

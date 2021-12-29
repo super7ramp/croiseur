@@ -68,6 +68,16 @@ final class SlotData {
         return Optional.of(String.valueOf(readValue));
     }
 
+    boolean hasValue() {
+        for (int i = 0; i < definition.length(); i++) {
+            final char letter = boxAt(i).value();
+            if (letter == BoxData.EMPTY_VALUE) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private BoxData boxAt(final int i) {
         final BoxData box;
         if (definition.type().isHorizontal()) {
