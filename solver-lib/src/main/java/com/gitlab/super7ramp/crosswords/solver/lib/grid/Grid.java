@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 
 import java.util.Map;
 
@@ -23,5 +23,5 @@ public interface Grid {
      *
      * @return the grid
      */
-    Map<Coordinate, Character> boxes();
+    Map<GridPosition, Character> boxes();
 }

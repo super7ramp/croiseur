@@ -15,7 +15,6 @@ import com.gitlab.super7ramp.crosswords.solver.lib.grid.GridFactory;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.HistoryImpl;
 import com.gitlab.super7ramp.crosswords.solver.lib.instantiation.CandidateChooserImpl;
 import com.gitlab.super7ramp.crosswords.solver.lib.iteration.SlotIteratorImpl;
-import com.gitlab.super7ramp.crosswords.solver.lib.iteration.SlotIteratorProgressDecorator;
 
 import java.util.Collection;
 
@@ -49,22 +48,18 @@ final class CrosswordSolverImpl implements CrosswordSolver {
         final Collection<Slot> slots = grid.puzzle().slots();
 
         final HistoryImpl history = new HistoryImpl();
-
         final CachedDictionaryImpl dictionary = new CachedDictionaryImpl(externalDictionary,
                 slots, grid.puzzle(), history.backtrack());
-
-        final SlotIteratorProgressDecorator slotChooser =
-                new SlotIteratorProgressDecorator(new SlotIteratorImpl(slots, dictionary), slots,
-                        progressListener);
-
+        final SlotIteratorImpl slotChooser = new SlotIteratorImpl(slots, dictionary);
         final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(),
                 dictionary);
-
         final Backtracker backtracker = Backtrackers.enhancedBacktrack(history);
+        final ProgressNotifier stats = new ProgressNotifier(slots, progressListener);
 
         final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(slotChooser,
                 candidateChooser, backtracker).withListener(dictionary)
-                                              .withListener(history.instantiation());
+                                              .withListener(history.instantiation())
+                                              .withListener(stats);
 
         progressListener.onInitialisationEnd();
 

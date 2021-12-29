@@ -5,7 +5,7 @@ import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Connectivity;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverUpdateListener;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverListener;
 import com.gitlab.super7ramp.crosswords.solver.lib.history.BacktrackHistoryReader;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 /**
  * Implementation of {@link CachedDictionary}.
  */
-public final class CachedDictionaryImpl implements CachedDictionary, SolverUpdateListener {
+public final class CachedDictionaryImpl implements CachedDictionary, SolverListener {
 
     /** Cached dictionary. */
     private final DictionaryCache<Slot, String> cache;
@@ -65,8 +65,7 @@ public final class CachedDictionaryImpl implements CachedDictionary, SolverUpdat
              * Sort result of lookup to have reproducible results
              *
              * Avoid slow TreeSet, a simple list is sufficient for holding the sorted initial
-             * lookup result since it is
-             * not modified.
+             * lookup result since it is not modified.
              */
             final List<String> lookupResult =
                     new ArrayList<>(dictionary.lookup(slot::isCompatibleWith));
@@ -113,7 +112,7 @@ public final class CachedDictionaryImpl implements CachedDictionary, SolverUpdat
 
     @Override
     public void onUnassignment(final Slot unassignedSlot, final String unassignedWord) {
-        cache.invalidateCache(unassignedSlot, unassignedWord);
+        cache.invalidateCache();
     }
 
     @Override

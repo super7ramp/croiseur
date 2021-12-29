@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.history;
 
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverUpdateListener;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverListener;
 
 /**
  * Consumer: instantiation.
  */
-public interface InstantiationHistoryProducer extends SolverUpdateListener {
+public interface InstantiationHistoryProducer extends SolverListener {
 
     @Override
     default void onUnassignment(final Slot slot, final String unassignedWord) {

@@ -1,11 +1,11 @@
 package com.gitlab.super7ramp.crosswords.cli;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-record PrefilledSlot(Coordinate startCoordinate, String value) {
+record PrefilledSlot(GridPosition startGridPosition, String value) {
 
     /** Textual representation pattern. */
     private static final Pattern PATTERN = Pattern.compile("\\(" +
@@ -25,8 +25,8 @@ record PrefilledSlot(Coordinate startCoordinate, String value) {
             throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
                     ", was " + text);
         }
-        final Coordinate parsedCoordinate = Coordinate.valueOf(matcher.group("coordinate"));
+        final GridPosition parsedGridPosition = GridPosition.valueOf(matcher.group("coordinate"));
         final String parsedValue = matcher.group("value").toUpperCase();
-        return new PrefilledSlot(parsedCoordinate, parsedValue);
+        return new PrefilledSlot(parsedGridPosition, parsedValue);
     }
 }

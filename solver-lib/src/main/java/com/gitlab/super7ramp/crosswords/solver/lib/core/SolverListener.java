@@ -3,7 +3,7 @@ package com.gitlab.super7ramp.crosswords.solver.lib.core;
 /**
  * Listener on puzzle modification.
  */
-public interface SolverUpdateListener {
+public interface SolverListener {
 
     /**
      * Called when a slot which was <strong>not</strong> entirely filled is cleared.

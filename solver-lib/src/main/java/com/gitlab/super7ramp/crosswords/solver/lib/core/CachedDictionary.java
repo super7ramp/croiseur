@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 /**
  * A dictionary caching results of potentially slow external dictionary.
  * <p>
- * Implementation is synced with puzzle assignments/backtracks in order to minimise the amount of
+ * Implementation is synced with puzzle assignments/backtracks in order to minimize the amount of
  * candidates to evaluate.
  */
 public interface CachedDictionary {
@@ -52,7 +52,7 @@ public interface CachedDictionary {
      * To be used when probing candidates, i.e. when puzzle is not in sync with the puzzle data
      * backing this dictionary.
      * <p>
-     * Probed slot is a hint for cache optimisation (avoid refreshing all values, only connected
+     * Probed slot is a hint for cache optimization (avoid refreshing all values, only connected
      * ones).
      *
      * @param wordVariable   a variable
@@ -61,6 +61,4 @@ public interface CachedDictionary {
      * @return the candidates for given variable
      */
     long refreshedCandidatesCount(final Slot wordVariable, final SlotIdentifier probedVariable);
-
-
 }

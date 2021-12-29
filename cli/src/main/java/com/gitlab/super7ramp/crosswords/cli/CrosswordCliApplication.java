@@ -2,8 +2,8 @@ package com.gitlab.super7ramp.crosswords.cli;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
@@ -41,7 +41,7 @@ final class CrosswordCliApplication {
 
         command.registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
-               .registerConverter(Coordinate.class, TypeConverter.wrap(Coordinate::valueOf))
+               .registerConverter(GridPosition.class, TypeConverter.wrap(GridPosition::valueOf))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
                .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf));
     }

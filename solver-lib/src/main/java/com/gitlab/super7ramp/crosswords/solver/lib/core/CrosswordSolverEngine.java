@@ -27,7 +27,7 @@ public final class CrosswordSolverEngine extends
     private final Backtracker backtracker;
 
     /** Listeners to assignment/unassignment. */
-    private final Collection<SolverUpdateListener> listeners;
+    private final Collection<SolverListener> listeners;
 
     /**
      * Constructor.
@@ -51,7 +51,7 @@ public final class CrosswordSolverEngine extends
      * @param listener a listener
      * @return this {@link CrosswordSolverEngine}
      */
-    public CrosswordSolverEngine withListener(final SolverUpdateListener listener) {
+    public CrosswordSolverEngine withListener(final SolverListener listener) {
         listeners.add(listener);
         return this;
     }

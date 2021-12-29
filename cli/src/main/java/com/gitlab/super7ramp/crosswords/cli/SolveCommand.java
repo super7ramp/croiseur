@@ -2,8 +2,8 @@ package com.gitlab.super7ramp.crosswords.cli;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
@@ -75,7 +75,7 @@ final class SolveCommand implements Runnable {
 
     @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", description =
             "Shaded boxes, e.g. '--shaded-boxes (1,2) (3,4)...'", paramLabel = "<COORDINATE> ")
-    private Coordinate[] shadedBoxes = {};
+    private GridPosition[] shadedBoxes = {};
 
     @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", description = "Pre-filled boxes, " +
             "e.g. '--boxes ((1,2),A) ((3,4),B)...'", paramLabel = "<(COORDINATE,LETTER)> ")
@@ -154,7 +154,7 @@ final class SolveCommand implements Runnable {
      * @return the merged map
      * @throws IllegalArgumentException if boxes overlap
      */
-    private Map<Coordinate, Character> mergePrefilledBoxes() {
+    private Map<GridPosition, Character> mergePrefilledBoxes() {
 
         final BinaryOperator<Character> mergeFunction = (a, b) -> {
             if (a.equals(b)) {
@@ -163,11 +163,11 @@ final class SolveCommand implements Runnable {
             throw new IllegalArgumentException("Conflict in prefilled boxes");
         };
 
-        final Map<Coordinate, Character> singleBoxes =
+        final Map<GridPosition, Character> singleBoxes =
                 Arrays.stream(prefilledBoxes)
-                      .collect(toMap(PrefilledBox::coordinate, PrefilledBox::value));
+                      .collect(toMap(PrefilledBox::gridPosition, PrefilledBox::value));
 
-        final Map<Coordinate, Character> horizontalSlots =
+        final Map<GridPosition, Character> horizontalSlots =
                 Arrays.stream(prefilledHorizontalSlots)
                       .flatMap(slot ->
                               OrientedPrefilledSlot.horizontal(slot)
@@ -176,7 +176,7 @@ final class SolveCommand implements Runnable {
                                                    .stream())
                       .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
 
-        final Map<Coordinate, Character> verticalSlots =
+        final Map<GridPosition, Character> verticalSlots =
                 Arrays.stream(prefilledVerticalSlots)
                       .flatMap(slot ->
                               OrientedPrefilledSlot.vertical(slot)

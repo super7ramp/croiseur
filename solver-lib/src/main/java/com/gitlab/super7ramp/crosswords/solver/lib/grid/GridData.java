@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 import java.util.Collections;
@@ -93,8 +93,8 @@ final class GridData {
         return result;
     }
 
-    Map<Coordinate, Character> toBoxes() {
-        final Map<Coordinate, Character> result = new HashMap<>();
+    Map<GridPosition, Character> toBoxes() {
+        final Map<GridPosition, Character> result = new HashMap<>();
         for (int x = 0; x < grid.length; x++) {
             final BoxData[] row = grid[x];
             for (int y = 0; y < row.length; y++) {
@@ -102,7 +102,7 @@ final class GridData {
                 if (!row[y].isShaded()) {
                     final char boxValue = row[y].value();
                     if (boxValue != BoxData.EMPTY_VALUE && boxValue != BoxData.SHADED_VALUE) {
-                        result.put(new Coordinate(x, y), boxValue);
+                        result.put(new GridPosition(x, y), boxValue);
                     }
                 }
             }

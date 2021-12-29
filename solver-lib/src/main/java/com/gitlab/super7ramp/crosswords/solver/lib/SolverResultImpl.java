@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 
 import java.util.Collections;
@@ -23,7 +23,7 @@ public final class SolverResultImpl implements SolverResult {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     /** The solved grid as boxes. */
-    private final Map<Coordinate, Character> boxes;
+    private final Map<GridPosition, Character> boxes;
 
     /** The kind of result. */
     private final Kind kind;
@@ -33,16 +33,16 @@ public final class SolverResultImpl implements SolverResult {
      *
      * @param someBoxes the solved grid
      */
-    private SolverResultImpl(final Map<Coordinate, Character> someBoxes, final Kind aKind) {
+    private SolverResultImpl(final Map<GridPosition, Character> someBoxes, final Kind aKind) {
         boxes = someBoxes;
         kind = aKind;
     }
 
-    static SolverResultImpl success(final Map<Coordinate, Character> someBoxes) {
+    static SolverResultImpl success(final Map<GridPosition, Character> someBoxes) {
         return new SolverResultImpl(someBoxes, Kind.SUCCESS);
     }
 
-    static SolverResultImpl impossible(final Map<Coordinate, Character> someBoxes) {
+    static SolverResultImpl impossible(final Map<GridPosition, Character> someBoxes) {
         return new SolverResultImpl(someBoxes, Kind.IMPOSSIBLE);
     }
 
@@ -52,7 +52,7 @@ public final class SolverResultImpl implements SolverResult {
     }
 
     @Override
-    public Map<Coordinate, Character> boxes() {
+    public Map<GridPosition, Character> boxes() {
         return Collections.unmodifiableMap(boxes);
     }
 
@@ -71,12 +71,12 @@ public final class SolverResultImpl implements SolverResult {
                                 .orElse(0);
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("Result: ").append(kind.toString()).append(System.lineSeparator());
-        sb.append("Grid:").append(System.lineSeparator());
+        sb.append("Result: ").append(kind.toString()).append(LINE_SEPARATOR);
+        sb.append("Grid:").append(LINE_SEPARATOR);
         for (int y = 0; y < height; y++) {
             sb.append('|');
             for (int x = 0; x < width; x++) {
-                Character value = boxes.get(new Coordinate(x, y));
+                final Character value = boxes.get(new GridPosition(x, y));
                 if (value != null) {
                     sb.append(value);
                 } else {

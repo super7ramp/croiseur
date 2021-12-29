@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 
 import java.util.HashMap;
@@ -34,8 +34,8 @@ public final class PuzzleDefinitionParser {
      * @return the {@link PuzzleDefinition}
      */
     public static PuzzleDefinition parsePuzzle(final String puzzle) {
-        final Set<Coordinate> shaded = new HashSet<>();
-        final Map<Coordinate, Character> prefilled = new HashMap<>();
+        final Set<GridPosition> shaded = new HashSet<>();
+        final Map<GridPosition, Character> prefilled = new HashMap<>();
         final String[] lines = puzzle.split(System.lineSeparator());
         final int height = lines.length;
         final int width = (int) CHARACTER_SEPARATOR.matcher(lines[0]).results().count() - 1;
@@ -47,11 +47,11 @@ public final class PuzzleDefinitionParser {
                 final String parsed = characters[x].trim();
                 if (!parsed.isEmpty()) {
                     final Character character = parsed.charAt(0);
-                    final Coordinate coordinate = new Coordinate(x, y);
+                    final GridPosition gridPosition = new GridPosition(x, y);
                     if (character.equals(SHADED_CHARACTER)) {
-                        shaded.add(coordinate);
+                        shaded.add(gridPosition);
                     } else {
-                        prefilled.put(coordinate, character);
+                        prefilled.put(gridPosition, character);
                     }
                 } else {
                     // Empty box.

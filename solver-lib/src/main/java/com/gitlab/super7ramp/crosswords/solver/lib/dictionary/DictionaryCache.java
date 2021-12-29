@@ -19,19 +19,14 @@ final class DictionaryCache<SlotT, ValueT> {
      * Contains the initial candidates for each slot, after lookup in the real dictionary.
      * <p>
      * It serves as a first cache to avoid filtering all the dictionary again. It is assumed that
-     * subsequent requests
-     * will be more restrictive than the first lookup.
+     * subsequent requests will be more restrictive than the first lookup.
      */
     private final Map<SlotT, Collection<ValueT>> initial;
 
-    /**
-     * The current candidates for each slot.
-     */
+    /** The current candidates for each slot. */
     private final Map<SlotT, Collection<ValueT>> current;
 
-    /**
-     * The eligibility predicate for a word to be a valid candidate for a slot.
-     */
+    /** The eligibility predicate for a word to be a valid candidate for a slot. */
     private final BiPredicate<SlotT, ValueT> eligibility;
 
     /**
@@ -74,7 +69,7 @@ final class DictionaryCache<SlotT, ValueT> {
      * <p>
      * Cache will be reset to its initial state.
      */
-    void invalidateCache(final SlotT unassignedSlot, final ValueT unassignedValue) {
+    void invalidateCache() {
         for (final Map.Entry<SlotT, Collection<ValueT>> entry : current.entrySet()) {
             final SlotT slot = entry.getKey();
             final Collection<ValueT> candidates = entry.getValue();
@@ -87,7 +82,7 @@ final class DictionaryCache<SlotT, ValueT> {
      * Update cache given an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidateCache(SlotT, ValueT) invalidation}, the smaller the cache will be, the
+     * {@link #invalidateCache() invalidation}, the smaller the cache will be, the
      * faster the results will be.
      *
      * @param refreshNeeded the predicate that specifies which slot should be re-evaluated

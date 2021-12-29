@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
@@ -15,10 +15,10 @@ import java.util.Set;
 public final class GridDataBuilder {
 
     /** The shaded boxes. */
-    private final Set<Coordinate> shaded;
+    private final Set<GridPosition> shaded;
 
     /** The prefilled (not shaded) boxes. */
-    private final Map<Coordinate, Character> prefilled;
+    private final Map<GridPosition, Character> prefilled;
 
     /** The height. */
     private int height;
@@ -59,11 +59,11 @@ public final class GridDataBuilder {
     /**
      * Specify the position of a shaded box.
      *
-     * @param coordinate coordinate
+     * @param gridPosition coordinate
      * @return this builder
      */
-    public GridDataBuilder withShaded(final Coordinate coordinate) {
-        shaded.add(coordinate);
+    public GridDataBuilder withShaded(final GridPosition gridPosition) {
+        shaded.add(gridPosition);
         return this;
     }
 
@@ -125,7 +125,7 @@ public final class GridDataBuilder {
 
     private int nextShadedOnLine(final int y, final int xStart) {
         for (int x = xStart; x < width; x++) {
-            if (shaded.contains(new Coordinate(x, y))) {
+            if (shaded.contains(new GridPosition(x, y))) {
                 return x;
             }
         }
@@ -134,7 +134,7 @@ public final class GridDataBuilder {
 
     private int nextShadedOnColumn(final int x, final int yStart) {
         for (int y = yStart; y < height; y++) {
-            if (shaded.contains(new Coordinate(x, y))) {
+            if (shaded.contains(new GridPosition(x, y))) {
                 return y;
             }
         }
@@ -143,7 +143,7 @@ public final class GridDataBuilder {
 
     private int nextVerticalSlot(final int x, final int yStart) {
         for (int y = yStart; y < height; y++) {
-            if (!shaded.contains(new Coordinate(x, y))) {
+            if (!shaded.contains(new GridPosition(x, y))) {
                 return y;
             }
         }
@@ -152,7 +152,7 @@ public final class GridDataBuilder {
 
     private int nextHorizontalSlot(final int y, final int xStart) {
         for (int x = xStart; x < width; x++) {
-            if (!shaded.contains(new Coordinate(x, y))) {
+            if (!shaded.contains(new GridPosition(x, y))) {
                 return x;
             }
         }
@@ -163,7 +163,7 @@ public final class GridDataBuilder {
         final BoxData[][] result = new BoxData[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                final Coordinate coord = new Coordinate(x, y);
+                final GridPosition coord = new GridPosition(x, y);
                 if (shaded.contains(coord)) {
                     result[x][y] = Boxes.shaded();
                 } else if (prefilled.containsKey(coord)) {

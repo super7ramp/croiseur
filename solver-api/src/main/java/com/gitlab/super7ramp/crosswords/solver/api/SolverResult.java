@@ -29,5 +29,5 @@ public interface SolverResult {
      * @return The boxes of the puzzle filled if {@link #kind()} is {@link Kind#SUCCESS}; the
      * last known state otherwise
      */
-    Map<Coordinate, Character> boxes();
+    Map<GridPosition, Character> boxes();
 }

@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 final class OrientedPrefilledSlot {
 
     /** The offset function. */
-    private final BiFunction<Coordinate, Integer, Coordinate> coordinateOffset;
+    private final BiFunction<GridPosition, Integer, GridPosition> coordinateOffset;
 
     /** The non-oriented slot data. */
     private final PrefilledSlot nonOrientedSlot;
@@ -23,7 +23,7 @@ final class OrientedPrefilledSlot {
      * @param aCoordinateOffset the offset function
      * @param aNonOrientedSlot  the non-oriented data
      */
-    private OrientedPrefilledSlot(final BiFunction<Coordinate, Integer, Coordinate> aCoordinateOffset,
+    private OrientedPrefilledSlot(final BiFunction<GridPosition, Integer, GridPosition> aCoordinateOffset,
                                   final PrefilledSlot aNonOrientedSlot) {
         coordinateOffset = aCoordinateOffset;
         nonOrientedSlot = aNonOrientedSlot;
@@ -54,10 +54,10 @@ final class OrientedPrefilledSlot {
      *
      * @return the corresponding map
      */
-    Map<Coordinate, Character> toMap() {
-        final Map<Coordinate, Character> map = new HashMap<>();
+    Map<GridPosition, Character> toMap() {
+        final Map<GridPosition, Character> map = new HashMap<>();
         for (int i = 0; i < nonOrientedSlot.value().length(); i++) {
-            map.put(coordinateOffset.apply(nonOrientedSlot.startCoordinate(), i),
+            map.put(coordinateOffset.apply(nonOrientedSlot.startGridPosition(), i),
                     nonOrientedSlot.value().charAt(i));
         }
         return map;

@@ -19,10 +19,10 @@ public final class PuzzleDefinition {
     private final int height;
 
     /** Shaded boxes. */
-    private final Set<Coordinate> shaded;
+    private final Set<GridPosition> shaded;
 
     /** Filled boxes. */
-    private final Map<Coordinate, Character> filled;
+    private final Map<GridPosition, Character> filled;
 
     /**
      * Constructor.
@@ -32,8 +32,8 @@ public final class PuzzleDefinition {
      * @param someShaded    coordinates of the shaded boxes
      * @param somePrefilled prefilled boxes
      */
-    public PuzzleDefinition(final int aWidth, final int aHeight, final Set<Coordinate> someShaded,
-                            final Map<Coordinate, Character> somePrefilled) {
+    public PuzzleDefinition(final int aWidth, final int aHeight, final Set<GridPosition> someShaded,
+                            final Map<GridPosition, Character> somePrefilled) {
         validate(aWidth, aHeight, someShaded, somePrefilled);
 
         width = aWidth;
@@ -51,8 +51,8 @@ public final class PuzzleDefinition {
      * @param somePrefilled prefilled boxes
      */
     private static void validate(final int aWidth, final int aHeight,
-                                 final Set<Coordinate> someShaded,
-                                 final Map<Coordinate, Character> somePrefilled) {
+                                 final Set<GridPosition> someShaded,
+                                 final Map<GridPosition, Character> somePrefilled) {
         if (aWidth <= 0 || aHeight <= 0) {
             throw new IllegalArgumentException("Invalid grid dimensions");
         }
@@ -71,7 +71,7 @@ public final class PuzzleDefinition {
      * @param height height of the grid
      * @return the validation function
      */
-    private static Consumer<Coordinate> validateCoordinates(final int width, final int height) {
+    private static Consumer<GridPosition> validateCoordinates(final int width, final int height) {
         return coordinate -> {
             if (coordinate.x() >= width || coordinate.y() >= height) {
                 throw new IllegalArgumentException("Coordinates outside grid: " + coordinate);
@@ -96,14 +96,14 @@ public final class PuzzleDefinition {
     /**
      * @return the shaded boxes
      */
-    public Set<Coordinate> shaded() {
+    public Set<GridPosition> shaded() {
         return shaded;
     }
 
     /**
      * @return the filled boxes
      */
-    public Map<Coordinate, Character> filled() {
+    public Map<GridPosition, Character> filled() {
         return filled;
     }
 }

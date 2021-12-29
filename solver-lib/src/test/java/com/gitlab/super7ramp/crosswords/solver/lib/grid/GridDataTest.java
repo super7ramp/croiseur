@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +21,7 @@ final class GridDataTest {
     void squareGridWithShaded() {
         final GridData grid = new GridDataBuilder().withHeight(8)
                                                    .withWidth(8)
-                                                   .withShaded(new Coordinate(3, 3))
+                                                   .withShaded(new GridPosition(3, 3))
                                                    .build();
 
         assertEquals(18, grid.slots().size());
@@ -38,7 +38,7 @@ final class GridDataTest {
     void wideGridWithShadedAndOneSingleLetterSlot() {
         final GridData grid = new GridDataBuilder().withHeight(4)
                                                    .withWidth(8)
-                                                   .withShaded(new Coordinate(2, 2))
+                                                   .withShaded(new GridPosition(2, 2))
                                                    .build();
 
         assertEquals(13, grid.slots().size());
@@ -48,7 +48,7 @@ final class GridDataTest {
     void wideGridWithShadedAndTwoSingleLetterSlot() {
         final GridData grid = new GridDataBuilder().withHeight(4)
                                                    .withWidth(8)
-                                                   .withShaded(new Coordinate(1, 2))
+                                                   .withShaded(new GridPosition(1, 2))
                                                    .build();
 
         assertEquals(12, grid.slots().size());

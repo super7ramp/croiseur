@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Coordinate;
+import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
@@ -90,7 +90,7 @@ final class GridImpl implements Grid {
     }
 
     @Override
-    public Map<Coordinate, Character> boxes() {
+    public Map<GridPosition, Character> boxes() {
         return data.toBoxes();
     }
 }
