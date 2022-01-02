@@ -13,15 +13,29 @@ public interface Slot {
     SlotIdentifier uid();
 
     /**
-     * @return the value of the variable, if assigned
+     * @return the value of the variable, if any
      */
     Optional<String> value();
 
     /**
-     * @return <code>true</code> iff the variable has been formally assigned and has not been
-     * unassigned yet and has a value (i.e. a connected slot hasn't been unassigned)
+     * Return whether the variable has a value.
+     * <p>
+     * It is equivalent to {@code value().isPresent()}, just a bit cheaper.
+     * <p>
+     * Note that a slot may have a value without having been ever assigned (e.g. all boxes
+     * have been filled by assigning connected slots).
+     *
+     * @return <code>true</code> iff the slot has a value
      */
-    boolean isInstantiated();
+    boolean hasValue();
+
+    /**
+     * The ratio of empty boxes inside this slot, as a percentage.
+     *
+     * @return the ratio as an integer in [0,100]; 100 indicates the variable has no box filled;
+     * 0 indicates the variable is fully filled (i.e. has a value)
+     */
+    int emptyBoxRatio();
 
     /**
      * Assign a value to the variable.

@@ -73,7 +73,7 @@ public final class SlotIteratorProgressDecorator implements SlotIterator {
      * @return the completion percentage
      */
     private short completionPercentage() {
-        final long slotSolved = variables.stream().filter(slot -> slot.value().isPresent()).count();
+        final long slotSolved = variables.stream().filter(Slot::hasValue).count();
         return (short) (100 * slotSolved / variables.size());
     }
 }

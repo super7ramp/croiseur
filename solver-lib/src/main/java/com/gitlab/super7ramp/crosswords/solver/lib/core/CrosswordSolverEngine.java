@@ -83,12 +83,16 @@ public final class CrosswordSolverEngine extends
     }
 
     private void unassign(final Slot toUnassign) {
-        LOGGER.info(() -> "Unassigning variable [" + toUnassign + "]");
+
         final Optional<String> optRemovedValue = toUnassign.unassign();
 
         optRemovedValue.ifPresentOrElse(
-                removedValue -> listeners.forEach(
-                        listener -> listener.onUnassignment(toUnassign, removedValue)),
+                removedValue -> {
+                    LOGGER.info(() -> "Unassigning variable [" + toUnassign + "], value was: " +
+                            removedValue);
+                    listeners.forEach(
+                            listener -> listener.onUnassignment(toUnassign, removedValue));
+                },
                 () -> {
                     LOGGER.warning(() -> "Unassigning non-complete variable " + toUnassign);
                     listeners.forEach(listener -> listener.onPartialUnassignment(toUnassign));

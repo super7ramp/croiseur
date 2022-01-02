@@ -17,9 +17,6 @@ final class SlotImpl implements Slot {
     /** Uid. */
     private final SlotIdentifier uid;
 
-    /** If slot has been instantiated. */
-    private boolean instantiated;
-
     /**
      * Constructor.
      *
@@ -42,8 +39,26 @@ final class SlotImpl implements Slot {
     }
 
     @Override
-    public boolean isInstantiated() {
-        return instantiated && data.hasValue();
+    public boolean hasValue() {
+        for (int i = 0; i < data.length(); i++) {
+            final char letter = data.letterAt(i);
+            if (letter == BoxData.EMPTY_VALUE) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int emptyBoxRatio() {
+        int empty = 0;
+        for (int i = 0; i < data.length(); i++) {
+            final char letter = data.letterAt(i);
+            if (letter == BoxData.EMPTY_VALUE) {
+                empty++;
+            }
+        }
+        return empty * 100 / data.length();
     }
 
     @Override
@@ -82,7 +97,6 @@ final class SlotImpl implements Slot {
     @Override
     public void assign(final String value) {
         data.write(value);
-        instantiated = true;
     }
 
     @Override
@@ -94,7 +108,6 @@ final class SlotImpl implements Slot {
     public Optional<String> unassign() {
         final Optional<String> clearedValue = value();
         data.clear();
-        instantiated = false;
         return clearedValue;
     }
 }

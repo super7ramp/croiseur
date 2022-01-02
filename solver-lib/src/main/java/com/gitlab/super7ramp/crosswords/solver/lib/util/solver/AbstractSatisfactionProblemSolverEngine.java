@@ -56,8 +56,8 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT, ValueT>
     public final boolean solve() throws InterruptedException {
 
         final Iterator<VariableT> variables = variables();
-        boolean backtrackError = false;
-        while (!Thread.currentThread().isInterrupted() && !backtrackError && variables.hasNext()) {
+        boolean noMoreSolution = false;
+        while (!Thread.currentThread().isInterrupted() && variables.hasNext() && !noMoreSolution) {
 
             final VariableT variable = variables.next();
             final Optional<ValueT> candidate = candidate(variable);
@@ -65,7 +65,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT, ValueT>
             if (candidate.isPresent()) {
                 assign(variable, candidate.get());
             } else {
-                backtrackError = !backtrackFrom(variable);
+                noMoreSolution = !backtrackFrom(variable);
             }
         }
 
@@ -73,7 +73,7 @@ public abstract class AbstractSatisfactionProblemSolverEngine<VariableT, ValueT>
             throw new InterruptedException("Solver interrupted");
         }
 
-        return !backtrackError;
+        return !noMoreSolution;
     }
 
     /**

@@ -54,7 +54,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 5 s to solve at 1 GHz. No backtrack necessary.
+     * This takes < 3 s to solve at 1 GHz. No backtrack necessary.
      */
     @Test
     void shaded9x9() throws URISyntaxException, IOException, InterruptedException {
@@ -87,7 +87,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 10s to solve at 1 GHz.
+     * This takes < 5s to solve at 1 GHz.
      */
     @Test
     void shaded13x13() throws URISyntaxException, IOException, InterruptedException {
@@ -111,14 +111,14 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |S|O|R|E|#|B|O|A|#|P|A|R|A|
-                |A|R|E|S|#|E|S|S|#|A|N|O|N|
-                |R|E|I|S|#|R|E|M|#|S|A|M|E|
-                |D|E|N|A|I|N|#|A|S|T|R|E|E|
-                |#|#|#|R|I|E|#|A|S|I|#|#|#|
-                |E|P|I|T|E|#|#|#|I|S|A|A|C|
-                |R|A|I|#|#|#|#|#|#|#|V|I|L|
-                |E|L|I|A|S|#|#|#|B|R|E|L|E|
+                |T|A|R|A|#|C|T|A|#|M|E|T|A|
+                |A|R|E|C|#|A|I|N|#|A|N|O|N|
+                |T|E|T|E|#|R|O|I|#|R|E|I|N|
+                |A|S|T|R|A|L|#|T|A|G|E|T|E|
+                |#|#|#|B|I|O|#|A|O|I|#|#|#|
+                |A|B|I|E|S|#|#|#|I|S|A|A|C|
+                |B|A|I|#|#|#|#|#|#|#|V|I|L|
+                |A|L|I|A|S|#|#|#|B|R|E|L|E|
                 |#|#|#|B|A|C|#|C|A|O|#|#|#|
                 |A|L|T|A|I|R|#|A|L|B|A|N|E|
                 |B|O|R|T|#|A|R|T|#|A|M|A|L|
@@ -152,19 +152,19 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |S|A|L|E|#|P|P|P|#|M|O|X|A|
-                |A|L|I|X|#|E|R|E|#|O|L|L|N|
-                |A|D|N|C|#|N|E|T|#|N|E|V|E|
-                |D|I|A|L|E|C|T|O|L|O|G|I|E|
-                |#|#|#|U|R|E|#|N|E|M|#|#|#|
-                |B|A|I|S|E|#|#|#|V|O|C|A|L|
-                |I|M|S|I|#|#|#|#|#|R|O|S|E|
-                |P|I|A|V|E|#|#|#|S|P|L|I|T|
-                |#|#|#|E|S|A|#|B|A|H|#|#|#|
-                |P|Y|G|M|A|L|I|O|N|I|S|M|E|
-                |H|A|L|E|#|L|O|L|#|S|A|A|D|
-                |I|L|A|N|#|O|D|E|#|M|A|Y|A|
-                |L|E|S|T|#|C|E|E|#|E|D|A|M|
+                |S|A|A|D|#|C|A|L|#|P|A|C|K|
+                |O|R|G|E|#|O|V|E|#|E|B|L|E|
+                |F|U|I|R|#|R|A|I|#|R|E|I|N|
+                |A|M|O|N|C|E|L|L|E|M|E|N|T|
+                |#|#|#|I|I|E|#|A|I|E|#|#|#|
+                |A|B|C|E|S|#|#|#|B|A|L|A|I|
+                |B|A|A|R|#|#|#|#|#|B|O|N|D|
+                |A|L|L|E|R|#|#|#|B|I|G|R|E|
+                |#|#|#|S|A|C|#|P|A|L|#|#|#|
+                |I|D|E|N|T|I|T|A|R|I|S|M|E|
+                |P|O|L|E|#|R|O|T|#|S|A|I|D|
+                |S|U|E|E|#|A|R|T|#|E|R|S|E|
+                |O|R|E|S|#|D|I|E|#|R|I|E|N|
                  """, result);
     }
 
@@ -196,21 +196,21 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |R|A|J|A|#|A|L|T|G|R|#|C|N|R|S|
-                |A|R|E|C|#|D|A|R|I|O|#|R|O|U|E|
-                |T|U|E|R|#|R|I|A|N|T|#|O|I|N|T|
-                |E|M|P|O|R|I|U|M|#|A|S|T|R|E|E|
-                |#|#|#|B|A|E|S|#|P|R|E|T|#|#|#|
-                |C|O|P|A|I|N|#|R|A|I|N|E|T|E|R|
-                |A|R|I|T|E|#|P|A|T|E|E|#|I|V|E|
-                |R|I|P|E|#|R|A|M|O|N|#|B|A|I|N|
-                |R|O|I|#|M|A|T|O|N|#|M|A|R|E|E|
-                |E|N|T|R|A|V|O|N|#|G|A|L|E|R|E|
-                |#|#|#|O|R|E|N|#|D|A|N|A|#|#|#|
-                |A|I|R|A|I|N|#|A|I|M|A|N|T|I|N|
-                |R|E|I|N|#|A|L|L|E|E|#|I|I|I|E|
-                |N|E|O|N|#|L|I|A|N|T|#|T|A|I|N|
-                |M|E|M|E|#|A|N|N|E|E|#|E|N|E|E|
+                |A|M|A|L|#|S|T|A|F|F|#|A|B|B|E|
+                |L|I|M|A|#|A|I|E|U|L|#|B|R|O|L|
+                |I|L|E|T|#|M|A|D|R|E|#|A|R|N|M|
+                |A|E|R|O|G|A|R|E|#|M|A|T|R|I|E|
+                |#|#|#|M|O|R|E|#|S|A|I|E|#|#|#|
+                |A|L|A|I|R|E|#|C|O|L|L|E|C|T|E|
+                |R|A|M|E|E|#|J|A|B|L|E|#|A|I|S|
+                |U|P|A|S|#|C|A|I|R|E|#|C|L|A|P|
+                |B|O|N|#|B|A|R|R|E|#|N|A|I|R|A|
+                |A|N|D|E|R|S|E|N|#|D|O|N|N|E|R|
+                |#|#|#|L|I|E|D|#|S|E|A|N|#|#|#|
+                |M|A|R|I|E|R|#|P|A|R|M|E|L|A|N|
+                |I|R|E|S|#|N|A|B|L|E|#|T|O|N|I|
+                |A|N|E|E|#|E|L|I|S|E|#|T|I|A|N|
+                |M|I|L|E|#|R|I|T|A|L|#|E|R|R|E|
                 """, result);
     }
 }

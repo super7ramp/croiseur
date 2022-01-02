@@ -22,9 +22,21 @@ public final class SlotIteratorImpl implements SlotIterator {
         // Nothing to add.
     }
 
-    /** Comparator of {@link Slot} by number of candidates in {@link CachedDictionary}. */
-    private static final Comparator<NumberOfCandidatesPerSlot> BY_NUMBER_OF_CANDIDATES =
+    /**
+     * Comparator of {@link Slot} by their openness.
+     * <p>
+     * Basically, a slot S1 is considered as less open (more constrained) than a slot S2 if S1 has
+     * fewer candidates than S2.
+     * <p>
+     * If the two slots have the same number of candidates, then the percentage of empty boxes is
+     * considered: S1 is considered more constrained than S2 if S1 has less empty boxes.
+     * <p>
+     * If the two slots also have the same ratio of empty boxes, then the slot identifier is
+     * used for the sake of reproducibility.
+     */
+    private static final Comparator<NumberOfCandidatesPerSlot> BY_OPENNESS =
             Comparator.comparingLong(NumberOfCandidatesPerSlot::numberOfCandidates)
+                      .thenComparingInt(pair -> pair.slot.emptyBoxRatio())
                       .thenComparingInt(pair -> pair.slot.uid().id());
 
     /** The dictionary. */
@@ -55,7 +67,7 @@ public final class SlotIteratorImpl implements SlotIterator {
                         .filter(unassignedSlot())
                         .map(slot -> new NumberOfCandidatesPerSlot(slot,
                                 dictionary.candidatesCount(slot)))
-                        .min(BY_NUMBER_OF_CANDIDATES)
+                        .min(BY_OPENNESS)
                         .map(NumberOfCandidatesPerSlot::slot)
                         .orElseThrow(NoSuchElementException::new);
     }
@@ -66,7 +78,7 @@ public final class SlotIteratorImpl implements SlotIterator {
      * @return the filter
      */
     private Predicate<Slot> unassignedSlot() {
-        return slot -> slot.value().isEmpty() || !dictionary.candidatesContains(slot, slot.value()
-                                                                                          .get());
+        return slot -> !slot.hasValue() || !dictionary.candidatesContains(slot, slot.value()
+                                                                                    .get());
     }
 }
