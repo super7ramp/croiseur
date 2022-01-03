@@ -40,17 +40,17 @@ final class ProgressNotifier implements SolverListener {
     }
 
     @Override
-    public void onPartialUnassignment(Slot slot) {
+    public void onPartialUnassignment(final Slot slot) {
         refresh();
     }
 
     @Override
-    public void onUnassignment(Slot slot, String unassignedWord) {
+    public void onUnassignment(final Slot slot, final String unassignedWord) {
         refresh();
     }
 
     @Override
-    public void onAssignment(Slot slot, String word) {
+    public void onAssignment(final Slot slot, final String word) {
         refresh();
     }
 

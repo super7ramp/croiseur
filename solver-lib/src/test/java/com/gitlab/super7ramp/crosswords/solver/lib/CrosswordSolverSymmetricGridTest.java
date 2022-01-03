@@ -152,7 +152,7 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |S|A|A|D|#|C|A|L|#|P|A|C|K|
+                |S|A|A|D|#|C|A|A|#|P|A|C|K|
                 |O|R|G|E|#|O|V|E|#|E|B|L|E|
                 |F|U|I|R|#|R|A|I|#|R|E|I|N|
                 |A|M|O|N|C|E|L|L|E|M|E|N|T|

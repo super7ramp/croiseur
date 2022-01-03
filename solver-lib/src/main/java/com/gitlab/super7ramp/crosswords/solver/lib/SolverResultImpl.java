@@ -13,6 +13,39 @@ import java.util.Objects;
  */
 public final class SolverResultImpl implements SolverResult {
 
+    /**
+     * Dummy statistics.
+     */
+    private static class DummyStatistics implements Statistics {
+
+        /**
+         * Constructor.
+         */
+        DummyStatistics() {
+            // Nothing to do.
+        }
+
+        @Override
+        public long numberOfAssignments() {
+            return 0;
+        }
+
+        @Override
+        public long numberOfUnassignments() {
+            return 0;
+        }
+
+        @Override
+        public long eliminationSetSize() {
+            return 0;
+        }
+
+        @Override
+        public String toString() {
+            return "(none recorded)";
+        }
+    }
+
     /** Not filled/shaded character. */
     private static final char NOT_FILLED = '#';
 
@@ -28,22 +61,37 @@ public final class SolverResultImpl implements SolverResult {
     /** The kind of result. */
     private final Kind kind;
 
+    /** Solver statistics. */
+    private final Statistics statistics;
+
     /**
      * Constructor.
      *
      * @param someBoxes the solved grid
      */
-    private SolverResultImpl(final Map<GridPosition, Character> someBoxes, final Kind aKind) {
+    private SolverResultImpl(final Map<GridPosition, Character> someBoxes, final Kind aKind,
+                             final Statistics someStatistics) {
         boxes = someBoxes;
         kind = aKind;
+        statistics = someStatistics;
+    }
+
+    static SolverResultImpl success(final Map<GridPosition, Character> someBoxes,
+                                    final Statistics someStatistics) {
+        return new SolverResultImpl(someBoxes, Kind.SUCCESS, someStatistics);
+    }
+
+    static SolverResultImpl impossible(final Map<GridPosition, Character> someBoxes,
+                                       final Statistics someStatistics) {
+        return new SolverResultImpl(someBoxes, Kind.IMPOSSIBLE, someStatistics);
     }
 
     static SolverResultImpl success(final Map<GridPosition, Character> someBoxes) {
-        return new SolverResultImpl(someBoxes, Kind.SUCCESS);
+        return success(someBoxes, new DummyStatistics());
     }
 
     static SolverResultImpl impossible(final Map<GridPosition, Character> someBoxes) {
-        return new SolverResultImpl(someBoxes, Kind.IMPOSSIBLE);
+        return impossible(someBoxes, new DummyStatistics());
     }
 
     @Override
@@ -54,6 +102,11 @@ public final class SolverResultImpl implements SolverResult {
     @Override
     public Map<GridPosition, Character> boxes() {
         return Collections.unmodifiableMap(boxes);
+    }
+
+    @Override
+    public Statistics statistics() {
+        return statistics;
     }
 
     @Override
@@ -86,6 +139,7 @@ public final class SolverResultImpl implements SolverResult {
             }
             sb.append(LINE_SEPARATOR);
         }
+        sb.append("Statistics: ").append(statistics.toString()).append(LINE_SEPARATOR);
         return sb.toString();
     }
 
@@ -97,7 +151,8 @@ public final class SolverResultImpl implements SolverResult {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SolverResultImpl that = (SolverResultImpl) o;
+        final SolverResultImpl that = (SolverResultImpl) o;
+        // TODO assess whether statistics should be included in equals()+hashCoded()
         return boxes.equals(that.boxes) && kind == that.kind;
     }
 

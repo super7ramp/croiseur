@@ -27,12 +27,15 @@ final class CrosswordSolverImpl implements CrosswordSolver {
         // Nothing to do.
     }
 
-    private static SolverResultImpl result(final Grid grid, final boolean success) {
+    private static SolverResultImpl result(final Grid grid,
+                                           final StatisticsRecorder statisticsRecorder,
+                                           final boolean success) {
         final SolverResultImpl solverResult;
         if (success) {
-            solverResult = SolverResultImpl.success(grid.boxes());
+            solverResult = SolverResultImpl.success(grid.boxes(), statisticsRecorder.statistics());
         } else {
-            solverResult = SolverResultImpl.impossible(grid.boxes());
+            solverResult = SolverResultImpl.impossible(grid.boxes(),
+                    statisticsRecorder.statistics());
         }
         return solverResult;
     }
@@ -54,16 +57,18 @@ final class CrosswordSolverImpl implements CrosswordSolver {
         final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(),
                 dictionary);
         final Backtracker backtracker = Backtrackers.enhancedBacktrack(history);
-        final ProgressNotifier stats = new ProgressNotifier(slots, progressListener);
+        final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
+        final StatisticsRecorder statisticsRecorder = new StatisticsRecorder();
 
         final CrosswordSolverEngine solverEngine = new CrosswordSolverEngine(slotChooser,
                 candidateChooser, backtracker).withListener(dictionary)
                                               .withListener(history.instantiation())
-                                              .withListener(stats);
+                                              .withListener(progressNotifier)
+                                              .withListener(statisticsRecorder);
 
         progressListener.onInitialisationEnd();
 
-        return result(grid, solverEngine.solve());
+        return result(grid, statisticsRecorder, solverEngine.solve());
     }
 
 }
