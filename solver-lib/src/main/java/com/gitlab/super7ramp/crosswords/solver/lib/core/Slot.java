@@ -13,21 +13,36 @@ public interface Slot {
     SlotIdentifier uid();
 
     /**
-     * @return the value of the variable, if any
+     * Return the value of the variable, if instantiated.
+     *
+     * @return the value of the variable, if instantiated
      */
     Optional<String> value();
 
     /**
-     * Return whether the variable has a value.
-     * <p>
-     * It is equivalent to {@code value().isPresent()}, just a bit cheaper.
-     * <p>
-     * Note that a slot may have a value without having been ever assigned (e.g. all boxes
-     * have been filled by assigning connected slots).
+     * Return whether the variable is instantiated.
      *
-     * @return <code>true</code> iff the slot has a value
+     * @return <code>true</code> iff the variable is instantiated.
      */
-    boolean hasValue();
+    boolean isInstantiated();
+
+    /**
+     * Return whether the variable is connected to the given other variable.
+     *
+     * @param other the other variable
+     * @return <code>true</code> iff the two variables are connected
+     */
+    default boolean isConnectedTo(final Slot other) {
+        return isConnectedTo(other.uid());
+    }
+
+    /**
+     * Return whether the variable is connected to the given other variable.
+     *
+     * @param other the other variable
+     * @return <code>true</code> iff the two variables are connected
+     */
+    boolean isConnectedTo(final SlotIdentifier other);
 
     /**
      * The ratio of empty boxes inside this slot, as a percentage.
@@ -47,9 +62,10 @@ public interface Slot {
     /**
      * Clear any assignment on this variable.
      *
-     * @return the unassigned value, if any
+     * @return the unassigned value
+     * @throws IllegalStateException if the variable is not instantiated
      */
-    Optional<String> unassign();
+    String unassign();
 
     /**
      * Returns if given string fits inside slot - without consideration on the given string being

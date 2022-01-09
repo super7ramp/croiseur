@@ -69,12 +69,14 @@ final class DictionaryCache<SlotT, ValueT> {
      * <p>
      * Cache will be reset to its initial state.
      */
-    void invalidateCache() {
+    void invalidateCache(final Predicate<SlotT> refreshNeeded) {
         for (final Map.Entry<SlotT, Collection<ValueT>> entry : current.entrySet()) {
             final SlotT slot = entry.getKey();
-            final Collection<ValueT> candidates = entry.getValue();
-            candidates.clear();
-            initial.get(slot).stream().filter(isCompatibleWith(slot)).forEach(candidates::add);
+            if (refreshNeeded.test(slot)) {
+                final Collection<ValueT> candidates = entry.getValue();
+                candidates.clear();
+                initial.get(slot).stream().filter(isCompatibleWith(slot)).forEach(candidates::add);
+            }
         }
     }
 
@@ -82,8 +84,8 @@ final class DictionaryCache<SlotT, ValueT> {
      * Update cache given an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidateCache() invalidation}, the smaller the cache will be, the
-     * faster the results will be.
+     * {@link #invalidateCache() invalidation}, the smaller the cache will be, the faster the
+     * results will be.
      *
      * @param refreshNeeded the predicate that specifies which slot should be re-evaluated
      */

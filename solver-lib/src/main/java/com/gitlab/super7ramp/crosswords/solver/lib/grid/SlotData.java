@@ -1,6 +1,8 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Access to data for a given slot.
@@ -14,19 +16,39 @@ final class SlotData {
     private final SlotDefinition definition;
 
     /**
+     * Instantiation flag.
+     * <p>
+     * This flags allows identifying whether the variable represented by this data has been
+     * instantiated. Relying on value presence is not sufficient as slot data may entirely be
+     * filled by side effect of connected variables.
+     */
+    private boolean instantiated;
+
+    /**
      * Constructor.
      *
      * @param aDefinition the slot definition
      * @param aGrid       the whole grid data
      */
-    SlotData(final SlotDefinition aDefinition, BoxData[][] aGrid) {
+    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid) {
+        this(aDefinition, aGrid, false);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param aDefinition the slot definition
+     * @param aGrid       the whole grid data
+     */
+    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid, boolean anInstantiated) {
         definition = aDefinition;
         grid = aGrid;
+        instantiated = anInstantiated;
     }
 
     @Override
     public String toString() {
-        return "SlotData{" + "definition=" + definition + '}';
+        return "SlotData{" + "definition=" + definition + ", value=" + value() + '}';
     }
 
     int length() {
@@ -44,12 +66,28 @@ final class SlotData {
         for (int i = 0; i < value.length(); i++) {
             boxAt(i).set(value.charAt(i));
         }
+        instantiated = true;
     }
 
-    void clear() {
+    /**
+     * Delete all boxes of this slot except the ones passed as arguments.
+     *
+     * @param boxesToKeep the boxes to keep
+     */
+    void clearExcept(final Set<Integer> boxesToKeep) {
         for (int i = 0; i < definition.length(); i++) {
-            boxAt(i).reset();
+            if (!boxesToKeep.contains(i)) {
+                boxAt(i).reset();
+            }
         }
+        instantiated = false;
+    }
+
+    /**
+     * Delete all boxes of this slot.
+     */
+    void clear() {
+        clearExcept(Collections.emptySet());
     }
 
     SlotDefinition definition() {
@@ -57,6 +95,9 @@ final class SlotData {
     }
 
     Optional<String> value() {
+        if (!instantiated) {
+            return Optional.empty();
+        }
         final char[] readValue = new char[definition.length()];
         for (int i = 0; i < definition.length(); i++) {
             final char letter = boxAt(i).value();
@@ -66,6 +107,10 @@ final class SlotData {
             readValue[i] = letter;
         }
         return Optional.of(String.valueOf(readValue));
+    }
+
+    boolean isInstantiated() {
+        return instantiated;
     }
 
     private BoxData boxAt(final int i) {

@@ -40,11 +40,6 @@ final class ProgressNotifier implements SolverListener {
     }
 
     @Override
-    public void onPartialUnassignment(final Slot slot) {
-        refresh();
-    }
-
-    @Override
     public void onUnassignment(final Slot slot, final String unassignedWord) {
         refresh();
     }
@@ -58,7 +53,7 @@ final class ProgressNotifier implements SolverListener {
      * @return the completion percentage
      */
     private short completionPercentage() {
-        final long slotSolved = slots.stream().filter(Slot::hasValue).count();
+        final long slotSolved = slots.stream().filter(Slot::isInstantiated).count();
         return (short) (100 * slotSolved / slots.size());
     }
 

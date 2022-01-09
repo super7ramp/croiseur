@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
+import static java.util.function.Predicate.not;
+
 /**
  * Implementation of {@link SlotIterator}.
  */
@@ -39,6 +41,9 @@ public final class SlotIteratorImpl implements SlotIterator {
                       .thenComparingInt(pair -> pair.slot.emptyBoxRatio())
                       .thenComparingInt(pair -> pair.slot.uid().id());
 
+    /** A predicate that matches not instantiated slots. */
+    private static final Predicate<Slot> NOT_INSTANTIATED = not(Slot::isInstantiated);
+
     /** The dictionary. */
     private final CachedDictionary dictionary;
 
@@ -58,13 +63,13 @@ public final class SlotIteratorImpl implements SlotIterator {
 
     @Override
     public boolean hasNext() {
-        return variables.stream().anyMatch(unassignedSlot());
+        return variables.stream().anyMatch(NOT_INSTANTIATED);
     }
 
     @Override
     public Slot next() {
         return variables.stream()
-                        .filter(unassignedSlot())
+                        .filter(NOT_INSTANTIATED)
                         .map(slot -> new NumberOfCandidatesPerSlot(slot,
                                 dictionary.candidatesCount(slot)))
                         .min(BY_OPENNESS)
@@ -72,13 +77,4 @@ public final class SlotIteratorImpl implements SlotIterator {
                         .orElseThrow(NoSuchElementException::new);
     }
 
-    /**
-     * Filter that includes slot without values and slots whose values are not in dictionary.
-     *
-     * @return the filter
-     */
-    private Predicate<Slot> unassignedSlot() {
-        return slot -> !slot.hasValue() || !dictionary.candidatesContains(slot, slot.value()
-                                                                                    .get());
-    }
 }

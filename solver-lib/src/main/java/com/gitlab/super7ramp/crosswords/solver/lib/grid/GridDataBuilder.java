@@ -89,19 +89,20 @@ public final class GridDataBuilder {
      */
     public GridData build() {
         validate();
-        return new GridData(buildGrid(), buildSlots());
+        final BoxData[][] grid = buildGrid();
+        return new GridData(grid, buildSlots(grid));
     }
 
-    private Map<SlotIdentifier, SlotDefinition> buildSlots() {
-        final Map<SlotIdentifier, SlotDefinition> slots = new HashMap<>();
+    private Map<SlotIdentifier, SlotData> buildSlots(final BoxData[][] grid) {
+        final Map<SlotIdentifier, SlotData> slots = new HashMap<>();
         int id = 1;
         for (int x = 0; x < width; x++) {
             // Vertical slots
             for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0); yStart < height; yStart =
                     nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
                 if (yEnd - yStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotDefinition(x, yStart, yEnd,
-                            SlotDefinition.Type.VERTICAL));
+                    slots.put(new SlotIdentifier(id), new SlotData(new SlotDefinition(x, yStart,
+                            yEnd, SlotDefinition.Type.VERTICAL), grid));
                 } else {
                     // Ignore empty slot (row starting by a shaded box) or single-letter slot
                 }
@@ -112,8 +113,8 @@ public final class GridDataBuilder {
             for (int xStart = 0, xEnd = nextShadedOnLine(y, 0); xStart < width; xStart =
                     nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
                 if (xEnd - xStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotDefinition(y, xStart, xEnd,
-                            SlotDefinition.Type.HORIZONTAL));
+                    slots.put(new SlotIdentifier(id), new SlotData(new SlotDefinition(y, xStart,
+                            xEnd, SlotDefinition.Type.HORIZONTAL), grid));
                 } else {
                     // Ignore empty slot (line starting by a shaded box) or single-letter slot
                 }

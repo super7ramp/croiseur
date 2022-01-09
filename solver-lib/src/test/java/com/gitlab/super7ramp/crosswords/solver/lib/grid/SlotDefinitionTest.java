@@ -191,9 +191,30 @@ final class SlotDefinitionTest {
      * </pre>
      */
     @Test
-    void notConnectedAfterEnd() {
+    void notConnectedStartAfterEnd() {
         final SlotDefinition a = new SlotDefinition(0, 0, 5, SlotDefinition.Type.HORIZONTAL);
         final SlotDefinition b = new SlotDefinition(6, 0, 5, SlotDefinition.Type.VERTICAL);
+
+        assertFalse(a.isConnected(b));
+        assertFalse(b.isConnected(a));
+    }
+
+    /**
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * this situation:
+     * <pre>
+     *      0 1 2 3 4 5
+     *   0 | | | | |V| |
+     *   1 | | | | |V| |
+     *   2 | | | | |V| |
+     *   3 | | | | |V| |
+     *   4 |H|H|H|H|#| |
+     * </pre>
+     */
+    @Test
+    void notConnectedEndAfterEnd() {
+        final SlotDefinition a = new SlotDefinition(4, 0, 4, SlotDefinition.Type.HORIZONTAL);
+        final SlotDefinition b = new SlotDefinition(4, 0, 4, SlotDefinition.Type.VERTICAL);
 
         assertFalse(a.isConnected(b));
         assertFalse(b.isConnected(a));

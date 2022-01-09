@@ -14,11 +14,6 @@ public interface InstantiationHistoryProducer extends SolverListener {
     }
 
     @Override
-    default void onPartialUnassignment(final Slot slot) {
-        // Do nothing.
-    }
-
-    @Override
     default void onAssignment(final Slot slot, final String word) {
         recordAssignment(slot, word);
     }

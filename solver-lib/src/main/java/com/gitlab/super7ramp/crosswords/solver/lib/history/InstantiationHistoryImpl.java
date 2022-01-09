@@ -28,6 +28,19 @@ final class InstantiationHistoryImpl implements InstantiationHistory {
     }
 
     @Override
+    public Optional<Slot> lastAssignedConnectedSlot(Slot toBeConnectedWith) {
+        final Iterator<Slot> it = assignedSlots.descendingIterator();
+        while (it.hasNext()) {
+            final Slot s = it.next();
+            if (s.isConnectedTo(toBeConnectedWith)) {
+                it.remove();
+                return Optional.of(s);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Iterator<Slot> explorer() {
         return assignedSlots.descendingIterator();
     }

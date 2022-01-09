@@ -6,13 +6,6 @@ package com.gitlab.super7ramp.crosswords.solver.lib.core;
 public interface SolverListener {
 
     /**
-     * Called when a slot which was <strong>not</strong> entirely filled is cleared.
-     *
-     * @param slot the cleared slot
-     */
-    void onPartialUnassignment(final Slot slot);
-
-    /**
      * Called when a slot which was entirely filled is cleared.
      *
      * @param slot the cleared slot

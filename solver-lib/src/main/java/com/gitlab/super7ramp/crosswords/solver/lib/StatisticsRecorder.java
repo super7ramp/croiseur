@@ -57,11 +57,6 @@ final class StatisticsRecorder implements SolverListener {
     }
 
     @Override
-    public void onPartialUnassignment(final Slot slot) {
-        stat.numberOfUnassignments++;
-    }
-
-    @Override
     public void onUnassignment(final Slot slot, String unassignedWord) {
         stat.numberOfUnassignments++;
     }

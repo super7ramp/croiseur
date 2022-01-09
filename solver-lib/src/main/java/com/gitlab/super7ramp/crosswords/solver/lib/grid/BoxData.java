@@ -3,7 +3,7 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 interface BoxData {
 
     /** Empty character value. */
-    char EMPTY_VALUE = 0;
+    char EMPTY_VALUE = ' ';
 
     /** Shaded value. */
     char SHADED_VALUE = '#';

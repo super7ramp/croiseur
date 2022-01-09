@@ -31,15 +31,17 @@ abstract class AbstractBacktracker implements Backtracker {
 
     @Override
     public final Optional<Slot> backtrackFrom(final Slot variable) {
+
         final Optional<Slot> optUnassigned = instantiationHistory.lastAssignedSlot();
+
+        // TODO to move to proper place when cleaning backtrack
+        //final Optional<Slot> optUnassigned =
+        //        instantiationHistory.lastAssignedConnectedSlot(variable);
 
         if (optUnassigned.isPresent()) {
             final Slot unassigned = optUnassigned.get();
-            unassigned.value()
-                      .ifPresentOrElse(
-                              unassignedValue -> updateBlackList(new DeadEnd(variable.uid(),
-                                      unassigned.uid()), unassignedValue),
-                              () -> LOGGER.warning("Unassigning a non-complete slot"));
+            updateBlackList(new DeadEnd(variable.uid(), unassigned.uid()), unassigned.value()
+                                                                                     .orElseThrow());
         }
 
         return optUnassigned;

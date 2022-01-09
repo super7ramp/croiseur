@@ -49,7 +49,7 @@ final class EnhancedBacktrack extends AbstractBacktracker {
             // This dead-end was already solved before: It means the part of the search tree
             // which was pruned before can be combined with the currently pruned search tree.
             LOGGER.info(() -> "Dead-end " + deadEnd + " already encountered, adding it to " +
-                    "current" + " blacklist");
+                    "current blacklist");
         }
 
         backtrackHistory.record(deadEnd, unassignedValue);

@@ -52,7 +52,7 @@ final class CrosswordSolverImpl implements CrosswordSolver {
 
         final HistoryImpl history = new HistoryImpl();
         final CachedDictionaryImpl dictionary = new CachedDictionaryImpl(externalDictionary,
-                slots, grid.puzzle(), history.backtrack());
+                slots, history.backtrack());
         final SlotIteratorImpl slotChooser = new SlotIteratorImpl(slots, dictionary);
         final CandidateChooserImpl candidateChooser = new CandidateChooserImpl(grid.puzzle(),
                 dictionary);

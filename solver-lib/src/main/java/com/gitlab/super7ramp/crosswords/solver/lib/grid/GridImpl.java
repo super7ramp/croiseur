@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 
 import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Unassignment;
 
@@ -40,13 +39,9 @@ final class GridImpl implements Grid {
             return data.slots()
                        .entrySet()
                        .stream()
-                       .map(entry -> new SlotImpl(entry.getKey(), entry.getValue()))
+                       .map(entry -> new SlotImpl(entry.getKey(), entry.getValue(),
+                               data.connectedSlots(entry.getKey())))
                        .collect(toUnmodifiableSet());
-        }
-
-        @Override
-        public boolean areSlotsConnected(final SlotIdentifier first, final SlotIdentifier second) {
-            return data.slot(first).definition().isConnected(data.slot(second).definition());
         }
 
         @Override

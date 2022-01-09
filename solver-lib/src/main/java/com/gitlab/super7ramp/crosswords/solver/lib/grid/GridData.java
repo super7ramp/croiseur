@@ -3,9 +3,11 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Stores a crossword puzzle data.
@@ -16,7 +18,7 @@ final class GridData {
     private final BoxData[][] grid;
 
     /** The word slots. */
-    private final Map<SlotIdentifier, SlotDefinition> slots;
+    private final Map<SlotIdentifier, SlotData> slots;
 
     /**
      * Constructor.
@@ -24,9 +26,9 @@ final class GridData {
      * @param aGrid     the grid
      * @param someSlots the word slots
      */
-    GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotDefinition> someSlots) {
+    GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotData> someSlots) {
         grid = aGrid;
-        slots = Collections.unmodifiableMap(someSlots);
+        slots = someSlots;
     }
 
     /**
@@ -42,8 +44,12 @@ final class GridData {
             }
         }
 
-        // Unmodifiable map of immutable objects, no need to copy
-        slots = other.slots;
+        slots = new HashMap<>(other.slots.size());
+        for (final Map.Entry<SlotIdentifier, SlotData> slotEntry : other.slots.entrySet()) {
+            final SlotIdentifier slotIdentifier = slotEntry.getKey();
+            final SlotData data = slotEntry.getValue();
+            slots.put(slotIdentifier, new SlotData(data.definition(), grid, data.isInstantiated()));
+        }
     }
 
     /**
@@ -62,7 +68,7 @@ final class GridData {
      * @return the corresponding {@link SlotData}
      */
     SlotData slot(final SlotIdentifier slotId) {
-        return new SlotData(slots.get(slotId), grid);
+        return slots.get(slotId);
     }
 
     /**
@@ -71,26 +77,20 @@ final class GridData {
      * @return all the {@link SlotData}
      */
     Map<SlotIdentifier, SlotData> slots() {
-        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet()
-             .stream()
-             .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-             .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
-        return result;
+        return Collections.unmodifiableMap(slots);
     }
 
     /**
      * Returns the slots connected to given slot identifier
      */
     Map<SlotIdentifier, SlotData> connectedSlots(final SlotIdentifier slotId) {
-        final SlotDefinition slotDefinition = slots.get(slotId);
-        final Map<SlotIdentifier, SlotData> result = new HashMap<>();
-        slots.entrySet()
-             .stream()
-             .filter(entry -> entry.getValue().isConnected(slotDefinition))
-             .map(entry -> Map.entry(entry.getKey(), new SlotData(entry.getValue(), grid)))
-             .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
-        return result;
+        final SlotData slotData = slots.get(slotId);
+        final SlotDefinition slotDefinition = slotData.definition();
+
+        return slots.entrySet()
+                    .stream()
+                    .filter(entry -> entry.getValue().definition().isConnected(slotDefinition))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     Map<GridPosition, Character> toBoxes() {
@@ -108,5 +108,10 @@ final class GridData {
             }
         }
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(grid);
     }
 }

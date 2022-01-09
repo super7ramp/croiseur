@@ -17,7 +17,7 @@ final class Boxes {
          * Constructor.
          */
         ComputedBox() {
-            // Nothing to do.
+            character = BoxData.EMPTY_VALUE;
         }
 
         /**
@@ -52,6 +52,11 @@ final class Boxes {
         @Override
         public BoxData copy() {
             return new ComputedBox(this);
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(character);
         }
     }
 
@@ -100,6 +105,11 @@ final class Boxes {
             // Immutable object, no need to copy
             return this;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(character);
+        }
     }
 
     /**
@@ -141,6 +151,11 @@ final class Boxes {
         public BoxData copy() {
             // Immutable object, no need to create a new object
             return this;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value());
         }
     }
 

@@ -6,6 +6,8 @@ import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import java.math.BigInteger;
 import java.util.Collection;
 
+import static java.util.function.Predicate.not;
+
 /**
  * Provides some common lookahead functions.
  */
@@ -46,7 +48,7 @@ public final class Prober {
         final Collection<Slot> probeResult = puzzle.probe(assignment);
 
         return probeResult.stream()
-                          .filter(slot -> slot.value().isEmpty())
+                          .filter(not(Slot::isInstantiated))
                           .map(slot -> dictionary.refreshedCandidatesCount(slot,
                                   assignment.slotUid()))
                           .map(BigInteger::valueOf)

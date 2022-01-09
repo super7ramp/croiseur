@@ -17,5 +17,12 @@ public interface InstantiationHistoryConsumer {
      */
     Optional<Slot> lastAssignedSlot();
 
+    /**
+     * Get and remove last assigned slot from history.
+     *
+     * @return the last assigned slot in history if any; otherwise, returns {@link Optional#empty()}
+     */
+    Optional<Slot> lastAssignedConnectedSlot(final Slot toBeConnectedWith);
+
     Iterator<Slot> explorer();
 }

@@ -3,13 +3,19 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link Slot}.
  */
 final class SlotImpl implements Slot {
+
+    /** Connected slots. */
+    private final Map<SlotIdentifier, SlotData> connectedSlots;
 
     /** Raw data access to slot. */
     private final SlotData data;
@@ -23,9 +29,11 @@ final class SlotImpl implements Slot {
      * @param anUid    a {@link SlotIdentifier}
      * @param someData raw data access
      */
-    SlotImpl(final SlotIdentifier anUid, final SlotData someData) {
+    SlotImpl(final SlotIdentifier anUid, final SlotData someData,
+             final Map<SlotIdentifier, SlotData> someConnectedSlots) {
         uid = anUid;
         data = someData;
+        connectedSlots = someConnectedSlots;
     }
 
     @Override
@@ -39,14 +47,13 @@ final class SlotImpl implements Slot {
     }
 
     @Override
-    public boolean hasValue() {
-        for (int i = 0; i < data.length(); i++) {
-            final char letter = data.letterAt(i);
-            if (letter == BoxData.EMPTY_VALUE) {
-                return false;
-            }
-        }
-        return true;
+    public boolean isInstantiated() {
+        return data.isInstantiated();
+    }
+
+    @Override
+    public boolean isConnectedTo(SlotIdentifier other) {
+        return connectedSlots.containsKey(other);
     }
 
     @Override
@@ -105,9 +112,29 @@ final class SlotImpl implements Slot {
     }
 
     @Override
-    public Optional<String> unassign() {
-        final Optional<String> clearedValue = value();
-        data.clear();
+    public String unassign() {
+
+        final String clearedValue = value().orElseThrow(() -> new IllegalStateException("Illegal " +
+                "unassignment of non-instantiated variable"));
+
+        /*
+         * Unassign only the boxes that are not part of a connected instantiated slot to avoid
+         * unassignment of connected slots by side effect.
+         */
+        final SlotDefinition definition = data.definition();
+        final Set<Integer> boxesToKeep =
+                connectedSlots.values().stream()
+                              .filter(SlotData::isInstantiated)
+                              .map(connectedSlot ->
+                                      definition.connectionWith(connectedSlot.definition()))
+                              .collect(Collectors.toSet());
+
+        if (boxesToKeep.size() == data.length()) {
+            throw new IllegalStateException("Illegal attempt to unassign slot whereas all " +
+                    "connected slots are instantiated");
+        }
+        data.clearExcept(boxesToKeep);
+
         return clearedValue;
     }
 }
