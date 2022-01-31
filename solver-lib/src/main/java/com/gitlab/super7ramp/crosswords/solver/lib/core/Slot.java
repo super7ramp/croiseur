@@ -1,10 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.core;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Read/write access to a slot of a crossword puzzle.
  */
+// TODO to split, at least assign/unassign from the rest
 public interface Slot {
 
     /**
@@ -43,6 +45,8 @@ public interface Slot {
      * @return <code>true</code> iff the two variables are connected
      */
     boolean isConnectedTo(final SlotIdentifier other);
+
+    Collection<SlotIdentifier> connectedSlots();
 
     /**
      * The ratio of empty boxes inside this slot, as a percentage.

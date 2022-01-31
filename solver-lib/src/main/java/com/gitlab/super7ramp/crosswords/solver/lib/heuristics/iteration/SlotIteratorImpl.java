@@ -1,8 +1,8 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.iteration;
+package com.gitlab.super7ramp.crosswords.solver.lib.heuristics.iteration;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIterator;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.sap.VariableIterator;
+import com.gitlab.super7ramp.crosswords.solver.lib.dictionary.CachedDictionary;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,9 +13,9 @@ import java.util.function.Predicate;
 import static java.util.function.Predicate.not;
 
 /**
- * Implementation of {@link SlotIterator}.
+ * Implementation of {@link VariableIterator}.
  */
-public final class SlotIteratorImpl implements SlotIterator {
+public final class SlotIteratorImpl implements VariableIterator<Slot> {
 
     /**
      * Associates a {@link Slot} to its number of candidates.

@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.lookahead;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.dictionary.CachedDictionary;
 
 import java.math.BigInteger;
 import java.util.Collection;

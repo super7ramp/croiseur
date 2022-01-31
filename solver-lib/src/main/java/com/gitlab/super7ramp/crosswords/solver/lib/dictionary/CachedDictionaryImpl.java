@@ -1,15 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.lib.dictionary;
 
 import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverListener;
-import com.gitlab.super7ramp.crosswords.solver.lib.history.BacktrackHistoryReader;
+import com.gitlab.super7ramp.crosswords.solver.lib.elimination.EliminationSpace;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * Implementation of {@link CachedDictionary}.
  */
-public final class CachedDictionaryImpl implements CachedDictionary, SolverListener {
+final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
     /** Cached dictionary. */
     private final DictionaryCache<Slot, String> cache;
@@ -32,13 +29,12 @@ public final class CachedDictionaryImpl implements CachedDictionary, SolverListe
      * Constructor.
      *
      * @param dictionary a dictionary
+     * @param slots      the slots
      */
-    public CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
-                                final BacktrackHistoryReader history) {
+    CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
+                         final EliminationSpace eliminationSpace) {
         eligibility = (slot, word) -> slot.isCompatibleWith(word) &&
-                !history.blacklist()
-                        .getOrDefault(slot.uid(), Collections.emptySet())
-                        .contains(word);
+                !eliminationSpace.eliminations(slot.uid()).contains(word);
         cache = populateCache(dictionary, slots, eligibility);
     }
 
@@ -100,12 +96,12 @@ public final class CachedDictionaryImpl implements CachedDictionary, SolverListe
     }
 
     @Override
-    public void onUnassignment(final Slot unassignedSlot, final String unassignedWord) {
+    public void invalidateCache(final Slot unassignedSlot) {
         cache.invalidateCache(slot -> slot.isConnectedTo(unassignedSlot) || slot.equals(unassignedSlot));
     }
 
     @Override
-    public void onAssignment(final Slot assignedSlot, final String word) {
+    public void updateCache(final Slot assignedSlot) {
         cache.updateCache(slot -> slot.isConnectedTo(assignedSlot));
     }
 

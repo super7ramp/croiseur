@@ -1,12 +1,12 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.core;
+package com.gitlab.super7ramp.crosswords.solver.lib.dictionary;
+
+import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
 import java.util.stream.Stream;
 
 /**
  * A dictionary caching results of potentially slow external dictionary.
- * <p>
- * Implementation is synced with puzzle assignments/backtracks in order to minimize the amount of
- * candidates to evaluate.
  */
 public interface CachedDictionary {
 

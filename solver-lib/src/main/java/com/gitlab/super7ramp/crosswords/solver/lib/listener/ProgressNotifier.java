@@ -1,8 +1,7 @@
-package com.gitlab.super7ramp.crosswords.solver.lib;
+package com.gitlab.super7ramp.crosswords.solver.lib.listener;
 
 import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverListener;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -13,7 +12,7 @@ import java.util.Collections;
  * A {@link SolverListener} decorator that notifies progress to an external
  * {@link ProgressListener}.
  */
-final class ProgressNotifier implements SolverListener {
+public final class ProgressNotifier implements SolverListener {
 
     /** Interval between two progress notifications. */
     private static final Duration PROGRESS_NOTIFICATION_INTERVAL = Duration.ofSeconds(1);
@@ -33,7 +32,8 @@ final class ProgressNotifier implements SolverListener {
      * @param someSlots         the variables
      * @param aProgressListener the notification callback
      */
-    ProgressNotifier(final Collection<Slot> someSlots, final ProgressListener aProgressListener) {
+    public ProgressNotifier(final Collection<Slot> someSlots,
+                            final ProgressListener aProgressListener) {
         slots = Collections.unmodifiableCollection(someSlots);
         progressListener = aProgressListener;
         lastProgressNotificationTime = Instant.EPOCH;

@@ -87,7 +87,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 3s to solve at 1 GHz.
+     * This takes < 5s to solve at 1 GHz.
      */
     @Test
     void shaded13x13() throws URISyntaxException, IOException, InterruptedException {
@@ -152,8 +152,8 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |S|A|I|D|#|V|I|S|#|P|E|R|L|
-                |A|R|M|E|#|I|E|L|#|E|G|E|E|
+                |S|A|I|D|#|V|I|S|#|P|A|C|K|
+                |A|R|M|E|#|I|E|L|#|E|B|L|E|
                 |N|U|E|R|#|I|R|A|#|R|E|I|N|
                 |A|M|I|N|C|I|S|S|E|M|E|N|T|
                 |#|#|#|I|I|E|#|H|I|E|#|#|#|
@@ -196,15 +196,15 @@ final class CrosswordSolverSymmetricGridTest {
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
         assertSuccess("""
-                |R|A|I|D|#|P|A|L|E|T|#|B|A|A|L|
-                |A|I|S|Y|#|E|N|O|R|A|#|A|L|G|O|
-                |I|S|I|S|#|C|A|L|E|B|#|S|O|D|A|
-                |S|E|S|B|A|N|I|A|#|O|A|S|I|E|N|
-                |#|#|#|A|M|O|S|#|A|U|N|E|#|#|#|
-                |B|A|S|S|E|T|#|C|A|R|O|T|E|N|E|
-                |A|L|A|I|N|#|S|O|R|E|N|#|B|A|L|
-                |T|E|L|E|#|M|A|R|O|T|#|R|O|T|I|
-                |O|S|T|#|H|E|L|E|N|#|M|I|L|A|N|
+                |M|I|R|E|#|F|I|L|E|T|#|B|A|A|L|
+                |A|R|E|S|#|A|M|I|R|A|#|A|L|G|O|
+                |M|A|T|T|#|C|A|L|E|B|#|S|O|D|A|
+                |A|N|T|O|N|I|N|A|#|O|A|S|I|E|N|
+                |#|#|#|C|A|L|E|#|A|U|N|E|#|#|#|
+                |M|A|T|A|G|E|#|C|A|R|O|T|E|N|E|
+                |A|R|I|D|E|#|S|O|R|E|N|#|B|A|L|
+                |M|E|M|E|#|M|A|R|O|T|#|R|O|T|I|
+                |A|N|E|#|H|E|L|E|N|#|M|I|L|A|N|
                 |N|E|O|M|E|N|I|E|#|C|A|V|A|L|E|
                 |#|#|#|E|R|I|N|#|F|O|I|E|#|#|#|
                 |A|C|O|R|E|S|#|A|L|G|E|R|O|I|S|

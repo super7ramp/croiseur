@@ -1,10 +1,9 @@
-package com.gitlab.super7ramp.crosswords.solver.lib;
+package com.gitlab.super7ramp.crosswords.solver.lib.listener;
 
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.SolverListener;
 
-final class StatisticsRecorder implements SolverListener {
+public final class StatisticsRecorder implements SolverListener {
 
     /**
      * Implementation of {@link SolverResult.Statistics}.
@@ -52,7 +51,7 @@ final class StatisticsRecorder implements SolverListener {
     /**
      * Constructor.
      */
-    StatisticsRecorder() {
+    public StatisticsRecorder() {
         stat = new StatisticsImpl();
     }
 
@@ -71,7 +70,7 @@ final class StatisticsRecorder implements SolverListener {
      *
      * @return the current statistics
      */
-    SolverResult.Statistics statistics() {
+    public SolverResult.Statistics statistics() {
         return stat;
     }
 }

@@ -84,7 +84,7 @@ final class DictionaryCache<SlotT, ValueT> {
      * Update cache given an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidateCache() invalidation}, the smaller the cache will be, the faster the
+     * {@link #invalidateCache invalidation}, the smaller the cache will be, the faster the
      * results will be.
      *
      * @param refreshNeeded the predicate that specifies which slot should be re-evaluated

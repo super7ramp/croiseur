@@ -1,8 +1,8 @@
-package com.gitlab.super7ramp.crosswords.solver.lib.instantiation;
+package com.gitlab.super7ramp.crosswords.solver.lib.heuristics.instantiation;
 
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CachedDictionary;
-import com.gitlab.super7ramp.crosswords.solver.lib.core.CandidateChooser;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
+import com.gitlab.super7ramp.crosswords.solver.lib.core.sap.CandidateChooser;
+import com.gitlab.super7ramp.crosswords.solver.lib.dictionary.CachedDictionary;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Probable;
 import com.gitlab.super7ramp.crosswords.solver.lib.lookahead.Prober;
@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  * In other words, the selected value is the value which brings as little constraints on the grid
  * as possible.
  */
-public final class CandidateChooserImpl implements CandidateChooser {
+public final class CandidateChooserImpl implements CandidateChooser<Slot, String> {
 
     /**
      * Associates a candidate to the estimated number of solutions of the grid.

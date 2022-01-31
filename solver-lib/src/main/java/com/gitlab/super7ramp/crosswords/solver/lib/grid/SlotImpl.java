@@ -3,6 +3,8 @@ package com.gitlab.super7ramp.crosswords.solver.lib.grid;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.lib.core.SlotIdentifier;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,8 +54,13 @@ final class SlotImpl implements Slot {
     }
 
     @Override
-    public boolean isConnectedTo(SlotIdentifier other) {
+    public boolean isConnectedTo(final SlotIdentifier other) {
         return connectedSlots.containsKey(other);
+    }
+
+    @Override
+    public Collection<SlotIdentifier> connectedSlots() {
+        return Collections.unmodifiableCollection(connectedSlots.keySet());
     }
 
     @Override
