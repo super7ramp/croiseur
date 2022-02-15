@@ -1,32 +1,32 @@
-package com.gitlab.super7ramp.crosswords.cli;
+package com.gitlab.super7ramp.crosswords.cli.solve.parsed;
 
 import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-record PrefilledSlot(GridPosition startGridPosition, String value) {
+public record PrefilledBox(GridPosition gridPosition, char value) {
 
     /** Textual representation pattern. */
     private static final Pattern PATTERN = Pattern.compile("\\(" +
             "(?<coordinate>.+)," +
-            "(?<value>[a-zA-Z]+)" +
+            "(?<value>[a-zA-Z])" +
             "\\)");
 
     /**
-     * Create a new {@link PrefilledSlot} from its textual representation.
+     * Create a new {@link PrefilledBox} from its textual representation.
      *
      * @param text the textual representation
-     * @return the parsed {@link PrefilledSlot}
+     * @return the parsed {@link PrefilledBox}
      */
-    static PrefilledSlot valueOf(final String text) {
+    public static PrefilledBox valueOf(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
                     ", was " + text);
         }
         final GridPosition parsedGridPosition = GridPosition.valueOf(matcher.group("coordinate"));
-        final String parsedValue = matcher.group("value").toUpperCase();
-        return new PrefilledSlot(parsedGridPosition, parsedValue);
+        final char parsedValue = Character.toUpperCase(matcher.group("value").charAt(0));
+        return new PrefilledBox(parsedGridPosition, parsedValue);
     }
 }

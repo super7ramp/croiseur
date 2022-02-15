@@ -1,5 +1,6 @@
-package com.gitlab.super7ramp.crosswords.cli;
+package com.gitlab.super7ramp.crosswords.cli.solve.adapted;
 
+import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ final class OrientedPrefilledSlot {
      * @return a new vertical {@link OrientedPrefilledSlot}.
      */
     static OrientedPrefilledSlot vertical(PrefilledSlot aNonOrientedSlot) {
-        return new OrientedPrefilledSlot((c, i) -> c.atVerticalOffset(i), aNonOrientedSlot);
+        return new OrientedPrefilledSlot(GridPosition::atVerticalOffset, aNonOrientedSlot);
     }
 
     /**
@@ -46,7 +47,7 @@ final class OrientedPrefilledSlot {
      * @return a new horizontal {@link OrientedPrefilledSlot}.
      */
     static OrientedPrefilledSlot horizontal(PrefilledSlot aNonOrientedSlot) {
-        return new OrientedPrefilledSlot((c, i) -> c.atHorizontalOffset(i), aNonOrientedSlot);
+        return new OrientedPrefilledSlot(GridPosition::atHorizontalOffset, aNonOrientedSlot);
     }
 
     /**

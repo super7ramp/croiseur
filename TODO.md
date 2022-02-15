@@ -4,7 +4,6 @@
 
 ### Allow user to iterate over solutions (CLI, solver)
 
-- **Watch out backtracking limitations, see Improvements section below.**
 - What's the best for user?
   1. Add an option to specify the number of solutions: Internally, mark the n-1 solutions found as
      dead-end and continue algorithm
@@ -49,23 +48,6 @@
 
 ### Solver
 
-#### Backtrack
-
-- Current `DeadEnd` implementation is strange: Shouldn't all variable states be stored to represent
-  a deadend?
-- Backtrack vs. backjump vs. smarter backjump vs. other
-  - **Backtrack**: Remove n-1 th assignment and try to reassign it
-  - **Backjump**: Remove assignments until a connected slot is reached; Try to reassign it
-  - **Smart backjump**: Same as backjump but ensure the source of the problem is removed (I don't
-    understand the difference with backjump)
-  - **Currently**: Remove the last assignment but don't necessarily try to re-assign it, just let
-    the candidate chooser decide which slot to assign next. Is that the same as dynamic
-    backtracking?
-- Doc to read:
-  - (again) Gashnig algorithms applied for 8-Queens SAP
-  - Dynamic Backtracking by Ginsberg
-  - Knuth's fascicle on satisfiability
-
 #### GridDataBuilder
 
 - Make it more readable
@@ -85,13 +67,13 @@
 - Rename to something more relevant. Maybe `sap`.
 - Assess Slot vs. SlotIdentifier usage
 
+#### CandidateChooser
+
+- Perfs: Check if probe parallelization improves performances with default k and with bigger k
+
 ### Dictionary
 
 - Filtering
-
-### CandidateChooser
-
-- Perfs: Check if probe parallelization improves performances with default k and with bigger k
 
 ### Others
 

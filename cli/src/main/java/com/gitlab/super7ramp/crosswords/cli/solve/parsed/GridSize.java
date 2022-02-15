@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli;
+package com.gitlab.super7ramp.crosswords.cli.solve.parsed;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,14 +6,20 @@ import java.util.regex.Pattern;
 /**
  * Grid size.
  */
-record GridSize(int width, int height) {
+public record GridSize(int width, int height) {
 
     /**
      * Textual representation pattern.
      */
     private static final Pattern PATTERN = Pattern.compile("(?<width>[0-9]+)x(?<height>[0-9]+)");
 
-    GridSize {
+    /**
+     * Constructor.
+     *
+     * @param width  width
+     * @param height height
+     */
+    public GridSize {
         if (width <= 0) {
             throw new IllegalArgumentException("Invalid zero or negative width");
         }
@@ -29,7 +35,7 @@ record GridSize(int width, int height) {
      * @param text the textual representation
      * @return the value
      */
-    static GridSize valueOf(final String text) {
+    public static GridSize valueOf(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +

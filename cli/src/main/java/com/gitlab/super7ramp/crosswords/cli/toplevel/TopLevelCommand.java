@@ -1,11 +1,11 @@
-package com.gitlab.super7ramp.crosswords.cli;
+package com.gitlab.super7ramp.crosswords.cli.toplevel;
 
 import picocli.CommandLine.Command;
 
 import java.util.logging.Logger;
 
 @Command(name = "crossword", description = "Top-level command", mixinStandardHelpOptions = true)
-final class TopLevelCommand implements Runnable {
+public final class TopLevelCommand implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(TopLevelCommand.class.getName());
 

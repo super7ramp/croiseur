@@ -9,8 +9,12 @@ include 'dictionary-internal'
 include 'solver-api'
 include 'solver-lib'
 
-// CLI
+// CLI frontend
 include 'cli'
+include 'cli-core'
 
 // Util
 include 'util'
+
+// entities
+// include 'entities'

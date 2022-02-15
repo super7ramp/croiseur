@@ -6,6 +6,7 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -112,6 +113,25 @@ public final class DictionaryLoader {
                                                 dictionaries(provider, dictionaryFilter)))
                                         .filter(entry -> !entry.getValue().isEmpty())
                                         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    /**
+     * Return the first dictionary matching the given predicate.
+     *
+     * @param providerFilter   predicate on the dictionary provider
+     * @param dictionaryFilter predicate on the dictionary itself
+     * @return the first dictionary matching the given predicate
+     */
+    public Optional<Dictionary> getFirst(
+            final Predicate<DictionaryProvider> providerFilter,
+            final Predicate<Dictionary> dictionaryFilter) {
+        final Map<DictionaryProvider, Collection<Dictionary>> dictionariesByProviders =
+                get(providerFilter,
+                        dictionaryFilter);
+        return dictionariesByProviders.values()
+                                      .stream()
+                                      .findFirst()
+                                      .flatMap(dictionaries -> dictionaries.stream().findFirst());
     }
 
     private Stream<DictionaryProvider> providers(final Predicate<DictionaryProvider> predicate) {

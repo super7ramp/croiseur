@@ -1,0 +1,27 @@
+package com.gitlab.super7ramp.crosswords.cli.core.api.dictionary;
+
+/**
+ * The dictionary service.
+ */
+public interface DictionaryService {
+
+    /**
+     * List available dictionary providers.
+     */
+    void listProviders();
+
+    /**
+     * List available dictionaries.
+     *
+     * @param request the request
+     */
+    void listDictionaries(final ListDictionariesRequest request);
+
+    /**
+     * List entries for a dictionary.
+     *
+     * @param request the request
+     */
+    void listEntries(final ListDictionaryEntriesRequest request);
+
+}

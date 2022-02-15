@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 /**
  * A {@link ITypeConverter} generic implementation.
+ * <p>
+ * Allows converting raw strings into a bit less impractical types.
  *
  * @param <T> the type of the object that is the result of the conversion
  */
