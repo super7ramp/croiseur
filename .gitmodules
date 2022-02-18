@@ -1,0 +1,3 @@
+[submodule "dictionary-data/libreoffice-dictionaries"]
+	path = dictionary-data/libreoffice-dictionaries
+	url = git://anongit.freedesktop.org/libreoffice/dictionaries
