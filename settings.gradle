@@ -7,7 +7,7 @@ include 'dictionary-internal'
 
 // Solver
 include 'solver-api'
-include 'solver-lib'
+include 'solver-ginsberg'
 
 // CLI frontend
 include 'cli'

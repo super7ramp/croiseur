@@ -10,7 +10,7 @@ dependencies {
 
     runtimeOnly project(':dictionary-hunspell')
     runtimeOnly project(':dictionary-internal')
-    runtimeOnly project(':solver-lib')
+    runtimeOnly project(':solver-ginsberg')
 }
 
 application {
