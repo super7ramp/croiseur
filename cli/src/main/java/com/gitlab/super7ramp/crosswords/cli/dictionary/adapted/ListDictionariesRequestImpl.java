@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.dictionary.adapted;
 
-import com.gitlab.super7ramp.crosswords.cli.core.api.dictionary.ListDictionariesRequest;
+import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 
 import java.util.Locale;
 import java.util.Optional;

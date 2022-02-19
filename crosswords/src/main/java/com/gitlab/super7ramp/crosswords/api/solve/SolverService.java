@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli.core.api.solve;
+package com.gitlab.super7ramp.crosswords.api.solve;
 
 /**
  * Services pertaining to solving crossword puzzle.

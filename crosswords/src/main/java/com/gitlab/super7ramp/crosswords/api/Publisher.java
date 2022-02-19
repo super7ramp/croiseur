@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli.core.api;
+package com.gitlab.super7ramp.crosswords.api;
 
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;

@@ -1,21 +1,21 @@
 rootProject.name = 'crosswords'
 
-// Dictionary
+// CLI frontend
+include 'cli'
+
+// The main library (the "use cases")
+include 'crosswords'
+
+// Dictionary libraries/tools/data
 include 'dictionary-api'
 include 'dictionary-hunspell'
 include 'dictionary-internal'
 include 'dictionary-tools'
+include 'dictionary-data'
 
-// Solver
+// Solver libraries
 include 'solver-api'
 include 'solver-ginsberg'
 
-// CLI frontend
-include 'cli'
-include 'cli-core'
-
 // Util
 include 'util'
-
-// entities
-// include 'entities'

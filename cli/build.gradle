@@ -3,9 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':cli-core')
-    implementation project(':dictionary-api')
-    implementation project(':solver-api')
+    implementation project(':crosswords')
     implementation 'info.picocli:picocli:4.6.2'
 
     runtimeOnly project(':dictionary-hunspell')

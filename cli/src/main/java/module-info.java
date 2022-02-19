@@ -7,7 +7,7 @@ module com.gitlab.super7ramp.crosswords.cli {
     requires java.logging;
 
     // Core library
-    requires com.gitlab.super7ramp.crosswords.cli.core;
+    requires com.gitlab.super7ramp.crosswords;
 
     // Crossword libraries compile dependencies
     requires com.gitlab.super7ramp.crosswords.dictionary.api;

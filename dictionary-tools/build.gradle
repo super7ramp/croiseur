@@ -7,16 +7,16 @@ dependencies {
     implementation project(':dictionary-internal')
 }
 
-task textToInternal(type: JavaExec) {
-    group = 'Dictionary Conversion'
-    description = 'Converts text file into binary dictionary format'
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'com.gitlab.super7ramp.crosswords.dictionary.tools.TextToInternalDictionary'
-}
-
 task hunspellToText(type: JavaExec) {
     group = 'Dictionary Conversion'
     description = 'Converts Hunspell dictionary into text file'
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.gitlab.super7ramp.crosswords.dictionary.tools.HunspellDictionaryToText'
+}
+
+task textToInternal(type: JavaExec) {
+    group = 'Dictionary Conversion'
+    description = 'Converts text file into binary dictionary format'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.gitlab.super7ramp.crosswords.dictionary.tools.TextToInternalDictionary'
 }

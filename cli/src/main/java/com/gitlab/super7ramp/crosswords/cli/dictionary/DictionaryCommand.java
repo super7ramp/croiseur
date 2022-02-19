@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.dictionary;
 
-import com.gitlab.super7ramp.crosswords.cli.core.api.dictionary.DictionaryService;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.adapted.ListDictionariesRequestImpl;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.adapted.ListDictionaryEntriesRequestImpl;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifier;

@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli.core.api.dictionary;
+package com.gitlab.super7ramp.crosswords.api.dictionary;
 
 /**
  * The dictionary service.

@@ -1,12 +1,12 @@
-package com.gitlab.super7ramp.crosswords.cli.core.lib;
+package com.gitlab.super7ramp.crosswords.lib;
 
-import com.gitlab.super7ramp.crosswords.cli.core.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.cli.core.api.Publisher;
-import com.gitlab.super7ramp.crosswords.cli.core.api.dictionary.DictionaryService;
-import com.gitlab.super7ramp.crosswords.cli.core.api.solve.SolverService;
-import com.gitlab.super7ramp.crosswords.cli.core.lib.dictionary.DictionaryServiceImpl;
-import com.gitlab.super7ramp.crosswords.cli.core.lib.solve.SolverServiceImpl;
+import com.gitlab.super7ramp.crosswords.api.CrosswordService;
+import com.gitlab.super7ramp.crosswords.api.Publisher;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
+import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
 import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
+import com.gitlab.super7ramp.crosswords.lib.dictionary.DictionaryServiceImpl;
+import com.gitlab.super7ramp.crosswords.lib.solve.SolverServiceImpl;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
 
 /**

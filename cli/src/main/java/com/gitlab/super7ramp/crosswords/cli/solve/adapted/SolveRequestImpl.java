@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.solve.adapted;
 
-import com.gitlab.super7ramp.crosswords.cli.core.api.solve.SolveRequest;
+import com.gitlab.super7ramp.crosswords.api.solve.SolveRequest;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;

@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli;
 
-import com.gitlab.super7ramp.crosswords.cli.core.api.CrosswordService;
+import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.publish.TextPublisher;
