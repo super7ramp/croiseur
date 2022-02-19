@@ -4,6 +4,7 @@ rootProject.name = 'crosswords'
 include 'dictionary-api'
 include 'dictionary-hunspell'
 include 'dictionary-internal'
+include 'dictionary-tools'
 
 // Solver
 include 'solver-api'

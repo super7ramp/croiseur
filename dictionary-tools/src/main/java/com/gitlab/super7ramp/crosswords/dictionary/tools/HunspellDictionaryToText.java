@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell;
+package com.gitlab.super7ramp.crosswords.dictionary.tools;
 
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.HunspellDictionary;
 
@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 /**
  * A tool to deflate a Hunspell dictionary into a big text file containing all valid forms;
  */
-public class HunspellDictionaryExpander {
+public final class HunspellDictionaryToText {
 
     /** Logger. */
     private static final Logger LOGGER =
-            Logger.getLogger(HunspellDictionaryExpander.class.getName());
+            Logger.getLogger(HunspellDictionaryToText.class.getName());
 
     private static final Predicate<String> ALL_ENTRIES = entry -> true;
 

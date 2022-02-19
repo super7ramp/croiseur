@@ -1,4 +1,6 @@
-package com.gitlab.super7ramp.crosswords.dictionary.internal;
+package com.gitlab.super7ramp.crosswords.dictionary.tools;
+
+import com.gitlab.super7ramp.crosswords.dictionary.internal.InternalDictionary;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,11 +15,11 @@ import java.util.logging.Logger;
  * Just build an {@link InternalDictionary} from a text file and serialize the object in another
  * file.
  */
-public final class InternalDictionaryCompiler {
+public final class TextToInternalDictionary {
 
     /** Logger. */
     private static final Logger LOGGER =
-            Logger.getLogger(InternalDictionaryCompiler.class.getName());
+            Logger.getLogger(TextToInternalDictionary.class.getName());
 
     /**
      * Entry point.

@@ -15,4 +15,8 @@ module com.gitlab.super7ramp.crosswords.dictionary.hunspell {
     // Implemented SPIs.
     requires com.gitlab.super7ramp.crosswords.dictionary.api;
     provides DictionaryProvider with HunspellDictionaryProvider, HunspellExtDictionaryProvider;
+
+    // Export internals to tools
+    exports com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure to
+            com.gitlab.super7ramp.crosswords.dictionary.tools;
 }
