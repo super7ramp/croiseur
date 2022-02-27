@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.solver.api;
+package com.gitlab.super7ramp.crosswords.solver.spi;
 
-import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
+import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
 
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;

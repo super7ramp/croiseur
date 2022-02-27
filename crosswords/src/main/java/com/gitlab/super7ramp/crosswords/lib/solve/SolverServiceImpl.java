@@ -4,11 +4,11 @@ import com.gitlab.super7ramp.crosswords.api.Publisher;
 import com.gitlab.super7ramp.crosswords.api.solve.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
-import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverLoader;
 
 import java.util.Optional;
 import java.util.function.Predicate;

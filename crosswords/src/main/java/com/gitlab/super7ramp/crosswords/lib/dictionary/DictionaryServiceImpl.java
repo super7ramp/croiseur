@@ -5,7 +5,7 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 
 import java.util.Collection;

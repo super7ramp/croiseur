@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.dictionary.api;
+package com.gitlab.super7ramp.crosswords.dictionary.spi;
 
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 
 import java.util.AbstractMap;
 import java.util.Collection;

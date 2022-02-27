@@ -2,9 +2,9 @@ package com.gitlab.super7ramp.crosswords.api;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
-import com.gitlab.super7ramp.crosswords.dictionary.api.DictionaryLoader;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.lib.CrosswordServiceImpl;
-import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolverLoader;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverLoader;
 
 /**
  * Crossword services.
