@@ -5,8 +5,10 @@
  */
 module com.gitlab.super7ramp.crosswords {
 
-    requires com.gitlab.super7ramp.crosswords.dictionary.api;
-    requires com.gitlab.super7ramp.crosswords.solver.api;
+    // Transitive: 'Solver' and 'dictionary' APIs are visible in 'crosswords' API as
+    // implementations need to be injected for 'crosswords' to work
+    requires transitive com.gitlab.super7ramp.crosswords.dictionary.api;
+    requires transitive com.gitlab.super7ramp.crosswords.solver.api;
 
     // Export only API, keep implementation hidden
     exports com.gitlab.super7ramp.crosswords.api;

@@ -9,9 +9,11 @@ dependencies {
     runtimeOnly project(':dictionary-hunspell')
     runtimeOnly project(':dictionary-internal')
     runtimeOnly project(':solver-ginsberg')
+
+    runtimeOnly project(path: ':dictionary-data', configuration: 'frCompiled')
 }
 
 application {
-    mainModule = 'com.gitlab.super7ramp.crosswords.cli' // name defined in module-info.java
+    mainModule = 'com.gitlab.super7ramp.crosswords.cli'
     mainClass = 'com.gitlab.super7ramp.crosswords.cli.Main'
 }

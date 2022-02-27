@@ -15,11 +15,10 @@ import java.util.logging.Logger;
  * Just build an {@link InternalDictionary} from a text file and serialize the object in another
  * file.
  */
-public final class TextToInternalDictionary {
+public final class TextToInternal {
 
     /** Logger. */
-    private static final Logger LOGGER =
-            Logger.getLogger(TextToInternalDictionary.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TextToInternal.class.getName());
 
     /**
      * Entry point.

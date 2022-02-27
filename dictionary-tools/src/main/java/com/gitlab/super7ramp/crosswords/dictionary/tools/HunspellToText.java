@@ -15,11 +15,10 @@ import java.util.logging.Logger;
 /**
  * A tool to deflate a Hunspell dictionary into a big text file containing all valid forms;
  */
-public final class HunspellDictionaryToText {
+public final class HunspellToText {
 
     /** Logger. */
-    private static final Logger LOGGER =
-            Logger.getLogger(HunspellDictionaryToText.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HunspellToText.class.getName());
 
     private static final Predicate<String> ALL_ENTRIES = entry -> true;
 
