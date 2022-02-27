@@ -21,6 +21,16 @@ final class ProgressListenerImpl implements ProgressListener {
     }
 
     @Override
+    public void onInitialisationStart() {
+        System.out.println("Initializing solver");
+    }
+
+    @Override
+    public void onInitialisationEnd() {
+        System.out.println("Solver initialized");
+    }
+
+    @Override
     public void onSolverProgressUpdate(final short completionPercentage) {
         if (completionPercentage > bestCompletionPercentage) {
             bestCompletionPercentage = completionPercentage;

@@ -47,7 +47,8 @@ public final class SolverServiceImpl implements SolverService {
             publisher.publishError("Dictionary not found");
         } else {
             try {
-                final SolverResult result = solver.solve(event.puzzle(), dictionary.get()::lookup);
+                final SolverResult result = solver.solve(event.puzzle(), dictionary.get()::lookup,
+                        event.progressListener());
                 publisher.publishResult(result);
             } catch (final InterruptedException e) {
                 publisher.publishError(e.getMessage());
