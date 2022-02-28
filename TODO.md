@@ -77,10 +77,6 @@
 
 ### Others
 
-#### GraalVM
-
-To test. See if performances are improved - but make backtrack more decent first
-
 #### Add READMEs
 
 - At root

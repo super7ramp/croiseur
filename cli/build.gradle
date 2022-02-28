@@ -1,19 +1,25 @@
 plugins {
-    id 'com.gitlab.super7ramp.crosswords.java-application-conventions'
+    id 'com.gitlab.super7ramp.crosswords.java-cli-conventions'
 }
 
 dependencies {
     implementation project(':crosswords')
-    implementation 'info.picocli:picocli:4.6.2'
 
+    // Module implementations are loaded at runtime
     runtimeOnly project(':dictionary-hunspell')
     runtimeOnly project(':dictionary-internal')
     runtimeOnly project(':solver-ginsberg')
-
-    runtimeOnly project(path: ':dictionary-data', configuration: 'frCompiled')
 }
 
-application {
-    mainModule = 'com.gitlab.super7ramp.crosswords.cli'
-    mainClass = 'com.gitlab.super7ramp.crosswords.cli.Main'
+/**
+ * Native build specifics.
+ */
+graalvmNative {
+    binaries {
+        main {
+            // Dictionary module requires the JVM locales for its dictionary management (JVM
+            // locales are not included by default in native build)
+            buildArgs.add('-H:IncludeLocales=fr,en')
+        }
+    }
 }
