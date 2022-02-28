@@ -44,6 +44,14 @@
 - output-format-docx: docx implementation (rely on some Apache library).
 - Might be in a different repository.
 
+### Suggest definitions
+
+For the words of a solved grid. It can be funny a problem to explore.
+
+### Make a GUI
+
+Don't lose yourself, backend is what you know.
+
 ## Improvements
 
 ### Solver
@@ -56,24 +64,52 @@
 
 #### More progress indications
 
-- Remaining slots
-- Record stats:
-  - Number of dead-ends encountered,
-  - Number of assignments,
-  - Stats on number of assignments before dead-ends
+- Find a way to display grid being solved
+- More stats
 
 #### Core
 
 - Rename to something more relevant. Maybe `sap`.
 - Assess Slot vs. SlotIdentifier usage
+- Split pervasive Slot interface
 
 #### CandidateChooser
 
 - Perfs: Check if probe parallelization improves performances with default k and with bigger k
 
+#### Backtrack
+
+Make sure the selected unassigned variable(s) actually solve the issue (i.e. the estimated number of
+solutions after unassignment is > 0). See Ginsberg papers.
+
 ### Dictionary
 
-- Filtering
+#### Hunspell
+
+- It would be really nice to have a comprehensive implementation of Hunspell in pure Java, even if
+  we wouldn't need all features for crosswords
+  - Check (again) if that exists or if someone is working on it or is planning to work on it
+  - Assess original Hunspell library and if it is worth trying to work with it using JNI
+- Alternatively: Progressively improve the current library.
+  - Currently, only French "works" (at least it doesn't fail on read)
+  - Try to fix English
+  - Then continue with e.g. Spanish or German or Italian
+  - Then maybe it's time to take a step back and make a plan about what should be done to have a
+    decent library (at least for our context, i.e. just expanding all forms of the dictionary)
+
+#### Binary
+
+- Default lookup paths to improve, currently it relies on InternalDictionaryProvider resource loader
+  which is limiting.
+
+#### Other providers
+
+Look for them
+
+#### Common (maybe solver job after all)
+
+- Rationalize filtering: Should only ASCII character be taken into account? No accent? See also
+  point on UTF8 support.
 
 ### Others
 
