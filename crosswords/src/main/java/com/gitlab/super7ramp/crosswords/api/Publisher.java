@@ -5,7 +5,6 @@ import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Required publishing services.
@@ -18,7 +17,7 @@ public interface Publisher {
 
     void publishDictionaryProviders(final Collection<DictionaryProvider> providers);
 
-    void publishDictionaries(final Map<DictionaryProvider, Collection<Dictionary>> dictionariesByProvider);
+    void publishDictionaries(final Collection<DictionaryProvider> filteredDictionaryProviders);
 
     void publishDictionaryEntries(final Dictionary dictionary);
 }

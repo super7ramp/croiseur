@@ -4,14 +4,15 @@ import com.gitlab.super7ramp.crosswords.api.Publisher;
 import com.gitlab.super7ramp.crosswords.api.solve.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
 import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionarySearch;
 import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
-import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverLoader;
+import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public final class SolverServiceImpl implements SolverService {
 
@@ -19,7 +20,7 @@ public final class SolverServiceImpl implements SolverService {
     private final CrosswordSolver solver;
 
     /** The dictionary loader. */
-    private final DictionaryLoader dictionaryLoader;
+    private final Collection<DictionaryProvider> dictionaryProviders;
 
     /** The publisher. */
     private final Publisher publisher;
@@ -27,14 +28,18 @@ public final class SolverServiceImpl implements SolverService {
     /**
      * Constructor.
      *
-     * @param solverLoader      the solver loader
-     * @param aDictionaryLoader the dictionary loader
+     * @param someSolverProviders     the solver providers
+     * @param someDictionaryProviders the dictionary providers
      */
-    public SolverServiceImpl(final CrosswordSolverLoader solverLoader,
-                             final DictionaryLoader aDictionaryLoader,
+    public SolverServiceImpl(final Collection<CrosswordSolverProvider> someSolverProviders,
+                             final Collection<DictionaryProvider> someDictionaryProviders,
                              final Publisher aPublisher) {
-        solver = solverLoader.get();
-        dictionaryLoader = aDictionaryLoader;
+        // Only one solver implementation for now
+        solver = someSolverProviders.stream()
+                                    .map(CrosswordSolverProvider::solver)
+                                    .findFirst()
+                                    .orElseThrow();
+        dictionaryProviders = new ArrayList<>(someDictionaryProviders);
         publisher = aPublisher;
     }
 
@@ -47,8 +52,8 @@ public final class SolverServiceImpl implements SolverService {
             publisher.publishError("Dictionary not found");
         } else {
             try {
-                final SolverResult result = solver.solve(event.puzzle(), dictionary.get()::lookup,
-                        event.progressListener());
+                final SolverResult result = solver.solve(event.puzzle(), dictionary.get()::lookup
+                        , event.progressListener());
                 publisher.publishResult(result);
             } catch (final InterruptedException e) {
                 publisher.publishError(e.getMessage());
@@ -64,11 +69,12 @@ public final class SolverServiceImpl implements SolverService {
      * @return the dictionary, if any
      */
     private Optional<Dictionary> retrieveDictionary(final SolveRequest event) {
-        final Predicate<DictionaryProvider> providerFilter = DictionaryLoader.Search.includeAll();
-        final Predicate<Dictionary> dictionaryFilter =
-                event.dictionaryId().map(DictionaryLoader.Search::byName)
-                     .orElseGet(DictionaryLoader.Search::includeAll);
-
-        return dictionaryLoader.getFirst(providerFilter, dictionaryFilter);
+        // TODO filter on provider as well
+        return DictionarySearch.byOptionalName(event.dictionaryId())
+                               .apply(dictionaryProviders)
+                               .stream()
+                               .map(DictionaryProvider::getFirst)
+                               .flatMap(Optional::stream)
+                               .findFirst();
     }
 }

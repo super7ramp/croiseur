@@ -9,18 +9,18 @@ import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.cli.toplevel.TopLevelCommand;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryLoader;
 import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
-import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverLoader;
 import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import java.util.logging.LogManager;
 
 /**
@@ -59,11 +59,14 @@ final class CrosswordCliApplication {
      * @return the crossword services
      */
     private static CrosswordService loadCrosswordService() {
-        final DictionaryLoader dictionary =
-                new DictionaryLoader(ServiceLoader.load(DictionaryProvider.class));
-        final CrosswordSolverLoader solver =
-                new CrosswordSolverLoader(ServiceLoader.load(CrosswordSolverProvider.class));
-        return CrosswordService.create(solver, dictionary, new TextPublisher());
+        final Collection<DictionaryProvider> dictionaryProviders =
+                ServiceLoader.load(DictionaryProvider.class).stream().map(Supplier::get).toList();
+        final Collection<CrosswordSolverProvider> solverProviders =
+                ServiceLoader.load(CrosswordSolverProvider.class)
+                             .stream()
+                             .map(Supplier::get)
+                             .toList();
+        return CrosswordService.create(solverProviders, dictionaryProviders, new TextPublisher());
     }
 
     /**

@@ -7,7 +7,6 @@ import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Text implementation of {@link Publisher}.
@@ -48,19 +47,17 @@ public final class TextPublisher implements Publisher {
     }
 
     @Override
-    public void publishDictionaries(final Map<DictionaryProvider, Collection<Dictionary>> dictionariesByProvider) {
+    public void publishDictionaries(final Collection<DictionaryProvider> filteredDictionaryProviders) {
 
         System.out.printf(LIST_FORMAT, "Provider", "Name", "Locale");
         System.out.printf(LIST_FORMAT, "--------", "----", "------");
 
-        for (final Map.Entry<DictionaryProvider, Collection<Dictionary>> entry :
-                dictionariesByProvider.entrySet()) {
-            final DictionaryProvider provider = entry.getKey();
-            final Collection<Dictionary> dictionaries = entry.getValue();
-
-            dictionaries.forEach(dictionary -> System.out.printf(LIST_FORMAT, provider.name(),
-                    dictionary.name(), dictionary.locale()
-                                                 .getDisplayName()));
+        for (final DictionaryProvider dictionaryProvider : filteredDictionaryProviders) {
+            dictionaryProvider.get()
+                              .forEach(dictionary -> System.out.printf(LIST_FORMAT,
+                                      dictionaryProvider.name(), dictionary.name(),
+                                      dictionary.locale()
+                                                .getDisplayName()));
         }
     }
 
