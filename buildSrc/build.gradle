@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation 'org.graalvm.buildtools:native-gradle-plugin:0.9.10'
+    implementation sbom.native
 }
 
 repositories {

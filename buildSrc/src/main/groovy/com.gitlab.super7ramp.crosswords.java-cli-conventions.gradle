@@ -9,12 +9,14 @@
 
 plugins {
     id 'com.gitlab.super7ramp.crosswords.java-application-conventions'
+    // Cannot use version catalog in plugins block of pre-compiled script plugins, i.e.
+    // "alias(sbom.plugins.native)" doesn't work (gh#gradle/gradle#15383)
     id 'org.graalvm.buildtools.native'
 }
 
 dependencies {
-    implementation 'info.picocli:picocli:4.6.3'
-    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
+    implementation sbom.picocli.framework
+    annotationProcessor sbom.picocli.codegen
 }
 
 application {
@@ -26,7 +28,6 @@ application {
  * Uses picocli-codegen annotation processor to create native compilation configuration.
  * By convention, includes logging.properties and serialized objects as native resources.
  */
-
 compileJava {
     options.compilerArgs += [
             "-Aproject=${project.group}/${project.name}",

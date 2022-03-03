@@ -19,3 +19,12 @@ include 'solver-ginsberg'
 
 // Util
 include 'util'
+
+// Dependency versions
+dependencyResolutionManagement {
+    versionCatalogs {
+        sbom {
+            from(files('sbom.toml'))
+        }
+    }
+}

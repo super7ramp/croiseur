@@ -1,0 +1,15 @@
+[versions]
+java = "17"
+junit5 = "5.8.2"
+native = "0.9.10"
+picocli = "4.6.3"
+
+[libraries]
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native" }
+picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
+picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
+
+[plugins]
+native = { id = "org.graalvm.buildtools.native", version.ref = "native" }
