@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * Implementation of {@link DictionaryProvider}.
  */
-public class InternalDictionaryProvider implements DictionaryProvider {
+public final class InternalDictionaryProvider implements DictionaryProvider {
 
     /**
      * Constructor.

@@ -11,25 +11,14 @@ import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class InternalDictionaryService implements Dictionary {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOGGER =
-            Logger.getLogger(InternalDictionaryService.class.getName());
-
-    /**
-     * The actual data.
-     */
+    /** The actual data. */
     private final InternalDictionary data;
 
-    /**
-     * The dictionary name.
-     */
+    /** The dictionary name. */
     private final String name;
 
     /**

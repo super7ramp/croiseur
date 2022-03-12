@@ -1,7 +1,8 @@
 rootProject.name = 'crosswords'
 
-// CLI frontend
+// Frontends
 include 'cli'
+include 'gui'
 
 // The application core library and its plugin definitions
 include 'crosswords'

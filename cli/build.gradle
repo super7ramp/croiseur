@@ -11,6 +11,10 @@ dependencies {
     runtimeOnly project(':solver-ginsberg')
 }
 
+application {
+    mainClass = "${project.group}.${project.name}.Main"
+}
+
 /**
  * Native build specifics.
  */

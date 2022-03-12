@@ -19,11 +19,6 @@ dependencies {
     annotationProcessor sbom.picocli.codegen
 }
 
-application {
-    mainModule = "${project.group}.${project.name}"
-    mainClass = "${project.group}.${project.name}.Main"
-}
-
 /**
  * Uses picocli-codegen annotation processor to create native compilation configuration.
  * By convention, includes logging.properties and serialized objects as native resources.

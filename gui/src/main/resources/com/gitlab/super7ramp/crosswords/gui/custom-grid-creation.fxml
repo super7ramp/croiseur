@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import org.controlsfx.control.tableview2.TableView2?>
+<FlowPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
+          prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17">
+    <children>
+        <AnchorPane prefHeight="290.0" prefWidth="290.0">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+            <FlowPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </FlowPane.margin>
+            <children>
+                <TableView2 editable="true" rowHeaderVisible="true" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane prefHeight="290.0" prefWidth="290.0">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+            <FlowPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </FlowPane.margin>
+        </AnchorPane>
+    </children>
+</FlowPane>

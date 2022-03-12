@@ -6,3 +6,7 @@ plugins {
     id 'application'
     id 'com.gitlab.super7ramp.crosswords.java-conventions'
 }
+
+application {
+    mainModule = "${project.group}.${project.name}"
+}
