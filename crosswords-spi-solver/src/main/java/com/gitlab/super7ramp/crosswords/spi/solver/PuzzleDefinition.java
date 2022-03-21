@@ -12,6 +12,93 @@ import java.util.function.Consumer;
  */
 public final class PuzzleDefinition {
 
+    /**
+     * A {@link PuzzleDefinition} builder.
+     */
+    public static final class PuzzleDefinitionBuilder {
+
+        /** Width of the grid. */
+        private int width;
+
+        /** Height of the grid. */
+        private int height;
+
+        /** Shaded boxes. */
+        private Set<GridPosition> shaded;
+
+        /** Filled boxes. */
+        private Map<GridPosition, Character> filled;
+
+        /**
+         * Constructor.
+         */
+        public PuzzleDefinitionBuilder() {
+            shaded = new HashSet<>();
+            filled = new HashMap<>();
+        }
+
+        /**
+         * Shades the given grid position.
+         * <p>
+         * Removes previous character associated to this position, if any.
+         *
+         * @param position the position to shade
+         * @return this builder
+         */
+        public PuzzleDefinitionBuilder shade(final GridPosition position) {
+            filled.remove(position);
+            shaded.add(position);
+            return this;
+        }
+
+        /**
+         * Fills the given position with the given character.
+         * <p>
+         * Removes shading on the given position, if any.
+         *
+         * @param position  the position to fill
+         * @param character the character to set
+         * @return this builder
+         */
+        public PuzzleDefinitionBuilder fill(final GridPosition position,
+                                            final Character character) {
+            shaded.remove(position);
+            filled.put(position, character);
+            return this;
+        }
+
+        /**
+         * Sets the width of the grid.
+         *
+         * @param widthArg the new width
+         * @return this builder
+         */
+        public PuzzleDefinitionBuilder width(final int widthArg) {
+            width = widthArg;
+            return this;
+        }
+
+        /**
+         * Sets the height of the grid.
+         *
+         * @param heightArg the new height
+         * @return this builder
+         */
+        public PuzzleDefinitionBuilder height(final int heightArg) {
+            height = heightArg;
+            return this;
+        }
+
+        /**
+         * Builds the {@link PuzzleDefinition} from this builder.
+         *
+         * @return a new {@link PuzzleDefinition}
+         */
+        public PuzzleDefinition build() {
+            return new PuzzleDefinition(width, height, shaded, filled);
+        }
+    }
+
     /** Width of the grid. */
     private final int width;
 

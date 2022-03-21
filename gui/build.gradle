@@ -9,10 +9,6 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.web']
 }
 
-application {
-    mainClass = "${project.group}.${project.name}.CrosswordGuiApplication"
-}
-
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.0')
     implementation('com.dlsc.formsfx:formsfx-core:11.3.2') {
@@ -26,6 +22,8 @@ dependencies {
     implementation('eu.hansolo:tilesfx:11.48') {
         exclude(group: 'org.openjfx')
     }
+
+    implementation project(':crosswords')
 }
 
 jlink {

@@ -9,4 +9,5 @@ plugins {
 
 application {
     mainModule = "${project.group}.${project.name}"
+    mainClass = "${project.group}.${project.name}.Main"
 }

@@ -35,14 +35,15 @@
 
 - Add definition placeholders, column and row numbers.
 
-### Support output format as plugins
+### Support output formatter as plugins
 
-- output-format-api: Define API. Relies on solver result so depends on solver-api.
-- output-format-xml: xml implementation (jaxb?).
-- output-format-json: json implementation (gson?).
-- output-format-pdf: pdf implementation (check LaTeX packages).
-- output-format-docx: docx implementation (rely on some Apache library).
-- Might be in a different repository.
+- formatter-api: Defines the API. Depends on input types so presently on solver result so depends on
+  solver-api (one day maybe it will be on crosswords-datatypes)
+- formatter-xml: xml implementation (jaxb?).
+- formatter-json: json implementation (gson?).
+- formatter-pdf: pdf implementation (check LaTeX packages).
+- formatter-docx: docx implementation (rely on some Apache library).
+- How to combine it with frontend publishers?
 
 ### Suggest definitions
 
@@ -101,6 +102,9 @@ solutions after unassignment is > 0). See Ginsberg papers.
 
 - Default lookup paths to improve, currently it relies on InternalDictionaryProvider resource loader
   which is limiting.
+- Read:
+  - https://www.oracle.com/java/technologies/javase/seccodeguide.html
+  - https://docs.oracle.com/en/java/javase/16/core/serialization-filtering1.html#GUID-55BABE96-3048-4A9F-A7E6-781790FF3480
 
 #### Other providers
 
@@ -110,6 +114,13 @@ Look for them
 
 - Rationalize filtering: Should only ASCII character be taken into account? No accent? See also
   point on UTF8 support.
+
+### crosswords
+
+#### Transform publishers into service provider
+
+- Move crosswords' Publisher into a dedicated module publisher-api.
+- Implemented by frontends.
 
 ### Others
 

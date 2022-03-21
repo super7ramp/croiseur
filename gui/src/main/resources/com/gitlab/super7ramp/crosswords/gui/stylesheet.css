@@ -1,0 +1,12 @@
+.crossword-box-text {
+    /* Big centered text. */
+    -fx-alignment: center;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+
+    /* A beautiful square. */
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: transparent;
+
+}

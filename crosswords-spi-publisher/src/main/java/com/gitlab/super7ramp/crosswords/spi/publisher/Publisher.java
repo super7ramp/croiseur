@@ -8,6 +8,7 @@ import java.util.Collection;
 
 /**
  * Required publishing services.
+ * TODO move into its own module i.e. publisher-api
  */
 // TODO create specific types so that Publisher SPI does not depend on Dictionary and Solver SPIs
 public interface Publisher {
