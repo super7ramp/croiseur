@@ -21,10 +21,12 @@ public final class CrosswordGuiApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(final Stage stage) throws IOException {
         final Parent customGridCreation = FXMLLoader.load(CrosswordGuiApplication.class.getResource(
                 "custom-grid-creation.fxml"));
         final Scene scene = new Scene(customGridCreation);
+        stage.setMinWidth(300);
+        stage.setMinHeight(300);
         stage.setTitle("Custom Grid Creation");
         stage.setScene(scene);
         stage.show();

@@ -1,12 +1,21 @@
+/* A cell of the crossword grid. */
 .crossword-box-text {
     /* Big centered text. */
     -fx-alignment: center;
     -fx-font-size: 25px;
     -fx-font-weight: bold;
 
-    /* A beautiful square. */
+    /* In a beautiful square. */
     -fx-background-radius: 0;
     -fx-border-radius: 0;
     -fx-border-color: transparent;
 
+    /* Taking all the space. */
+    -fx-max-height: Infinity;
+    -fx-max-width: Infinity;
+}
+
+/* A shaded cell. */
+.crossword-box-text-shaded {
+    -fx-background-color: black;
 }
