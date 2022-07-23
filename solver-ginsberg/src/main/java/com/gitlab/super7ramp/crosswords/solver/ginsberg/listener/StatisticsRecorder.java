@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg.listener;
 
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 public final class StatisticsRecorder implements SolverListener {
 

@@ -1,3 +1,5 @@
+import com.gitlab.super7ramp.crosswords.cli.publish.TextPublisher;
+
 /**
  * CLI for crossword solving.
  */
@@ -12,9 +14,8 @@ module com.gitlab.super7ramp.crosswords.cli {
     // Core library
     requires com.gitlab.super7ramp.crosswords;
 
-    // Core library runtime dependencies
-    uses com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
-    uses com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
+    // GUI provides core library with a publisher
+    provides com.gitlab.super7ramp.crosswords.spi.publisher.Publisher with TextPublisher;
 
     // Open for reflection to CLI framework
     opens com.gitlab.super7ramp.crosswords.cli to info.picocli;

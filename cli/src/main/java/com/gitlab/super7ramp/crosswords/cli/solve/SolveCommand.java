@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.crosswords.cli.solve.adapted.SolveRequestImpl;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
-import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
+import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    api project(':dictionary-api')
+    api project(':crosswords-spi-dictionary')
     implementation project(':util')
 }

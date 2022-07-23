@@ -17,7 +17,7 @@ final class Boxes {
          * Constructor.
          */
         ComputedBox() {
-            character = BoxData.EMPTY_VALUE;
+            character = EMPTY_VALUE;
         }
 
         /**
@@ -129,7 +129,7 @@ final class Boxes {
 
         @Override
         public char value() {
-            return BoxData.SHADED_VALUE;
+            return SHADED_VALUE;
         }
 
         @Override

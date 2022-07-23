@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.dictionary.internal;
 
-import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 
 import java.net.URL;
 import java.util.ArrayList;

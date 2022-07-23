@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Mock for {@link Dictionary}.
@@ -41,13 +42,14 @@ final class DictionaryMock implements Dictionary {
     }
 
     DictionaryMock(final Path dicFile) throws IOException {
-        words = Files.lines(dicFile)
-                     .filter(DIC_ENTRY.asPredicate())
-                     .map(DictionaryMock::removeAffixes)
-                     .map(DictionaryMock::removeHyphen)
-                     .map(DictionaryMock::removeAccentuation)
-                     .map(String::toUpperCase)
-                     .collect(Collectors.toCollection(HashSet::new));
+        try (final Stream<String> lines = Files.lines(dicFile)) {
+            words = lines.filter(DIC_ENTRY.asPredicate())
+                         .map(DictionaryMock::removeAffixes)
+                         .map(DictionaryMock::removeHyphen)
+                         .map(DictionaryMock::removeAccentuation)
+                         .map(String::toUpperCase)
+                         .collect(Collectors.toCollection(HashSet::new));
+        }
     }
 
     private static String removeAffixes(String word) {

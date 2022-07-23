@@ -5,9 +5,9 @@ import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifi
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
-import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
-import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;

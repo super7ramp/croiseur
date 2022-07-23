@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.solve.adapted;
 
-import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 
 /**
  * Implementation of {@link ProgressListener}.

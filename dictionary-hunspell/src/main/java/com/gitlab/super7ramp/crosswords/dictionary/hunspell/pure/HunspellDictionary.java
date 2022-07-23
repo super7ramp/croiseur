@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure;
 
-import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.aff.AffParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.common.ParserException;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.DicParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.wordforms.WordFormGenerator;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.io.BufferedReader;

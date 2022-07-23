@@ -1,12 +1,9 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
-
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertSuccess;
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
 /**
  * Tests on grids with shaded boxes.
@@ -20,7 +17,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void partiallyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 | | | |
                 | | | |
                 | | |#|
@@ -29,7 +26,7 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |A|B|C|
                 |A|B|D|
                 |A|B|#|
@@ -43,7 +40,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void entirelyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 |#|#|#|
                 |#|#|#|
                 |#|#|#|
@@ -52,7 +49,7 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |#|#|#|
                 |#|#|#|
                 |#|#|#|

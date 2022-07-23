@@ -1,13 +1,10 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertSuccess;
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
 /**
  * Tests for {@link CrosswordSolverImpl}.
@@ -25,7 +22,7 @@ final class CrosswordSolverBasicsTest {
     @Test
     @Disabled("Assess whether preventing values to be re-used actually is worth it")
     void empty3x3() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 | | | |
                 | | | |
                 | | | |
@@ -34,7 +31,7 @@ final class CrosswordSolverBasicsTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |A|B|C|
                 |A|B|D|
                 |A|B|E|
@@ -43,7 +40,7 @@ final class CrosswordSolverBasicsTest {
 
     @Test
     void empty3x4() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 | | | |
                 | | | |
                 | | | |
@@ -54,7 +51,7 @@ final class CrosswordSolverBasicsTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |A|A|A|
                 |B|B|B|
                 |C|C|C|

@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.cli.publish;
 
-import com.gitlab.super7ramp.crosswords.api.Publisher;
-import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.publisher.Publisher;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.Iterator;

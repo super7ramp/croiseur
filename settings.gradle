@@ -3,18 +3,19 @@ rootProject.name = 'crosswords'
 // CLI frontend
 include 'cli'
 
-// The main library (the "use cases")
+// The application core library and its plugin definitions
 include 'crosswords'
+include 'crosswords-spi-dictionary'
+include 'crosswords-spi-solver'
+include 'crosswords-spi-publisher'
 
-// Dictionary libraries/tools/data
-include 'dictionary-api'
+// Dictionary plugin implementations/tools/data
 include 'dictionary-hunspell'
 include 'dictionary-internal'
 include 'dictionary-tools'
 include 'dictionary-data'
 
-// Solver libraries
-include 'solver-api'
+// Solver plugin implementations
 include 'solver-ginsberg'
 
 // Util

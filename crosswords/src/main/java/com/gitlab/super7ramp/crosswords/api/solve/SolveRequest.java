@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.api.solve;
 
-import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.time.Duration;
 import java.util.Optional;

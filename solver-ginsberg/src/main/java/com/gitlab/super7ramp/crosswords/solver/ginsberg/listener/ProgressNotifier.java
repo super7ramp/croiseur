@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg.listener;
 
-import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 
 import java.time.Duration;
 import java.time.Instant;

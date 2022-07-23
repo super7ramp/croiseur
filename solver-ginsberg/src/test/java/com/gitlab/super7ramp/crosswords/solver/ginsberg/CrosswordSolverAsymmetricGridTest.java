@@ -1,17 +1,14 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertSuccess;
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
 /**
  * Tests on some asymmetric French grids.
@@ -29,7 +26,7 @@ public class CrosswordSolverAsymmetricGridTest {
 
     @Test
     void shaded6x4() throws URISyntaxException, IOException, InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 | | | | |#| |
                 | | |#| | | |
                 | | |#| | | |
@@ -39,7 +36,7 @@ public class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |S|A|G|A|#|T|
                 |A|I|#|A|B|A|
                 |A|N|#|B|A|I|
@@ -50,7 +47,7 @@ public class CrosswordSolverAsymmetricGridTest {
     @Test
     @Disabled("Solver not performant enough for now / no solution with dictionary?")
     void shaded12x10() throws URISyntaxException, IOException, InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 | | | | | | | | | | | | |
                 | | | | |#| | | | | | | |
                 | | | | | | | | | | |#| |
@@ -66,7 +63,7 @@ public class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 | | | | | | | | | | | | |
                 | | | | |#| | | | | | | |
                 | | | | | | | | | | |#| |

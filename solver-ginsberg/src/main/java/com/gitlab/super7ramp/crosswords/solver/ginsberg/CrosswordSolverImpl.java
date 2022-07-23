@@ -1,10 +1,5 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.CrosswordSolver;
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.ProgressListener;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.sap.Backtracker;
@@ -15,15 +10,20 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.instantiation
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.iteration.SlotIteratorImpl;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.ProgressNotifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.StatisticsRecorder;
+import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
 
-final class CrosswordSolverImpl implements CrosswordSolver {
+public final class CrosswordSolverImpl implements CrosswordSolver {
 
     /**
      * Constructor.
      */
-    CrosswordSolverImpl() {
+    public CrosswordSolverImpl() {
         // Nothing to do.
     }
 

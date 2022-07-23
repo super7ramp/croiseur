@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell;
 
-import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.HunspellDictionary;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 
 import java.net.URL;
 import java.util.Collection;

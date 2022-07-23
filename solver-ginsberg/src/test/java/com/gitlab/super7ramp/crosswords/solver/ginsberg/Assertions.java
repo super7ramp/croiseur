@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 

@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.HashMap;
 import java.util.HashSet;

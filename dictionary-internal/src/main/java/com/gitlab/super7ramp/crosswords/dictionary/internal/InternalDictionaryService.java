@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.internal;
 
-import com.gitlab.super7ramp.crosswords.dictionary.api.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.io.IOException;

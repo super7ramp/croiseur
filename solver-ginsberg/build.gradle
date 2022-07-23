@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api project(':solver-api')
+    api project(':crosswords-spi-solver')
 }
 
 // Additional mock directory for tests

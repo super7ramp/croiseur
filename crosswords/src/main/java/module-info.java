@@ -1,3 +1,7 @@
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.publisher.Publisher;
+import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
+
 /**
  * Crossword application logic.
  * <p>
@@ -5,13 +9,23 @@
  */
 module com.gitlab.super7ramp.crosswords {
 
-    // Transitive: 'Solver' and 'dictionary' APIs are visible in 'crosswords' API as
-    // implementations need to be injected for 'crosswords' to work
-    requires transitive com.gitlab.super7ramp.crosswords.dictionary.api;
-    requires transitive com.gitlab.super7ramp.crosswords.solver.api;
+    /*
+     * Requires plugins.
+     *
+     * Transitive since plugin implementations can be explicitly passed in factory and hence are
+     * visible from API client.
+     */
+    requires transitive com.gitlab.super7ramp.crosswords.spi.dictionary;
+    requires transitive com.gitlab.super7ramp.crosswords.spi.solver;
+    requires transitive com.gitlab.super7ramp.crosswords.spi.publisher;
 
-    // Export only API, keep implementation hidden
+    // Exports only API, keeps implementation hidden.
     exports com.gitlab.super7ramp.crosswords.api;
     exports com.gitlab.super7ramp.crosswords.api.dictionary;
     exports com.gitlab.super7ramp.crosswords.api.solve;
+
+    // Uses plugins since plugin implementations can be implicitly loaded in factory.
+    uses DictionaryProvider;
+    uses CrosswordSolver;
+    uses Publisher;
 }

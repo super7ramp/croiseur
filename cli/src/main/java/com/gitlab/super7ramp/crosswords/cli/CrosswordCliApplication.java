@@ -3,24 +3,18 @@ package com.gitlab.super7ramp.crosswords.cli;
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.cli.publish.TextPublisher;
 import com.gitlab.super7ramp.crosswords.cli.solve.SolveCommand;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.cli.toplevel.TopLevelCommand;
-import com.gitlab.super7ramp.crosswords.dictionary.spi.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.solver.api.GridPosition;
-import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
+import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Locale;
-import java.util.ServiceLoader;
-import java.util.function.Supplier;
 import java.util.logging.LogManager;
 
 /**
@@ -39,7 +33,7 @@ final class CrosswordCliApplication {
 
         command = new CommandLine(new TopLevelCommand());
 
-        final CrosswordService crosswordService = loadCrosswordService();
+        final CrosswordService crosswordService = CrosswordService.create();
         command.addSubcommand(HelpCommand.class)
                .addSubcommand(new SolveCommand(crosswordService.solverService()))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()));
@@ -51,22 +45,6 @@ final class CrosswordCliApplication {
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
                .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf));
-    }
-
-    /**
-     * Load the crossword services.
-     *
-     * @return the crossword services
-     */
-    private static CrosswordService loadCrosswordService() {
-        final Collection<DictionaryProvider> dictionaryProviders =
-                ServiceLoader.load(DictionaryProvider.class).stream().map(Supplier::get).toList();
-        final Collection<CrosswordSolverProvider> solverProviders =
-                ServiceLoader.load(CrosswordSolverProvider.class)
-                             .stream()
-                             .map(Supplier::get)
-                             .toList();
-        return CrosswordService.create(solverProviders, dictionaryProviders, new TextPublisher());
     }
 
     /**

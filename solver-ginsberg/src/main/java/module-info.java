@@ -1,15 +1,13 @@
-import com.gitlab.super7ramp.crosswords.solver.ginsberg.CrosswordSolverProviderImpl;
-import com.gitlab.super7ramp.crosswords.solver.spi.CrosswordSolverProvider;
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.CrosswordSolverImpl;
+import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
-/*
+/**
  * Solver module.
  */
 module com.gitlab.super7ramp.crosswords.solver.ginsberg {
 
-    // Base modules
     requires java.logging;
+    requires com.gitlab.super7ramp.crosswords.spi.solver;
 
-    // Implemented SPIs.
-    requires com.gitlab.super7ramp.crosswords.solver.api;
-    provides CrosswordSolverProvider with CrosswordSolverProviderImpl;
+    provides CrosswordSolver with CrosswordSolverImpl;
 }

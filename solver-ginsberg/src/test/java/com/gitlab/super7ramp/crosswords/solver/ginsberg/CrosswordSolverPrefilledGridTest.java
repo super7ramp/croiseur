@@ -1,19 +1,15 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
-
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertImpossible;
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertSuccess;
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
 final class CrosswordSolverPrefilledGridTest {
 
     @Test
     void partiallyFilled() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 |A| | |
                 |B| | |
                 |C| | |
@@ -22,7 +18,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |A|A|A|
                 |B|B|B|
                 |C|D|E|
@@ -31,7 +27,7 @@ final class CrosswordSolverPrefilledGridTest {
 
     @Test
     void filledSlotNotInDictionary() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 |X| | |
                 |Y| | |
                 |Z| | |
@@ -40,7 +36,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertImpossible("""
+        Assertions.assertImpossible("""
                 |X| | |
                 |Y| | |
                 |Z| | |
@@ -49,7 +45,7 @@ final class CrosswordSolverPrefilledGridTest {
 
     @Test
     void entirelyFilled() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 |A|A|A|
                 |B|B|B|
                 |C|D|E|
@@ -58,7 +54,7 @@ final class CrosswordSolverPrefilledGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |A|A|A|
                 |B|B|B|
                 |C|D|E|

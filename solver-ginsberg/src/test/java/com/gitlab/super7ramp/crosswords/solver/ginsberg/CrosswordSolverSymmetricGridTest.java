@@ -1,15 +1,14 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.solver.api.Dictionary;
-import com.gitlab.super7ramp.crosswords.solver.api.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.api.SolverResult;
+import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
-import static com.gitlab.super7ramp.crosswords.solver.ginsberg.Assertions.assertSuccess;
 import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
 /**
@@ -44,7 +43,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |#|#|C|I|L|
                 |#|R|A|L|E|
                 |A|G|L|A|E|
@@ -73,7 +72,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |#|#|#|R|A|M|#|#|#|
                 |#|#|C|O|R|O|N|#|#|
                 |#|A|U|B|E|N|A|S|#|
@@ -110,7 +109,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |T|A|R|A|#|C|I|A|#|M|A|E|L|
                 |A|R|E|C|#|A|R|N|#|A|N|D|Y|
                 |T|E|T|E|#|R|A|I|#|R|E|I|N|
@@ -151,7 +150,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |S|A|I|D|#|V|I|S|#|P|A|C|K|
                 |A|R|M|E|#|I|E|L|#|E|B|L|E|
                 |N|U|E|R|#|I|R|A|#|R|E|I|N|
@@ -195,7 +194,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
 
-        assertSuccess("""
+        Assertions.assertSuccess("""
                 |M|I|R|E|#|F|I|L|E|T|#|B|A|A|L|
                 |A|R|E|S|#|A|M|I|R|A|#|A|L|G|O|
                 |M|A|T|T|#|C|A|L|E|B|#|S|O|D|A|
