@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 enum AffItemKind {
 
     /** An affix header. */
-    AFFIX_HEADER("(PFX|SFX) [^ /]+ [YN] [0-9]+"),
+    AFFIX_HEADER("(PFX|SFX) +[^ /]+ +[YN] +[0-9]+"),
     /** An affix rule. */
-    AFFIX_RULE("^(PFX|SFX) [^ /]+ [^ /]+ [^ /]+(/[^ /]+)? [^ /]+$"),
+    AFFIX_RULE("^(PFX|SFX) +[^ /]+ +[^ /]+ +[^ /]+(/[^ /]+)? +[^ /]+ *$"),
     /** An empty line or a line with only blanks. */
     BLANK("^[ ]*$"),
     /** A comment. */
@@ -23,6 +23,12 @@ enum AffItemKind {
     COMPOUNDING_BREAK_HEADER("^BREAK [0-9]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK("^BREAK [^ ]+$"),
+    /** Compounding option: TODO document. */
+    COMPOUNDING_MIN("^COMPOUNDMIN [0-9]+$"),
+    /** Compounding option: TODO document. */
+    COMPOUNGING_ONLY_IN("^ONLYINCOMPOUND [^ ]+$"),
+    /** Compounding option: TODO document. */
+    COUMPONDING_RULE("^COMPOUNDRULE [^ ]+$"),
     /** General option: Two-fold prefix stripping. */
     GENERAL_COMPLEX_PREFIXES("^COMPLEXPREFIXES$"),
     /** General option: Character encoding of words and morphemes in affix and dictionary files. */

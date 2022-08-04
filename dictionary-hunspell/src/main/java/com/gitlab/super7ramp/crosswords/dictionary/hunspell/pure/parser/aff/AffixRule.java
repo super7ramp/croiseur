@@ -15,12 +15,12 @@ public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCha
 
     /** The pattern of an affix header. */
     private static final Pattern PATTERN =
-            Pattern.compile("^(?<kind>(PFX|SFX)) " +
-                    "(?<flag>[^ /]+) (0|" +
-                    "(?<strippingCharacters>[^ /]+)) " +
+            Pattern.compile("^(?<kind>(PFX|SFX)) +" +
+                    "(?<flag>[^ /]+) +(0|" +
+                    "(?<strippingCharacters>[^ /]+)) +" +
                     "(?<affix>[^ /]+)" +
-                    "(/(?<continuationClasses>[^ /]+))? " +
-                    "(\\.|(?<condition>[^ /]+))$");
+                    "(/(?<continuationClasses>[^ /]+))? +" +
+                    "(\\.|(?<condition>[^ /]+)) *$");
 
     /**
      * Parses an affix rule.
