@@ -41,7 +41,7 @@ public record GridPosition(int x, int y) {
      * @param offset the horizontal offset
      * @return a new {@link GridPosition} at specified horizontal offset of this coordinate.
      */
-    public GridPosition atHorizontalOffset(final int offset) {
+    public GridPosition plusHorizontalOffset(final int offset) {
         return new GridPosition(x + offset, y);
     }
 
@@ -51,12 +51,12 @@ public record GridPosition(int x, int y) {
      * @param offset the vertical offset
      * @return a new {@link GridPosition} at specified vertical offset of this coordinate.
      */
-    public GridPosition atVerticalOffset(final int offset) {
+    public GridPosition plusVerticalOffset(final int offset) {
         return new GridPosition(x, y + offset);
     }
 
     @Override
     public String toString() {
-        return "Coordinate{" + "x=" + x + ", y=" + y + '}';
+        return "GridPosition{" + "x=" + x + ", y=" + y + '}';
     }
 }

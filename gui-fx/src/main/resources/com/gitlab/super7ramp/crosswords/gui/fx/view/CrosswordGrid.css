@@ -1,0 +1,28 @@
+/* A cell of the crossword grid. */
+.crossword-box-text {
+    /* Centered serif text. */
+    -fx-alignment: center;
+    -fx-font-family: serif;
+
+    /* In a beautiful square. */
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+
+    /* Taking all the space. */
+    -fx-max-height: Infinity;
+    -fx-max-width: Infinity;
+}
+
+/* A shaded cell. */
+.crossword-box-text:shaded {
+    -fx-background-color: black;
+}
+
+/* The grid. */
+.crossword-grid {
+    -fx-border-radius: 0;
+    -fx-border-style: solid inside;
+    -fx-border-width: 2px;
+}

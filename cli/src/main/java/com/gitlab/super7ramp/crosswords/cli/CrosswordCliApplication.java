@@ -1,13 +1,13 @@
 package com.gitlab.super7ramp.crosswords.cli;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.cli.dictionary.DictionaryCommand;
-import com.gitlab.super7ramp.crosswords.cli.dictionary.parsed.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.cli.solve.SolveCommand;
-import com.gitlab.super7ramp.crosswords.cli.solve.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.solve.parsed.PrefilledSlot;
-import com.gitlab.super7ramp.crosswords.cli.toplevel.TopLevelCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.DictionaryCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed.DictionaryIdentifier;
+import com.gitlab.super7ramp.crosswords.cli.controller.solve.SolveCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.toplevel.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;

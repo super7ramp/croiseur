@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.impl;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
-import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
-import com.gitlab.super7ramp.crosswords.impl.dictionary.DictionaryServiceImpl;
-import com.gitlab.super7ramp.crosswords.impl.solve.SolverServiceImpl;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
+import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
+import com.gitlab.super7ramp.crosswords.impl.dictionary.DictionaryUsecaseImpl;
+import com.gitlab.super7ramp.crosswords.impl.solve.SolverUsecaseImpl;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.spi.publisher.Publisher;
+import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
 import java.util.Collection;
@@ -17,32 +17,32 @@ import java.util.Collection;
 public final class CrosswordServiceImpl implements CrosswordService {
 
     /** Dictionary service. */
-    private final DictionaryService dictionaryService;
+    private final DictionaryUsecase dictionaryUsecase;
 
     /** Solver service. */
-    private final SolverService solverService;
+    private final SolverUsecase solverUsecase;
 
     /**
      * Constructor.
      *
      * @param solvers             the solvers
      * @param dictionaryProviders the dictionary providers
-     * @param publisher           the publisher
+     * @param presenter           the publisher
      */
     public CrosswordServiceImpl(final Collection<CrosswordSolver> solvers,
                                 final Collection<DictionaryProvider> dictionaryProviders,
-                                final Publisher publisher) {
-        solverService = new SolverServiceImpl(solvers, dictionaryProviders, publisher);
-        dictionaryService = new DictionaryServiceImpl(dictionaryProviders, publisher);
+                                final Presenter presenter) {
+        solverUsecase = new SolverUsecaseImpl(solvers, dictionaryProviders, presenter);
+        dictionaryUsecase = new DictionaryUsecaseImpl(dictionaryProviders, presenter);
     }
 
     @Override
-    public DictionaryService dictionaryService() {
-        return dictionaryService;
+    public DictionaryUsecase dictionaryService() {
+        return dictionaryUsecase;
     }
 
     @Override
-    public SolverService solverService() {
-        return solverService;
+    public SolverUsecase solverService() {
+        return solverUsecase;
     }
 }

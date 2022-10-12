@@ -1,23 +1,25 @@
+import com.gitlab.super7ramp.crosswords.gui.presenter.GuiPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+
 module com.gitlab.super7ramp.crosswords.gui {
+
+    // Base modules
+    requires java.logging;
 
     // JavaFX stuff
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
+    requires com.gitlab.super7ramp.crosswords.gui.fx;
 
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-
-    opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;
-    opens com.gitlab.super7ramp.crosswords.gui.controllers to javafx.fxml;
     exports com.gitlab.super7ramp.crosswords.gui;
-    exports com.gitlab.super7ramp.crosswords.gui.controllers;
+    opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;
+    exports com.gitlab.super7ramp.crosswords.gui.binder;
+    opens com.gitlab.super7ramp.crosswords.gui.binder to javafx.fxml;
 
-    // Actual dependency
+    // Actual dependency to core library
     requires com.gitlab.super7ramp.crosswords;
+
+    // GUI provides core library with a presenter
+    provides Presenter with GuiPresenter;
 
 }

@@ -1,10 +1,10 @@
 package com.gitlab.super7ramp.crosswords.api;
 
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
-import com.gitlab.super7ramp.crosswords.api.solve.SolverService;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
+import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
 import com.gitlab.super7ramp.crosswords.impl.CrosswordServiceImpl;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.spi.publisher.Publisher;
+import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
 import java.util.Collection;
@@ -23,13 +23,13 @@ public interface CrosswordService {
      *
      * @param solvers             the solver services
      * @param dictionaryProviders the dictionary service providers
-     * @param publisher           the publisher service
+     * @param presenter           the publisher service
      * @return a new instance of {@link CrosswordService}
      */
     static CrosswordService create(final Collection<CrosswordSolver> solvers,
                                    final Collection<DictionaryProvider> dictionaryProviders,
-                                   final Publisher publisher) {
-        return new CrosswordServiceImpl(solvers, dictionaryProviders, publisher);
+                                   final Presenter presenter) {
+        return new CrosswordServiceImpl(solvers, dictionaryProviders, presenter);
     }
 
     /**
@@ -50,13 +50,13 @@ public interface CrosswordService {
                              .stream()
                              .map(Supplier::get)
                              .toList();
-        final Publisher publisher =
-                ServiceLoader.load(Publisher.class)
+        final Presenter presenter =
+                ServiceLoader.load(Presenter.class)
                              .findFirst()
                              .orElseThrow(() -> new IllegalStateException(
-                                     "Failed to instantiate crosswords service: No publisher " +
+                                     "Failed to instantiate crosswords service: No presenter " +
                                              "found"));
-        return create(solvers, dictionaryProviders, publisher);
+        return create(solvers, dictionaryProviders, presenter);
     }
 
     /**
@@ -64,13 +64,13 @@ public interface CrosswordService {
      *
      * @return the dictionary service
      */
-    DictionaryService dictionaryService();
+    DictionaryUsecase dictionaryService();
 
     /**
      * Returns the solver service.
      *
      * @return the solver service
      */
-    SolverService solverService();
+    SolverUsecase solverService();
 
 }

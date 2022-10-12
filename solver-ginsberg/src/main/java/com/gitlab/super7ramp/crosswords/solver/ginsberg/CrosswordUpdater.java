@@ -22,7 +22,7 @@ import java.util.Objects;
  * </ol>
  * The rest can be done in any order.
  */
-public class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotIdentifier> {
+final class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotIdentifier> {
 
     /** The crossword state. */
     private final Crossword crossword;

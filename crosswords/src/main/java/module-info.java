@@ -1,5 +1,5 @@
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.spi.publisher.Publisher;
+import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
 /**
@@ -17,15 +17,15 @@ module com.gitlab.super7ramp.crosswords {
      */
     requires transitive com.gitlab.super7ramp.crosswords.spi.dictionary;
     requires transitive com.gitlab.super7ramp.crosswords.spi.solver;
-    requires transitive com.gitlab.super7ramp.crosswords.spi.publisher;
+    requires transitive com.gitlab.super7ramp.crosswords.spi.presenter;
 
     // Exports only API, keeps implementation hidden.
     exports com.gitlab.super7ramp.crosswords.api;
     exports com.gitlab.super7ramp.crosswords.api.dictionary;
-    exports com.gitlab.super7ramp.crosswords.api.solve;
+    exports com.gitlab.super7ramp.crosswords.api.solver;
 
     // Uses plugins since plugin implementations can be implicitly loaded in factory.
     uses DictionaryProvider;
     uses CrosswordSolver;
-    uses Publisher;
+    uses Presenter;
 }

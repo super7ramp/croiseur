@@ -1,14 +1,17 @@
 rootProject.name = 'crosswords'
 
-// Frontends
+// CLI frontend
 include 'cli'
+
+// GUI frontend
 include 'gui'
+include 'gui-fx'
 
 // The application core library and its plugin definitions
 include 'crosswords'
 include 'crosswords-spi-dictionary'
 include 'crosswords-spi-solver'
-include 'crosswords-spi-publisher'
+include 'crosswords-spi-presenter'
 
 // Dictionary plugin implementations/tools/data
 include 'dictionary-hunspell'

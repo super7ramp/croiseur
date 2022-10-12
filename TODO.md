@@ -2,7 +2,7 @@
 
 ## Features
 
-### Allow user to iterate over solutions (CLI, solver)
+### Allow user to iterate over solutions (usecase + UI + solver)
 
 - What's the best for user?
   1. Add an option to specify the number of solutions: Internally, mark the n-1 solutions found as
@@ -10,14 +10,19 @@
   2. Add an option `--random`: Does shuffling dictionary suffice?
 - Not sure what's the best for speed
 
-### Allow user to stop the solver after completion threshold reached (CLI, maybe solver too)
+### Allow user to stop the solver after completion threshold reached (usecase + UI + probably solver)
 
-- Add an option `--threshold` in CLI
+- CLI: Add an option `--threshold`
 - Implementation:
   - Interrupt solver once threshold reached? Not reliable as solver may already have backtracked
     when interrupted status takes effect
   - Add a decorator on slot iterator so that its `hasNext()` returns `false` when threshold is
     reached? Requires modification in solver
+
+### Allow user to stop after timeout (UI + maybe usecase + maybe solver)
+
+- CLI: Add an option `--timeout`
+- UI only or add it as a real usecase solve option?
 
 ### More dictionaries (dictionary, tools)
 
@@ -31,9 +36,9 @@
 
 - Don't think it's necessary for French, it might be useful for other languages
 
-### Enhance text output format
+### Enhance text output format (cli)
 
-- Add definition placeholders, column and row numbers.
+- Add definition placeholders, column and row numbers?
 
 ### Support output formatter as plugins
 
@@ -43,15 +48,11 @@
 - formatter-json: json implementation (gson?).
 - formatter-pdf: pdf implementation (check LaTeX packages).
 - formatter-docx: docx implementation (rely on some Apache library).
-- How to combine it with frontend publishers?
+- How to combine that with frontend presenter?
 
 ### Suggest definitions
 
-For the words of a solved grid. It can be funny a problem to explore.
-
-### Make a GUI
-
-Don't lose yourself, backend is what you know.
+For the words of a solved grid. It can be a funny problem to explore.
 
 ## Improvements
 
@@ -108,7 +109,7 @@ solutions after unassignment is > 0). See Ginsberg papers.
 
 #### Other providers
 
-Look for them
+Look for them.
 
 #### Common (maybe solver job after all)
 
@@ -117,10 +118,9 @@ Look for them
 
 ### crosswords
 
-#### Transform publishers into service provider
+### GUI
 
-- Move crosswords' Publisher into a dedicated module publisher-api.
-- Implemented by frontends.
+- Find a better way to inject data to classes created via FXML
 
 ### Others
 
