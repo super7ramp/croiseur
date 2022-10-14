@@ -42,7 +42,7 @@ final class DictionaryPresenter {
                                                                                     .stream()
                                                                                     .map(d -> dp.name() + " - " + d.locale()))
                                                                    .toList();
-        dictionaryViewModel.setDictionaries(dictionaries);
+        dictionaryViewModel.dictionaries().setAll(dictionaries);
     }
 
 }

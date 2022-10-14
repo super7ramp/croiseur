@@ -73,7 +73,9 @@ public final class CrosswordBoxTextField extends TextField {
         styleProperty().bind(desiredFontSizeCss);
 
         /*
-        // Alternative implementation; Somehow text is half the size of the cursor
+        // Alternative implementation; Should be faster but:
+        // * Somehow text is half the size of the cursor
+        // * Does not CSS style (node is not styled yet)
         final ObjectBinding<Font> font = Bindings.createObjectBinding(() -> Font.font("Serif",
                 desiredFontSize.getValue()), desiredFontSize);
         fontProperty().bind(font);

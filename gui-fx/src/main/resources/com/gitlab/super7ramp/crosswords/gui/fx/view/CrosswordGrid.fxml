@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" type="StackPane" xmlns="http://javafx.com/javafx/17">
-    <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0"
-              prefWidth="400.0" styleClass="crossword-grid" stylesheets="@CrosswordGrid.css"/>
+
+<fx:root prefHeight="400.0" prefWidth="400.0" type="StackPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" styleClass="crossword-grid" stylesheets="@CrosswordGrid.css" />
 </fx:root>

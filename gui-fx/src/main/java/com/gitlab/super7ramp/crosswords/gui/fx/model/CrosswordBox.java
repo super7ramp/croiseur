@@ -41,4 +41,6 @@ public final class CrosswordBox {
     public StringProperty contentProperty() {
         return content;
     }
+
+
 }

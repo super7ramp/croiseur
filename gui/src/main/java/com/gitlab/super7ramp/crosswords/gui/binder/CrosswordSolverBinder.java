@@ -2,9 +2,13 @@ package com.gitlab.super7ramp.crosswords.gui.binder;
 
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
+import com.gitlab.super7ramp.crosswords.gui.fx.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.fx.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.fx.view.CrosswordGrid;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -26,6 +30,18 @@ public final class CrosswordSolverBinder {
 
     @FXML
     private CrosswordGrid grid;
+
+    @FXML
+    private Button addColumnButton;
+
+    @FXML
+    private Button addRowButton;
+
+    @FXML
+    private Button deleteColumnButton;
+
+    @FXML
+    private Button deleteRowButton;
 
     @FXML
     private ComboBox<String> dictionaryComboBox;
@@ -53,22 +69,36 @@ public final class CrosswordSolverBinder {
 
     @FXML
     private void initialize() {
-        // Populate the empty grid with cells
-        // TODO populate from initial model
-        /*
-        for (int i = 1; i <= 5; i++) {
-            grid.addRow();
-            grid.addColumn();
-        }*/
-
         Objects.requireNonNull(crosswordViewModel, "Crossword view model not injected");
-        grid.boxes().putAll(crosswordViewModel.boxes());
+        grid.boxes().bindBidirectional(crosswordViewModel.boxes());
+        crosswordViewModel.width().bind(grid.columnCount());
+        crosswordViewModel.height().bind(grid.rowCount());
 
         Objects.requireNonNull(dictionaryViewModel, "Dictionary view model not injected");
         dictionaryComboBox.setItems(dictionaryViewModel.dictionaries());
 
         Objects.requireNonNull(dictionaryController, "Dictionary controller not injected");
         dictionaryController.start();
+    }
+
+    @FXML
+    private void onAddColumnButtonClicked() {
+        grid.addColumn();
+    }
+
+    @FXML
+    private void onAddRowButtonClicked() {
+        grid.addRow();
+    }
+
+    @FXML
+    private void onDeleteColumnButtonClicked() {
+        grid.deleteLastColumn();
+    }
+
+    @FXML
+    private void onDeleteRowButtonClicked() {
+        grid.deleteLastRow();
     }
 
     @FXML

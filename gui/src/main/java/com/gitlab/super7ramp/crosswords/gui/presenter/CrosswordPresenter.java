@@ -28,15 +28,15 @@ final class CrosswordPresenter {
         // nothing to do
     }
 
-    public static void inject(CrosswordViewModel modelArg) {
+    public static void inject(final CrosswordViewModel modelArg) {
         viewModel = modelArg;
     }
 
-    private static IntCoordinate2D domainToView(GridPosition domain) {
+    private static IntCoordinate2D domainToView(final GridPosition domain) {
         return new IntCoordinate2D(domain.x(), domain.y());
     }
 
-    public void presentSolverResult(SolverResult result) {
+    public void presentSolverResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
         final Map<GridPosition, Character> resultBoxes = result.boxes();
         final MapProperty<IntCoordinate2D, CrosswordBox> viewModelBoxes = viewModel.boxes();

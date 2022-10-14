@@ -4,12 +4,18 @@ import com.gitlab.super7ramp.crosswords.gui.fx.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.fx.model.IntCoordinate2D;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -19,6 +25,8 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -40,7 +48,19 @@ public final class CrosswordGrid extends StackPane {
      * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a
      * node from a position).
      */
-    private final ObservableMap<IntCoordinate2D, CrosswordBox> boxes;
+    private final MapProperty<IntCoordinate2D, CrosswordBox> boxModels;
+
+    /** The number of columns. */
+    private final IntegerProperty columnCount;
+
+    /** The number of rows. */
+    private final IntegerProperty rowCount;
+
+    /**
+     * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property,
+     * only used internally.
+     */
+    private final Map<IntCoordinate2D, Node> boxNodes;
 
     /** The grid. */
     @FXML
@@ -61,8 +81,21 @@ public final class CrosswordGrid extends StackPane {
         } catch (final IOException exception) {
             throw new UncheckedIOException(exception);
         }
-        boxes = FXCollections.observableHashMap();
-        boxes.addListener(this::handleUpdateFromModel);
+
+        boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
+        columnCount = new SimpleIntegerProperty(this, "columnCount", 0);
+        rowCount = new SimpleIntegerProperty(this, "rowCount", 0);
+        boxNodes = new HashMap<>();
+
+        boxModels.addListener(this::onModelUpdate);
+        final IntegerBinding columnCountBinding =
+                Bindings.createIntegerBinding(() -> grid.getColumnCount(),
+                        grid.getColumnConstraints());
+        columnCount.bind(columnCountBinding);
+        final IntegerBinding rowCountBinding =
+                Bindings.createIntegerBinding(() -> grid.getRowCount(),
+                        grid.getColumnConstraints());
+        rowCount.bind(rowCountBinding);
     }
 
     /**
@@ -103,40 +136,98 @@ public final class CrosswordGrid extends StackPane {
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
-    public ObservableMap<IntCoordinate2D, CrosswordBox> boxes() {
-        return boxes;
+    public MapProperty<IntCoordinate2D, CrosswordBox> boxes() {
+        return boxModels;
+    }
+
+    /**
+     * Returns the column count.
+     * <p>
+     * The property is read-only, see {@link #addColumn()} ()}, {@link #deleteLastColumn()} and
+     * {@link #boxes()} to modify the columns.
+     *
+     * @return the column count
+     */
+    public ReadOnlyIntegerProperty columnCount() {
+        return columnCount;
+    }
+
+    /**
+     * Returns the row count.
+     * <p>
+     * The property is read-only, see {@link #addRow()}, {@link #deleteLastRow()} and
+     * {@link #boxes()} to modify the rows.
+     *
+     * @return the row count
+     */
+    public ReadOnlyIntegerProperty rowCount() {
+        return rowCount;
     }
 
     /**
      * Creates an empty row at the bottom of the grid.
      */
     public void addRow() {
-        // TODO implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        final int oldRowCount = grid.getRowCount();
+        if (oldRowCount >= MAX_ROW_COLUMN_COUNT) {
+            return;
+        }
+        final int newRowIndex = oldRowCount;
+        final int oldColumnCount = grid.getColumnCount();
+        for (int column = 0; (column < oldColumnCount) || (column == 0 && oldColumnCount == 0); column++) {
+            final IntCoordinate2D coordinate = new IntCoordinate2D(column, newRowIndex);
+            // Just add the box to the model: Model update listener will synchronize the view.
+            boxModels.put(coordinate, new CrosswordBox());
+        }
     }
 
     /**
      * Creates an empty column at the right of the grid.
      */
     public void addColumn() {
-        // TODO implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        final int oldColumnCount = grid.getColumnCount();
+        if (oldColumnCount >= MAX_ROW_COLUMN_COUNT) {
+            return;
+        }
+        final int newColumnIndex = oldColumnCount;
+        final int oldRowCount = grid.getRowCount();
+        for (int row = 0; (row < oldRowCount) || (row == 0 && oldRowCount == 0); row++) {
+            final IntCoordinate2D coordinate = new IntCoordinate2D(newColumnIndex, row);
+            // Just add the box to the model: Model update listener will synchronize the view.
+            boxModels.put(coordinate, new CrosswordBox());
+        }
     }
 
     /**
-     * Delete the last column (reading left to right, so the column on the right of the grid).
-     */
-    public void deleteLastColumn() {
-        // TODO implement
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    /**
-     * Delete the last row (reading top to bottom, so the row at the bottom of the grid).
+     * Deletes the last row (reading top to bottom, so the row at the bottom of the grid).
      */
     public void deleteLastRow() {
-        // TODO implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        final int oldRowCount = grid.getRowCount();
+        if (oldRowCount == 0) {
+            return;
+        }
+        final int deletedRowIndex = oldRowCount - 1;
+        for (int column = 0; column < grid.getColumnCount(); column++) {
+            final IntCoordinate2D coordinate = new IntCoordinate2D(column, deletedRowIndex);
+            // Just remove the box from the model: Model update listener will synchronize the view.
+            boxModels.remove(coordinate);
+        }
+    }
+
+    /**
+     * Deletes the last column (reading left to right, so the column on the right of the grid).
+     */
+    public void deleteLastColumn() {
+        final int oldColumnCount = grid.getColumnCount();
+        if (oldColumnCount == 0) {
+            return;
+        }
+        final int deletedColumnIndex = oldColumnCount - 1;
+        for (int row = 0; row < grid.getRowCount(); row++) {
+            final IntCoordinate2D coordinate = new IntCoordinate2D(deletedColumnIndex, row);
+            // Just remove the box from the model: Model update listener will synchronize the view.
+            boxModels.remove(coordinate);
+        }
     }
 
     /**
@@ -147,39 +238,97 @@ public final class CrosswordGrid extends StackPane {
         defineGridConstraints();
     }
 
-    private void handleUpdateFromModel(MapChangeListener.Change<? extends IntCoordinate2D, ?
+    /**
+     * Aligns the view on model update.
+     *
+     * @param change the model change
+     */
+    private void onModelUpdate(final MapChangeListener.Change<? extends IntCoordinate2D, ?
             extends CrosswordBox> change) {
         System.out.println("DEBUG: Received map change " + change);
         final IntCoordinate2D position = change.getKey();
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
                 // TODO replaced case
+                throw new UnsupportedOperationException("Not implemented yet");
             } else {
-                // TODO added case
-                final CrosswordBoxTextField textField =
-                        new CrosswordBoxTextField(change.getValueAdded());
-                grid.add(textField, position.x(), position.y());
-                int oldColumnCount = grid.getColumnConstraints().size();
-                for (int column = oldColumnCount; column <= position.x(); column++) {
-                    final ColumnConstraints columnConstraints = new ColumnConstraints();
-                    columnConstraints.prefWidthProperty().set(CELL_PREF_SIZE);
-                    columnConstraints.hgrowProperty().set(Priority.ALWAYS);
-                    grid.getColumnConstraints().add(columnConstraints);
-                }
-                int oldRowCount = grid.getRowConstraints().size();
-                for (int row = oldRowCount; row <= position.y(); row++) {
-                    final RowConstraints rowConstraint = new RowConstraints();
-                    rowConstraint.prefHeightProperty().set(CELL_PREF_SIZE);
-                    rowConstraint.vgrowProperty().set(Priority.ALWAYS);
-                    grid.getRowConstraints().add(rowConstraint);
-                }
+                onBoxAdded(change.getKey(), change.getValueAdded());
             }
         } else if (change.wasRemoved()) {
-            // TODO removed case
+            onBoxRemoved(change.getKey());
         } else {
             // TODO confirm that
             throw new IllegalStateException("Change must be either an addition or a deletion");
         }
+    }
+
+    /**
+     * Handles a model update: Box removed case.
+     *
+     * @param removedCoordinate the removed coordinate
+     */
+    private void onBoxRemoved(final IntCoordinate2D removedCoordinate) {
+        final Node removedNode = boxNodes.remove(removedCoordinate);
+        grid.getChildren().remove(removedNode);
+
+        /*
+         * Remove column/row constraint if last box of column/row removed. Note that if a row or
+         * a column has been removed in the middle, then the row/column won't be removed from
+         * the grid.
+         */
+        if (boxNodes.keySet()
+                    .stream()
+                    .noneMatch(coordinate -> coordinate.x() >= removedCoordinate.x())) {
+            grid.getColumnConstraints().remove(removedCoordinate.x());
+        }
+        if (boxNodes.keySet()
+                    .stream()
+                    .noneMatch(coordinate -> coordinate.y() >= removedCoordinate.y())) {
+            grid.getRowConstraints().remove(removedCoordinate.y());
+        }
+
+        // Remove all leftover columns/rows if all boxes have been removed
+        final boolean emptyModel = boxModels.isEmpty();
+        if (emptyModel && grid.getRowCount() != 0) {
+            grid.getRowConstraints().clear();
+        }
+        if (emptyModel && grid.getColumnCount() != 0) {
+            grid.getColumnConstraints().clear();
+        }
+    }
+
+    /**
+     * Handles a model update: Box added case.
+     *
+     * @param coordinate where the box is added
+     * @param boxModel   what the box contains
+     */
+    private void onBoxAdded(final IntCoordinate2D coordinate, final CrosswordBox boxModel) {
+        final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
+        grid.add(textField, coordinate.x(), coordinate.y());
+        boxNodes.put(coordinate, textField);
+        int oldColumnCount = grid.getColumnConstraints().size();
+        for (int column = oldColumnCount; column <= coordinate.x(); column++) {
+            addColumnConstraint();
+        }
+        int oldRowCount = grid.getRowConstraints().size();
+        for (int row = oldRowCount; row <= coordinate.y(); row++) {
+            addRowConstraint();
+        }
+    }
+
+    private void addRowConstraint() {
+        final RowConstraints rowConstraint = new RowConstraints();
+        rowConstraint.prefHeightProperty().set(CELL_PREF_SIZE);
+        rowConstraint.vgrowProperty().set(Priority.ALWAYS);
+        grid.getRowConstraints().add(rowConstraint);
+    }
+
+    private void addColumnConstraint() {
+        final ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.prefWidthProperty().set(CELL_PREF_SIZE);
+        columnConstraints.hgrowProperty().set(Priority.ALWAYS);
+        grid.getColumnConstraints().add(columnConstraints);
     }
 
     /**
@@ -189,7 +338,7 @@ public final class CrosswordGrid extends StackPane {
     private void defineGridConstraints() {
         final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
         final DoubleBinding columnPerRowRatio =
-                Bindings.createDoubleBinding(() -> ((double) grid.getColumnCount()) / ((double) grid.getRowCount()), grid.getChildren());
+                Bindings.createDoubleBinding(() -> ((double) grid.getColumnConstraints().size()) / ((double) grid.getRowConstraints().size()), grid.getColumnConstraints());
         grid.maxHeightProperty()
             .bind(Bindings.min(smallerSideSize, smallerSideSize.divide(columnPerRowRatio)));
         grid.maxWidthProperty()

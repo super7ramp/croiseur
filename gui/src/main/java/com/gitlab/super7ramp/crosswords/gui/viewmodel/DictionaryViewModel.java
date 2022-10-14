@@ -1,11 +1,8 @@
 package com.gitlab.super7ramp.crosswords.gui.viewmodel;
 
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-
-import java.util.Collection;
 
 /**
  * The dictionary view model.
@@ -28,17 +25,8 @@ public final class DictionaryViewModel {
      *
      * @return the available dictionaries
      */
-    public ReadOnlyListProperty<String> dictionaries() {
+    public ListProperty<String> dictionaries() {
         return dictionaries;
     }
 
-    /**
-     * Sets the dictionaries.
-     * TODO should only be visible from presenter.
-     *
-     * @param dictionariesArg the dictionaries
-     */
-    public void setDictionaries(final Collection<String> dictionariesArg) {
-        dictionaries.setAll(dictionariesArg);
-    }
 }
