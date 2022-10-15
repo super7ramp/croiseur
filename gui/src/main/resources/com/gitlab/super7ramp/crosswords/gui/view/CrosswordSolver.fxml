@@ -9,15 +9,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gitlab.super7ramp.crosswords.gui.binder.CrosswordSolverBinder">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-    <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308" maxWidth="600.0" VBox.vgrow="ALWAYS" />
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="com.gitlab.super7ramp.crosswords.gui.controller.CrosswordSolverController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+   </padding>
+   <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308" maxWidth="600.0"
+                  VBox.vgrow="ALWAYS"/>
    <HBox alignment="CENTER" maxWidth="600.0" VBox.vgrow="NEVER">
       <children>
-         <Button fx:id="addRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddRowButtonClicked" HBox.hgrow="ALWAYS">
+         <Button fx:id="addRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                 onAction="#onAddRowButtonClicked" HBox.hgrow="ALWAYS">
             <graphic>
                <ImageView pickOnBounds="true" preserveRatio="true">
                   <image>

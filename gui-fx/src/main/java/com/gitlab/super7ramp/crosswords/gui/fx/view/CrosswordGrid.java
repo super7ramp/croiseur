@@ -164,6 +164,7 @@ public final class CrosswordGrid extends StackPane {
         return rowCount;
     }
 
+
     /**
      * Creates an empty row at the bottom of the grid.
      */
@@ -246,7 +247,6 @@ public final class CrosswordGrid extends StackPane {
     private void onModelUpdate(final MapChangeListener.Change<? extends IntCoordinate2D, ?
             extends CrosswordBox> change) {
         System.out.println("DEBUG: Received map change " + change);
-        final IntCoordinate2D position = change.getKey();
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
                 // TODO replaced case

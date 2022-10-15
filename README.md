@@ -1,7 +1,7 @@
 ## Crosswords
 
 **Crosswords** is an application for generating and solving crossword problems.
-It provides a number of dictionaries and embeds a decent solver.
+It embeds a number of dictionaries and a decent solver.
 It is designed to be extensible: Dictionaries, solvers and even user interfaces can be added as
 plugins.
 

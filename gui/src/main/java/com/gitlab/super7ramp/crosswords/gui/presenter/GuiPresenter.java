@@ -1,7 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.SolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
@@ -22,10 +21,9 @@ public final class GuiPresenter implements Presenter {
         // nothing to do
     }
 
-    public static void inject(CrosswordViewModel crosswordViewModel,
-                              DictionaryViewModel dictionaryViewModelArg) {
-        crosswordPresenter.inject(crosswordViewModel);
-        dictionaryPresenter.inject(dictionaryViewModelArg);
+    public static void inject(final SolverViewModel solverViewModel) {
+        crosswordPresenter.inject(solverViewModel.crosswordViewModel());
+        dictionaryPresenter.inject(solverViewModel.dictionaryViewModel());
     }
 
     @Override

@@ -40,7 +40,7 @@ public final class CrosswordViewModel {
                 welcomeBoxes.put(new IntCoordinate2D(i, j), new CrosswordBox());
             }
         }
-        // TODO why shaded doesn't update the view
+        // TODO why shaded doesn't update the view?
         //welcomeBoxes.get(new IntCoordinate2D(0, 1)).shadedProperty().set(true);
         //welcomeBoxes.get(new IntCoordinate2D(2, 5)).shadedProperty().set(true);
         //welcomeBoxes.get(new IntCoordinate2D(4, 4)).shadedProperty().set(true);

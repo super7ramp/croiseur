@@ -1,12 +1,11 @@
 package com.gitlab.super7ramp.crosswords.gui;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.gui.binder.CrosswordSolverBinder;
+import com.gitlab.super7ramp.crosswords.gui.controller.CrosswordSolverController;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.presenter.GuiPresenter;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.SolverViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,15 +36,13 @@ public final class CrosswordGuiApplication extends Application {
         // Load controllers/presenters/view model
         final DictionaryController dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService());
-        final DictionaryViewModel dictionaryViewModel = new DictionaryViewModel();
-        final CrosswordViewModel crosswordViewModel = new CrosswordViewModel();
-        final SolverController solverController = new SolverController(crosswordViewModel,
-                dictionaryViewModel, crosswordService.solverService());
-        GuiPresenter.inject(crosswordViewModel, dictionaryViewModel);
+        final SolverViewModel solverViewModel = new SolverViewModel();
+        final SolverController solverController = new SolverController(solverViewModel,
+                crosswordService.solverService());
+        GuiPresenter.inject(solverViewModel);
 
         // Load the views
-        CrosswordSolverBinder.inject(solverController, dictionaryController, crosswordViewModel,
-                dictionaryViewModel);
+        CrosswordSolverController.inject(solverController, dictionaryController, solverViewModel);
         final URL fxmlLocation = Objects.requireNonNull(CrosswordGuiApplication.class.getResource(
                 "view/CrosswordSolver.fxml"));
         final Parent solver = FXMLLoader.load(fxmlLocation);
