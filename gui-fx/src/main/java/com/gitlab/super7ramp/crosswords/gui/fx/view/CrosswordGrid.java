@@ -337,6 +337,7 @@ public final class CrosswordGrid extends StackPane {
      */
     private void defineGridConstraints() {
         final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
+        // TODO handle grid empty case
         final DoubleBinding columnPerRowRatio =
                 Bindings.createDoubleBinding(() -> ((double) grid.getColumnConstraints().size()) / ((double) grid.getRowConstraints().size()), grid.getColumnConstraints());
         grid.maxHeightProperty()

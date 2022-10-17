@@ -11,9 +11,8 @@ module com.gitlab.super7ramp.crosswords.gui {
     requires javafx.fxml;
     requires com.gitlab.super7ramp.crosswords.gui.fx;
 
-    exports com.gitlab.super7ramp.crosswords.gui;
+    exports com.gitlab.super7ramp.crosswords.gui to javafx.graphics;
     opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;
-    exports com.gitlab.super7ramp.crosswords.gui.controller;
     opens com.gitlab.super7ramp.crosswords.gui.controller to javafx.fxml;
 
     // Actual dependency to core library
