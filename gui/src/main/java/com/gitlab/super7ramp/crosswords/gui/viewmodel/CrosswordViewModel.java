@@ -2,9 +2,7 @@ package com.gitlab.super7ramp.crosswords.gui.viewmodel;
 
 import com.gitlab.super7ramp.crosswords.gui.fx.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.fx.model.IntCoordinate2D;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -17,19 +15,11 @@ public final class CrosswordViewModel {
     /** The boxes of the view. */
     private final MapProperty<IntCoordinate2D, CrosswordBox> boxes;
 
-    /** The height. */
-    private final IntegerProperty height;
-
-    /** The width. */
-    private final IntegerProperty width;
-
     /**
      * Constructs an instance.
      */
     public CrosswordViewModel() {
         boxes = new SimpleMapProperty<>(this, "boxes", welcomeBoxes());
-        height = new SimpleIntegerProperty(this, "height", 0);
-        width = new SimpleIntegerProperty(this, "width", 0);
     }
 
     private static ObservableMap<IntCoordinate2D, CrosswordBox> welcomeBoxes() {
@@ -55,24 +45,6 @@ public final class CrosswordViewModel {
      */
     public MapProperty<IntCoordinate2D, CrosswordBox> boxes() {
         return boxes;
-    }
-
-    /**
-     * Returns the grid height.
-     *
-     * @return the grid height
-     */
-    public IntegerProperty height() {
-        return height;
-    }
-
-    /**
-     * Returns the grid width.
-     *
-     * @return the grid width
-     */
-    public IntegerProperty width() {
-        return width;
     }
 
 }

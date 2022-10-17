@@ -60,9 +60,6 @@ public final class CrosswordSolverController {
     private void initialize() {
         final CrosswordViewModel crosswordViewModel = crosswordSolverViewModel.crosswordViewModel();
         grid.boxes().bindBidirectional(crosswordViewModel.boxes());
-        // TODO not great, view model could derive these information but that's not practical
-        crosswordViewModel.width().bind(grid.columnCount());
-        crosswordViewModel.height().bind(grid.rowCount());
 
         grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         solveButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());

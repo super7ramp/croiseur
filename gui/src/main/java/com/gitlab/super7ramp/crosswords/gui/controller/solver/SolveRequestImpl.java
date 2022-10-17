@@ -12,8 +12,10 @@ import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Comparator.comparingInt;
+
 /**
- * Implementation of {@link SolveRequest}.
+ * Implementation of {@link SolveRequest}, adapting {@link CrosswordViewModel}.
  */
 final class SolveRequestImpl implements SolveRequest {
 
@@ -28,13 +30,16 @@ final class SolveRequestImpl implements SolveRequest {
      */
     SolveRequestImpl(final CrosswordViewModel crosswordViewModel,
                      final DictionaryViewModel dictionaryViewModel) {
+
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
-        for (final Map.Entry<IntCoordinate2D, CrosswordBox> box : crosswordViewModel.boxes()
-                                                                                    .entrySet()) {
+
+        final Map<IntCoordinate2D, CrosswordBox> boxes = crosswordViewModel.boxes();
+        for (final Map.Entry<IntCoordinate2D, CrosswordBox> box : boxes.entrySet()) {
             final IntCoordinate2D position = box.getKey();
             final CrosswordBox content = box.getValue();
-            if (content.shadedProperty().get()) {
+            final boolean shaded = content.shadedProperty().get();
+            if (shaded) {
                 pdb.shade(viewToDomain(position));
             } else if (!content.contentProperty().get().isEmpty()) {
                 pdb.fill(viewToDomain(position), content.contentProperty().get().charAt(0));
@@ -42,12 +47,25 @@ final class SolveRequestImpl implements SolveRequest {
                 // Empty, not needed by solver
             }
         }
-        pdb.width(crosswordViewModel.width().get());
-        pdb.height(crosswordViewModel.height().get());
+
+        boxes.keySet()
+             .stream()
+             .max(comparingInt(IntCoordinate2D::x).thenComparing(IntCoordinate2D::y))
+             .ifPresent(maxCoordinate -> {
+                 pdb.width(maxCoordinate.x() + 1);
+                 pdb.height(maxCoordinate.y() + 1);
+             });
+
         puzzle = pdb.build();
     }
 
-    private static GridPosition viewToDomain(IntCoordinate2D viewCoordinate) {
+    /**
+     * Converts a {@link IntCoordinate2D} to {@link GridPosition}.
+     *
+     * @param viewCoordinate the view type
+     * @return the domain type
+     */
+    private static GridPosition viewToDomain(final IntCoordinate2D viewCoordinate) {
         return new GridPosition(viewCoordinate.x(), viewCoordinate.y());
     }
 
