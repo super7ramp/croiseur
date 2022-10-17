@@ -1,5 +1,5 @@
-import com.gitlab.super7ramp.crosswords.gui.presenter.GuiPresenter;
-import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
 module com.gitlab.super7ramp.crosswords.gui {
 
@@ -18,7 +18,8 @@ module com.gitlab.super7ramp.crosswords.gui {
     // Actual dependency to core library
     requires com.gitlab.super7ramp.crosswords;
 
-    // GUI provides core library with a presenter
-    provides Presenter with GuiPresenter;
+    // GUI loads dictionary providers and solver itself
+    uses DictionaryProvider;
+    uses CrosswordSolver;
 
 }

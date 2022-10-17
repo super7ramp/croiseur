@@ -21,13 +21,13 @@ public interface CrosswordService {
      * <p>
      * Required services are explicitly passed as arguments.
      *
-     * @param solvers             the solver services
-     * @param dictionaryProviders the dictionary service providers
-     * @param presenter           the publisher service
+     * @param dictionaryProviders the dictionary providers
+     * @param solvers             the solver
+     * @param presenter           the presenter
      * @return a new instance of {@link CrosswordService}
      */
-    static CrosswordService create(final Collection<CrosswordSolver> solvers,
-                                   final Collection<DictionaryProvider> dictionaryProviders,
+    static CrosswordService create(final Collection<DictionaryProvider> dictionaryProviders,
+                                   final Collection<CrosswordSolver> solvers,
                                    final Presenter presenter) {
         return new CrosswordServiceImpl(solvers, dictionaryProviders, presenter);
     }
@@ -56,7 +56,7 @@ public interface CrosswordService {
                              .orElseThrow(() -> new IllegalStateException(
                                      "Failed to instantiate crosswords service: No presenter " +
                                              "found"));
-        return create(solvers, dictionaryProviders, presenter);
+        return create(dictionaryProviders, solvers, presenter);
     }
 
     /**

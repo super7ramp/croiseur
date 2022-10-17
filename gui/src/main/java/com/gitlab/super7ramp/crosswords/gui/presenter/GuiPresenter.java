@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.SolverViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
@@ -13,17 +13,21 @@ import java.util.Collection;
  */
 public final class GuiPresenter implements Presenter {
 
-    private static final DictionaryPresenter dictionaryPresenter = new DictionaryPresenter();
+    /** Dictionary presenter. */
+    private final DictionaryPresenter dictionaryPresenter;
 
-    private static final CrosswordPresenter crosswordPresenter = new CrosswordPresenter();
+    /** Crossword presenter. */
+    private final CrosswordPresenter crosswordPresenter;
 
-    public GuiPresenter() {
-        // nothing to do
-    }
-
-    public static void inject(final SolverViewModel solverViewModel) {
-        crosswordPresenter.inject(solverViewModel.crosswordViewModel());
-        dictionaryPresenter.inject(solverViewModel.dictionaryViewModel());
+    /**
+     * Constructs an instance.
+     *
+     * @param crosswordSolverViewModel the view model
+     */
+    public GuiPresenter(final CrosswordSolverViewModel crosswordSolverViewModel) {
+        dictionaryPresenter =
+                new DictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
+        crosswordPresenter = new CrosswordPresenter(crosswordSolverViewModel.crosswordViewModel());
     }
 
     @Override

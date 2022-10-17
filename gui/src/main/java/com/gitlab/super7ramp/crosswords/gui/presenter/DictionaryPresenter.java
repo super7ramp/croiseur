@@ -12,21 +12,12 @@ final class DictionaryPresenter {
     private static final Logger LOGGER = Logger.getLogger(DictionaryPresenter.class.getName());
 
     /** The view model. */
-    private static DictionaryViewModel dictionaryViewModel;
+    private final DictionaryViewModel dictionaryViewModel;
 
     /**
      * Constructs an instance.
      */
-    DictionaryPresenter() {
-        // nothing do to
-    }
-
-    /**
-     * Injects the view model.
-     *
-     * @param dictionaryViewModelArg the view model
-     */
-    void inject(DictionaryViewModel dictionaryViewModelArg) {
+    DictionaryPresenter(final DictionaryViewModel dictionaryViewModelArg) {
         dictionaryViewModel = dictionaryViewModelArg;
     }
 

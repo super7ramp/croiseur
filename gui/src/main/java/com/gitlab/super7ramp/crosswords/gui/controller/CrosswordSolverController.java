@@ -1,26 +1,28 @@
 package com.gitlab.super7ramp.crosswords.gui.controller;
 
+import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.fx.view.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.SolverViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
-import java.util.Objects;
-
 /**
- * Binds views, view models and controllers.
+ * The main controller.
  */
 public final class CrosswordSolverController {
 
-    private static SolverController solverController;
+    /** The controller dedicated for the solver use-cases. */
+    private final SolverController solverController;
 
-    private static DictionaryController dictionaryController;
+    /** The controller dedicated for the dictionary use-cases. */
+    private final DictionaryController dictionaryController;
 
-    private static SolverViewModel solverViewModel;
+    /** The view model. */
+    private final CrosswordSolverViewModel crosswordSolverViewModel;
 
     @FXML
     private CrosswordGrid grid;
@@ -46,38 +48,30 @@ public final class CrosswordSolverController {
     /**
      * Constructs an instance.
      */
-    public CrosswordSolverController() {
-        // Nothing to do.
+    public CrosswordSolverController(final CrosswordService crosswordService,
+                                     final CrosswordSolverViewModel crosswordSolverViewModelArg) {
+        solverController = new SolverController(crosswordSolverViewModelArg,
+                crosswordService.solverService());
+        dictionaryController = new DictionaryController(crosswordService.dictionaryService());
+        crosswordSolverViewModel = crosswordSolverViewModelArg;
     }
-
-    public static void inject(final SolverController solverControllerArg,
-                              final DictionaryController dictionaryControllerArg,
-                              final SolverViewModel solverViewModelArg) {
-        solverController = solverControllerArg;
-        dictionaryController = dictionaryControllerArg;
-        solverViewModel = solverViewModelArg;
-    }
-
 
     @FXML
     private void initialize() {
-        Objects.requireNonNull(solverViewModel, "Solver view model not injected");
-        Objects.requireNonNull(dictionaryController, "Dictionary controller not injected");
-
-        final CrosswordViewModel crosswordViewModel = solverViewModel.crosswordViewModel();
+        final CrosswordViewModel crosswordViewModel = crosswordSolverViewModel.crosswordViewModel();
         grid.boxes().bindBidirectional(crosswordViewModel.boxes());
         // TODO not great, view model could derive these information but that's not practical
         crosswordViewModel.width().bind(grid.columnCount());
         crosswordViewModel.height().bind(grid.rowCount());
 
-        grid.disableProperty().bind(solverViewModel.solverRunning());
-        solveButton.disableProperty().bind(solverViewModel.solverRunning());
-        addColumnButton.disableProperty().bind(solverViewModel.solverRunning());
-        addRowButton.disableProperty().bind(solverViewModel.solverRunning());
-        deleteColumnButton.disableProperty().bind(solverViewModel.solverRunning());
-        deleteRowButton.disableProperty().bind(solverViewModel.solverRunning());
+        grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        solveButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        addColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        addRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        deleteColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        deleteRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
 
-        dictionaryComboBox.setItems(solverViewModel.dictionaryViewModel().dictionaries());
+        dictionaryComboBox.setItems(crosswordSolverViewModel.dictionaryViewModel().dictionaries());
         dictionaryController.start();
     }
 

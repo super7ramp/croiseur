@@ -19,17 +19,13 @@ final class CrosswordPresenter {
     private static final Logger LOGGER = Logger.getLogger(CrosswordPresenter.class.getName());
 
     /** The grid model. */
-    private static CrosswordViewModel viewModel;
+    private final CrosswordViewModel crosswordViewModel;
 
     /**
      * Constructs an instance.
      */
-    CrosswordPresenter() {
-        // nothing to do
-    }
-
-    public static void inject(final CrosswordViewModel modelArg) {
-        viewModel = modelArg;
+    CrosswordPresenter(final CrosswordViewModel crosswordViewModelArg) {
+        crosswordViewModel = crosswordViewModelArg;
     }
 
     private static IntCoordinate2D domainToView(final GridPosition domain) {
@@ -39,7 +35,8 @@ final class CrosswordPresenter {
     public void presentSolverResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
         final Map<GridPosition, Character> resultBoxes = result.boxes();
-        final MapProperty<IntCoordinate2D, CrosswordBox> viewModelBoxes = viewModel.boxes();
+        final MapProperty<IntCoordinate2D, CrosswordBox> viewModelBoxes =
+                crosswordViewModel.boxes();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final IntCoordinate2D key = domainToView(entry.getKey());
             final CrosswordBox value = viewModelBoxes.computeIfAbsent(key, k -> new CrosswordBox());
