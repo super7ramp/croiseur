@@ -4,12 +4,8 @@ import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
@@ -50,12 +46,6 @@ public final class CrosswordGrid extends StackPane {
      */
     private final MapProperty<IntCoordinate2D, CrosswordBox> boxModels;
 
-    /** The number of columns. */
-    private final IntegerProperty columnCount;
-
-    /** The number of rows. */
-    private final IntegerProperty rowCount;
-
     /**
      * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property,
      * only used internally.
@@ -83,19 +73,9 @@ public final class CrosswordGrid extends StackPane {
         }
 
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
-        columnCount = new SimpleIntegerProperty(this, "columnCount", 0);
-        rowCount = new SimpleIntegerProperty(this, "rowCount", 0);
         boxNodes = new HashMap<>();
 
         boxModels.addListener(this::onModelUpdate);
-        final IntegerBinding columnCountBinding =
-                Bindings.createIntegerBinding(() -> grid.getColumnCount(),
-                        grid.getColumnConstraints());
-        columnCount.bind(columnCountBinding);
-        final IntegerBinding rowCountBinding =
-                Bindings.createIntegerBinding(() -> grid.getRowCount(),
-                        grid.getColumnConstraints());
-        rowCount.bind(rowCountBinding);
     }
 
     /**
@@ -139,31 +119,6 @@ public final class CrosswordGrid extends StackPane {
     public MapProperty<IntCoordinate2D, CrosswordBox> boxes() {
         return boxModels;
     }
-
-    /**
-     * Returns the column count.
-     * <p>
-     * The property is read-only, see {@link #addColumn()} ()}, {@link #deleteLastColumn()} and
-     * {@link #boxes()} to modify the columns.
-     *
-     * @return the column count
-     */
-    public ReadOnlyIntegerProperty columnCount() {
-        return columnCount;
-    }
-
-    /**
-     * Returns the row count.
-     * <p>
-     * The property is read-only, see {@link #addRow()}, {@link #deleteLastRow()} and
-     * {@link #boxes()} to modify the rows.
-     *
-     * @return the row count
-     */
-    public ReadOnlyIntegerProperty rowCount() {
-        return rowCount;
-    }
-
 
     /**
      * Creates an empty row at the bottom of the grid.
@@ -337,12 +292,26 @@ public final class CrosswordGrid extends StackPane {
      */
     private void defineGridConstraints() {
         final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
-        // TODO handle grid empty case
         final DoubleBinding columnPerRowRatio =
-                Bindings.createDoubleBinding(() -> ((double) grid.getColumnConstraints().size()) / ((double) grid.getRowConstraints().size()), grid.getColumnConstraints());
+                Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints()
+                        , grid.getRowConstraints());
         grid.maxHeightProperty()
             .bind(Bindings.min(smallerSideSize, smallerSideSize.divide(columnPerRowRatio)));
         grid.maxWidthProperty()
             .bind(Bindings.min(smallerSideSize, smallerSideSize.multiply(columnPerRowRatio)));
+    }
+
+    /**
+     * Computes the column / row ratio.
+     *
+     * @return the column / row ratio when row count is > 0; 1.0 when row or column count is 0
+     */
+    private double columnPerRowRatio() {
+        final int columnCount = grid.getColumnConstraints().size();
+        final int rowCount = grid.getRowConstraints().size();
+        if (columnCount == 0 || rowCount == 0) {
+            return 1.0;
+        }
+        return ((double) columnCount / ((double) rowCount));
     }
 }

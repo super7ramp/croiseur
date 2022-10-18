@@ -37,7 +37,7 @@ public final class SolverController {
         solverService.setOnReady(e -> LOGGER.info("Solver worker is ready"));
         solverService.setOnRunning(e -> LOGGER.info("Solving in progress"));
         solverService.setOnCancelled(e -> LOGGER.info("Solving cancelled"));
-        solverService.setOnSucceeded(e -> LOGGER.info("Solving succeeded"));
+        solverService.setOnSucceeded(e -> LOGGER.info("Solving finished"));
         solverService.setOnFailed(e -> LOGGER.info("Solving failed"));
         crosswordSolverViewModel.solverRunning().bind(solverService.runningProperty());
     }
