@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
-import com.gitlab.super7ramp.crosswords.gui.fx.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.fx.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
@@ -28,10 +28,21 @@ final class CrosswordPresenter {
         crosswordViewModel = crosswordViewModelArg;
     }
 
+    /**
+     * Transforms a {@link GridPosition} to a {@link IntCoordinate2D}.
+     *
+     * @param domain the {@link GridPosition}
+     * @return the {@link IntCoordinate2D}
+     */
     private static IntCoordinate2D domainToView(final GridPosition domain) {
         return new IntCoordinate2D(domain.x(), domain.y());
     }
 
+    /**
+     * Presents the solver result.
+     *
+     * @param result the solver result
+     */
     public void presentSolverResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
         final Map<GridPosition, Character> resultBoxes = result.boxes();

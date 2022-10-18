@@ -3,7 +3,7 @@ package com.gitlab.super7ramp.crosswords.gui.controller;
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
-import com.gitlab.super7ramp.crosswords.gui.fx.view.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import javafx.fxml.FXML;
@@ -47,6 +47,9 @@ public final class CrosswordSolverController {
 
     /**
      * Constructs an instance.
+     *
+     * @param crosswordService            the use-cases
+     * @param crosswordSolverViewModelArg the view model
      */
     public CrosswordSolverController(final CrosswordService crosswordService,
                                      final CrosswordSolverViewModel crosswordSolverViewModelArg) {

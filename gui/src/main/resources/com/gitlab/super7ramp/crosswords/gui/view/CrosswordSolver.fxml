@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gitlab.super7ramp.crosswords.gui.fx.view.CrosswordGrid?>
+<?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>

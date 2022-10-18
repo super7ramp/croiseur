@@ -10,7 +10,6 @@ javafx {
 
 dependencies {
     implementation project(':crosswords')
-    implementation project(':gui-fx')
 
     // Module implementations are loaded at runtime
     runtimeOnly project(':dictionary-hunspell')

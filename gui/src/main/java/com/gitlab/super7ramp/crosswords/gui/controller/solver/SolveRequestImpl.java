@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.gui.controller.solver;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.gui.fx.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.fx.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;

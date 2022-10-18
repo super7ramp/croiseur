@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.gui.fx.model;
+package com.gitlab.super7ramp.crosswords.gui.view.model;
 
 /**
  * (x: int, y: int) coordinates.
