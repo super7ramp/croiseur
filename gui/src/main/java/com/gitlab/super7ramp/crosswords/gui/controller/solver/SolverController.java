@@ -4,6 +4,7 @@ import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 
 import java.util.logging.Logger;
 
@@ -33,8 +34,10 @@ public final class SolverController {
                         crosswordSolverViewModel.dictionaryViewModel(), usecase);
             }
         };
-        solverService.setOnSucceeded(e -> LOGGER.info("Solving succeeded"));
+        solverService.setOnReady(e -> LOGGER.info("Solver worker is ready"));
         solverService.setOnRunning(e -> LOGGER.info("Solving in progress"));
+        solverService.setOnCancelled(e -> LOGGER.info("Solving cancelled"));
+        solverService.setOnSucceeded(e -> LOGGER.info("Solving succeeded"));
         solverService.setOnFailed(e -> LOGGER.info("Solving failed"));
         crosswordSolverViewModel.solverRunning().bind(solverService.runningProperty());
     }
@@ -43,12 +46,14 @@ public final class SolverController {
      * Starts the solver.
      */
     public void start() {
-        stop();
+        if (solverService.getState() != Worker.State.READY) {
+            stop();
+        }
         solverService.start();
     }
 
     /**
-     * Stops the solver.
+     * Stops the solver. Does nothing if
      */
     public void stop() {
         solverService.cancel();

@@ -6,6 +6,7 @@ import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
+import javafx.beans.binding.When;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -65,11 +66,14 @@ public final class CrosswordSolverController {
         grid.boxes().bindBidirectional(crosswordViewModel.boxes());
 
         grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        solveButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         addColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         addRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         deleteColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         deleteRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+
+        solveButton.textProperty()
+                   .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
+                                                                           .otherwise("Solve"));
 
         dictionaryComboBox.setItems(crosswordSolverViewModel.dictionaryViewModel().dictionaries());
         dictionaryController.start();
@@ -97,6 +101,10 @@ public final class CrosswordSolverController {
 
     @FXML
     private void onSolveButtonClicked() {
-        solverController.start();
+        if (!crosswordSolverViewModel.solverRunning().get()) {
+            solverController.start();
+        } else {
+            solverController.stop();
+        }
     }
 }
