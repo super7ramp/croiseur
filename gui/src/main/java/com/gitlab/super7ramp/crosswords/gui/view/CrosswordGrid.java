@@ -201,7 +201,6 @@ public final class CrosswordGrid extends StackPane {
      */
     private void onModelUpdate(final MapChangeListener.Change<? extends IntCoordinate2D, ?
             extends CrosswordBox> change) {
-        System.out.println("DEBUG: Received map change " + change);
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
                 // TODO replaced case

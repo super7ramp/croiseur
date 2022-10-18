@@ -56,6 +56,7 @@ public final class CrosswordBoxTextField extends TextField {
 
         // Configure style
         getStyleClass().add(CSS_CLASS);
+        pseudoClassStateChanged(SHADED, model.shadedProperty().get());
         model.shadedProperty()
              .addListener(e -> pseudoClassStateChanged(SHADED, model.shadedProperty().get()));
         setOnContextMenuRequested(event -> toggleShading());

@@ -53,7 +53,7 @@ public final class SolverController {
     }
 
     /**
-     * Stops the solver. Does nothing if
+     * Stops the solver.
      */
     public void stop() {
         solverService.cancel();
