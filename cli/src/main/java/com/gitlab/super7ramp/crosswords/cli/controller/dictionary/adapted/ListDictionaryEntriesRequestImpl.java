@@ -1,9 +1,7 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.dictionary.adapted;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed.DictionaryIdentifier;
-
-import java.util.Optional;
 
 /**
  * Implementation of {@link ListDictionaryEntriesRequest}.
@@ -23,12 +21,8 @@ public final class ListDictionaryEntriesRequestImpl implements ListDictionaryEnt
     }
 
     @Override
-    public Optional<String> dictionaryProvider() {
-        return identifier.providerName();
+    public DictionaryIdentifier dictionaryIdentifier() {
+        return identifier;
     }
 
-    @Override
-    public String dictionaryName() {
-        return identifier.dictionaryName();
-    }
 }

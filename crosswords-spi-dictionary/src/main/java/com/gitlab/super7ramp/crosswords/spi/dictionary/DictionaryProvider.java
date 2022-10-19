@@ -10,27 +10,24 @@ import java.util.Optional;
  */
 public interface DictionaryProvider {
 
-    enum Quality {
-        DEBUG_ONLY,
-        BAD,
-        MEDIUM,
-        GOOD
-    }
-
     /**
+     * Returns the name of this dictionary provider.
+     *
      * @return name of this dictionary provider
      */
     String name();
 
     /**
+     * Returns a description of this dictionary provider.
+     *
      * @return a description of this dictionary provider
      */
     String description();
 
     /**
-     * Retrieve the available dictionaries.
+     * Retrieves the available dictionaries.
      *
-     * @return retrieve available dictionaries from given paths; if no path is given,
+     * @return the available dictionaries found in given paths; if no path is given,
      * implementation may look for available dictionaries at default locations (e.g. built-in
      * dictionaries, well-known system paths, at the discretion of implementation).
      */
@@ -39,7 +36,7 @@ public interface DictionaryProvider {
     /**
      * Retrieves the first available dictionary, if any.
      *
-     * @return retrieve available dictionary from given paths; if no path is given,
+     * @return the first available dictionary, if any, found in given paths; if no path is given,
      * implementation may look for available dictionaries at default locations (e.g. built-in
      * dictionaries, well-known system paths, at the discretion of implementation).
      */
@@ -50,10 +47,4 @@ public interface DictionaryProvider {
         }
         return Optional.empty();
     }
-
-    /**
-     * @return an indication of the {@link Quality} of the dictionary provider; This may be used
-     * by service loader as criterion for selecting this implementation
-     */
-    Quality quality();
 }

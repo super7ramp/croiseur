@@ -7,11 +7,15 @@ import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * Crosswords GUI Presenter.
  */
 public final class GuiPresenter implements Presenter {
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(GuiPresenter.class.getName());
 
     /** Dictionary presenter. */
     private final DictionaryPresenter dictionaryPresenter;
@@ -36,7 +40,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void publishError(String error) {
+    public void publishError(final String error) {
+        LOGGER.warning(error);
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

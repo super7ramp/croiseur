@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.solve;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.adapted.SolveRequestImpl;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
@@ -25,10 +25,8 @@ public final class SolveCommand implements Runnable {
             "height 15")
     private GridSize size;
 
-    // TODO allow optional => use default dictionary => sort dictionaries
-    //  (prefer system's locale, implement criteria on provider)
-    @Option(names = {"-d", "--dictionary"}, paramLabel = "<[PROVIDER:]DICTIONARY>", arity = "1",
-            required = true, description = "Dictionary identifier")
+    @Option(names = {"-d", "--dictionary"}, paramLabel = "<PROVIDER:DICTIONARY>", arity = "1",
+            description = "Dictionary identifier")
     private DictionaryIdentifier dictionaryId;
 
     @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", description =

@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.solve.adapted;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
@@ -10,8 +10,9 @@ import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
@@ -71,8 +72,11 @@ public final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public Optional<String> dictionaryId() {
-        return Optional.of(dictionaryId.dictionaryName());
+    public Collection<DictionaryIdentifier> dictionaries() {
+        if (dictionaryId != null) {
+            return Collections.singletonList(dictionaryId);
+        }
+        return Collections.emptyList();
     }
 
     @Override

@@ -71,6 +71,7 @@
          <Insets top="20.0" />
       </padding>
    </HBox>
-    <ComboBox fx:id="dictionaryComboBox" disable="true" maxWidth="600.0" promptText="Select dictionary..." VBox.vgrow="NEVER" />
+    <ComboBox fx:id="dictionaryComboBox" maxWidth="600.0" promptText="Select dictionary..."
+              VBox.vgrow="NEVER"/>
     <Button fx:id="solveButton" maxWidth="600.0" onAction="#onSolveButtonClicked" text="Solve" VBox.vgrow="NEVER" />
 </VBox>

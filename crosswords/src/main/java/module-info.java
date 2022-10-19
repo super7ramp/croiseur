@@ -13,7 +13,7 @@ module com.gitlab.super7ramp.crosswords {
      * Requires plugins.
      *
      * Transitive since plugin implementations can be explicitly passed in factory and hence are
-     * visible from API client.
+     * visible from client API.
      */
     requires transitive com.gitlab.super7ramp.crosswords.spi.dictionary;
     requires transitive com.gitlab.super7ramp.crosswords.spi.solver;

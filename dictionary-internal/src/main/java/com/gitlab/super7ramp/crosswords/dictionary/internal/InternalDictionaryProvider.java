@@ -51,11 +51,6 @@ public final class InternalDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public Quality quality() {
-        return Quality.GOOD;
-    }
-
-    @Override
     public String description() {
         return "Internal binary dictionary backend";
     }

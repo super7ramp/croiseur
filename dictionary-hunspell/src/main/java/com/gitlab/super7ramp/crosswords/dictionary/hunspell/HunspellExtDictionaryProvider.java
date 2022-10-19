@@ -44,11 +44,6 @@ public final class HunspellExtDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public Quality quality() {
-        return Quality.DEBUG_ONLY;
-    }
-
-    @Override
     public Collection<Dictionary> get(final URL... dictionaryPaths) {
         return streamOf(dictionaryPaths).map(HunspellDictionary::new).collect(Collectors.toList());
     }

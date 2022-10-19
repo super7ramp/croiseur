@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.controller.solver;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
@@ -9,8 +10,9 @@ import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.util.Comparator.comparingInt;
 
@@ -21,6 +23,9 @@ final class SolveRequestImpl implements SolveRequest {
 
     /** The puzzle definition. */
     private final PuzzleDefinition puzzle;
+
+    /** Selected dictionaries. */
+    private final Collection<DictionaryIdentifier> dictionaries;
 
     /**
      * Constructs an instance.
@@ -57,6 +62,15 @@ final class SolveRequestImpl implements SolveRequest {
              });
 
         puzzle = pdb.build();
+
+        // TODO update when view model supports several selected dictionaries
+        final String selectedDictionary = dictionaryViewModel.selectedDictionary().get();
+        if (selectedDictionary != null && !selectedDictionary.isEmpty()) {
+            dictionaries =
+                    Collections.singletonList(DictionaryIdentifier.valueOf(selectedDictionary));
+        } else {
+            dictionaries = Collections.emptyList();
+        }
     }
 
     /**
@@ -75,9 +89,8 @@ final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public Optional<String> dictionaryId() {
-        // TODO retrieve from dictionary model
-        return Optional.empty();
+    public Collection<DictionaryIdentifier> dictionaries() {
+        return dictionaries;
     }
 
     @Override

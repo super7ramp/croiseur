@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * A request to list available dictionary.
+ * A request to list available dictionaries.
  */
 public interface ListDictionariesRequest {
 

@@ -6,6 +6,7 @@ import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import javafx.beans.binding.When;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -71,11 +72,17 @@ public final class CrosswordSolverController {
         deleteColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         deleteRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
 
+        final DictionaryViewModel dictionaryViewModel =
+                crosswordSolverViewModel.dictionaryViewModel();
+        dictionaryComboBox.setItems(dictionaryViewModel.dictionaries());
+        dictionaryViewModel.selectedDictionary()
+                           .bind(dictionaryComboBox.getSelectionModel().selectedItemProperty());
+
         solveButton.textProperty()
                    .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
                                                                            .otherwise("Solve"));
 
-        dictionaryComboBox.setItems(crosswordSolverViewModel.dictionaryViewModel().dictionaries());
+        // Populate dictionaries
         dictionaryController.start();
     }
 

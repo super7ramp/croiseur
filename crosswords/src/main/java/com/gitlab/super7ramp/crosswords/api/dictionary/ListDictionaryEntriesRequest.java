@@ -1,23 +1,15 @@
 package com.gitlab.super7ramp.crosswords.api.dictionary;
 
-import java.util.Optional;
-
 /**
  * The request to list entries for a specific dictionary.
  */
 public interface ListDictionaryEntriesRequest {
 
     /**
-     * Return the desired dictionary provider, if any.
+     * Returns the identifier of the desired dictionary.
      *
-     * @return the desired dictionary provider, if any
+     * @return the identifier of the desired dictionary
      */
-    Optional<String> dictionaryProvider();
+    DictionaryIdentifier dictionaryIdentifier();
 
-    /**
-     * Return the desired dictionary name.
-     *
-     * @return the desired dictionary name
-     */
-    String dictionaryName();
 }

@@ -1,18 +1,18 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed;
+package com.gitlab.super7ramp.crosswords.api.dictionary;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A dictionary identifier.
+ * Unique identification for a dictionary.
+ *
+ * @param providerName   the dictionary provider name
+ * @param dictionaryName the dictionary name
  */
-public record DictionaryIdentifier(Optional<String> providerName, String dictionaryName) {
+public record DictionaryIdentifier(String providerName, String dictionaryName) {
 
-    /**
-     * Textual representation pattern.
-     */
-    private static final Pattern PATTERN = Pattern.compile("((?<provider>[^:]+):)?" +
+    /** Textual representation pattern: providerName:dictionaryName.  */
+    private static final Pattern PATTERN = Pattern.compile("((?<provider>[^:]+):)" +
             "(?<dictionary>[^:]+)");
 
     /**
@@ -27,8 +27,8 @@ public record DictionaryIdentifier(Optional<String> providerName, String diction
             throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
                     ", was " + text);
         }
-        final Optional<String> provider = Optional.ofNullable(matcher.group("provider"));
+        final String providerName = matcher.group("provider");
         final String dictionaryName = matcher.group("dictionary");
-        return new DictionaryIdentifier(provider, dictionaryName);
+        return new DictionaryIdentifier(providerName, dictionaryName);
     }
 }

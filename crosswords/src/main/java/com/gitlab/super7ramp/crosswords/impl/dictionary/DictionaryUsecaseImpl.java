@@ -3,8 +3,8 @@ package com.gitlab.super7ramp.crosswords.impl.dictionary;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionarySearch;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 
 import java.util.ArrayList;
@@ -54,9 +54,9 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
     public void listDictionaries(final ListDictionariesRequest request) {
 
         final Collection<DictionaryProvider> filteredDictionaryProviders =
-                DictionarySearch.byOptionalProvider(request.provider())
-                                .and(DictionarySearch.byOptionalLocale(request.locale()))
-                                .apply(dictionaryProviders);
+                DictionarySelection.byOptionalProvider(request.provider())
+                                   .and(DictionarySelection.byOptionalLocale(request.locale()))
+                                   .apply(dictionaryProviders);
 
         if (filteredDictionaryProviders.isEmpty()) {
             presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE);
@@ -69,9 +69,8 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
     public void listEntries(final ListDictionaryEntriesRequest request) {
 
         final Collection<DictionaryProvider> filteredDictionaryProviders =
-                DictionarySearch.byOptionalProvider(request.dictionaryProvider())
-                                .and(DictionarySearch.byName(request.dictionaryName()))
-                                .apply(dictionaryProviders);
+                DictionarySelection.byId(request.dictionaryIdentifier())
+                                   .apply(dictionaryProviders);
 
         if (filteredDictionaryProviders.isEmpty()) {
             presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE);

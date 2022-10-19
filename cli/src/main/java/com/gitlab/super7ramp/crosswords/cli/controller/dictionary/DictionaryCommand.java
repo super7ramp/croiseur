@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.dictionary;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.adapted.ListDictionariesRequestImpl;
 import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.adapted.ListDictionaryEntriesRequestImpl;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.parsed.DictionaryIdentifier;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -36,7 +36,7 @@ public final class DictionaryCommand {
     }
 
     @Command(name = "cat", description = "Display dictionary entries")
-    void cat(@Parameters(index = "0", paramLabel = "<[PROVIDER:]DICTIONARY>") final DictionaryIdentifier dictionaryId) {
+    void cat(@Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId) {
         dictionaryUsecase.listEntries(new ListDictionaryEntriesRequestImpl(dictionaryId));
     }
 

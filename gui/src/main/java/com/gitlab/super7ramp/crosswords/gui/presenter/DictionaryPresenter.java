@@ -31,7 +31,7 @@ final class DictionaryPresenter {
         final Collection<String> dictionaries = dictionaryProviders.stream()
                                                                    .flatMap(dp -> dp.get()
                                                                                     .stream()
-                                                                                    .map(d -> dp.name() + " - " + d.locale()))
+                                                                                    .map(d -> dp.name() + ":" + d.name()))
                                                                    .toList();
         dictionaryViewModel.dictionaries().setAll(dictionaries);
     }

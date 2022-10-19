@@ -1,9 +1,10 @@
 package com.gitlab.super7ramp.crosswords.api.solver;
 
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
-import java.util.Optional;
+import java.util.Collection;
 
 /**
  * A request to solve a crossword puzzle.
@@ -18,13 +19,13 @@ public interface SolveRequest {
     PuzzleDefinition puzzle();
 
     /**
-     * The identifier of the dictionary to use.
+     * The dictionaries to use.
      * <p>
-     * {@link Optional#empty()} means the default dictionary for the system's locale will be used.
+     * An empty collection means the default dictionary for the system's locale will be used.
      *
      * @return the identifier of the dictionary to use
      */
-    Optional<String> dictionaryId();
+    Collection<DictionaryIdentifier> dictionaries();
 
     /**
      * A solver progress listener.
