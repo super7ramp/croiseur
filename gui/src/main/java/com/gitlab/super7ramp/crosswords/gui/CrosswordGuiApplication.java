@@ -60,9 +60,7 @@ public final class CrosswordGuiApplication extends Application {
                              .stream()
                              .map(Supplier::get)
                              .toList();
-        final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                solvers, presenter);
-        return crosswordService;
+        return CrosswordService.create(dictionaryProviders, solvers, presenter);
     }
 
     @Override
