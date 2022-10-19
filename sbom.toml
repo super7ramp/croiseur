@@ -1,7 +1,7 @@
 [versions]
 java = "17.0.2"
-javafx = "0.0.10"
-junit5 = "5.8.2"
+javafx = "0.0.13"
+junit5 = "5.9.1"
 native = "0.9.10"
 picocli = "4.6.3"
 
