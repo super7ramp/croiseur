@@ -71,6 +71,7 @@ public final class CrosswordSolverController {
         addRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         deleteColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         deleteRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        dictionaryComboBox.disableProperty().bind(crosswordSolverViewModel.solverRunning());
 
         final DictionaryViewModel dictionaryViewModel =
                 crosswordSolverViewModel.dictionaryViewModel();
