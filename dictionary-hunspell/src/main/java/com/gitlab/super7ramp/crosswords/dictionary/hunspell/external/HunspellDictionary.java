@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.external;
 
+import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.external.wordforms.WordFormGenerator;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.net.URISyntaxException;
 import java.net.URL;

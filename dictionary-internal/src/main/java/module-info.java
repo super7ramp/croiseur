@@ -9,7 +9,7 @@ module com.gitlab.super7ramp.crosswords.dictionary.internal {
     requires java.logging;
 
     // Utilities
-    requires com.gitlab.super7ramp.crosswords.util;
+    requires com.gitlab.super7ramp.crosswords.dictionary.common;
 
     // Implemented SPIs.
     requires com.gitlab.super7ramp.crosswords.spi.dictionary;

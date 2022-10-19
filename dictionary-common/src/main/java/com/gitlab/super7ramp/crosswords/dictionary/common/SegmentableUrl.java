@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.util;
+package com.gitlab.super7ramp.crosswords.dictionary.common;
 
 import java.net.URL;
 

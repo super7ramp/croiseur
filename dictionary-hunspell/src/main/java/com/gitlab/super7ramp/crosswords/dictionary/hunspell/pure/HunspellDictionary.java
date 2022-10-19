@@ -1,5 +1,8 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure;
 
+import com.gitlab.super7ramp.crosswords.dictionary.common.Filters;
+import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
+import com.gitlab.super7ramp.crosswords.dictionary.common.Transformers;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.aff.AffParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.common.ParserException;
@@ -7,7 +10,6 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.parser.dic.DicParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.wordforms.WordFormGenerator;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.util.SegmentableUrl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -99,6 +101,7 @@ public final class HunspellDictionary implements Dictionary {
                                 .filter(Filters.atLeastTwoCharacters())
                                 .map(Transformers::removeHyphen)
                                 .map(Transformers::removeAccentuation)
+                                .map(Transformers::removeApostrophe)
                                 .map(String::toUpperCase);
     }
 

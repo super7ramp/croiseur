@@ -10,6 +10,7 @@ include 'crosswords-spi-solver'
 include 'crosswords-spi-presenter'
 
 // Dictionary plugin implementations/tools/data
+include 'dictionary-common'
 include 'dictionary-hunspell'
 include 'dictionary-internal'
 include 'dictionary-tools'
