@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.viewmodel;
 
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
@@ -10,6 +10,7 @@ import javafx.collections.ObservableMap;
 /**
  * The crossword view model.
  */
+// TODO shouldn't depend on gui-controls, move control models somewhere else?
 public final class CrosswordViewModel {
 
     /** The boxes of the view. */

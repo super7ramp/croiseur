@@ -3,7 +3,8 @@ package com.gitlab.super7ramp.crosswords.gui.controller;
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
-import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGridEditionToolbar;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
@@ -24,22 +25,13 @@ public final class CrosswordSolverController {
     private final DictionaryController dictionaryController;
 
     /** The view model. */
-    private final CrosswordSolverViewModel crosswordSolverViewModel;
+    private CrosswordSolverViewModel crosswordSolverViewModel;
 
     @FXML
     private CrosswordGrid grid;
 
     @FXML
-    private Button addColumnButton;
-
-    @FXML
-    private Button addRowButton;
-
-    @FXML
-    private Button deleteColumnButton;
-
-    @FXML
-    private Button deleteRowButton;
+    private CrosswordGridEditionToolbar gridEditionToolbar;
 
     @FXML
     private ComboBox<String> dictionaryComboBox;
@@ -63,48 +55,33 @@ public final class CrosswordSolverController {
 
     @FXML
     private void initialize() {
+        // Bind the crossword view model to the crossword view
         final CrosswordViewModel crosswordViewModel = crosswordSolverViewModel.crosswordViewModel();
         grid.boxes().bindBidirectional(crosswordViewModel.boxes());
 
-        grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        addColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        addRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        deleteColumnButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        deleteRowButton.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        dictionaryComboBox.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-
+        // Bind the dictionary view model to the dictionary view
         final DictionaryViewModel dictionaryViewModel =
                 crosswordSolverViewModel.dictionaryViewModel();
         dictionaryComboBox.setItems(dictionaryViewModel.dictionaries());
         dictionaryViewModel.selectedDictionary()
                            .bind(dictionaryComboBox.getSelectionModel().selectedItemProperty());
 
+        // Bind the grid editor buttons to the grid
+        gridEditionToolbar.onAddColumnActionProperty().set(event -> grid.addColumn());
+        gridEditionToolbar.onAddRowActionProperty().set(event -> grid.addRow());
+        gridEditionToolbar.onDeleteColumnActionProperty().set(event -> grid.deleteLastColumn());
+        gridEditionToolbar.onDeleteRowActionProperty().set(event -> grid.deleteLastRow());
+
+        // Controls should be disabled when solver is running - except the stop button
+        grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        gridEditionToolbar.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        dictionaryComboBox.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         solveButton.textProperty()
                    .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
                                                                            .otherwise("Solve"));
 
         // Populate dictionaries
         dictionaryController.start();
-    }
-
-    @FXML
-    private void onAddColumnButtonClicked() {
-        grid.addColumn();
-    }
-
-    @FXML
-    private void onAddRowButtonClicked() {
-        grid.addRow();
-    }
-
-    @FXML
-    private void onDeleteColumnButtonClicked() {
-        grid.deleteLastColumn();
-    }
-
-    @FXML
-    private void onDeleteRowButtonClicked() {
-        grid.deleteLastRow();
     }
 
     @FXML

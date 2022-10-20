@@ -18,6 +18,7 @@ include 'dictionary-data'
 
 // GUI frontend
 include 'gui'
+include 'gui-controls'
 
 // Solver plugin implementations
 include 'solver-ginsberg'

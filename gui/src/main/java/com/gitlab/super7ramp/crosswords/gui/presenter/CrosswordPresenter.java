@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.view.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
