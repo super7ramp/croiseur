@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api project(':crosswords-spi-dictionary')
-    api project(':crosswords-spi-solver')
-    api project(':crosswords-spi-presenter')
+    api project(':crosswords-spi:crosswords-spi-dictionary')
+    api project(':crosswords-spi:crosswords-spi-solver')
+    api project(':crosswords-spi:crosswords-spi-presenter')
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns:d="http://openoffice.org/extensions/description/2006"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns="http://openoffice.org/extensions/description/2006">
+    <version value="2021.01.07"/>
+    <identifier value="Albanian.dictionaryViewModel.from.shkenca.org"/>
+    <display-name>
+        <name lang="en-US">Albanian spelling dictionaryViewModel, and hyphenation rules</name>
+    </display-name>
+    <platform value="all"/>
+    <dependencies>
+        <OpenOffice.org-minimal-version value="3.0" d:name="OpenOffice.org 3.0"/>
+    </dependencies>
+    <presenter>
+        <name xlink:href="http://shkenca.org/" lang="en-US">shkenca.org</name>
+    </presenter>
+</description>

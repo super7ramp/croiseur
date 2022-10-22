@@ -1,0 +1,8 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
+}
+
+dependencies {
+    api project(':crosswords-spi:crosswords-spi-dictionary')
+    api project(':crosswords-spi:crosswords-spi-solver')
+}

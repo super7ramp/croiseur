@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns:d="http://openoffice.org/extensions/description/2006"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns="http://openoffice.org/extensions/description/2006">
+    <version value="0.98.3"/>
+    <identifier value="ferheng.org.ku-TR.spelling.dictionaryViewModel"/>
+
+    <display-name>
+        <name lang="en-US">Kurdish (Turkey) spelling dictionaryViewModel</name>
+    </display-name>
+
+    <platform value="all"/>
+
+    <dependencies>
+        <OpenOffice.org-minimal-version value="3.0" d:name="OpenOffice.org 3.0"/>
+    </dependencies>
+
+    <presenter>
+        <name xlink:href="http://ferheng.org" lang="ku">Projeya Ferheng.org</name>
+    </presenter>
+
+    <icon>
+        <default xlink:href="ferheng.org.png"/>
+    </icon>
+
+</description>
+

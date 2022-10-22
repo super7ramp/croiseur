@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns:d="http://openoffice.org/extensions/description/2006"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns="http://openoffice.org/extensions/description/2006">
+    <version value="2021.01.15"/>
+    <identifier value="org.openoffice.da.hunspell.dictionaries"/>
+    <display-name>
+        <name lang="en-US">Danish spelling dictionaryViewModel, hyphenation rules, and thesaurus
+        </name>
+    </display-name>
+    <platform value="all"/>
+    <dependencies>
+        <OpenOffice.org-minimal-version value="3.0" d:name="OpenOffice.org 3.0"/>
+    </dependencies>
+    <presenter>
+        <name xlink:href="http://www.stavekontrolden.dk" lang="en-US">Stavekontrolden</name>
+        <name xlink:href="http://www.stavekontrolden.dk" lang="da">Stavekontrolden</name>
+    </presenter>
+    <icon>
+        <default xlink:href="Trold_42x42.png"/>
+    </icon>
+    <extension-description>
+        <src xlink:href="desc_da_DK.txt" lang="da"/>
+        <src xlink:href="desc_en_US.txt" lang="en-US"/>
+    </extension-description>
+</description>
+

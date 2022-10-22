@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns:d="http://openoffice.org/extensions/description/2006"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns="http://openoffice.org/extensions/description/2006">
+    <version value="1.0.45"/>
+    <identifier value="vietnamese_2008_spellchecker.from.Ivan.Garcia"/>
+    <display-name>
+        <name lang="en-US">Vietnamese spelling dictionaryViewModel</name>
+    </display-name>
+    <platform value="all"/>
+    <dependencies>
+        <OpenOffice.org-minimal-version value="3.0" d:name="OpenOffice.org 3.0"/>
+    </dependencies>
+    <presenter>
+        <name xlink:href="http://code.google.com/p/hunspell-spellcheck-vi/" lang="en-US">Ivan
+            Garcia
+        </name>
+    </presenter>
+</description>

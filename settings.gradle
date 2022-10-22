@@ -3,28 +3,27 @@ rootProject.name = 'crosswords'
 // CLI frontend
 include 'cli'
 
-// The application core library and its plugin definitions
+// The application core library
 include 'crosswords'
-include 'crosswords-spi-dictionary'
-include 'crosswords-spi-solver'
-include 'crosswords-spi-presenter'
+
+// The application core library plugin definitions
+include 'crosswords-spi:crosswords-spi-dictionary'
+include 'crosswords-spi:crosswords-spi-solver'
+include 'crosswords-spi:crosswords-spi-presenter'
 
 // Dictionary plugin implementations/tools/data
-include 'dictionary-common'
-include 'dictionary-hunspell'
-include 'dictionary-internal'
-include 'dictionary-tools'
-include 'dictionary-data'
+include 'dictionary:dictionary-common'
+include 'dictionary:dictionary-hunspell'
+include 'dictionary:dictionary-internal'
+include 'dictionary:dictionary-tools'
+include 'dictionary:dictionary-data'
 
 // GUI frontend
 include 'gui'
 include 'gui-controls'
 
 // Solver plugin implementations
-include 'solver-ginsberg'
-
-// Util
-include 'util'
+include 'solver:solver-ginsberg'
 
 // Dependency versions
 dependencyResolutionManagement {

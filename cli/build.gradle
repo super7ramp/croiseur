@@ -6,9 +6,9 @@ dependencies {
     implementation project(':crosswords')
 
     // Module implementations are loaded at runtime
-    runtimeOnly project(':dictionary-hunspell')
-    runtimeOnly project(':dictionary-internal')
-    runtimeOnly project(':solver-ginsberg')
+    runtimeOnly project(':dictionary:dictionary-hunspell')
+    runtimeOnly project(':dictionary:dictionary-internal')
+    runtimeOnly project(':solver:solver-ginsberg')
 }
 
 /**
