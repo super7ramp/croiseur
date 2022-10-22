@@ -7,11 +7,21 @@ import javafx.beans.binding.StringExpression;
 import javafx.css.PseudoClass;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyEvent;
 
 import java.util.function.UnaryOperator;
 
 /**
  * A crossword box control.
+ * <p>
+ * It features:
+ * <ul>
+ *     <li>Binding to {@link CrosswordBox} model</li>
+ *     <li>Formatting that limits the input to a single character</li>
+ *     <li>A shaded version, which can be toggled using right-click or the space key</li>
+ *     <li>Font auto-sizing</li>
+ *     <li>A customizable appearance the {@value #CSS_CLASS} CSS class</li>
+ * </ul>
  */
 public final class CrosswordBoxTextField extends TextField {
 
@@ -57,9 +67,6 @@ public final class CrosswordBoxTextField extends TextField {
         // Configure style
         getStyleClass().add(CSS_CLASS);
         pseudoClassStateChanged(SHADED, model.shadedProperty().get());
-        model.shadedProperty()
-             .addListener(e -> pseudoClassStateChanged(SHADED, model.shadedProperty().get()));
-        setOnContextMenuRequested(event -> toggleShading());
 
         // Configure text content
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
@@ -81,6 +88,17 @@ public final class CrosswordBoxTextField extends TextField {
                 desiredFontSize.getValue()), desiredFontSize);
         fontProperty().bind(font);
          */
+
+        // Listen to shaded events
+        model.shadedProperty()
+             .addListener(e -> pseudoClassStateChanged(SHADED, model.shadedProperty().get()));
+        setOnContextMenuRequested(event -> toggleShading());
+        addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getText().equals(" ")) {
+                toggleShading();
+                event.consume();
+            }
+        });
     }
 
     /**

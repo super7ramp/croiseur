@@ -9,9 +9,11 @@ import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -21,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -33,6 +36,58 @@ import java.util.Objects;
  * {@link #defineGridConstraints()} to see how these constraints are built.
  */
 public final class CrosswordGrid extends StackPane {
+
+    /**
+     * Allows to navigate the grid using arrow keys.
+     */
+    private class ArrowKeyNavigator implements EventHandler<KeyEvent> {
+
+        /**
+         * Constructs an instance.
+         */
+        ArrowKeyNavigator() {
+            // Nothing to do.
+        }
+
+        @Override
+        public void handle(final KeyEvent event) {
+            final Node source = (Node) event.getSource(); // the GridPane
+            final Node focused = source.getScene().getFocusOwner();
+            if (event.getCode().isArrowKey()) {
+                final int col = GridPane.getColumnIndex(focused);
+                final int row = GridPane.getRowIndex(focused);
+                final IntCoordinate2D currentCoordinate = new IntCoordinate2D(col, row);
+                final IntCoordinate2D nextCoordinate = switch (event.getCode()) {
+                    case LEFT -> currentCoordinate.left();
+                    case RIGHT -> currentCoordinate.right();
+                    case UP -> currentCoordinate.up();
+                    case DOWN -> currentCoordinate.down();
+                    default -> currentCoordinate;
+                };
+                final Node nextNode = boxNodes.get(nextCoordinate);
+                if (nextNode != null) {
+                    /*
+                     * Node may not exist, when trying to go outside the grid (e.g. up on first
+                     * row) or if grid is not fully filled (i.e. incomplete row or column).
+                     */
+                    nextNode.requestFocus();
+                }
+                event.consume();
+            }
+        }
+    }
+
+    /**
+     * A comparator for the grid child boxes.
+     * <p>
+     * Children are sorted using this comparator in order to maintain a consistent navigation with
+     * tab key. Otherwise, navigation follows node insertion order, which may be erratic - nodes
+     * can be added in columns using {@link #addColumn()}, in rows using {@link #addRow()} or in
+     * a completely custom order using {@link #boxes()}).
+     */
+    private static final Comparator<Node> BOX_COMPARATOR =
+            Comparator.comparingInt(GridPane::getRowIndex)
+                      .thenComparingInt(GridPane::getColumnIndex);
 
     /** The maximum number of rows or columns. */
     private static final int MAX_ROW_COLUMN_COUNT = 20;
@@ -76,6 +131,7 @@ public final class CrosswordGrid extends StackPane {
         boxNodes = new HashMap<>();
 
         boxModels.addListener(this::onModelUpdate);
+        grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
     }
 
     /**
@@ -258,9 +314,17 @@ public final class CrosswordGrid extends StackPane {
      * @param boxModel   what the box contains
      */
     private void onBoxAdded(final IntCoordinate2D coordinate, final CrosswordBox boxModel) {
+        // Create a new node
         final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
         grid.add(textField, coordinate.x(), coordinate.y());
+
+        // Grid child nodes must be sorted for the navigation with tab key to be consistent
+        FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
+
+        // Cache the nodes per coordinates
         boxNodes.put(coordinate, textField);
+
+        // Add column constraints
         int oldColumnCount = grid.getColumnConstraints().size();
         for (int column = oldColumnCount; column <= coordinate.x(); column++) {
             addColumnConstraint();
@@ -271,6 +335,9 @@ public final class CrosswordGrid extends StackPane {
         }
     }
 
+    /**
+     * Adds a row constraint.
+     */
     private void addRowConstraint() {
         final RowConstraints rowConstraint = new RowConstraints();
         rowConstraint.prefHeightProperty().set(CELL_PREF_SIZE);
@@ -278,6 +345,9 @@ public final class CrosswordGrid extends StackPane {
         grid.getRowConstraints().add(rowConstraint);
     }
 
+    /**
+     * Adds a column constraint.
+     */
     private void addColumnConstraint() {
         final ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.prefWidthProperty().set(CELL_PREF_SIZE);
