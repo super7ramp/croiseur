@@ -7,7 +7,6 @@ import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
-import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Collection;
@@ -94,8 +93,8 @@ final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public ProgressListener progressListener() {
-        return ProgressListener.DUMMY_LISTENER;
+    public SolverProgressNotificationKind progress() {
+        return SolverProgressNotificationKind.PERIODICAL;
     }
 }
 

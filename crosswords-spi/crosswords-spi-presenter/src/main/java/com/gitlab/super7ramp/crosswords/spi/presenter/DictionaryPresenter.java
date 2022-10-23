@@ -1,0 +1,34 @@
+package com.gitlab.super7ramp.crosswords.spi.presenter;
+
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+
+import java.util.Collection;
+
+/**
+ * Dictionary-related presentation services.
+ */
+// TODO create specific types so that Presenter SPI does not depend on Dictionary SPI?
+public interface DictionaryPresenter {
+
+    /**
+     * Presents the dictionary providers.
+     *
+     * @param providers the dictionary providers
+     */
+    void publishDictionaryProviders(final Collection<DictionaryProvider> providers);
+
+    /**
+     * Presents the dictionaries.
+     *
+     * @param filteredDictionaryProviders
+     */
+    void publishDictionaries(final Collection<DictionaryProvider> filteredDictionaryProviders);
+
+    /**
+     * Presents the entries of the given dictionary.
+     *
+     * @param dictionary the dictionary
+     */
+    void publishDictionaryEntries(final Dictionary dictionary);
+}

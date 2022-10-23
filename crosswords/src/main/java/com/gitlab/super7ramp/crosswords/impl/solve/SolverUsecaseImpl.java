@@ -1,16 +1,15 @@
 package com.gitlab.super7ramp.crosswords.impl.solve;
 
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
-import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
+import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -20,10 +19,12 @@ public final class SolverUsecaseImpl implements SolverUsecase {
     private final CrosswordSolver solver;
 
     /** The dictionary loader. */
-    private final Collection<DictionaryProvider> dictionaryProviders;
+    private final DictionaryLoader dictionaries;
 
     /** The publisher. */
     private final Presenter presenter;
+
+    private final ProgressListenerFactory progressListenerFactory;
 
     /**
      * Constructor.
@@ -40,21 +41,27 @@ public final class SolverUsecaseImpl implements SolverUsecase {
                             .findFirst()
                             .orElseThrow(() -> new IllegalArgumentException("Failed to " +
                                     "initialise solver service: No solver found."));
-        dictionaryProviders = new ArrayList<>(someDictionaryProviders);
         presenter = aPresenter;
+        dictionaries = new DictionaryLoader(someDictionaryProviders);
+        progressListenerFactory = new ProgressListenerFactory(presenter);
     }
 
     @Override
     public void solve(final SolveRequest event) {
 
-        final Optional<Dictionary> dictionary = retrieveDictionary(event);
+        final Optional<Dictionary> optDictionary = dictionaries.load(event.dictionaries());
 
-        if (dictionary.isEmpty()) {
+        if (optDictionary.isEmpty()) {
             presenter.publishError("Dictionary not found");
         } else {
+
+            final PuzzleDefinition puzzle = event.puzzle();
+            final Dictionary dictionary = optDictionary.get();
+            final ProgressListener progressListener =
+                    progressListenerFactory.from(event.progress());
+
             try {
-                final SolverResult result = solver.solve(event.puzzle(), dictionary.get(),
-                        event.progressListener());
+                final SolverResult result = solver.solve(puzzle, dictionary, progressListener);
                 presenter.publishResult(result);
             } catch (final InterruptedException e) {
                 presenter.publishError(e.getMessage());
@@ -63,51 +70,4 @@ public final class SolverUsecaseImpl implements SolverUsecase {
         }
     }
 
-    /**
-     * Retrieves the dictionary from request parameters.
-     *
-     * @param event the request
-     * @return the dictionary, if any
-     */
-    private Optional<Dictionary> retrieveDictionary(final SolveRequest event) {
-
-        // Create a DictionarySelection from the received event
-        final Collection<DictionaryIdentifier> dictionaries = event.dictionaries();
-        final DictionarySelection selection;
-        if (dictionaries.isEmpty()) {
-            // As per SolveRequest spec, no given dictionary means default dictionary
-            selection = DictionarySelection.byDefault();
-        } else {
-            selection = dictionaries.stream()
-                                    .map(DictionarySelection::byId)
-                                    .reduce(DictionarySelection.none(), DictionarySelection::or);
-        }
-
-        // Retrieve all selected dictionaries
-        final Collection<Dictionary> selectedDictionaries = selection
-                .apply(dictionaryProviders)
-                .stream()
-                .flatMap(dictionaryProvider -> dictionaryProvider.get().stream())
-                .map(this::toSolverDictionary)
-                .toList();
-
-        // At least one dictionary is necessary for solving
-        if (selectedDictionaries.isEmpty()) {
-            return Optional.empty();
-        }
-
-        // Return a composite of all selected dictionaries
-        return Optional.of(new CompositeSolverDictionary(selectedDictionaries));
-
-    }
-
-    /**
-     * Converts a dictionary from dictionary SPI to dictionary of solver SPI.
-     *
-     * @param dictionary the dictionary from dictionary SPI
-     * @return the dictionary of solver SPI
-     */
-    private Dictionary toSolverDictionary(com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary dictionary) {
-        return dictionary::lookup;
-    }
 }

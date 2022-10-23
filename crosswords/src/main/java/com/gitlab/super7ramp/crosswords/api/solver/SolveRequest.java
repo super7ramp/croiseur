@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.api.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Collection;
@@ -10,6 +10,16 @@ import java.util.Collection;
  * A request to solve a crossword puzzle.
  */
 public interface SolveRequest {
+
+    /** Defines how progress should be notified to application for presentation. */
+    // TODO expand possibilities of notification, e.g. allows to define a certain timeout; will
+    //  impact solver SPI
+    enum SolverProgressNotificationKind {
+        /** Progress is never notified for presentation. */
+        NONE,
+        /** Progress is periodically notified to presentation. */
+        PERIODICAL
+    }
 
     /**
      * The puzzle to solve.
@@ -28,10 +38,11 @@ public interface SolveRequest {
     Collection<DictionaryIdentifier> dictionaries();
 
     /**
-     * A solver progress listener.
+     * Defines how progress should be notified for presentation.
      *
-     * @return a progress listener
+     * @return the definition of how progress should be notified for presentation
+     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#publishProgress(short)
+     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#publishSolverInitialisationState(SolverPresenter.SolverInitialisationState)
      */
-    // TODO move this to presentation?
-    ProgressListener progressListener();
+    SolverProgressNotificationKind progress();
 }

@@ -35,14 +35,26 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void publishResult(SolverResult result) {
+    public void publishSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+        // TODO really implement
+        LOGGER.info(() -> "Solver initialisation: " + solverInitialisationState);
+    }
+
+    @Override
+    public void publishProgress(final short completionPercentage) {
+        // TODO really implement
+        LOGGER.info(() -> "Completion: " + completionPercentage + " %");
+    }
+
+    @Override
+    public void publishResult(final SolverResult result) {
         crosswordPresenter.presentSolverResult(result);
     }
 
     @Override
     public void publishError(final String error) {
+        // TODO really implement
         LOGGER.warning(error);
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
-import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Arrays;
@@ -80,14 +79,11 @@ public final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public ProgressListener progressListener() {
-        final ProgressListener progressListener;
+    public SolverProgressNotificationKind progress() {
         if (progress) {
-            progressListener = new ProgressListenerImpl();
-        } else {
-            progressListener = ProgressListener.DUMMY_LISTENER;
+            return SolverProgressNotificationKind.PERIODICAL;
         }
-        return progressListener;
+        return SolverProgressNotificationKind.NONE;
     }
 
     /**
