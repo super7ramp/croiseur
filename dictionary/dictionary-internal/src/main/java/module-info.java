@@ -11,11 +11,10 @@ module com.gitlab.super7ramp.crosswords.dictionary.internal {
     // Utilities
     requires com.gitlab.super7ramp.crosswords.dictionary.common;
 
-    // Implemented SPIs.
+    // dictionary-internal is mainly a dictionary provider for crosswords.
     requires com.gitlab.super7ramp.crosswords.spi.dictionary;
     provides DictionaryProvider with InternalDictionaryProvider;
 
-    // Export internals to tools
-    exports com.gitlab.super7ramp.crosswords.dictionary.internal to
-            com.gitlab.super7ramp.crosswords.dictionary.tools;
+    // The dictionary-internal API, for other usages.
+    exports com.gitlab.super7ramp.crosswords.dictionary.internal;
 }

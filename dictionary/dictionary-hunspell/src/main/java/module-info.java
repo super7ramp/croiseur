@@ -12,11 +12,11 @@ module com.gitlab.super7ramp.crosswords.dictionary.hunspell {
     // Utilities
     requires com.gitlab.super7ramp.crosswords.dictionary.common;
 
-    // Implemented SPIs.
+    // dictionary-hunspell is mainly a dictionary provider for crosswords.
     requires com.gitlab.super7ramp.crosswords.spi.dictionary;
     provides DictionaryProvider with HunspellDictionaryProvider, HunspellExtDictionaryProvider;
 
-    // Export internals to tools
-    exports com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure to
-            com.gitlab.super7ramp.crosswords.dictionary.tools;
+    // The dictionary-hunspell API, for other usages.
+    exports com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure;
+    exports com.gitlab.super7ramp.crosswords.dictionary.hunspell.external;
 }
