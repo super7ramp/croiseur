@@ -3,13 +3,14 @@
 **Crosswords** is an application for generating and solving crossword problems.
 It embeds a number of dictionaries and a decent solver.
 It is designed to be extensible: Dictionaries, solvers and even user interfaces can be added as
-plugins.
+_plugins_.
 
 TODO insert image
 
 ### Tutorials
 
-* TODO: Generate a grid
+* TODO: Generate a grid using the graphical interface
+* TODO: Generate a grid using the command-line interface
 
 ### How-To Guides
 
