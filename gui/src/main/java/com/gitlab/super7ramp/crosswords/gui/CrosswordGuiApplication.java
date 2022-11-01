@@ -15,9 +15,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 /**
@@ -37,11 +40,14 @@ public final class CrosswordGuiApplication extends Application {
     /** The stage's min height. */
     private static final int MIN_HEIGHT = 300;
 
+    /** Resources to be closed upon application shutdown. */
+    private final Collection<AutoCloseable> resources;
+
     /**
      * Constructor.
      */
     public CrosswordGuiApplication() {
-        // Nothing to do
+        resources = new ArrayList<>();
     }
 
     /**
@@ -65,12 +71,17 @@ public final class CrosswordGuiApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
+        // Background task executor
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        resources.add(executor::shutdown);
+
         // Dependencies for construction: view model <- presenter <- use-cases <- controller
         final CrosswordSolverViewModel crosswordSolverViewModel = new CrosswordSolverViewModel();
         final Presenter presenter = new GuiPresenter(crosswordSolverViewModel);
         final CrosswordService crosswordService = loadUseCases(presenter);
         final CrosswordSolverController crosswordSolverController =
-                new CrosswordSolverController(crosswordService, crosswordSolverViewModel);
+                new CrosswordSolverController(crosswordService, crosswordSolverViewModel,
+                        executor);
 
         // Load the views
         final FXMLLoader loader = new FXMLLoader();
@@ -87,5 +98,13 @@ public final class CrosswordGuiApplication extends Application {
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
         stage.show();
+
+    }
+
+    @Override
+    public void stop() throws Exception {
+        for (final AutoCloseable resource : resources) {
+            resource.close();
+        }
     }
 }

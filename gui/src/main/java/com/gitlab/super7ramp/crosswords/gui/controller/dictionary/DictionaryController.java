@@ -1,55 +1,51 @@
 package com.gitlab.super7ramp.crosswords.gui.controller.dictionary;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 
-import java.util.logging.Logger;
+import java.util.concurrent.Executor;
 
 /**
  * Controls the dictionary.
  */
 public final class DictionaryController {
 
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(DictionaryController.class.getName());
-
     /** The worker executing the dictionary tasks. */
-    private final Service<Void> dictionaryService;
+    private final Executor executor;
+
+    /** The dictionary use-cases. */
+    private final DictionaryUsecase usecase;
 
     /**
      * Constructs an instance.
      *
-     * @param usecase the "dictionary" usecase
+     * @param usecaseArg the "dictionary" use-cases
      */
-    public DictionaryController(final DictionaryUsecase usecase) {
-        dictionaryService = new Service<>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new ListDictionariesTask(usecase);
-            }
-        };
-        dictionaryService.setOnSucceeded(e -> LOGGER.info("Dictionary retrieval succeeded"));
-        dictionaryService.setOnRunning(e -> LOGGER.info("Dictionary retrieval in progress"));
-        dictionaryService.setOnFailed(e -> LOGGER.info("Dictionary retrieval failed"));
+    public DictionaryController(final DictionaryUsecase usecaseArg, final Executor executorArg) {
+        usecase = usecaseArg;
+        executor = executorArg;
     }
 
     /**
-     * Starts a new dictionary task.
-     * <p>
-     * Any pending task will be stopped.
+     * Lists the entries of the selected dictionary.
      */
-    public void start() {
-        stop();
-        dictionaryService.start();
+    public void listDictionaryEntries() {
+        execute(new ListDictionaryEntriesTask(usecase));
     }
 
     /**
-     * Stops the running dictionary task, if any.
+     * Lists the available dictionaries.
      */
-    private void stop() {
-        dictionaryService.cancel();
-        dictionaryService.reset();
+    public void listDictionaries() {
+        execute(new ListDictionariesTask(usecase));
+    }
+
+    /**
+     * Executes the given task.
+     *
+     * @param task the task to execute
+     */
+    private void execute(final Runnable task) {
+        executor.execute(task);
     }
 
 }

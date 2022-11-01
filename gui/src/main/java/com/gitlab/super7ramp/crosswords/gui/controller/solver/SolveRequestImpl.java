@@ -4,7 +4,7 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
@@ -16,7 +16,7 @@ import java.util.Map;
 import static java.util.Comparator.comparingInt;
 
 /**
- * Implementation of {@link SolveRequest}, adapting {@link CrosswordViewModel}.
+ * Implementation of {@link SolveRequest}, adapting {@link CrosswordGridViewModel}.
  */
 final class SolveRequestImpl implements SolveRequest {
 
@@ -29,16 +29,16 @@ final class SolveRequestImpl implements SolveRequest {
     /**
      * Constructs an instance.
      *
-     * @param crosswordViewModel  the crossword model
-     * @param dictionaryViewModel the dictionary model
+     * @param crosswordGridViewModel the crossword model
+     * @param dictionaryViewModel    the dictionary model
      */
-    SolveRequestImpl(final CrosswordViewModel crosswordViewModel,
+    SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
                      final DictionaryViewModel dictionaryViewModel) {
 
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
 
-        final Map<IntCoordinate2D, CrosswordBox> boxes = crosswordViewModel.boxes();
+        final Map<IntCoordinate2D, CrosswordBox> boxes = crosswordGridViewModel.boxes();
         for (final Map.Entry<IntCoordinate2D, CrosswordBox> box : boxes.entrySet()) {
             final IntCoordinate2D position = box.getKey();
             final CrosswordBox content = box.getValue();
@@ -63,13 +63,7 @@ final class SolveRequestImpl implements SolveRequest {
         puzzle = pdb.build();
 
         // TODO update when view model supports several selected dictionaries
-        final String selectedDictionary = dictionaryViewModel.selectedDictionary().get();
-        if (selectedDictionary != null && !selectedDictionary.isEmpty()) {
-            dictionaries =
-                    Collections.singletonList(DictionaryIdentifier.valueOf(selectedDictionary));
-        } else {
-            dictionaries = Collections.emptyList();
-        }
+        dictionaries = Collections.emptyList();
     }
 
     /**

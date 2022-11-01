@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" spacing="10.0" stylesheets="@DictionaryPane.css"
+         type="VBox" xmlns="http://javafx.com/javafx/17">
+    <children>
+        <Label text="Dictionaries"/>
+        <ListView id="dictionaries" fx:id="dictionariesListView" VBox.vgrow="NEVER"/>
+        <Label text="Words"/>
+        <TextField fx:id="searchTextField" promptText="Search words"/>
+        <ListView fx:id="wordsListView" VBox.vgrow="ALWAYS"/>
+    </children>
+</fx:root>

@@ -9,9 +9,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Objects;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class InternalDictionaryService implements Dictionary {
 
@@ -53,8 +51,8 @@ public final class InternalDictionaryService implements Dictionary {
     }
 
     @Override
-    public Set<String> lookup(final Predicate<String> predicate) {
-        return data.entries().stream().filter(predicate).collect(Collectors.toSet());
+    public Stream<String> stream() {
+        return data.entries().stream();
     }
 
     @Override

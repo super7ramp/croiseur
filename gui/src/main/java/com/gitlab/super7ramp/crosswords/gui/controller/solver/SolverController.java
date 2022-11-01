@@ -30,7 +30,7 @@ public final class SolverController {
         solverService = new Service<>() {
             @Override
             protected Task<Void> createTask() {
-                return new SolveTask(crosswordSolverViewModel.crosswordViewModel(),
+                return new SolveTask(crosswordSolverViewModel.crosswordGridViewModel(),
                         crosswordSolverViewModel.dictionaryViewModel(), usecase);
             }
         };

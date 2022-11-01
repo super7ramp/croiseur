@@ -2,26 +2,25 @@ package com.gitlab.super7ramp.crosswords.gui.presenter;
 
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
-import java.util.logging.Logger;
+import java.util.Map;
 
 /**
- * Crosswords GUI Presenter.
+ * GUI implementation of {@link Presenter}.
  */
 public final class GuiPresenter implements Presenter {
 
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(GuiPresenter.class.getName());
-
     /** Dictionary presenter. */
-    private final DictionaryPresenter dictionaryPresenter;
+    private final GuiDictionaryPresenter dictionaryPresenter;
 
     /** Crossword presenter. */
-    private final CrosswordPresenter crosswordPresenter;
+    private final GuiSolverPresenter crosswordPresenter;
 
     /**
      * Constructs an instance.
@@ -30,45 +29,49 @@ public final class GuiPresenter implements Presenter {
      */
     public GuiPresenter(final CrosswordSolverViewModel crosswordSolverViewModel) {
         dictionaryPresenter =
-                new DictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
-        crosswordPresenter = new CrosswordPresenter(crosswordSolverViewModel.crosswordViewModel());
+                new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
+        crosswordPresenter =
+                new GuiSolverPresenter(crosswordSolverViewModel.crosswordGridViewModel());
     }
 
     @Override
-    public void publishSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
-        // TODO really implement
-        LOGGER.info(() -> "Solver initialisation: " + solverInitialisationState);
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+        crosswordPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 
     @Override
-    public void publishProgress(final short completionPercentage) {
-        // TODO really implement
-        LOGGER.info(() -> "Completion: " + completionPercentage + " %");
+    public void presentProgress(final short completionPercentage) {
+        crosswordPresenter.presentProgress(completionPercentage);
     }
 
     @Override
-    public void publishResult(final SolverResult result) {
-        crosswordPresenter.presentSolverResult(result);
+    public void presentResult(final SolverResult result) {
+        crosswordPresenter.presentResult(result);
     }
 
     @Override
-    public void publishError(final String error) {
-        // TODO really implement
-        LOGGER.warning(error);
+    public void presentError(final String error) {
+        crosswordPresenter.presentError(error);
     }
 
     @Override
-    public void publishDictionaryProviders(Collection<DictionaryProvider> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    public void publishDictionaries(Collection<DictionaryProvider> filteredDictionaryProviders) {
-        dictionaryPresenter.presentDictionaries(filteredDictionaryProviders);
+    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
+            extends DictionaryDescription>> dictionaries) {
+        dictionaryPresenter.presentDictionaries(dictionaries);
     }
 
     @Override
-    public void publishDictionaryEntries(Dictionary dictionary) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void presentDictionaryEntries(final Dictionary dictionary) {
+        dictionaryPresenter.presentDictionaryEntries(dictionary);
+    }
+
+    @Override
+    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
+        dictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 }

@@ -1,11 +1,13 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.DictionaryPresenter;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * CLI implementation of {@link DictionaryPresenter}.
@@ -26,7 +28,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void publishDictionaryProviders(final Collection<DictionaryProvider> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
 
         System.out.printf(PROVIDERS_FORMAT, "Provider", "Description");
         System.out.printf(PROVIDERS_FORMAT, "--------", "-----------");
@@ -36,22 +38,26 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void publishDictionaries(final Collection<DictionaryProvider> filteredDictionaryProviders) {
+    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
+            extends DictionaryDescription>> dictionariesPerProviders) {
 
         System.out.printf(LIST_FORMAT, "Provider", "Name", "Locale");
         System.out.printf(LIST_FORMAT, "--------", "----", "------");
 
-        for (final DictionaryProvider dictionaryProvider : filteredDictionaryProviders) {
-            dictionaryProvider.get()
-                              .forEach(dictionary -> System.out.printf(LIST_FORMAT,
-                                      dictionaryProvider.name(), dictionary.name(),
-                                      dictionary.locale()
-                                                .getDisplayName()));
+        for (final Map.Entry<DictionaryProviderDescription, Collection<?
+                extends DictionaryDescription>> entry :
+                dictionariesPerProviders.entrySet()) {
+
+            final DictionaryProviderDescription provider = entry.getKey();
+            final Collection<? extends DictionaryDescription> dictionaries = entry.getValue();
+            dictionaries.forEach(dictionary -> System.out.printf(LIST_FORMAT, provider.name(),
+                    dictionary.name(), dictionary.locale()
+                                                 .getDisplayName()));
         }
     }
 
     @Override
-    public void publishDictionaryEntries(final Dictionary dictionary) {
+    public void presentDictionaryEntries(final Dictionary dictionary) {
         /*
          * As output may be very large, it is likely the output is going to be piped (grep,
          * head, ...). Checking error status on System.out allows detecting broken pipe and
@@ -61,5 +67,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         while (wordIterator.hasNext() && !System.out.checkError()) {
             System.out.println(wordIterator.next());
         }
+    }
+
+    @Override
+    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

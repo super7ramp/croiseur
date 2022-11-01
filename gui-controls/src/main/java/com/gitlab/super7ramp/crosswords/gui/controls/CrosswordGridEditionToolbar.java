@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ToolBar;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * A toolbar to edit a grid.
  */
-public final class CrosswordGridEditionToolbar extends HBox {
+public final class CrosswordGridEditionToolbar extends ToolBar {
 
     @FXML
     private Button addColumnButton;

@@ -11,7 +11,7 @@ import javafx.collections.ObservableMap;
  * The crossword view model.
  */
 // TODO shouldn't depend on gui-controls, move control models somewhere else?
-public final class CrosswordViewModel {
+public final class CrosswordGridViewModel {
 
     /** The boxes of the view. */
     private final MapProperty<IntCoordinate2D, CrosswordBox> boxes;
@@ -19,10 +19,15 @@ public final class CrosswordViewModel {
     /**
      * Constructs an instance.
      */
-    public CrosswordViewModel() {
+    public CrosswordGridViewModel() {
         boxes = new SimpleMapProperty<>(this, "boxes", welcomeBoxes());
     }
 
+    /**
+     * Returns the default crossword grid view model.
+     *
+     * @return the default crossword grid view model
+     */
     private static ObservableMap<IntCoordinate2D, CrosswordBox> welcomeBoxes() {
         final ObservableMap<IntCoordinate2D, CrosswordBox> welcomeBoxes =
                 FXCollections.observableHashMap();

@@ -1,4 +1,4 @@
-/* A cell of the crossword grid. */
+/* A cell of the crossword grid; Extends text-field. */
 .crossword-box-text {
     /* Centered serif text. */
     -fx-alignment: center;
@@ -13,6 +13,10 @@
     /* Taking all the space. */
     -fx-max-height: Infinity;
     -fx-max-width: Infinity;
+
+    /* With blackish focus color. */
+    -fx-focus-color: black;
+    -fx-faint-focus-color: #00000022;
 }
 
 /* A shaded cell. */

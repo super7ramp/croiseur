@@ -19,12 +19,9 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -73,10 +70,8 @@ public final class HunspellDictionary implements Dictionary {
     }
 
     @Override
-    public Set<String> lookup(final Predicate<String> predicate) {
-        try (final Stream<String> entries = readEntries()) {
-            return entries.filter(predicate).collect(Collectors.toSet());
-        }
+    public Stream<String> stream() {
+        return readEntries();
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.gitlab.super7ramp.crosswords.gui.controller.solver;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import javafx.concurrent.Task;
 
@@ -20,14 +20,14 @@ final class SolveTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param crosswordViewModelArg  the crossword model
-     * @param dictionaryViewModelArg the dictionary model
-     * @param solverUsecaseArg       the "solve crossword" usecase
+     * @param crosswordGridViewModelArg the crossword model
+     * @param dictionaryViewModelArg    the dictionary model
+     * @param solverUsecaseArg          the "solve crossword" usecase
      */
-    SolveTask(final CrosswordViewModel crosswordViewModelArg,
+    SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionaryViewModel dictionaryViewModelArg,
               final SolverUsecase solverUsecaseArg) {
-        solveRequest = new SolveRequestImpl(crosswordViewModelArg, dictionaryViewModelArg);
+        solveRequest = new SolveRequestImpl(crosswordGridViewModelArg, dictionaryViewModelArg);
         solverUsecase = solverUsecaseArg;
     }
 

@@ -9,9 +9,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class HunspellDictionary implements Dictionary {
 
@@ -47,8 +45,8 @@ public final class HunspellDictionary implements Dictionary {
     }
 
     @Override
-    public Set<String> lookup(final Predicate<String> predicate) {
-        return WordFormGenerator.of(affPath(), dicPath()).generate().collect(Collectors.toSet());
+    public Stream<String> stream() {
+        return WordFormGenerator.of(affPath(), dicPath()).generate();
     }
 
     @Override

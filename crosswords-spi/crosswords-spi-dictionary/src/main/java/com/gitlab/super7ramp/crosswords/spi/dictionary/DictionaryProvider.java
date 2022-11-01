@@ -8,21 +8,7 @@ import java.util.Optional;
 /**
  * {@link Dictionary} provider.
  */
-public interface DictionaryProvider {
-
-    /**
-     * Returns the name of this dictionary provider.
-     *
-     * @return name of this dictionary provider
-     */
-    String name();
-
-    /**
-     * Returns a description of this dictionary provider.
-     *
-     * @return a description of this dictionary provider
-     */
-    String description();
+public interface DictionaryProvider extends DictionaryProviderDescription {
 
     /**
      * Retrieves the available dictionaries.

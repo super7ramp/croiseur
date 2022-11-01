@@ -4,13 +4,13 @@
 
 #### Preparatory
 
-- Assemble some documentation on crosswordViewModel solving
+- Assemble some documentation on crosswordGridViewModel solving
   => https://www.crosswordconstruction.com/ is a
   great start (see referenced paper from the 90s)
 
 #### Create a basic solver
 
-Introduce a basic structure to solve crosswordViewModel puzzle:
+Introduce a basic structure to solve crossword puzzle:
 
 1. Basic variable selection
     1. Code => OK
@@ -58,7 +58,7 @@ Ideas:
     - Proper nouns
     - Thematic dictionaries
     - Add configurable tricks: Allow some reversed words, parts of words
-    - Grid template (typically for American-style crosswordViewModel)
+    - Grid template (typically for American-style crossword)
     - Add other locales
     - Add client: Desktop GUI? Web? iOS? Android?
     - Improve CLI

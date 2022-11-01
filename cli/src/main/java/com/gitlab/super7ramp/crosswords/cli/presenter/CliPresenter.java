@@ -1,11 +1,14 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * CLI implementation of {@link Presenter}.
@@ -27,37 +30,43 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void publishSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
-        cliSolverPresenter.publishSolverInitialisationState(solverInitialisationState);
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+        cliSolverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 
     @Override
-    public void publishProgress(final short completionPercentage) {
-        cliSolverPresenter.publishProgress(completionPercentage);
+    public void presentProgress(final short completionPercentage) {
+        cliSolverPresenter.presentProgress(completionPercentage);
     }
 
     @Override
-    public void publishResult(final SolverResult result) {
-        cliSolverPresenter.publishResult(result);
+    public void presentResult(final SolverResult result) {
+        cliSolverPresenter.presentResult(result);
     }
 
     @Override
-    public void publishError(final String error) {
-        cliSolverPresenter.publishError(error);
+    public void presentError(final String error) {
+        cliSolverPresenter.presentError(error);
     }
 
     @Override
-    public void publishDictionaryProviders(final Collection<DictionaryProvider> providers) {
-        cliDictionaryPresenter.publishDictionaryProviders(providers);
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+        cliDictionaryPresenter.presentDictionaryProviders(providers);
     }
 
     @Override
-    public void publishDictionaries(final Collection<DictionaryProvider> filteredDictionaryProviders) {
-        cliDictionaryPresenter.publishDictionaries(filteredDictionaryProviders);
+    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
+            extends DictionaryDescription>> dictionariesPerProviders) {
+        cliDictionaryPresenter.presentDictionaries(dictionariesPerProviders);
     }
 
     @Override
-    public void publishDictionaryEntries(final Dictionary dictionary) {
-        cliDictionaryPresenter.publishDictionaryEntries(dictionary);
+    public void presentDictionaryEntries(final Dictionary dictionary) {
+        cliDictionaryPresenter.presentDictionaryEntries(dictionary);
+    }
+
+    @Override
+    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
+        cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 }

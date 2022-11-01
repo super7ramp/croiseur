@@ -1,23 +1,22 @@
 package com.gitlab.super7ramp.crosswords.spi.dictionary;
 
-import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * A dictionary.
  */
-public interface Dictionary {
+public interface Dictionary extends DictionaryDescription {
 
     /**
-     * Returns the {@link Locale} associated to this dictionary.
-     * <p>
-     * TODO proper noun: Locale-independent?
-     * TODO more than one locale per dictionary?
+     * Returns the dictionary as a stream of String.
      *
-     * @return the {@link Locale} associated to this dictionary
+     * @return the dictionary as a stream of String
      */
-    Locale locale();
+    Stream<String> stream();
 
     /**
      * Searches for words matching the given {@link Predicate}.
@@ -25,12 +24,9 @@ public interface Dictionary {
      * @param predicate the predicate to satisfy
      * @return a set of words matching the given pattern
      */
-    Set<String> lookup(final Predicate<String> predicate);
+    default Set<String> lookup(final Predicate<String> predicate) {
+        return stream().filter(predicate).collect(toSet());
+    }
 
-    /**
-     * Returns the dictionary name.
-     *
-     * @return the dictionary name
-     */
-    String name();
+
 }

@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
@@ -22,7 +23,7 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void publishSolverInitialisationState(SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(SolverInitialisationState solverInitialisationState) {
         if (solverInitialisationState == SolverInitialisationState.STARTED) {
             publishSolverInitialisationStarted();
         } else {
@@ -31,7 +32,7 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void publishProgress(final short completionPercentage) {
+    public void presentProgress(final short completionPercentage) {
         if (completionPercentage > bestCompletionPercentage) {
             bestCompletionPercentage = completionPercentage;
         }
@@ -39,12 +40,12 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void publishResult(SolverResult result) {
+    public void presentResult(SolverResult result) {
         System.out.println(result);
     }
 
     @Override
-    public void publishError(String error) {
+    public void presentError(String error) {
         System.err.println(error);
     }
 

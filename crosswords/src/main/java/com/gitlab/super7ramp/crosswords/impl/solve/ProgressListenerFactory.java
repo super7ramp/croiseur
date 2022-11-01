@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.impl.solve;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 
@@ -31,17 +32,17 @@ final class ProgressListenerFactory {
 
         @Override
         public void onInitialisationStart() {
-            presenter.publishSolverInitialisationState(SolverPresenter.SolverInitialisationState.STARTED);
+            presenter.presentSolverInitialisationState(SolverInitialisationState.STARTED);
         }
 
         @Override
         public void onInitialisationEnd() {
-            presenter.publishSolverInitialisationState(SolverPresenter.SolverInitialisationState.ENDED);
+            presenter.presentSolverInitialisationState(SolverInitialisationState.ENDED);
         }
 
         @Override
         public void onSolverProgressUpdate(final short completionPercentage) {
-            presenter.publishProgress(completionPercentage);
+            presenter.presentProgress(completionPercentage);
         }
 
     }

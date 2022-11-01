@@ -1,0 +1,27 @@
+.root {
+    -fx-padding: 10px;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
+
+.list-view {
+    /* Borderless. */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+
+    /* No background colour, just copy parent background. */
+    -fx-background-color: gray;
+}
+
+/* No odd/even background colour, just copy parent background.
+.list-cell {
+
+    -fx-background-color: transparent;
+}
+*/
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}

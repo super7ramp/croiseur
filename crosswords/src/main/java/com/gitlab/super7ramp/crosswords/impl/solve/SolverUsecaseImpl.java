@@ -52,7 +52,7 @@ public final class SolverUsecaseImpl implements SolverUsecase {
         final Optional<Dictionary> optDictionary = dictionaries.load(event.dictionaries());
 
         if (optDictionary.isEmpty()) {
-            presenter.publishError("Dictionary not found");
+            presenter.presentError("Dictionary not found");
         } else {
 
             final PuzzleDefinition puzzle = event.puzzle();
@@ -62,9 +62,9 @@ public final class SolverUsecaseImpl implements SolverUsecase {
 
             try {
                 final SolverResult result = solver.solve(puzzle, dictionary, progressListener);
-                presenter.publishResult(result);
+                presenter.presentResult(result);
             } catch (final InterruptedException e) {
-                presenter.publishError(e.getMessage());
+                presenter.presentError(e.getMessage());
                 Thread.currentThread().interrupt();
             }
         }

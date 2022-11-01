@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.api.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Collection;
@@ -41,8 +41,8 @@ public interface SolveRequest {
      * Defines how progress should be notified for presentation.
      *
      * @return the definition of how progress should be notified for presentation
-     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#publishProgress(short)
-     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#publishSolverInitialisationState(SolverPresenter.SolverInitialisationState)
+     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#presentProgress(short)
+     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#presentSolverInitialisationState(SolverInitialisationState)
      */
     SolverProgressNotificationKind progress();
 }

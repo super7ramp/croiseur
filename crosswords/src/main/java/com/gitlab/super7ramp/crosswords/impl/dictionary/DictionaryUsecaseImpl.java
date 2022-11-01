@@ -4,12 +4,18 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Implementation of {@link DictionaryUsecase}.
@@ -44,9 +50,9 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
     @Override
     public void listProviders() {
         if (dictionaryProviders.isEmpty()) {
-            presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE);
+            presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            presenter.publishDictionaryProviders(Collections.unmodifiableCollection(dictionaryProviders));
+            presenter.presentDictionaryProviders(Collections.unmodifiableCollection(dictionaryProviders));
         }
     }
 
@@ -59,9 +65,14 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
                                    .apply(dictionaryProviders);
 
         if (filteredDictionaryProviders.isEmpty()) {
-            presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE);
+            presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            presenter.publishDictionaries(filteredDictionaryProviders);
+
+            final Map<DictionaryProviderDescription, Collection<? extends DictionaryDescription>> dictionaries =
+                    dictionaryProviders.stream()
+                                       .collect(toMap(identity(), provider -> provider.get()));
+
+            presenter.presentDictionaries(dictionaries);
         }
     }
 
@@ -73,16 +84,22 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
                                    .apply(dictionaryProviders);
 
         if (filteredDictionaryProviders.isEmpty()) {
-            presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE);
+            presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
         } else if (filteredDictionaryProviders.size() > 1) {
-            presenter.publishError(AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + filteredDictionaryProviders + ")");
+            presenter.presentError(AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + filteredDictionaryProviders + ")");
         } else {
             final DictionaryProvider filteredDictionaryProvider =
                     filteredDictionaryProviders.iterator().next();
 
             filteredDictionaryProvider.getFirst()
-                                      .ifPresentOrElse(presenter::publishDictionaryEntries,
-                                              () -> presenter.publishError(NO_DICTIONARY_ERROR_MESSAGE));
+                                      .ifPresentOrElse(presenter::presentDictionaryEntries,
+                                              () -> presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE));
         }
+    }
+
+    @Override
+    public void showPreferredDictionary() {
+        // TODO Use implementation from solver, make it common
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

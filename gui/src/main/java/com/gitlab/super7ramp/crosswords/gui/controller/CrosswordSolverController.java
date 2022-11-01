@@ -5,66 +5,71 @@ import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryCont
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGrid;
 import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGridEditionToolbar;
+import com.gitlab.super7ramp.crosswords.gui.controls.DictionaryPane;
+import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import javafx.beans.binding.When;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+
+import java.util.concurrent.Executor;
 
 /**
  * The main controller.
  */
 public final class CrosswordSolverController {
 
-    /** The controller dedicated for the solver use-cases. */
+    /** The controller dedicated to the solver use-cases. */
     private final SolverController solverController;
 
-    /** The controller dedicated for the dictionary use-cases. */
+    /** The controller dedicated to the dictionary use-cases. */
     private final DictionaryController dictionaryController;
 
     /** The view model. */
     private CrosswordSolverViewModel crosswordSolverViewModel;
 
     @FXML
-    private CrosswordGrid grid;
-
-    @FXML
     private CrosswordGridEditionToolbar gridEditionToolbar;
 
     @FXML
-    private ComboBox<String> dictionaryComboBox;
+    private CrosswordGrid grid;
 
     @FXML
     private Button solveButton;
+
+    @FXML
+    private DictionaryPane dictionaryPane;
 
     /**
      * Constructs an instance.
      *
      * @param crosswordService            the use-cases
      * @param crosswordSolverViewModelArg the view model
+     * @param executorArg                 the executor allowing to run background tasks
      */
     public CrosswordSolverController(final CrosswordService crosswordService,
-                                     final CrosswordSolverViewModel crosswordSolverViewModelArg) {
+                                     final CrosswordSolverViewModel crosswordSolverViewModelArg,
+                                     final Executor executorArg) {
         solverController = new SolverController(crosswordSolverViewModelArg,
                 crosswordService.solverService());
-        dictionaryController = new DictionaryController(crosswordService.dictionaryService());
+        dictionaryController = new DictionaryController(crosswordService.dictionaryService(),
+                executorArg);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
     }
 
     @FXML
     private void initialize() {
         // Bind the crossword view model to the crossword view
-        final CrosswordViewModel crosswordViewModel = crosswordSolverViewModel.crosswordViewModel();
-        grid.boxes().bindBidirectional(crosswordViewModel.boxes());
+        final CrosswordGridViewModel crosswordGridViewModel =
+                crosswordSolverViewModel.crosswordGridViewModel();
+        grid.boxes().bindBidirectional(crosswordGridViewModel.boxes());
 
         // Bind the dictionary view model to the dictionary view
         final DictionaryViewModel dictionaryViewModel =
                 crosswordSolverViewModel.dictionaryViewModel();
-        dictionaryComboBox.setItems(dictionaryViewModel.dictionaries());
-        dictionaryViewModel.selectedDictionary()
-                           .bind(dictionaryComboBox.getSelectionModel().selectedItemProperty());
+        dictionaryPane.setDictionaries(dictionaryViewModel.dictionariesProperty());
+        dictionaryPane.setDictionaryEntries(dictionaryViewModel.dictionaryEntries());
 
         // Bind the grid editor buttons to the grid
         gridEditionToolbar.onAddColumnActionProperty().set(event -> grid.addColumn());
@@ -75,13 +80,19 @@ public final class CrosswordSolverController {
         // Controls should be disabled when solver is running - except the stop button
         grid.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         gridEditionToolbar.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        dictionaryComboBox.disableProperty().bind(crosswordSolverViewModel.solverRunning());
+        dictionaryPane.disableProperty().bind(crosswordSolverViewModel.solverRunning());
         solveButton.textProperty()
                    .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
                                                                            .otherwise("Solve"));
 
-        // Populate dictionaries
-        dictionaryController.start();
+        // Solve button should be disabled if no dictionary is selected
+        solveButton.disableProperty()
+                   .bind(dictionaryViewModel.selectedDictionariesProperty().emptyProperty());
+
+        // Populate dictionary pane
+        // TODO To be performed lazily when dictionary pane is displayed for the first time
+        dictionaryController.listDictionaries();
+        dictionaryController.listDictionaryEntries();
     }
 
     @FXML

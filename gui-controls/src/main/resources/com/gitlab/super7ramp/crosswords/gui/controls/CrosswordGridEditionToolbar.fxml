@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" prefWidth="400.0" type="HBox"
-         xmlns="http://javafx.com/javafx/17">
-    <Button fx:id="addRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            HBox.hgrow="ALWAYS">
-        <graphic>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@sc_insertrowsafter.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-        <tooltip>
-            <Tooltip text="Add row on the bottom"/>
-        </tooltip>
-    </Button>
-    <Button fx:id="deleteRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            HBox.hgrow="ALWAYS">
-        <graphic>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@sc_deleterows.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-        <tooltip>
-            <Tooltip text="Delete last row"/>
-        </tooltip>
-    </Button>
-    <Button fx:id="addColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            HBox.hgrow="ALWAYS">
-        <graphic>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@sc_insertcolumnsafter.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-        <tooltip>
-            <Tooltip text="Add column on the right"/>
-        </tooltip>
-    </Button>
-    <Button fx:id="deleteColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            HBox.hgrow="ALWAYS">
-        <graphic>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@sc_deletecolumns.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-        <tooltip>
-            <Tooltip text="Delete column on the right"/>
-        </tooltip>
-    </Button>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="ToolBar" xmlns="http://javafx.com/javafx/17">
+    <items>
+        <Button fx:id="addRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Add row">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@lc_insertrowsafter.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Add row on the bottom"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="deleteRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Delete row">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@lc_deleterows.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Delete row on the bottom"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="addColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Add column">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@lc_insertcolumnsafter.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Add column on the right"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="deleteColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Delete column">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@lc_deletecolumns.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Delete column on the right"/>
+            </tooltip>
+        </Button>
+    </items>
 </fx:root>
