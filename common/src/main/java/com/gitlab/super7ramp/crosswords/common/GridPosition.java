@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.spi.solver;
+package com.gitlab.super7ramp.crosswords.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Coordinates on the grid.
  */
+// TODO remove textual representation
 public record GridPosition(int x, int y) {
 
     /** Textual representation. */

@@ -1,0 +1,7 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
+}
+
+dependencies {
+    // This module contains based types used by other modules; It shall not pull any dependency.
+}

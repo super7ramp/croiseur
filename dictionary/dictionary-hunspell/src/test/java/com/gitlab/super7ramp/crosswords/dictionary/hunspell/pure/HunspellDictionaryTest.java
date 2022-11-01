@@ -26,7 +26,7 @@ final class HunspellDictionaryTest {
     void localeFr() {
         final URL dicFile = HunspellDictionaryTest.class.getResource("/fr.dic");
 
-        final Locale actual = new HunspellDictionary(dicFile).locale();
+        final Locale actual = new HunspellDictionary(dicFile).description().locale();
 
         assertEquals(Locale.FRENCH, actual);
     }

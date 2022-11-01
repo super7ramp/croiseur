@@ -17,7 +17,7 @@ final class InternalDictionaryServiceTest {
         final InternalDictionaryService dictionaryService =
                 new InternalDictionaryService(serialized);
 
-        assertEquals(Locale.FRENCH, dictionaryService.locale());
+        assertEquals(Locale.FRENCH, dictionaryService.description().locale());
         assertEquals(482_297, dictionaryService.lookup(e -> true).size());
     }
 
@@ -28,7 +28,7 @@ final class InternalDictionaryServiceTest {
         final InternalDictionaryService dictionaryService =
                 new InternalDictionaryService(serialized);
 
-        assertEquals(Locale.FRENCH, dictionaryService.locale());
+        assertEquals(Locale.FRENCH, dictionaryService.description().locale());
         final Set<String> words = dictionaryService.lookup(w -> w.endsWith("LATERE"));
         System.out.println(words);
     }

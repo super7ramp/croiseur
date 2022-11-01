@@ -2,12 +2,12 @@ package com.gitlab.super7ramp.crosswords.impl.solve;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
+import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
-import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;

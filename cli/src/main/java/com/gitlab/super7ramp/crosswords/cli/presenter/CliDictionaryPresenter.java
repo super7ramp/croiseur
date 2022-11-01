@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
-import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.crosswords.spi.presenter.DictionaryPresenter;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,13 +57,13 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaryEntries(final Dictionary dictionary) {
+    public void presentDictionaryEntries(final List<String> entries) {
         /*
          * As output may be very large, it is likely the output is going to be piped (grep,
          * head, ...). Checking error status on System.out allows detecting broken pipe and
          * fast exit.
          */
-        final Iterator<String> wordIterator = dictionary.lookup(word -> true).iterator();
+        final Iterator<String> wordIterator = entries.iterator();
         while (wordIterator.hasNext() && !System.out.checkError()) {
             System.out.println(wordIterator.next());
         }

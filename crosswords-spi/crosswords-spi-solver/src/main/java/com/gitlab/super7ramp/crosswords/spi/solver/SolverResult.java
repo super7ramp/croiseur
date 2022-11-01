@@ -1,5 +1,7 @@
 package com.gitlab.super7ramp.crosswords.spi.solver;
 
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
+
 import java.util.Map;
 
 /**

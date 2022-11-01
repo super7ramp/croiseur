@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.spi.solver;
+package com.gitlab.super7ramp.crosswords.common;
 
 import java.util.HashMap;
 import java.util.HashSet;

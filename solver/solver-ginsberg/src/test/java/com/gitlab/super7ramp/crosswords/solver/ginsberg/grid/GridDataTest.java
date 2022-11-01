@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg.grid;
 
-import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

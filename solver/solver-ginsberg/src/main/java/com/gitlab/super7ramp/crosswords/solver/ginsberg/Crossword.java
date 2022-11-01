@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
+import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.dictionary.CachedDictionaryWriter;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.elimination.EliminationSpaceWriter;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.grid.Grid;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.history.HistoryWriter;
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Collection;
 

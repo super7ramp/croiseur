@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.spi.presenter;
+package com.gitlab.super7ramp.crosswords.spi.presenter.solver;
 
 /** The solver initialisation state. */
 public enum SolverInitialisationState {

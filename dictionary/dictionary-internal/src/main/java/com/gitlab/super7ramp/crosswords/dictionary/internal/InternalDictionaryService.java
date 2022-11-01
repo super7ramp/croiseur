@@ -1,12 +1,12 @@
 package com.gitlab.super7ramp.crosswords.dictionary.internal;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -46,8 +46,8 @@ public final class InternalDictionaryService implements Dictionary {
     }
 
     @Override
-    public Locale locale() {
-        return data.locale();
+    public DictionaryDescription description() {
+        return new DictionaryDescription(name, data.locale());
     }
 
     @Override
@@ -55,8 +55,4 @@ public final class InternalDictionaryService implements Dictionary {
         return data.entries().stream();
     }
 
-    @Override
-    public String name() {
-        return name;
-    }
 }

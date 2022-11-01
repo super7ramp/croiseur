@@ -1,14 +1,15 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,8 +41,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentProgress(final short completionPercentage) {
-        crosswordPresenter.presentProgress(completionPercentage);
+    public void presentProgress(final SolverProgress solverProgress) {
+        crosswordPresenter.presentProgress(solverProgress);
     }
 
     @Override
@@ -66,8 +67,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaryEntries(final Dictionary dictionary) {
-        dictionaryPresenter.presentDictionaryEntries(dictionary);
+    public void presentDictionaryEntries(final List<String> entries) {
+        dictionaryPresenter.presentDictionaryEntries(entries);
     }
 
     @Override

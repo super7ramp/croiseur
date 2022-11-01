@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.impl.common;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 
@@ -42,17 +43,12 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
         }
 
         @Override
-        public String name() {
-            return actual.name();
-        }
-
-        @Override
-        public String description() {
+        public DictionaryProviderDescription description() {
             return actual.description();
         }
 
         @Override
-        public Collection<Dictionary> get(URL... dictionaryPaths) {
+        public Collection<Dictionary> get(final URL... dictionaryPaths) {
             return filteredDictionaries;
         }
     }
@@ -83,7 +79,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * given name
      */
     public static DictionarySelection byName(final String desiredDictionaryName) {
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.name()
+        return new DictionarySelection(satisfied(), dictionary -> dictionary.description().name()
                                                                             .equals(desiredDictionaryName));
     }
 
@@ -107,7 +103,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * the given locale
      */
     public static DictionarySelection byLocale(final Locale desiredDictionaryLocale) {
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.locale()
+        return new DictionarySelection(satisfied(), dictionary -> dictionary.description().locale()
                                                                             .equals(desiredDictionaryLocale));
     }
 
@@ -157,7 +153,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * matches the given provider name
      */
     public static DictionarySelection byProvider(final String desiredProviderName) {
-        return new DictionarySelection(provider -> provider.name()
+        return new DictionarySelection(provider -> provider.description().name()
                                                            .equals(desiredProviderName),
                 satisfied());
     }

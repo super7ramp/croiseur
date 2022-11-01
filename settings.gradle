@@ -3,6 +3,9 @@ rootProject.name = 'crosswords'
 // CLI frontend
 include 'cli'
 
+// The common types used as building blocks by all other modules
+include 'common'
+
 // The application core library
 include 'crosswords'
 

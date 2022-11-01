@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.HunspellDictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
@@ -32,13 +33,8 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public String name() {
-        return "hunspell";
-    }
-
-    @Override
-    public String description() {
-        return "Hunspell dictionary backend";
+    public DictionaryProviderDescription description() {
+        return new DictionaryProviderDescription("hunspell", "Hunspell dictionary backend");
     }
 
     @Override

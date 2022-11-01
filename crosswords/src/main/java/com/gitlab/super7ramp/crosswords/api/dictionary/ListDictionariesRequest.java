@@ -9,6 +9,28 @@ import java.util.Optional;
 public interface ListDictionariesRequest {
 
     /**
+     * Creates a new {@link ListDictionaryEntriesRequest}.
+     *
+     * @param locale   the locale to filter dictionaries with or @{code null} if no filter desired
+     * @param provider the provider name to filter dictionaries with or {@code null} if no filter
+     *                 desired
+     * @return a new {@link ListDictionaryEntriesRequest}
+     */
+    static ListDictionariesRequest of(Locale locale, String provider) {
+        return new ListDictionariesRequest() {
+            @Override
+            public Optional<Locale> locale() {
+                return Optional.ofNullable(locale);
+            }
+
+            @Override
+            public Optional<String> provider() {
+                return Optional.ofNullable(provider);
+            }
+        };
+    }
+
+    /**
      * If present, only shows dictionaries for this locale.
      *
      * @return an optional locale

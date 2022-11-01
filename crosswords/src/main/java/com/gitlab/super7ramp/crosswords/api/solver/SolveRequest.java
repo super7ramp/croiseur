@@ -1,8 +1,8 @@
 package com.gitlab.super7ramp.crosswords.api.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
-import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ public interface SolveRequest {
     /** Defines how progress should be notified to application for presentation. */
     // TODO expand possibilities of notification, e.g. allows to define a certain timeout; will
     //  impact solver SPI
-    enum SolverProgressNotificationKind {
+    enum SolverProgressNotificationMethod {
         /** Progress is never notified for presentation. */
         NONE,
         /** Progress is periodically notified to presentation. */
@@ -41,8 +41,8 @@ public interface SolveRequest {
      * Defines how progress should be notified for presentation.
      *
      * @return the definition of how progress should be notified for presentation
-     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#presentProgress(short)
-     * @see com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter#presentSolverInitialisationState(SolverInitialisationState)
+     * @see SolverPresenter#presentProgress
+     * @see SolverPresenter#presentSolverInitialisationState
      */
-    SolverProgressNotificationKind progress();
+    SolverProgressNotificationMethod progress();
 }

@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.external;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.external.wordforms.WordFormGenerator;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
@@ -38,10 +39,10 @@ public final class HunspellDictionary implements Dictionary {
         dicURL = Objects.requireNonNull(aDicURL);
     }
 
+
     @Override
-    public Locale locale() {
-        final String languageTag = languageTag();
-        return Locale.forLanguageTag(languageTag);
+    public DictionaryDescription description() {
+        return new DictionaryDescription(name(), locale());
     }
 
     @Override
@@ -49,14 +50,18 @@ public final class HunspellDictionary implements Dictionary {
         return WordFormGenerator.of(affPath(), dicPath()).generate();
     }
 
-    @Override
-    public String name() {
+    private String name() {
         return new SegmentableUrl(dicURL).lastPathSegment();
     }
 
     private String languageTag() {
         final String dicFileName = new SegmentableUrl(dicURL).lastPathSegment();
         return dicFileName.replace(DIC_EXTENSION, "").replace("_", "-");
+    }
+
+    private Locale locale() {
+        final String languageTag = languageTag();
+        return Locale.forLanguageTag(languageTag);
     }
 
     private Path dicPath() {

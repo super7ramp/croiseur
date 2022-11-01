@@ -2,12 +2,12 @@ package com.gitlab.super7ramp.crosswords.gui.controller.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
+import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
-import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
-import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -87,8 +87,8 @@ final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public SolverProgressNotificationKind progress() {
-        return SolverProgressNotificationKind.PERIODICAL;
+    public SolverProgressNotificationMethod progress() {
+        return SolverProgressNotificationMethod.PERIODICAL;
     }
 }
 

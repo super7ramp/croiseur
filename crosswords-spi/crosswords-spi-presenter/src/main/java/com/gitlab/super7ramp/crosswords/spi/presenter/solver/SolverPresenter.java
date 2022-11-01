@@ -1,10 +1,11 @@
-package com.gitlab.super7ramp.crosswords.spi.presenter;
+package com.gitlab.super7ramp.crosswords.spi.presenter.solver;
 
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 /**
  * Solver-related presentation services.
  */
+// TODO create specific types so that Presenter SPI does not depend on Solver SPIs?
 public interface SolverPresenter {
 
     /**
@@ -19,8 +20,7 @@ public interface SolverPresenter {
      *
      * @param completionPercentage the completion percentage of the solving
      */
-    // TODO add intermediate solver result
-    void presentProgress(final short completionPercentage);
+    void presentProgress(final SolverProgress progress);
 
     /**
      * Presents the result of a crossword solving request.

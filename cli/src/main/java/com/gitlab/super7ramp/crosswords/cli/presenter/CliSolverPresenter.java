@@ -1,7 +1,8 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 /**
@@ -32,7 +33,8 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentProgress(final short completionPercentage) {
+    public void presentProgress(final SolverProgress solverProgress) {
+        final short completionPercentage = solverProgress.completionPercentage();
         if (completionPercentage > bestCompletionPercentage) {
             bestCompletionPercentage = completionPercentage;
         }

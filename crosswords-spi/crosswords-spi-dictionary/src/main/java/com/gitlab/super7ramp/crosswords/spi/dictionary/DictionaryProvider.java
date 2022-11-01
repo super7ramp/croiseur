@@ -1,5 +1,7 @@
 package com.gitlab.super7ramp.crosswords.spi.dictionary;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+
 import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,7 +10,14 @@ import java.util.Optional;
 /**
  * {@link Dictionary} provider.
  */
-public interface DictionaryProvider extends DictionaryProviderDescription {
+public interface DictionaryProvider {
+
+    /**
+     * Returns a description of this dictionary provider.
+     *
+     * @return a description of this dictionary provider
+     */
+    DictionaryProviderDescription description();
 
     /**
      * Retrieves the available dictionaries.

@@ -1,10 +1,10 @@
-package com.gitlab.super7ramp.crosswords.spi.presenter;
+package com.gitlab.super7ramp.crosswords.spi.presenter.dictionary;
 
-import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,11 +33,13 @@ public interface DictionaryPresenter {
             extends DictionaryDescription>> dictionaries);
 
     /**
-     * Presents the entries of the given dictionary.
+     * Presents the entries of a dictionary.
+     * <p>
+     * Entries are sorted alphabetically.
      *
-     * @param dictionary the dictionary
+     * @param entries the dictionary entries
      */
-    void presentDictionaryEntries(final Dictionary dictionary);
+    void presentDictionaryEntries(final List<String> entries);
 
     /**
      * Presents the preferred dictionary.

@@ -2,8 +2,8 @@ package com.gitlab.super7ramp.crosswords.cli.controller.dictionary;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.adapted.ListDictionariesRequestImpl;
-import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.adapted.ListDictionaryEntriesRequestImpl;
+import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
+import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -37,13 +37,15 @@ public final class DictionaryCommand {
 
     @Command(name = "cat", description = "Display dictionary entries")
     void cat(@Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId) {
-        dictionaryUsecase.listEntries(new ListDictionaryEntriesRequestImpl(dictionaryId));
+        final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
+        dictionaryUsecase.listEntries(request);
     }
 
     @Command(name = "list", description = "List available dictionaries")
     void list(@Option(names = {"-p", "--provider"}) final String provider, @Option(names = {"-l",
             "--locale"}) final Locale locale) {
-        dictionaryUsecase.listDictionaries(new ListDictionariesRequestImpl(locale, provider));
+        final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
+        dictionaryUsecase.listDictionaries(request);
     }
 
 }

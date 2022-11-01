@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed;
 
-import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

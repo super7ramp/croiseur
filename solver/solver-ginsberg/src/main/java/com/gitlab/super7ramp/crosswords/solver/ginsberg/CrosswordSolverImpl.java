@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
+import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.sap.Backtracker;
@@ -13,7 +14,6 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.StatisticsRecor
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
-import com.gitlab.super7ramp.crosswords.spi.solver.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;

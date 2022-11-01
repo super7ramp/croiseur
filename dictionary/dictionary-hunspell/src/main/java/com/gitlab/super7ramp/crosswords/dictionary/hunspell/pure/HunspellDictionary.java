@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.dictionary.common.Filters;
 import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.crosswords.dictionary.common.Transformers;
@@ -63,10 +64,10 @@ public final class HunspellDictionary implements Dictionary {
         return new BufferedReader(new InputStreamReader(url.openStream())).lines();
     }
 
+
     @Override
-    public Locale locale() {
-        final String languageTag = languageTag();
-        return Locale.forLanguageTag(languageTag);
+    public DictionaryDescription description() {
+        return new DictionaryDescription(name(), locale());
     }
 
     @Override
@@ -74,8 +75,12 @@ public final class HunspellDictionary implements Dictionary {
         return readEntries();
     }
 
-    @Override
-    public String name() {
+    private Locale locale() {
+        final String languageTag = languageTag();
+        return Locale.forLanguageTag(languageTag);
+    }
+
+    private String name() {
         return new SegmentableUrl(dicURL).lastPathSegment();
     }
 

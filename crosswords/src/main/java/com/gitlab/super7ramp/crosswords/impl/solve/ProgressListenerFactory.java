@@ -1,8 +1,9 @@
 package com.gitlab.super7ramp.crosswords.impl.solve;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 
 import java.util.EnumMap;
@@ -42,13 +43,13 @@ final class ProgressListenerFactory {
 
         @Override
         public void onSolverProgressUpdate(final short completionPercentage) {
-            presenter.presentProgress(completionPercentage);
+            presenter.presentProgress(new SolverProgress(completionPercentage));
         }
 
     }
 
     /** Listeners. */
-    private final Map<SolveRequest.SolverProgressNotificationKind, ProgressListener> listeners;
+    private final Map<SolveRequest.SolverProgressNotificationMethod, ProgressListener> listeners;
 
     /**
      * Constructs an instance.
@@ -57,10 +58,10 @@ final class ProgressListenerFactory {
      */
     ProgressListenerFactory(final SolverPresenter solverPresenterArg) {
         listeners =
-                new EnumMap<>(SolveRequest.SolverProgressNotificationKind.class);
-        listeners.put(SolveRequest.SolverProgressNotificationKind.NONE,
+                new EnumMap<>(SolveRequest.SolverProgressNotificationMethod.class);
+        listeners.put(SolveRequest.SolverProgressNotificationMethod.NONE,
                 ProgressListener.DUMMY_LISTENER);
-        listeners.put(SolveRequest.SolverProgressNotificationKind.PERIODICAL,
+        listeners.put(SolveRequest.SolverProgressNotificationMethod.PERIODICAL,
                 new ProgressListenerImpl(solverPresenterArg));
     }
 
@@ -70,7 +71,7 @@ final class ProgressListenerFactory {
      * @param kind the desired notification kind
      * @return a {@link ProgressListener} from given notification kind
      */
-    ProgressListener from(final SolveRequest.SolverProgressNotificationKind kind) {
+    ProgressListener from(final SolveRequest.SolverProgressNotificationMethod kind) {
         return listeners.get(kind);
     }
 

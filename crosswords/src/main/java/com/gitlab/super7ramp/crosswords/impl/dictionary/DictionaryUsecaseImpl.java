@@ -3,18 +3,17 @@ package com.gitlab.super7ramp.crosswords.impl.dictionary;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
-import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -52,7 +51,9 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
         if (dictionaryProviders.isEmpty()) {
             presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            presenter.presentDictionaryProviders(Collections.unmodifiableCollection(dictionaryProviders));
+            presenter.presentDictionaryProviders(dictionaryProviders.stream()
+                                                                    .map(DictionaryProvider::description)
+                                                                    .toList());
         }
     }
 
@@ -70,7 +71,11 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
 
             final Map<DictionaryProviderDescription, Collection<? extends DictionaryDescription>> dictionaries =
                     dictionaryProviders.stream()
-                                       .collect(toMap(identity(), provider -> provider.get()));
+                                       .collect(toMap(DictionaryProvider::description,
+                                               provider -> provider.get()
+                                                                   .stream()
+                                                                   .map(Dictionary::description)
+                                                                   .toList()));
 
             presenter.presentDictionaries(dictionaries);
         }
@@ -92,7 +97,9 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
                     filteredDictionaryProviders.iterator().next();
 
             filteredDictionaryProvider.getFirst()
-                                      .ifPresentOrElse(presenter::presentDictionaryEntries,
+                                      .ifPresentOrElse(dictionary -> presenter.presentDictionaryEntries(dictionary.stream()
+                                                                                                                  .sorted()
+                                                                                                                  .toList()),
                                               () -> presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE));
         }
     }

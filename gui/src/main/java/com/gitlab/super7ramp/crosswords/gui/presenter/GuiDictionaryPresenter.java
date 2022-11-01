@@ -1,13 +1,13 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.DictionaryListViewEntry;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.crosswords.spi.presenter.DictionaryPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 final class GuiDictionaryPresenter implements DictionaryPresenter {
@@ -46,9 +46,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaryEntries(final Dictionary dictionary) {
-        dictionaryViewModel.dictionaryEntries()
-                           .setAll(dictionary.stream().sorted().toList());
+    public void presentDictionaryEntries(final List<String> entries) {
+        dictionaryViewModel.dictionaryEntries().setAll(entries);
     }
 
     @Override

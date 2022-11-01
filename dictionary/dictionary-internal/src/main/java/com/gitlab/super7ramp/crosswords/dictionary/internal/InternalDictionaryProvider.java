@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.dictionary.internal;
 
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 
@@ -46,13 +47,8 @@ public final class InternalDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public String name() {
-        return "internal";
-    }
-
-    @Override
-    public String description() {
-        return "Internal binary dictionary backend";
+    public DictionaryProviderDescription description() {
+        return new DictionaryProviderDescription("internal", "Internal binary dictionary backend");
     }
 
     @Override

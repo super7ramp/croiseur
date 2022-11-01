@@ -1,11 +1,12 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverInitialisationState;
-import com.gitlab.super7ramp.crosswords.spi.presenter.SolverPresenter;
-import com.gitlab.super7ramp.crosswords.spi.solver.GridPosition;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import javafx.beans.property.MapProperty;
 
@@ -47,9 +48,9 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentProgress(short completionPercentage) {
+    public void presentProgress(final SolverProgress solverProgress) {
         // TODO really implement
-        LOGGER.info(() -> "Completion: " + completionPercentage + " %");
+        LOGGER.info(() -> "Completion: " + solverProgress.completionPercentage() + " %");
     }
 
     @Override
