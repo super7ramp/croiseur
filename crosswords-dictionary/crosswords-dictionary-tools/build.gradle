@@ -1,0 +1,8 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-conventions'
+}
+
+dependencies {
+    implementation project(':crosswords-dictionary:crosswords-dictionary-hunspell')
+    implementation project(':crosswords-dictionary:crosswords-dictionary-internal')
+}

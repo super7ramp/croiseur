@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     api project(':crosswords-spi:crosswords-spi-dictionary')
-    implementation project(':dictionary:dictionary-common')
+    implementation project(':crosswords-dictionary:crosswords-dictionary-common')
 }

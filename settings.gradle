@@ -1,13 +1,10 @@
 rootProject.name = 'crosswords'
 
-// CLI frontend
-include 'cli'
-
-// The common types used as building blocks by all other modules
-include 'common'
-
 // The application core library
 include 'crosswords'
+
+// The common types used as building blocks by all other modules
+include 'crosswords-common'
 
 // The application core library plugin definitions
 include 'crosswords-spi:crosswords-spi-dictionary'
@@ -15,18 +12,21 @@ include 'crosswords-spi:crosswords-spi-solver'
 include 'crosswords-spi:crosswords-spi-presenter'
 
 // Dictionary plugin implementations/tools/data
-include 'dictionary:dictionary-common'
-include 'dictionary:dictionary-hunspell'
-include 'dictionary:dictionary-internal'
-include 'dictionary:dictionary-tools'
-include 'dictionary:dictionary-data'
-
-// GUI frontend
-include 'gui'
-include 'gui-controls'
+include 'crosswords-dictionary:crosswords-dictionary-common'
+include 'crosswords-dictionary:crosswords-dictionary-hunspell'
+include 'crosswords-dictionary:crosswords-dictionary-internal'
+include 'crosswords-dictionary:crosswords-dictionary-tools'
+include 'crosswords-dictionary:crosswords-dictionary-data'
 
 // Solver plugin implementations
-include 'solver:solver-ginsberg'
+include 'crosswords-solver:crosswords-solver-ginsberg'
+
+// CLI frontend
+include 'crosswords-cli'
+
+// GUI frontend
+include 'crosswords-gui:crosswords-gui'
+include 'crosswords-gui:crosswords-gui-control'
 
 // Dependency versions
 dependencyResolutionManagement {
