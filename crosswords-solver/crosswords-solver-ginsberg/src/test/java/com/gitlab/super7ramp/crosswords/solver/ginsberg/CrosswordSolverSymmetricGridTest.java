@@ -1,8 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -41,7 +39,7 @@ final class CrosswordSolverSymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |#|#|C|I|L|
@@ -70,7 +68,7 @@ final class CrosswordSolverSymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |#|#|#|R|A|M|#|#|#|
@@ -107,7 +105,7 @@ final class CrosswordSolverSymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |T|A|R|A|#|C|I|A|#|M|A|E|L|
@@ -148,7 +146,7 @@ final class CrosswordSolverSymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |S|A|I|D|#|V|I|S|#|P|A|C|K|
@@ -192,7 +190,7 @@ final class CrosswordSolverSymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |M|I|R|E|#|F|I|L|E|T|#|B|A|A|L|

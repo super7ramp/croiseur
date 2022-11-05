@@ -1,7 +1,5 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

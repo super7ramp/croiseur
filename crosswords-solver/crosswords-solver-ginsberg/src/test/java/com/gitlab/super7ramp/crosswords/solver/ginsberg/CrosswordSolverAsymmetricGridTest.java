@@ -1,8 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +32,7 @@ public class CrosswordSolverAsymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |S|A|G|A|#|T|
@@ -61,7 +59,7 @@ public class CrosswordSolverAsymmetricGridTest {
                 """);
         final Dictionary dictionary = createDictionary();
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 | | | | | | | | | | | | |

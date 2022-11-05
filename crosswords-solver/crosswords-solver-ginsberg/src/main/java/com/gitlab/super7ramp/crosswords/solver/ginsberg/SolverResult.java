@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.spi.solver;
+package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 
@@ -12,7 +12,6 @@ public interface SolverResult {
     /**
      * Solver statistics.
      */
-    // TODO assess whether these statistics are generic enough
     interface Statistics {
 
         /**

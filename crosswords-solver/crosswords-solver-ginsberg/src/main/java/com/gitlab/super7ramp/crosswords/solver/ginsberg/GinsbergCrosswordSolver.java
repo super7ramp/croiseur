@@ -11,19 +11,18 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.instantiation
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.iteration.SlotIteratorImpl;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.ProgressNotifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.StatisticsRecorder;
-import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
-import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
 
-public final class CrosswordSolverImpl implements CrosswordSolver {
+/**
+ * A crosswords solver.
+ */
+public final class GinsbergCrosswordSolver {
 
     /**
      * Constructor.
      */
-    public CrosswordSolverImpl() {
+    public GinsbergCrosswordSolver() {
         // Nothing to do.
     }
 
@@ -73,7 +72,15 @@ public final class CrosswordSolverImpl implements CrosswordSolver {
         return Solver.create(crosswordUpdater, slotChooser, candidateChooser, backtracker);
     }
 
-    @Override
+    /**
+     * Solve the given puzzle, using the given dictionary.
+     *
+     * @param puzzleDefinition   the puzzle to solve
+     * @param externalDictionary the dictionary to use
+     * @param progressListener   the progress listener
+     * @return the result
+     * @throws InterruptedException if interrupted while solving
+     */
     public SolverResult solve(final PuzzleDefinition puzzleDefinition,
                               final Dictionary externalDictionary,
                               final ProgressListener progressListener) throws InterruptedException {
@@ -87,6 +94,18 @@ public final class CrosswordSolverImpl implements CrosswordSolver {
         progressListener.onInitialisationEnd();
 
         return result(crossword.grid(), stats, solver.solve());
+    }
+
+    /**
+     * Solve the given puzzle, using the given dictionary.
+     *
+     * @param puzzle     the puzzle to solve
+     * @param dictionary the dictionary to use
+     * @return the result
+     * @throws InterruptedException if interrupted while solving
+     */
+    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary) throws InterruptedException {
+        return solve(puzzle, dictionary, ProgressListener.DUMMY_LISTENER);
     }
 
 }

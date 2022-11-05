@@ -8,6 +8,6 @@ plugins {
 }
 
 application {
-    mainModule = "${project.group}.${project.name}"
-    mainClass = "${project.group}.${project.name}.Main"
+    mainModule = "${project.group}.${project.name}".replace('-', '.')
+    mainClass = "${project.group}.${project.name}.Main".replace('-', '.')
 }

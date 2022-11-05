@@ -1,8 +1,6 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
 
 final class CrosswordSolverPrefilledGridTest {
@@ -16,7 +14,7 @@ final class CrosswordSolverPrefilledGridTest {
                 """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |A|A|A|
@@ -34,7 +32,7 @@ final class CrosswordSolverPrefilledGridTest {
                 """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertImpossible("""
                 |X| | |
@@ -52,7 +50,7 @@ final class CrosswordSolverPrefilledGridTest {
                 """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |A|A|A|

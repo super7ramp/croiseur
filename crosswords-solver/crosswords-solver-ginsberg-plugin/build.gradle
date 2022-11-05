@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    api project(':crosswords-common')
+    api project(':crosswords-spi:crosswords-spi-solver')
+    implementation project(':crosswords-solver:crosswords-solver-ginsberg')
 }
 
 // Additional mock directory for tests

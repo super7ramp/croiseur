@@ -1,3 +1,3 @@
-## gui-controls
+## crosswords-gui-control
 
-`gui-controls` provides a collection of JavaFX graphical components related to crosswords.
+`crosswords-gui-control` provides a collection of JavaFX graphical components related to crosswords.

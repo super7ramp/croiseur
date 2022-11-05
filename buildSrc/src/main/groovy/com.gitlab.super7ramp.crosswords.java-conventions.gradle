@@ -7,7 +7,7 @@ plugins {
     id 'com.gitlab.super7ramp.crosswords.java-conventions'
 }
 
-group = 'com.gitlab.super7ramp.crosswords'
+group = 'com.gitlab.super7ramp'
 
 repositories {
     mavenCentral()

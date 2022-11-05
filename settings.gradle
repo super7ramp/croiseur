@@ -11,15 +11,16 @@ include 'crosswords-spi:crosswords-spi-dictionary'
 include 'crosswords-spi:crosswords-spi-solver'
 include 'crosswords-spi:crosswords-spi-presenter'
 
-// Dictionary plugin implementations/tools/data
+// Dictionary libraries/plugins/data/tools
 include 'crosswords-dictionary:crosswords-dictionary-common'
 include 'crosswords-dictionary:crosswords-dictionary-hunspell'
 include 'crosswords-dictionary:crosswords-dictionary-internal'
 include 'crosswords-dictionary:crosswords-dictionary-tools'
 include 'crosswords-dictionary:crosswords-dictionary-data'
 
-// Solver plugin implementations
+// Solvers libraries/plugins
 include 'crosswords-solver:crosswords-solver-ginsberg'
+include 'crosswords-solver:crosswords-solver-ginsberg-plugin'
 
 // CLI frontend
 include 'crosswords-cli'

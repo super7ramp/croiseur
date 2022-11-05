@@ -1,13 +1,11 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
-import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link CrosswordSolverImpl}.
+ * Tests for {@link GinsbergCrosswordSolver}.
  * <p>
  * These tests verify basic search and termination of the solver. Grids are very simple:
  * <ul>
@@ -29,7 +27,7 @@ final class CrosswordSolverBasicsTest {
                 """);
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |A|B|C|
@@ -49,7 +47,7 @@ final class CrosswordSolverBasicsTest {
         final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD",
                 "ABCE", "ABCF");
 
-        final SolverResult result = new CrosswordSolverImpl().solve(puzzle, dictionary);
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
                 |A|A|A|

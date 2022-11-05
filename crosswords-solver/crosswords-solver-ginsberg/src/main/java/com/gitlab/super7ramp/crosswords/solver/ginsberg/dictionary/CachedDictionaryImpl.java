@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg.dictionary;
 
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.elimination.EliminationSpace;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 
 import java.util.ArrayList;
 import java.util.Collection;

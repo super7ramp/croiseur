@@ -5,7 +5,7 @@ import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 /**
  * Solver-related presentation services.
  */
-// TODO create specific types so that Presenter SPI does not depend on Solver SPIs?
+// TODO create specific types so that Presenter SPI does not depend on Solver SPIs
 public interface SolverPresenter {
 
     /**

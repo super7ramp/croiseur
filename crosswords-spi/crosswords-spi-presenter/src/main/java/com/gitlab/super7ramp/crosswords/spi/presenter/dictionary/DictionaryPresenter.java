@@ -10,7 +10,6 @@ import java.util.Map;
 /**
  * Dictionary-related presentation services.
  */
-// TODO create specific types so that Presenter SPI does not depend on Dictionary SPI?
 public interface DictionaryPresenter {
 
     /**

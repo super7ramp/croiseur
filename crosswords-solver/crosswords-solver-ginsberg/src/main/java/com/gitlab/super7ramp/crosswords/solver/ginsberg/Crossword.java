@@ -6,7 +6,6 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.dictionary.CachedDiction
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.elimination.EliminationSpaceWriter;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.grid.Grid;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.history.HistoryWriter;
-import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 
 import java.util.Collection;
 
