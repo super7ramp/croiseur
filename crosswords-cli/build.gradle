@@ -4,10 +4,8 @@ plugins {
 
 dependencies {
     implementation project(':crosswords')
-
-    // Module implementations are loaded at run-time
-    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-hunspell')
-    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-internal')
+    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-hunspell-plugin')
+    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-internal-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')
 }
 

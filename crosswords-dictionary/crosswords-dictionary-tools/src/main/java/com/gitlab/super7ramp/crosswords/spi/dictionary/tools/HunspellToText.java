@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.spi.dictionary.tools;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.pure.HunspellDictionary;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.plugin.pure.HunspellDictionary;
 
 import java.io.FileWriter;
 import java.io.IOException;

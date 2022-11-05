@@ -13,10 +13,10 @@ include 'crosswords-spi:crosswords-spi-presenter'
 
 // Dictionary libraries/plugins/data/tools
 include 'crosswords-dictionary:crosswords-dictionary-common'
-include 'crosswords-dictionary:crosswords-dictionary-hunspell'
-include 'crosswords-dictionary:crosswords-dictionary-internal'
-include 'crosswords-dictionary:crosswords-dictionary-tools'
+include 'crosswords-dictionary:crosswords-dictionary-hunspell-plugin'
+include 'crosswords-dictionary:crosswords-dictionary-internal-plugin'
 include 'crosswords-dictionary:crosswords-dictionary-data'
+include 'crosswords-dictionary:crosswords-dictionary-tools'
 
 // Solvers libraries/plugins
 include 'crosswords-solver:crosswords-solver-ginsberg'

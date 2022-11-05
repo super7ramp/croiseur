@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.spi.dictionary.tools;
 
-import com.gitlab.super7ramp.crosswords.dictionary.internal.InternalDictionary;
+import com.gitlab.super7ramp.crosswords.dictionary.internal.plugin.InternalDictionary;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
