@@ -4,8 +4,8 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.control.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.control.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 

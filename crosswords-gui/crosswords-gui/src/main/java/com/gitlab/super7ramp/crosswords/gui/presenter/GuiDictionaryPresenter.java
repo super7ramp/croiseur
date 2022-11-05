@@ -2,7 +2,7 @@ package com.gitlab.super7ramp.crosswords.gui.presenter;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.crosswords.gui.controls.model.DictionaryListViewEntry;
+import com.gitlab.super7ramp.crosswords.gui.control.model.DictionaryListViewEntry;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPresenter;
 

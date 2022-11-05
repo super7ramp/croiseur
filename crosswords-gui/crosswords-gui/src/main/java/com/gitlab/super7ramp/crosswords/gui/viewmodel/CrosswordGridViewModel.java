@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.viewmodel;
 
-import com.gitlab.super7ramp.crosswords.gui.controls.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.controls.model.IntCoordinate2D;
+import com.gitlab.super7ramp.crosswords.gui.control.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.control.model.IntCoordinate2D;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;

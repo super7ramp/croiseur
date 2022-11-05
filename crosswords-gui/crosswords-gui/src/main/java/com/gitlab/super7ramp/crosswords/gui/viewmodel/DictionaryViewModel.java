@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.viewmodel;
 
-import com.gitlab.super7ramp.crosswords.gui.controls.model.DictionaryListViewEntry;
+import com.gitlab.super7ramp.crosswords.gui.control.model.DictionaryListViewEntry;
 import javafx.beans.Observable;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;

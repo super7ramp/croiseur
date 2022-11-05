@@ -9,7 +9,7 @@ module com.gitlab.super7ramp.crosswords.gui {
     // JavaFX stuff
     requires javafx.controls;
     requires javafx.fxml;
-    requires com.gitlab.super7ramp.crosswords.gui.controls;
+    requires com.gitlab.super7ramp.crosswords.gui.control;
 
     exports com.gitlab.super7ramp.crosswords.gui to javafx.graphics;
     opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;

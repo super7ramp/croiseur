@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.gui.controls.model;
+package com.gitlab.super7ramp.crosswords.gui.control.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

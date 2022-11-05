@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.gui.controls;
+package com.gitlab.super7ramp.crosswords.gui.control;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;

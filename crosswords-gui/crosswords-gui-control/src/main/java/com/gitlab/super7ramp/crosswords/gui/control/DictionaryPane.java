@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.gui.controls;
+package com.gitlab.super7ramp.crosswords.gui.control;
 
-import com.gitlab.super7ramp.crosswords.gui.controls.model.DictionaryListViewEntry;
+import com.gitlab.super7ramp.crosswords.gui.control.model.DictionaryListViewEntry;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

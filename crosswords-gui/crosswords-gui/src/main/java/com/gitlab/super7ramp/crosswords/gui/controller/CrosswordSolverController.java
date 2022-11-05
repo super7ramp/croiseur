@@ -1,11 +1,11 @@
 package com.gitlab.super7ramp.crosswords.gui.controller;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
+import com.gitlab.super7ramp.crosswords.gui.control.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.control.CrosswordGridEditionToolbar;
+import com.gitlab.super7ramp.crosswords.gui.control.DictionaryPane;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
-import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGrid;
-import com.gitlab.super7ramp.crosswords.gui.controls.CrosswordGridEditionToolbar;
-import com.gitlab.super7ramp.crosswords.gui.controls.DictionaryPane;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
