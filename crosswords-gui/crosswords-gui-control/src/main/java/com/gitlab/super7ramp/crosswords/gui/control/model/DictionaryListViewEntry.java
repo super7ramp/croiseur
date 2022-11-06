@@ -36,7 +36,7 @@ public class DictionaryListViewEntry {
         selected = new SimpleBooleanProperty(this, "selected", false);
         locale = new SimpleStringProperty(this, "locale", localeArg.getDisplayName());
         provider = new SimpleStringProperty(this, "provider", providerArg);
-        name = new SimpleStringProperty(this, "name", providerArg);
+        name = new SimpleStringProperty(this, "name", nameArg);
     }
 
     /**
@@ -67,12 +67,30 @@ public class DictionaryListViewEntry {
     }
 
     /**
+     * Returns the dictionary provider property.
+     *
+     * @return the dictionary provider property
+     */
+    public StringProperty providerProperty() {
+        return provider;
+    }
+
+    /**
      * Returns the dictionary provider.
      *
      * @return the dictionary provider
      */
-    public StringProperty providerProperty() {
-        return provider;
+    public String getProvider() {
+        return provider.get();
+    }
+
+    /**
+     * Returns the dictionary name property.
+     *
+     * @return the dictionary name property
+     */
+    public StringProperty nameProperty() {
+        return name;
     }
 
     /**
@@ -80,7 +98,7 @@ public class DictionaryListViewEntry {
      *
      * @return the dictionary name
      */
-    public StringProperty nameProperty() {
-        return name;
+    public String getName() {
+        return name.get();
     }
 }

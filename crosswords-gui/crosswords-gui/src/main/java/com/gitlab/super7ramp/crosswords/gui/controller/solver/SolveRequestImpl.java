@@ -10,7 +10,6 @@ import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 import static java.util.Comparator.comparingInt;
@@ -61,9 +60,12 @@ final class SolveRequestImpl implements SolveRequest {
              });
 
         puzzle = pdb.build();
-
-        // TODO update when view model supports several selected dictionaries
-        dictionaries = Collections.emptyList();
+        dictionaries =
+                dictionaryViewModel.selectedDictionariesProperty()
+                                   .stream()
+                                   .map(entry -> new DictionaryIdentifier(entry.getProvider(),
+                                           entry.getName()))
+                                   .toList();
     }
 
     /**
