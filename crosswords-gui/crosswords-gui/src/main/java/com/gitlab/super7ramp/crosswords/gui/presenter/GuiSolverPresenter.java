@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.gui.presenter;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.control.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.control.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
@@ -31,16 +30,6 @@ final class GuiSolverPresenter implements SolverPresenter {
         crosswordGridViewModel = crosswordGridViewModelArg;
     }
 
-    /**
-     * Transforms a {@link GridPosition} to a {@link IntCoordinate2D}.
-     *
-     * @param domain the {@link GridPosition}
-     * @return the {@link IntCoordinate2D}
-     */
-    private static IntCoordinate2D domainToView(final GridPosition domain) {
-        return new IntCoordinate2D(domain.x(), domain.y());
-    }
-
     @Override
     public void presentSolverInitialisationState(SolverInitialisationState solverInitialisationState) {
         // TODO really implement
@@ -57,10 +46,10 @@ final class GuiSolverPresenter implements SolverPresenter {
     public void presentResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
         final Map<GridPosition, Character> resultBoxes = result.boxes();
-        final MapProperty<IntCoordinate2D, CrosswordBox> viewModelBoxes =
+        final MapProperty<GridPosition, CrosswordBox> viewModelBoxes =
                 crosswordGridViewModel.boxes();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
-            final IntCoordinate2D key = domainToView(entry.getKey());
+            final GridPosition key = entry.getKey();
             final CrosswordBox value = viewModelBoxes.computeIfAbsent(key, k -> new CrosswordBox());
             value.contentProperty().set(entry.getValue().toString());
         }

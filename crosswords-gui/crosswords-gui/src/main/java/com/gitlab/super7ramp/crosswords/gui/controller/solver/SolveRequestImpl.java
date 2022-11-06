@@ -5,7 +5,6 @@ import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.gui.control.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.control.model.IntCoordinate2D;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.viewmodel.DictionaryViewModel;
 
@@ -37,15 +36,15 @@ final class SolveRequestImpl implements SolveRequest {
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
 
-        final Map<IntCoordinate2D, CrosswordBox> boxes = crosswordGridViewModel.boxes();
-        for (final Map.Entry<IntCoordinate2D, CrosswordBox> box : boxes.entrySet()) {
-            final IntCoordinate2D position = box.getKey();
+        final Map<GridPosition, CrosswordBox> boxes = crosswordGridViewModel.boxes();
+        for (final Map.Entry<GridPosition, CrosswordBox> box : boxes.entrySet()) {
+            final GridPosition position = box.getKey();
             final CrosswordBox content = box.getValue();
             final boolean shaded = content.shadedProperty().get();
             if (shaded) {
-                pdb.shade(viewToDomain(position));
+                pdb.shade(position);
             } else if (!content.contentProperty().get().isEmpty()) {
-                pdb.fill(viewToDomain(position), content.contentProperty().get().charAt(0));
+                pdb.fill(position, content.contentProperty().get().charAt(0));
             } else {
                 // Empty, not needed by solver
             }
@@ -53,7 +52,7 @@ final class SolveRequestImpl implements SolveRequest {
 
         boxes.keySet()
              .stream()
-             .max(comparingInt(IntCoordinate2D::x).thenComparing(IntCoordinate2D::y))
+             .max(comparingInt(GridPosition::x).thenComparing(GridPosition::y))
              .ifPresent(maxCoordinate -> {
                  pdb.width(maxCoordinate.x() + 1);
                  pdb.height(maxCoordinate.y() + 1);
@@ -66,16 +65,6 @@ final class SolveRequestImpl implements SolveRequest {
                                    .map(entry -> new DictionaryIdentifier(entry.getProvider(),
                                            entry.getName()))
                                    .toList();
-    }
-
-    /**
-     * Converts a {@link IntCoordinate2D} to {@link GridPosition}.
-     *
-     * @param viewCoordinate the view type
-     * @return the domain type
-     */
-    private static GridPosition viewToDomain(final IntCoordinate2D viewCoordinate) {
-        return new GridPosition(viewCoordinate.x(), viewCoordinate.y());
     }
 
     @Override

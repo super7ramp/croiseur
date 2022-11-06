@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.control;
 
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.control.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.control.model.IntCoordinate2D;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
@@ -56,8 +56,8 @@ public final class CrosswordGrid extends StackPane {
             if (event.getCode().isArrowKey()) {
                 final int col = GridPane.getColumnIndex(focused);
                 final int row = GridPane.getRowIndex(focused);
-                final IntCoordinate2D currentCoordinate = new IntCoordinate2D(col, row);
-                final IntCoordinate2D nextCoordinate = switch (event.getCode()) {
+                final GridPosition currentCoordinate = new GridPosition(col, row);
+                final GridPosition nextCoordinate = switch (event.getCode()) {
                     case LEFT -> currentCoordinate.left();
                     case RIGHT -> currentCoordinate.right();
                     case UP -> currentCoordinate.up();
@@ -99,13 +99,13 @@ public final class CrosswordGrid extends StackPane {
      * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a
      * node from a position).
      */
-    private final MapProperty<IntCoordinate2D, CrosswordBox> boxModels;
+    private final MapProperty<GridPosition, CrosswordBox> boxModels;
 
     /**
      * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property,
      * only used internally.
      */
-    private final Map<IntCoordinate2D, Node> boxNodes;
+    private final Map<GridPosition, Node> boxNodes;
 
     /** The grid. */
     @FXML
@@ -139,11 +139,11 @@ public final class CrosswordGrid extends StackPane {
      * <p>
      * It is meant to be the principal mean of communication with the application view model.
      * <p>
-     * <strong>The map contains a given ({@link IntCoordinate2D}, {@link CrosswordBox}) entry if
+     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBox}) entry if
      * and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
-     * Note that a map containing a given {@link IntCoordinate2D} key without any value (i.e. a
+     * Note that a map containing a given {@link GridPosition} key without any value (i.e. a
      * {@code null} value) is equivalent to a map not containing the given coordinates, i.e. in
      * both cases no text field is visible on the view.
      * <p>
@@ -172,7 +172,7 @@ public final class CrosswordGrid extends StackPane {
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
-    public MapProperty<IntCoordinate2D, CrosswordBox> boxes() {
+    public MapProperty<GridPosition, CrosswordBox> boxes() {
         return boxModels;
     }
 
@@ -187,7 +187,7 @@ public final class CrosswordGrid extends StackPane {
         final int newRowIndex = oldRowCount;
         final int oldColumnCount = grid.getColumnCount();
         for (int column = 0; (column < oldColumnCount) || (column == 0 && oldColumnCount == 0); column++) {
-            final IntCoordinate2D coordinate = new IntCoordinate2D(column, newRowIndex);
+            final GridPosition coordinate = new GridPosition(column, newRowIndex);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBox());
         }
@@ -204,7 +204,7 @@ public final class CrosswordGrid extends StackPane {
         final int newColumnIndex = oldColumnCount;
         final int oldRowCount = grid.getRowCount();
         for (int row = 0; (row < oldRowCount) || (row == 0 && oldRowCount == 0); row++) {
-            final IntCoordinate2D coordinate = new IntCoordinate2D(newColumnIndex, row);
+            final GridPosition coordinate = new GridPosition(newColumnIndex, row);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBox());
         }
@@ -220,7 +220,7 @@ public final class CrosswordGrid extends StackPane {
         }
         final int deletedRowIndex = oldRowCount - 1;
         for (int column = 0; column < grid.getColumnCount(); column++) {
-            final IntCoordinate2D coordinate = new IntCoordinate2D(column, deletedRowIndex);
+            final GridPosition coordinate = new GridPosition(column, deletedRowIndex);
             // Just remove the box from the model: Model update listener will synchronize the view.
             boxModels.remove(coordinate);
         }
@@ -236,7 +236,7 @@ public final class CrosswordGrid extends StackPane {
         }
         final int deletedColumnIndex = oldColumnCount - 1;
         for (int row = 0; row < grid.getRowCount(); row++) {
-            final IntCoordinate2D coordinate = new IntCoordinate2D(deletedColumnIndex, row);
+            final GridPosition coordinate = new GridPosition(deletedColumnIndex, row);
             // Just remove the box from the model: Model update listener will synchronize the view.
             boxModels.remove(coordinate);
         }
@@ -255,7 +255,7 @@ public final class CrosswordGrid extends StackPane {
      *
      * @param change the model change
      */
-    private void onModelUpdate(final MapChangeListener.Change<? extends IntCoordinate2D, ?
+    private void onModelUpdate(final MapChangeListener.Change<? extends GridPosition, ?
             extends CrosswordBox> change) {
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
@@ -277,7 +277,7 @@ public final class CrosswordGrid extends StackPane {
      *
      * @param removedCoordinate the removed coordinate
      */
-    private void onBoxRemoved(final IntCoordinate2D removedCoordinate) {
+    private void onBoxRemoved(final GridPosition removedCoordinate) {
         final Node removedNode = boxNodes.remove(removedCoordinate);
         grid.getChildren().remove(removedNode);
 
@@ -313,7 +313,7 @@ public final class CrosswordGrid extends StackPane {
      * @param coordinate where the box is added
      * @param boxModel   what the box contains
      */
-    private void onBoxAdded(final IntCoordinate2D coordinate, final CrosswordBox boxModel) {
+    private void onBoxAdded(final GridPosition coordinate, final CrosswordBox boxModel) {
         // Create a new node
         final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
         grid.add(textField, coordinate.x(), coordinate.y());
