@@ -1,8 +1,8 @@
-# TODO
+## TODO
 
-## Features
+### Features
 
-### Allow user to iterate over solutions (usecase + UI + solver)
+#### Allow user to iterate over solutions (usecase + UI + solver)
 
 - What's the best for user?
   1. Add an option to specify the number of solutions: Internally, mark the n-1 solutions found as
@@ -10,7 +10,7 @@
   2. Add an option `--random`: Does shuffling dictionary suffice?
 - Not sure what's the best for speed
 
-### Allow user to stop the solver after completion threshold reached (usecase + UI + probably solver)
+#### Allow user to stop the solver after completion threshold reached (usecase + UI + probably solver)
 
 - CLI: Add an option `--threshold`
 - Implementation:
@@ -19,74 +19,70 @@
   - Add a decorator on slot iterator so that its `hasNext()` returns `false` when threshold is
     reached? Requires modification in solver
 
-### Allow user to stop after timeout (UI + maybe usecase + maybe solver)
+#### Allow user to stop after timeout (UI + maybe usecase + maybe solver)
 
 - CLI: Add an option `--timeout`
 - UI only or add it as a real usecase solve option?
 
-### More dictionaries (dictionary, tools)
+#### More dictionaries (dictionary, tools)
 
 - All Hunspell dictionaries available.
 - Create gradle task to automate call to tool to convert Hunspell format to Java object serialized
   format
-- Create a dictionary-data subproject to store dictionaries (maybe different repo, can be integrated
-  as git submodule).
 
-### Support UTF8 (solver, dictionary)
+#### Support UTF8 (solver, dictionary)
 
 - Don't think it's necessary for French, it might be useful for other languages
 
-### Enhance text output format (cli)
+#### Enhance text output format (cli)
 
 - Add definition placeholders, column and row numbers?
 
-### Support output formatter as plugins
+#### Support output formatter as plugins
 
-- formatter-api: Defines the API. Depends on input types so presently on solver result so depends on
-  solver-api (one day maybe it will be on crosswords-datatypes)
-- formatter-xml: xml implementation (jaxb?).
-- formatter-json: json implementation (gson?).
-- formatter-pdf: pdf implementation (check LaTeX packages).
-- formatter-docx: docx implementation (rely on some Apache library).
+- `crosswords-formatter-spi`: Defines the API.
+- `crosswords-formatter-xml-plugin`: xml implementation (jaxb?).
+- `crosswords-formatter-json-plugin`: json implementation (gson?).
+- `crosswords-formatter-pdf-plugin`: pdf implementation (check LaTeX packages).
+- `crosswords-formatter-docx-plugin`: docx implementation (rely on some Apache library).
 - How to combine that with frontend presenter?
 
-### Suggest definitions
+#### Suggest definitions
 
 For the words of a solved grid. It can be a funny problem to explore.
 
-## Improvements
+### Improvements
 
-### Solver
+#### Solver
 
-#### GridDataBuilder
+##### GridDataBuilder
 
 - Make it more readable
 - Should ID creation/incrementation be in GridDataBuilder? => maybe not if id is used for
   backtracking
 
-#### More progress indications
+##### More progress indications
 
 - Find a way to display grid being solved
 - More stats
 
-#### Core
+##### Core
 
-- Rename to something more relevant. Maybe `sap`.
 - Assess Slot vs. SlotIdentifier usage
 - Split pervasive Slot interface
 
-#### CandidateChooser
+##### CandidateChooser
 
 - Perfs: Check if probe parallelization improves performances with default k and with bigger k
 
-#### Backtrack
+##### Backtrack
 
 Make sure the selected unassigned variable(s) actually solve the issue (i.e. the estimated number of
 solutions after unassignment is > 0). See Ginsberg papers.
 
-### Dictionary
+#### Dictionary
 
-#### Hunspell
+##### Hunspell
 
 - It would be really nice to have a comprehensive implementation of Hunspell in pure Java, even if
   we wouldn't need all features for crosswords
@@ -99,7 +95,7 @@ solutions after unassignment is > 0). See Ginsberg papers.
   - Then maybe it's time to take a step back and make a plan about what should be done to have a
     decent library (at least for our context, i.e. just expanding all forms of the dictionary)
 
-#### Binary
+##### Binary
 
 - Default lookup paths to improve, currently it relies on InternalDictionaryProvider resource loader
   which is limiting.
@@ -107,24 +103,27 @@ solutions after unassignment is > 0). See Ginsberg papers.
   - https://www.oracle.com/java/technologies/javase/seccodeguide.html
   - https://docs.oracle.com/en/java/javase/16/core/serialization-filtering1.html#GUID-55BABE96-3048-4A9F-A7E6-781790FF3480
 
-#### Other providers
+##### Other providers
 
 Look for them.
 
-#### Common (maybe solver job after all)
+##### Common
 
 - Rationalize filtering: Should only ASCII character be taken into account? No accent? See also
   point on UTF8 support.
 
-### crosswords
+#### Others
 
-### GUI
+##### Deployment
 
-- Find a better way to inject data to classes created via FXML
+- Currently, it's possible to use `crosswords-cli` and `crosswords-gui` `installDist` tasks, but
+  it's lacking some customization.
+- Some deployment ideas:
+  - Allow defining a path where to look for external plugins
+  - Native deployment
+- Create Linux packages (RPM/DEB).
 
-### Others
+##### READMEs/Documentation
 
-#### Add READMEs
-
-- At root
-- At subprojects (at least solver and dictionaries)
+- Every subproject should have one
+- Complete them, see TODOs in files directly
