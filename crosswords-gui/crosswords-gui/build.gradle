@@ -10,7 +10,10 @@ javafx {
 
 dependencies {
     implementation project(':crosswords')
-    implementation project(':crosswords-gui:crosswords-gui-control')
+    implementation project(':crosswords-gui:crosswords-gui-controller')
+    implementation project(':crosswords-gui:crosswords-gui-presenter')
+    implementation project(':crosswords-gui:crosswords-gui-view')
+    implementation project(':crosswords-gui:crosswords-gui-view-model')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-hunspell-plugin')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-internal-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')

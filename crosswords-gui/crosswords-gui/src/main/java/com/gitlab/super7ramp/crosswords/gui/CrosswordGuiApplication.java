@@ -1,9 +1,8 @@
 package com.gitlab.super7ramp.crosswords.gui;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.gui.controller.CrosswordSolverController;
 import com.gitlab.super7ramp.crosswords.gui.presenter.GuiPresenter;
-import com.gitlab.super7ramp.crosswords.gui.viewmodel.CrosswordSolverViewModel;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;

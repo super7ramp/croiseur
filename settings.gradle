@@ -27,7 +27,10 @@ include 'crosswords-cli'
 
 // GUI frontend
 include 'crosswords-gui:crosswords-gui'
-include 'crosswords-gui:crosswords-gui-control'
+include 'crosswords-gui:crosswords-gui-controller'
+include 'crosswords-gui:crosswords-gui-presenter'
+include 'crosswords-gui:crosswords-gui-view'
+include 'crosswords-gui:crosswords-gui-view-model'
 
 // Dependency versions
 dependencyResolutionManagement {

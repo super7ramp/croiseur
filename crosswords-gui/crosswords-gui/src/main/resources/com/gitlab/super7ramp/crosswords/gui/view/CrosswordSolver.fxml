@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
-            fx:controller="com.gitlab.super7ramp.crosswords.gui.controller.CrosswordSolverController">
+            fx:controller="com.gitlab.super7ramp.crosswords.gui.CrosswordSolverController">
     <center>
         <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308" maxWidth="600.0">
             <BorderPane.margin>

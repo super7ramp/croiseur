@@ -1,0 +1,15 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
+    alias(sbom.plugins.javafx)
+}
+
+javafx {
+    version = sbom.versions.java.get()
+    modules = ['javafx.base']
+}
+
+dependencies {
+    api project(':crosswords-common')
+    api project(':crosswords-spi:crosswords-spi-presenter')
+    api project(':crosswords-gui:crosswords-gui-view-model')
+}
