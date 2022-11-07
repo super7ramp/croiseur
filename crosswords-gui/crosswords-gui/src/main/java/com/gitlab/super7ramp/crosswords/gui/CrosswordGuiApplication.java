@@ -31,7 +31,7 @@ public final class CrosswordGuiApplication extends Application {
     public static final String STAGE_TITLE = "Crossword Solver";
 
     /** The path to the fxml file. */
-    public static final String FXML_LOCATION = "CrosswordSolver.fxml";
+    public static final String FXML_LOCATION = "CrosswordSolverRoot.fxml";
 
     /** The stage's min width. */
     private static final int MIN_WIDTH = 300;
@@ -78,8 +78,8 @@ public final class CrosswordGuiApplication extends Application {
         final CrosswordSolverViewModel crosswordSolverViewModel = new CrosswordSolverViewModel();
         final Presenter presenter = new GuiPresenter(crosswordSolverViewModel);
         final CrosswordService crosswordService = loadUseCases(presenter);
-        final CrosswordSolverController crosswordSolverController =
-                new CrosswordSolverController(crosswordService, crosswordSolverViewModel,
+        final CrosswordSolverRootController crosswordSolverController =
+                new CrosswordSolverRootController(crosswordService, crosswordSolverViewModel,
                         executor);
 
         // Load the views
@@ -97,7 +97,6 @@ public final class CrosswordGuiApplication extends Application {
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
         stage.show();
-
     }
 
     @Override

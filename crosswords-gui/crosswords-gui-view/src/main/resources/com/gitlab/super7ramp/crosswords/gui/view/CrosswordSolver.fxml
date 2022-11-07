@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid?>
+<?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGridEditionToolbar?>
+<?import com.gitlab.super7ramp.crosswords.gui.view.DictionaryPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="BorderPane"
+         xmlns="http://javafx.com/javafx/17">
+    <center>
+        <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308" maxWidth="600.0">
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </BorderPane.margin>
+        </CrosswordGrid>
+    </center>
+    <right>
+        <DictionaryPane fx:id="dictionaryPane" managed="${dictionariesToggleButton.selected}"
+                        visible="${dictionariesToggleButton.selected}"
+                        BorderPane.alignment="CENTER"/>
+    </right>
+    <top>
+        <CrosswordGridEditionToolbar fx:id="gridEditionToolbar">
+            <Button fx:id="solveButton" text="Solve">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true">
+                        <Image url="@lc_runmacro.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Start/stop solving"/>
+                </tooltip>
+            </Button>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <ToggleButton fx:id="dictionariesToggleButton" mnemonicParsing="false"
+                          text="Dictionaries">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true">
+                        <Image url="@lc_leftpanedraw.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Show/hide dictionary pane"/>
+                </tooltip>
+            </ToggleButton>
+        </CrosswordGridEditionToolbar>
+    </top>
+</fx:root>
