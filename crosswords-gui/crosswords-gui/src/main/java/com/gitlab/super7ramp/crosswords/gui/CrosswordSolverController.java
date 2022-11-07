@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.gui;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.gui.control.CrosswordGrid;
-import com.gitlab.super7ramp.crosswords.gui.control.CrosswordGridEditionToolbar;
-import com.gitlab.super7ramp.crosswords.gui.control.DictionaryPane;
+import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGrid;
+import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGridEditionToolbar;
+import com.gitlab.super7ramp.crosswords.gui.view.DictionaryPane;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
@@ -18,6 +18,8 @@ import java.util.concurrent.Executor;
 /**
  * The main controller.
  */
+// TODO maybe all the CrosswordSolver could be a control in the view model and this
+//  controller would just bind the view to the model and actual controllers
 public final class CrosswordSolverController {
 
     /** The controller dedicated to the solver use-cases. */
@@ -72,6 +74,7 @@ public final class CrosswordSolverController {
         dictionaryPane.setDictionaryEntries(dictionaryViewModel.dictionaryEntries());
 
         // Bind the grid editor buttons to the grid
+        // TODO candidate to be view-only if CrosswordSolver control created
         gridEditionToolbar.onAddColumnActionProperty().set(event -> grid.addColumn());
         gridEditionToolbar.onAddRowActionProperty().set(event -> grid.addRow());
         gridEditionToolbar.onDeleteColumnActionProperty().set(event -> grid.deleteLastColumn());

@@ -31,7 +31,7 @@ public final class CrosswordGuiApplication extends Application {
     public static final String STAGE_TITLE = "Crossword Solver";
 
     /** The path to the fxml file. */
-    public static final String FXML_LOCATION = "view/CrosswordSolver.fxml";
+    public static final String FXML_LOCATION = "CrosswordSolver.fxml";
 
     /** The stage's min width. */
     private static final int MIN_WIDTH = 300;

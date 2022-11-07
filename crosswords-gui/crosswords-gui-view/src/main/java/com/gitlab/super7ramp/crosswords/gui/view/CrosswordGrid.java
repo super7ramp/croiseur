@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.gui.control;
+package com.gitlab.super7ramp.crosswords.gui.view;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
