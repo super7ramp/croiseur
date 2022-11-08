@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.view;
 
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryListViewEntry;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,16 +15,23 @@ import java.net.URL;
 import java.util.Objects;
 
 /**
- * A pane to browse dictionary entries.
+ * A pane to browse dictionaries and dictionary entries.
  */
 public final class DictionaryPane extends VBox {
 
+    /** The fixed list cell height. */
+    // TODO get from CSS/actual height.
+    private static final int LIST_CELL_HEIGHT = 24;
+
+    /** The dictionaries list view. */
     @FXML
     private ListView<DictionaryListViewEntry> dictionariesListView;
 
+    /** The words list view. */
     @FXML
     private ListView<String> wordsListView;
 
+    /** The search text field. */
     @FXML
     private TextField searchTextField;
 
@@ -42,12 +50,11 @@ public final class DictionaryPane extends VBox {
         } catch (final IOException exception) {
             throw new UncheckedIOException(exception);
         }
+    }
 
-        // TODO Adjust height of dictionaries list view dynamically
-        dictionariesListView.setFixedCellSize(24.0);
-        dictionariesListView.setMinHeight(5 * dictionariesListView.getFixedCellSize());
-        dictionariesListView.setMaxHeight(5 * dictionariesListView.getFixedCellSize());
-
+    @FXML
+    private void initialize() {
+        dictionariesListView.setFixedCellSize(LIST_CELL_HEIGHT);
         // Add custom cell factory (adds checkboxes and customises string representation)
         dictionariesListView.setCellFactory(new DictionaryListCellFactory());
     }
@@ -68,6 +75,9 @@ public final class DictionaryPane extends VBox {
      */
     public void setDictionaries(final ObservableList<DictionaryListViewEntry> dictionaries) {
         dictionariesListView.setItems(dictionaries);
+        dictionariesListView.prefHeightProperty()
+                            .bind(Bindings.size(dictionariesListView.getItems())
+                                          .multiply(LIST_CELL_HEIGHT));
     }
 
 }

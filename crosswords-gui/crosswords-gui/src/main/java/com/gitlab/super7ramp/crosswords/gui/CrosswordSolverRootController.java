@@ -1,9 +1,9 @@
 package com.gitlab.super7ramp.crosswords.gui;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
-import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
+import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
@@ -49,28 +49,30 @@ public final class CrosswordSolverRootController {
 
     @FXML
     private void initialize() {
-        // Bind the crossword view model to the crossword view
+        // The grid view shall display and allow edition of the crossword grid model
         final CrosswordGridViewModel crosswordGridViewModel =
                 crosswordSolverViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().bindBidirectional(crosswordGridViewModel.boxes());
 
-        // Bind the dictionary view model to the dictionary view
+        // The dictionary pane shall display the dictionary model
         final DictionaryViewModel dictionaryViewModel =
                 crosswordSolverViewModel.dictionaryViewModel();
         view.setDictionaries(dictionaryViewModel.dictionariesProperty());
         view.setDictionaryEntries(dictionaryViewModel.dictionaryEntries());
 
-        // Controls should be disabled when solver is running - except the stop button
-        // FIXME exception on stop button
-        view.disableProperty().bind(crosswordSolverViewModel.solverRunning());
-        // FIXME Solve button should be disabled if no dictionary is selected
-        //solveButton.disableProperty()
-        //           .bind(dictionaryViewModel.selectedDictionariesProperty().emptyProperty());
+        // Grid edition buttons and grid pane shall be disabled when solver is running
+        view.gridEditionDisableProperty().bind(crosswordSolverViewModel.solverRunning());
 
+        // Solver button shall be disabled if no solver not running and no dictionary selected
+        view.solveButtonDisableProperty()
+            .bind(dictionaryViewModel.selectedDictionariesProperty().emptyProperty());
+
+        // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
             .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
-                                                                           .otherwise("Solve"));
-        // Start/stop
+                                                                    .otherwise("Solve"));
+
+        // Solver button action shall be consistent with the solver state
         view.onSolveButtonActionProperty().set(event -> {
             if (!crosswordSolverViewModel.solverRunning().get()) {
                 solverController.start();
@@ -79,7 +81,7 @@ public final class CrosswordSolverRootController {
             }
         });
 
-        // Populate dictionary pane
+        // Dictionary pane shall be populated on startup
         // TODO To be performed lazily when dictionary pane is displayed for the first time
         dictionaryController.listDictionaries();
         dictionaryController.listDictionaryEntries();

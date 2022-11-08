@@ -3,6 +3,7 @@ package com.gitlab.super7ramp.crosswords.gui.view;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryListViewEntry;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -11,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -24,17 +24,17 @@ import java.util.Objects;
  */
 public final class CrosswordSolver extends BorderPane {
 
+    /** The grid. */
     @FXML
     private CrosswordGrid grid;
 
-    @FXML
-    private Button solveButton;
-
+    /** The dictionary pane. */
     @FXML
     private DictionaryPane dictionaryPane;
 
+    /** The toolbar. */
     @FXML
-    private CrosswordGridEditionToolbar gridEditionToolbar;
+    private CrosswordEditionToolbar toolbar;
 
     /**
      * Constructs an instance.
@@ -56,10 +56,16 @@ public final class CrosswordSolver extends BorderPane {
     @FXML
     private void initialize() {
         // Bind the grid editor buttons to the grid
-        gridEditionToolbar.onAddColumnActionProperty().set(event -> grid.addColumn());
-        gridEditionToolbar.onAddRowActionProperty().set(event -> grid.addRow());
-        gridEditionToolbar.onDeleteColumnActionProperty().set(event -> grid.deleteLastColumn());
-        gridEditionToolbar.onDeleteRowActionProperty().set(event -> grid.deleteLastRow());
+        toolbar.onAddColumnActionButtonProperty().set(event -> grid.addColumn());
+        toolbar.onAddRowActionButtonProperty().set(event -> grid.addRow());
+        toolbar.onDeleteColumnActionButtonProperty().set(event -> grid.deleteLastColumn());
+        toolbar.onDeleteRowActionButtonProperty().set(event -> grid.deleteLastRow());
+
+        // Display the dictionary pane only when the dictionaries toggle button is selected
+        final BooleanProperty dictionariesToggleButtonSelectedProperty =
+                toolbar.dictionariesToggleButtonSelectedProperty();
+        dictionaryPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
+        dictionaryPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
     }
 
     /**
@@ -68,7 +74,28 @@ public final class CrosswordSolver extends BorderPane {
      * @return the solve button action property
      */
     public ObjectProperty<EventHandler<ActionEvent>> onSolveButtonActionProperty() {
-        return solveButton.onActionProperty();
+        return toolbar.onSolveButtonActionProperty();
+    }
+
+    /**
+     * Returns the grid edition controls disable property.
+     * <p>
+     * The controls are the 'add column', 'delete column', 'add row','delete row' and the crossword
+     * grid pane itself.
+     *
+     * @return the grid edition controls disable property
+     */
+    public BooleanProperty gridEditionDisableProperty() {
+        return toolbar.gridEditionButtonsDisableProperty();
+    }
+
+    /**
+     * Returns the solve button disable property.
+     *
+     * @return the solve button disable property
+     */
+    public BooleanProperty solveButtonDisableProperty() {
+        return toolbar.solveButtonDisableProperty();
     }
 
     /**
@@ -77,7 +104,7 @@ public final class CrosswordSolver extends BorderPane {
      * @return the solve button text property
      */
     public StringProperty solveButtonTextProperty() {
-        return solveButton.textProperty();
+        return toolbar.solveButtonTextProperty();
     }
 
     /**

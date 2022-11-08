@@ -93,6 +93,7 @@ public final class CrosswordGrid extends StackPane {
     private static final int MAX_ROW_COLUMN_COUNT = 20;
 
     /** The preferred size for cells. */
+    // TODO allow configuration via CSS
     private static final int CELL_PREF_SIZE = 30;
 
     /**
@@ -115,6 +116,9 @@ public final class CrosswordGrid extends StackPane {
      * Constructs an instance.
      */
     public CrosswordGrid() {
+        boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
+        boxNodes = new HashMap<>();
+
         final String fxmlName = CrosswordGrid.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
@@ -126,12 +130,6 @@ public final class CrosswordGrid extends StackPane {
         } catch (final IOException exception) {
             throw new UncheckedIOException(exception);
         }
-
-        boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
-        boxNodes = new HashMap<>();
-
-        boxModels.addListener(this::onModelUpdate);
-        grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
     }
 
     /**
@@ -248,6 +246,8 @@ public final class CrosswordGrid extends StackPane {
     @FXML
     private void initialize() {
         defineGridConstraints();
+        boxModels.addListener(this::onModelUpdate);
+        grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
     }
 
     /**
