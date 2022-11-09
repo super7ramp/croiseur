@@ -33,8 +33,7 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryLis
 
         @Override
         public String toString(DictionaryListViewEntry item) {
-            return String.format(FORMAT, item.localeProperty().get(), item.providerProperty()
-                                                                          .get());
+            return String.format(FORMAT, item.locale(), item.provider());
         }
 
         @Override

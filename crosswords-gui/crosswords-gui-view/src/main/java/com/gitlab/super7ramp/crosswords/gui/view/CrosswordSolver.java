@@ -132,6 +132,6 @@ public final class CrosswordSolver extends BorderPane {
      * @param dictionaryEntries the dictionary entries to display
      */
     public void setDictionaryEntries(final ObservableList<String> dictionaryEntries) {
-        dictionaryPane.setDictionaryEntries(dictionaryEntries);
+        dictionaryPane.setWords(dictionaryEntries);
     }
 }

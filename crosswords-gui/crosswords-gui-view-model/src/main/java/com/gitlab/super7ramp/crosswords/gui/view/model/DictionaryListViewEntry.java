@@ -40,9 +40,9 @@ public final class DictionaryListViewEntry {
     }
 
     /**
-     * Returns whether the dictionary is selected.
+     * Returns the selected property.
      *
-     * @return whether the dictionary is selected.
+     * @return the selected property
      */
     public BooleanProperty selectedProperty() {
         return selected;
@@ -62,35 +62,16 @@ public final class DictionaryListViewEntry {
      *
      * @return the dictionary locale
      */
-    public StringProperty localeProperty() {
-        return locale;
+    public String locale() {
+        return locale.get();
     }
-
-    /**
-     * Returns the dictionary provider property.
-     *
-     * @return the dictionary provider property
-     */
-    public StringProperty providerProperty() {
-        return provider;
-    }
-
     /**
      * Returns the dictionary provider.
      *
      * @return the dictionary provider
      */
-    public String getProvider() {
+    public String provider() {
         return provider.get();
-    }
-
-    /**
-     * Returns the dictionary name property.
-     *
-     * @return the dictionary name property
-     */
-    public StringProperty nameProperty() {
-        return name;
     }
 
     /**
@@ -98,7 +79,7 @@ public final class DictionaryListViewEntry {
      *
      * @return the dictionary name
      */
-    public String getName() {
+    public String name() {
         return name.get();
     }
 }

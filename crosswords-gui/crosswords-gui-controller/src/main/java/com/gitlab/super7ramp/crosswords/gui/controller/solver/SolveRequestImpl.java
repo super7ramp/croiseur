@@ -62,8 +62,8 @@ final class SolveRequestImpl implements SolveRequest {
         dictionaries =
                 dictionaryViewModel.selectedDictionariesProperty()
                                    .stream()
-                                   .map(entry -> new DictionaryIdentifier(entry.getProvider(),
-                                           entry.getName()))
+                                   .map(entry -> new DictionaryIdentifier(entry.provider(),
+                                           entry.name()))
                                    .toList();
     }
 

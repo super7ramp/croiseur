@@ -2,6 +2,12 @@
 
 ### Features
 
+#### Indicate what areas make a crossword impossible to solve
+
+- solver-spi: Augment solver result to list the unassignable slots
+- presenter-spi: Same thing for its solver result type (provided it uses a different one)
+- UIs: Show the unassignable slots
+
 #### Allow user to iterate over solutions (usecase + UI + solver)
 
 - What's the best for user?
