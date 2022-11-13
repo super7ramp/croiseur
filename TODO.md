@@ -46,18 +46,20 @@
 
 #### Support output formatter as plugins
 
-- `crosswords-formatter-spi`: Defines the API.
-- `crosswords-formatter-xml-plugin`: xml implementation (jaxb?).
-- `crosswords-formatter-json-plugin`: json implementation (gson?).
+- `crosswords-spi-formatter`: Defines the API.
+- `crosswords-formatter-ipuz-plugin`: ipuz implementation (json like, use gson?)
 - `crosswords-formatter-pdf-plugin`: pdf implementation (check LaTeX packages).
-- `crosswords-formatter-docx-plugin`: docx implementation (rely on some Apache library).
-- How to combine that with frontend presenter?
 
 #### Suggest definitions
 
 For the words of a solved grid. It can be a funny problem to explore.
 
 ### Improvements
+
+#### GUI
+
+- Allow skinning of the crossword grid: French style, British style, German style, American 
+  style, ...
 
 #### Solver
 
@@ -103,11 +105,10 @@ solutions after unassignment is > 0). See Ginsberg papers.
 
 ##### Binary
 
-- Default lookup paths to improve, currently it relies on InternalDictionaryProvider resource loader
-  which is limiting.
-- Read:
+- **To remove** , object deserialization is unsafe, read:
   - https://www.oracle.com/java/technologies/javase/seccodeguide.html
   - https://docs.oracle.com/en/java/javase/16/core/serialization-filtering1.html#GUID-55BABE96-3048-4A9F-A7E6-781790FF3480
+- Replace with e.g. simple text format
 
 ##### Other providers
 
@@ -133,3 +134,7 @@ Look for them.
 
 - Every subproject should have one
 - Complete them, see TODOs in files directly
+
+##### Naming
+
+- Find a real name for the project. Ideas: `croiseur`, `croisette`.

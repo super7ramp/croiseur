@@ -1,4 +1,4 @@
-## cli
+## crosswords-cli
 
-`cli` is an application making accessible the `crosswords` use-case implementations via a
-_Command-Line Interface_.
+`crosswords-cli` is an application allowing to create and solve crossword puzzles. It is a 
+frontend to the `crosswords` library.

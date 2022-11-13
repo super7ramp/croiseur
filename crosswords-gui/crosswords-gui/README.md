@@ -1,4 +1,4 @@
-## gui
+## crosswords-gui
 
-`gui` is an application making accessible the `crosswords` use-case implementations via a
-_Graphical User Interface_.
+`crosswords-gui` is an application allowing to create and solve crossword puzzles. It is a
+frontend to the `crosswords` library.

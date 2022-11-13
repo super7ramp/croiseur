@@ -18,7 +18,7 @@ public interface SolverPresenter {
     /**
      * Presents the solving progress.
      *
-     * @param completionPercentage the completion percentage of the solving
+     * @param progress the completion percentage of the solving
      */
     void presentProgress(final SolverProgress progress);
 
@@ -35,6 +35,7 @@ public interface SolverPresenter {
      *
      * @param error the error
      */
+    // TODO error should be a dedicated type
     void presentError(final String error);
 
 }
