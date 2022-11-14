@@ -45,13 +45,18 @@ final class GuiSolverPresenter implements SolverPresenter {
     @Override
     public void presentResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
-        final Map<GridPosition, Character> resultBoxes = result.boxes();
+        final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
         final MapProperty<GridPosition, CrosswordBox> viewModelBoxes =
                 crosswordGridViewModel.boxes();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
-            final GridPosition key = entry.getKey();
-            final CrosswordBox value = viewModelBoxes.computeIfAbsent(key, k -> new CrosswordBox());
-            value.contentProperty().set(entry.getValue().toString());
+            final GridPosition position = entry.getKey();
+            final CrosswordBox box = viewModelBoxes.get(position);
+            box.contentProperty().set(entry.getValue().toString());
+        }
+        for (final Map.Entry<GridPosition, CrosswordBox> entry : viewModelBoxes.entrySet()) {
+            final GridPosition position = entry.getKey();
+            final CrosswordBox box = entry.getValue();
+            box.unsolvableProperty().set(result.unsolvableBoxes().contains(position));
         }
     }
 

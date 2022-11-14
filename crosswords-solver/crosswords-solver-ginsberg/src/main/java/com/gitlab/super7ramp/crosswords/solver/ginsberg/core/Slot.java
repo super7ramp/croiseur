@@ -46,6 +46,11 @@ public interface Slot {
      */
     boolean isConnectedTo(final SlotIdentifier other);
 
+    /**
+     * Returns the identifiers of the slots connected to this slot.
+     *
+     * @return the identifiers of the slots connected to this slot
+     */
     Collection<SlotIdentifier> connectedSlots();
 
     /**

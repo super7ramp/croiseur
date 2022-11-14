@@ -31,6 +31,9 @@ public final class CrosswordBoxTextField extends TextField {
     /** The CSS pseudo-class for shaded state. */
     private static final PseudoClass SHADED = PseudoClass.getPseudoClass("shaded");
 
+    /** The CSS pseudo-class for unsolvable state. */
+    private static final PseudoClass UNSOLVABLE = PseudoClass.getPseudoClass("unsolvable");
+
     /** Filters input so that text field contains only the last character typed, in upper case. */
     private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE =
             change -> {
@@ -67,6 +70,7 @@ public final class CrosswordBoxTextField extends TextField {
         // Configure style
         getStyleClass().add(CSS_CLASS);
         pseudoClassStateChanged(SHADED, model.shadedProperty().get());
+        pseudoClassStateChanged(UNSOLVABLE, model.unsolvableProperty().get());
 
         // Configure text content
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
@@ -89,9 +93,11 @@ public final class CrosswordBoxTextField extends TextField {
         fontProperty().bind(font);
          */
 
-        // Listen to shaded events
+        // Listen to events
         model.shadedProperty()
              .addListener(e -> pseudoClassStateChanged(SHADED, model.shadedProperty().get()));
+        model.unsolvableProperty()
+             .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.unsolvableProperty().get()));
         setOnContextMenuRequested(event -> toggleShading());
         addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getText().equals(" ")) {
@@ -113,15 +119,6 @@ public final class CrosswordBoxTextField extends TextField {
     }
 
     /**
-     * Returns the box model.
-     *
-     * @return the box model
-     */
-    public CrosswordBox model() {
-        return model;
-    }
-
-    /**
      * Shades the box.
      * <p>
      * Note that this method removes the content of the field: The character will not re-appear
@@ -130,6 +127,7 @@ public final class CrosswordBoxTextField extends TextField {
     private void shade() {
         clear();
         setEditable(false);
+        model.unsolvableProperty().set(false);
         model.shadedProperty().set(true);
     }
 

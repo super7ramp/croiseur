@@ -6,6 +6,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -34,11 +35,12 @@ public final class SolverController {
                         crosswordSolverViewModel.dictionaryViewModel(), usecase);
             }
         };
-        solverService.setOnReady(e -> LOGGER.info("Solver worker is ready"));
-        solverService.setOnRunning(e -> LOGGER.info("Solving in progress"));
-        solverService.setOnCancelled(e -> LOGGER.info("Solving cancelled"));
-        solverService.setOnSucceeded(e -> LOGGER.info("Solving finished"));
-        solverService.setOnFailed(e -> LOGGER.info("Solving failed"));
+        solverService.setOnReady(e -> LOGGER.info("Solver ready"));
+        solverService.setOnRunning(e -> LOGGER.info("Solving"));
+        solverService.setOnCancelled(e -> LOGGER.info("Solver cancelled"));
+        solverService.setOnSucceeded(e -> LOGGER.info("Solver finished"));
+        solverService.setOnFailed(e -> LOGGER.log(Level.WARNING, "Solver failed",
+                e.getSource().getException()));
         crosswordSolverViewModel.solverRunning().bind(solverService.runningProperty());
     }
 

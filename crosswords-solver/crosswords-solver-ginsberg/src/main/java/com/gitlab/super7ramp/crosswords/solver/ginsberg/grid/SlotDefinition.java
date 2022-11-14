@@ -118,7 +118,18 @@ final class SlotDefinition {
     }
 
     /**
+     * Returns the end index.
+     *
      * @return the end index
+     */
+    int end() {
+        return end;
+    }
+
+    /**
+     * Returns the slot length.
+     *
+     * @return the slot length
      */
     int length() {
         return end - start;

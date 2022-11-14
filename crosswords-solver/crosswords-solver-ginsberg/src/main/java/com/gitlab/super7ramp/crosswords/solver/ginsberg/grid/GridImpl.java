@@ -6,7 +6,9 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.lookahead.Assignment;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.lookahead.Unassignment;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -87,5 +89,23 @@ final class GridImpl implements Grid {
     @Override
     public Map<GridPosition, Character> boxes() {
         return data.toBoxes();
+    }
+
+    @Override
+    public Set<GridPosition> slotPositions(final Slot slot) {
+        final SlotDefinition slotDefinition = data.slots().get(slot.uid()).definition();
+        final Set<GridPosition> positions = new HashSet<>();
+        for (int i = slotDefinition.start(); i < slotDefinition.end(); i++) {
+            final int row, column;
+            if (slotDefinition.type().isHorizontal()) {
+                row = slotDefinition.offset();
+                column = i;
+            } else {
+                row = i;
+                column = slotDefinition.offset();
+            }
+            positions.add(new GridPosition(column, row));
+        }
+        return positions;
     }
 }

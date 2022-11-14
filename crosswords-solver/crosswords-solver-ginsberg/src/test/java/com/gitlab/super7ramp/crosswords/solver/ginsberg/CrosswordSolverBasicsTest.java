@@ -56,5 +56,4 @@ final class CrosswordSolverBasicsTest {
                 |D|E|F|
                 """, result);
     }
-
 }

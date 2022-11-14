@@ -5,12 +5,14 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.sap.Backtracker;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.sap.Solver;
-import com.gitlab.super7ramp.crosswords.solver.ginsberg.grid.Grid;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.backtrack.Backtrackers;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.instantiation.CandidateChooserImpl;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.heuristics.iteration.SlotIteratorImpl;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.ProgressNotifier;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.StatisticsRecorder;
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.result.SolverResultFactory;
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.state.Crossword;
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.state.CrosswordUpdater;
 
 import java.util.Collection;
 
@@ -24,19 +26,6 @@ public final class GinsbergCrosswordSolver {
      */
     public GinsbergCrosswordSolver() {
         // Nothing to do.
-    }
-
-    private static SolverResultImpl result(final Grid grid,
-                                           final StatisticsRecorder statisticsRecorder,
-                                           final boolean success) {
-        final SolverResultImpl solverResult;
-        if (success) {
-            solverResult = SolverResultImpl.success(grid.boxes(), statisticsRecorder.statistics());
-        } else {
-            solverResult = SolverResultImpl.impossible(grid.boxes(),
-                    statisticsRecorder.statistics());
-        }
-        return solverResult;
     }
 
     /**
@@ -93,7 +82,9 @@ public final class GinsbergCrosswordSolver {
 
         progressListener.onInitialisationEnd();
 
-        return result(crossword.grid(), stats, solver.solve());
+        boolean solved = solver.solve();
+
+        return SolverResultFactory.createFrom(crossword, stats, solved);
     }
 
     /**

@@ -42,8 +42,8 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentResult(SolverResult result) {
-        System.out.println(result);
+    public void presentResult(final SolverResult result) {
+        System.out.println(SolverResultFormatter.format(result));
     }
 
     @Override

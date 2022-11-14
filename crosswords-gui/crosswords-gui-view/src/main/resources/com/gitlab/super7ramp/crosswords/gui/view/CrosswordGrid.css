@@ -14,14 +14,18 @@
     -fx-max-height: Infinity;
     -fx-max-width: Infinity;
 
-    /* With blackish focus color. */
-    -fx-focus-color: black;
+    /* With black-ish focus color. */
     -fx-faint-focus-color: #00000022;
 }
 
 /* A shaded cell. */
 .crossword-box-text:shaded {
     -fx-background-color: black;
+}
+
+/* An unsolvable cell. */
+.crossword-box-text:unsolvable {
+    -fx-background-color: #ff000011;
 }
 
 /* The grid. */

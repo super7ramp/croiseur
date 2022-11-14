@@ -1,6 +1,8 @@
 package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 
 import static com.gitlab.super7ramp.crosswords.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * A factory of assertions.
@@ -21,21 +23,10 @@ final class Assertions {
      * @param result   the actual result
      */
     static void assertSuccess(final String expected, final SolverResult result) {
-        final SolverResultImpl expectedResult =
-                SolverResultImpl.success(parsePuzzle(expected).filled());
-        org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
+        assertEquals(SolverResult.Kind.SUCCESS, result.kind());
+        assertEquals(parsePuzzle(expected).filled(), result.filledBoxes());
+        assertTrue(result.unsolvableBoxes().isEmpty());
+        // statistics ignored
     }
 
-    /**
-     * Assert {@link SolverResult} matches the expected solution, given as a multi-line string.
-     *
-     * @param expected the expected result
-     * @param result   the actual result
-     */
-    static void assertImpossible(final String expected, final SolverResult result) {
-        final SolverResultImpl expectedResult =
-                SolverResultImpl.impossible(parsePuzzle(expected).filled());
-        org.junit.jupiter.api.Assertions.assertEquals(expectedResult, result);
-    }
-
-}
+ }

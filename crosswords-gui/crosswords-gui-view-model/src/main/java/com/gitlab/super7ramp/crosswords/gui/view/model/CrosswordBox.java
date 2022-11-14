@@ -13,6 +13,9 @@ public final class CrosswordBox {
     /** Whether the box is shaded or not. */
     private final BooleanProperty shaded;
 
+    /** Whether the box is unsolvable or not. */
+    private final BooleanProperty unsolvable;
+
     /** The content of the box. */
     private final StringProperty content;
 
@@ -21,6 +24,7 @@ public final class CrosswordBox {
      */
     public CrosswordBox() {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
+        unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
         content = new SimpleStringProperty(this, "content", "");
     }
 
@@ -31,6 +35,15 @@ public final class CrosswordBox {
      */
     public BooleanProperty shadedProperty() {
         return shaded;
+    }
+
+    /**
+     * Returns the boolean property indicating whether the box cannot be solved.
+     *
+     * @return the boolean property indicating whether the box cannot be solved
+     */
+    public BooleanProperty unsolvableProperty() {
+        return unsolvable;
     }
 
     /**

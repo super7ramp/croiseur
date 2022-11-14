@@ -56,6 +56,10 @@ For the words of a solved grid. It can be a funny problem to explore.
 
 ### Improvements
 
+#### CLI
+
+- Add some end-to-end tests.
+
 #### GUI
 
 - Allow skinning of the crossword grid: French style, British style, German style, American 

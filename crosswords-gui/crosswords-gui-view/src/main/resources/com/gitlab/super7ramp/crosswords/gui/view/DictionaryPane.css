@@ -15,13 +15,6 @@
     -fx-background-color: gray;
 }
 
-/* No odd/even background colour, just copy parent background.
-.list-cell {
-
-    -fx-background-color: transparent;
-}
-*/
-
 .list-cell:empty {
     -fx-opacity: 0;
 }

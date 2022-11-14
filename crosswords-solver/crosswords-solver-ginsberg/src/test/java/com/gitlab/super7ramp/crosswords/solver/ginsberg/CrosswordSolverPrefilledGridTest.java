@@ -24,24 +24,6 @@ final class CrosswordSolverPrefilledGridTest {
     }
 
     @Test
-    void filledSlotNotInDictionary() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
-                |X| | |
-                |Y| | |
-                |Z| | |
-                """);
-        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CDE", "ABC", "ABD", "ABE");
-
-        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
-
-        Assertions.assertImpossible("""
-                |X| | |
-                |Y| | |
-                |Z| | |
-                        """, result);
-    }
-
-    @Test
     void entirelyFilled() throws InterruptedException {
         final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
                 |A|A|A|

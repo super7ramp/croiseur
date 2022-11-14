@@ -34,10 +34,10 @@ public final class CrosswordGuiApplication extends Application {
     public static final String FXML_LOCATION = "CrosswordSolverRoot.fxml";
 
     /** The stage's min width. */
-    private static final int MIN_WIDTH = 300;
+    private static final int MIN_WIDTH = 400;
 
     /** The stage's min height. */
-    private static final int MIN_HEIGHT = 300;
+    private static final int MIN_HEIGHT = 400;
 
     /** Resources to be closed upon application shutdown. */
     private final Collection<AutoCloseable> resources;

@@ -1,6 +1,7 @@
-package com.gitlab.super7ramp.crosswords.solver.ginsberg;
+package com.gitlab.super7ramp.crosswords.solver.ginsberg.state;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
+import com.gitlab.super7ramp.crosswords.solver.ginsberg.Dictionary;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.dictionary.CachedDictionaryWriter;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.elimination.EliminationSpaceWriter;
@@ -12,7 +13,7 @@ import java.util.Collection;
 /**
  * The state of the crossword puzzle, including caches used for resolution.
  */
-final class Crossword {
+public final class Crossword {
 
     /** The grid (the variables). */
     private final Grid grid;
@@ -50,8 +51,8 @@ final class Crossword {
      * @param externalDictionary the external dictionary service
      * @return a new {@link Crossword}
      */
-    static Crossword create(final PuzzleDefinition puzzleDefinition,
-                            final Dictionary externalDictionary) {
+    public static Crossword create(final PuzzleDefinition puzzleDefinition,
+                                   final Dictionary externalDictionary) {
 
         final Grid grid = Grid.create(puzzleDefinition);
         final Collection<Slot> slots = grid.puzzle().slots();
@@ -68,28 +69,28 @@ final class Crossword {
     /**
      * @return the {@link Grid}
      */
-    Grid grid() {
+    public Grid grid() {
         return grid;
     }
 
     /**
      * @return the {@link CachedDictionaryWriter}
      */
-    CachedDictionaryWriter dictionary() {
+    public CachedDictionaryWriter dictionary() {
         return dictionary;
     }
 
     /**
      * @return the {@link EliminationSpaceWriter}
      */
-    EliminationSpaceWriter eliminationSpace() {
+    public EliminationSpaceWriter eliminationSpace() {
         return eliminationSpace;
     }
 
     /**
      * @return the {@link HistoryWriter}
      */
-    HistoryWriter history() {
+    public HistoryWriter history() {
         return history;
     }
 

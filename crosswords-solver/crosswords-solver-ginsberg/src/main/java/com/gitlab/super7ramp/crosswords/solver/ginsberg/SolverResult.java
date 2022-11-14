@@ -3,6 +3,7 @@ package com.gitlab.super7ramp.crosswords.solver.ginsberg;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Puzzle solving result.
@@ -47,18 +48,34 @@ public interface SolverResult {
     }
 
     /**
+     * Returns the result kind.
+     *
      * @return the result kind
      */
     Kind kind();
 
     /**
-     * The boxes of the puzzle filled if {@link #kind()} is {@link Kind#SUCCESS}; the last known
-     * state otherwise.
+     * The filled boxes.
+     * <p>
+     * Contains the entire grid filled if {@link #kind()} is
+     * {@link Kind#SUCCESS}.
+     * <p>
+     * When {@link #kind()} is {@link Kind#IMPOSSIBLE}, the returned map contains only the boxes
+     * that have been successfully filled, either by the solver or pre-filled. A special situation
+     * is when a pre-filled box is not in the dictionary: In this case, the box will be here as
+     * well as in {@link #unsolvableBoxes()}.
      *
-     * @return The boxes of the puzzle filled if {@link #kind()} is {@link Kind#SUCCESS}; the
-     * last known state otherwise
+     * @return the filled boxes
      */
-    Map<GridPosition, Character> boxes();
+    Map<GridPosition, Character> filledBoxes();
+
+    /**
+     * Returns the boxes for which no solution could be found or an empty set if {@link #kind()} is
+     * {@link Kind#SUCCESS}
+     *
+     * @return the boxes for which no solution could be found
+     */
+    Set<GridPosition> unsolvableBoxes();
 
     /**
      * Statistics about the resolution.

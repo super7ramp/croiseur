@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.solver.ginsberg;
+package com.gitlab.super7ramp.crosswords.solver.ginsberg.state;
 
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.SlotIdentifier;
@@ -22,7 +22,7 @@ import java.util.Objects;
  * </ol>
  * The rest can be done in any order.
  */
-final class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotIdentifier> {
+public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotIdentifier> {
 
     /** The crossword state. */
     private final Crossword crossword;
@@ -35,12 +35,12 @@ final class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotId
      *
      * @param aCrossword the crossword state
      */
-    CrosswordUpdater(final Crossword aCrossword) {
+    public CrosswordUpdater(final Crossword aCrossword) {
         crossword = Objects.requireNonNull(aCrossword);
         listeners = new ArrayList<>();
     }
 
-    CrosswordUpdater withListeners(SolverListener... someListeners) {
+    public CrosswordUpdater withListeners(SolverListener... someListeners) {
         listeners.addAll(Arrays.asList(someListeners));
         return this;
     }

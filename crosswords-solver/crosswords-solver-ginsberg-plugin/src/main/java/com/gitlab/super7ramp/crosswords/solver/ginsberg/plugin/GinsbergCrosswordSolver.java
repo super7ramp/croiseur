@@ -8,6 +8,7 @@ import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting
@@ -50,40 +51,6 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     }
 
     /**
-     * Adapts {@link com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult.Statistics} to
-     * {@link com.gitlab.super7ramp.crosswords.spi.solver.SolverResult.Statistics}.
-     */
-    private static class StatisticsAdapter implements SolverResult.Statistics {
-
-        /** The adapted instance. */
-        private final com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult.Statistics adapted;
-
-        /**
-         * Constructs an instance.
-         *
-         * @param adaptedArg the adapted instance
-         */
-        StatisticsAdapter(com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult.Statistics adaptedArg) {
-            adapted = adaptedArg;
-        }
-
-        @Override
-        public long numberOfAssignments() {
-            return adapted.numberOfAssignments();
-        }
-
-        @Override
-        public long numberOfUnassignments() {
-            return adapted.numberOfUnassignments();
-        }
-
-        @Override
-        public long eliminationSetSize() {
-            return adapted.eliminationSetSize();
-        }
-    }
-
-    /**
      * Adapts a {@link com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult} to
      * {@link SolverResult}.
      */
@@ -107,20 +74,18 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
         }
 
         @Override
-        public Map<GridPosition, Character> boxes() {
-            return adapted.boxes();
+        public Map<GridPosition, Character> filledBoxes() {
+            return adapted.filledBoxes();
         }
 
         @Override
-        public Statistics statistics() {
-            return new StatisticsAdapter(adapted.statistics());
+        public Set<GridPosition> unsolvableBoxes() {
+            return adapted.unsolvableBoxes();
         }
 
         @Override
         public String toString() {
-            // FIXME cli shouldn't rely on toString() output, it should create its own output
-            //  presentation
-            return adapted.toString();
+            return "AdaptedSolverResult{adapted=" + adapted + '}';
         }
     }
 

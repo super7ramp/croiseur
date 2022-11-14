@@ -8,7 +8,7 @@
 
 <fx:root prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308" maxWidth="600.0">
+        <CrosswordGrid fx:id="grid" maxHeight="1.7976931348623157E308">
             <BorderPane.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </BorderPane.margin>
