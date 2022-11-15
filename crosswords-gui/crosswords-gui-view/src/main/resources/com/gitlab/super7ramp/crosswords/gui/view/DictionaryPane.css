@@ -1,18 +1,24 @@
-.root {
+#dictionary-pane-root {
+    -fx-background-color: #edf0f4;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 0 1px;
     -fx-padding: 10px;
 }
 
-.label {
+.section-label {
     -fx-font-weight: bold;
+}
+
+/* Placeholder when dictionary is not present, an image-view. */
+#dictionary-placeholder {
+    -fx-image: url("lc_errorcellstyles.png");
 }
 
 .list-view {
     /* Borderless. */
     -fx-background-insets: 0;
     -fx-padding: 0;
-
-    /* No background colour, just copy parent background. */
-    -fx-background-color: gray;
+    -fx-background-color: inherit;
 }
 
 .list-cell:empty {

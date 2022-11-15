@@ -1,0 +1,23 @@
+#add-row-button-image-view {
+    -fx-image: url("lc_insertrowsafter.png");
+}
+
+#delete-row-button-image-view {
+    -fx-image: url("lc_deleterows.png");
+}
+
+#add-column-button-image-view {
+    -fx-image: url("lc_insertcolumnsafter.png");
+}
+
+#delete-column-button-image-view {
+    -fx-image: url("lc_deletecolumns.png");
+}
+
+#solve-button-image-view {
+    -fx-image: url("lc_runmacro.png");
+}
+
+#show-dictionaries-button-image-view {
+    -fx-image: url("lc_leftpanedraw.png");
+}
