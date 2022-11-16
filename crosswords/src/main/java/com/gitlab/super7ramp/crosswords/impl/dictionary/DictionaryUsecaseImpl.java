@@ -3,18 +3,15 @@ package com.gitlab.super7ramp.crosswords.impl.dictionary;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
-import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
-import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Implementation of {@link DictionaryUsecase}.
@@ -27,6 +24,10 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
     /** Error message to publish when an ambiguous request is received. */
     private static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE = "Ambiguous request: Found " +
             "matching dictionaries for several providers";
+
+    /** The criteria used to compare dictionaries. */
+    private static final Comparator<ProvidedDictionaryDescription> DICTIONARY_COMPARATOR =
+            new DictionaryComparator();
 
     /** The dictionary loader. */
     private final Collection<DictionaryProvider> dictionaryProviders;
@@ -69,13 +70,12 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
             presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
         } else {
 
-            final Map<DictionaryProviderDescription, Collection<? extends DictionaryDescription>> dictionaries =
-                    dictionaryProviders.stream()
-                                       .collect(toMap(DictionaryProvider::description,
-                                               provider -> provider.get()
-                                                                   .stream()
-                                                                   .map(Dictionary::description)
-                                                                   .toList()));
+            final List<ProvidedDictionaryDescription> dictionaries =
+                    dictionaryProviders.stream().flatMap(
+                            provider -> provider.get()
+                                                .stream()
+                                                .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()))
+                    ).sorted(DICTIONARY_COMPARATOR).toList();
 
             presenter.presentDictionaries(dictionaries);
         }
@@ -106,7 +106,21 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
 
     @Override
     public void showPreferredDictionary() {
-        // TODO Use implementation from solver, make it common
-        throw new UnsupportedOperationException("Not implemented yet");
+        final Collection<DictionaryProvider> filteredDictionaryProviders =
+                DictionarySelection.any().apply(dictionaryProviders);
+
+        if (filteredDictionaryProviders.isEmpty()) {
+            presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
+        } else {
+
+            final ProvidedDictionaryDescription preferredDictionary =
+                    dictionaryProviders.stream().flatMap(
+                            provider -> provider.get()
+                                                .stream()
+                                                .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()))
+                    ).min(DICTIONARY_COMPARATOR).orElseThrow();
+
+            presenter.presentPreferredDictionary(preferredDictionary);
+        }
     }
 }

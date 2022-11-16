@@ -2,6 +2,7 @@ package com.gitlab.super7ramp.crosswords.cli.presenter;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
@@ -56,9 +57,8 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
-            extends DictionaryDescription>> dictionariesPerProviders) {
-        cliDictionaryPresenter.presentDictionaries(dictionariesPerProviders);
+    public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+        cliDictionaryPresenter.presentDictionaries(dictionaries);
     }
 
     @Override
@@ -67,7 +67,7 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
+    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 }

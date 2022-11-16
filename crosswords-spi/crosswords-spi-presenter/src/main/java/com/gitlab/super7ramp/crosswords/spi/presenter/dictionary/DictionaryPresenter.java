@@ -2,6 +2,7 @@ package com.gitlab.super7ramp.crosswords.spi.presenter.dictionary;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,14 +23,11 @@ public interface DictionaryPresenter {
     /**
      * Presents the dictionaries.
      * <p>
-     * Note: The returned type is a map whose keys are {@link DictionaryProviderDescription}s.
-     * This extra information is given to allow implementations to present dictionary provider
-     * information alongside dictionaries, if they wish to do so.
+     * The returned dictionaries are sorted by order of preference.
      *
      * @param dictionaries the dictionaries
      */
-    void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
-            extends DictionaryDescription>> dictionaries);
+    void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries);
 
     /**
      * Presents the entries of a dictionary.
@@ -42,8 +40,10 @@ public interface DictionaryPresenter {
 
     /**
      * Presents the preferred dictionary.
+     * <p>
+     * Typically, this is the first dictionary returned by {@link #presentDictionaries(List)}.
      *
      * @param preferredDictionary the preferred dictionary, if any; {@code null} otherwise
      */
-    void presentPreferredDictionary(final DictionaryDescription preferredDictionary);
+    void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary);
 }

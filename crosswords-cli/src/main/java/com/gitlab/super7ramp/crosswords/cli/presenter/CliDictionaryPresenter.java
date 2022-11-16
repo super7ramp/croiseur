@@ -2,12 +2,12 @@ package com.gitlab.super7ramp.crosswords.cli.presenter;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * CLI implementation of {@link DictionaryPresenter}.
@@ -19,6 +19,9 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     /** List output format. */
     private static final String LIST_FORMAT = "%-16s\t%-16s\t%-16s%n";
+
+    /** Show preferred dictionary format. */
+    private static final String PREFERRED_DICTIONARY_FORMAT = "%s, %s, provided by %s";
 
     /**
      * Constructs an instance.
@@ -38,21 +41,16 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
-            extends DictionaryDescription>> dictionariesPerProviders) {
+    public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
 
         System.out.printf(LIST_FORMAT, "Provider", "Name", "Locale");
         System.out.printf(LIST_FORMAT, "--------", "----", "------");
 
-        for (final Map.Entry<DictionaryProviderDescription, Collection<?
-                extends DictionaryDescription>> entry :
-                dictionariesPerProviders.entrySet()) {
-
-            final DictionaryProviderDescription provider = entry.getKey();
-            final Collection<? extends DictionaryDescription> dictionaries = entry.getValue();
-            dictionaries.forEach(dictionary -> System.out.printf(LIST_FORMAT, provider.name(),
-                    dictionary.name(), dictionary.locale()
-                                                 .getDisplayName()));
+        for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
+            final DictionaryProviderDescription provider = providedDictionary.provider();
+            final DictionaryDescription dictionary = providedDictionary.dictionary();
+            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(), dictionary.locale()
+                                                                                         .getDisplayName());
         }
     }
 
@@ -70,7 +68,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
+        final DictionaryProviderDescription provider = preferredDictionary.provider();
+        final DictionaryDescription dictionary = preferredDictionary.dictionary();
+        System.out.printf(PREFERRED_DICTIONARY_FORMAT, dictionary.name(),
+                dictionary.locale().getDisplayName(), provider.name());
     }
 }

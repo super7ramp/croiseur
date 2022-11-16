@@ -1,14 +1,14 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
-import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryListViewEntry;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 final class GuiDictionaryPresenter implements DictionaryPresenter {
 
@@ -28,18 +28,14 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaries(final Map<DictionaryProviderDescription, Collection<?
-            extends DictionaryDescription>> dictionariesPerProviders) {
-
+    public void presentDictionaries(final List<ProvidedDictionaryDescription> providedDictionaries) {
         final Collection<DictionaryListViewEntry> presentedDictionaries =
-                dictionariesPerProviders.entrySet().stream().flatMap(
-                        entry -> {
-                            final String provider = entry.getKey().name();
-                            final Collection<? extends DictionaryDescription> dictionaries =
-                                    entry.getValue();
-                            return dictionaries.stream()
-                                               .map(dictionary -> new DictionaryListViewEntry(dictionary.locale(),
-                                                       provider, dictionary.name()));
+                providedDictionaries.stream().map(
+                        providedDictionary -> {
+                            final String provider = providedDictionary.provider().name();
+                            final Locale locale = providedDictionary.dictionary().locale();
+                            final String dictionaryName = providedDictionary.dictionary().name();
+                            return new DictionaryListViewEntry(locale, provider, dictionaryName);
                         }
                 ).toList();
         dictionaryViewModel.dictionariesProperty().setAll(presentedDictionaries);
@@ -51,7 +47,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final DictionaryDescription preferredDictionary) {
+    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }
