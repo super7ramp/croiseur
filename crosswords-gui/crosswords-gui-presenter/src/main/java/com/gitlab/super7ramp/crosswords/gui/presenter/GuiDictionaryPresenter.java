@@ -29,7 +29,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDescription> providedDictionaries) {
-        final Collection<DictionaryListViewEntry> presentedDictionaries =
+        final List<DictionaryListViewEntry> presentedDictionaries =
                 providedDictionaries.stream().map(
                         providedDictionary -> {
                             final String provider = providedDictionary.provider().name();
@@ -38,6 +38,10 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
                             return new DictionaryListViewEntry(locale, provider, dictionaryName);
                         }
                 ).toList();
+        // The first dictionary is the default one, automatically select it
+        if (!presentedDictionaries.isEmpty()) {
+            presentedDictionaries.get(0).selectedProperty().set(true);
+        }
         dictionaryViewModel.dictionariesProperty().setAll(presentedDictionaries);
     }
 
