@@ -5,13 +5,16 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;
+import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryContent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link DictionaryUsecase}.
@@ -93,14 +96,24 @@ public final class DictionaryUsecaseImpl implements DictionaryUsecase {
         } else if (filteredDictionaryProviders.size() > 1) {
             presenter.presentError(AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + filteredDictionaryProviders + ")");
         } else {
+
             final DictionaryProvider filteredDictionaryProvider =
                     filteredDictionaryProviders.iterator().next();
 
-            filteredDictionaryProvider.getFirst()
-                                      .ifPresentOrElse(dictionary -> presenter.presentDictionaryEntries(dictionary.stream()
-                                                                                                                  .sorted()
-                                                                                                                  .toList()),
-                                              () -> presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE));
+            final Optional<Dictionary> optFirstDictionary = filteredDictionaryProvider.getFirst();
+            if (optFirstDictionary.isPresent()) {
+
+                final Dictionary dictionary = optFirstDictionary.get();
+                final ProvidedDictionaryDescription description =
+                        new ProvidedDictionaryDescription(filteredDictionaryProvider.description(), dictionary.description());
+                final DictionaryContent dictionaryContent = new DictionaryContent(description,
+                        dictionary.stream().toList());
+
+                presenter.presentDictionaryEntries(dictionaryContent);
+
+            } else {
+                presenter.presentError(NO_DICTIONARY_ERROR_MESSAGE);
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.view;
 
-import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryListViewEntry;
+import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.crosswords.gui.view.util.SortedByCopyList;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -12,29 +13,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * A pane to browse dictionaries and dictionary entries.
  */
-public final class DictionaryPane extends VBox {
+public final class DictionariesPane extends VBox {
 
-    /** The fixed list cell height. */
-    // TODO get from CSS/actual height.
-    private static final int LIST_CELL_HEIGHT = 24;
+    /** Filters input so that text field contains only upper case characters. */
+    private static final UnaryOperator<TextFormatter.Change> TO_UPPER_CASE =
+            change -> {
+                change.setText(change.getText().toUpperCase());
+                return change;
+            };
 
-    /** The words contained in the selected dictionary. */
+    /** The known words. */
     private final ListProperty<String> words;
 
     /** The dictionaries list view. */
     @FXML
-    private ListView<DictionaryListViewEntry> dictionariesListView;
+    private ListView<DictionaryViewModel> dictionariesListView;
 
     /** The words list view. */
     @FXML
@@ -47,10 +54,10 @@ public final class DictionaryPane extends VBox {
     /**
      * Constructs an instance.
      */
-    public DictionaryPane() {
+    public DictionariesPane() {
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
 
-        final String fxmlName = DictionaryPane.class.getSimpleName() + ".fxml";
+        final String fxmlName = DictionariesPane.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
@@ -65,42 +72,44 @@ public final class DictionaryPane extends VBox {
 
     @FXML
     private void initialize() {
-        dictionariesListView.setFixedCellSize(LIST_CELL_HEIGHT);
+        // Input text shall be transformed to upper case like dictionary words
+        searchTextField.setTextFormatter(new TextFormatter<>(TO_UPPER_CASE));
+
         // Add custom cell factory (adds checkboxes and customises string representation)
         dictionariesListView.setCellFactory(new DictionaryListCellFactory());
 
         // Filter the displayed dictionary words
-        final FilteredList<String> searchedWords = new FilteredList<>(words);
+        // TODO uniq
+        final ObservableList<String> sortedWords = new SortedByCopyList<>(words,
+                Comparator.naturalOrder());
+        final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
         final ObservableValue<Predicate<String>> searchPredicate =
-                Bindings.createObjectBinding(() -> word -> word.contains(searchTextField.getText()
-                                                                                        .toUpperCase()),
-                        searchTextField.textProperty());
+                Bindings.createObjectBinding(() -> matchesSearch,
+                        searchTextField.textProperty(), dictionariesListView.itemsProperty());
+        final FilteredList<String> searchedWords = new FilteredList<>(sortedWords);
         searchedWords.predicateProperty().bind(searchPredicate);
         wordsListView.setItems(searchedWords);
     }
 
     /**
-     * Sets the dictionary entries - the words - to display.
+     * Returns the words to display.
      * <p>
-     * The words that will be actually displayed will be the given words which contain the
-     * {@link #searchTextField searched substring}.
+     * Note that this list contains all the words unfiltered; The words that will be actually
+     * displayed will be the given words which contain the {@link #searchTextField searched
+     * substring}.
      *
-     * @param wordsArg the dictionary wordsArg - the words - to display
+     * @return the words
      */
-    public void setWords(final ObservableList<String> wordsArg) {
-        words.set(wordsArg);
+    public ListProperty<String> wordsProperty() {
+        return words;
     }
 
     /**
-     * Sets the dictionaries to display.
+     * Returns the dictionaries.
      *
-     * @param dictionaries the dictionaries to display
+     * @return the dictionaries
      */
-    public void setDictionaries(final ObservableList<DictionaryListViewEntry> dictionaries) {
-        dictionariesListView.setItems(dictionaries);
-        dictionariesListView.prefHeightProperty()
-                            .bind(Bindings.size(dictionariesListView.getItems())
-                                          .multiply(LIST_CELL_HEIGHT));
+    public ObservableList<DictionaryViewModel> dictionaries() {
+        return dictionariesListView.getItems();
     }
-
 }

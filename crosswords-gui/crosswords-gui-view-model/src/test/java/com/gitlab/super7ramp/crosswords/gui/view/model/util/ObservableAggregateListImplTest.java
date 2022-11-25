@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests on {@link ObservableAggregateList}.
+ * Tests on {@link ObservableAggregateListImpl}.
  */
-final class ObservableAggregateListTest {
+final class ObservableAggregateListImplTest {
 
     @Test
     void aggregate() throws InterruptedException {
         final AggregateList<Integer> backingList = new AggregateListImpl<>();
-        final ObservableAggregateList<Integer> list = new ObservableAggregateList<>(backingList);
+        final ObservableAggregateListImpl<Integer> list = new ObservableAggregateListImpl<>(backingList);
         final CountDownLatch eventFiredLatch = new CountDownLatch(1);
         list.addListener((ListChangeListener<Integer>) c -> {
             assertTrue(c.next());
@@ -42,7 +42,7 @@ final class ObservableAggregateListTest {
     void aggregateAtIndex() throws InterruptedException {
         final AggregateList<Integer> backingList = new AggregateListImpl<>(List.of(1, 2, 3)
                 , List.of(6, 7));
-        final ObservableAggregateList<Integer> list = new ObservableAggregateList<>(backingList);
+        final ObservableAggregateListImpl<Integer> list = new ObservableAggregateListImpl<>(backingList);
         final CountDownLatch eventFiredLatch = new CountDownLatch(1);
         list.addListener((ListChangeListener<Integer>) c -> {
             assertTrue(c.next());
@@ -65,7 +65,7 @@ final class ObservableAggregateListTest {
     void disaggregate() throws InterruptedException {
         final AggregateList<Integer> backingList = new AggregateListImpl<>(List.of(1, 2, 3),
                 List.of(4, 5), List.of(6, 7));
-        final ObservableAggregateList<Integer> list = new ObservableAggregateList<>(backingList);
+        final ObservableAggregateListImpl<Integer> list = new ObservableAggregateListImpl<>(backingList);
         final CountDownLatch eventFiredLatch = new CountDownLatch(1);
         list.addListener((ListChangeListener<Integer>) c -> {
             assertTrue(c.next());

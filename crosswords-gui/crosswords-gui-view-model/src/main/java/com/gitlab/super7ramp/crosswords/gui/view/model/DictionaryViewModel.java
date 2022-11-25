@@ -1,67 +1,103 @@
 package com.gitlab.super7ramp.crosswords.gui.view.model;
 
-import javafx.beans.Observable;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ReadOnlyListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
+import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryKey;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
+import java.util.Locale;
 
 /**
- * The dictionary view model.
+ * A dictionary list view entry.
  */
 public final class DictionaryViewModel {
 
-    /** The available dictionaries. */
-    private final ListProperty<DictionaryListViewEntry> dictionaries;
+    /** Whether the dictionary is selected. */
+    private final BooleanProperty selected;
 
-    /** The selected dictionaries. */
-    private final ReadOnlyListProperty<DictionaryListViewEntry> selectedDictionaries;
+    /** The dictionary locale. */
+    private final Locale locale;
 
-    /** The requested dictionary entries. */
-    private final ListProperty<String> dictionaryEntries;
+    /** The dictionary provider. */
+    private final String provider;
+
+    /** The dictionary name. */
+    private final String name;
 
     /**
      * Constructs an instance.
+     *
+     * @param localeArg   the dictionary locale
+     * @param providerArg the dictionary provider
+     * @param nameArg     the dictionary name
      */
-    public DictionaryViewModel() {
-        dictionaries = new SimpleListProperty<>(this, "dictionaries",
-                FXCollections.observableArrayList(entry -> new Observable[]{entry.selectedProperty()}));
-        selectedDictionaries = new SimpleListProperty<>(this, "selected dictionaries",
-                new FilteredList<>(dictionaries, DictionaryListViewEntry::isSelected));
-        dictionaryEntries = new SimpleListProperty<>(this, "dictionary entries",
-                FXCollections.observableArrayList());
+    public DictionaryViewModel(final Locale localeArg, final String providerArg,
+                               final String nameArg) {
+        selected = new SimpleBooleanProperty(this, "selected", false);
+        locale = localeArg;
+        provider = providerArg;
+        name = nameArg;
     }
 
     /**
-     * Returns the available dictionaries.
+     * Returns the selected property.
      *
-     * @return the available dictionaries
+     * @return the selected property
      */
-    public ListProperty<DictionaryListViewEntry> dictionariesProperty() {
-        return dictionaries;
-    }
-
-
-    /**
-     * Returns the selected dictionaries.
-     * <p>
-     * Property is read-only, it's just a list filtering the dictionary entries.
-     *
-     * @return the selected dictionaries
-     */
-    public ReadOnlyListProperty<DictionaryListViewEntry> selectedDictionariesProperty() {
-        return selectedDictionaries;
+    public BooleanProperty selectedProperty() {
+        return selected;
     }
 
     /**
-     * Returns the requested dictionary entries.
+     * Returns whether the dictionary is selected.
      *
-     * @return the requested dictionary entries.
+     * @return whether the dictionary is selected.
      */
-    // TODO change to Map<Dictionary,List<String>>
-    public ListProperty<String> dictionaryEntries() {
-        return dictionaryEntries;
+    public boolean isSelected() {
+        return selected.get();
     }
 
+    /**
+     * Returns the dictionary locale.
+     *
+     * @return the dictionary locale
+     */
+    public String locale() {
+        return locale.getDisplayName();
+    }
+    /**
+     * Returns the dictionary provider.
+     *
+     * @return the dictionary provider
+     */
+    public String provider() {
+        return provider;
+    }
+
+    /**
+     * Returns the dictionary name.
+     *
+     * @return the dictionary name
+     */
+    public String name() {
+        return name;
+    }
+
+    /**
+     * Builds a {@link DictionaryKey} from the information of this {@link DictionaryViewModel}.
+     *
+     * @return the built {@link DictionaryKey}
+     */
+    public DictionaryKey key() {
+        return new DictionaryKey(provider, name, locale);
+    }
+
+    @Override
+    public String toString() {
+        return "Dictionary{" +
+                "selected=" + selected.get() +
+                ", locale='" + locale + '\'' +
+                ", provider='" + provider + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

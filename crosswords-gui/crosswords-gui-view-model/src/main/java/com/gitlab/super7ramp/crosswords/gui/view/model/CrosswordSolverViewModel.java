@@ -4,7 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- * The main view model.
+ * Access to the application view models.
  */
 public final class CrosswordSolverViewModel {
 
@@ -12,7 +12,7 @@ public final class CrosswordSolverViewModel {
     private final CrosswordGridViewModel crosswordGridViewModel;
 
     /** The view model of the dictionary. */
-    private final DictionaryViewModel dictionaryViewModel;
+    private final DictionariesViewModel dictionariesViewModel;
 
     /** Whether the solver is running. */
     private final BooleanProperty solverRunning;
@@ -22,7 +22,7 @@ public final class CrosswordSolverViewModel {
      */
     public CrosswordSolverViewModel() {
         crosswordGridViewModel = new CrosswordGridViewModel();
-        dictionaryViewModel = new DictionaryViewModel();
+        dictionariesViewModel = new DictionariesViewModel();
         solverRunning = new SimpleBooleanProperty(this, "solverRunning", false);
     }
 
@@ -40,8 +40,8 @@ public final class CrosswordSolverViewModel {
      *
      * @return the view model of the dictionary
      */
-    public DictionaryViewModel dictionaryViewModel() {
-        return dictionaryViewModel;
+    public DictionariesViewModel dictionaryViewModel() {
+        return dictionariesViewModel;
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.view;
 
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.StringExpression;
@@ -16,7 +16,7 @@ import java.util.function.UnaryOperator;
  * <p>
  * It features:
  * <ul>
- *     <li>Binding to {@link CrosswordBox} model</li>
+ *     <li>Binding to {@link CrosswordBoxViewModel} model</li>
  *     <li>Formatting that limits the input to a single character</li>
  *     <li>A shaded version, which can be toggled using right-click or the space key</li>
  *     <li>Font auto-sizing</li>
@@ -50,13 +50,13 @@ public final class CrosswordBoxTextField extends TextField {
             };
 
     /** The box model. */
-    private final CrosswordBox model;
+    private final CrosswordBoxViewModel model;
 
     /**
      * Constructs an instance.
      */
     CrosswordBoxTextField() {
-        this(new CrosswordBox());
+        this(new CrosswordBoxViewModel());
     }
 
     /**
@@ -64,7 +64,7 @@ public final class CrosswordBoxTextField extends TextField {
      *
      * @param modelArg the model
      */
-    CrosswordBoxTextField(final CrosswordBox modelArg) {
+    CrosswordBoxTextField(final CrosswordBoxViewModel modelArg) {
         model = modelArg;
 
         // Configure style

@@ -4,9 +4,9 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.crosswords.gui.view.model.DictionariesViewModel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,18 +28,18 @@ final class SolveRequestImpl implements SolveRequest {
      * Constructs an instance.
      *
      * @param crosswordGridViewModel the crossword model
-     * @param dictionaryViewModel    the dictionary model
+     * @param dictionariesViewModel    the dictionary model
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
-                     final DictionaryViewModel dictionaryViewModel) {
+                     final DictionariesViewModel dictionariesViewModel) {
 
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
 
-        final Map<GridPosition, CrosswordBox> boxes = crosswordGridViewModel.boxes();
-        for (final Map.Entry<GridPosition, CrosswordBox> box : boxes.entrySet()) {
+        final Map<GridPosition, CrosswordBoxViewModel> boxes = crosswordGridViewModel.boxes();
+        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
             final GridPosition position = box.getKey();
-            final CrosswordBox content = box.getValue();
+            final CrosswordBoxViewModel content = box.getValue();
             final boolean shaded = content.shadedProperty().get();
             if (shaded) {
                 pdb.shade(position);
@@ -60,11 +60,11 @@ final class SolveRequestImpl implements SolveRequest {
 
         puzzle = pdb.build();
         dictionaries =
-                dictionaryViewModel.selectedDictionariesProperty()
-                                   .stream()
-                                   .map(entry -> new DictionaryIdentifier(entry.provider(),
+                dictionariesViewModel.selectedDictionariesProperty()
+                                     .stream()
+                                     .map(entry -> new DictionaryIdentifier(entry.provider(),
                                            entry.name()))
-                                   .toList();
+                                     .toList();
     }
 
     @Override

@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 /**
  * Crossword box model.
  */
-public final class CrosswordBox {
+public final class CrosswordBoxViewModel {
 
     /** Whether the box is shaded or not. */
     private final BooleanProperty shaded;
@@ -22,7 +22,7 @@ public final class CrosswordBox {
     /**
      * Constructs an instance.
      */
-    public CrosswordBox() {
+    public CrosswordBoxViewModel() {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
         unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
         content = new SimpleStringProperty(this, "content", "");

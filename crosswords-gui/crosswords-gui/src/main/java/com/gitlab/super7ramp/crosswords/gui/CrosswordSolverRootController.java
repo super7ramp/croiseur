@@ -3,11 +3,14 @@ package com.gitlab.super7ramp.crosswords.gui;
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
-import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolver;
+import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolverPane;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
+import com.gitlab.super7ramp.crosswords.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
 import java.util.concurrent.Executor;
@@ -28,7 +31,7 @@ public final class CrosswordSolverRootController {
 
     /** The view. */
     @FXML
-    private CrosswordSolver view;
+    private CrosswordSolverPane view;
 
     /**
      * Constructs an instance.
@@ -38,8 +41,7 @@ public final class CrosswordSolverRootController {
      * @param executorArg                 the executor allowing to run background tasks
      */
     public CrosswordSolverRootController(final CrosswordService crosswordService,
-                                         final CrosswordSolverViewModel crosswordSolverViewModelArg,
-                                         final Executor executorArg) {
+                                         final CrosswordSolverViewModel crosswordSolverViewModelArg, final Executor executorArg) {
         solverController = new SolverController(crosswordSolverViewModelArg,
                 crosswordService.solverService());
         dictionaryController = new DictionaryController(crosswordService.dictionaryService(),
@@ -54,37 +56,59 @@ public final class CrosswordSolverRootController {
                 crosswordSolverViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().bindBidirectional(crosswordGridViewModel.boxes());
 
-        // The dictionary pane shall display the dictionary model
-        final DictionaryViewModel dictionaryViewModel =
+        // The dictionary pane shall display the dictionary model and allow to modify the
+        // dictionary selection.
+        final DictionariesViewModel dictionariesViewModel =
                 crosswordSolverViewModel.dictionaryViewModel();
-        view.setDictionaries(dictionaryViewModel.dictionariesProperty());
-        view.setDictionaryEntries(dictionaryViewModel.dictionaryEntries());
+        Bindings.bindContentBidirectional(dictionariesViewModel.dictionariesProperty(),
+                view.dictionaries());
+        view.wordsProperty().setValue(dictionariesViewModel.wordsProperty());
+        dictionariesViewModel.selectedDictionariesProperty()
+                             .addListener(this::onSelectedDictionaryChange);
 
         // Grid edition buttons and grid pane shall be disabled when solver is running
         view.gridEditionDisableProperty().bind(crosswordSolverViewModel.solverRunning());
 
         // Solver button shall be disabled if no solver not running and no dictionary selected
         view.solveButtonDisableProperty()
-            .bind(dictionaryViewModel.selectedDictionariesProperty().emptyProperty());
+            .bind(dictionariesViewModel.selectedDictionariesProperty().emptyProperty());
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
             .bind(new When(crosswordSolverViewModel.solverRunning()).then("Stop solving")
                                                                     .otherwise("Solve"));
 
-        // Solver button action shall be consistent with the solver state
-        view.onSolveButtonActionProperty().set(event -> {
-            if (!crosswordSolverViewModel.solverRunning().get()) {
-                solverController.start();
-            } else {
-                solverController.stop();
-            }
-        });
+        // Solver button action shall allow control the start and stop of the solver
+        view.onSolveButtonActionProperty().set(event -> onSolveButtonAction());
 
         // Dictionary pane shall be populated on startup
-        // TODO To be performed lazily when dictionary pane is displayed for the first time
         dictionaryController.listDictionaries();
-        dictionaryController.listDictionaryEntries();
     }
 
+    /**
+     * Performs the solve button action.
+     */
+    private void onSolveButtonAction() {
+        if (!crosswordSolverViewModel.solverRunning().get()) {
+            solverController.start();
+        } else {
+            solverController.stop();
+        }
+    }
+
+    /**
+     * Performs the dictionary selection change action.
+     *
+     * @param change the dictionary selection change
+     */
+    private void onSelectedDictionaryChange(ListChangeListener.Change<?
+            extends DictionaryViewModel> change) {
+        // TODO Dictionary words retrieval should be performed lazily when dictionary pane is
+        //  displayed for the first time
+        while (change.next()) {
+            if (change.wasAdded()) {
+                change.getAddedSubList().forEach(dictionaryController::listDictionaryEntries);
+            }
+        }
+    }
 }

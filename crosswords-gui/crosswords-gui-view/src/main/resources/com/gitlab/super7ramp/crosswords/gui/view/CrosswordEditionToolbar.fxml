@@ -60,7 +60,7 @@
             <ImageView id="show-dictionaries-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="Show/hide dictionary pane"/>
+            <Tooltip text="Show/hide dictionaryViewModel pane"/>
         </tooltip>
     </ToggleButton>
 </fx:root>

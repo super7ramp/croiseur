@@ -58,7 +58,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
                 return list.get(index - startIndex);
             }
         }
-        throw new IndexOutOfBoundsException();
+        throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.view;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
@@ -35,7 +35,7 @@ import java.util.Objects;
  * defined with code to constrain the grid pane so that it always presents nice square cells. See
  * {@link #defineGridConstraints()} to see how these constraints are built.
  */
-public final class CrosswordGrid extends StackPane {
+public final class CrosswordGridPane extends StackPane {
 
     /**
      * Allows to navigate the grid using arrow keys.
@@ -100,7 +100,7 @@ public final class CrosswordGrid extends StackPane {
      * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a
      * node from a position).
      */
-    private final MapProperty<GridPosition, CrosswordBox> boxModels;
+    private final MapProperty<GridPosition, CrosswordBoxViewModel> boxModels;
 
     /**
      * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property,
@@ -115,11 +115,11 @@ public final class CrosswordGrid extends StackPane {
     /**
      * Constructs an instance.
      */
-    public CrosswordGrid() {
+    public CrosswordGridPane() {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
 
-        final String fxmlName = CrosswordGrid.class.getSimpleName() + ".fxml";
+        final String fxmlName = CrosswordGridPane.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
@@ -137,7 +137,7 @@ public final class CrosswordGrid extends StackPane {
      * <p>
      * It is meant to be the principal mean of communication with the application view model.
      * <p>
-     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBox}) entry if
+     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel}) entry if
      * and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
@@ -147,15 +147,15 @@ public final class CrosswordGrid extends StackPane {
      * <p>
      * <h4>Adding new boxes</h4>
      * <p>
-     * Just add entries to the map. Entries with default {@link CrosswordBox}es can also be added
+     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}es can also be added
      * via {@link #addColumn()} and {@link #addRow()}.
      * <p>
      * <h4>Modifying boxes</h4>
      * <p>
-     * The straightforward way to modify existing {@link CrosswordBox}es is to simply set their
+     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply set their
      * properties to new values, either via the view or the application model.
      * <p>
-     * Replacing a {@link CrosswordBox} object by a new instance will have the same effect
+     * Replacing a {@link CrosswordBoxViewModel} object by a new instance will have the same effect
      * though. It is deemed to be the desired behaviour. Implementation may try to avoid
      * instantiating a new {@link CrosswordBoxTextField} in this situation but unlink the old
      * model and reuse the existing text field with the new model object.
@@ -170,7 +170,7 @@ public final class CrosswordGrid extends StackPane {
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
-    public MapProperty<GridPosition, CrosswordBox> boxes() {
+    public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
         return boxModels;
     }
 
@@ -187,7 +187,7 @@ public final class CrosswordGrid extends StackPane {
         for (int column = 0; (column < oldColumnCount) || (column == 0 && oldColumnCount == 0); column++) {
             final GridPosition coordinate = new GridPosition(column, newRowIndex);
             // Just add the box to the model: Model update listener will synchronize the view.
-            boxModels.put(coordinate, new CrosswordBox());
+            boxModels.put(coordinate, new CrosswordBoxViewModel());
         }
     }
 
@@ -204,7 +204,7 @@ public final class CrosswordGrid extends StackPane {
         for (int row = 0; (row < oldRowCount) || (row == 0 && oldRowCount == 0); row++) {
             final GridPosition coordinate = new GridPosition(newColumnIndex, row);
             // Just add the box to the model: Model update listener will synchronize the view.
-            boxModels.put(coordinate, new CrosswordBox());
+            boxModels.put(coordinate, new CrosswordBoxViewModel());
         }
     }
 
@@ -256,7 +256,7 @@ public final class CrosswordGrid extends StackPane {
      * @param change the model change
      */
     private void onModelUpdate(final MapChangeListener.Change<? extends GridPosition, ?
-            extends CrosswordBox> change) {
+            extends CrosswordBoxViewModel> change) {
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
                 // TODO replaced case
@@ -313,7 +313,7 @@ public final class CrosswordGrid extends StackPane {
      * @param coordinate where the box is added
      * @param boxModel   what the box contains
      */
-    private void onBoxAdded(final GridPosition coordinate, final CrosswordBox boxModel) {
+    private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
         // Create a new node
         final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
         grid.add(textField, coordinate.x(), coordinate.y());

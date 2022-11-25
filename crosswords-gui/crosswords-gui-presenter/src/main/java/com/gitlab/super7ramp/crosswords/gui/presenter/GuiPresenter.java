@@ -4,6 +4,7 @@ import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDesc
 import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
@@ -65,8 +66,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaryEntries(final List<String> entries) {
-        dictionaryPresenter.presentDictionaryEntries(entries);
+    public void presentDictionaryEntries(final DictionaryContent content) {
+        dictionaryPresenter.presentDictionaryEntries(content);
     }
 
     @Override

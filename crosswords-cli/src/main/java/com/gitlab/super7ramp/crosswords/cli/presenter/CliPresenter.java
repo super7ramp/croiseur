@@ -1,16 +1,15 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
-import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
+import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * CLI implementation of {@link Presenter}.
@@ -62,8 +61,8 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaryEntries(final List<String> entries) {
-        cliDictionaryPresenter.presentDictionaryEntries(entries);
+    public void presentDictionaryEntries(final DictionaryContent content) {
+        cliDictionaryPresenter.presentDictionaryEntries(content);
     }
 
     @Override

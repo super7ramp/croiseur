@@ -1,9 +1,10 @@
 package com.gitlab.super7ramp.crosswords.gui.view;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
-import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryListViewEntry;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
+import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -22,15 +23,15 @@ import java.util.Objects;
 /**
  * An entire crossword solver view, based on {@link BorderPane}.
  */
-public final class CrosswordSolver extends BorderPane {
+public final class CrosswordSolverPane extends BorderPane {
 
     /** The grid. */
     @FXML
-    private CrosswordGrid grid;
+    private CrosswordGridPane grid;
 
     /** The dictionary pane. */
     @FXML
-    private DictionaryPane dictionaryPane;
+    private DictionariesPane dictionariesPane;
 
     /** The toolbar. */
     @FXML
@@ -39,8 +40,8 @@ public final class CrosswordSolver extends BorderPane {
     /**
      * Constructs an instance.
      */
-    public CrosswordSolver() {
-        final String fxmlName = CrosswordSolver.class.getSimpleName() + ".fxml";
+    public CrosswordSolverPane() {
+        final String fxmlName = CrosswordSolverPane.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
@@ -64,8 +65,8 @@ public final class CrosswordSolver extends BorderPane {
         // Display the dictionary pane only when the dictionaries toggle button is selected
         final BooleanProperty dictionariesToggleButtonSelectedProperty =
                 toolbar.dictionariesToggleButtonSelectedProperty();
-        dictionaryPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
-        dictionaryPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
+        dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
+        dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
     }
 
     /**
@@ -110,28 +111,28 @@ public final class CrosswordSolver extends BorderPane {
     /**
      * Returns the crossword grid map property.
      *
-     * @return he crossword grid map property
-     * @see CrosswordGrid#boxes()
+     * @return the crossword grid map property
+     * @see CrosswordGridPane#boxes()
      */
-    public MapProperty<GridPosition, CrosswordBox> gridBoxesProperty() {
+    public MapProperty<GridPosition, CrosswordBoxViewModel> gridBoxesProperty() {
         return grid.boxes();
     }
 
     /**
-     * Sets the dictionaries to display.
+     * Returns the displayed dictionaries.
      *
-     * @param dictionaries the dictionaries to display
+     * @return the displayed dictionaries
      */
-    public void setDictionaries(final ObservableList<DictionaryListViewEntry> dictionaries) {
-        dictionaryPane.setDictionaries(dictionaries);
+    public ObservableList<DictionaryViewModel> dictionaries() {
+        return dictionariesPane.dictionaries();
     }
 
     /**
-     * Sets the dictionary entries to display.
+     * Returns the displayed dictionary words.
      *
-     * @param dictionaryEntries the dictionary entries to display
+     * @return the displayed dictionary words
      */
-    public void setDictionaryEntries(final ObservableList<String> dictionaryEntries) {
-        dictionaryPane.setWords(dictionaryEntries);
+    public ListProperty<String> wordsProperty() {
+        return dictionariesPane.wordsProperty();
     }
 }

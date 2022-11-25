@@ -4,7 +4,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Allows to view several collections as a single {@link List}.
+ * Combine several collections in a single {@link List} view.
+ * <p>
+ * This list is unmodifiable with the modifiers of the {@link List} interface. This list is
+ * modifiable only by adding or removing collection using {@link #aggregate} and
+ * {@link #disaggregate} methods.
  *
  * @param <T> type of the element of the list
  */
@@ -69,4 +73,5 @@ public interface AggregateList<T> extends List<T> {
     static <T> AggregateList of(Collection<T> collection, Collection<T>... otherCollections)  {
         return new AggregateListImpl<>(collection, otherCollections);
     }
+
 }

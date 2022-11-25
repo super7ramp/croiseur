@@ -12,7 +12,7 @@ import javafx.collections.ObservableMap;
 public final class CrosswordGridViewModel {
 
     /** The boxes of the view. */
-    private final MapProperty<GridPosition, CrosswordBox> boxes;
+    private final MapProperty<GridPosition, CrosswordBoxViewModel> boxes;
 
     /**
      * Constructs an instance.
@@ -26,12 +26,12 @@ public final class CrosswordGridViewModel {
      *
      * @return the default crossword grid view model
      */
-    private static ObservableMap<GridPosition, CrosswordBox> welcomeBoxes() {
-        final ObservableMap<GridPosition, CrosswordBox> welcomeBoxes =
+    private static ObservableMap<GridPosition, CrosswordBoxViewModel> welcomeBoxes() {
+        final ObservableMap<GridPosition, CrosswordBoxViewModel> welcomeBoxes =
                 FXCollections.observableHashMap();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                welcomeBoxes.put(new GridPosition(i, j), new CrosswordBox());
+                welcomeBoxes.put(new GridPosition(i, j), new CrosswordBoxViewModel());
             }
         }
         return welcomeBoxes;
@@ -42,7 +42,7 @@ public final class CrosswordGridViewModel {
      *
      * @return the boxes
      */
-    public MapProperty<GridPosition, CrosswordBox> boxes() {
+    public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
         return boxes;
     }
 

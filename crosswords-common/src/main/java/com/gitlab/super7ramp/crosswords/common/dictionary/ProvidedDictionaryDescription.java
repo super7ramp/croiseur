@@ -8,5 +8,13 @@ package com.gitlab.super7ramp.crosswords.common.dictionary;
  */
 public record ProvidedDictionaryDescription(DictionaryProviderDescription provider,
                                             DictionaryDescription dictionary) {
-    // Nothing to add.
+
+    /**
+     * Returns the {@link DictionaryKey} from this description.
+     *
+     * @return the {@link DictionaryKey} from this description
+     */
+    public DictionaryKey toDictionaryKey() {
+        return new DictionaryKey(provider.name(), dictionary.name(), dictionary.locale());
+    }
 }

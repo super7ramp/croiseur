@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.gui.presenter;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
-import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBox;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
@@ -46,16 +46,16 @@ final class GuiSolverPresenter implements SolverPresenter {
     public void presentResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
-        final MapProperty<GridPosition, CrosswordBox> viewModelBoxes =
+        final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxes();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
-            final CrosswordBox box = viewModelBoxes.get(position);
+            final CrosswordBoxViewModel box = viewModelBoxes.get(position);
             box.contentProperty().set(entry.getValue().toString());
         }
-        for (final Map.Entry<GridPosition, CrosswordBox> entry : viewModelBoxes.entrySet()) {
+        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry : viewModelBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
-            final CrosswordBox box = entry.getValue();
+            final CrosswordBoxViewModel box = entry.getValue();
             box.unsolvableProperty().set(result.unsolvableBoxes().contains(position));
         }
     }

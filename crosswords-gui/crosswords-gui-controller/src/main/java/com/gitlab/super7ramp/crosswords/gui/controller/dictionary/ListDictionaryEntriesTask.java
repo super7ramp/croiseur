@@ -2,6 +2,7 @@ package com.gitlab.super7ramp.crosswords.gui.controller.dictionary;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import javafx.concurrent.Task;
 
 /**
@@ -20,8 +21,9 @@ final class ListDictionaryEntriesTask extends Task<Void> {
      *
      * @param dictionaryUsecaseArg the dictionary usecase
      */
-    ListDictionaryEntriesTask(final DictionaryUsecase dictionaryUsecaseArg) {
-        listDictionaryEntriesRequest = new ListDictionaryEntriesRequestImpl();
+    ListDictionaryEntriesTask(final DictionaryViewModel dictionaryViewModelArg,
+                              final DictionaryUsecase dictionaryUsecaseArg) {
+        listDictionaryEntriesRequest = new ListDictionaryEntriesRequestImpl(dictionaryViewModelArg);
         dictionaryUsecase = dictionaryUsecaseArg;
     }
 
