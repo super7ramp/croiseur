@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 
@@ -37,6 +39,22 @@ public final class CrosswordEditionToolbar extends ToolBar {
     /** The 'delete row' button. */
     @FXML
     private Button deleteRowButton;
+
+    /** The 'clear grid' menu button. */
+    @FXML
+    private MenuButton clearGridMenuButton;
+
+    /** The 'clear grid letters' menu item. */
+    @FXML
+    private MenuItem clearGridLettersMenuItem;
+
+    /** The 'clear grid content' menu item. */
+    @FXML
+    private MenuItem clearGridContentMenuItem;
+
+    /** The 'clear grid structure' menu item. */
+    @FXML
+    private MenuItem clearGridStructureMenuItem;
 
     /** The solve button. */
     @FXML
@@ -75,6 +93,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
         addRowButton.disableProperty().bind(gridEditionButtonsDisableProperty);
         deleteColumnButton.disableProperty().bind(gridEditionButtonsDisableProperty);
         deleteRowButton.disableProperty().bind(gridEditionButtonsDisableProperty);
+        clearGridMenuButton.disableProperty().bind(gridEditionButtonsDisableProperty);
     }
 
     /**
@@ -111,6 +130,33 @@ public final class CrosswordEditionToolbar extends ToolBar {
      */
     public ObjectProperty<EventHandler<ActionEvent>> onDeleteRowActionButtonProperty() {
         return deleteRowButton.onActionProperty();
+    }
+
+    /**
+     * Returns the on clear grid letters menu item action property.
+     *
+     * @return the on clear grid letters menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersMenuItemActionProperty() {
+        return clearGridLettersMenuItem.onActionProperty();
+    }
+
+    /**
+     * Returns the on clear grid content menu item action property.
+     *
+     * @return the on clear grid content menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridContentMenuItemActionProperty() {
+        return clearGridContentMenuItem.onActionProperty();
+    }
+
+    /**
+     * Returns the on clear grid structure menu item action property.
+     *
+     * @return the on clear grid structure menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridStructureMenuItemActionProperty() {
+        return clearGridStructureMenuItem.onActionProperty();
     }
 
     /**

@@ -27,6 +27,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
+
+import static java.util.function.Predicate.not;
 
 /**
  * A standalone crossword grid control.
@@ -137,7 +140,8 @@ public final class CrosswordGridPane extends StackPane {
      * <p>
      * It is meant to be the principal mean of communication with the application view model.
      * <p>
-     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel}) entry if
+     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel})
+     * entry if
      * and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
@@ -147,13 +151,13 @@ public final class CrosswordGridPane extends StackPane {
      * <p>
      * <h4>Adding new boxes</h4>
      * <p>
-     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}es can also be added
-     * via {@link #addColumn()} and {@link #addRow()}.
+     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}es can also
+     * be added via {@link #addColumn()} and {@link #addRow()}.
      * <p>
      * <h4>Modifying boxes</h4>
      * <p>
-     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply set their
-     * properties to new values, either via the view or the application model.
+     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply
+     * set their properties to new values, either via the view or the application model.
      * <p>
      * Replacing a {@link CrosswordBoxViewModel} object by a new instance will have the same effect
      * though. It is deemed to be the desired behaviour. Implementation may try to avoid
@@ -238,6 +242,31 @@ public final class CrosswordGridPane extends StackPane {
             // Just remove the box from the model: Model update listener will synchronize the view.
             boxModels.remove(coordinate);
         }
+    }
+
+    /**
+     * Clears the entire grid, including its structure, i.e. box nodes are removed from the grid.
+     */
+    public void clear() {
+        boxModels.clear();
+    }
+
+    /**
+     * Resets the grid content (both shaded and non-shaded boxes).
+     * <p>
+     * This method preserves the structure of the grid, box nodes are not removed.
+     */
+    public void resetContentAll() {
+        resetContent(box -> true);
+    }
+
+    /**
+     * Resets the grid content (only non-shaded boxes).
+     * <p>
+     * This method preserves the structure of the grid, box nodes are not removed.
+     */
+    public void resetContentLettersOnly() {
+        resetContent(not(CrosswordBoxViewModel::isShaded));
     }
 
     /**
@@ -382,5 +411,15 @@ public final class CrosswordGridPane extends StackPane {
             return 1.0;
         }
         return ((double) columnCount / ((double) rowCount));
+    }
+
+    /**
+     * Resets the boxes matching the given predicate.
+     *
+     * @param predicate filters the boxes to be reset
+     * @see CrosswordBoxViewModel#reset()
+     */
+    private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
+        boxModels.values().stream().filter(predicate).forEach(CrosswordBoxViewModel::reset);
     }
 }

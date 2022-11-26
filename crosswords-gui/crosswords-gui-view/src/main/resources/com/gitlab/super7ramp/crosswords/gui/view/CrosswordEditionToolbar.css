@@ -14,6 +14,10 @@
     -fx-image: url("lc_deletecolumns.png");
 }
 
+#clear-grid-menu-button-image-view {
+    -fx-image: url("lc_librelogo-clearscreen.png");
+}
+
 #solve-button-image-view {
     -fx-image: url("lc_runmacro.png");
 }

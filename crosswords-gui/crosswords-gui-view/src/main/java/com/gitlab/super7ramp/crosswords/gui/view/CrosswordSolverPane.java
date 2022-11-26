@@ -61,6 +61,12 @@ public final class CrosswordSolverPane extends BorderPane {
         toolbar.onAddRowActionButtonProperty().set(event -> grid.addRow());
         toolbar.onDeleteColumnActionButtonProperty().set(event -> grid.deleteLastColumn());
         toolbar.onDeleteRowActionButtonProperty().set(event -> grid.deleteLastRow());
+        toolbar.onClearGridLettersMenuItemActionProperty().set(event -> grid.resetContentLettersOnly());
+        toolbar.onClearGridContentMenuItemActionProperty().set(event -> grid.resetContentAll());
+        toolbar.onClearGridStructureMenuItemActionProperty().set(event -> grid.clear());
+
+        // Grid and toolbar edition buttons follow the same edition disable property
+        grid.disableProperty().bind(gridEditionDisableProperty());
 
         // Display the dictionary pane only when the dictionaries toggle button is selected
         final BooleanProperty dictionariesToggleButtonSelectedProperty =

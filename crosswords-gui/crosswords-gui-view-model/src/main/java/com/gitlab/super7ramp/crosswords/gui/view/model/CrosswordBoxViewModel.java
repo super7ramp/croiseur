@@ -38,12 +38,30 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Returns whether the box is shaded.
+     *
+     * @return whether the box is shaded
+     */
+    public boolean isShaded() {
+        return shaded.get();
+    }
+
+    /**
      * Returns the boolean property indicating whether the box cannot be solved.
      *
      * @return the boolean property indicating whether the box cannot be solved
      */
     public BooleanProperty unsolvableProperty() {
         return unsolvable;
+    }
+
+    /**
+     * Returns whether the box cannot be solved.
+     *
+     * @return whether the box cannot be solved
+     */
+    public boolean isUnsolvable() {
+        return unsolvable.get();
     }
 
     /**
@@ -55,4 +73,12 @@ public final class CrosswordBoxViewModel {
         return content;
     }
 
+    /**
+     * Resets the content of this box model to its defaults.
+     */
+    public void reset() {
+        shaded.set(false);
+        unsolvable.set(false);
+        content.set("");
+    }
 }

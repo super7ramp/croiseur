@@ -67,14 +67,19 @@ public final class CrosswordBoxTextField extends TextField {
     CrosswordBoxTextField(final CrosswordBoxViewModel modelArg) {
         model = modelArg;
 
-        // Configure style
+        // Configure shaded/unsolvable states
         getStyleClass().add(CSS_CLASS);
-        pseudoClassStateChanged(SHADED, model.shadedProperty().get());
-        pseudoClassStateChanged(UNSOLVABLE, model.unsolvableProperty().get());
+        pseudoClassStateChanged(SHADED, model.isShaded());
+        pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable());
+        model.shadedProperty()
+             .addListener(e -> pseudoClassStateChanged(SHADED, model.isShaded()));
+        model.unsolvableProperty()
+             .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable()));
+        editableProperty().bind(model.shadedProperty().not());
 
         // Configure text content
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
-        model.contentProperty().bindBidirectional(textProperty());
+        textProperty().bindBidirectional(model.contentProperty());
 
         // Enable auto-sized font
         // TODO use a better computation of the font size
@@ -93,11 +98,7 @@ public final class CrosswordBoxTextField extends TextField {
         fontProperty().bind(font);
          */
 
-        // Listen to events
-        model.shadedProperty()
-             .addListener(e -> pseudoClassStateChanged(SHADED, model.shadedProperty().get()));
-        model.unsolvableProperty()
-             .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.unsolvableProperty().get()));
+        // Listen to user inputs
         setOnContextMenuRequested(event -> toggleShading());
         addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getText().equals(" ")) {
@@ -111,7 +112,7 @@ public final class CrosswordBoxTextField extends TextField {
      * Toggle shading of the box.
      */
     private void toggleShading() {
-        if (!model.shadedProperty().get()) {
+        if (!model.isShaded()) {
             shade();
         } else {
             reveal();
@@ -126,7 +127,6 @@ public final class CrosswordBoxTextField extends TextField {
      */
     private void shade() {
         clear();
-        setEditable(false);
         model.unsolvableProperty().set(false);
         model.shadedProperty().set(true);
     }
@@ -136,6 +136,5 @@ public final class CrosswordBoxTextField extends TextField {
      */
     private void reveal() {
         model.shadedProperty().set(false);
-        setEditable(true);
     }
 }

@@ -1,66 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditionToolbar.css" type="ToolBar"
-         xmlns="http://javafx.com/javafx/17">
-    <Button fx:id="addRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            text="Add row">
+
+<fx:root stylesheets="@CrosswordEditionToolbar.css" type="ToolBar" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <Button fx:id="addRowButton" text="Add row">
         <graphic>
-            <ImageView id="add-row-button-image-view"/>
+            <ImageView id="add-row-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Add row on the bottom"/>
+            <Tooltip text="Add row on the bottom" />
         </tooltip>
     </Button>
-    <Button fx:id="deleteRowButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            text="Delete row">
+    <Button fx:id="deleteRowButton" text="Delete row">
         <graphic>
-            <ImageView id="delete-row-button-image-view"/>
+            <ImageView id="delete-row-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Delete row on the bottom"/>
+            <Tooltip text="Delete row on the bottom" />
         </tooltip>
     </Button>
-    <Button fx:id="addColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            text="Add column">
+    <Button fx:id="addColumnButton" text="Add column">
         <graphic>
-            <ImageView id="add-column-button-image-view"/>
+            <ImageView id="add-column-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Add column on the right"/>
+            <Tooltip text="Add column on the right" />
         </tooltip>
     </Button>
-    <Button fx:id="deleteColumnButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-            text="Delete column">
+    <Button fx:id="deleteColumnButton" text="Delete column">
         <graphic>
-            <ImageView id="delete-column-button-image-view"/>
+            <ImageView id="delete-column-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Delete column on the right"/>
+            <Tooltip text="Delete column on the right" />
         </tooltip>
     </Button>
+   <MenuButton fx:id="clearGridMenuButton" text="Clear grid">
+     <items>
+       <MenuItem fx:id="clearGridLettersMenuItem" text="Clear only letters" />
+       <MenuItem fx:id="clearGridContentMenuItem" text="Clear letters and shaded cells" />
+       <MenuItem fx:id="clearGridStructureMenuItem" text="Clear the entire structure" />
+     </items>
+      <graphic>
+            <ImageView id="clear-grid-menu-button-image-view" />
+      </graphic>
+      <tooltip>
+            <Tooltip text="Clear the grid" />
+      </tooltip>
+   </MenuButton>
     <Button fx:id="solveButton" text="Solve">
         <graphic>
-            <ImageView id="solve-button-image-view"/>
+            <ImageView id="solve-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Start/stop solving"/>
+            <Tooltip text="Start/stop solving" />
         </tooltip>
     </Button>
-    <Pane HBox.hgrow="ALWAYS"/>
-    <ToggleButton fx:id="dictionariesToggleButton" mnemonicParsing="false"
-                  text="Dictionaries">
+    <Pane HBox.hgrow="ALWAYS" />
+    <ToggleButton fx:id="dictionariesToggleButton" text="Dictionaries">
         <graphic>
-            <ImageView id="show-dictionaries-button-image-view"/>
+            <ImageView id="show-dictionaries-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Show/hide dictionaryViewModel pane"/>
+            <Tooltip text="Show/hide dictionaryViewModel pane" />
         </tooltip>
     </ToggleButton>
 </fx:root>
