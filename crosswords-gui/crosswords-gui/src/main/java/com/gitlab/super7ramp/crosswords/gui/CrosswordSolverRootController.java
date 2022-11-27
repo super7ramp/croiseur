@@ -1,9 +1,11 @@
 package com.gitlab.super7ramp.crosswords.gui;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
+import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.crosswords.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolverPane;
+import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionariesViewModel;
@@ -11,6 +13,7 @@ import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.MapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
@@ -42,7 +45,8 @@ public final class CrosswordSolverRootController {
      * @param executorArg                 the executor allowing to run background tasks
      */
     public CrosswordSolverRootController(final CrosswordService crosswordService,
-                                         final CrosswordSolverViewModel crosswordSolverViewModelArg, final Executor executorArg) {
+                                         final CrosswordSolverViewModel crosswordSolverViewModelArg,
+                                         final Executor executorArg) {
         solverController = new SolverController(crosswordSolverViewModelArg,
                 crosswordService.solverService());
         dictionaryController = new DictionaryController(crosswordService.dictionaryService(),
@@ -55,7 +59,9 @@ public final class CrosswordSolverRootController {
         // The grid view shall display and allow edition of the crossword grid model
         final CrosswordGridViewModel crosswordGridViewModel =
                 crosswordSolverViewModel.crosswordGridViewModel();
-        view.gridBoxesProperty().setValue(crosswordGridViewModel.boxes());
+        final MapProperty<GridPosition, CrosswordBoxViewModel> boxes =
+                crosswordGridViewModel.boxes();
+        view.gridBoxesProperty().setValue(boxes);
 
         // The dictionary pane shall display the dictionary model and allow to modify the
         // dictionary selection.
@@ -71,9 +77,11 @@ public final class CrosswordSolverRootController {
         final BooleanProperty solverRunning = crosswordSolverViewModel.solverRunning();
         view.gridEditionDisableProperty().bind(solverRunning);
 
-        // Solver button shall be disabled if no solver not running and no dictionary selected
+        // Solver button shall be disabled if solver is not running and no dictionary is selected
+        // and grid is not empty
         view.solveButtonDisableProperty()
-            .bind(selectedDictionary.emptyProperty().and(solverRunning.not()));
+            .bind(solverRunning.not()
+                               .and(selectedDictionary.emptyProperty().or(boxes.emptyProperty())));
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()

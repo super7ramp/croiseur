@@ -115,6 +115,10 @@ public final class CrosswordGridPane extends StackPane {
     @FXML
     private GridPane grid;
 
+    /** The placeholder (displayed when the grid is empty). */
+    @FXML
+    private CrosswordGridPlaceholder placeholder;
+
     /**
      * Constructs an instance.
      */
@@ -277,6 +281,9 @@ public final class CrosswordGridPane extends StackPane {
         defineGridConstraints();
         boxModels.addListener(this::onModelUpdate);
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
+        placeholder.visibleProperty().bind(boxModels.emptyProperty());
+        placeholder.managedProperty().bind(boxModels.emptyProperty());
+        placeholder.wrappingWidthProperty().bind(grid.widthProperty().subtract(10));
     }
 
     /**
