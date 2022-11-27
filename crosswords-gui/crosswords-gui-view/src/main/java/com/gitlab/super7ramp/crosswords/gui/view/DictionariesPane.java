@@ -36,6 +36,9 @@ public final class DictionariesPane extends VBox {
                 return change;
             };
 
+    /** The dictionaries. */
+    private final ListProperty<DictionaryViewModel> dictionaries;
+
     /** The known words. */
     private final ListProperty<String> words;
 
@@ -55,6 +58,8 @@ public final class DictionariesPane extends VBox {
      * Constructs an instance.
      */
     public DictionariesPane() {
+        dictionaries = new SimpleListProperty<>(this, "dictionaries",
+                FXCollections.observableArrayList());
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
 
         final String fxmlName = DictionariesPane.class.getSimpleName() + ".fxml";
@@ -77,6 +82,7 @@ public final class DictionariesPane extends VBox {
 
         // Add custom cell factory (adds checkboxes and customises string representation)
         dictionariesListView.setCellFactory(new DictionaryListCellFactory());
+        dictionariesListView.setItems(dictionaries);
 
         // Filter the displayed dictionary words
         // TODO uniq
@@ -109,7 +115,7 @@ public final class DictionariesPane extends VBox {
      *
      * @return the dictionaries
      */
-    public ObservableList<DictionaryViewModel> dictionaries() {
-        return dictionariesListView.getItems();
+    public ListProperty<DictionaryViewModel> dictionariesProperty() {
+        return dictionaries;
     }
 }

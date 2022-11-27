@@ -8,7 +8,6 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -129,8 +128,8 @@ public final class CrosswordSolverPane extends BorderPane {
      *
      * @return the displayed dictionaries
      */
-    public ObservableList<DictionaryViewModel> dictionaries() {
-        return dictionariesPane.dictionaries();
+    public ListProperty<DictionaryViewModel> dictionariesProperty() {
+        return dictionariesPane.dictionariesProperty();
     }
 
     /**
