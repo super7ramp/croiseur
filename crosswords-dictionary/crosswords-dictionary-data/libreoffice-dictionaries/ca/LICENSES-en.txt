@@ -1,4 +1,0 @@
-LICENSES :
-Spelling dictionaryViewModel: LGPL, GPL
-Tesaurus: LGPL, GPL
-Hyphenation: LGPL, GPL

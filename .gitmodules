@@ -1,3 +1,6 @@
-[submodule "libreoffice-dictionaries"]
-	path = dictionary/dictionary-data/libreoffice-dictionaries
+[submodule "crosswords-solver/crosswords-solver-paulgb/crossword-composer"]
+	path = crosswords-solver/crosswords-solver-paulgb/crossword-composer
+	url = https://github.com/paulgb/crossword-composer.git
+[submodule "crosswords-dictionary/crosswords-dictionary-data/libreoffice-dictionaries"]
+	path = crosswords-dictionary/crosswords-dictionary-data/libreoffice-dictionaries
 	url = git://anongit.freedesktop.org/libreoffice/dictionaries
