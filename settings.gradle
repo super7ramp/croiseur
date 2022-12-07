@@ -21,6 +21,7 @@ include 'crosswords-dictionary:crosswords-dictionary-tools'
 // Solvers libraries/plugins
 include 'crosswords-solver:crosswords-solver-ginsberg'
 include 'crosswords-solver:crosswords-solver-ginsberg-plugin'
+include 'crosswords-solver:crosswords-solver-paulgb'
 
 // CLI frontend
 include 'crosswords-cli'

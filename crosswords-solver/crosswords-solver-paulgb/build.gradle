@@ -1,0 +1,8 @@
+plugins {
+    id 'cpp-library'
+    id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
+}
+
+test {
+    systemProperty "java.library.path", "${projectDir}/crossword-composer-jni/target/debug"
+}
