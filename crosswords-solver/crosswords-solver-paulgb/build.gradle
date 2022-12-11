@@ -3,6 +3,8 @@ plugins {
     id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
 }
 
+
 test {
-    systemProperty "java.library.path", "${projectDir}/crossword-composer-jni/target/debug"
+    systemProperty "java.library.path",
+            "${projectDir}/src/main/rust/crossword-composer-jni/target/debug"
 }

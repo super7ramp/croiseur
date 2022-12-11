@@ -22,6 +22,7 @@ include 'crosswords-dictionary:crosswords-dictionary-tools'
 include 'crosswords-solver:crosswords-solver-ginsberg'
 include 'crosswords-solver:crosswords-solver-ginsberg-plugin'
 include 'crosswords-solver:crosswords-solver-paulgb'
+include 'crosswords-solver:crosswords-solver-paulgb-plugin'
 
 // CLI frontend
 include 'crosswords-cli'

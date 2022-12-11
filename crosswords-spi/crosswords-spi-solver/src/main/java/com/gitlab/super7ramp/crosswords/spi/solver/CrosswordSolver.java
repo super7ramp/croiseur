@@ -8,7 +8,7 @@ import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 public interface CrosswordSolver {
 
     /**
-     * Solve the given puzzle, using the given dictionary.
+     * Solves the given puzzle, using the given dictionary.
      *
      * @param puzzle     the puzzle to solve
      * @param dictionary the dictionary to use
@@ -20,7 +20,7 @@ public interface CrosswordSolver {
     }
 
     /**
-     * Solve the given puzzle, using the given dictionary.
+     * Solves the given puzzle, using the given dictionary.
      *
      * @param puzzle           the puzzle to solve
      * @param dictionary       the dictionary to use
