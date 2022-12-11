@@ -44,7 +44,7 @@
 - `crosswords-formatter-ipuz-plugin`: ipuz implementation (json like, use gson?)
 - `crosswords-formatter-pdf-plugin`: pdf implementation (check LaTeX packages).
 
-#### Suggest definitions
+#### Suggest (interesting) definitions
 
 For the words of a solved grid. It can be a funny problem to explore.
 

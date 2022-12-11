@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.common;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -167,30 +168,38 @@ public final class PuzzleDefinition {
     }
 
     /**
-     * @return the width
+     * Returns the width of the grid (i.e. the number of columns).
+     *
+     * @return the width of the grid (i.e. the number of columns)
      */
     public int width() {
         return width;
     }
 
     /**
-     * @return the heigth
+     * Returns the height of the grid (i.e. the number of rows).
+     *
+     * @return the height of the grid (i.e. the number of rows)
      */
     public int height() {
         return height;
     }
 
     /**
+     * Returns the shaded boxes.
+     *
      * @return the shaded boxes
      */
     public Set<GridPosition> shaded() {
-        return shaded;
+        return Collections.unmodifiableSet(shaded);
     }
 
     /**
+     * Returns the filled boxes.
+     *
      * @return the filled boxes
      */
     public Map<GridPosition, Character> filled() {
-        return filled;
+        return Collections.unmodifiableMap(filled);
     }
 }

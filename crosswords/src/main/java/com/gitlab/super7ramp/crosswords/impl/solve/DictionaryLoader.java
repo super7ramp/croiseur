@@ -70,7 +70,7 @@ final class DictionaryLoader {
      * @param dictionary the dictionary from dictionary SPI
      * @return the dictionary of solver SPI
      */
-    private Dictionary toSolverDictionary(com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary dictionary) {
+    private Dictionary toSolverDictionary(final com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary dictionary) {
         return dictionary::lookup;
     }
 }
