@@ -1,7 +1,6 @@
-use jni::descriptors::Desc;
 use jni::JNIEnv;
 use jni::objects::{AutoArray, JObject, JString, JValue, ReleaseMode};
-use jni::sys::{jlong, jlongArray, jsize};
+use jni::sys::{jchar, jlong, jsize};
 
 pub struct JArray<'a> {
     env: JNIEnv<'a>,
@@ -39,7 +38,6 @@ impl<'a> JArray<'a> {
                 .expect("Expect a long[], wasn't one.");
         unsafe { *(long_array.as_ptr().offset(index as isize)) }
     }
-
 }
 
 impl<'a> Into<Vec<JArray<'a>>> for JArray<'a> {
@@ -79,14 +77,20 @@ impl<'a> Into<Vec<String>> for JArray<'a> {
     }
 }
 
-// FIXME this doesn't seem to work
 impl<'a> From<(JNIEnv<'a>, Vec<char>)> for JArray<'a> {
     fn from(arg: (JNIEnv<'a>, Vec<char>)) -> Self {
         let (jni_env, vec) = arg;
-        vec.iter().for_each(|c| print!("{} ", c));
-        println!();
-        let char_array = jni_env.new_char_array(vec.len() as jsize).unwrap();
-        println!("size = {}", vec.len() as jsize);
+        let length = vec.len() as jsize;
+
+        // Convert to string back to a vector just to have the java char = u16 type
+        // FIXME why does solver return lower case characters?
+        let pivot_string : String = vec.into_iter().collect::<String>().to_uppercase();
+        let j_chars : Vec<jchar> = pivot_string.encode_utf16().collect();
+        let char_array = jni_env.new_char_array(length).unwrap();
+
+        jni_env.set_char_array_region(char_array, 0, j_chars.as_slice())
+            .expect("Failed to set char[]");
+
         Self {
             env: jni_env,
             array: unsafe { JObject::from_raw(char_array) },

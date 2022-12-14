@@ -28,24 +28,46 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
     }
 
     /**
-     * {@inheritDoc}
+     * Creates a result for when the grid is impossible to solve.
      *
-     * @throws UnsupportedOperationException if the grid contains pre-filled cells: It is not
-     *                                       supported by Crossword Composer
+     * @param puzzle the input puzzle
+     * @return a result for when the grid is impossible to solve
      */
+    private static SolverResult impossible(final NumberedPuzzleDefinition puzzle) {
+        return AdaptedSolverResult.impossible(puzzle.positionToId().keySet());
+    }
+
+    /**
+     * Creates a result for when the grid has been successfully solved.
+     *
+     * @param puzzle the input puzzle
+     * @param result the raw result
+     * @return a result for when the grid is impossible to solve
+     */
+    private static SolverResult success(final NumberedPuzzleDefinition puzzle,
+                                        final char[] result) {
+        return AdaptedSolverResult.success(puzzle.idToPosition(), result);
+    }
+
     // TODO try to make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) {
 
+        final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
+        if (!numberedPuzzle.filled().isEmpty()) {
+            // Pre-filled grid is not supported by Crossword Composer
+            return impossible(numberedPuzzle);
+        }
         final com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary adaptedDictionary =
                 DictionaryAdapter.adapt(dictionary);
-        final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
         final Grid adaptedPuzzle = GridAdapter.adapt(numberedPuzzle);
 
         final Optional<char[]> optResult = solver.solve(adaptedPuzzle, adaptedDictionary);
 
-        return optResult.map(result -> AdaptedSolverResult.success(numberedPuzzle.idToPosition(), result))
-                        .orElseGet(() -> AdaptedSolverResult.impossible(numberedPuzzle.idToPosition()));
+        return optResult.map(result -> success(numberedPuzzle, result))
+                        .orElseGet(() -> impossible(numberedPuzzle));
     }
+
+
 }

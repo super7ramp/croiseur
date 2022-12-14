@@ -12,7 +12,7 @@ import java.util.Optional;
 public final class Solver {
 
     static {
-        System.loadLibrary("crossword_composer_jni");
+        NativeLibLoader.loadLibrary("crossword_composer_jni");
     }
 
     /**

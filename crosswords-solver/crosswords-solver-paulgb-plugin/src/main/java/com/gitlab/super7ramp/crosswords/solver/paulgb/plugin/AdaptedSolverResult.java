@@ -29,28 +29,29 @@ final class AdaptedSolverResult implements SolverResult {
      * @param idToPosition association between indexes and grid positions
      * @param outputGrid the output grid
      */
-    private AdaptedSolverResult(final Map<Long, GridPosition> idToPosition, char[] outputGrid) {
-        if (outputGrid == null) {
-            kind = Kind.IMPOSSIBLE;
-            filledBoxes = Collections.emptyMap();
-            // No fine information returned by solver about problematic slots, just mark all
-            // cells as problematic
-            unsolvableBoxes = new HashSet<>(idToPosition.values());
-        } else {
-            if (idToPosition.size() != outputGrid.length) {
-                throw new IllegalArgumentException("Solver result inconsistent with input grid");
-            }
-            kind = Kind.SUCCESS;
-            filledBoxes = new HashMap<>();
-            for (int i = 0; i < outputGrid.length; i++) {
-                filledBoxes.put(idToPosition.get((long) i), outputGrid[i]);
-            }
-            unsolvableBoxes = Collections.emptySet();
+    private AdaptedSolverResult(final Map<Long, GridPosition> idToPosition,
+                                final char[] outputGrid) {
+        if (idToPosition.size() != outputGrid.length) {
+            throw new IllegalArgumentException("Solver result inconsistent with input grid");
         }
+        kind = Kind.SUCCESS;
+        filledBoxes = new HashMap<>();
+        for (int i = 0; i < outputGrid.length; i++) {
+            filledBoxes.put(idToPosition.get((long) i), outputGrid[i]);
+        }
+        unsolvableBoxes = Collections.emptySet();
     }
 
-    static AdaptedSolverResult impossible(final Map<Long, GridPosition> idToPosition) {
-        return new AdaptedSolverResult(idToPosition, null);
+    private AdaptedSolverResult(final Set<GridPosition> positions) {
+        kind = Kind.IMPOSSIBLE;
+        filledBoxes = Collections.emptyMap();
+        // No fine information returned by solver about problematic slots, just mark all
+        // cells as problematic
+        unsolvableBoxes = new HashSet<>(positions);
+    }
+
+    static AdaptedSolverResult impossible(final Set<GridPosition> positions) {
+        return new AdaptedSolverResult(positions);
     }
 
     static AdaptedSolverResult success(final Map<Long, GridPosition> idToPosition,

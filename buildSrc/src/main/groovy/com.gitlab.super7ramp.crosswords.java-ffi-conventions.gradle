@@ -1,0 +1,24 @@
+/**
+ * Conventions for Java interfacing with native code:
+ * <ul>
+ *     <li>Native code is embedded in jar inside using 'src/main/native' source set
+ * </ul>
+ */
+plugins {
+    id 'cpp-library'
+    id 'com.gitlab.super7ramp.crosswords.java-library-conventions'
+}
+
+def nativeLibraryPath = 'src/main/native'
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = [ nativeLibraryPath ]
+        }
+    }
+}
+
+test {
+    //systemProperty "java.library.path", nativeLibraryPath
+}

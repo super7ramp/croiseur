@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.solver.paulgb;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -73,7 +72,6 @@ final class SolverTest {
 
         assertFalse(result.isEmpty());
         assertEquals(9, result.get().length);
-        System.out.println("==> " + Arrays.toString(result.get()));
         assertArrayEquals(new char[]{'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, result.get());
     }
 }
