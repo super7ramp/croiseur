@@ -1,0 +1,7 @@
+plugins {
+    alias(sbom.plugins.cargo)
+}
+
+cargo {
+    outputs = ['': System.mapLibraryName('crossword_composer_jni')]
+}

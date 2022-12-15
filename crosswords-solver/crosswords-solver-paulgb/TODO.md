@@ -14,8 +14,3 @@
 - Maybe rename `Grid` into `EmptyGrid`
 - Maybe wrap returned `char[]` into `Solution` or `FilledGrid` (i.e. `Optional<char[]>` -> 
   `Optional<Solution>`)
-
-### build
-
-- Run cargo from gradle to generate the native library file.
-- Create a jar for each platform.

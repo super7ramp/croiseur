@@ -1,7 +1,9 @@
 /**
  * Conventions for Java interfacing with native code:
  * <ul>
- *     <li>Native code is embedded in jar inside using 'src/main/native' source set
+ *     <li>cpp-library is applied, which has the effect to automatically generate the C headers
+ *     for native methods;
+ *     <li>Native code is embedded in jar inside using 'src/main/native' source set.
  * </ul>
  */
 plugins {
@@ -17,8 +19,4 @@ sourceSets {
             srcDirs = [ nativeLibraryPath ]
         }
     }
-}
-
-test {
-    //systemProperty "java.library.path", nativeLibraryPath
 }
