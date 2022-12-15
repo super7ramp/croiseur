@@ -131,6 +131,9 @@ final class NativeLibLoader {
         return false;
     }
 
+    // FIXME should we really cache the extracted library so that it can be reused on next start
+    //  (with checksum verification and all) or just extract + delete after use (e.g. using File
+    //  .deleteOnExit()) on every starts?
     private static String cacheLibrary(InputStream is, String name, Class<?> caller) throws IOException {
         final String username = System.getProperty("user.name", "anonymous");
         final String tmpCache =
