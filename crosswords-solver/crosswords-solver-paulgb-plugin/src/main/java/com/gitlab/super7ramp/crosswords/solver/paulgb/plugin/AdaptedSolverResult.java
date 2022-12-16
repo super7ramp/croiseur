@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.paulgb.plugin;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.Solution;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Collections;
@@ -27,17 +28,18 @@ final class AdaptedSolverResult implements SolverResult {
      * Constructs an instance.
      *
      * @param idToPosition association between indexes and grid positions
-     * @param outputGrid the output grid
+     * @param solution the solution
      */
-    private AdaptedSolverResult(final Map<Long, GridPosition> idToPosition,
-                                final char[] outputGrid) {
-        if (idToPosition.size() != outputGrid.length) {
+    private AdaptedSolverResult(final Map<Integer, GridPosition> idToPosition,
+                                final Solution solution) {
+        final char[] filledCells = solution.cells();
+        if (idToPosition.size() != filledCells.length) {
             throw new IllegalArgumentException("Solver result inconsistent with input grid");
         }
         kind = Kind.SUCCESS;
         filledBoxes = new HashMap<>();
-        for (int i = 0; i < outputGrid.length; i++) {
-            filledBoxes.put(idToPosition.get((long) i), outputGrid[i]);
+        for (int i = 0; i < filledCells.length; i++) {
+            filledBoxes.put(idToPosition.get(i), filledCells[i]);
         }
         unsolvableBoxes = Collections.emptySet();
     }
@@ -54,9 +56,9 @@ final class AdaptedSolverResult implements SolverResult {
         return new AdaptedSolverResult(positions);
     }
 
-    static AdaptedSolverResult success(final Map<Long, GridPosition> idToPosition,
-                                       final char[] outputGrid) {
-        return new AdaptedSolverResult(idToPosition, outputGrid);
+    static AdaptedSolverResult success(final Map<Integer, GridPosition> idToPosition,
+                                       final Solution solution) {
+        return new AdaptedSolverResult(idToPosition, solution);
     }
 
     @Override

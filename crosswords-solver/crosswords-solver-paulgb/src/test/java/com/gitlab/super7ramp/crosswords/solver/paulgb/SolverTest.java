@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -16,24 +15,28 @@ final class SolverTest {
 
     /**
      * Grid is void, so result is present but the encapsulated array is empty.
+     *
+     * @throws SolverErrorException should not happen
      */
     @Test
-    void possible0x0() {
-        final Grid emptyGrid = new Grid(new long[0][0]);
+    void possible0x0() throws SolverErrorException {
+        final Puzzle puzzle = new Puzzle(new int[0][0]);
         final Dictionary emptyDictionary = new Dictionary(new String[0]);
 
-        final Optional<char[]> result = new Solver().solve(emptyGrid, emptyDictionary);
+        final Optional<Solution> solution = new Solver().solve(puzzle, emptyDictionary);
 
-        assertFalse(result.isEmpty());
-        assertEquals(0, result.get().length);
+        assertTrue(solution.isPresent());
+        assertEquals(0, solution.get().cells().length);
     }
 
     /**
      * Dictionary is empty so there is no solution.
+     *
+     * @throws SolverErrorException should not happen
      */
     @Test
-    void impossible3x3() {
-        final Grid grid = new Grid(new long[][]{
+    void impossible3x3() throws SolverErrorException {
+        final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
                 {0, 1, 2},
                 {3, 4, 5},
@@ -45,17 +48,19 @@ final class SolverTest {
         });
         final Dictionary emptyDictionary = new Dictionary(new String[0]);
 
-        final Optional<char[]> result = new Solver().solve(grid, emptyDictionary);
+        final Optional<Solution> solution = new Solver().solve(puzzle, emptyDictionary);
 
-        assertTrue(result.isEmpty());
+        assertTrue(solution.isEmpty());
     }
 
     /**
      * Simple 3x3 with a tailored dictionary.
+     *
+     * @throws SolverErrorException should not happen
      */
     @Test
-    void possible3x3() {
-        final Grid grid = new Grid(new long[][]{
+    void possible3x3() throws SolverErrorException {
+        final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
                 {0, 1, 2},
                 {3, 4, 5},
@@ -68,10 +73,11 @@ final class SolverTest {
         final Dictionary dictionary = new Dictionary(new String[]{"AAA", "BBB", "CDE", "ABC"
                 , "ABD", "ABE"});
 
-        final Optional<char[]> result = new Solver().solve(grid, dictionary);
+        final Optional<Solution> solution = new Solver().solve(puzzle, dictionary);
 
-        assertFalse(result.isEmpty());
-        assertEquals(9, result.get().length);
-        assertArrayEquals(new char[]{'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, result.get());
+        assertTrue(solution.isPresent());
+        final char[] cells = solution.get().cells();
+        assertEquals(9, cells.length);
+        assertArrayEquals(new char[]{'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
     }
 }

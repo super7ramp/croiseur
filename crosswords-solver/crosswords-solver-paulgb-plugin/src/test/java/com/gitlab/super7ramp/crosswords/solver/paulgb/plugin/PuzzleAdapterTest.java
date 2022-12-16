@@ -2,7 +2,7 @@ package com.gitlab.super7ramp.crosswords.solver.paulgb.plugin;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.paulgb.Grid;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.Puzzle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Tests for {@link GridAdapter}.
+ * Tests for {@link PuzzleAdapter}.
  */
-final class GridAdapterTest {
+final class PuzzleAdapterTest {
 
     /**
      * Simple symmetric grid, no shaded box, no pre-filled box.
@@ -26,9 +26,9 @@ final class GridAdapterTest {
                 Collections.emptyMap());
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
-        final Grid grid = GridAdapter.adapt(numberedPuzzle);
+        final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
-        assertEquals(8, grid.slots().length);
+        assertEquals(8, emptyGrid.slots().length);
         final long[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2, 3},
@@ -41,7 +41,7 @@ final class GridAdapterTest {
                 {2, 6, 10, 14},
                 {3, 7, 11, 15}
         };
-        assertArrayEquals(expectedSlots, grid.slots());
+        assertArrayEquals(expectedSlots, emptyGrid.slots());
     }
 
     /**
@@ -53,9 +53,9 @@ final class GridAdapterTest {
                 Collections.emptyMap());
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
-        final Grid grid = GridAdapter.adapt(numberedPuzzle);
+        final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
-        assertEquals(8, grid.slots().length);
+        assertEquals(8, emptyGrid.slots().length);
         final long[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2},
@@ -68,7 +68,7 @@ final class GridAdapterTest {
                 {1, 4, 7, 10, 13},
                 {2, 5, 8, 11, 14}
         };
-        assertArrayEquals(expectedSlots, grid.slots());
+        assertArrayEquals(expectedSlots, emptyGrid.slots());
     }
 
     /**
@@ -91,9 +91,9 @@ final class GridAdapterTest {
                                                               .build();
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
-        final Grid grid = GridAdapter.adapt(numberedPuzzle);
+        final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
-        assertEquals(8, grid.slots().length);
+        assertEquals(8, emptyGrid.slots().length);
         final long[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2},
@@ -106,7 +106,7 @@ final class GridAdapterTest {
                 {1, 5}, /* {12} is only 1 letter long, it's not really a vertical slot. */
                 {2, 6, 9, 13}
         };
-        assertArrayEquals(expectedSlots, grid.slots());
+        assertArrayEquals(expectedSlots, emptyGrid.slots());
     }
 
     /**
@@ -119,7 +119,7 @@ final class GridAdapterTest {
                 Collections.singletonMap(new GridPosition(0, 0), 'A'));
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
-        final Executable call = () -> GridAdapter.adapt(numberedPuzzle);
+        final Executable call = () -> PuzzleAdapter.adapt(numberedPuzzle);
 
         final Throwable e = assertThrows(UnsupportedOperationException.class, call);
         assertEquals("paulgb's solver doesn't support pre-filled grid", e.getMessage());

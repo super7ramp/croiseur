@@ -1,6 +1,6 @@
 use jni::JNIEnv;
 use jni::objects::{AutoArray, JObject, JString, JValue, ReleaseMode};
-use jni::sys::{jchar, jlong, jsize};
+use jni::sys::{jchar, jint, jsize};
 
 pub struct JArray<'a> {
     env: JNIEnv<'a>,
@@ -31,12 +31,12 @@ impl<'a> JArray<'a> {
         self.env.get_object_array_element(self.array.into_raw(), index as jsize).unwrap()
     }
 
-    fn long_element(&self, index: usize) -> jlong {
-        let long_array: AutoArray<jlong> =
-            self.env.get_long_array_elements(self.array.into_raw(),
+    fn int_element(&self, index: usize) -> jint {
+        let int_array: AutoArray<jint> =
+            self.env.get_int_array_elements(self.array.into_raw(),
                                              ReleaseMode::NoCopyBack)
-                .expect("Expect a long[], wasn't one.");
-        unsafe { *(long_array.as_ptr().offset(index as isize)) }
+                .expect("Expect int[], wasn't one.");
+        unsafe { *(int_array.as_ptr().offset(index as isize)) }
     }
 }
 
@@ -56,9 +56,9 @@ impl<'a> Into<Vec<usize>> for JArray<'a> {
     fn into(self) -> Vec<usize> {
         let mut vec = Vec::new();
         for i in 0..self.length() {
-            let j_long = self.long_element(i);
-            let object_long = j_long as usize;
-            vec.push(object_long);
+            let j_int = self.int_element(i);
+            let r_int = j_int as usize;
+            vec.push(r_int);
         }
         vec
     }

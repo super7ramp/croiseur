@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.paulgb;
 
 /**
- * An empty crossword grid.
+ * The crossword grid puzzle.
  * <p>
  * This structure represents the structure of an <em>empty</em> grid (Crossword Composer doesn't
  * support partially pre-filled grids):
@@ -22,8 +22,6 @@ package com.gitlab.super7ramp.crosswords.solver.paulgb;
  *     The Crossword Composer documentation
  *     </a>
  */
-// TODO long -> int? usize in Rust may be 32bit only depending on the platform
-// TODO maybe rename to EmptyGrid
-public record Grid(long[][] slots) {
+public record Puzzle(int[][] slots) {
     // Nothing to add.
 }

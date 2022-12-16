@@ -1,14 +1,18 @@
 package com.gitlab.super7ramp.crosswords.solver.paulgb.plugin;
 
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
-import com.gitlab.super7ramp.crosswords.solver.paulgb.Grid;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.Puzzle;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.Solution;
 import com.gitlab.super7ramp.crosswords.solver.paulgb.Solver;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.SolverErrorException;
 import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting
@@ -16,6 +20,9 @@ import java.util.Optional;
  * solver}.
  */
 public final class CrosswordComposerSolver implements CrosswordSolver {
+
+    /** The logger. */
+    private static final Logger LOGGER = Logger.getLogger(CrosswordComposerSolver.class.getName());
 
     /** The adapted solver. */
     private final Solver solver;
@@ -45,7 +52,7 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
      * @return a result for when the grid is impossible to solve
      */
     private static SolverResult success(final NumberedPuzzleDefinition puzzle,
-                                        final char[] result) {
+                                        final Solution result) {
         return AdaptedSolverResult.success(puzzle.idToPosition(), result);
     }
 
@@ -61,13 +68,28 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
         }
         final com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary adaptedDictionary =
                 DictionaryAdapter.adapt(dictionary);
-        final Grid adaptedPuzzle = GridAdapter.adapt(numberedPuzzle);
+        final Puzzle adaptedPuzzle = PuzzleAdapter.adapt(numberedPuzzle);
 
-        final Optional<char[]> optResult = solver.solve(adaptedPuzzle, adaptedDictionary);
+        final Optional<Solution> optResult = safeSolve(adaptedPuzzle, adaptedDictionary);
 
         return optResult.map(result -> success(numberedPuzzle, result))
                         .orElseGet(() -> impossible(numberedPuzzle));
     }
 
-
+    /**
+     * Solves the given puzzle using the given dictionary, catching any error raised by the solver.
+     *
+     * @param adaptedPuzzle     the puzzle to solve
+     * @param adaptedDictionary the dictionary
+     * @return the {@link Solution}, if any; {@link Optional#empty()} otherwise
+     */
+    private Optional<Solution> safeSolve(final Puzzle adaptedPuzzle,
+                                         final com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary adaptedDictionary) {
+        try {
+            return solver.solve(adaptedPuzzle, adaptedDictionary);
+        } catch (final SolverErrorException e) {
+            LOGGER.log(Level.WARNING, "Crossword composer solver encountered an error.", e);
+            return Optional.empty();
+        }
+    }
 }

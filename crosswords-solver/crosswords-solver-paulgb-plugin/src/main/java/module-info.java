@@ -6,6 +6,8 @@ import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
  */
 module com.gitlab.super7ramp.crosswords.solver.paulgb.plugin {
     requires com.gitlab.super7ramp.crosswords.solver.paulgb;
-    requires transitive com.gitlab.super7ramp.crosswords.spi.solver;
+    requires com.gitlab.super7ramp.crosswords.spi.solver;
     provides CrosswordSolver with CrosswordComposerSolver;
+
+    requires java.logging;
 }

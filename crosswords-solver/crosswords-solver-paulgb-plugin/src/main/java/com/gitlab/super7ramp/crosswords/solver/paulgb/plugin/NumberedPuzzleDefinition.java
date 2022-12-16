@@ -17,10 +17,10 @@ final class NumberedPuzzleDefinition {
     private final PuzzleDefinition puzzleDefinition;
 
     /** A map associating position to a unique integer identifier. */
-    private final Map<GridPosition, Long> positionToId;
+    private final Map<GridPosition, Integer> positionToId;
 
     /** The reverse map of {@link #positionToId}. */
-    private final Map<Long, GridPosition> idToPosition;
+    private final Map<Integer, GridPosition> idToPosition;
 
     /**
      * Constructs an instance.
@@ -35,23 +35,23 @@ final class NumberedPuzzleDefinition {
         idToPosition = createIdToPositionMap(positionToId);
     }
 
-    private static Map<GridPosition, Long> createPositionToIdMap(final int width, final int height,
+    private static Map<GridPosition, Integer> createPositionToIdMap(final int width, final int height,
                                                                  final Set<GridPosition> shaded) {
-        final Map<GridPosition, Long> labeledBoxes = new HashMap<>();
+        final Map<GridPosition, Integer> labeledBoxes = new HashMap<>();
         for (int row = 0, id = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
                 final GridPosition position = new GridPosition(column, row);
                 if (!shaded.contains(position)) {
-                    labeledBoxes.put(position, (long) id++);
+                    labeledBoxes.put(position, id++);
                 }
             }
         }
         return labeledBoxes;
     }
 
-    private static Map<Long, GridPosition> createIdToPositionMap(Map<GridPosition, Long> positionToLabel) {
-        final Map<Long, GridPosition> positions = new HashMap<>();
-        for (final Map.Entry<GridPosition, Long> entry : positionToLabel.entrySet()) {
+    private static Map<Integer, GridPosition> createIdToPositionMap(Map<GridPosition, Integer> positionToLabel) {
+        final Map<Integer, GridPosition> positions = new HashMap<>();
+        for (final Map.Entry<GridPosition, Integer> entry : positionToLabel.entrySet()) {
             positions.put(entry.getValue(), entry.getKey());
         }
         return positions;
@@ -100,7 +100,7 @@ final class NumberedPuzzleDefinition {
      *
      * @return a map associating position to a unique integer identifier
      */
-    Map<GridPosition, Long> positionToId() {
+    Map<GridPosition, Integer> positionToId() {
         return Collections.unmodifiableMap(positionToId);
     }
 
@@ -111,7 +111,7 @@ final class NumberedPuzzleDefinition {
      *
      * @return the reverse map of {@link #positionToId()}
      */
-    Map<Long, GridPosition> idToPosition() {
+    Map<Integer, GridPosition> idToPosition() {
         return Collections.unmodifiableMap(idToPosition);
     }
 }
