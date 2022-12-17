@@ -1,5 +1,5 @@
 use jni::JNIEnv;
-use jni::objects::{JObject, JValue};
+use jni::objects::JObject;
 use crossword::dictionary::Dictionary;
 use crate::jarray::JArray;
 
@@ -20,11 +20,9 @@ impl<'a> JDictionary<'a> {
 impl<'a> Into<Vec<String>> for JDictionary<'a> {
     fn into(self) -> Vec<String> {
         let j_string = self.env.call_method(self.dic, "words", "()[Ljava/lang/String;", &[])
-            .unwrap_or_else(|_e| {
-                let _ = self.env.exception_describe();
-                JValue::Object(JObject::null())
-            });
-        JArray::new(self.env, j_string.l().unwrap()).into()
+            .expect("Failed to access dictionary words");
+        JArray::new(self.env, j_string.l()
+            .expect("Failed to unwrap dictionary into a JObject")).into()
     }
 }
 

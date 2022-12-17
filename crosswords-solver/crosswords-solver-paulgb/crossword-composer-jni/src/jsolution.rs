@@ -9,9 +9,10 @@ pub struct JSolution<'a> {
 impl<'a> JSolution<'a> {
     fn new(env: JNIEnv<'a>, solution_arg: JArray<'a>) -> Self {
         let class = env.find_class("com/gitlab/super7ramp/crosswords/solver/paulgb/Solution")
-            .unwrap();
+            .expect("Solution class not found");
         Self {
-            solution: env.new_object(class, "([C)V", &[solution_arg.as_value()]).unwrap(),
+            solution: env.new_object(class, "([C)V", &[solution_arg.as_value()])
+                .expect("Failed to create a Solution object"),
         }
     }
 

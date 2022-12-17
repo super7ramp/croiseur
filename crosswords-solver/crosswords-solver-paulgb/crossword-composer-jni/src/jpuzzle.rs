@@ -21,10 +21,13 @@ impl<'a> JPuzzle<'a> {
 impl<'a> Into<Grid> for JPuzzle<'a> {
     fn into(self) -> Grid {
         let j_array_2d =
-            self.env.call_method(self.puzzle, "slots", "()[[I", &[]).unwrap();
+            self.env
+                .call_method(self.puzzle, "slots", "()[[I", &[])
+                .expect("Failed to access puzzle slots");
 
-        let vec_of_j_array: Vec<JArray> = JArray::new(self.env,
-                                                      j_array_2d.l().unwrap()).into();
+        let vec_of_j_array: Vec<JArray> =
+            JArray::new(self.env, j_array_2d.l().expect("Failed to read puzzle slots"))
+                .into();
 
         let mut vec_2d: Vec<Vec<usize>> = Vec::new();
         vec_of_j_array.iter().for_each(|entry | {

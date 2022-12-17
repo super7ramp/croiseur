@@ -23,8 +23,8 @@ impl<'a> JOptional<'a> {
         Self::new(value)
     }
 
-    pub fn as_value(&self) -> JValue<'a> {
-        JValue::Object(self.val)
+    pub fn as_object(&self) -> JObject<'a> {
+        self.val
     }
 
     fn call(env: JNIEnv<'a>, method: &str, signature: &str, args: &[JValue]) -> JObject<'a> {

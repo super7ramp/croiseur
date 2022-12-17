@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -79,5 +80,29 @@ final class SolverTest {
         final char[] cells = solution.get().cells();
         assertEquals(9, cells.length);
         assertArrayEquals(new char[]{'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
+    }
+
+    /**
+     * Verifies that Rust panic upon {@code null} puzzle is turned into
+     * {@link SolverErrorException}.
+     */
+    @Test
+    void failureNullPuzzle() {
+        final SolverErrorException solverError = assertThrows(SolverErrorException.class,
+                () -> new Solver().solve(null, new Dictionary(new String[0])));
+        assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")",
+                solverError.getMessage());
+    }
+
+    /**
+     * Verifies that Rust panic upon {@code null} dictionary is turned into
+     * {@link SolverErrorException}.
+     */
+    @Test
+    void failureNullDictionary() {
+        final SolverErrorException solverError = assertThrows(SolverErrorException.class,
+                () -> new Solver().solve(new Puzzle(new int[0][]), null));
+        assertEquals("Failed to access dictionary words: NullPtr(\"call_method obj argument\")",
+                solverError.getMessage());
     }
 }
