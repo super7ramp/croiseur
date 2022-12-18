@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.crosswords.gui.view.model.DictionariesViewModel;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Comparator.comparingInt;
 
@@ -75,6 +76,12 @@ final class SolveRequestImpl implements SolveRequest {
     @Override
     public Collection<DictionaryIdentifier> dictionaries() {
         return dictionaries;
+    }
+
+    @Override
+    public Optional<String> solver() {
+        // TODO implement
+        return Optional.empty();
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.gitlab.super7ramp.crosswords.api.dictionary;
 /**
  * The dictionary service. Mainly queries on the available dictionaries.
  */
-public interface DictionaryUsecase {
+public interface DictionaryService {
 
     /**
      * Lists available dictionary providers.

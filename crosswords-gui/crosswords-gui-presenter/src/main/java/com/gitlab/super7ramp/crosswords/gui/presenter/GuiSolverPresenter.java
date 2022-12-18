@@ -3,12 +3,14 @@ package com.gitlab.super7ramp.crosswords.gui.presenter;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import javafx.beans.property.MapProperty;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -28,6 +30,12 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
+    }
+
+    @Override
+    public void presentAvailableSolvers(List<SolverDescription> solverDescriptions) {
+        // TODO really implement
+        LOGGER.info(() -> "Available solvers: " + solverDescriptions);
     }
 
     @Override
@@ -61,7 +69,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentError(final String error) {
+    public void presentSolverError(final String error) {
         // TODO really implement
         LOGGER.warning(error);
     }

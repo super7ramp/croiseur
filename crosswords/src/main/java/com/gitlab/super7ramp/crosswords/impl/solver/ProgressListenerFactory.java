@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.impl.solve;
+package com.gitlab.super7ramp.crosswords.impl.solver;
 
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
@@ -74,6 +74,5 @@ final class ProgressListenerFactory {
     ProgressListener from(final SolveRequest.SolverProgressNotificationMethod kind) {
         return listeners.get(kind);
     }
-
 
 }

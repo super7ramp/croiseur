@@ -56,6 +56,16 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
         return AdaptedSolverResult.success(puzzle.idToPosition(), result);
     }
 
+    @Override
+    public String name() {
+        return "Crossword Composer";
+    }
+
+    @Override
+    public String description() {
+        return "The solver powering the Crossword Composer software. Written in Rust.";
+    }
+
     // TODO try to make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,

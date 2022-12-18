@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.impl.solve;
+package com.gitlab.super7ramp.crosswords.impl.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.impl.common.DictionarySelection;

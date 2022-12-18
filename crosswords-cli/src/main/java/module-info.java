@@ -21,6 +21,6 @@ module com.gitlab.super7ramp.crosswords.cli {
     // Open for reflection to CLI framework
     opens com.gitlab.super7ramp.crosswords.cli to info.picocli;
     opens com.gitlab.super7ramp.crosswords.cli.controller.dictionary to info.picocli;
-    opens com.gitlab.super7ramp.crosswords.cli.controller.solve to info.picocli;
+    opens com.gitlab.super7ramp.crosswords.cli.controller.solver to info.picocli;
     opens com.gitlab.super7ramp.crosswords.cli.controller.toplevel to info.picocli;
 }

@@ -89,6 +89,13 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
         }
     }
 
+    /** This solver's name. */
+    private static final String NAME = "Ginsberg";
+
+    /** This solver's description. */
+    private static final String DESCRIPTION = "A crossword solver based on Ginsberg's papers. " +
+            "Written in Java.";
+
     /** The adapted solver. */
     private final com.gitlab.super7ramp.crosswords.solver.ginsberg.GinsbergCrosswordSolver adapted;
 
@@ -97,6 +104,16 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
      */
     public GinsbergCrosswordSolver() {
         adapted = new com.gitlab.super7ramp.crosswords.solver.ginsberg.GinsbergCrosswordSolver();
+    }
+
+    @Override
+    public String name() {
+        return NAME;
+    }
+
+    @Override
+    public String description() {
+        return DESCRIPTION;
     }
 
     @Override

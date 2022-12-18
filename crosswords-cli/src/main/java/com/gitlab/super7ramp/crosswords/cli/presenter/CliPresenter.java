@@ -4,6 +4,7 @@ import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDesc
 import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryContent;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
@@ -31,6 +32,11 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
+    public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
+        cliSolverPresenter.presentAvailableSolvers(solverDescriptions);
+    }
+
+    @Override
     public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         cliSolverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
@@ -46,8 +52,8 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentError(final String error) {
-        cliSolverPresenter.presentError(error);
+    public void presentSolverError(final String error) {
+        cliSolverPresenter.presentSolverError(error);
     }
 
     @Override
@@ -68,5 +74,10 @@ public final class CliPresenter implements Presenter {
     @Override
     public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
+    }
+
+    @Override
+    public void presentDictionaryError(final String error) {
+        cliDictionaryPresenter.presentDictionaryError(error);
     }
 }

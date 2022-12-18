@@ -45,4 +45,12 @@ public interface DictionaryPresenter {
      * @param preferredDictionary the preferred dictionary, if any; {@code null} otherwise
      */
     void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary);
+
+    /**
+     * Presents an error related to dictionary service.
+     *
+     * @param error the error
+     */
+    // TODO error should be a dedicated type
+    void presentDictionaryError(final String error);
 }

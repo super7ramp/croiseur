@@ -3,10 +3,11 @@ package com.gitlab.super7ramp.crosswords.cli;
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.DictionaryCommand;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.SolveCommand;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverRunCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.cli.controller.toplevel.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine;
@@ -34,8 +35,10 @@ final class CrosswordCliApplication {
         command = new CommandLine(new TopLevelCommand());
 
         final CrosswordService crosswordService = CrosswordService.create();
+
         command.addSubcommand(HelpCommand.class)
-               .addSubcommand(new SolveCommand(crosswordService.solverService()))
+               .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
+                       .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()));
 
         command.registerConverter(DictionaryIdentifier.class,

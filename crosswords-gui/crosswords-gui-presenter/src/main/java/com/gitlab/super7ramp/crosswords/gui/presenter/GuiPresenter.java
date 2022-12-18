@@ -5,6 +5,7 @@ import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDesc
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
 import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryContent;
+import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
@@ -20,8 +21,8 @@ public final class GuiPresenter implements Presenter {
     /** Dictionary presenter. */
     private final GuiDictionaryPresenter dictionaryPresenter;
 
-    /** Crossword presenter. */
-    private final GuiSolverPresenter crosswordPresenter;
+    /** Solver presenter. */
+    private final GuiSolverPresenter solverPresenter;
 
     /**
      * Constructs an instance.
@@ -31,33 +32,38 @@ public final class GuiPresenter implements Presenter {
     public GuiPresenter(final CrosswordSolverViewModel crosswordSolverViewModel) {
         dictionaryPresenter =
                 new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
-        crosswordPresenter =
+        solverPresenter =
                 new GuiSolverPresenter(crosswordSolverViewModel.crosswordGridViewModel());
     }
 
     @Override
+    public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
+        solverPresenter.presentAvailableSolvers(solverDescriptions);
+    }
+
+    @Override
     public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
-        crosswordPresenter.presentSolverInitialisationState(solverInitialisationState);
+        solverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 
     @Override
     public void presentProgress(final SolverProgress solverProgress) {
-        crosswordPresenter.presentProgress(solverProgress);
+        solverPresenter.presentProgress(solverProgress);
     }
 
     @Override
     public void presentResult(final SolverResult result) {
-        crosswordPresenter.presentResult(result);
+        solverPresenter.presentResult(result);
     }
 
     @Override
-    public void presentError(final String error) {
-        crosswordPresenter.presentError(error);
+    public void presentSolverError(final String error) {
+        solverPresenter.presentSolverError(error);
     }
 
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        dictionaryPresenter.presentDictionaryProviders(providers);
     }
 
     @Override
@@ -73,5 +79,10 @@ public final class GuiPresenter implements Presenter {
     @Override
     public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         dictionaryPresenter.presentPreferredDictionary(preferredDictionary);
+    }
+
+    @Override
+    public void presentDictionaryError(final String error) {
+        dictionaryPresenter.presentDictionaryError(error);
     }
 }

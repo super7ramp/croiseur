@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.controller.dictionary;
 
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import javafx.concurrent.Task;
 
@@ -17,7 +17,7 @@ public final class DictionaryController {
     private static final Logger LOGGER = Logger.getLogger(DictionaryController.class.getName());
 
     /** The dictionary use-cases. */
-    private final DictionaryUsecase usecase;
+    private final DictionaryService dictionaryService;
 
     /** The worker executing the dictionary tasks. */
     private final Executor executor;
@@ -25,12 +25,12 @@ public final class DictionaryController {
     /**
      * Constructs an instance.
      *
-     * @param usecaseArg  the "dictionary" use-cases
-     * @param executorArg the worker executing the dictionary tasks
+     * @param dictionaryServiceArg the "dictionary" use-cases
+     * @param executorArg          the worker executing the dictionary tasks
      */
-    public DictionaryController(final DictionaryUsecase usecaseArg,
+    public DictionaryController(final DictionaryService dictionaryServiceArg,
                                 final Executor executorArg) {
-        usecase = usecaseArg;
+        dictionaryService = dictionaryServiceArg;
         executor = executorArg;
     }
 
@@ -38,14 +38,14 @@ public final class DictionaryController {
      * Lists the entries of the given dictionary.
      */
     public void listDictionaryEntries(final DictionaryViewModel dictionaryViewModel) {
-        execute(new ListDictionaryEntriesTask(dictionaryViewModel, usecase));
+        execute(new ListDictionaryEntriesTask(dictionaryViewModel, dictionaryService));
     }
 
     /**
      * Lists the available dictionaries.
      */
     public void listDictionaries() {
-        execute(new ListDictionariesTask(usecase));
+        execute(new ListDictionariesTask(dictionaryService));
     }
 
     /**

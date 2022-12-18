@@ -1,24 +1,28 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solve;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.adapted.SolveRequestImpl;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.api.solver.SolverService;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.adapted.SolveRequestImpl;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
- * "solve" subcommand.
+ * "solver run" subcommand.
  */
-@Command(name = "solve", description = "Solve a crossword puzzle")
-public final class SolveCommand implements Runnable {
+@Command(name = "run", aliases = {"solve"}, description = "Solve a crossword puzzle")
+public final class SolverRunCommand implements Runnable {
 
-    /** Crossword service. */
-    private final SolverUsecase solverUsecase;
+    /** Solver service. */
+    private final SolverService solverService;
+
+    @Parameters(arity = "0..1", description = "The name of the solver to use")
+    private String solver;
 
     @Option(names = {"-s", "--size"}, paramLabel = "<INTEGERxINTEGER>", arity = "1", required =
             true, description = "Grid dimensions, e.g. '--size 7x15' for a grid of width 7 and" +
@@ -51,19 +55,19 @@ public final class SolveCommand implements Runnable {
     private boolean progress;
 
     /**
-     * Constructor.
+     * Constructs an instance.
      *
-     * @param aSolverUsecase solver service
+     * @param solverServiceArg solver service
      */
-    public SolveCommand(final SolverUsecase aSolverUsecase) {
-        solverUsecase = aSolverUsecase;
+    public SolverRunCommand(final SolverService solverServiceArg) {
+        solverService = solverServiceArg;
     }
 
     @Override
     public void run() {
-        final SolveRequest request = new SolveRequestImpl(size, shadedBoxes, prefilledBoxes,
+        final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
                 prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryId, progress);
-        solverUsecase.solve(request);
+        solverService.solve(request);
     }
 
 }

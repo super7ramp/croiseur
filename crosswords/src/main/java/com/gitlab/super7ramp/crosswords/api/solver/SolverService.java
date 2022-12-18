@@ -3,7 +3,12 @@ package com.gitlab.super7ramp.crosswords.api.solver;
 /**
  * Services pertaining to solving crossword puzzle.
  */
-public interface SolverUsecase {
+public interface SolverService {
+
+    /**
+     * Lists available solver providers.
+     */
+    void listProviders();
 
     /**
      * Solve a puzzle.

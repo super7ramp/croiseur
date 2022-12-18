@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.impl.solve;
+package com.gitlab.super7ramp.crosswords.impl.solver;
 
 import com.gitlab.super7ramp.crosswords.spi.solver.Dictionary;
 
@@ -24,7 +24,6 @@ final class CompositeSolverDictionary implements Dictionary {
     CompositeSolverDictionary(final Collection<Dictionary> dictionariesArg) {
         dictionaries = dictionariesArg;
     }
-
 
     @Override
     public Set<String> lookup(final Predicate<String> predicate) {

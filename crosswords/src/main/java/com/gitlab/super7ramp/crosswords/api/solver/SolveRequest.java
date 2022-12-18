@@ -5,6 +5,7 @@ import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * A request to solve a crossword puzzle.
@@ -36,6 +37,16 @@ public interface SolveRequest {
      * @return the identifier of the dictionary to use
      */
     Collection<DictionaryIdentifier> dictionaries();
+
+    /**
+     * The name of the solver to use, if any.
+     * <p>
+     * If not present, the default solver will be used. The default solver is the first one
+     * detected.
+     *
+     * @return the name of the solver to use.
+     */
+    Optional<String> solver();
 
     /**
      * Defines how progress should be notified for presentation.

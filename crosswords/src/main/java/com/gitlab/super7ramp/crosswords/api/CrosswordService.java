@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.api;
 
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
-import com.gitlab.super7ramp.crosswords.api.solver.SolverUsecase;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
+import com.gitlab.super7ramp.crosswords.api.solver.SolverService;
 import com.gitlab.super7ramp.crosswords.impl.CrosswordServiceImpl;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
@@ -64,13 +64,13 @@ public interface CrosswordService {
      *
      * @return the dictionary service
      */
-    DictionaryUsecase dictionaryService();
+    DictionaryService dictionaryService();
 
     /**
      * Returns the solver service.
      *
      * @return the solver service
      */
-    SolverUsecase solverService();
+    SolverService solverService();
 
 }

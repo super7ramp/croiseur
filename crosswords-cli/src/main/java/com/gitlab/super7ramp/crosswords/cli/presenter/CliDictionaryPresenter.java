@@ -75,4 +75,9 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         System.out.printf(PREFERRED_DICTIONARY_FORMAT, dictionary.name(),
                 dictionary.locale().getDisplayName(), provider.name());
     }
+
+    @Override
+    public void presentDictionaryError(final String error) {
+        System.err.println(error);
+    }
 }

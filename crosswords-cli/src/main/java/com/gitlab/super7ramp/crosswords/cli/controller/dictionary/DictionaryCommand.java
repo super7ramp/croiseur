@@ -1,7 +1,7 @@
 package com.gitlab.super7ramp.crosswords.cli.controller.dictionary;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import picocli.CommandLine.Command;
@@ -19,33 +19,38 @@ import java.util.Locale;
 public final class DictionaryCommand {
 
     /** The dictionary service. */
-    private final DictionaryUsecase dictionaryUsecase;
+    private final DictionaryService dictionaryService;
 
     /**
      * Constructor.
      *
-     * @param aDictionaryUsecase the dictionary service
+     * @param aDictionaryService the dictionary service
      */
-    public DictionaryCommand(final DictionaryUsecase aDictionaryUsecase) {
-        dictionaryUsecase = aDictionaryUsecase;
-    }
-
-    @Command(name = "providers", description = "List available dictionary providers")
-    void providers() {
-        dictionaryUsecase.listProviders();
+    public DictionaryCommand(final DictionaryService aDictionaryService) {
+        dictionaryService = aDictionaryService;
     }
 
     @Command(name = "cat", description = "Display dictionary entries")
     void cat(@Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId) {
         final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
-        dictionaryUsecase.listEntries(request);
+        dictionaryService.listEntries(request);
     }
 
-    @Command(name = "list", description = "List available dictionaries")
+    @Command(name = "get-default", description = "Return the default dictionary")
+    void getDefault() {
+        dictionaryService.showPreferredDictionary();
+    }
+
+    @Command(name = "list", aliases = {"ls"}, description = "List available dictionaries")
     void list(@Option(names = {"-p", "--provider"}) final String provider, @Option(names = {"-l",
             "--locale"}) final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
-        dictionaryUsecase.listDictionaries(request);
+        dictionaryService.listDictionaries(request);
+    }
+
+    @Command(name = "list-providers", description = "List available dictionary providers")
+    void listProviders() {
+        dictionaryService.listProviders();
     }
 
 }

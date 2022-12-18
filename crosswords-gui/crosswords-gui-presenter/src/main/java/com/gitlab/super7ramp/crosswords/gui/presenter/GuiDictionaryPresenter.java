@@ -50,4 +50,9 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    @Override
+    public void presentDictionaryError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

@@ -2,11 +2,18 @@ package com.gitlab.super7ramp.crosswords.spi.presenter.solver;
 
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
+import java.util.List;
+
 /**
  * Solver-related presentation services.
  */
 // TODO create specific types so that Presenter SPI does not depend on Solver SPIs
 public interface SolverPresenter {
+
+    /**
+     * Presents the available solvers.
+     */
+    void presentAvailableSolvers(final List<SolverDescription> solverDescriptions);
 
     /**
      * Presents the solver initialisation state.
@@ -31,11 +38,11 @@ public interface SolverPresenter {
     void presentResult(final SolverResult result);
 
     /**
-     * Presents an error from the crossword services.
+     * Presents an error from the solver.
      *
      * @param error the error
      */
     // TODO error should be a dedicated type
-    void presentError(final String error);
+    void presentSolverError(final String error);
 
 }

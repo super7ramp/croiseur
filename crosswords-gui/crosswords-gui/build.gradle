@@ -16,6 +16,6 @@ dependencies {
     implementation project(':crosswords-gui:crosswords-gui-view-model')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-hunspell-plugin')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-internal-plugin')
-    // runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')
+    runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-paulgb-plugin')
 }

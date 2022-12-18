@@ -5,7 +5,24 @@ import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 /**
  * A crossword solver.
  */
+// TODO create a CrosswordSolverProvider interface (e.g. a factory). This would allow client to
+//  avoid loading the solver itself if it doesn't end up using it (e.g. avoid loading native
+//  libraries for nothing)
 public interface CrosswordSolver {
+
+    /**
+     * Returns a unique name for this solver.
+     *
+     * @return the solver name
+     */
+    String name();
+
+    /**
+     * Returns a description for this solver.
+     *
+     * @return a description for this solver.
+     */
+    String description();
 
     /**
      * Solves the given puzzle, using the given dictionary.

@@ -1,10 +1,10 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solve.adapted;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver.adapted;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 
@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
@@ -22,6 +23,8 @@ import static java.util.stream.Collectors.toSet;
  * Adapts command line arguments into a {@link SolveRequest}.
  */
 public final class SolveRequestImpl implements SolveRequest {
+
+    private final String solver;
 
     private final GridSize size;
 
@@ -48,13 +51,15 @@ public final class SolveRequestImpl implements SolveRequest {
      * @param aDictionaryId                the dictionary identifier
      * @param aProgress                    whether progress should be notified
      */
-    public SolveRequestImpl(final GridSize aSize,
+    public SolveRequestImpl(final String aSolver,
+                            final GridSize aSize,
                             final GridPosition[] someShadedBoxes,
                             final PrefilledBox[] somePrefilledBoxes,
                             final PrefilledSlot[] somePrefilledHorizontalSlots,
                             final PrefilledSlot[] somePrefilledVerticalSlots,
                             final DictionaryIdentifier aDictionaryId,
                             final boolean aProgress) {
+        solver = aSolver;
         size = aSize;
         shadedBoxes = someShadedBoxes;
         prefilledBoxes = somePrefilledBoxes;
@@ -76,6 +81,11 @@ public final class SolveRequestImpl implements SolveRequest {
             return Collections.singletonList(dictionaryId);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<String> solver() {
+        return Optional.ofNullable(solver);
     }
 
     @Override

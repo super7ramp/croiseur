@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solve.parsed;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 

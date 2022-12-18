@@ -1,6 +1,6 @@
 package com.gitlab.super7ramp.crosswords.gui.controller.dictionary;
 
-import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryUsecase;
+import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.crosswords.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
 import javafx.concurrent.Task;
@@ -10,8 +10,8 @@ import javafx.concurrent.Task;
  */
 final class ListDictionaryEntriesTask extends Task<Void> {
 
-    /** The "dictionary" usecase. */
-    private final DictionaryUsecase dictionaryUsecase;
+    /** The "dictionary" usecases. */
+    private final DictionaryService dictionaryService;
 
     /** The "list dictionary entries" request. */
     private final ListDictionaryEntriesRequest listDictionaryEntriesRequest;
@@ -19,17 +19,17 @@ final class ListDictionaryEntriesTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryUsecaseArg the dictionary usecase
+     * @param dictionaryServiceArg the dictionary usecases
      */
     ListDictionaryEntriesTask(final DictionaryViewModel dictionaryViewModelArg,
-                              final DictionaryUsecase dictionaryUsecaseArg) {
+                              final DictionaryService dictionaryServiceArg) {
         listDictionaryEntriesRequest = new ListDictionaryEntriesRequestImpl(dictionaryViewModelArg);
-        dictionaryUsecase = dictionaryUsecaseArg;
+        dictionaryService = dictionaryServiceArg;
     }
 
     @Override
     protected Void call() {
-        dictionaryUsecase.listEntries(listDictionaryEntriesRequest);
+        dictionaryService.listEntries(listDictionaryEntriesRequest);
         return null;
     }
 
