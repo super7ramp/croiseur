@@ -48,7 +48,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
         }
 
         @Override
-        public Collection<Dictionary> get(final URL... dictionaryPaths) {
+        public Collection<Dictionary> get() {
             return filteredDictionaries;
         }
     }

@@ -27,6 +27,7 @@ final class DefaultDictionaries {
     /**
      * Well-known Hunspell dictionary paths.
      */
+    // TODO read from configuration
     private static final Path[] DICTIONARY_PATHS = {Path.of("/", "usr", "share", "hunspell"),
             Path.of("/", "usr", "share", "myspell")};
 

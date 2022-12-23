@@ -8,9 +8,18 @@ This folder gathers the following kinds of modules:
 
 ### Dictionary data
 
-TODO.
+The dictionaries themselves, in various formats:
+
+* Hunspell format (e.g. LibreOffice dictionaries);
+* Simple text file (e.g. ukacd);
+* Internal Binary formats (deprecated)
+
+Eventually all binary formats will be removed from the repository. Binary dictionaries may be 
+used, but they should be generated from textual representation. 
 
 ### Dictionary libraries
+
+These are standalone dictionary decoding libraries.
 
 Currently, this folder does not contain any standalone dictionary library.
 

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Implementation of {@link DictionaryProvider}.
@@ -22,16 +22,6 @@ public final class InternalDictionaryProvider implements DictionaryProvider {
      */
     public InternalDictionaryProvider() {
         // Nothing to do.
-    }
-
-    private static Stream<URL> toStream(final URL... dictionaryPaths) {
-        final Stream<URL> paths;
-        if (dictionaryPaths.length == 0) {
-            paths = defaultPaths().stream();
-        } else {
-            paths = Stream.of(dictionaryPaths);
-        }
-        return paths;
     }
 
     private static List<URL> defaultPaths() {
@@ -52,8 +42,7 @@ public final class InternalDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public Collection<Dictionary> get(final URL... dictionaryPaths) {
-        return toStream(dictionaryPaths).map(InternalDictionaryService::new)
-                                        .collect(Collectors.toList());
+    public Collection<Dictionary> get() {
+        return defaultPaths().stream().map(InternalDictionaryService::new).collect(toList());
     }
 }

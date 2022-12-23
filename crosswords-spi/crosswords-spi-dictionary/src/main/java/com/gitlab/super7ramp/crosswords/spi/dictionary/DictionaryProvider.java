@@ -26,7 +26,7 @@ public interface DictionaryProvider {
      * implementation may look for available dictionaries at default locations (e.g. built-in
      * dictionaries, well-known system paths, at the discretion of implementation).
      */
-    Collection<Dictionary> get(final URL... dictionaryPaths);
+    Collection<Dictionary> get();
 
     /**
      * Retrieves the first available dictionary, if any.
@@ -35,8 +35,8 @@ public interface DictionaryProvider {
      * implementation may look for available dictionaries at default locations (e.g. built-in
      * dictionaries, well-known system paths, at the discretion of implementation).
      */
-    default Optional<Dictionary> getFirst(final URL... dictionaryPaths) {
-        final Iterator<Dictionary> it = get(dictionaryPaths).iterator();
+    default Optional<Dictionary> getFirst() {
+        final Iterator<Dictionary> it = get().iterator();
         if (it.hasNext()) {
             return Optional.of(it.next());
         }
