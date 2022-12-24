@@ -17,6 +17,7 @@ import javafx.beans.property.MapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
 /**
@@ -36,6 +37,10 @@ public final class CrosswordSolverRootController {
     /** The view. */
     @FXML
     private CrosswordSolverPane view;
+
+    /** The translations. */
+    @FXML
+    private ResourceBundle resources;
 
     /**
      * Constructs an instance.
@@ -85,7 +90,9 @@ public final class CrosswordSolverRootController {
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
-            .bind(new When(solverRunning).then("Stop solving").otherwise("Solve"));
+            .bind(new When(solverRunning)
+                    .then(resources.getString("stop-solving-button"))
+                    .otherwise(resources.getString("start-solving-button")));
 
         // Solver button action shall allow control the start and stop of the solver
         view.onSolveButtonActionProperty().set(event -> onSolveButtonAction());

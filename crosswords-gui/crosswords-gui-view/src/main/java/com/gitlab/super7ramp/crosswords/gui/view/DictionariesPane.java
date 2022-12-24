@@ -21,6 +21,7 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
@@ -65,7 +66,9 @@ public final class DictionariesPane extends VBox {
         final String fxmlName = DictionariesPane.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
-        final FXMLLoader fxmlLoader = new FXMLLoader(location);
+        final ResourceBundle resourceBundle =
+                ResourceBundle.getBundle(DictionariesPane.class.getName());
+        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

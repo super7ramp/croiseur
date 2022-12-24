@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * A placeholder for the crossword grid.
@@ -40,7 +41,9 @@ public final class CrosswordGridPlaceholder extends VBox {
         final String fxmlName = CrosswordGridPlaceholder.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
-        final FXMLLoader fxmlLoader = new FXMLLoader(location);
+        final ResourceBundle resourceBundle =
+                ResourceBundle.getBundle(CrosswordGridPlaceholder.class.getName());
+        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

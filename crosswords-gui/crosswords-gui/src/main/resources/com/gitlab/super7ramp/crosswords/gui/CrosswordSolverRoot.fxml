@@ -4,5 +4,5 @@
 <CrosswordSolverPane xmlns="http://javafx.com/javafx"
                      xmlns:fx="http://javafx.com/fxml"
                      fx:controller="com.gitlab.super7ramp.crosswords.gui.CrosswordSolverRootController"
-                     prefHeight="600.0" prefWidth="750.0" fx:id="view">
+                     prefHeight="600.0" prefWidth="750.0" fx:id="view" >
 </CrosswordSolverPane>

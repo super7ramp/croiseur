@@ -27,16 +27,11 @@
 #### More dictionaries (dictionary, tools)
 
 - All Hunspell dictionaries available.
-- Create gradle task to automate call to tool to convert Hunspell format to Java object serialized
-  format
+- Create gradle task to automate call to tool to convert Hunspell format to binary/text formats
 
 #### Support UTF8 (solver, dictionary)
 
 - Don't think it's necessary for French, it might be useful for other languages
-
-#### Enhance text output format (cli)
-
-- Add definition placeholders, column and row numbers?
 
 #### Support output formatter as plugins
 
@@ -48,16 +43,28 @@
 
 For the words of a solved grid. It can be a funny problem to explore.
 
+- `crosswords-spi-suggestion`: Defines the API.
+
+#### Add special treatment
+
+Allow user-defined treatment on dictionary entries, e.g. reverse order, consonant only, ... I 
+think that's what qxw call 'answer treatment'.
+
 ### Improvements
 
 #### CLI
 
 - Add some end-to-end tests.
+- Enhance text output format: Column and row numbers.
 
 #### GUI
 
 - Allow skinning of the crossword grid: French style, British style, German style, American 
   style, ...
+- Add numbers to the grid
+- Add a way to choose the solver without bloating the interface
+- Implement solver progress presentation
+- Implement solver/dictionary errors presentation
 
 #### Solver: Ginsberg
 
@@ -86,9 +93,14 @@ For the words of a solved grid. It can be a funny problem to explore.
 Make sure the selected unassigned variable(s) actually solve the issue (i.e. the estimated number of
 solutions after unassignment is > 0). See Ginsberg papers.
 
-##### Solver: Other providers
+#### Solver: Other providers
 
-- To try: https://github.com/szunami/xwords-rs
+- pauglb (Crossword Composer):
+    - Improve Rust binding code for Crossword Composer
+    - Assess what needs to be done in order to be able to pass pre-defined letters
+- To try:
+    - https://github.com/szunami/xwords-rs
+    - https://www.quinapalus.com/qxw.html: Not sure where the solver is
 
 #### Dictionary
 
@@ -114,7 +126,9 @@ solutions after unassignment is > 0). See Ginsberg papers.
 
 ##### Other providers
 
-Look for them.
+- Look for them.
+- There is an XML format that is called XDXF which looks interesting but couldn't find a simple
+  organised list of dictionaries for them.
 
 ##### Common
 
@@ -139,4 +153,10 @@ Look for them.
 
 ##### Naming
 
-- Find a real name for the project. Ideas: `croiseur`, `croisette`.
+- Find a real name for the project. Ideas: `croiseur`, `croiseur-rouge` (because it sounds good), 
+  `cr`, `croisette`.
+
+##### License
+
+- Free software but which one?
+- Also, some plugins use third-party code with their own licence, check compatibility 

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -87,6 +88,9 @@ public final class CrosswordGuiApplication extends Application {
         final URL fxmlLocation = Objects.requireNonNull(CrosswordGuiApplication.class.getResource(
                 FXML_LOCATION));
         loader.setLocation(fxmlLocation);
+        final ResourceBundle resourceBundle =
+                ResourceBundle.getBundle(CrosswordSolverRootController.class.getName());
+        loader.setResources(resourceBundle);
         loader.setControllerFactory(unusedClassParam -> crosswordSolverController);
         final Parent crosswordSolverView = loader.load();
 

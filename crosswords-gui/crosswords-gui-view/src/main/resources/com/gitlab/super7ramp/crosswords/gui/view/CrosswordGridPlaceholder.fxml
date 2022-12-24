@@ -10,12 +10,12 @@
             <Font size="180.0" />
         </font>
     </Text>
-    <Text fx:id="descriptionText" text="Grid is empty" textAlignment="CENTER">
+    <Text fx:id="descriptionText" text="%description-text" textAlignment="CENTER">
         <font>
             <Font size="30.0" />
         </font>
     </Text>
-    <Text fx:id="adviceText" text="Use the toolbar to create rows and columns" textAlignment="CENTER">
+    <Text fx:id="adviceText" text="%advice-text" textAlignment="CENTER">
         <font>
             <Font size="18.0" />
         </font>

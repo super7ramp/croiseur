@@ -8,20 +8,20 @@
 <fx:root spacing="10.0" stylesheets="@DictionariesPane.css" type="VBox"
          xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          id="dictionary-pane-root">
-    <Label styleClass="section-label" text="Dictionaries"/>
+    <Label styleClass="section-label" text="%dictionaries-label"/>
     <ListView fx:id="dictionariesListView" VBox.vgrow="ALWAYS" prefHeight="0">
         <placeholder>
             <VBox alignment="CENTER">
                 <ImageView id="dictionary-placeholder"/>
-                <Label text="No dictionary found"/>
+                <Label text="%dictionaries-placeholder-label"/>
             </VBox>
         </placeholder>
     </ListView>
-    <Label styleClass="section-label" text="Words"/>
-    <TextField fx:id="searchTextField" promptText="Search words"/>
+    <Label styleClass="section-label" text="%words-label"/>
+    <TextField fx:id="searchTextField" promptText="%search-text-field"/>
     <ListView fx:id="wordsListView" VBox.vgrow="ALWAYS">
         <placeholder>
-            <Label text="No word found"/>
+            <Label text="%words-placeholder-label"/>
         </placeholder>
     </ListView>
 </fx:root>

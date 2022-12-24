@@ -11,66 +11,66 @@
 <?import javafx.scene.layout.Pane?>
 
 <fx:root stylesheets="@CrosswordEditionToolbar.css" type="ToolBar" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <Button fx:id="addRowButton" text="Add row">
+    <Button fx:id="addRowButton" text="%add-row-button">
         <graphic>
             <ImageView id="add-row-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Add row on the bottom" />
+            <Tooltip text="%add-row-tooltip" />
         </tooltip>
     </Button>
-    <Button fx:id="deleteRowButton" text="Delete row">
+    <Button fx:id="deleteRowButton" text="%delete-row-button">
         <graphic>
             <ImageView id="delete-row-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Delete row on the bottom" />
+            <Tooltip text="%delete-row-tooltip" />
         </tooltip>
     </Button>
-    <Button fx:id="addColumnButton" text="Add column">
+    <Button fx:id="addColumnButton" text="%add-column-button">
         <graphic>
             <ImageView id="add-column-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Add column on the right" />
+            <Tooltip text="%add-column-tooltip" />
         </tooltip>
     </Button>
-    <Button fx:id="deleteColumnButton" text="Delete column">
+    <Button fx:id="deleteColumnButton" text="%delete-column-button">
         <graphic>
             <ImageView id="delete-column-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Delete column on the right" />
+            <Tooltip text="%delete-column-tooltip" />
         </tooltip>
     </Button>
-   <MenuButton fx:id="clearGridMenuButton" text="Clear grid">
+   <MenuButton fx:id="clearGridMenuButton" text="%clear-grid-button">
      <items>
-       <MenuItem fx:id="clearGridLettersMenuItem" text="Clear only letters" />
-       <MenuItem fx:id="clearGridContentMenuItem" text="Clear letters and shaded cells" />
-       <MenuItem fx:id="clearGridStructureMenuItem" text="Clear the entire structure" />
+       <MenuItem fx:id="clearGridLettersMenuItem" text="%clear-grid-letters-menu-item" />
+       <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item" />
+       <MenuItem fx:id="clearGridStructureMenuItem" text="%clear-grid-structure-menu-item" />
      </items>
       <graphic>
             <ImageView id="clear-grid-menu-button-image-view" />
       </graphic>
       <tooltip>
-            <Tooltip text="Clear the grid" />
+            <Tooltip text="%clear-grid-tooltip" />
       </tooltip>
    </MenuButton>
-    <Button fx:id="solveButton" text="Solve">
+    <Button fx:id="solveButton" text="%solve-button">
         <graphic>
             <ImageView id="solve-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Start/stop solving" />
+            <Tooltip text="%solve-tooltip" />
         </tooltip>
     </Button>
     <Pane HBox.hgrow="ALWAYS" />
-    <ToggleButton fx:id="dictionariesToggleButton" text="Dictionaries">
+    <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button">
         <graphic>
             <ImageView id="show-dictionaries-button-image-view" />
         </graphic>
         <tooltip>
-            <Tooltip text="Show/hide dictionaryViewModel pane" />
+            <Tooltip text="%dictionaries-tooltip" />
         </tooltip>
     </ToggleButton>
 </fx:root>

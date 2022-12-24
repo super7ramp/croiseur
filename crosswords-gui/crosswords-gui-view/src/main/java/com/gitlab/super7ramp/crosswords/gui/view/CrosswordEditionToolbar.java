@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * A toolbar to edit a crossword grid.
@@ -77,7 +78,9 @@ public final class CrosswordEditionToolbar extends ToolBar {
         final String fxmlName = CrosswordEditionToolbar.class.getSimpleName() + ".fxml";
         final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
                 + "locate " + fxmlName);
-        final FXMLLoader fxmlLoader = new FXMLLoader(location);
+        final ResourceBundle resourceBundle =
+                ResourceBundle.getBundle(CrosswordEditionToolbar.class.getName());
+        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
