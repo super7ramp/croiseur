@@ -37,7 +37,7 @@ enum AffItemKind {
     /** General option: Flag type. */
     GENERAL_FLAG_TYPE("^FLAG (UTF-8|long|num)$"),
     /** General option: Languages specific code. */
-    GENERAL_LANG("^LANG (az_AZ|de_DE|hu_HU|TR_tr)$"),
+    GENERAL_LANG("^LANG [a-z]{2}(_[A-Z]{2})?$"),
     /** Other option: TODO document, */
     OTHERS_CIRCUMFIX("^CIRCUMFIX [^ ]+$"),
     /** Other option: TODO document, */
@@ -87,7 +87,13 @@ enum AffItemKind {
      * Option for suggestion: Suggest when word differs from the right word form by one of these
      * characters
      */
-    SUGGESTION_TRY("^TRY [^ ]+$");
+    SUGGESTION_TRY("^TRY [^ ]+$"),
+    /** Undocumented: Homepage of the dictionary, found in Italian dictionary. */
+    UNDOCUMENTED_HOME("^HOME .+$"),
+    /** Undocumented: Name of the dictionary, found in Italian dictionary. */
+    UNDOCUMENTED_NAME("^NAME .+$"),
+    /** Undocumented: Version of the dictionary, found in Italian dictionary. */
+    UNDOCUMENTED_VERSION("^VERSION .+$");
 
     /** The pattern that identifies a parsed line. */
     private final Pattern identificationPattern;
