@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -20,6 +21,9 @@ import java.util.stream.Stream;
  * Note: This implements a minimal amount of Hunspell options.
  */
 final class WordFormGeneratorImpl implements WordFormGenerator {
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(WordFormGeneratorImpl.class.getName());
 
     /** The parsed dictionary file. */
     private final Dic dic;
@@ -55,18 +59,11 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
                   .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
     }
 
-    private BiConsumer<DicEntry, Consumer<String>> affixForms() {
-        return (dicEntry, stringConsumer) -> deaffix(dicEntry, stringConsumer);
-    }
-
-    private void deaffix(final DicEntry dicEntry, final Consumer<String> stringConsumer) {
-        // TODO
-    }
-
     private BiConsumer<DicEntry, Consumer<String>> applyAffixes() {
         return this::applyAffixes;
     }
 
+    // TODO simplify/split
     private void applyAffixes(final DicEntry entry, final Consumer<String> accumulator) {
         final String baseWord = entry.word();
 
@@ -101,6 +98,8 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
                         }
                     }
                 }
+            } else {
+                LOGGER.warning(() -> "Unknown flag: " + flag + ", ignoring.");
             }
         }
     }
