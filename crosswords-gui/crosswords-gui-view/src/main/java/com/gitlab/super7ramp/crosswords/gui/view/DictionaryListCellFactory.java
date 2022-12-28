@@ -19,10 +19,9 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryVie
     private static class DictionaryListCellStringConverter extends StringConverter<DictionaryViewModel> {
 
         /**
-         * The format used to display {@link DictionaryViewModel}, i.e. {@literal <locale>
-         * — <provider>}.
+         * The format used to display {@link DictionaryViewModel}, i.e. {@literal <name>}.
          */
-        private static final String FORMAT = "%s — %s";
+        private static final String FORMAT = "%s";
 
         /**
          * Constructs an instance.
@@ -32,8 +31,8 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryVie
         }
 
         @Override
-        public String toString(DictionaryViewModel item) {
-            return String.format(FORMAT, item.locale(), item.provider());
+        public String toString(final DictionaryViewModel item) {
+            return String.format(FORMAT, item.name());
         }
 
         @Override

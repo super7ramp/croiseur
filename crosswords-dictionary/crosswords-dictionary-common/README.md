@@ -1,3 +1,4 @@
-## dictionary-common
+## crosswords-dictionary-common
 
-`dictionary-common` is a collection of utility classes useful for implementing dictionary providers.
+`crosswords-dictionary-common` is a collection of utility classes useful for implementing 
+crosswords dictionary providers.

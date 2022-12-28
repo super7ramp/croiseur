@@ -1,0 +1,3 @@
+- XML validation on read (or not?)
+- XML format on write (or not?)
+- Document why StAX API has been chosen

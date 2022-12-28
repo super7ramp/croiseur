@@ -3,40 +3,51 @@
 This folder gathers the following kinds of modules:
 
 - Dictionary data
-- Dictionary libraries
+- Dictionary codecs
 - Dictionary plugins
+- Dictionary tools
 
 ### Dictionary data
 
-The dictionaries themselves, in various formats:
+These modules provide the dictionary entries.
 
-* Hunspell format (e.g. LibreOffice dictionaries);
-* Simple text file (e.g. ukacd);
-* Internal Binary formats (deprecated)
+They are named using the following scheme: `crosswords-dictionary-<dictionary_or_format_name>-data`.
 
-Eventually all binary formats will be removed from the repository. Binary dictionaries may be 
-used, but they should be generated from textual representation. 
+Example: `crosswords-dictionary-xml-data`.
 
-### Dictionary libraries
+Only textual representation should be committed under version control. (If binary formats were 
+to be supported in the future, they would have to be generated from a textual representation and 
+generated binary would have to be excluded from version control.)
 
-These are standalone dictionary decoding libraries.
+### Dictionary codecs
 
-Currently, this folder does not contain any standalone dictionary library.
+These modules are standalone libraries providing encoding/decoding functions for a peculiar 
+dictionary format.
 
-`crosswords-dictionary-hunspell-plugin` – which implements a non-trivial reading of Hunspell
-dictionary and wordforms generation – is candidate to have its logic split in a standalone
-library to be put here.
+They are named using the following scheme: 
+`crosswords-dictionary-<dictionary_or_format_name>-codec`.
+
+Example: `crosswords-dictionary-xml-codec`.
 
 ### Dictionary plugins
 
-Dictionary plugins are libraries implementing the crosswords dictionary provider
-interfaces defined in `crosswords-dictionary-spi` and thus usable by the `crosswords` library.
+These modules are special libraries implementing the crosswords dictionary provider interfaces 
+defined in `crosswords-dictionary-spi` and thus usable by the `crosswords` library.
 
-Their names are suffixed with `-plugin`.
+They are named using the following scheme: 
+`crosswords-dictionary-provider-<dictionary_or_format_name>-plugin`.
 
-Typically, these modules simply adapts the interfaces of standalone dictionary libraries to the
-interfaces defined in `crosswords-dictionary-spi`.
+Example: `crosswords-dictionary-xml-plugin`.
 
-Alternatively, the whole dictionary reading logic can be put in a plugin module. This is
-acceptable when the dictionary format is not meant to be re-used in any other projects (e.g.
-`crosswords-dictionary-internal-plugin`).
+Typically, these modules:
+
+* Retrieve the dictionary data - location information may be hard-coded in the plugin or read from 
+  a configuration file;
+* Decode these data using codecs;
+* Expose the decoded data via the `crosswords-dictionary-spi` interface.
+
+## Dictionary tools
+
+These are tools to manipulate dictionaries.
+
+They are grouped in the single `crosswords-dictionary-tools` module.

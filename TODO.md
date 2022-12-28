@@ -65,6 +65,7 @@ think that's what qxw call 'answer treatment'.
 - Add a way to choose the solver without bloating the interface
 - Implement solver progress presentation
 - Implement solver/dictionary errors presentation
+- Modal grid edition toolbar (i.e. hide grid edition buttons by default, they take a lot of space)
 
 #### Solver: Ginsberg
 
@@ -116,20 +117,6 @@ solutions after unassignment is > 0). See Ginsberg papers.
   - Then continue with e.g. Spanish or German or Italian
   - Then maybe it's time to take a step back and make a plan about what should be done to have a
     decent library (at least for our context, i.e. just expanding all forms of the dictionary)
-
-##### Internal
-
-- Binary format likely to remove, object deserialization is inherently unsafe, read:
-  - https://www.oracle.com/java/technologies/javase/seccodeguide.html
-  - https://docs.oracle.com/en/java/javase/16/core/serialization-filtering1.html#GUID-55BABE96-3048-4A9F-A7E6-781790FF3480
-- (Although it's only read from our jar that we know is safe so it's arguable.)
-- Think about a structure and its serialisation/deserialisation:
-  - Headers should contain:
-      - A long name (translatable)
-      - A description (translatable)
-      - A locale
-      - what else?
-  - Data: The entries themselves; Should be lazy loadable 
 
 ##### Other providers
 

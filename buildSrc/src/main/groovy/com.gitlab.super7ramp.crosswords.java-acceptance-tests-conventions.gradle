@@ -1,7 +1,0 @@
-/**
- * Conventions for Java acceptance tests.
- */
-
-plugins {
-    id 'com.gitlab.super7ramp.crosswords.java-conventions'
-}

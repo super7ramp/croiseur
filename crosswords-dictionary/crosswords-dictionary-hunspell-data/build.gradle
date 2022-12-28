@@ -1,0 +1,9 @@
+plugins {
+    id 'com.gitlab.super7ramp.crosswords.dictionary-data-conventions'
+}
+
+artifacts {
+    dictionary fileTree(layout.projectDirectory.dir('libreoffice-dictionaries-edited')) {
+        include '**/*.dic', '**/*.aff'
+    }.files
+}

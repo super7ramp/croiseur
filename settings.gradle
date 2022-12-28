@@ -11,12 +11,18 @@ include 'crosswords-spi:crosswords-spi-dictionary'
 include 'crosswords-spi:crosswords-spi-solver'
 include 'crosswords-spi:crosswords-spi-presenter'
 
-// Dictionary libraries/plugins/data/tools
+// Dictionary codecs/data/plugins/tools
 include 'crosswords-dictionary:crosswords-dictionary-common'
+include 'crosswords-dictionary:crosswords-dictionary-hunspell-codec'
+include 'crosswords-dictionary:crosswords-dictionary-hunspell-data'
 include 'crosswords-dictionary:crosswords-dictionary-hunspell-plugin'
-include 'crosswords-dictionary:crosswords-dictionary-internal-plugin'
-include 'crosswords-dictionary:crosswords-dictionary-data'
 include 'crosswords-dictionary:crosswords-dictionary-tools'
+include 'crosswords-dictionary:crosswords-dictionary-txt-codec'
+include 'crosswords-dictionary:crosswords-dictionary-txt-data'
+include 'crosswords-dictionary:crosswords-dictionary-txt-plugin'
+include 'crosswords-dictionary:crosswords-dictionary-xml-codec'
+include 'crosswords-dictionary:crosswords-dictionary-xml-data'
+include 'crosswords-dictionary:crosswords-dictionary-xml-plugin'
 
 // Solvers libraries/plugins
 include 'crosswords-solver:crosswords-solver-ginsberg'

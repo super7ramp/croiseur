@@ -2,5 +2,5 @@
 	path = crosswords-solver/crosswords-solver-paulgb/crossword-composer
 	url = https://github.com/super7ramp/crossword-composer.git
 [submodule "crosswords-dictionary/crosswords-dictionary-data/libreoffice-dictionaries"]
-	path = crosswords-dictionary/crosswords-dictionary-data/libreoffice-dictionaries
+	path = crosswords-dictionary/crosswords-dictionary-hunspell-data/libreoffice-dictionaries
 	url = git://anongit.freedesktop.org/libreoffice/dictionaries

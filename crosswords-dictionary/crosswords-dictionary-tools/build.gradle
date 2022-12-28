@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':crosswords-dictionary:crosswords-dictionary-hunspell-plugin')
-    implementation project(':crosswords-dictionary:crosswords-dictionary-internal-plugin')
+    implementation project(':crosswords-dictionary:crosswords-dictionary-common')
+    implementation project(':crosswords-dictionary:crosswords-dictionary-hunspell-codec')
+    implementation project(':crosswords-dictionary:crosswords-dictionary-xml-codec')
 }

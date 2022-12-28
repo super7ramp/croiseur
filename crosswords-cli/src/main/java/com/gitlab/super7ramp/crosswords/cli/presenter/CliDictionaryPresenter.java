@@ -19,10 +19,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     private static final String PROVIDERS_FORMAT = "%-16s\t%-54s%n";
 
     /** List output format. */
-    private static final String LIST_FORMAT = "%-16s\t%-16s\t%-16s%n";
+    private static final String LIST_FORMAT = "%-16s\t%-48s\t%-16s%n";
 
     /** Show preferred dictionary format. */
-    private static final String PREFERRED_DICTIONARY_FORMAT = "%s, %s, provided by %s";
+    private static final String PREFERRED_DICTIONARY_FORMAT = "%s, %s, provided by %s%n";
 
     /**
      * Constructs an instance.

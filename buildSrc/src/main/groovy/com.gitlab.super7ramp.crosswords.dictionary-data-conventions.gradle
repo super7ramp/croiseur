@@ -1,0 +1,43 @@
+/**
+ * Conventions for dictionary data.
+ */
+
+plugins {
+    id 'base'
+}
+
+/**
+ * A configuration for dictionary artifacts
+ * <p>
+ * Producer (on which this plugin is applied) shall add dictionaries like this:
+ *
+ * <pre>{@code
+ * configurations.named('dictionary') {
+ *     dictionary files('my-dictionary.txt')
+ * }
+ * }</pre>
+ *
+ * Consumer can refer to it:
+ *
+ * <pre>{@code
+ * dependencies {
+ *     runtimeOnly project(path: ':example-producer', configuration: 'dictionary')
+ * }
+ * }</pre>
+ *
+ * Or more simply, since default configuration is configured to extend dictionary configuration:
+ *
+ * <pre>{@code
+ * dependencies {
+ *     runtimeOnly project(':exemple-producer')
+ * }
+ * }</pre>
+ */
+configurations.create('dictionary') {
+    canBeConsumed = true
+    canBeResolved = false
+}
+
+configurations.named('default') {
+    extendsFrom configurations.dictionary
+}

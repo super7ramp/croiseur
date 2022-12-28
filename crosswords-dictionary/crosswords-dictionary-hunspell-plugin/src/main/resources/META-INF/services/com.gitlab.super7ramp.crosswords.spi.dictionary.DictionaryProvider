@@ -1,2 +1,1 @@
-com.gitlab.super7ramp.crosswords.dictionary.hunspell.plugin.HunspellDictionaryProvider
-com.gitlab.super7ramp.crosswords.dictionary.hunspell.plugin.HunspellExtDictionaryProvider
+com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.plugin.HunspellDictionaryProvider

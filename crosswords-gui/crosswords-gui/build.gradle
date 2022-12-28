@@ -15,7 +15,21 @@ dependencies {
     implementation project(':crosswords-gui:crosswords-gui-view')
     implementation project(':crosswords-gui:crosswords-gui-view-model')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-hunspell-plugin')
-    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-internal-plugin')
+    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-txt-plugin')
+    runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-xml-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-paulgb-plugin')
+    dictionaryPath project(':crosswords-dictionary:crosswords-dictionary-txt-data')
+    dictionaryPath project(':crosswords-dictionary:crosswords-dictionary-xml-data')
+    // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
+    // as XML dictionaries
+}
+
+/**
+ * Configures parameters to be used when launch the application via './gradlew run'.
+ */
+// TODO find a way to move this to application convention plugin
+tasks.named('run') {
+    def dictionaryPath = configurations.getByName('dictionaryPath').asPath
+    jvmArgs.add('-Dcom.gitlab.super7ramp.crosswords.dictionary.path=' + dictionaryPath)
 }

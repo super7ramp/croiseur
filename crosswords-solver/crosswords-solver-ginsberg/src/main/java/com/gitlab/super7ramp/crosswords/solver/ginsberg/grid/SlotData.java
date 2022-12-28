@@ -18,7 +18,7 @@ final class SlotData {
     /**
      * Instantiation flag.
      * <p>
-     * This flags allows identifying whether the variable represented by this data has been
+     * This flag allows to identify whether the variable represented by this data has been
      * instantiated. Relying on value presence is not sufficient as slot data may entirely be
      * filled by side effect of connected variables.
      */
@@ -102,6 +102,8 @@ final class SlotData {
         for (int i = 0; i < definition.length(); i++) {
             final char letter = boxAt(i).value();
             if (letter == BoxData.EMPTY_VALUE) {
+                // FIXME that shouldn't happen unless there is a space in dictionary words
+                //  which is *not* supported. Throw an exception? Drop this check? Add an assert?
                 return Optional.empty();
             }
             readValue[i] = letter;

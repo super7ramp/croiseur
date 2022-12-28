@@ -3,9 +3,6 @@ import com.gitlab.super7ramp.crosswords.spi.solver.CrosswordSolver;
 
 module com.gitlab.super7ramp.crosswords.gui {
 
-    exports com.gitlab.super7ramp.crosswords.gui to javafx.graphics;
-    opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;
-
     requires com.gitlab.super7ramp.crosswords.gui.controller;
     requires com.gitlab.super7ramp.crosswords.gui.presenter;
     requires com.gitlab.super7ramp.crosswords.gui.view.model;
@@ -21,4 +18,6 @@ module com.gitlab.super7ramp.crosswords.gui {
     // JavaFX stuff
     requires javafx.controls;
     requires javafx.fxml;
+    exports com.gitlab.super7ramp.crosswords.gui to javafx.graphics;
+    opens com.gitlab.super7ramp.crosswords.gui to javafx.fxml;
 }

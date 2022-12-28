@@ -9,5 +9,13 @@ import java.util.Locale;
  * @param locale the locale of the dictionary
  */
 public record DictionaryDescription(String name, Locale locale) {
-    // Nothing to add.
+
+    /**
+     * Creates a dictionary description for an unknown dictionary.
+     *
+     * @return a dictionary description for an unknown dictionary
+     */
+    public static DictionaryDescription unknown() {
+        return new DictionaryDescription("<Unknown dictionary>", Locale.ENGLISH);
+    }
 }

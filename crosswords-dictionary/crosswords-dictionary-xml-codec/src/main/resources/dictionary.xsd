@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/dictionary"
+	xmlns:tns="http://www.example.org/dictionary">
+
+	<import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+	<complexType name="words">
+		<sequence maxOccurs="unbounded" minOccurs="0">
+			<element name="word" type="string" />
+		</sequence>
+	</complexType>
+
+
+	<complexType name="dictionary">
+		<sequence>
+			<element name="locale" type="language" />
+			<element name="name" type="tns:translatableString"
+				minOccurs="1" maxOccurs="unbounded" />
+			<element name="description" type="tns:translatableString"
+				minOccurs="1" maxOccurs="unbounded" />
+			<element name="words" type="tns:words" />
+		</sequence>
+	</complexType>
+
+	<complexType name="translatableString">
+		<simpleContent>
+			<extension base="string">
+				<attribute ref="xml:lang" default="en" />
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<element name="dictionary" type="tns:dictionary">
+		<unique name="unique-name-per-lang">
+			<selector xpath="name" />
+			<field xpath="@xml:lang" />
+		</unique>
+		<unique name="unique-description-per-lang">
+			<selector xpath="description" />
+			<field xpath="@xml:lang" />
+		</unique>
+	</element>
+</schema>

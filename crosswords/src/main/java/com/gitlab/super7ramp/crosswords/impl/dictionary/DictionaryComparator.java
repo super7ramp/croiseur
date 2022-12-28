@@ -75,7 +75,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
 
         /** The name of the preferred dictionary. */
         // TODO to be passed by configuration
-        private static final String PREFERRED_PROVIDER = "internal";
+        private static final String PREFERRED_PROVIDER = "xml";
 
         /**
          * Constructs an instance.
@@ -123,13 +123,14 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     public int compare(final ProvidedDictionaryDescription left,
                        final ProvidedDictionaryDescription right) {
 
-        int localeComparison = localeComparator.compare(left.dictionary().locale(), right.dictionary()
-                                                                                         .locale());
+        final int localeComparison = localeComparator.compare(left.dictionary().locale(),
+                right.dictionary().locale());
         if (localeComparison != 0) {
             return localeComparison;
         }
 
-        int providerComparison = providerComparator.compare(left.provider(), right.provider());
+        final int providerComparison = providerComparator.compare(left.provider(),
+                right.provider());
         if (providerComparison != 0) {
             return providerComparison;
         }
