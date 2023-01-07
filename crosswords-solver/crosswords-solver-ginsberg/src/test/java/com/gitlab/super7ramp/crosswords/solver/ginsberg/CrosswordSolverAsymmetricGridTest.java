@@ -11,7 +11,7 @@ import java.nio.file.Path;
 /**
  * Tests on some asymmetric French grids.
  */
-public class CrosswordSolverAsymmetricGridTest {
+final class CrosswordSolverAsymmetricGridTest {
 
     /** Test dictionary filename. */
     private static final String DIC_FILE = "/fr.dic";

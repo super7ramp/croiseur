@@ -17,7 +17,7 @@ final class ProgressListenerFactory {
     /**
      * Implementation of a periodical progress listener.
      */
-    private static class ProgressListenerImpl implements ProgressListener {
+    private static final class ProgressListenerImpl implements ProgressListener {
 
         /** The presenter. */
         private final SolverPresenter presenter;

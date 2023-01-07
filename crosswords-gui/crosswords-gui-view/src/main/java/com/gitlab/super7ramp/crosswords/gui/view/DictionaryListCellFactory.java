@@ -16,7 +16,7 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryVie
     /**
      * Converts a {@link DictionaryViewModel} to a {@link String}.
      */
-    private static class DictionaryListCellStringConverter extends StringConverter<DictionaryViewModel> {
+    private static final class DictionaryListCellStringConverter extends StringConverter<DictionaryViewModel> {
 
         /**
          * The format used to display {@link DictionaryViewModel}, i.e. {@literal <name>}.

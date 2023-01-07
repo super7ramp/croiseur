@@ -4,7 +4,7 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.
 
 final class UnknownAffItemException extends ParserException {
 
-    private static String MESSAGE = "Unknown item: ";
+    private static final String MESSAGE = "Unknown item: ";
 
     UnknownAffItemException(final String message) {
         super(MESSAGE + message);

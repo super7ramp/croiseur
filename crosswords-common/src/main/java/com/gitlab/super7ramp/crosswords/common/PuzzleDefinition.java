@@ -25,10 +25,10 @@ public final class PuzzleDefinition {
         private int height;
 
         /** Shaded boxes. */
-        private Set<GridPosition> shaded;
+        private final Set<GridPosition> shaded;
 
         /** Filled boxes. */
-        private Map<GridPosition, Character> filled;
+        private final Map<GridPosition, Character> filled;
 
         /**
          * Constructor.

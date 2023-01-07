@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
 public final class DicParser {
 
     /** Pattern for the number of entries at the start of the "*.dic" file. */
-    private static Pattern NUMBER_OF_ENTRIES = Pattern.compile("^[0-9]+$");
+    private static final Pattern NUMBER_OF_ENTRIES = Pattern.compile("^[0-9]+$");
 
     /** Pattern for comments that should be ignored: Lines starting with /. */
-    private static Pattern COMMENT = Pattern.compile("^/.*$");
+    private static final Pattern COMMENT = Pattern.compile("^/.*$");
 
     /** The form of an affix flag, as defined in .aff file. */
     private final FlagType flagType;

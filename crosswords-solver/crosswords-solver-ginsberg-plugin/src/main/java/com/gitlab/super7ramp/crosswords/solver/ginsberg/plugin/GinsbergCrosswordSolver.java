@@ -20,7 +20,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
      * Adapts a {@link ProgressListener} to
      * {@link com.gitlab.super7ramp.crosswords.solver.ginsberg.ProgressListener}.
      */
-    private static class AdaptedProgressListener implements com.gitlab.super7ramp.crosswords.solver.ginsberg.ProgressListener {
+    private static final class AdaptedProgressListener implements com.gitlab.super7ramp.crosswords.solver.ginsberg.ProgressListener {
 
         /** The adapted listener. */
         private final ProgressListener adapted;
@@ -54,7 +54,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
      * Adapts a {@link com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult} to
      * {@link SolverResult}.
      */
-    private static class AdaptedSolverResult implements SolverResult {
+    private static final class AdaptedSolverResult implements SolverResult {
 
         /** The adapted instance. */
         private final com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult adapted;

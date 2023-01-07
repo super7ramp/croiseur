@@ -8,7 +8,7 @@ final class Boxes {
     /**
      * A box containing a computed letter.
      */
-    private static class ComputedBox implements BoxData {
+    private static final class ComputedBox implements BoxData {
 
         /** The value. */
         private char character;
@@ -63,7 +63,7 @@ final class Boxes {
     /**
      * A box containing a pre-filled letter.
      */
-    private static class PrefilledBox implements BoxData {
+    private static final class PrefilledBox implements BoxData {
 
         /** The value. */
         private final char character;
@@ -115,7 +115,7 @@ final class Boxes {
     /**
      * A shaded box.
      */
-    private static class ShadedBox implements BoxData {
+    private static final class ShadedBox implements BoxData {
 
         /** Error message. */
         private static final String SHADED_BOXES_ARE_IMMUTABLE = "Shaded boxes are immutable";

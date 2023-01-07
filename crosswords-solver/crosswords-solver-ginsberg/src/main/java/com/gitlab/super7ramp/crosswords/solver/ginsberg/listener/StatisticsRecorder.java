@@ -11,7 +11,7 @@ public final class StatisticsRecorder implements SolverListener {
     /**
      * Implementation of {@link SolverResult.Statistics}.
      */
-    private static class StatisticsImpl implements SolverResult.Statistics {
+    private static final class StatisticsImpl implements SolverResult.Statistics {
 
         private long numberOfUnassignments;
 

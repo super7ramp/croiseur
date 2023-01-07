@@ -18,7 +18,7 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names,
     /**
      * A classic builder.
      */
-    static class Builder {
+    static final class Builder {
 
         /** The dictionary language. */
         private Locale locale;

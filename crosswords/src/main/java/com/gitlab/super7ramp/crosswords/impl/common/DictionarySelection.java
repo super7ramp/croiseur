@@ -21,7 +21,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * A decorator of {@link DictionaryProvider dictionary provider} filtering the dictionaries
      * given a predicate.
      */
-    private static class FilteredDictionaryProvider implements DictionaryProvider {
+    private static final class FilteredDictionaryProvider implements DictionaryProvider {
 
         /** The actual dictionary provider. */
         private final DictionaryProvider actual;

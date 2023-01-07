@@ -30,7 +30,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     /**
      * Comparator for dictionary locales.
      */
-    private static class LocaleComparator implements Comparator<Locale> {
+    private static final class LocaleComparator implements Comparator<Locale> {
 
         /** The default system locale at instance construction time. */
         private final Locale defaultSystemLocale;
@@ -71,7 +71,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     /**
      * Comparator for dictionary providers.
      */
-    private static class ProviderComparator implements Comparator<DictionaryProviderDescription> {
+    private static final class ProviderComparator implements Comparator<DictionaryProviderDescription> {
 
         /** The name of the preferred dictionary. */
         // TODO to be passed by configuration

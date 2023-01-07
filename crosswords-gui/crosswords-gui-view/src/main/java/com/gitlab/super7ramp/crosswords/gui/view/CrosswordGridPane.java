@@ -43,7 +43,7 @@ public final class CrosswordGridPane extends StackPane {
     /**
      * Allows to navigate the grid using arrow keys.
      */
-    private class ArrowKeyNavigator implements EventHandler<KeyEvent> {
+    private final class ArrowKeyNavigator implements EventHandler<KeyEvent> {
 
         /**
          * Constructs an instance.
@@ -186,13 +186,12 @@ public final class CrosswordGridPane extends StackPane {
      * Creates an empty row at the bottom of the grid.
      */
     public void addRow() {
-        final int oldRowCount = grid.getRowCount();
-        if (oldRowCount >= MAX_ROW_COLUMN_COUNT) {
+        final int newRowIndex = grid.getRowCount();
+        if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        final int newRowIndex = oldRowCount;
-        final int oldColumnCount = grid.getColumnCount();
-        for (int column = 0; (column < oldColumnCount) || (column == 0 && oldColumnCount == 0); column++) {
+        final int columnCount = grid.getColumnCount();
+        for (int column = 0; (column < columnCount) || (column == 0 && columnCount == 0); column++) {
             final GridPosition coordinate = new GridPosition(column, newRowIndex);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBoxViewModel());
@@ -203,13 +202,12 @@ public final class CrosswordGridPane extends StackPane {
      * Creates an empty column at the right of the grid.
      */
     public void addColumn() {
-        final int oldColumnCount = grid.getColumnCount();
-        if (oldColumnCount >= MAX_ROW_COLUMN_COUNT) {
+        final int newColumnIndex = grid.getColumnCount();
+        if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        final int newColumnIndex = oldColumnCount;
-        final int oldRowCount = grid.getRowCount();
-        for (int row = 0; (row < oldRowCount) || (row == 0 && oldRowCount == 0); row++) {
+        final int rowCount = grid.getRowCount();
+        for (int row = 0; (row < rowCount) || (row == 0 && rowCount == 0); row++) {
             final GridPosition coordinate = new GridPosition(newColumnIndex, row);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBoxViewModel());

@@ -20,7 +20,7 @@ final class GridImpl implements Grid {
     /**
      * Implementation of {@link Puzzle}.
      */
-    private static class PuzzleImpl implements Puzzle {
+    private static final class PuzzleImpl implements Puzzle {
 
         /**
          * The underlying data.
