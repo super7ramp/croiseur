@@ -26,7 +26,7 @@ public interface Solver {
     /**
      * Solve a problem.
      *
-     * @return <code>true</code> iff solver loop has terminated without error
+     * @return {@code true} iff solver loop has terminated without error
      * @throws InterruptedException if interrupted while solving
      */
     boolean solve() throws InterruptedException;

@@ -11,7 +11,7 @@ package com.gitlab.super7ramp.crosswords.solver.paulgb;
  *     crossword puzzle a contiguous slice of cells in which a word must be placed);
  *     <li>The array of arrays of integers represents all the slots of the grid</li>
  * </ul>
- * <img src="https://raw.githubusercontent.com/paulgb/crossword-composer/master/images/input_representation.png"/>
+ * <img alt="Input Representation" src="https://raw.githubusercontent.com/paulgb/crossword-composer/master/images/input_representation.png"/>
  * <p>
  * Note: There is a wording difference with Crossword Composer documentation here: Here, the word
  * <em>slot</em> designates the place for a word whereas Crossword Composer documentation refers to

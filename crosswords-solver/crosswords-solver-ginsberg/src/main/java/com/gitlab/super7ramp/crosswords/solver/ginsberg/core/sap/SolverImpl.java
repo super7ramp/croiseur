@@ -10,13 +10,12 @@ import java.util.Optional;
  * <p>
  * This class implements a solver, provided:
  * <ul>
- *     <li>an {@link Iterator<VariableT> iterator} to iterate on the variables</li>
+ *     <li>an {@link Iterator iterator} to iterate on the variables</li>
  *     <li>a {@link CandidateChooser <VariableT,ValueT> candidate chooser} to select the best
  *     next variable</li>
- *     <li>a {@link Backtracker <VariableT> backtracking strategy} to handle the dead-ends</li>
- *     <li>a {@link ProblemStateUpdater <VariableT,ValueT,VariableT> problem state updater} to
- *     commit the
- *     changes to the problem</li>
+ *     <li>a {@link Backtracker backtracking strategy} to handle the dead-ends</li>
+ *     <li>a {@link ProblemStateUpdater problem state updater} to commit the changes to the
+ *     problem</li>
  * </ul>
  *
  * @param <VariableT>          type of variable

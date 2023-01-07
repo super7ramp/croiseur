@@ -24,7 +24,7 @@ public interface Slot {
     /**
      * Return whether the variable is instantiated.
      *
-     * @return <code>true</code> iff the variable is instantiated.
+     * @return {@code true} iff the variable is instantiated.
      */
     boolean isInstantiated();
 
@@ -32,7 +32,7 @@ public interface Slot {
      * Return whether the variable is connected to the given other variable.
      *
      * @param other the other variable
-     * @return <code>true</code> iff the two variables are connected
+     * @return {@code true} iff the two variables are connected
      */
     default boolean isConnectedTo(final Slot other) {
         return isConnectedTo(other.uid());
@@ -42,7 +42,7 @@ public interface Slot {
      * Return whether the variable is connected to the given other variable.
      *
      * @param other the other variable
-     * @return <code>true</code> iff the two variables are connected
+     * @return {@code true} iff the two variables are connected
      */
     boolean isConnectedTo(final SlotIdentifier other);
 
@@ -81,7 +81,7 @@ public interface Slot {
      * in a dictionary or not.
      *
      * @param value the value to test
-     * @return <code>true</code> if the given value fits inside this slot
+     * @return {@code true} if the given value fits inside this slot
      */
     boolean isCompatibleWith(final String value);
 }

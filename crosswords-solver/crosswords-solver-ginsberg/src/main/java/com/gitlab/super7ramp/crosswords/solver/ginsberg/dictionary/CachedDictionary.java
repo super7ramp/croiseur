@@ -19,7 +19,7 @@ public interface CachedDictionary {
     Stream<String> candidates(final Slot wordVariable);
 
     /**
-     * Returns <code>true</code> if and only if the dictionary contains the given candidate for
+     * Returns {@code true} if and only if the dictionary contains the given candidate for
      * the given slot.
      * <p>
      * To be preferred over filtering stream provided by {@link #candidates(Slot)} if no
@@ -28,7 +28,7 @@ public interface CachedDictionary {
      * {@code candidates(slot).anyMatch(value::equals)}.
      *
      * @param value the value to test
-     * @return <code>true</code> if and only if the dictionary contains the given candidate for
+     * @return {@code true} if and only if the dictionary contains the given candidate for
      * the given slot
      */
     boolean candidatesContains(final Slot wordVariable, final String value);

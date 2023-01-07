@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class SlotDefinitionTest {
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -32,7 +32,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -53,7 +53,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -74,7 +74,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -95,7 +95,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -116,7 +116,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>false</code>
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code false}
      * in this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -137,7 +137,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>false</code>
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code false}
      * in this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -158,7 +158,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>false</code>
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code false}
      * in this situation:
      * <pre>
      *      0 1 2 3 4 5
@@ -179,7 +179,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>false</code>
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code false}
      * in this situation:
      * <pre>
      *      0 1 2 3 4 5 6
@@ -200,7 +200,7 @@ final class SlotDefinitionTest {
     }
 
     /**
-     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns <code>true</code> in
+     * Tests that {@link SlotDefinition#isConnected(SlotDefinition)} returns {@code true} in
      * this situation:
      * <pre>
      *      0 1 2 3 4 5

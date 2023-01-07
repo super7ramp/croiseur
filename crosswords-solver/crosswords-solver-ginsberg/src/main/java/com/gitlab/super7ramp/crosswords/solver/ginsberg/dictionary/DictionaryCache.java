@@ -45,10 +45,10 @@ final class DictionaryCache<SlotT, ValueT> {
     }
 
     /**
-     * Returns <code>true</code> if and only if the cache contains the given value.
+     * Returns {@code true} if and only if the cache contains the given value.
      *
      * @param value the value to test
-     * @return <code>true</code> if and only if the cache contains the given value
+     * @return {@code true} if and only if the cache contains the given value
      */
     boolean contains(final SlotT slot, final ValueT value) {
         return current.get(slot).contains(value);
