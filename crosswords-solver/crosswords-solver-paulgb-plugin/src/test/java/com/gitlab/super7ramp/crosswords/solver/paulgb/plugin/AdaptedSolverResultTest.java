@@ -1,6 +1,7 @@
 package com.gitlab.super7ramp.crosswords.solver.paulgb.plugin;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
+import com.gitlab.super7ramp.crosswords.solver.paulgb.Solution;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import org.junit.jupiter.api.Test;
 
@@ -18,33 +19,30 @@ final class AdaptedSolverResultTest {
 
     @Test
     void impossible() {
-        final Map<Long, GridPosition> idToPosition = new HashMap<>();
         final GridPosition position0 = new GridPosition(0, 0);
-        idToPosition.put(0L, position0);
         final GridPosition position1 = new GridPosition(0, 1);
-        idToPosition.put(1L, position1);
         final GridPosition position2 = new GridPosition(0, 2);
-        idToPosition.put(2L, position2);
+        final Set<GridPosition> positions = Set.of(position0, position1, position2);
 
-        final SolverResult result = AdaptedSolverResult.impossible(idToPosition);
+        final SolverResult result = AdaptedSolverResult.impossible(positions);
 
         assertEquals(SolverResult.Kind.IMPOSSIBLE, result.kind());
         assertEquals(Collections.emptyMap(), result.filledBoxes());
-        assertEquals(Set.of(position0, position1, position2), result.unsolvableBoxes());
+        assertEquals(positions, result.unsolvableBoxes());
     }
 
     @Test
     void success() {
-        final Map<Long, GridPosition> idToPosition = new HashMap<>();
+        final Map<Integer, GridPosition> idToPosition = new HashMap<>();
         final GridPosition position0 = new GridPosition(0, 0);
-        idToPosition.put(0L, position0);
+        idToPosition.put(0, position0);
         final GridPosition position1 = new GridPosition(0, 1);
-        idToPosition.put(1L, position1);
+        idToPosition.put(1, position1);
         final GridPosition position2 = new GridPosition(0, 2);
-        idToPosition.put(2L, position2);
+        idToPosition.put(2, position2);
+        final Solution solution = new Solution(new char[]{'A', 'B', 'C'});
 
-        final SolverResult result = AdaptedSolverResult.success(idToPosition, new char[]{'A',
-                'B', 'C'});
+        final SolverResult result = AdaptedSolverResult.success(idToPosition, solution);
 
         assertEquals(SolverResult.Kind.SUCCESS, result.kind());
         assertEquals(Map.of(position0, 'A', position1, 'B', position2, 'C'), result.filledBoxes());

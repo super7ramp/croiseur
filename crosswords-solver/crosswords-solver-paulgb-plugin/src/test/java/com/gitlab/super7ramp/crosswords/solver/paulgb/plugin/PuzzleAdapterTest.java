@@ -29,7 +29,7 @@ final class PuzzleAdapterTest {
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
         assertEquals(8, emptyGrid.slots().length);
-        final long[][] expectedSlots = {
+        final int[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2, 3},
                 {4, 5, 6, 7},
@@ -56,7 +56,7 @@ final class PuzzleAdapterTest {
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
         assertEquals(8, emptyGrid.slots().length);
-        final long[][] expectedSlots = {
+        final int[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2},
                 {3, 4, 5},
@@ -94,7 +94,7 @@ final class PuzzleAdapterTest {
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
 
         assertEquals(8, emptyGrid.slots().length);
-        final long[][] expectedSlots = {
+        final int[][] expectedSlots = {
                 // horizontal slots
                 {0, 1, 2},
                 {3, 4, 5, 6},

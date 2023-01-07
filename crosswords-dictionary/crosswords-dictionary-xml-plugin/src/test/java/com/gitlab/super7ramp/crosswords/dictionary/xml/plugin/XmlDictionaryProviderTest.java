@@ -32,8 +32,8 @@ final class XmlDictionaryProviderTest {
 
     @Test
     void get() {
-        System.setProperty(DictionaryPath.SYSTEM_PROPERTY, System.getProperty("user.dir") + "src" +
-                "/test/resources");
+        System.setProperty(DictionaryPath.SYSTEM_PROPERTY, System.getProperty("user.dir") + "/src" +
+                "/test/resources/dictionaries");
         final DictionaryProvider xmlDictionaryProvider = new XmlDictionaryProvider();
 
         final Collection<Dictionary> dictionaries = xmlDictionaryProvider.get();
@@ -41,7 +41,7 @@ final class XmlDictionaryProviderTest {
         assertEquals(1, dictionaries.size());
         final Dictionary dictionary = dictionaries.iterator().next();
         assertEquals("Dictionary example", dictionary.description().name());
-        assertEquals(List.of("Hello", "World"), dictionary.stream().toList());
+        assertEquals(List.of("HELLO", "WORLD"), dictionary.stream().toList());
     }
 
     /**
