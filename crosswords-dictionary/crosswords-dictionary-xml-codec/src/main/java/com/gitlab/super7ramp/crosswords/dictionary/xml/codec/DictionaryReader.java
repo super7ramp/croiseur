@@ -24,7 +24,6 @@ import java.util.stream.Stream;
  * Note that in order to support multiple read on the same source, the reader is not bound directly
  * to an {@link InputStream} but to an {@link InputStreamSupplier}. Such a supplier can easily be
  * created from e.g. a URL:
- * <p>
  * <pre>{@code
  * final URL dictionaryUrl = MyReaderTest.class.getResource("/example.xml");
  * final DictionaryReader = new DictionaryReader(dictionaryUrl::openStream);

@@ -152,12 +152,12 @@ public final class CrosswordGridPane extends StackPane {
      * Note that a map containing a given {@link GridPosition} key without any value (i.e. a
      * {@code null} value) is equivalent to a map not containing the given coordinates, i.e. in
      * both cases no text field is visible on the view.
-     * <p>
+     *
      * <h4>Adding new boxes</h4>
      * <p>
      * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}es can also
      * be added via {@link #addColumn()} and {@link #addRow()}.
-     * <p>
+     *
      * <h4>Modifying boxes</h4>
      * <p>
      * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply
@@ -167,7 +167,7 @@ public final class CrosswordGridPane extends StackPane {
      * though. It is deemed to be the desired behaviour. Implementation may try to avoid
      * instantiating a new {@link CrosswordBoxTextField} in this situation but unlink the old
      * model and reuse the existing text field with the new model object.
-     * <p>
+     *
      * <h4>Deleting boxes</h4>
      * <p>
      * Just remove entries from the map. As mentioned above, only null-ing the values should have

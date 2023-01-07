@@ -3,6 +3,9 @@ package com.gitlab.super7ramp.crosswords.cli.controller.solver;
 import com.gitlab.super7ramp.crosswords.api.solver.SolverService;
 import picocli.CommandLine.Command;
 
+/**
+ * The 'solver' command.
+ */
 @Command(name = "solver", description = "Solve crosswords and list available solvers",
         synopsisSubcommandLabel = "COMMAND" /* instead of [COMMAND], because subcommand is
         mandatory */)

@@ -12,6 +12,8 @@ public interface SolverPresenter {
 
     /**
      * Presents the available solvers.
+     *
+     * @param solverDescriptions the solver descriptions
      */
     void presentAvailableSolvers(final List<SolverDescription> solverDescriptions);
 

@@ -67,6 +67,7 @@ public final class Backtrackers {
      * Same as {@link #dynamicBacktrack(History)} but force removal of maybe rightly assigned
      * variables.
      *
+     * @param history assignment history
      * @return the backjump {@link Backtracker}
      */
     public static Backtracker<Slot, SlotIdentifier> backjump(final History history) {

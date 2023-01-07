@@ -5,6 +5,12 @@ import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A parsed pre-filled box information.
+ *
+ * @param gridPosition the position of the box
+ * @param value the value inside the box
+ */
 public record PrefilledBox(GridPosition gridPosition, char value) {
 
     /** Textual representation pattern. */
@@ -14,7 +20,7 @@ public record PrefilledBox(GridPosition gridPosition, char value) {
             "\\)");
 
     /**
-     * Create a new {@link PrefilledBox} from its textual representation.
+     * Creates a new {@link PrefilledBox} from its textual representation.
      *
      * @param text the textual representation
      * @return the parsed {@link PrefilledBox}

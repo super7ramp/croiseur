@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+/**
+ * Parser for textual representation of puzzle definition.
+ */
 public final class PuzzleDefinitionParser {
 
     private static final Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");

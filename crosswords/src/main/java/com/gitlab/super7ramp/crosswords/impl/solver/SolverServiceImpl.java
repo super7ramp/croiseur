@@ -20,10 +20,11 @@ public final class SolverServiceImpl implements SolverService {
     private final SolveUsecase solveUsecase;
 
     /**
-     * Constructor.
+     * Constructs an instance.
      *
      * @param solversArg             the solvers
      * @param dictionaryProvidersArg the dictionary providers
+     * @param presenterArg           the solver presenter
      * @throws IllegalArgumentException if solver collection is empty
      */
     public SolverServiceImpl(final Collection<CrosswordSolver> solversArg,

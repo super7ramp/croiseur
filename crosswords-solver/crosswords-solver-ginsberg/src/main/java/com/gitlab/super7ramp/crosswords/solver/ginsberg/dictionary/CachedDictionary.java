@@ -19,14 +19,15 @@ public interface CachedDictionary {
     Stream<String> candidates(final Slot wordVariable);
 
     /**
-     * Returns {@code true} if and only if the dictionary contains the given candidate for
-     * the given slot.
+     * Returns {@code true} if and only if the dictionary contains the given candidate for the
+     * given slot.
      * <p>
      * To be preferred over filtering stream provided by {@link #candidates(Slot)} if no
      * intermediate stream operation needed, that is to say prefer
      * {@code dictionary.contains(variable, value)} over
      * {@code candidates(slot).anyMatch(value::equals)}.
      *
+     * @param wordVariable the variable
      * @param value the value to test
      * @return {@code true} if and only if the dictionary contains the given candidate for
      * the given slot

@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface Slot {
 
     /**
-     * Unique identifier.
+     * Returns the slot's unique identifier.
+     *
+     * @return the slot's unique identifier
      */
     SlotIdentifier uid();
 

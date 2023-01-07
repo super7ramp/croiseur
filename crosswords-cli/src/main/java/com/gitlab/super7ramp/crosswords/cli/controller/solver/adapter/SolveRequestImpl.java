@@ -41,8 +41,9 @@ public final class SolveRequestImpl implements SolveRequest {
     private final DictionaryIdentifier dictionaryId;
 
     /**
-     * Constructor.
+     * Constructs an instance.
      *
+     * @param aSolver                      the solver name
      * @param aSize                        grid size
      * @param someShadedBoxes              the shaded boxes
      * @param somePrefilledBoxes           the prefilled boxes

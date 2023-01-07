@@ -2,17 +2,29 @@ package com.gitlab.super7ramp.crosswords.dictionary.common;
 
 import java.net.URL;
 
+/**
+ * A utility to segment URLs.
+ */
+// FIXME strange class; probably unnecessary now we don't read dictionaries from jar resources
 public final class SegmentableUrl {
 
+    /** The URL to segment. */
     private final URL url;
 
     /**
-     * Constructor.
+     * Constructs an instance.
+     *
+     * @param anUrl the URL to segment
      */
     public SegmentableUrl(final URL anUrl) {
         url = anUrl;
     }
 
+    /**
+     * Returns the last segment of the URL path.
+     *
+     * @return the last segment of the URL path
+     */
     public String lastPathSegment() {
         final String path = url.getPath();
         if (path.endsWith("/")) {

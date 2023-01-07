@@ -17,6 +17,7 @@ public final class HunspellToXml {
      * Entry point.
      *
      * @param args arguments
+     * @throws IOException if temporary text file cannot be deleted
      */
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {

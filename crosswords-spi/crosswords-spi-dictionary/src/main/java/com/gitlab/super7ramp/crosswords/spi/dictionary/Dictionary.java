@@ -28,8 +28,8 @@ public interface Dictionary {
      * <ul>
      *     <li>shall only contain characters which can be represented as a primitive char value
      *     (a single 16-bit Unicode character, range {@code u0000} to {@code uFFFF} inclusive)
-     *     <li>shall not contain the character '\u0020' (space)
-     *     <li>shall not contain the character '\u0023' (number sign}
+     *     <li>shall not contain the character ' ' (space)
+     *     <li>shall not contain the character '#' (number sign}
      *     <li>should be unique</li>
      *     <li>should be either all uppercase or all lowercase but not a mix of the two (processing
      *     is case sensitive)</li>

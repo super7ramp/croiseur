@@ -5,6 +5,7 @@ package com.gitlab.super7ramp.crosswords.spi.solver;
  */
 public interface ProgressListener {
 
+    /** A no-op listener. */
     ProgressListener DUMMY_LISTENER = new ProgressListener() {
         // No overridden methods
     };

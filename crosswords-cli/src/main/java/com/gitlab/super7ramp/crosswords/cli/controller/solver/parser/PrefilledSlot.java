@@ -5,6 +5,12 @@ import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A parsed pre-filled slot information,
+ *
+ * @param startGridPosition the slot's start position
+ * @param value the word in the slot
+ */
 public record PrefilledSlot(GridPosition startGridPosition, String value) {
 
     /** Textual representation pattern. */

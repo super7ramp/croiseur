@@ -9,7 +9,9 @@ package com.gitlab.super7ramp.crosswords.spi.presenter.solver;
 public record SolverProgress(short completionPercentage) {
 
     /**
-     * Validates fields.
+     * Validates field.
+     *
+     * @param completionPercentage the completion percentage
      */
     public SolverProgress {
         if (completionPercentage < 0 || completionPercentage > 100) {

@@ -1,5 +1,8 @@
 package com.gitlab.super7ramp.crosswords.dictionary.xml.codec;
 
+/**
+ * Exception raised when dictionary cannot be written.
+ */
 public final class DictionaryWriteException extends Exception {
 
     /**

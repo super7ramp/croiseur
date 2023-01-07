@@ -3,6 +3,9 @@ package com.gitlab.super7ramp.crosswords.solver.ginsberg.listener;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.SolverResult;
 import com.gitlab.super7ramp.crosswords.solver.ginsberg.core.Slot;
 
+/**
+ * Records solver statistics.
+ */
 public final class StatisticsRecorder implements SolverListener {
 
     /**

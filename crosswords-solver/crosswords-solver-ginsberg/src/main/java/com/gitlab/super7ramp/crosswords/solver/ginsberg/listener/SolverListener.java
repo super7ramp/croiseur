@@ -11,6 +11,7 @@ public interface SolverListener {
      * Called when a slot which was entirely filled is cleared.
      *
      * @param slot the cleared slot
+     * @param unassignedWord the value unset
      */
     default void onUnassignment(final Slot slot, final String unassignedWord) {
         // Do nothing by default.

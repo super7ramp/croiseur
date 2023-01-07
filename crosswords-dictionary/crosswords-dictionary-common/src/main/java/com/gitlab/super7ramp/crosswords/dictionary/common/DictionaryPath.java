@@ -53,6 +53,11 @@ public final class DictionaryPath {
         return new DictionaryPath(path);
     }
 
+    /**
+     * Returns user-specific dictionary path.
+     *
+     * @return user-specific dictionary path
+     */
     public static DictionaryPath user() {
         // TODO to implement
         return new DictionaryPath("");

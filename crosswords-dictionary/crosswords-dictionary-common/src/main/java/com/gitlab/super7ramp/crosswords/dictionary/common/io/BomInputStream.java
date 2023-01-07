@@ -21,6 +21,7 @@ public final class BomInputStream extends FilterInputStream {
      * Creates a {@code BomInputStream} from the given {@link InputStream}.
      *
      * @param in the underlying input stream
+     * @throws IOException if BOM detection fails
      */
     public BomInputStream(final InputStream in) throws IOException {
         super(in);

@@ -11,22 +11,23 @@ import java.util.Optional;
 public interface History {
 
     /**
-     * Get the last assigned slot from history.
+     * Gets the last assigned slot from history.
      *
      * @return the last assigned slot in history if any; otherwise, returns {@link Optional#empty()}
      */
     Optional<Slot> lastAssignedSlot();
 
     /**
-     * Get the last assigned slot from history, connected to given variable.
+     * Gets the last assigned slot from history, connected to given variable.
      *
+     * @param toBeConnectedWith the slot that the returned last assigned slot must be connected to
      * @return the last assigned slot connected to given slot, if any; otherwise, returns
      * {@link Optional#empty()}
      */
     Optional<Slot> lastAssignedConnectedSlot(final Slot toBeConnectedWith);
 
     /**
-     * Get an iterator on the history.
+     * Gets an iterator on the history.
      * <p>
      * Element removal is not supported - this class is for read-only access. Behaviour on element
      * removal is not fully determined yet, at best it will be no effect, otherwise it will throw a

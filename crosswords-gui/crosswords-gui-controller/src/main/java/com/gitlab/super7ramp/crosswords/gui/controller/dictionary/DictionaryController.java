@@ -36,6 +36,8 @@ public final class DictionaryController {
 
     /**
      * Lists the entries of the given dictionary.
+     *
+     * @param dictionaryViewModel the dictionary view-model
      */
     public void listDictionaryEntries(final DictionaryViewModel dictionaryViewModel) {
         execute(new ListDictionaryEntriesTask(dictionaryViewModel, dictionaryService));

@@ -40,7 +40,13 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
         listeners = new ArrayList<>();
     }
 
-    public CrosswordUpdater withListeners(SolverListener... someListeners) {
+    /**
+     * Adds some listeners.
+     *
+     * @param someListeners the listeners to add
+     * @return this updater
+     */
+    public CrosswordUpdater withListeners(final SolverListener... someListeners) {
         listeners.addAll(Arrays.asList(someListeners));
         return this;
     }

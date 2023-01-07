@@ -18,6 +18,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+/**
+ * Text for XML dictionary format converter.
+ */
 public final class TextToXml {
 
     /** Logger. */

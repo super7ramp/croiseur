@@ -47,6 +47,7 @@ public interface Grid {
      * The returned set is not backed by the actual grid, hence adding or removing position to
      * the returned set has no effect. Data can only be modified using {@link #puzzle()}.
      *
+     * @param slot the slot
      * @return the positions owned by the given slot
      */
     Set<GridPosition> slotPositions(final Slot slot);

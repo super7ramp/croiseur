@@ -21,9 +21,11 @@ public final class DicParser {
     private final FlagType flagType;
 
     /**
-     * Constructor.
+     * Constructs an instance.
+     *
+     * @param aFlagType the flag type
      */
-    public DicParser(FlagType aFlagType) {
+    public DicParser(final FlagType aFlagType) {
         flagType = aFlagType;
     }
 

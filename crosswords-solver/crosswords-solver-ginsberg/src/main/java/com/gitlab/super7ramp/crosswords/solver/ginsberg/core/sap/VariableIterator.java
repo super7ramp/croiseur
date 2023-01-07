@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 /**
  * Encapsulates the heuristics for choosing the next variable to instantiate.
+ *
+ * @param <VariableT> the variable type
  */
 public interface VariableIterator<VariableT> extends Iterator<VariableT> {
     // Marker interface.
