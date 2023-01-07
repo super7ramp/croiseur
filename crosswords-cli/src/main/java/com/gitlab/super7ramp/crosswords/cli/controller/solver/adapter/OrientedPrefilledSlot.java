@@ -1,6 +1,6 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solver.adapted;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver.adapter;
 
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 
 import java.util.HashMap;

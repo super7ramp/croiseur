@@ -1,4 +1,4 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver.parser;
 
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 
@@ -25,7 +25,8 @@ public record PrefilledBox(GridPosition gridPosition, char value) {
             throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
                     ", was " + text);
         }
-        final GridPosition parsedGridPosition = GridPosition.valueOf(matcher.group("coordinate"));
+        final GridPosition parsedGridPosition = GridPositionParser.parse(matcher.group(
+                "coordinate"));
         final char parsedValue = Character.toUpperCase(matcher.group("value").charAt(0));
         return new PrefilledBox(parsedGridPosition, parsedValue);
     }

@@ -84,8 +84,7 @@ final class SolveUsecase {
 
         final PuzzleDefinition puzzle = event.puzzle();
         final Dictionary dictionary = optDictionary.get();
-        final ProgressListener progressListener =
-                progressListenerFactory.from(event.progress());
+        final ProgressListener progressListener = progressListenerFactory.from(event.progress());
         final CrosswordSolver solver = optSolver.get();
 
         runSolver(solver, puzzle, dictionary, progressListener);

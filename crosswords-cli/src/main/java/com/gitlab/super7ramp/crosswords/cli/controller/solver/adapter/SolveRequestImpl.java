@@ -1,10 +1,10 @@
-package com.gitlab.super7ramp.crosswords.cli.controller.solver.adapted;
+package com.gitlab.super7ramp.crosswords.cli.controller.solver.adapter;
 
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.api.solver.SolveRequest;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.common.PuzzleDefinition;
 

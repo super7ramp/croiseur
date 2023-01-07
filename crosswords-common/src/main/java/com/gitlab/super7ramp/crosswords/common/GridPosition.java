@@ -1,8 +1,5 @@
 package com.gitlab.super7ramp.crosswords.common;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Coordinates on the grid.
  * <p>
@@ -14,11 +11,7 @@ import java.util.regex.Pattern;
  * @param x the column number
  * @param y the row number
  */
-// TODO remove textual representation
 public record GridPosition(int x, int y) {
-
-    /** Textual representation. */
-    private static final Pattern PATTERN = Pattern.compile("\\((?<x>[0-9]+),(?<y>[0-9]+)\\)");
 
     /**
      * Constructor.
@@ -30,18 +23,6 @@ public record GridPosition(int x, int y) {
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException("Invalid grid position");
         }
-    }
-
-    public static GridPosition valueOf(final String value) {
-        final Matcher matcher = PATTERN.matcher(value);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                    ", was " + value);
-        }
-
-        final int x = Integer.parseInt(matcher.group("x"));
-        final int y = Integer.parseInt(matcher.group("y"));
-        return new GridPosition(x, y);
     }
 
     /**

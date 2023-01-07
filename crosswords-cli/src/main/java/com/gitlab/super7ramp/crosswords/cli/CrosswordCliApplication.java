@@ -5,9 +5,10 @@ import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverRunCommand;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.GridSize;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledBox;
-import com.gitlab.super7ramp.crosswords.cli.controller.solver.parsed.PrefilledSlot;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridPositionParser;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridSize;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledBox;
+import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.cli.controller.toplevel.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine;
@@ -43,7 +44,8 @@ final class CrosswordCliApplication {
 
         command.registerConverter(DictionaryIdentifier.class,
                        TypeConverter.wrap(DictionaryIdentifier::valueOf))
-               .registerConverter(GridPosition.class, TypeConverter.wrap(GridPosition::valueOf))
+               .registerConverter(GridPosition.class,
+                       TypeConverter.wrap(GridPositionParser::parse))
                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))

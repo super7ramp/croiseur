@@ -27,7 +27,7 @@
 #### More dictionaries (dictionary, tools)
 
 - All Hunspell dictionaries available.
-- Create gradle task to automate call to tool to convert Hunspell format to binary/text formats
+- Create gradle task to automate call to tool to convert Hunspell format to XML format.
 
 #### Support UTF8 (solver, dictionary)
 
@@ -136,7 +136,6 @@ solutions after unassignment is > 0). See Ginsberg papers.
 - Currently, it's possible to use `crosswords-cli` and `crosswords-gui` `installDist` tasks, but
   it's lacking some customization.
 - Some deployment ideas:
-  - Allow defining a path where to look for external plugins
   - Native deployment
 - Create Linux packages (RPM/DEB).
 

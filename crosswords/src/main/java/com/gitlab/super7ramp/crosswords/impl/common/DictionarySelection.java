@@ -175,7 +175,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      */
     public static DictionarySelection byDefault() {
         // TODO default/preferred dictionary management to be improved
-        return byProvider("internal").and(bySystemLocale());
+        return byProvider("Local XML Provider").and(bySystemLocale());
     }
 
     /**
