@@ -5,7 +5,6 @@ import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDesc
 import com.gitlab.super7ramp.crosswords.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 
-import java.net.URL;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;

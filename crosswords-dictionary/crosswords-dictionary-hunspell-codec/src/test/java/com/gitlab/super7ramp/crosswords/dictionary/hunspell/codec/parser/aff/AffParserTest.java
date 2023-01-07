@@ -11,8 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Tests for {@link AffParser}.
  */

@@ -1,9 +1,7 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.crosswords.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
-import com.gitlab.super7ramp.crosswords.dictionary.common.StringTransformers;
 import com.gitlab.super7ramp.crosswords.dictionary.common.io.BomInputStream;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffParser;

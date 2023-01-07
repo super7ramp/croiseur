@@ -2,7 +2,6 @@ package com.gitlab.super7ramp.crosswords.spi.dictionary;
 
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 
-import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
