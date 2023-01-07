@@ -33,7 +33,7 @@ public final class Crossword {
      * @param aGrid              a grid
      * @param aDictionary        a dictionary
      * @param anEliminationSpace an elimination space
-     * @param aHistory           an history
+     * @param aHistory           a history
      */
     private Crossword(final Grid aGrid, final CachedDictionaryWriter aDictionary,
                       final EliminationSpaceWriter anEliminationSpace,

@@ -31,7 +31,7 @@ work/AB
 3 base words are defined. Word "try" is annotated with a flag named "B". Word "work" is annotated 
 with two flags "A" and "B"
 
-The following affix defines the meaning of this flags:
+The following affix defines the meaning of these flags:
 
 ```
 SET UTF-8
@@ -63,7 +63,7 @@ base words in the file. (It doesn't need to be precise, it's just an indication 
 help for optimising programs reading/interpreting the file.)
 
 Each following line has the following format: `<base word>/<flag>`.
-A base word has a least one character.
+A base word has at least one character.
 A flag is exactly one character and cannot be "/".
 
 > Well... not exactly. Flags can be actually multi-characters. See FLAG option in affix file.
@@ -106,8 +106,8 @@ Example:
 
 ##### COMPLEXPREFIXES
 
-Set twofold prefix stripping (but single suffix stripping) eg. for morphologically complex languages
-with right-to-left writing system.
+Set twofold prefix stripping (but single suffix stripping) e.g. for morphologically complex 
+languages with right-to-left writing system.
 
 > Not supported by crosswords-hunspell-plugin.
 

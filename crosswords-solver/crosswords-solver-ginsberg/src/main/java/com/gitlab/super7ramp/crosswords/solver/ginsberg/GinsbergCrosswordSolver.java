@@ -17,7 +17,7 @@ import com.gitlab.super7ramp.crosswords.solver.ginsberg.state.CrosswordUpdater;
 import java.util.Collection;
 
 /**
- * A crosswords solver.
+ * A crossword solver.
  */
 public final class GinsbergCrosswordSolver {
 

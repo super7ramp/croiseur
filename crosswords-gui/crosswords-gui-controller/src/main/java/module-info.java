@@ -1,5 +1,5 @@
 /**
- * GUI controller: Basically transforms events from the view into events for the crosswords library.
+ * GUI controller: Basically transforms events from the view into events for the crossword library.
  */
 module com.gitlab.super7ramp.crosswords.gui.controller {
     requires transitive com.gitlab.super7ramp.crosswords;

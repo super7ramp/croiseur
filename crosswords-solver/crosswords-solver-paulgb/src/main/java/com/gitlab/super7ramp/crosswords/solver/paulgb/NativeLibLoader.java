@@ -65,7 +65,7 @@ final class NativeLibLoader {
      * <li>If the native library comes bundled as a resource it is extracted and loaded;
      * <li>The library is loaded via {@link System#loadLibrary};
      * <li>On iOS, native library is statically linked and detected from the existence of a
-     * JNI_OnLoad_libraryname function.
+     * {@code JNI_OnLoad_libraryname} function.
      * </ol>
      *
      * @param libName name of the library, as one would give it to {@link System#loadLibrary}
@@ -151,7 +151,7 @@ final class NativeLibLoader {
         }
         // we have a cache directory. Add the file here
         final File f = new File(cacheDir, name);
-        // if it exists, calculate checksum and keep if same as inputstream.
+        // if it exists, calculate checksum and keep if same as input stream.
         boolean write = true;
         if (f.exists()) {
             byte[] isHash;

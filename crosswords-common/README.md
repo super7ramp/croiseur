@@ -1,6 +1,6 @@
 ## crosswords-common
 
-`crosswords-common` is a library providing base data types related to the crosswords domain. They
+`crosswords-common` is a library providing base data types related to the crossword domain. They
 can be used by any other modules as building blocks for their own objects.
 
 Since any modules can depend on it, `crosswords-common` shall ensure backwards compatibility, i.e.

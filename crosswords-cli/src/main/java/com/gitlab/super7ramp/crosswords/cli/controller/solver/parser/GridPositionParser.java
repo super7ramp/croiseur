@@ -23,7 +23,7 @@ public final class GridPositionParser {
      *
      * @param value the value to parse
      * @return the parsed {@link GridPosition}
-     * @throws IllegalArgumentException if given string is not parseable
+     * @throws IllegalArgumentException if given string cannot be parsed
      */
     public static GridPosition parse(final String value) {
         final Matcher matcher = PATTERN.matcher(value);

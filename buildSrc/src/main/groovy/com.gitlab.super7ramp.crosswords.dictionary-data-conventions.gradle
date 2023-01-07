@@ -29,7 +29,7 @@ plugins {
  *
  * <pre>{@code
  * dependencies {
- *     runtimeOnly project(':exemple-producer')
+ *     runtimeOnly project(':example-producer')
  * }
  * }</pre>
  */

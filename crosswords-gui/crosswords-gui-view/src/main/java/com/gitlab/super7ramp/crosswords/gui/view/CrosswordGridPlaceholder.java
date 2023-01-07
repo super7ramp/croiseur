@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  */
 public final class CrosswordGridPlaceholder extends VBox {
 
-    /** The wrappind width. */
+    /** The wrapping width. */
     private final DoubleProperty wrappingWidth;
 
     /** The error text. */

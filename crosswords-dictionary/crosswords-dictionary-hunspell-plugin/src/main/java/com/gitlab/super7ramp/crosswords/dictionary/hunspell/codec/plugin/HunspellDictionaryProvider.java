@@ -47,11 +47,11 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     }
 
     /**
-     * Returns the given file's URL, or {@code null} if file location cannot be expressed with an
+     * Returns the given file's URL, or {@code null} if file location cannot be expressed with a
      * URL.
      *
      * @param file the file
-     * @return the given file's URL, or {@code null} if file location cannot be expressed with an
+     * @return the given file's URL, or {@code null} if file location cannot be expressed with a
      * URL.
      */
     private static URL urlFrom(File file) {

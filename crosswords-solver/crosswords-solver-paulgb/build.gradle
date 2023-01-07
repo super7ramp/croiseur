@@ -25,11 +25,11 @@ jar {
      * identification. It is assumed that native library is not cross-compiled, hence using current
      * system information.
      */
-    archiveClassifier = currentOperatingSystemIdentifier()
+    archiveClassifier.set(currentOperatingSystemIdentifier())
 }
 
-def currentOperatingSystemIdentifier() {
-    def osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
-    def osArch = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH);
+static def currentOperatingSystemIdentifier() {
+    def osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
+    def osArch = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH)
     "${osName}-${osArch}"
 }
