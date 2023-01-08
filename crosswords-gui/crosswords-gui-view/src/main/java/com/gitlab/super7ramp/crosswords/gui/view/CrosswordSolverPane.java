@@ -3,6 +3,7 @@ package com.gitlab.super7ramp.crosswords.gui.view;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.crosswords.gui.view.model.DictionaryViewModel;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
@@ -60,16 +61,19 @@ public final class CrosswordSolverPane extends BorderPane {
         toolbar.onAddRowActionButtonProperty().set(event -> grid.addRow());
         toolbar.onDeleteColumnActionButtonProperty().set(event -> grid.deleteLastColumn());
         toolbar.onDeleteRowActionButtonProperty().set(event -> grid.deleteLastRow());
-        toolbar.onClearGridLettersMenuItemActionProperty().set(event -> grid.resetContentLettersOnly());
+        toolbar.onClearGridLettersMenuItemActionProperty()
+               .set(event -> grid.resetContentLettersOnly());
         toolbar.onClearGridContentMenuItemActionProperty().set(event -> grid.resetContentAll());
-        toolbar.onClearGridStructureMenuItemActionProperty().set(event -> grid.clear());
+        toolbar.onDeleteGridActionProperty().set(event -> grid.clear());
 
         // Grid and toolbar edition buttons follow the same edition disable property
         grid.disableProperty().bind(gridEditionDisableProperty());
 
-        // Display the dictionary pane only when the dictionaries toggle button is selected
-        final BooleanProperty dictionariesToggleButtonSelectedProperty =
-                toolbar.dictionariesToggleButtonSelectedProperty();
+        // Display the dictionary pane only when the dictionaries toggle button is visible
+        // and selected
+        final BooleanBinding dictionariesToggleButtonSelectedProperty =
+                toolbar.dictionariesToggleButtonSelectedProperty()
+                       .and(toolbar.resizeModeProperty().not());
         dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
         dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
     }

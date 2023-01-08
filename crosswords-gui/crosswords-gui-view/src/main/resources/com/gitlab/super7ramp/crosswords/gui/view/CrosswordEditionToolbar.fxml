@@ -9,68 +9,92 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-
-<fx:root stylesheets="@CrosswordEditionToolbar.css" type="ToolBar" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <Button fx:id="addRowButton" text="%add-row-button">
+<fx:root stylesheets="@CrosswordEditionToolbar.css" type="ToolBar"
+         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <ToggleButton fx:id="resizeGridButton" text="%resize-grid-button">
         <graphic>
-            <ImageView id="add-row-button-image-view" />
+            <ImageView id="resize-grid-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%add-row-tooltip" />
+            <Tooltip text="%resize-grid-tooltip"/>
+        </tooltip>
+    </ToggleButton>
+    <Button fx:id="addRowButton" text="%add-row-button" managed="${resizeGridButton.selected}"
+            visible="${resizeGridButton.selected}">
+        <graphic>
+            <ImageView id="add-row-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%add-row-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="deleteRowButton" text="%delete-row-button">
+    <Button fx:id="deleteRowButton" text="%delete-row-button" managed="${resizeGridButton.selected}"
+            visible="${resizeGridButton.selected}">
         <graphic>
-            <ImageView id="delete-row-button-image-view" />
+            <ImageView id="delete-row-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%delete-row-tooltip" />
+            <Tooltip text="%delete-row-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="addColumnButton" text="%add-column-button">
+    <Button fx:id="addColumnButton" text="%add-column-button" managed="${resizeGridButton.selected}"
+            visible="${resizeGridButton.selected}">
         <graphic>
-            <ImageView id="add-column-button-image-view" />
+            <ImageView id="add-column-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%add-column-tooltip" />
+            <Tooltip text="%add-column-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="deleteColumnButton" text="%delete-column-button">
+    <Button fx:id="deleteColumnButton" text="%delete-column-button"
+            managed="${resizeGridButton.selected}" visible="${resizeGridButton.selected}">
         <graphic>
-            <ImageView id="delete-column-button-image-view" />
+            <ImageView id="delete-column-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%delete-column-tooltip" />
+            <Tooltip text="%delete-column-tooltip"/>
         </tooltip>
     </Button>
-   <MenuButton fx:id="clearGridMenuButton" text="%clear-grid-button">
-     <items>
-       <MenuItem fx:id="clearGridLettersMenuItem" text="%clear-grid-letters-menu-item" />
-       <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item" />
-       <MenuItem fx:id="clearGridStructureMenuItem" text="%clear-grid-structure-menu-item" />
-     </items>
-      <graphic>
-            <ImageView id="clear-grid-menu-button-image-view" />
-      </graphic>
-      <tooltip>
-            <Tooltip text="%clear-grid-tooltip" />
-      </tooltip>
-   </MenuButton>
-    <Button fx:id="solveButton" text="%solve-button">
+    <Button fx:id="deleteGridButton" text="%delete-grid-button"
+            managed="${resizeGridButton.selected}" visible="${resizeGridButton.selected}">
         <graphic>
-            <ImageView id="solve-button-image-view" />
+            <ImageView id="delete-grid-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%solve-tooltip" />
+            <Tooltip text="%delete-grid-tooltip"/>
         </tooltip>
     </Button>
-    <Pane HBox.hgrow="ALWAYS" />
-    <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button">
+    <MenuButton fx:id="clearGridMenuButton" text="%clear-grid-button"
+                managed="${! resizeGridButton.selected}" visible="${! resizeGridButton.selected}">
+        <items>
+            <MenuItem fx:id="clearGridLettersMenuItem" text="%clear-grid-letters-menu-item"/>
+            <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
+        </items>
         <graphic>
-            <ImageView id="show-dictionaries-button-image-view" />
+            <ImageView id="clear-grid-menu-button-image-view"/>
         </graphic>
         <tooltip>
-            <Tooltip text="%dictionaries-tooltip" />
+            <Tooltip text="%clear-grid-tooltip"/>
+        </tooltip>
+    </MenuButton>
+    <Button fx:id="solveButton" text="%solve-button" managed="${! resizeGridButton.selected}"
+            visible="${! resizeGridButton.selected}">
+        <graphic>
+            <ImageView id="solve-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%solve-tooltip"/>
+        </tooltip>
+    </Button>
+    <Pane HBox.hgrow="ALWAYS"/>
+    <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button"
+                  managed="${! resizeGridButton.selected}"
+                  visible="${! resizeGridButton.selected}">
+        <graphic>
+            <ImageView id="show-dictionaries-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%dictionaries-tooltip"/>
         </tooltip>
     </ToggleButton>
 </fx:root>

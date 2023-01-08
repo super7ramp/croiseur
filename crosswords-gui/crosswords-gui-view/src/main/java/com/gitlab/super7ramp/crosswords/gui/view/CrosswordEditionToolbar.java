@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -19,11 +20,28 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 /**
  * A toolbar to edit a crossword grid.
+ * <p>
+ * The toolbar has two 'modes':
+ * <ul>
+ *     <li>Default mode: 'Resize grid (not toggled)', 'Clear grid', 'Solve' and 'Dictionaries' are
+ *     visible.</li>
+ *     <li>Resize mode: When 'Resize grid' is toggled, then it makes visible the 'Add column',
+ *     'Add row', 'Delete row', 'Delete column' and 'Delete grid' buttons and hides the other
+ *     ones.</li>
+ * </ul>
  */
 public final class CrosswordEditionToolbar extends ToolBar {
+
+    /** The grid edition buttons disable property. */
+    private final BooleanProperty gridEditionButtonsDisableProperty;
+
+    /** The 'resize grid' button. When toggled, the toolbar switches to 'resize mode'. */
+    @FXML
+    private ToggleButton resizeGridButton;
 
     /** The 'add column' button. */
     @FXML
@@ -36,6 +54,10 @@ public final class CrosswordEditionToolbar extends ToolBar {
     /** The 'delete column' button. */
     @FXML
     private Button deleteColumnButton;
+
+    /** The 'delete grid' button. */
+    @FXML
+    private Button deleteGridButton;
 
     /** The 'delete row' button. */
     @FXML
@@ -53,10 +75,6 @@ public final class CrosswordEditionToolbar extends ToolBar {
     @FXML
     private MenuItem clearGridContentMenuItem;
 
-    /** The 'clear grid structure' menu item. */
-    @FXML
-    private MenuItem clearGridStructureMenuItem;
-
     /** The solve button. */
     @FXML
     private Button solveButton;
@@ -64,9 +82,6 @@ public final class CrosswordEditionToolbar extends ToolBar {
     /** The 'dictionaries' toggle button. */
     @FXML
     private ToggleButton dictionariesToggleButton;
-
-    /** The grid edition buttons disable property. */
-    private final BooleanProperty gridEditionButtonsDisableProperty;
 
     /**
      * Constructs an instance.
@@ -76,8 +91,8 @@ public final class CrosswordEditionToolbar extends ToolBar {
                 "ButtonsDisableProperty", false);
 
         final String fxmlName = CrosswordEditionToolbar.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
+        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName),
+                "Failed to locate " + fxmlName);
         final ResourceBundle resourceBundle =
                 ResourceBundle.getBundle(CrosswordEditionToolbar.class.getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
@@ -92,11 +107,10 @@ public final class CrosswordEditionToolbar extends ToolBar {
 
     @FXML
     private void initialize() {
-        addColumnButton.disableProperty().bind(gridEditionButtonsDisableProperty);
-        addRowButton.disableProperty().bind(gridEditionButtonsDisableProperty);
-        deleteColumnButton.disableProperty().bind(gridEditionButtonsDisableProperty);
-        deleteRowButton.disableProperty().bind(gridEditionButtonsDisableProperty);
-        clearGridMenuButton.disableProperty().bind(gridEditionButtonsDisableProperty);
+        Stream.of(resizeGridButton, addColumnButton, addRowButton, deleteColumnButton,
+                      deleteRowButton, deleteGridButton, clearGridMenuButton)
+              .map(Node::disableProperty)
+              .forEach(disabledProperty -> disabledProperty.bind(gridEditionButtonsDisableProperty));
     }
 
     /**
@@ -154,12 +168,12 @@ public final class CrosswordEditionToolbar extends ToolBar {
     }
 
     /**
-     * Returns the on clear grid structure menu item action property.
+     * Returns the on delete grid action property.
      *
-     * @return the on clear grid structure menu item action property
+     * @return the on delete grid action property.
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onClearGridStructureMenuItemActionProperty() {
-        return clearGridStructureMenuItem.onActionProperty();
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteGridActionProperty() {
+        return deleteGridButton.onActionProperty();
     }
 
     /**
@@ -181,10 +195,20 @@ public final class CrosswordEditionToolbar extends ToolBar {
     }
 
     /**
+     * Returns the resize mode property, which is basically the selected property of the 'resize
+     * grid' button.
+     *
+     * @return the resize mode property
+     */
+    public BooleanProperty resizeModeProperty() {
+        return resizeGridButton.selectedProperty();
+    }
+
+    /**
      * Returns the grid edition controls disable property.
      * <p>
-     * The controls are the 'add column', 'delete column', 'add row','delete row' and the crossword
-     * grid pane itself.
+     * The controls are 'resize grid', 'add column', 'delete column', 'add row','delete row' and
+     * 'clear grid'.
      *
      * @return the grid edition controls disable property
      */

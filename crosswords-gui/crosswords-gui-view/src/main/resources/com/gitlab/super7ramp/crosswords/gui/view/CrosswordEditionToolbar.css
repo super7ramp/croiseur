@@ -1,3 +1,7 @@
+#resize-grid-button-image-view {
+    -fx-image: url("lc_tabledesign.png");
+}
+
 #add-row-button-image-view {
     -fx-image: url("lc_insertrowsafter.png");
 }
@@ -14,8 +18,12 @@
     -fx-image: url("lc_deletecolumns.png");
 }
 
+#delete-grid-button-image-view {
+    -fx-image: url("lc_deletetable.png");
+}
+
 #clear-grid-menu-button-image-view {
-    -fx-image: url("lc_librelogo-clearscreen.png");
+    -fx-image: url("lc_strikeout.png");
 }
 
 #solve-button-image-view {
