@@ -36,6 +36,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Native library loader.
@@ -53,6 +55,9 @@ import java.util.Locale;
  */
 // TODO simplify
 final class NativeLibLoader {
+
+    /** Logger. */
+    private static Logger LOGGER = Logger.getLogger(NativeLibLoader.class.getName());
 
     /** Prevents instantiation. */
     private NativeLibLoader() {
@@ -86,7 +91,7 @@ final class NativeLibLoader {
         // Finally we will use System.loadLibrary.
         try {
             System.loadLibrary(libraryName);
-            System.err.println("System.loadLibrary(" + libraryName + ") succeeded");
+            LOGGER.fine(() -> "Loaded " + libraryName + " using System.loadLibrary");
         } catch (final UnsatisfiedLinkError ex2) {
             //On iOS, we link all libraries statically. Presence of library
             //is recognized by existence of JNI_OnLoad_libraryname() C function.
@@ -119,14 +124,14 @@ final class NativeLibLoader {
             if (is != null) {
                 final String fp = cacheLibrary(is, reallib, caller);
                 System.load(fp);
-                System.err.println("Loaded library " + reallib + " from resource");
+                LOGGER.fine(() -> "Loaded library " + reallib + " from resource");
                 return true;
             }
         } catch (final Throwable t) {
             // we should only be here if the resource exists in the module, but
             // for some reasons it can't be loaded.
-            System.err.println("Loading library " + libraryName + " from resource failed: " + t);
-            t.printStackTrace();
+            LOGGER.log(Level.WARNING,
+                    "Loading library " + libraryName + " from resource failed", t);
         }
         return false;
     }
@@ -156,8 +161,8 @@ final class NativeLibLoader {
         if (f.exists()) {
             byte[] isHash;
             byte[] fileHash;
-            try {
-                DigestInputStream dis = new DigestInputStream(is, MessageDigest.getInstance("MD5"));
+            try (final DigestInputStream dis = new DigestInputStream(is, MessageDigest.getInstance(
+                    "MD5"))) {
                 dis.getMessageDigest().reset();
                 byte[] buffer = new byte[4096];
                 while (dis.read(buffer) != -1) { /* empty loop body is intentional */ }
@@ -187,7 +192,8 @@ final class NativeLibLoader {
     private static byte[] calculateCheckSum(File file) {
         try {
             // not looking for security, just a checksum. MD5 should be faster than SHA
-            try (final InputStream stream = new FileInputStream(file); final DigestInputStream dis = new DigestInputStream(stream, MessageDigest.getInstance("MD5"))) {
+            try (final InputStream stream = new FileInputStream(file);
+                 final DigestInputStream dis = new DigestInputStream(stream, MessageDigest.getInstance("MD5"))) {
                 dis.getMessageDigest().reset();
                 byte[] buffer = new byte[4096];
                 while (dis.read(buffer) != -1) { /* empty loop body is intentional */ }
@@ -195,7 +201,7 @@ final class NativeLibLoader {
             }
 
         } catch (final IllegalArgumentException | NoSuchAlgorithmException | IOException |
-                 SecurityException e) {
+                       SecurityException e) {
             // IOException also covers MalformedURLException
             // SecurityException means some untrusted applet
             // Fall through...
