@@ -36,9 +36,12 @@ public interface DictionaryProvider {
      */
     default Optional<Dictionary> getFirst() {
         final Iterator<Dictionary> it = get().iterator();
+        final Optional<Dictionary> first;
         if (it.hasNext()) {
-            return Optional.of(it.next());
+            first = Optional.of(it.next());
+        } else {
+            first = Optional.empty();
         }
-        return Optional.empty();
+        return first;
     }
 }

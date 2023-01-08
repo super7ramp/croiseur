@@ -27,9 +27,12 @@ public final class SegmentableUrl {
      */
     public String lastPathSegment() {
         final String path = url.getPath();
+        final String lastPathSegment;
         if (path.endsWith("/")) {
-            return "";
+            lastPathSegment = "";
+        } else {
+            lastPathSegment = path.substring(path.lastIndexOf('/') + 1);
         }
-        return path.substring(path.lastIndexOf('/') + 1);
+        return lastPathSegment;
     }
 }

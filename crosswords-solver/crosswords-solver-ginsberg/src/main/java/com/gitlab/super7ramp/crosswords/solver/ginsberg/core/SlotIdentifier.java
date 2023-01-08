@@ -20,15 +20,14 @@ public final class SlotIdentifier {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(other instanceof SlotIdentifier otherSlotIdentifier)) {
             return false;
         }
-        final SlotIdentifier that = (SlotIdentifier) o;
-        return id == that.id;
+        return id == otherSlotIdentifier.id;
     }
 
     @Override

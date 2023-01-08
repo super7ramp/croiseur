@@ -412,10 +412,13 @@ public final class CrosswordGridPane extends StackPane {
     private double columnPerRowRatio() {
         final int columnCount = grid.getColumnConstraints().size();
         final int rowCount = grid.getRowConstraints().size();
+        final double ratio;
         if (columnCount == 0 || rowCount == 0) {
-            return 1.0;
+            ratio = 1.0;
+        } else {
+            ratio = ((double) columnCount / ((double) rowCount));
         }
-        return ((double) columnCount / ((double) rowCount));
+        return ratio;
     }
 
     /**

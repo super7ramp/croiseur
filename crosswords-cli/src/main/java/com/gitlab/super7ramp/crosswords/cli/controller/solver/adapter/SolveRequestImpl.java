@@ -78,10 +78,8 @@ public final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public Collection<DictionaryIdentifier> dictionaries() {
-        if (dictionaryId != null) {
-            return Collections.singletonList(dictionaryId);
-        }
-        return Collections.emptyList();
+        return dictionaryId != null ? Collections.singletonList(dictionaryId) :
+                Collections.emptyList();
     }
 
     @Override
@@ -91,10 +89,8 @@ public final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public SolverProgressNotificationMethod progress() {
-        if (progress) {
-            return SolverProgressNotificationMethod.PERIODICAL;
-        }
-        return SolverProgressNotificationMethod.NONE;
+        return progress ? SolverProgressNotificationMethod.PERIODICAL :
+                SolverProgressNotificationMethod.NONE;
     }
 
     /**
