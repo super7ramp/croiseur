@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridPositio
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
-import com.gitlab.super7ramp.crosswords.cli.controller.toplevel.TopLevelCommand;
+import com.gitlab.super7ramp.crosswords.cli.controller.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
@@ -33,7 +33,7 @@ final class CrosswordCliApplication {
     CrosswordCliApplication() {
         loadLoggingConfiguration();
 
-        command = new CommandLine(new TopLevelCommand());
+        command = new CommandLine(TopLevelCommand.class);
 
         final CrosswordService crosswordService = CrosswordService.create();
 

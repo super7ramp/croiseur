@@ -6,12 +6,6 @@ import com.gitlab.super7ramp.crosswords.spi.presenter.Presenter;
  */
 module com.gitlab.super7ramp.crosswords.cli {
 
-    // Base modules
-    requires java.logging;
-
-    // CLI framework
-    requires info.picocli;
-
     // Core library
     requires com.gitlab.super7ramp.crosswords;
 
@@ -22,5 +16,11 @@ module com.gitlab.super7ramp.crosswords.cli {
     opens com.gitlab.super7ramp.crosswords.cli to info.picocli;
     opens com.gitlab.super7ramp.crosswords.cli.controller.dictionary to info.picocli;
     opens com.gitlab.super7ramp.crosswords.cli.controller.solver to info.picocli;
-    opens com.gitlab.super7ramp.crosswords.cli.controller.toplevel to info.picocli;
+    opens com.gitlab.super7ramp.crosswords.cli.controller to info.picocli;
+
+    // CLI framework
+    requires info.picocli;
+
+    // Base modules
+    requires java.logging;
 }

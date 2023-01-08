@@ -94,6 +94,14 @@ think that's what qxw call 'answer treatment'.
 Make sure the selected unassigned variable(s) actually solve the issue (i.e. the estimated number of
 solutions after unassignment is > 0). See Ginsberg papers.
 
+##### Bugs
+
+* Performance issues with some languages: Solver is way slower with e.g. Spanish dictionary. Is 
+  it because the solver doesn't scale when number of words increase? It is because some words are 
+  causing problems (invalid characters, spaces)?
+* Sometimes, solver marks the grid as impossible but doesn't precise which slot has no candidate 
+  left.
+
 #### Solver: Other providers
 
 - pauglb (Crossword Composer):
@@ -117,6 +125,10 @@ solutions after unassignment is > 0). See Ginsberg papers.
   - Then continue with e.g. Spanish or German or Italian
   - Then maybe it's time to take a step back and make a plan about what should be done to have a
     decent library (at least for our context, i.e. just expanding all forms of the dictionary)
+
+##### XML
+
+There seems to be some duplicates in Spanish dictionary. Should be harmless but still, to clean up.
 
 ##### Other providers
 
