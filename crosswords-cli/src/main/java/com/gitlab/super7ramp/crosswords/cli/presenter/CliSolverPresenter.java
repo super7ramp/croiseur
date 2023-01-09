@@ -7,14 +7,18 @@ import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * CLI implementation of {@link SolverPresenter}.
  */
 final class CliSolverPresenter implements SolverPresenter {
 
+    /** The translated strings. */
+    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/SolverMessages");
+
     /** The message format. */
-    private static final String PROGRESS_FORMAT = "Completion: %3d %% [best: %3d %%]\r";
+    private static final String PROGRESS_FORMAT = L10N.getString("progress.format") + "\r";
 
     /** Solver list format. */
     private static final String SOLVER_LIST_FORMAT = "%-16s\t%-54s%n";
@@ -31,7 +35,7 @@ final class CliSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
-        System.out.printf(SOLVER_LIST_FORMAT, "Name", "Description");
+        System.out.printf(SOLVER_LIST_FORMAT, L10N.getString("name"), L10N.getString("description"));
         System.out.printf(SOLVER_LIST_FORMAT, "--------", "-----------");
 
         solverDescriptions.forEach(solver -> System.out.printf(SOLVER_LIST_FORMAT, solver.name(),
@@ -67,11 +71,11 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     private void publishSolverInitialisationStarted() {
-        System.out.println("Initializing solver");
+        System.out.println(L10N.getString("state.initializing"));
         bestCompletionPercentage = 0;
     }
 
     private void publishSolverInitialisationStopped() {
-        System.out.println("Solver initialized");
+        System.out.println(L10N.getString("state.initialized"));
     }
 }

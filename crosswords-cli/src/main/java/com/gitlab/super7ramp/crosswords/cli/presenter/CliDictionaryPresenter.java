@@ -9,11 +9,15 @@ import com.gitlab.super7ramp.crosswords.spi.presenter.dictionary.DictionaryPrese
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * CLI implementation of {@link DictionaryPresenter}.
  */
 final class CliDictionaryPresenter implements DictionaryPresenter {
+
+    /** The translated strings. */
+    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/DictionaryMessages");
 
     /** Providers output format. */
     private static final String PROVIDERS_FORMAT = "%-16s\t%-54s%n";
@@ -22,7 +26,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     private static final String LIST_FORMAT = "%-16s\t%-48s\t%-16s%n";
 
     /** Show preferred dictionary format. */
-    private static final String PREFERRED_DICTIONARY_FORMAT = "%s, %s, provided by %s%n";
+    private static final String PREFERRED_DICTIONARY_FORMAT = L10N.getString("preferred.format");
 
     /**
      * Constructs an instance.
@@ -34,7 +38,8 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
 
-        System.out.printf(PROVIDERS_FORMAT, "Provider", "Description");
+        System.out.printf(PROVIDERS_FORMAT, L10N.getString("provider"), L10N.getString(
+                "description"));
         System.out.printf(PROVIDERS_FORMAT, "--------", "-----------");
 
         providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
@@ -44,7 +49,8 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
 
-        System.out.printf(LIST_FORMAT, "Provider", "Name", "Locale");
+        System.out.printf(LIST_FORMAT, L10N.getString("provider"), L10N.getString(
+                "name"), L10N.getString("locale"));
         System.out.printf(LIST_FORMAT, "--------", "----", "------");
 
         for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {

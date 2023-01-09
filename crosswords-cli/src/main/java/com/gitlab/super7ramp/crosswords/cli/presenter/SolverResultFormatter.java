@@ -7,6 +7,7 @@ import picocli.CommandLine;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
@@ -14,20 +15,23 @@ import java.util.Set;
  */
 final class SolverResultFormatter {
 
+    /** The translated strings. */
+    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/SolverMessages");
+
+    /** The format used to display unsolvable boxes. */
+    private static final String UNSOLVABLE_FORMAT = "bg(red)";
+
+    /** The default format used to display boxes. */
+    private static final String DEFAULT_FORMAT = "reset";
+
+    /** Line separator. */
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     /** Shaded/empty box. */
     private static final char EMPTY = ' ';
 
     /** Column separator. */
     private static final char COLUMN_SEPARATOR = '|';
-
-    /** Line separator. */
-    private static final String LINE_SEPARATOR = System.lineSeparator();
-
-    /** The format used to display unsolvable boxes. */
-    public static final String UNSOLVABLE_FORMAT = "bg(red)";
-
-    /** The default format used to display boxes. */
-    public static final String DEFAULT_FORMAT = "reset";
 
     /**
      * Private constructor, static utility methods only.
@@ -48,7 +52,7 @@ final class SolverResultFormatter {
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("Result: ").append(kind);
+        sb.append(L10N.getString("result.header")).append(L10N.getString(toL10nKey(kind)));
         sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
 
         final Set<GridPosition> positions = new HashSet<>(filledBoxes.keySet());
@@ -86,4 +90,10 @@ final class SolverResultFormatter {
                         .orElse(-1) + 1;
     }
 
+    private static String toL10nKey(SolverResult.Kind kind) {
+        return switch (kind) {
+            case SUCCESS -> "result.success";
+            case IMPOSSIBLE -> "result.impossible";
+        };
+    }
 }
