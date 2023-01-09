@@ -84,7 +84,7 @@ public final class CrosswordBoxTextField extends TextField {
         // Enable auto-sized font
         // TODO use a better computation of the font size
         // TODO compute only once for all the boxes since they share the same class (do it in grid?)
-        final DoubleBinding desiredFontSize = Bindings.min(1000.0, heightProperty().divide(3.0));
+        final DoubleBinding desiredFontSize = Bindings.min(1000.0, heightProperty().divide(2.1));
         final StringExpression desiredFontSizeCss = Bindings.concat("-fx-font-size: ",
                 desiredFontSize.asString(), "px;");
         styleProperty().bind(desiredFontSizeCss);
