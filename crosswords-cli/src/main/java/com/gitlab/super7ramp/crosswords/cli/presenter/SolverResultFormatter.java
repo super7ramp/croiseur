@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
+import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import com.gitlab.super7ramp.crosswords.spi.solver.SolverResult;
 import picocli.CommandLine;
@@ -16,7 +17,7 @@ import java.util.Set;
 final class SolverResultFormatter {
 
     /** The translated strings. */
-    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/SolverMessages");
+    private static final ResourceBundle L10N = ResourceBundles.solverMessages();
 
     /** The format used to display unsolvable boxes. */
     private static final String UNSOLVABLE_FORMAT = "bg(red)";

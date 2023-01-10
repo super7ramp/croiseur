@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
+import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.crosswords.common.dictionary.ProvidedDictionaryDescription;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 final class CliDictionaryPresenter implements DictionaryPresenter {
 
     /** The translated strings. */
-    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/DictionaryMessages");
+    private static final ResourceBundle L10N = ResourceBundles.dictionaryMessages();
 
     /** Providers output format. */
     private static final String PROVIDERS_FORMAT = "%-16s\t%-54s%n";
@@ -37,10 +38,12 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+        final String providerHeader = L10N.getString("provider");
+        final String descriptionHeader = L10N.getString("description");
 
-        System.out.printf(PROVIDERS_FORMAT, L10N.getString("provider"), L10N.getString(
-                "description"));
-        System.out.printf(PROVIDERS_FORMAT, "--------", "-----------");
+        System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
+        System.out.printf(PROVIDERS_FORMAT, underline(providerHeader),
+                underline(descriptionHeader));
 
         providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
                 provider.description()));
@@ -48,16 +51,19 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+        final String providerHeader = L10N.getString("provider");
+        final String nameHeader = L10N.getString("name");
+        final String localeHeader = L10N.getString("locale");
 
-        System.out.printf(LIST_FORMAT, L10N.getString("provider"), L10N.getString(
-                "name"), L10N.getString("locale"));
-        System.out.printf(LIST_FORMAT, "--------", "----", "------");
+        System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
+        System.out.printf(LIST_FORMAT, underline(providerHeader), underline(nameHeader),
+                underline(localeHeader));
 
         for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
             final DictionaryProviderDescription provider = providedDictionary.provider();
             final DictionaryDescription dictionary = providedDictionary.dictionary();
-            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(), dictionary.locale()
-                                                                                         .getDisplayName());
+            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(),
+                    dictionary.locale().getDisplayName());
         }
     }
 
@@ -85,5 +91,15 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaryError(final String error) {
         System.err.println(error);
+    }
+
+    /**
+     * Creates a line of "-" suitable to underline the given header string.
+     *
+     * @param header the header to underline
+     * @return the underline composed of repeated "-", same size as the given string
+     */
+    private static String underline(final String header) {
+        return "-".repeat(header.length());
     }
 }

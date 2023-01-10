@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
 import com.gitlab.super7ramp.crosswords.cli.controller.TopLevelCommand;
+import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
@@ -17,6 +18,7 @@ import picocli.CommandLine.HelpCommand;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
 /**
@@ -40,7 +42,8 @@ final class CrosswordCliApplication {
         command.addSubcommand(HelpCommand.class)
                .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
                        .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
-               .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()));
+               .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
+               .setResourceBundle(ResourceBundles.helpMessages());
 
         command.registerConverter(DictionaryIdentifier.class,
                        TypeConverter.wrap(DictionaryIdentifier::valueOf))

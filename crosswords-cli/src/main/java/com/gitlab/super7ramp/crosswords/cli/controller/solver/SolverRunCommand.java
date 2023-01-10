@@ -25,7 +25,7 @@ public final class SolverRunCommand implements Runnable {
     private String solver;
 
     @Option(names = {"-s", "--size"}, paramLabel = "<INTEGERxINTEGER>", arity = "1", required =
-            true, description = "Grid dimensions, e.g. '--size 7x15' for a grid of width 7 and" +
+            true, description = "Grid dimensions, e.g. '--size 7x15' for a grid of width 7 and " +
             "height 15")
     private GridSize size;
 
@@ -42,12 +42,12 @@ public final class SolverRunCommand implements Runnable {
     private PrefilledBox[] prefilledBoxes = {};
 
     @Option(names = {"-H", "--horizontal"}, arity = "1..*", description = "Pre-filled horizontal " +
-            "slot(s), e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
+            "slots, e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
             paramLabel = "<(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
     @Option(names = {"-V", "--vertical"}, arity = "1..*", description = "Pre-filled vertical " +
-            "slot(s), e.g. '--vertical ((0,0),hello) ((5,0),world)...",
+            "slots, e.g. '--vertical ((0,0),hello) ((5,0),world)...",
             paramLabel = "<(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 

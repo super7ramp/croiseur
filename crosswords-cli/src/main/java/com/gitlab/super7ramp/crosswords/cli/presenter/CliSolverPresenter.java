@@ -1,5 +1,6 @@
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
+import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.crosswords.spi.presenter.solver.SolverPresenter;
@@ -15,7 +16,7 @@ import java.util.ResourceBundle;
 final class CliSolverPresenter implements SolverPresenter {
 
     /** The translated strings. */
-    private static final ResourceBundle L10N = ResourceBundle.getBundle("/l10n/SolverMessages");
+    private static final ResourceBundle L10N = ResourceBundles.solverMessages();
 
     /** The message format. */
     private static final String PROGRESS_FORMAT = L10N.getString("progress.format") + "\r";
@@ -35,11 +36,14 @@ final class CliSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
-        System.out.printf(SOLVER_LIST_FORMAT, L10N.getString("name"), L10N.getString("description"));
-        System.out.printf(SOLVER_LIST_FORMAT, "--------", "-----------");
+        final String nameHeader = L10N.getString("name");
+        final String descriptionHeader = L10N.getString("description");
 
-        solverDescriptions.forEach(solver -> System.out.printf(SOLVER_LIST_FORMAT, solver.name(),
-                solver.description()));
+        System.out.printf(SOLVER_LIST_FORMAT, nameHeader, descriptionHeader);
+        System.out.printf(SOLVER_LIST_FORMAT, underline(nameHeader), underline(descriptionHeader));
+
+        solverDescriptions.forEach(solver ->
+                System.out.printf(SOLVER_LIST_FORMAT, solver.name(), solver.description()));
     }
 
     @Override
@@ -75,7 +79,17 @@ final class CliSolverPresenter implements SolverPresenter {
         bestCompletionPercentage = 0;
     }
 
-    private void publishSolverInitialisationStopped() {
+    private static void publishSolverInitialisationStopped() {
         System.out.println(L10N.getString("state.initialized"));
+    }
+
+    /**
+     * Creates a line of "-" suitable to underline the given header string.
+     *
+     * @param header the header to underline
+     * @return the underline composed of repeated "-", same size as the given string
+     */
+    private static String underline(final String header) {
+        return "-".repeat(header.length());
     }
 }
