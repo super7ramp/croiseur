@@ -2,6 +2,7 @@ package com.gitlab.super7ramp.crosswords.cli;
 
 import com.gitlab.super7ramp.crosswords.api.CrosswordService;
 import com.gitlab.super7ramp.crosswords.api.dictionary.DictionaryIdentifier;
+import com.gitlab.super7ramp.crosswords.cli.controller.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.cli.controller.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.SolverRunCommand;
@@ -9,7 +10,6 @@ import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridPositio
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.crosswords.cli.controller.solver.parser.PrefilledSlot;
-import com.gitlab.super7ramp.crosswords.cli.controller.TopLevelCommand;
 import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.crosswords.common.GridPosition;
 import picocli.CommandLine;
@@ -18,7 +18,6 @@ import picocli.CommandLine.HelpCommand;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
 /**

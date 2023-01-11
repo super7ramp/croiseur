@@ -42,8 +42,9 @@ public final class DictionaryCommand {
     }
 
     @Command(name = "list", aliases = {"ls"}, description = "List available dictionaries")
-    void list(@Option(names = {"-p", "--provider"}) final String provider, @Option(names = {"-l",
-            "--locale"}) final Locale locale) {
+    void list(@Option(names = {"-p", "--provider"}, description = "Filter on provider",
+            paramLabel = "PROVIDER") final String provider, @Option(names = {"-l", "--locale"},
+            description = "Filter on locale", paramLabel = "LOCALE") final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
         dictionaryService.listDictionaries(request);
     }
