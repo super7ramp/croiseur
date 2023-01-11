@@ -3,5 +3,5 @@ plugins {
 }
 
 artifacts {
-    dictionary fileTree(layout.projectDirectory) { exclude 'build*' }.files
+    dictionary fileTree(layout.projectDirectory) { exclude 'build*', '*.md' }.files
 }
