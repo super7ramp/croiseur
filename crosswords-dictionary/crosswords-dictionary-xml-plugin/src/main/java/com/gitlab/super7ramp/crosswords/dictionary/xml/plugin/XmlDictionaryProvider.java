@@ -42,7 +42,7 @@ public final class XmlDictionaryProvider implements DictionaryProvider {
      * @return the dictionary files
      */
     private static Stream<File> dictionaryFiles() {
-         return DictionaryPath.getDefault()
+        return DictionaryPath.getDefault()
                              .list()
                              .stream()
                              .filter(f -> f.getName().endsWith(".xml"));

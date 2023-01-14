@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * A parsed pre-filled slot information,
  *
  * @param startGridPosition the slot's start position
- * @param value the word in the slot
+ * @param value             the word in the slot
  */
 public record PrefilledSlot(GridPosition startGridPosition, String value) {
 

@@ -39,6 +39,20 @@ final class CliSolverPresenter implements SolverPresenter {
         // Nothing to do.
     }
 
+    private static void publishSolverInitialisationStopped() {
+        System.out.println(L10N.getString("state.initialized"));
+    }
+
+    /**
+     * Creates a line of "-" suitable to underline the given header string.
+     *
+     * @param header the header to underline
+     * @return the underline composed of repeated "-", same size as the given string
+     */
+    private static String underline(final String header) {
+        return "-".repeat(header.length());
+    }
+
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
         final String nameHeader = L10N.getString("name");
@@ -82,19 +96,5 @@ final class CliSolverPresenter implements SolverPresenter {
     private void publishSolverInitialisationStarted() {
         System.out.println(L10N.getString("state.initializing"));
         bestCompletionPercentage = 0;
-    }
-
-    private static void publishSolverInitialisationStopped() {
-        System.out.println(L10N.getString("state.initialized"));
-    }
-
-    /**
-     * Creates a line of "-" suitable to underline the given header string.
-     *
-     * @param header the header to underline
-     * @return the underline composed of repeated "-", same size as the given string
-     */
-    private static String underline(final String header) {
-        return "-".repeat(header.length());
     }
 }

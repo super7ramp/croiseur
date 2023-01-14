@@ -7,10 +7,10 @@ package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Affix;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixRule;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.DicEntry;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixRule;
 
 import java.util.HashMap;
 import java.util.Map;

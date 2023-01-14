@@ -69,6 +69,7 @@ public final class DictionaryViewModel {
     public String locale() {
         return locale.getDisplayName();
     }
+
     /**
      * Returns the dictionary provider.
      *

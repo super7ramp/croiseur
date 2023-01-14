@@ -15,7 +15,8 @@ import java.util.function.Supplier;
  * thread-safety becomes a concern.
  *
  * @param <T> the value type
- * @see <a href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/Lazy.java">Vavr's Lazy</a>
+ * @see
+ * <a href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/Lazy.java">Vavr's Lazy</a>
  */
 public final class Lazy<T> implements Supplier<T> {
 
@@ -38,8 +39,8 @@ public final class Lazy<T> implements Supplier<T> {
      * Creates a new {@link Lazy} value.
      *
      * @param supplierArg the value supplier
+     * @param <T>         the value type
      * @return a new {@link Lazy} value
-     * @param <T> the value type
      */
     public static <T> Lazy<T> of(final Supplier<T> supplierArg) {
         return new Lazy<>(supplierArg);

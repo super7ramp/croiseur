@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<fx:root stylesheets="@CrosswordEditionToolbar.css" type="ToolBar"
-         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditionToolbar.css"
+         type="ToolBar" xmlns="http://javafx.com/javafx/17">
     <ToggleButton fx:id="resizeGridButton" text="%resize-grid-button">
         <graphic>
             <ImageView id="resize-grid-button-image-view"/>

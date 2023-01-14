@@ -33,7 +33,7 @@ public interface CachedDictionary {
      * {@code candidates(slot).anyMatch(value::equals)}.
      *
      * @param wordVariable the variable
-     * @param value the value to test
+     * @param value        the value to test
      * @return {@code true} if and only if the dictionary contains the given candidate for
      * the given slot
      */

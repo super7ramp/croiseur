@@ -30,9 +30,9 @@ public final class SolverResultFactory {
     /**
      * Creates a solver result from the given state.
      *
-     * @param crossword the crossword state
+     * @param crossword          the crossword state
      * @param statisticsRecorder the statistics record
-     * @param success whether solver has succeeded
+     * @param success            whether solver has succeeded
      * @return the solver result
      */
     public static SolverResult createFrom(final Crossword crossword,

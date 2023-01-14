@@ -23,17 +23,17 @@ public final class PuzzleDefinition {
      */
     public static final class PuzzleDefinitionBuilder {
 
-        /** Width of the grid. */
-        private int width;
-
-        /** Height of the grid. */
-        private int height;
-
         /** Shaded boxes. */
         private final Set<GridPosition> shaded;
 
         /** Filled boxes. */
         private final Map<GridPosition, Character> filled;
+
+        /** Width of the grid. */
+        private int width;
+
+        /** Height of the grid. */
+        private int height;
 
         /**
          * Constructor.

@@ -46,9 +46,9 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
      */
     private static Stream<URL> dictionaryFiles() {
         return DictionaryPath.getDefault().list().stream()
-                     .filter(f -> f.getName().endsWith(".dic"))
-                     .map(HunspellDictionaryProvider::urlFrom)
-                     .filter(Objects::nonNull);
+                             .filter(f -> f.getName().endsWith(".dic"))
+                             .map(HunspellDictionaryProvider::urlFrom)
+                             .filter(Objects::nonNull);
     }
 
     /**

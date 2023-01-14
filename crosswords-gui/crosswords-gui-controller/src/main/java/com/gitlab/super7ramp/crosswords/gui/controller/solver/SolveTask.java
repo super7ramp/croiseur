@@ -26,7 +26,7 @@ final class SolveTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param crosswordGridViewModelArg the crossword model
-     * @param dictionariesViewModelArg    the dictionary model
+     * @param dictionariesViewModelArg  the dictionary model
      * @param solverServiceArg          the "solve crossword" usecase
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,

@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<fx:root spacing="10.0" stylesheets="@DictionariesPane.css" type="VBox"
-         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" spacing="10.0" stylesheets="@DictionariesPane.css"
+         type="VBox" xmlns="http://javafx.com/javafx/17"
          id="dictionary-pane-root">
     <Label styleClass="section-label" text="%dictionaries-label"/>
     <ListView fx:id="dictionariesListView" VBox.vgrow="ALWAYS" prefHeight="0">

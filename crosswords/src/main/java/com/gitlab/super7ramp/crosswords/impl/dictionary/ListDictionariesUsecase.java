@@ -35,30 +35,12 @@ final class ListDictionariesUsecase {
      * Constructs an instance.
      *
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg the presenter
+     * @param presenterArg           the presenter
      */
     ListDictionariesUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
                             final DictionaryPresenter presenterArg) {
         dictionaryProviders = dictionaryProvidersArg;
         presenter = presenterArg;
-    }
-
-    /**
-     * Processes the {@link ListDictionariesRequest}.
-     *
-     * @param request the event to process
-     */
-    void process(final ListDictionariesRequest request) {
-        final Collection<DictionaryProvider> selectedDictionaryProviders =
-                selectDictionaryProviders(request);
-
-        if (selectedDictionaryProviders.isEmpty()) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
-        } else {
-            final List<ProvidedDictionaryDescription> dictionaries =
-                    orderDictionaries(selectedDictionaryProviders);
-            presenter.presentDictionaries(dictionaries);
-        }
     }
 
     /**
@@ -87,6 +69,24 @@ final class ListDictionariesUsecase {
                                           .flatMap(provider -> toDictionaryDescriptionStream(provider))
                                           .sorted(DICTIONARY_COMPARATOR)
                                           .toList();
+    }
+
+    /**
+     * Processes the {@link ListDictionariesRequest}.
+     *
+     * @param request the event to process
+     */
+    void process(final ListDictionariesRequest request) {
+        final Collection<DictionaryProvider> selectedDictionaryProviders =
+                selectDictionaryProviders(request);
+
+        if (selectedDictionaryProviders.isEmpty()) {
+            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
+        } else {
+            final List<ProvidedDictionaryDescription> dictionaries =
+                    orderDictionaries(selectedDictionaryProviders);
+            presenter.presentDictionaries(dictionaries);
+        }
     }
 
     /**

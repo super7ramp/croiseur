@@ -32,12 +32,27 @@ final class ListDictionaryEntriesUsecase {
      * Constructs an instance.
      *
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg the presenter
+     * @param presenterArg           the presenter
      */
     ListDictionaryEntriesUsecase(Collection<DictionaryProvider> dictionaryProvidersArg,
-                                        DictionaryPresenter presenterArg) {
+                                 DictionaryPresenter presenterArg) {
         dictionaryProviders = dictionaryProvidersArg;
         presenter = presenterArg;
+    }
+
+    /**
+     * Reads the content of the given dictionary into a {@link DictionaryContent}.
+     *
+     * @param selectedDictionaryProvider the selected dictionary provider
+     * @param dictionary                 the selected dictionary
+     * @return the content of the given dictionary
+     */
+    private static DictionaryContent readContent(final DictionaryProvider selectedDictionaryProvider, final Dictionary dictionary) {
+        final ProvidedDictionaryDescription description =
+                new ProvidedDictionaryDescription(selectedDictionaryProvider.description(),
+                        dictionary.description());
+        final List<String> words = dictionary.stream().toList();
+        return new DictionaryContent(description, words);
     }
 
     /**
@@ -58,7 +73,8 @@ final class ListDictionaryEntriesUsecase {
             return;
         }
 
-        final DictionaryProvider selectedDictionaryProvider = selectedDictionaryProviders.iterator().next();
+        final DictionaryProvider selectedDictionaryProvider = selectedDictionaryProviders.iterator()
+                                                                                         .next();
         final Optional<Dictionary> optFirstDictionary = selectedDictionaryProvider.getFirst();
         if (optFirstDictionary.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
@@ -69,20 +85,6 @@ final class ListDictionaryEntriesUsecase {
         final DictionaryContent dictionaryContent =
                 readContent(selectedDictionaryProvider, dictionary);
         presenter.presentDictionaryEntries(dictionaryContent);
-    }
-
-    /**
-     * Reads the content of the given dictionary into a {@link DictionaryContent}.
-     *
-     * @param selectedDictionaryProvider the selected dictionary provider
-     * @param dictionary the selected dictionary
-     * @return the content of the given dictionary
-     */
-    private static DictionaryContent readContent(final DictionaryProvider selectedDictionaryProvider, final Dictionary dictionary) {
-        final ProvidedDictionaryDescription description =
-                new ProvidedDictionaryDescription(selectedDictionaryProvider.description(), dictionary.description());
-        final List<String> words = dictionary.stream().toList();
-        return new DictionaryContent(description, words);
     }
 
     /**

@@ -24,7 +24,7 @@ final class BomInputStreamTest {
 
         try (final ByteArrayInputStream bytesStream = new ByteArrayInputStream(hello);
              final BomInputStream filteredStream = new BomInputStream(bytesStream)) {
-              read = new String(filteredStream.readAllBytes());
+            read = new String(filteredStream.readAllBytes());
         }
 
         assertEquals("HELLO", read);
@@ -32,7 +32,7 @@ final class BomInputStreamTest {
 
     @Test
     void utf8Bom() throws IOException {
-        final byte[] utf8Bom = { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+        final byte[] utf8Bom = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
         final byte[] hello = "HELLO".getBytes();
         final byte[] utf8BomAndHello = new byte[utf8Bom.length + hello.length];
         System.arraycopy(utf8Bom, 0, utf8BomAndHello, 0, utf8Bom.length);

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public record DictionaryIdentifier(String providerName, String dictionaryName) {
 
-    /** Textual representation pattern: providerName:dictionaryName.  */
+    /** Textual representation pattern: providerName:dictionaryName. */
     private static final Pattern PATTERN = Pattern.compile("((?<provider>[^:]+):)" +
             "(?<dictionary>[^:]+)");
 

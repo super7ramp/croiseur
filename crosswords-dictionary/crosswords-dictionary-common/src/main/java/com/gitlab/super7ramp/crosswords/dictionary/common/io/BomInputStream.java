@@ -15,12 +15,13 @@ import java.util.Arrays;
  * <p>
  * Only UTF-8 BOM is supported for now.
  *
- * @see <a href="https://github.com/apache/commons-io/blob/master/src/main/java/org/apache/commons/io/input/BOMInputStream.java">Apache Commons implementation</a>
+ * @see
+ * <a href="https://github.com/apache/commons-io/blob/master/src/main/java/org/apache/commons/io/input/BOMInputStream.java">Apache Commons implementation</a>
  */
 public final class BomInputStream extends FilterInputStream {
 
     /** A UTF-8 BOM. */
-    private static final byte[] UTF8_BOM = new byte[]{ (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+    private static final byte[] UTF8_BOM = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
 
     /**
      * Creates a {@code BomInputStream} from the given {@link InputStream}.

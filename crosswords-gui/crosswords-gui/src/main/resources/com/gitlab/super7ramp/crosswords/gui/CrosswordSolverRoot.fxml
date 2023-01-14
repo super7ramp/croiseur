@@ -6,8 +6,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolverPane?>
-<CrosswordSolverPane xmlns="http://javafx.com/javafx"
-                     xmlns:fx="http://javafx.com/fxml"
+<CrosswordSolverPane xmlns:fx="http://javafx.com/fxml"
+                     xmlns="http://javafx.com/javafx"
                      fx:controller="com.gitlab.super7ramp.crosswords.gui.CrosswordSolverRootController"
-                     prefHeight="600.0" prefWidth="750.0" fx:id="view" >
+                     prefHeight="600.0" prefWidth="750.0" fx:id="view">
 </CrosswordSolverPane>

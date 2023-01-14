@@ -23,10 +23,11 @@ final class DictionaryAdapter {
      * {@link com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary}.
      *
      * @param dictionary a {@link Dictionary}
-     * @return Crossword Composer's {@link com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary}
+     * @return Crossword Composer's
+     * {@link com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary}
      */
     static com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary adapt(final Dictionary dictionary) {
         return new com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary(dictionary.lookup(word -> true)
-                                                                                .toArray(String[]::new));
+                                                                                       .toArray(String[]::new));
     }
 }

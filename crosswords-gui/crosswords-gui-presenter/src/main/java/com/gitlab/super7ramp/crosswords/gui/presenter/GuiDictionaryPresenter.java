@@ -47,7 +47,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
-        Platform.runLater(() -> dictionariesViewModel.addWords(content.description().toDictionaryKey(),
+        Platform.runLater(() -> dictionariesViewModel.addWords(content.description()
+                                                                      .toDictionaryKey(),
                 content.words()));
     }
 

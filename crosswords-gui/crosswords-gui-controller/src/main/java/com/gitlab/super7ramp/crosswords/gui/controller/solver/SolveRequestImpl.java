@@ -34,7 +34,7 @@ final class SolveRequestImpl implements SolveRequest {
      * Constructs an instance.
      *
      * @param crosswordGridViewModel the crossword model
-     * @param dictionariesViewModel    the dictionary model
+     * @param dictionariesViewModel  the dictionary model
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
                      final DictionariesViewModel dictionariesViewModel) {
@@ -69,7 +69,7 @@ final class SolveRequestImpl implements SolveRequest {
                 dictionariesViewModel.selectedDictionariesProperty()
                                      .stream()
                                      .map(entry -> new DictionaryIdentifier(entry.provider(),
-                                           entry.name()))
+                                             entry.name()))
                                      .toList();
     }
 

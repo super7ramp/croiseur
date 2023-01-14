@@ -26,7 +26,7 @@ final class ListSolversUsecase {
     /**
      * Constructs an instance.
      *
-     * @param solversArg the solvers
+     * @param solversArg   the solvers
      * @param presenterArg the presenter
      */
     ListSolversUsecase(final Collection<CrosswordSolver> solversArg,

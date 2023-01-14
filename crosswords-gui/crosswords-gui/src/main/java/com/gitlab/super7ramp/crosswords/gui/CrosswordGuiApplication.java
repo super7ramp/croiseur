@@ -49,21 +49,6 @@ public final class CrosswordGuiApplication extends Application {
         resources = new ArrayList<>();
     }
 
-    @Override
-    public void start(final Stage stage) throws IOException {
-        final CrosswordSolverRootController controller = loadController();
-        final Parent view = CrosswordSolverViewLoader.load(controller);
-        configureStage(stage, view);
-        stage.show();
-    }
-
-    @Override
-    public void stop() throws Exception {
-        for (final AutoCloseable resource : resources) {
-            resource.close();
-        }
-    }
-
     /**
      * Configures the stage.
      *
@@ -80,6 +65,21 @@ public final class CrosswordGuiApplication extends Application {
                 CrosswordGuiApplication.class.getResourceAsStream(ICON_NAME);
         if (iconLocation != null) {
             stage.getIcons().add(new Image(iconLocation));
+        }
+    }
+
+    @Override
+    public void start(final Stage stage) throws IOException {
+        final CrosswordSolverRootController controller = loadController();
+        final Parent view = CrosswordSolverViewLoader.load(controller);
+        configureStage(stage, view);
+        stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        for (final AutoCloseable resource : resources) {
+            resource.close();
         }
     }
 

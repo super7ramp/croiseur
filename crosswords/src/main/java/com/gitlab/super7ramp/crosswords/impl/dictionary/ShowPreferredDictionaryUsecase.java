@@ -43,6 +43,19 @@ final class ShowPreferredDictionaryUsecase {
         presenter = presenterArg;
     }
 
+    /**
+     * Streams given dictionary provider collection and map item to
+     * {@link ProvidedDictionaryDescription}.
+     *
+     * @param provider the dictionary provider
+     * @return a stream of {@link ProvidedDictionaryDescription}s
+     */
+    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(final DictionaryProvider provider) {
+        return provider.get()
+                       .stream()
+                       .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()));
+    }
+
     void process() {
         final Collection<DictionaryProvider> filteredDictionaryProviders =
                 DictionarySelection.any().apply(dictionaryProviders);
@@ -62,18 +75,5 @@ final class ShowPreferredDictionaryUsecase {
                 presenter.presentPreferredDictionary(optPreferredDictionary.get());
             }
         }
-    }
-
-    /**
-     * Streams given dictionary provider collection and map item to
-     * {@link ProvidedDictionaryDescription}.
-     *
-     * @param provider the dictionary provider
-     * @return a stream of {@link ProvidedDictionaryDescription}s
-     */
-    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(final DictionaryProvider provider) {
-        return provider.get()
-                       .stream()
-                       .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()));
     }
 }

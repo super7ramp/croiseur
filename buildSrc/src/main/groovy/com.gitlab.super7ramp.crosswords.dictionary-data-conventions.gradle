@@ -20,7 +20,7 @@ plugins {
  * configurations.named('dictionary') {
  *     dictionary files('my-dictionary.txt')
  * }
- * }</pre>
+ *}</pre>
  *
  * Consumer can refer to it:
  *
@@ -28,7 +28,7 @@ plugins {
  * dependencies {
  *     runtimeOnly project(path: ':example-producer', configuration: 'dictionary')
  * }
- * }</pre>
+ *}</pre>
  *
  * Or more simply, since default configuration is configured to extend dictionary configuration:
  *
@@ -36,7 +36,7 @@ plugins {
  * dependencies {
  *     runtimeOnly project(':example-producer')
  * }
- * }</pre>
+ *}</pre>
  */
 configurations.create('dictionary') {
     canBeConsumed = true

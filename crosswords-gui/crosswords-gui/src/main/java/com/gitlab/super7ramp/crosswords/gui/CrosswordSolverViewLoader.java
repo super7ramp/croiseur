@@ -28,7 +28,7 @@ final class CrosswordSolverViewLoader {
         // Nothing to do.
     }
 
-     /**
+    /**
      * Loads the application views.
      *
      * @return the loaded object hierarchy

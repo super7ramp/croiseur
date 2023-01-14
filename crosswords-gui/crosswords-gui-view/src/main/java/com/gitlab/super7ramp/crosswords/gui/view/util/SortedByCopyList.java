@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @param <E> the element type
  */
-public final class SortedByCopyList<E> extends ModifiableObservableListBase<E> implements ObservableList<E>{
+public final class SortedByCopyList<E> extends ModifiableObservableListBase<E> implements ObservableList<E> {
 
     /** The sorted list. */
     private List<E> sorted;
@@ -37,7 +37,7 @@ public final class SortedByCopyList<E> extends ModifiableObservableListBase<E> i
     /**
      * Constructs an instance.
      *
-     * @param backing the backing observable list
+     * @param backing    the backing observable list
      * @param comparator the comparator
      */
     public SortedByCopyList(final ObservableList<E> backing, final Comparator<E> comparator) {

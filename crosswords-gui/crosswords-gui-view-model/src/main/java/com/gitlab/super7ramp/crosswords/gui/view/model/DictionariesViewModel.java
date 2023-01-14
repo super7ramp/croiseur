@@ -106,7 +106,8 @@ public final class DictionariesViewModel {
      *
      * @param change the dictionary selection change
      */
-    private void onSelectedDictionaryChange(ListChangeListener.Change<? extends DictionaryViewModel> change) {
+    private void onSelectedDictionaryChange(ListChangeListener.Change<?
+            extends DictionaryViewModel> change) {
         while (change.next()) {
             if (change.wasRemoved()) {
                 final List<? extends DictionaryViewModel> removedDictionaries = change.getRemoved();

@@ -174,7 +174,8 @@ final class NativeLibLoader {
         try {
             // not looking for security, just a checksum. MD5 should be faster than SHA
             try (final InputStream stream = new FileInputStream(file);
-                 final DigestInputStream dis = new DigestInputStream(stream, MessageDigest.getInstance("MD5"))) {
+                 final DigestInputStream dis = new DigestInputStream(stream,
+                         MessageDigest.getInstance("MD5"))) {
                 dis.getMessageDigest().reset();
                 byte[] buffer = new byte[4096];
                 while (dis.read(buffer) != -1) { /* empty loop body is intentional */ }

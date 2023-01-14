@@ -41,6 +41,16 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         // Nothing to do.
     }
 
+    /**
+     * Creates a line of "-" suitable to underline the given header string.
+     *
+     * @param header the header to underline
+     * @return the underline composed of repeated "-", same size as the given string
+     */
+    private static String underline(final String header) {
+        return "-".repeat(header.length());
+    }
+
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
         final String providerHeader = L10N.getString("provider");
@@ -96,15 +106,5 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaryError(final String error) {
         System.err.println(error);
-    }
-
-    /**
-     * Creates a line of "-" suitable to underline the given header string.
-     *
-     * @param header the header to underline
-     * @return the underline composed of repeated "-", same size as the given string
-     */
-    private static String underline(final String header) {
-        return "-".repeat(header.length());
     }
 }

@@ -35,43 +35,12 @@ public final class DicParser {
     }
 
     /**
-     * Parse a ".dic" file lines.
-     *
-     * @param lines iterator on the lines of the file
-     * @return a {@link Dic}
-     * @throws ParserException if parsing goes wrong
-     */
-    public Dic parse(final Iterator<String> lines) throws ParserException {
-        final int estimatedNumberOfEntries = readEstimatedNumberOfEntries(lines);
-        return readEntries(estimatedNumberOfEntries, lines);
-    }
-
-    /**
-     * Reads the dic file entries.
-     *
-     * @param estimatedNumberOfEntries the estimated number of entries
-     * @param lines the iterator on lines
-     * @return the {@link Dic} model
-     * @throws InvalidDicEntryException if an invalid entry is encountered
-     */
-    private Dic readEntries(final int estimatedNumberOfEntries, final Iterator<String> lines) throws InvalidDicEntryException {
-        final DicBuilder builder = new DicBuilder(estimatedNumberOfEntries);
-        while (lines.hasNext()) {
-            final String line = lines.next();
-            if (!isCommented(line)) {
-                builder.add(DicEntry.valueOf(line, flagType));
-            } // else ignore comment
-        }
-        return builder.build();
-    }
-
-    /**
      * Reads the estimated number of entries which is supposed to be the first line of the dic file.
      *
      * @param lines the iterator of lines
      * @return the estimated number of entries
      * @throws MissingEstimatedNumberOfEntriesException if the estimated number of entries is
-     * missing
+     *                                                  missing
      */
     private static int readEstimatedNumberOfEntries(final Iterator<String> lines) throws MissingEstimatedNumberOfEntriesException {
         if (!lines.hasNext()) {
@@ -92,5 +61,36 @@ public final class DicParser {
      */
     private static boolean isCommented(final String line) {
         return COMMENT.matcher(line).matches();
+    }
+
+    /**
+     * Parse a ".dic" file lines.
+     *
+     * @param lines iterator on the lines of the file
+     * @return a {@link Dic}
+     * @throws ParserException if parsing goes wrong
+     */
+    public Dic parse(final Iterator<String> lines) throws ParserException {
+        final int estimatedNumberOfEntries = readEstimatedNumberOfEntries(lines);
+        return readEntries(estimatedNumberOfEntries, lines);
+    }
+
+    /**
+     * Reads the dic file entries.
+     *
+     * @param estimatedNumberOfEntries the estimated number of entries
+     * @param lines                    the iterator on lines
+     * @return the {@link Dic} model
+     * @throws InvalidDicEntryException if an invalid entry is encountered
+     */
+    private Dic readEntries(final int estimatedNumberOfEntries, final Iterator<String> lines) throws InvalidDicEntryException {
+        final DicBuilder builder = new DicBuilder(estimatedNumberOfEntries);
+        while (lines.hasNext()) {
+            final String line = lines.next();
+            if (!isCommented(line)) {
+                builder.add(DicEntry.valueOf(line, flagType));
+            } // else ignore comment
+        }
+        return builder.build();
     }
 }

@@ -40,8 +40,9 @@ final class NumberedPuzzleDefinition {
         idToPosition = createIdToPositionMap(positionToId);
     }
 
-    private static Map<GridPosition, Integer> createPositionToIdMap(final int width, final int height,
-                                                                 final Set<GridPosition> shaded) {
+    private static Map<GridPosition, Integer> createPositionToIdMap(final int width,
+                                                                    final int height,
+                                                                    final Set<GridPosition> shaded) {
         final Map<GridPosition, Integer> labeledBoxes = new HashMap<>();
         for (int row = 0, id = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {

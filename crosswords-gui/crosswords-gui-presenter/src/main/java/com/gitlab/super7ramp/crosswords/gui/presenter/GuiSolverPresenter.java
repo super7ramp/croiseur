@@ -66,7 +66,8 @@ final class GuiSolverPresenter implements SolverPresenter {
             final CrosswordBoxViewModel box = viewModelBoxes.get(position);
             box.contentProperty().set(entry.getValue().toString());
         }
-        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry : viewModelBoxes.entrySet()) {
+        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
+                viewModelBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = entry.getValue();
             box.unsolvableProperty().set(result.unsolvableBoxes().contains(position));

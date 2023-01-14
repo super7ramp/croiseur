@@ -78,12 +78,12 @@ public final class DictionaryWriter {
     /**
      * Writes the given {@link Dictionary} to the given {@link OutputStream}.
      *
-     * @param os the output stream to write into
+     * @param os         the output stream to write into
      * @param dictionary the dictionary to write
      * @throws DictionaryWriteException if write fails
      */
     public static void write(final OutputStream os, final Dictionary dictionary) throws DictionaryWriteException {
-        try (final OutputStream bufferedOutputStream = new BufferedOutputStream(os)){
+        try (final OutputStream bufferedOutputStream = new BufferedOutputStream(os)) {
             final XMLStreamWriter writer = createWriter(bufferedOutputStream);
 
             writer.writeStartDocument();

@@ -49,7 +49,8 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
         LocaleComparator() {
             defaultSystemLocale = Locale.getDefault();
             // Try to match at least on language if not on language + country
-            defaultSystemLocaleLanguageOnly = Locale.forLanguageTag(defaultSystemLocale.getLanguage());
+            defaultSystemLocaleLanguageOnly =
+                    Locale.forLanguageTag(defaultSystemLocale.getLanguage());
         }
 
         @Override

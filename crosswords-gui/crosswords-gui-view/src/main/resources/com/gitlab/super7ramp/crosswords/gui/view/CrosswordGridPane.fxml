@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordGridPlaceholder?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
-<fx:root stylesheets="@CrosswordGridPane.css" type="StackPane" xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordGridPane.css" type="StackPane"
+         xmlns="http://javafx.com/javafx/17">
     <CrosswordGridPlaceholder fx:id="placeholder"/>
     <GridPane id="crossword-grid" fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity"
               minHeight="200" minWidth="200" prefHeight="400.0" prefWidth="400.0"/>

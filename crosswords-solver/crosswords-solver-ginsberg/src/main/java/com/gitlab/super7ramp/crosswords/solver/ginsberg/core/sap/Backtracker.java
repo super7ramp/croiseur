@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Strategy to apply when dead-end is reached.
  *
- * @param <VariableT> the variable type
+ * @param <VariableT>          the variable type
  * @param <EliminationReasonT> the elimination reason type
  */
 public interface Backtracker<VariableT, EliminationReasonT> {

@@ -33,7 +33,7 @@ final class AdaptedSolverResult implements SolverResult {
      * Constructs an instance.
      *
      * @param idToPosition association between indexes and grid positions
-     * @param solution the solution
+     * @param solution     the solution
      */
     private AdaptedSolverResult(final Map<Integer, GridPosition> idToPosition,
                                 final Solution solution) {

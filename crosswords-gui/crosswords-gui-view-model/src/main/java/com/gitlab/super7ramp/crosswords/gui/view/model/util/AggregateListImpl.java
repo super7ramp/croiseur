@@ -43,7 +43,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
      * Constructs an instance from given collections.
      *
      * @param collection a collection
-     * @param others other collections
+     * @param others     other collections
      * @throws NullPointerException if a given collection is {@code null}
      */
     AggregateListImpl(final Collection<T> collection, final Collection<T>... others) {
@@ -59,7 +59,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
         for (final List<T> list : lists) {
             final int startIndex = endIndex;
             endIndex += list.size();
-            if (index < endIndex)  {
+            if (index < endIndex) {
                 return list.get(index - startIndex);
             }
         }

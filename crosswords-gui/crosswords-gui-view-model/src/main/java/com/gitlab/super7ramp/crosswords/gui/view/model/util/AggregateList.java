@@ -20,6 +20,18 @@ import java.util.List;
 public interface AggregateList<T> extends List<T> {
 
     /**
+     * Creates a new {@link AggregateList}.
+     *
+     * @param collection       a first aggregate
+     * @param otherCollections other aggregates
+     * @param <T>              the element type
+     * @return the created {@link AggregateList}
+     */
+    static <T> AggregateList of(Collection<T> collection, Collection<T>... otherCollections) {
+        return new AggregateListImpl<>(collection, otherCollections);
+    }
+
+    /**
      * Aggregates the given collection at the end of this {@link AggregateList}.
      *
      * @param collection the collection to aggregate
@@ -30,7 +42,7 @@ public interface AggregateList<T> extends List<T> {
      * Aggregates the given collection at the given index
      *
      * @param aggregateIndex the desired <em>aggregate</em> index (not an element index)
-     * @param collection the collection to aggregate
+     * @param collection     the collection to aggregate
      */
     void aggregate(final int aggregateIndex, final Collection<T> collection);
 
@@ -66,17 +78,5 @@ public interface AggregateList<T> extends List<T> {
      * @return the number of aggregated collections
      */
     int aggregateCount();
-
-    /**
-     * Creates a new {@link AggregateList}.
-     *
-     * @param collection a first aggregate
-     * @param otherCollections other aggregates
-     * @return the created {@link AggregateList}
-     * @param <T> the element type
-     */
-    static <T> AggregateList of(Collection<T> collection, Collection<T>... otherCollections)  {
-        return new AggregateListImpl<>(collection, otherCollections);
-    }
 
 }

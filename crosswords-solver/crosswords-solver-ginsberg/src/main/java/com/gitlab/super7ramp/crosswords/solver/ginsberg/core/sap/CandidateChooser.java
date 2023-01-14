@@ -11,7 +11,7 @@ import java.util.Optional;
  * Encapsulates the heuristics for selecting the value of a variable.
  *
  * @param <VariableT> the variable type
- * @param <ValueT> the value type
+ * @param <ValueT>    the value type
  */
 public interface CandidateChooser<VariableT, ValueT> {
 

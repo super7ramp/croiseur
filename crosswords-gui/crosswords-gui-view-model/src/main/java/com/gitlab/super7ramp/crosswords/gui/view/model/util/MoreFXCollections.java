@@ -20,8 +20,8 @@ public final class MoreFXCollections {
     /**
      * Creates a new empty {@link ObservableAggregateList}.
      *
-     * @return a new empty {@link ObservableAggregateList}
      * @param <E> the element type
+     * @return a new empty {@link ObservableAggregateList}
      */
     public static <E> ObservableAggregateList<E> observableAggregateList() {
         return new ObservableAggregateListImpl<>(new AggregateListImpl<>());

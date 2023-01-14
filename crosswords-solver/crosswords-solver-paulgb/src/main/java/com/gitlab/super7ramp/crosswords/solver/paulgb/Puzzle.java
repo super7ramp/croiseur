@@ -24,8 +24,8 @@ package com.gitlab.super7ramp.crosswords.solver.paulgb;
  *
  * @param slots the slots
  * @see <a href="https://github.com/paulgb/crossword-composer/blob/master/README.md#auto-filler">
- *     The Crossword Composer documentation
- *     </a>
+ * The Crossword Composer documentation
+ * </a>
  */
 public record Puzzle(int[][] slots) {
     // Nothing to add.

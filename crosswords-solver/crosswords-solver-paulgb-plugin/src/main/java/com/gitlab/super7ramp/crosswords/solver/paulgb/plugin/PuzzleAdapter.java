@@ -70,7 +70,7 @@ final class PuzzleAdapter {
             for (int startRow = 0, endRow = nextShadedOnColumn(column, 0, height, shaded); startRow < height; startRow =
                     nextVerticalSlot(column, endRow, height, shaded), endRow =
                     nextShadedOnColumn(column, startRow,
-                    height, shaded)) {
+                            height, shaded)) {
                 if (endRow - startRow > 1) {
                     final List<Integer> verticalSlot = new ArrayList<>();
                     for (int row = startRow; row < endRow; row++) {
@@ -92,7 +92,7 @@ final class PuzzleAdapter {
             for (int startColumn = 0, endColumn = nextShadedOnLine(row, 0, width, shaded); startColumn < width; startColumn =
                     nextHorizontalSlot(row, endColumn, width, shaded), endColumn =
                     nextShadedOnLine(row, startColumn,
-                    width, shaded)) {
+                            width, shaded)) {
                 if (endColumn - startColumn > 1) {
                     final List<Integer> horizontalSlot = new ArrayList<>();
                     for (int column = startColumn; column < endColumn; column++) {

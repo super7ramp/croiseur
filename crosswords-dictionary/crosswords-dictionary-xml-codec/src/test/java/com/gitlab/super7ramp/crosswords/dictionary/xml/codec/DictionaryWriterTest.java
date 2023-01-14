@@ -27,6 +27,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 final class DictionaryWriterTest {
 
+    private static String formatXml(String xml) {
+        try {
+            final Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            final Writer out = new StringWriter();
+            t.transform(new StreamSource(new StringReader(xml)), new StreamResult(out));
+            return out.toString();
+        } catch (final TransformerException e) {
+            throw new AssertionError("Error in test code when formatting XML output", e);
+        }
+    }
+
     @Test
     void write() throws DictionaryWriteException {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -58,18 +70,6 @@ final class DictionaryWriterTest {
                     </words>
                 </tns:dictionary>
                 """, formatXml(outputStream.toString()));
-    }
-
-    private static String formatXml(String xml) {
-        try {
-            final Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            final Writer out = new StringWriter();
-            t.transform(new StreamSource(new StringReader(xml)), new StreamResult(out));
-            return out.toString();
-        } catch (final TransformerException e) {
-            throw new AssertionError("Error in test code when formatting XML output", e);
-        }
     }
 
 }
