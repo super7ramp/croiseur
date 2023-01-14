@@ -16,3 +16,8 @@ javafx {
 dependencies {
     api project(':crosswords-gui:crosswords-gui-view-model')
 }
+
+tasks.named('processResources') {
+    // There is no point to include .license files in jar, nobody is going to read them there
+    exclude '**/*.license'
+}
