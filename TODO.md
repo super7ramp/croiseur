@@ -165,8 +165,3 @@ There seems to be some duplicates in Spanish dictionary. Should be harmless but 
 
 - Find a real name for the project. Ideas: `croiseur`, `croiseur-rouge` (because it sounds good), 
   `cr`, `croisette`.
-
-##### License
-
-- Free software but which one?
-- Also, some plugins use third-party code with their own licence, check compatibility 
