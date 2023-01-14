@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## crosswords-solver
 
 This folder gathers two types of modules:

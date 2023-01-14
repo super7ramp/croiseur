@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 <?import com.gitlab.super7ramp.crosswords.gui.view.CrosswordSolverPane?>
 <CrosswordSolverPane xmlns="http://javafx.com/javafx"
                      xmlns:fx="http://javafx.com/fxml"

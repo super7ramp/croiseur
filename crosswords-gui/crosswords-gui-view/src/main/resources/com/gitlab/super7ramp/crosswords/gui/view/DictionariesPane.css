@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 #dictionary-pane-root {
     -fx-background-color: #edf0f4;
     -fx-border-color: lightgray;

@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## crosswords-dictionary-tools
 
 `crosswords-dictionary-tools` is a collection of tools related to dictionary conversion.

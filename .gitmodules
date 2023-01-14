@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [submodule "crosswords-solver/crosswords-solver-paulgb/crossword-composer"]
 	path = crosswords-solver/crosswords-solver-paulgb/crossword-composer
 	url = https://github.com/super7ramp/crossword-composer.git

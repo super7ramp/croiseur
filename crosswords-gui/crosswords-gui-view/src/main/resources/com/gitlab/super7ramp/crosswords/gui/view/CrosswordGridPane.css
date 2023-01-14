@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 /* A cell of the crossword grid; Extends text-field. */
 .crossword-box-text {
     /* Centered serif text. */

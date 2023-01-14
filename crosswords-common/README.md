@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## crosswords-common
 
 `crosswords-common` is a library providing base data types related to the crossword domain. They

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.gitlab.super7ramp.crosswords.cli.presenter;
 
 import com.gitlab.super7ramp.crosswords.cli.l10n.ResourceBundles;

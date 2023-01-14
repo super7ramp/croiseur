@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 use jni::JNIEnv;
 use jni::objects::{AutoArray, JObject, JString, JValue, ReleaseMode};
 use jni::sys::{jchar, jint, jsize};

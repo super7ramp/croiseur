@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import com.gitlab.super7ramp.crosswords.dictionary.txt.plugin.TxtDictionaryProvider;
 import com.gitlab.super7ramp.crosswords.spi.dictionary.DictionaryProvider;
 

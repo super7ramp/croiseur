@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 use jni::JNIEnv;
 use jni::objects::{JObject, JValue};
 use crate::jarray::JArray;

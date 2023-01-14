@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## crosswords-spi
 
 This folder gathers the definitions of the SPIs – _Service Provider Interfaces_, i.e. the plugin

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.example.org/dictionary"
 	xmlns:tns="http://www.example.org/dictionary">

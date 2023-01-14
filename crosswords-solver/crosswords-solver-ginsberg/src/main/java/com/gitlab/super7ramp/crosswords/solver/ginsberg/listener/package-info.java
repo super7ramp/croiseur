@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 /**
  * This package gathers some
  * {@link com.gitlab.super7ramp.crosswords.solver.ginsberg.listener.SolverListener listeners} to be

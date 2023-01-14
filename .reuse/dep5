@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: crosswords
+Upstream-Contact: Antoine Belvire <antoine.belvire@opensuse.org>
+Source: https://gitlab.com/super7ramp/crosswords
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...

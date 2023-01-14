@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## crosswords-dictionary-hunspell-codec
 
 `crosswords-dictionary-hunspell-codec` is a library which allows to read Hunspell dictionaries and 
