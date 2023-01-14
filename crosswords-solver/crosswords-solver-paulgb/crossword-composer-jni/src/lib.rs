@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use std::any::Any;
-use jni::JNIEnv;
 use jni::objects::JObject;
 use jni::sys::jobject;
+use jni::JNIEnv;
+use std::any::Any;
 
 use catch_panic::catch_panic;
 use crossword::solver;
 
 use crate::jdictionary::JDictionary;
-use crate::jpuzzle::JPuzzle;
 use crate::joptional::JOptional;
+use crate::jpuzzle::JPuzzle;
 use crate::jsolution::JSolution;
 
 mod jarray;
@@ -24,8 +24,12 @@ mod jsolution;
 
 #[no_mangle]
 #[catch_panic(default = "std::ptr::null_mut()", handler = "panic_handler")]
-pub extern "system" fn Java_com_gitlab_super7ramp_crosswords_solver_paulgb_Solver_solve<'a>
-(env: JNIEnv<'a>, _java_solver: JObject, java_puzzle: JObject, java_dictionary: JObject) -> jobject {
+pub extern "system" fn Java_com_gitlab_super7ramp_crosswords_solver_paulgb_Solver_solve<'a>(
+    env: JNIEnv<'a>,
+    _java_solver: JObject,
+    java_puzzle: JObject,
+    java_dictionary: JObject,
+) -> jobject {
     let grid = JPuzzle::new(env, java_puzzle).into();
     let dictionary = JDictionary::new(env, java_dictionary).into();
 
@@ -47,6 +51,9 @@ fn panic_handler(env: JNIEnv, err: Box<dyn Any + Send + 'static>) {
             None => "this is a certified `std::panic::panic_any` moment",
         },
     };
-    env.throw_new("com/gitlab/super7ramp/crosswords/solver/paulgb/SolverErrorException", msg)
-        .unwrap();
+    env.throw_new(
+        "com/gitlab/super7ramp/crosswords/solver/paulgb/SolverErrorException",
+        msg,
+    )
+    .unwrap();
 }

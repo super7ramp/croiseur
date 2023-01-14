@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{AutoArray, JObject, JString, JValue, ReleaseMode};
 use jni::sys::{jchar, jint, jsize};
+use jni::JNIEnv;
 
 pub struct JArray<'a> {
     env: JNIEnv<'a>,
@@ -29,20 +29,22 @@ impl<'a> JArray<'a> {
     }
 
     fn length(&self) -> usize {
-        self.env.get_array_length(self.array.into_raw())
+        self.env
+            .get_array_length(self.array.into_raw())
             .expect("Failed to get array length") as usize
     }
 
     fn element(&self, index: usize) -> JObject<'a> {
-        self.env.get_object_array_element(self.array.into_raw(), index as jsize)
+        self.env
+            .get_object_array_element(self.array.into_raw(), index as jsize)
             .expect("Failed to get object array element")
     }
 
     fn int_element(&self, index: usize) -> jint {
-        let int_array: AutoArray<jint> =
-            self.env.get_int_array_elements(self.array.into_raw(),
-                                             ReleaseMode::NoCopyBack)
-                .expect("Failed to get int array element");
+        let int_array: AutoArray<jint> = self
+            .env
+            .get_int_array_elements(self.array.into_raw(), ReleaseMode::NoCopyBack)
+            .expect("Failed to get int array element");
         unsafe { *(int_array.as_ptr().offset(index as isize)) }
     }
 }
@@ -77,7 +79,9 @@ impl<'a> Into<Vec<String>> for JArray<'a> {
         let mut vec = Vec::new();
         for i in 0..self.length() {
             let java_string = JString::from(self.element(i));
-            let java_string_ref = self.env.get_string(java_string)
+            let java_string_ref = self
+                .env
+                .get_string(java_string)
                 .expect("Failed to convert JString to JavaStr");
             let rust_string = java_string_ref.into();
             vec.push(rust_string);
@@ -93,12 +97,14 @@ impl<'a> From<(JNIEnv<'a>, Vec<char>)> for JArray<'a> {
 
         // Convert to string back to a vector just to have the java char = u16 type
         // FIXME why does solver return lower case characters?
-        let pivot_string : String = vec.into_iter().collect::<String>().to_uppercase();
-        let j_chars : Vec<jchar> = pivot_string.encode_utf16().collect();
-        let char_array = jni_env.new_char_array(length)
+        let pivot_string: String = vec.into_iter().collect::<String>().to_uppercase();
+        let j_chars: Vec<jchar> = pivot_string.encode_utf16().collect();
+        let char_array = jni_env
+            .new_char_array(length)
             .expect("Failed to create char array");
 
-        jni_env.set_char_array_region(char_array, 0, j_chars.as_slice())
+        jni_env
+            .set_char_array_region(char_array, 0, j_chars.as_slice())
             .expect("Failed to set char array region");
 
         Self {

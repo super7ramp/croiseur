@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
-use jni::objects::{JObject, JValue};
 use crate::jarray::JArray;
+use jni::objects::{JObject, JValue};
+use jni::JNIEnv;
 
 pub struct JSolution<'a> {
     solution: JObject<'a>,
@@ -13,10 +13,12 @@ pub struct JSolution<'a> {
 
 impl<'a> JSolution<'a> {
     fn new(env: JNIEnv<'a>, solution_arg: JArray<'a>) -> Self {
-        let class = env.find_class("com/gitlab/super7ramp/crosswords/solver/paulgb/Solution")
+        let class = env
+            .find_class("com/gitlab/super7ramp/crosswords/solver/paulgb/Solution")
             .expect("Solution class not found");
         Self {
-            solution: env.new_object(class, "([C)V", &[solution_arg.as_value()])
+            solution: env
+                .new_object(class, "([C)V", &[solution_arg.as_value()])
                 .expect("Failed to create a Solution object"),
         }
     }
