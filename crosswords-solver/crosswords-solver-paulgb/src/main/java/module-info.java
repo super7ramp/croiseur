@@ -8,5 +8,4 @@
  */
 module com.gitlab.super7ramp.crosswords.solver.paulgb {
     exports com.gitlab.super7ramp.crosswords.solver.paulgb;
-    requires java.logging;
 }

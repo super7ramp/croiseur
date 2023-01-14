@@ -17,7 +17,7 @@ import java.util.Optional;
 public final class Solver {
 
     static {
-        NativeLibLoader.loadLibrary("crossword_composer_jni");
+        BundledNativeLibLoader.loadLibrary("crossword_composer_jni");
     }
 
     /**
