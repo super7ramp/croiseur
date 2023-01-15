@@ -23,7 +23,7 @@ dependencies {
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-txt-plugin')
     runtimeOnly project(':crosswords-dictionary:crosswords-dictionary-xml-plugin')
     runtimeOnly project(':crosswords-solver:crosswords-solver-ginsberg-plugin')
-    runtimeOnly project(':crosswords-solver:crosswords-solver-paulgb-plugin')
+    // Don't pull paulgb solver: There is no way to select the solver in GUI for now
     dictionaryPath project(':crosswords-dictionary:crosswords-dictionary-txt-data')
     dictionaryPath project(':crosswords-dictionary:crosswords-dictionary-xml-data')
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
