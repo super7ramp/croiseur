@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.crosswords.spi.dictionary.tools;
+package com.gitlab.super7ramp.crosswords.dictionary.tools;
 
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.HunspellDictionaryReader;
 
