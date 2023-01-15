@@ -37,7 +37,7 @@ import java.nio.file.StandardCopyOption;
 final class BundledNativeLibLoader {
 
     /** The prefix of the temporary directory in which is put the extracted native library. */
-    public static final String NATIVE_FOLDER_PATH_PREFIX = "native";
+    private static final String NATIVE_FOLDER_PATH_PREFIX = "native";
 
     /**
      * The minimum length a prefix for a file has to have according to
