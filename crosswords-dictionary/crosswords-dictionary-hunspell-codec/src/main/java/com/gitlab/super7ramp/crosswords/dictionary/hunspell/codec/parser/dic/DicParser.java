@@ -19,8 +19,8 @@ public final class DicParser {
     /** Pattern for the number of entries at the start of the "*.dic" file. */
     private static final Pattern NUMBER_OF_ENTRIES = Pattern.compile("^[0-9]+$");
 
-    /** Pattern for comments that should be ignored: Lines starting with /. */
-    private static final Pattern COMMENT = Pattern.compile("^/.*$");
+    /** Pattern for comments that should be ignored: Lines starting with / or #. */
+    private static final Pattern COMMENT = Pattern.compile("^[/#].*$");
 
     /** The form of an affix flag, as defined in .aff file. */
     private final FlagType flagType;
@@ -87,9 +87,9 @@ public final class DicParser {
         final DicBuilder builder = new DicBuilder(estimatedNumberOfEntries);
         while (lines.hasNext()) {
             final String line = lines.next();
-            if (!isCommented(line)) {
+            if (!isCommented(line) && !line.isBlank()) {
                 builder.add(DicEntry.valueOf(line, flagType));
-            } // else ignore comment
+            } // else ignore comment or blank lines
         }
         return builder.build();
     }

@@ -22,7 +22,7 @@ public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags)
             "(?<word>[^ /\t]+)" +
             "(/(?<flags>[^ /\t]+))?" +
             "([\t| ]+(?<morphology>.+))?" +
-            " *"); // trailing spaces should not cause parsing failure
+            "[ \t]*$"); // trailing spaces or tabs should not cause parsing failure
 
     /**
      * Parse a {@link DicEntry}.

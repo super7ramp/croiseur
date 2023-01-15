@@ -24,14 +24,32 @@ enum AffItemKind {
     BLANK("^[ ]*$"),
     /** A comment. */
     COMMENT("^#.*$"),
+    /**
+     * Compounding option: Words signed with COMPOUNDBEGIN (or with a signed affix) may be first
+     * elements in compound words.
+     */
+    COMPOUNDING_BEGIN("^COMPOUNDBEGIN [^ ]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK_HEADER("^BREAK [0-9]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK("^BREAK [^ ]+$"),
     /** Compounding option: TODO document. */
+    COMPOUNDING_END("^COMPOUNDEND [^ ]+$"),
+    /**
+     * Compounding option:  Words signed with COMPOUNDMIDDLE (or with a signed affix) may be
+     * middle elements in compound words.
+     */
+    COMPOUNDING_MIDDLE("^COMPOUNDMIDDLE [^ ]+$"),
+    /** Compounding option: TODO document. */
     COMPOUNDING_MIN("^COMPOUNDMIN [0-9]+$"),
     /** Compounding option: TODO document. */
     COMPOUNGING_ONLY_IN("^ONLYINCOMPOUND [^ ]+$"),
+    /**
+     * Compounding option: Prefixes are allowed at the beginning of compounds, suffixes are
+     * allowed at the end of compounds by default. Affixes with COMPOUNDPERMITFLAG may be inside
+     * of compounds.
+     */
+    COMPOUNDPERMITFLAG("^COMPOUNDPERMITFLAG [^ ]+$"),
     /** Compounding option: TODO document. */
     COUMPONDING_RULE("^COMPOUNDRULE [^ ]+$"),
     /** General option: Two-fold prefix stripping. */
@@ -43,6 +61,8 @@ enum AffItemKind {
     GENERAL_FLAG_TYPE("^FLAG (UTF-8|long|num)$"),
     /** General option: Languages specific code. */
     GENERAL_LANG("^LANG [a-z]{2}(_[A-Z]{2})?$"),
+    /** Other option: SS letter pair in uppercased (German) words may be upper case sharp s (ß). */
+    OTHERS_CHECKSHARPS("^CHECKSHARPS$"),
     /** Other option: TODO document, */
     OTHERS_CIRCUMFIX("^CIRCUMFIX [^ ]+$"),
     /** Other option: TODO document, */

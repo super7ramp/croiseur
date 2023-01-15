@@ -76,4 +76,19 @@ final class DicEntryTest {
         assertEquals("Araba", entry.word());
         assertTrue(entry.flags().isEmpty());
     }
+
+    /**
+     * Tests that trailing tab does not cause parsing failure.
+     *
+     * @throws InvalidDicEntryException if parsing fails, should not happen
+     */
+    @Test
+    void parseTrailingTab() throws InvalidDicEntryException {
+        final DicEntry entry = DicEntry.valueOf("Bieterkarte/N\t", FlagType.SINGLE_ASCII);
+
+        assertFalse(entry.isForbidden());
+        assertEquals("Bieterkarte", entry.word());
+        assertEquals(1, entry.flags().size());
+        assertEquals("N", entry.flags().iterator().next().identifier());
+    }
 }
