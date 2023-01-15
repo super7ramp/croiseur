@@ -23,22 +23,22 @@ impl<'a> JPuzzle<'a> {
     }
 }
 
-impl<'a> Into<Grid> for JPuzzle<'a> {
-    fn into(self) -> Grid {
-        let j_array_2d = self
+impl<'a> From<JPuzzle<'a>> for Grid {
+    fn from(val: JPuzzle<'a>) -> Self {
+        let j_array_2d = val
             .env
-            .call_method(self.puzzle, "slots", "()[[I", &[])
+            .call_method(val.puzzle, "slots", "()[[I", &[])
             .expect("Failed to access puzzle slots");
 
         let vec_of_j_array: Vec<JArray> = JArray::new(
-            self.env,
+            val.env,
             j_array_2d.l().expect("Failed to read puzzle slots"),
         )
         .into();
 
         let mut vec_2d: Vec<Vec<usize>> = Vec::new();
         vec_of_j_array.iter().for_each(|entry| {
-            let value = JArray::new(self.env, entry.as_object()).into();
+            let value = JArray::new(val.env, entry.as_object()).into();
             vec_2d.push(value);
         });
 

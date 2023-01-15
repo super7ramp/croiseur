@@ -45,28 +45,28 @@ impl<'a> JArray<'a> {
             .env
             .get_int_array_elements(self.array.into_raw(), ReleaseMode::NoCopyBack)
             .expect("Failed to get int array element");
-        unsafe { *(int_array.as_ptr().offset(index as isize)) }
+        unsafe { *(int_array.as_ptr().add(index)) }
     }
 }
 
-impl<'a> Into<Vec<JArray<'a>>> for JArray<'a> {
-    fn into(self) -> Vec<JArray<'a>> {
+impl<'a> From<JArray<'a>> for Vec<JArray<'a>> {
+    fn from(value: JArray<'a>) -> Self {
         let mut vec = Vec::new();
-        for i in 0..self.length() {
-            let object = self.element(i);
-            let object_array = JArray::new(self.env, object);
+        for i in 0..value.length() {
+            let object = value.element(i);
+            let object_array = JArray::new(value.env, object);
             vec.push(object_array);
         }
         vec
     }
 }
 
-impl<'a> Into<Vec<usize>> for JArray<'a> {
-    fn into(self) -> Vec<usize> {
+impl<'a> From<JArray<'a>> for Vec<usize> {
+    fn from(value: JArray<'a>) -> Self {
         let mut vec = Vec::new();
         // FIXME self.int_element do a jni call each time, there must be a better way to do that
-        for i in 0..self.length() {
-            let j_int = self.int_element(i);
+        for i in 0..value.length() {
+            let j_int = value.int_element(i);
             let r_int = j_int as usize;
             vec.push(r_int);
         }
@@ -74,12 +74,12 @@ impl<'a> Into<Vec<usize>> for JArray<'a> {
     }
 }
 
-impl<'a> Into<Vec<String>> for JArray<'a> {
-    fn into(self) -> Vec<String> {
+impl<'a> From<JArray<'a>> for Vec<String> {
+    fn from(value: JArray<'a>) -> Self {
         let mut vec = Vec::new();
-        for i in 0..self.length() {
-            let java_string = JString::from(self.element(i));
-            let java_string_ref = self
+        for i in 0..value.length() {
+            let java_string = JString::from(value.element(i));
+            let java_string_ref = value
                 .env
                 .get_string(java_string)
                 .expect("Failed to convert JString to JavaStr");

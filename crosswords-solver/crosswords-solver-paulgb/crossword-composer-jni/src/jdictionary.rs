@@ -22,14 +22,14 @@ impl<'a> JDictionary<'a> {
     }
 }
 
-impl<'a> Into<Vec<String>> for JDictionary<'a> {
-    fn into(self) -> Vec<String> {
-        let j_string = self
+impl<'a> From<JDictionary<'a>> for Vec<String> {
+    fn from(val: JDictionary<'a>) -> Self {
+        let j_string = val
             .env
-            .call_method(self.dic, "words", "()[Ljava/lang/String;", &[])
+            .call_method(val.dic, "words", "()[Ljava/lang/String;", &[])
             .expect("Failed to access dictionary words");
         JArray::new(
-            self.env,
+            val.env,
             j_string
                 .l()
                 .expect("Failed to unwrap dictionary into a JObject"),
@@ -38,9 +38,9 @@ impl<'a> Into<Vec<String>> for JDictionary<'a> {
     }
 }
 
-impl<'a> Into<Dictionary> for JDictionary<'a> {
-    fn into(self) -> Dictionary {
-        let words = self.into();
+impl<'a> From<JDictionary<'a>> for Dictionary {
+    fn from(val: JDictionary<'a>) -> Self {
+        let words = val.into();
         Dictionary::from_vec(words)
     }
 }
