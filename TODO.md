@@ -34,9 +34,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - All Hunspell dictionaries available.
 - Create gradle task to automate call to tool to convert Hunspell format to XML format.
 
-#### Support UTF8 (solver, dictionary)
+#### Support characters beyond U+FFFF (solver, dictionary)
 
-- Don't think it's necessary for French, it might be useful for other languages
+> (Currently solver assumes that the content of the box can be represented as a single char, i.e. 
+> a 16bit value, i.e. a character belonging to `[U+0000, U+FFFF]`. Supplementary characters need 2 
+> chars. That's UTF-16.)
+
+- Look for the languages for which it might be useful
 
 #### Support output formatter as plugins
 
@@ -140,11 +144,6 @@ There seems to be some duplicates in Spanish dictionary. Should be harmless but 
 - Look for them.
 - There is an XML format that is called XDXF which looks interesting but couldn't find a simple
   organised list of dictionaries for them.
-
-##### Common
-
-- Rationalize filtering: Should only ASCII character be taken into account? No accent? See also
-  point on UTF8 support.
 
 #### Others
 
