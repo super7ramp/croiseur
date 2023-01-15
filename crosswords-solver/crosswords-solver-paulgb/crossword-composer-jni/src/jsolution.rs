@@ -7,7 +7,9 @@ use crate::jarray::JArray;
 use jni::objects::{JObject, JValue};
 use jni::JNIEnv;
 
+/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Solution` Java object.
 pub struct JSolution<'a> {
+    /// The wrapped `Solution` Java object
     solution: JObject<'a>,
 }
 

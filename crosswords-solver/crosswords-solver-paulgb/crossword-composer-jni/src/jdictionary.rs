@@ -8,8 +8,11 @@ use crossword::dictionary::Dictionary;
 use jni::objects::JObject;
 use jni::JNIEnv;
 
+/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary` Java object.
 pub struct JDictionary<'a> {
+    /// The [JNI environment](JNIEnv).
     env: JNIEnv<'a>,
+    /// The wrapped `Dictionary` Java object.
     dic: JObject<'a>,
 }
 

@@ -7,8 +7,11 @@ use jni::objects::{AutoArray, JObject, JString, JValue, ReleaseMode};
 use jni::sys::{jchar, jint, jsize};
 use jni::JNIEnv;
 
+/// Wrapper for a Java array.
 pub struct JArray<'a> {
+    /// The [JNI environment](JNIEnv).
     env: JNIEnv<'a>,
+    /// The wrapped Java array.
     array: JObject<'a>,
 }
 

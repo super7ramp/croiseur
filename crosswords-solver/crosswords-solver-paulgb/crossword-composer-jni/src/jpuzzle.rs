@@ -9,8 +9,11 @@ use jni::JNIEnv;
 use crate::jarray::JArray;
 use crossword::grid::Grid;
 
+/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Puzzle` Java object.
 pub struct JPuzzle<'a> {
+    /// The [JNI environment](JNIEnv).
     env: JNIEnv<'a>,
+    /// The wrapped `Puzzle` Java object.
     puzzle: JObject<'a>,
 }
 

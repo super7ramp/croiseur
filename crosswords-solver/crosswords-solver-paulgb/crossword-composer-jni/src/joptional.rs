@@ -6,7 +6,9 @@
 use jni::objects::{JObject, JValue};
 use jni::JNIEnv;
 
+/// Wrapper for Java `Optional`.
 pub struct JOptional<'a> {
+    /// The wrapped `Optional` Java object
     val: JObject<'a>,
 }
 
