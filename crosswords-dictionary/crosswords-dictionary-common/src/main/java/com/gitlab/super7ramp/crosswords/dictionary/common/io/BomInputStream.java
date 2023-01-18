@@ -20,8 +20,23 @@ import java.util.Arrays;
  */
 public final class BomInputStream extends FilterInputStream {
 
+    /** A UTF-7 BOM. */
+    private static final byte[] UTF7_BOM = new byte[]{0x2B, 0x2F, 0x76, 0x38, 0x2D};
+
     /** A UTF-8 BOM. */
     private static final byte[] UTF8_BOM = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
+
+    /** A UTF-16 (little endian) BOM. */
+    private static final byte[] UTF_16_LE_BOM = new byte[]{(byte) 0xFF, (byte) 0xFE};
+
+    /** A UTF-16 (big endian) BOM. */
+    private static final byte[] UTF_16_BE_BOM = new byte[]{(byte) 0xFE, (byte) 0xFF};
+
+    /** A UTF-32 (little endian) BOM. */
+    private static final byte[] UTF_32_LE = new byte[]{(byte) 0xFF, (byte) 0xFE, 0x00, 0x00};
+
+    /** A UTF-32 (big endian) BOM. */
+    private static final byte[] UTF_32_BE = new byte[]{0x00, 0x00, (byte) 0xFE, (byte) 0xFF};
 
     /**
      * Creates a {@code BomInputStream} from the given {@link InputStream}.
@@ -37,5 +52,6 @@ public final class BomInputStream extends FilterInputStream {
             // Not a UTF-8 BOM, let's reset read cursor to start of stream
             in.reset();
         }
+        // TODO other BOMs
     }
 }
