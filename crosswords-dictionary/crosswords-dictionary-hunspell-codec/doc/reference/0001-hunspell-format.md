@@ -98,6 +98,14 @@ Example:
 
     SET UTF-8
 
+> Encoding is not correctly supported by crosswords-hunspell-plugin: It assumes the files are
+> UTF-8 and sticks with it. It should eventually:
+> 1. Opens the .aff file in UTF-8
+> 2. Look for the SET options in the first 50 lines (check supported encodings to see what the 
+     > different values of SET gives in the different encoding, hopefully they will be the same)
+> 3. Reopens the file with the right encoding set and continue (and when it comes to the dic 
+     > file, open the file with the same encoding)
+
 ##### FLAG value
 
 Set flag type. Default type is the extended ASCII (8-bit) character. `UTF-8` parameter sets

@@ -128,12 +128,7 @@ solutions after unassignment is > 0). See Ginsberg papers.
   we wouldn't need all features for crosswords
   - Check (again) if that exists or if someone is working on it or is planning to work on it
   - Assess original Hunspell library and if it is worth trying to work with it using JNI
-- Alternatively: Progressively improve the current library.
-  - Currently, only French "works" (at least it doesn't fail on read)
-  - Try to fix English
-  - Then continue with e.g. Spanish or German or Italian
-  - Then maybe it's time to take a step back and make a plan about what should be done to have a
-    decent library (at least for our context, i.e. just expanding all forms of the dictionary)
+  - Alternatively: Create a dedicated project 
 
 ##### XML
 
@@ -154,6 +149,7 @@ There seems to be some duplicates in Spanish dictionary. Should be harmless but 
 - Some deployment ideas:
   - Native deployment
 - Create Linux packages (RPM/DEB).
+- Take a look at jpackage.
 
 ##### READMEs/Documentation
 
