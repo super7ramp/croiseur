@@ -12,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests for {@link AffixHeader}.
+ * Tests for {@link AffixClassHeader}.
  */
-final class AffixHeaderTest {
+final class AffixClassHeaderTest {
 
     @Test
     void validAffixHeader() {
         final String header = "SFX a0 Y 102";
 
-        final AffixHeader parsedHeader = AffixHeader.valueOf(header);
+        final AffixClassHeader parsedHeader = AffixClassHeader.valueOf(header);
 
         assertEquals(AffixKind.SFX, parsedHeader.kind());
         assertEquals("a0", parsedHeader.flag().identifier());
@@ -32,6 +32,6 @@ final class AffixHeaderTest {
     void invalidAffixHeader() {
         final String header = "XFX a0 Y 102";
 
-        assertThrows(IllegalArgumentException.class, () -> AffixHeader.valueOf(header));
+        assertThrows(IllegalArgumentException.class, () -> AffixClassHeader.valueOf(header));
     }
 }

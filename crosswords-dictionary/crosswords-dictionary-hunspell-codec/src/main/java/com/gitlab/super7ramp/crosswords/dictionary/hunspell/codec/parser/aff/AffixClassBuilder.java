@@ -9,41 +9,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Builds an {@link Affix}.
+ * Builds an {@link AffixClass}.
  */
-final class AffixBuilder {
+final class AffixClassBuilder {
 
     /** The affix rules. */
     private final List<AffixRule> rules;
 
     /** The affix header. */
-    private AffixHeader header;
+    private AffixClassHeader header;
 
     /**
      * Constructor.
      */
-    AffixBuilder() {
+    AffixClassBuilder() {
         rules = new ArrayList<>();
     }
 
     /**
-     * Adds an {@link AffixHeader} to this builder.
+     * Adds an {@link AffixClassHeader} to this builder.
      *
      * @param anHeader the header to add
      * @return this builder
      */
-    AffixBuilder addHeader(final AffixHeader anHeader) {
+    AffixClassBuilder addHeader(final AffixClassHeader anHeader) {
         header = anHeader;
         return this;
     }
 
     /**
-     * Adds an {@link AffixRule} to this {@link AffixBuilder}.
+     * Adds an {@link AffixRule} to this {@link AffixClassBuilder}.
      *
      * @param rule the rule to add
      * @return this builder
      */
-    AffixBuilder addRule(final AffixRule rule) {
+    AffixClassBuilder addRule(final AffixRule rule) {
         rules.add(rule);
         return this;
     }
@@ -51,11 +51,11 @@ final class AffixBuilder {
     /**
      * Builds the affix.
      *
-     * @return an {@link Affix}
+     * @return an {@link AffixClass}
      * @throws MissingAffixNameException if a semantic definition of the affix has problems
      * @throws InconsistentNumberOfRules if a semantic definition of the affix has problems
      */
-    Affix build() throws MissingAffixNameException, InconsistentNumberOfRules {
+    AffixClass build() throws MissingAffixNameException, InconsistentNumberOfRules {
         if (header == null) {
             throw new MissingAffixNameException();
         }
@@ -64,6 +64,6 @@ final class AffixBuilder {
             throw new InconsistentNumberOfRules();
         }
 
-        return new Affix(header, rules);
+        return new AffixClass(header, rules);
     }
 }

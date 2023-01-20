@@ -20,7 +20,7 @@ import java.util.Map;
 final class AffBuilder {
 
     /** Affix builders, access by name of the affix. */
-    private final Map<Flag, AffixBuilder> affixBuilders;
+    private final Map<Flag, AffixClassBuilder> affixClassBuilders;
 
     /** Flag type. */
     private FlagType flagType;
@@ -29,18 +29,18 @@ final class AffBuilder {
      * Constructor.
      */
     AffBuilder() {
-        affixBuilders = new HashMap<>();
+        affixClassBuilders = new HashMap<>();
         flagType = FlagType.SINGLE_ASCII;
     }
 
     /**
-     * Add an {@link AffixHeader} to this builder
+     * Add an {@link AffixClassHeader} to this builder
      *
-     * @param affixHeader the affix header
+     * @param affixClassHeader the affix header
      * @return this builder
      */
-    AffBuilder addAffixHeader(final AffixHeader affixHeader) {
-        affixBuilder(affixHeader.flag()).addHeader(affixHeader);
+    AffBuilder addAffixClassHeader(final AffixClassHeader affixClassHeader) {
+        affixClassBuilder(affixClassHeader.flag()).addHeader(affixClassHeader);
         return this;
     }
 
@@ -62,7 +62,7 @@ final class AffBuilder {
      * @return this {@link AffBuilder}
      */
     AffBuilder addAffixRule(final AffixRule affixRule) {
-        affixBuilder(affixRule.flag()).addRule(affixRule);
+        affixClassBuilder(affixRule.flag()).addRule(affixRule);
         return this;
     }
 
@@ -73,21 +73,36 @@ final class AffBuilder {
      * @throws ParserException if the parsed ".aff" presents a semantic error
      */
     Aff build() throws ParserException {
-        final List<Affix> affixes = new ArrayList<>();
-        for (final AffixBuilder affixBuilder : affixBuilders.values()) {
-            affixes.add(affixBuilder.build());
+        final List<AffixClass> affixClasses = new ArrayList<>();
+        for (final AffixClassBuilder affixClassBuilder : affixClassBuilders.values()) {
+            affixClasses.add(affixClassBuilder.build());
         }
-        return new Aff(flagType, affixes);
+        return new Aff(flagType, affixClasses);
     }
 
     /**
-     * Return the {@link AffixBuilder} associated to given affix name; Create it if necessary.
+     * Returns the flag type.
+     * <p>
+     * Flag type is an information provided by the Aff file but is actually necessary to correctly
+     * parses some options of the Aff file.
+     * <p>
+     * Assuming the flag type is always put at the beginning of the document and parsed first,
+     * this getter allows the following parsers to know the flag type to use.
+     *
+     * @return the flag type
+     */
+    FlagType flagType() {
+        return flagType;
+    }
+
+    /**
+     * Return the {@link AffixClassBuilder} associated to given affix name; Create it if necessary.
      *
      * @param affixName the affix name
-     * @return the associated {@link AffixBuilder}
+     * @return the associated {@link AffixClassBuilder}
      */
-    private AffixBuilder affixBuilder(final Flag affixName) {
-        return affixBuilders.computeIfAbsent(affixName, name -> new AffixBuilder());
+    private AffixClassBuilder affixClassBuilder(final Flag affixName) {
+        return affixClassBuilders.computeIfAbsent(affixName, name -> new AffixClassBuilder());
     }
 
 }

@@ -17,6 +17,14 @@ public enum FlagType {
     /** Affix name is composed of a number between 1 and 65000. */
     NUMERICAL,
     /** Affix name is a UTF-8 character. */
-    UTF_8
+    UTF_8;
 
+    /**
+     * Returns the default flag type.
+     *
+     * @return the default flag type
+     */
+    public static FlagType byDefault() {
+        return SINGLE_ASCII;
+    }
 }

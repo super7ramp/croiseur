@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Affix;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixClass;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixRule;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
@@ -14,6 +14,7 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -33,12 +34,12 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     /** The parsed dictionary file. */
     private final Dic dic;
 
-    /** Affixes indexed by name to avoid looping the affix list all the time. */
-    private final Map<Flag, Affix> affixes;
+    /** Affix classes indexed by name to avoid looping the affix class list all the time. */
+    private final Map<Flag, AffixClass> affixClasses;
 
     /**
-     * Affix applicators indexed by affix rule to avoid re-creating the same applicator over and
-     * over.
+     * Affix rule applicators indexed by affix rule to avoid re-creating the same applicator over
+     * and over.
      */
     private final Map<AffixRule, AffixApplicator> affixApplicators;
 
@@ -49,9 +50,9 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
      * @param aDic  the parsed dictionary file
      */
     WordFormGeneratorImpl(final Aff anAff, final Dic aDic) {
-        affixes = new HashMap<>();
-        for (final Affix affix : anAff.affixes()) {
-            affixes.put(affix.header().flag(), affix);
+        affixClasses = new HashMap<>();
+        for (final AffixClass affixClass : anAff.affixClasses()) {
+            affixClasses.put(affixClass.header().flag(), affixClass);
         }
         affixApplicators = new HashMap<>();
         dic = aDic;
@@ -70,41 +71,45 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
 
     // TODO simplify/split
     private void applyAffixes(final DicEntry entry, final Consumer<String> accumulator) {
-        final String baseWord = entry.word();
-
         for (final Flag flag : entry.flags()) {
-            final Affix affix = affixes.get(flag);
-            if (affix != null) {
-                for (final AffixRule affixRule : affix.rules()) {
-
-                    final Optional<String> optStemWithAffix = applyAffix(affixRule, baseWord);
-
-                    if (optStemWithAffix.isPresent()) {
-                        final String stemWithAffix = optStemWithAffix.get();
-                        accumulator.accept(stemWithAffix);
-
-                        if (affix.header().crossProduct()) {
-                            entry.flags()
-                                 .stream()
-                                 .map(affixes::get)
-                                 .mapMulti((BiConsumer<Affix, Consumer<AffixRule>>) (crossProductAffix, crossProductRules) -> {
-                                     if (crossProductAffix != null) {
-                                         crossProductAffix.rules()
-                                                          .forEach(crossProductRules::accept);
-                                     } else {
-                                         // flag refers to another option than PFX/SFX
-                                     }
-                                 })
-                                 .filter(rule -> rule.kind() != affixRule.kind())
-                                 .map(rule -> applyAffix(rule, stemWithAffix))
-                                 .filter(Optional::isPresent)
-                                 .limit(2)
-                                 .forEach(result -> accumulator.accept(result.get()));
-                        }
-                    }
-                }
+            final AffixClass affixClass = affixClasses.get(flag);
+            if (affixClass != null) {
+                applyAffixRules(entry, accumulator, affixClass);
             } else {
                 LOGGER.warning(() -> "Unknown flag: " + flag + ", ignoring.");
+            }
+        }
+    }
+
+    private void applyAffixRules(final DicEntry entry, final Consumer<String> accumulator,
+                                 final AffixClass affixClass) {
+        for (final AffixRule affixRule : affixClass.rules()) {
+
+            final Optional<String> optAffixedForm = applyAffix(affixRule, entry.word());
+
+            if (optAffixedForm.isPresent()) {
+                final String affixedForm = optAffixedForm.get();
+                accumulator.accept(affixedForm);
+
+                if (affixClass.header().crossProduct()) {
+                    entry.flags()
+                         .stream()
+                         .map(affixClasses::get)
+                         .filter(Objects::nonNull)  // flag may refer to another option than PFX/SFX
+                         .flatMap(crossProductClass -> crossProductClass.rules().stream())
+                         .filter(rule -> rule.kind() != affixRule.kind())
+                         .flatMap(rule -> applyAffix(rule, affixedForm).stream())
+                         .limit(2)
+                         .forEach(accumulator);
+                }
+
+                affixRule.continuationClasses()
+                         .stream()
+                         .map(affixClasses::get)
+                         .filter(Objects::nonNull)  // flag may refer to another option than PFX/SFX
+                         .flatMap(continuationClass -> continuationClass.rules().stream())
+                         .flatMap(rule -> applyAffix(rule, affixedForm).stream())
+                         .forEach(accumulator);
             }
         }
     }

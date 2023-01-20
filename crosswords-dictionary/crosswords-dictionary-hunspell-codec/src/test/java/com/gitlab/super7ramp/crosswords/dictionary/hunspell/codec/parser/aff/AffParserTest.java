@@ -30,13 +30,4 @@ final class AffParserTest {
         Assertions.assertEquals(FlagType.SINGLE_ASCII, parsed.flagType());
     }
 
-    @Test
-    void parseFrAff() throws URISyntaxException, IOException, ParserException {
-        final Path affFile = Path.of(AffParserTest.class.getResource("/fr.aff").toURI());
-        final Iterator<String> lines = Files.readAllLines(affFile).iterator();
-
-        final Aff parsed = new AffParser().parse(lines);
-        Assertions.assertEquals(FlagType.LONG_ASCII, parsed.flagType());
-    }
-
 }

@@ -30,23 +30,34 @@ public final class AffParser {
          * @param model the model to modify
          * @param event the string to parse
          */
-        default void parse(AffBuilder model, String event) {
+        default void parse(final AffBuilder model, final String event) {
             accept(model, event);
         }
     }
 
     /** Parser per kind of item. */
-    private static final Map<AffItemKind, Parser> PARSERS = parsers();
+    private static final Map<AffItemKind, Parser> PARSERS;
+
+    static {
+        PARSERS = new EnumMap<>(AffItemKind.class);
+        PARSERS.put(AffItemKind.AFFIX_HEADER,
+                (builder, line) -> builder.addAffixClassHeader(AffixClassHeader.valueOf(line)));
+        PARSERS.put(AffItemKind.AFFIX_RULE,
+                (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line,
+                        builder.flagType())));
+        PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE,
+                (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
+    }
 
     /**
-     * Constructor.
+     * Constructs an instance.
      */
     public AffParser() {
         // Nothing to do.
     }
 
     /**
-     * Get the appropriate parser.
+     * Gets the appropriate parser.
      *
      * @param affItemKind item kind
      * @return the parser suited for given item kind
@@ -55,19 +66,8 @@ public final class AffParser {
         return PARSERS.computeIfAbsent(affItemKind, kind -> Parser.DUMMY);
     }
 
-    private static Map<AffItemKind, Parser> parsers() {
-        final EnumMap<AffItemKind, Parser> map = new EnumMap<>(AffItemKind.class);
-        map.put(AffItemKind.AFFIX_HEADER,
-                (builder, line) -> builder.addAffixHeader(AffixHeader.valueOf(line)));
-        map.put(AffItemKind.AFFIX_RULE,
-                (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line)));
-        map.put(AffItemKind.GENERAL_FLAG_TYPE,
-                (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
-        return map;
-    }
-
     /**
-     * Parse an ".aff" file lines.
+     * Parses an ".aff" file lines.
      *
      * @param lines iterator on the lines of the file
      * @return an {@link Aff}
