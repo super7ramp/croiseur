@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 ## crosswords-spi
 
 This folder gathers the definitions of the SPIs – _Service Provider Interfaces_, i.e. the plugin
-interfaces – used by the core `crosswords` library. These are:
+interfaces – used by the core [`crosswords`](../crosswords/README.md) library. These are:
 
 * [`crosswords-spi-dictionary`](crosswords-spi-dictionary): The definition of a dictionary
   provider.

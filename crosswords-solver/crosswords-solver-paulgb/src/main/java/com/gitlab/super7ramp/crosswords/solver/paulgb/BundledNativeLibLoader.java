@@ -22,14 +22,15 @@ import java.nio.file.StandardCopyOption;
  * <a href="https://github.com/adamheinrich/native-utils/blob/master/src/main/java/cz/adamh/utils/NativeUtils.java">
  * Adam Heinrich's NativeUtils</a>: BundledNativeLibLoader is basically a
  * simplification/appropriation attempt of NativeUtils.
- * @see <a href="https://github.com/openjdk/jfx/blob/jfx17/modules/javafx.graphics/src/main/java/com/sun/glass/utils/NativeLibLoader.java">JavaFX's
+ * @see
+ * <a href="https://github.com/openjdk/jfx/blob/jfx17/modules/javafx.graphics/src/main/java/com/sun/glass/utils/NativeLibLoader.java">JavaFX's
  * NativeLibLoader</a>: JavaFX version, more complete but more complex and with an uncompatible
  * licence. Additional features:
  * <ul>
  *     <li>Looks for native library in potentially different caller jar (class is public and can
  *     be called by other modules)</li>
- *     <li>Checks for already extracted native library before trying to unbundle it; Some
- *     machinery to compute and compare file checksums to determine if extraction is needed;
+ *     <li>Checks for already extracted native library before trying to unbundle it; Computes and
+ *     compares file checksums to determine if extraction is needed;
  *     <li>Falls back to System.loadLibrary if no native library found in the jar;
  *     <li>Keeps the native libary extracted from jar inside temporary folder after VM shutdown.
  * </ul>

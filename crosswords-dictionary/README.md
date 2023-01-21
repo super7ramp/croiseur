@@ -36,23 +36,24 @@ Example: `crosswords-dictionary-xml-codec`.
 
 ### Dictionary plugins
 
-These modules are special libraries implementing the crosswords dictionary provider interfaces 
-defined in `crosswords-dictionary-spi` and thus usable by the `crosswords` library.
+These modules are libraries implementing the crosswords dictionary provider interfaces defined
+in [`crosswords-dictionary-spi`](../crosswords-spi/crosswords-spi-dictionary) and
+thus usable by the [`crosswords`](../crosswords/README.md) library.
 
-They are named using the following scheme: 
+They are named using the following scheme:
 `crosswords-dictionary-provider-<dictionary_or_format_name>-plugin`.
 
 Example: `crosswords-dictionary-xml-plugin`.
 
 Typically, these modules:
 
-* Retrieve the dictionary data - location information may be hard-coded in the plugin or read from 
+* Retrieve the dictionary data - location information may be hard-coded in the plugin or read from
   a configuration file;
 * Decode these data using codecs;
-* Expose the decoded data via the `crosswords-dictionary-spi` interface.
+* Expose the decoded data via the `crosswords-spi-dictionary` interface.
 
-## Dictionary tools
+### Dictionary tools
 
 These are tools to manipulate dictionaries.
 
-They are grouped in the single `crosswords-dictionary-tools` module.
+They are grouped in the single [`crosswords-dictionary-tools`](crosswords-dictionary-tools) module.
