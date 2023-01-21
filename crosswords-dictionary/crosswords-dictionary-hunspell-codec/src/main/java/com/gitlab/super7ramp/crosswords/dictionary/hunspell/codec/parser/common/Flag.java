@@ -31,7 +31,7 @@ public record Flag(String identifier) {
      * @param flagType the flag type
      * @return the flags as string
      */
-    public static Collection<Flag> split(final String flags, FlagType flagType) {
+    public static Collection<Flag> split(final String flags, final FlagType flagType) {
         if (flags == null) {
             return Collections.emptyList();
         }

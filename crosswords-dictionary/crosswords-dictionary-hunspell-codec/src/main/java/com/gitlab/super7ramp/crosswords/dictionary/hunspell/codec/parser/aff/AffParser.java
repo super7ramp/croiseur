@@ -45,6 +45,8 @@ public final class AffParser {
         PARSERS.put(AffItemKind.AFFIX_RULE,
                 (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line,
                         builder.flagType())));
+        PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDFLAG,
+                (builder, line) -> builder.setCompoundFlag(CompoundFlag.valueOf(line)));
         PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE,
                 (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
     }

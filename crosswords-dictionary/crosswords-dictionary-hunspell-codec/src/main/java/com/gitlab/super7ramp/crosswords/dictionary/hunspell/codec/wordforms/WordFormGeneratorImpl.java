@@ -11,15 +11,19 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.DicEntry;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.util.MoreCollections;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Pure Java implementation of {@link WordFormGenerator}.
@@ -43,6 +47,9 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
      */
     private final Map<AffixRule, AffixApplicator> affixApplicators;
 
+    /** The compound flag, if any. */
+    private final Optional<Flag> optCompoundFlag;
+
     /**
      * Constructor.
      *
@@ -55,14 +62,34 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
             affixClasses.put(affixClass.header().flag(), affixClass);
         }
         affixApplicators = new HashMap<>();
+        optCompoundFlag = anAff.compoundFlag();
         dic = aDic;
     }
 
     @Override
     public Stream<String> generate() {
-        return dic.entries()
-                  .stream()
-                  .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
+        final Stream<String> affixed = dic.entries()
+                                          .stream()
+                                          .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
+
+        final Stream<String> compounded;
+        if (optCompoundFlag.isPresent()) {
+            final Flag compoundFlag = optCompoundFlag.get();
+            final Set<DicEntry> compoundable =
+                    dic.entries()
+                       .stream()
+                       .filter(entry -> entry.flags().contains(compoundFlag))
+                       .collect(toSet());
+            compounded =
+                    MoreCollections.pairs(compoundable).stream().mapMulti((pair, consumer) -> {
+                        consumer.accept(pair.left().word() + pair.right().word());
+                        consumer.accept(pair.right().word() + pair.left().word());
+                    });
+        } else {
+            compounded = Stream.empty();
+        }
+
+        return Stream.concat(affixed, compounded);
     }
 
     private BiConsumer<DicEntry, Consumer<String>> applyAffixes() {
@@ -75,8 +102,6 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
             final AffixClass affixClass = affixClasses.get(flag);
             if (affixClass != null) {
                 applyAffixRules(entry, accumulator, affixClass);
-            } else {
-                LOGGER.warning(() -> "Unknown flag: " + flag + ", ignoring.");
             }
         }
     }

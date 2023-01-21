@@ -13,20 +13,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * {@link Aff} builder.
  */
 final class AffBuilder {
 
-    /** Affix builders, access by name of the affix. */
+    /** Affix class builders, access by flag identifying the affix class. */
     private final Map<Flag, AffixClassBuilder> affixClassBuilders;
 
     /** Flag type. */
     private FlagType flagType;
 
+    /** The compound flag, if any, {@code null} otherwise. */
+    private Flag compoundFlag;
+
     /**
-     * Constructor.
+     * Constructs an instance.
      */
     AffBuilder() {
         affixClassBuilders = new HashMap<>();
@@ -59,10 +63,21 @@ final class AffBuilder {
      * Add an {@link AffixRule} to the model under construction.
      *
      * @param affixRule the affix rule
-     * @return this {@link AffBuilder}
+     * @return this builder
      */
     AffBuilder addAffixRule(final AffixRule affixRule) {
         affixClassBuilder(affixRule.flag()).addRule(affixRule);
+        return this;
+    }
+
+    /**
+     * Sets the compound flag.
+     *
+     * @param compoundFlagArg the parsed coumpound flag
+     * @return this builder
+     */
+    AffBuilder setCompoundFlag(final Flag compoundFlagArg) {
+        compoundFlag = compoundFlagArg;
         return this;
     }
 
@@ -77,7 +92,7 @@ final class AffBuilder {
         for (final AffixClassBuilder affixClassBuilder : affixClassBuilders.values()) {
             affixClasses.add(affixClassBuilder.build());
         }
-        return new Aff(flagType, affixClasses);
+        return new Aff(flagType, affixClasses, Optional.ofNullable(compoundFlag));
     }
 
     /**

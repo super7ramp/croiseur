@@ -33,6 +33,9 @@ enum AffItemKind {
     COMPOUNDING_BREAK_HEADER("^BREAK [0-9]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK("^BREAK [^ ]+$"),
+    /** Compounding option: Words signed with COMPOUNDFLAG may be in compound words (except when
+     * word shorter than COMPOUNDMIN). */
+    COMPOUNDING_COMPOUNDFLAG("^COMPOUNDFLAG [^ ]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_END("^COMPOUNDEND [^ ]+$"),
     /**
