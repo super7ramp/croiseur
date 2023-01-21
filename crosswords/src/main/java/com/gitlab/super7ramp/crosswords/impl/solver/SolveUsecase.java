@@ -123,12 +123,15 @@ final class SolveUsecase {
      */
     private Optional<CrosswordSolver> selectSolver(final SolveRequest request) {
         final Optional<String> specifiedSolver = request.solver();
-        if (specifiedSolver.isEmpty()) {
-            // hasNext() unnecessary as constructor verifies that a list one solver exists
+        final Optional<CrosswordSolver> selectedSolver;
+        if (specifiedSolver.isPresent()) {
+            selectedSolver = Optional.ofNullable(solvers.get(specifiedSolver.get()));
+        } else {
+            // hasNext() unnecessary as constructor verifies that at least one solver exists
             final CrosswordSolver defaultSolver = solvers.values().iterator().next();
-            return Optional.of(defaultSolver);
+            selectedSolver = Optional.of(defaultSolver);
         }
-        return Optional.ofNullable(solvers.get(specifiedSolver.get()));
+        return selectedSolver;
     }
 
 }
