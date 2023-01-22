@@ -52,7 +52,7 @@ public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags)
 
         final boolean isForbidden = matcher.group("forbidden") != null;
         final String word = matcher.group("word");
-        final Collection<Flag> flags = Flag.split(matcher.group("flags"), flagType);
+        final Collection<Flag> flags = flagType.split(matcher.group("flags"));
 
         return new DicEntry(isForbidden, word, flags);
     }

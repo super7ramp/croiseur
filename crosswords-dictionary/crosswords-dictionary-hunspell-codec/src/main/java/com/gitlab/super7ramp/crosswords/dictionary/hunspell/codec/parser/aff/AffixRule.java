@@ -75,8 +75,25 @@ public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCha
     private static Collection<Flag> parseContinuationClasses(final Matcher matcher,
                                                              final FlagType flagType) {
         return Optional.ofNullable(matcher.group("continuationClasses"))
-                       .map(flags -> Flag.split(flags, flagType))
+                       .map(flagType::split)
                        .orElseGet(Collections::emptyList);
     }
 
+    /**
+     * Returns whether this rule is a suffix rule.
+     *
+     * @return {@code true} iff this rule is a suffix rule
+     */
+    public boolean isSuffix() {
+        return kind.isSuffix();
+    }
+
+    /**
+     * Returns whether this rule is a prefix rule.
+     *
+     * @return {@code true} iff this rule is a prefix rule
+     */
+    public boolean isPrefix() {
+        return kind.isPrefix();
+    }
 }
