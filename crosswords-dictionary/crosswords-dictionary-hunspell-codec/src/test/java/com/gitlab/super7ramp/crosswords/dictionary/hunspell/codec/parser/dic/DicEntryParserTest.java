@@ -5,7 +5,8 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-final class DicEntryTest {
+final class DicEntryParserTest {
 
     @Test
     void parseHello() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("hello");
+        final DicEntry entry = DicEntryParser.parse("hello");
 
         assertFalse(entry.isForbidden());
         assertEquals("hello", entry.word());
@@ -28,7 +29,7 @@ final class DicEntryTest {
 
     @Test
     void parseForbiddenHello() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("*hello");
+        final DicEntry entry = DicEntryParser.parse("*hello");
 
         assertTrue(entry.isForbidden());
         assertEquals("hello", entry.word());
@@ -37,7 +38,7 @@ final class DicEntryTest {
 
     @Test
     void parseHelloWithFlags() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("hello/ABC");
+        final DicEntry entry = DicEntryParser.parse("hello/ABC");
 
         assertFalse(entry.isForbidden());
         assertEquals("hello", entry.word());
@@ -46,7 +47,7 @@ final class DicEntryTest {
 
     @Test
     void parseHelloWithLongFlags() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("hello/AaBbCc", FlagType.LONG_ASCII);
+        final DicEntry entry = DicEntryParser.parse("hello/AaBbCc", FlagType.LONG_ASCII);
 
         assertFalse(entry.isForbidden());
         assertEquals("hello", entry.word());
@@ -55,7 +56,7 @@ final class DicEntryTest {
 
     @Test
     void parseMorphology() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("Tetrapoda\tTaxonomic superclass",
+        final DicEntry entry = DicEntryParser.parse("Tetrapoda\tTaxonomic superclass",
                 FlagType.SINGLE_ASCII);
 
         assertFalse(entry.isForbidden());
@@ -70,7 +71,7 @@ final class DicEntryTest {
      */
     @Test
     void parseTrailingBlank() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("Araba ", FlagType.SINGLE_ASCII);
+        final DicEntry entry = DicEntryParser.parse("Araba ", FlagType.SINGLE_ASCII);
 
         assertFalse(entry.isForbidden());
         assertEquals("Araba", entry.word());
@@ -84,7 +85,7 @@ final class DicEntryTest {
      */
     @Test
     void parseTrailingTab() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntry.valueOf("Bieterkarte/N\t", FlagType.SINGLE_ASCII);
+        final DicEntry entry = DicEntryParser.parse("Bieterkarte/N\t", FlagType.SINGLE_ASCII);
 
         assertFalse(entry.isForbidden());
         assertEquals("Bieterkarte", entry.word());

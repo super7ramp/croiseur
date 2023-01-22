@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;

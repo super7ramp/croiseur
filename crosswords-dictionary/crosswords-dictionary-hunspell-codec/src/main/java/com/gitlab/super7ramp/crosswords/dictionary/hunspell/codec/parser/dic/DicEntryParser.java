@@ -5,7 +5,8 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 
 import java.util.Collection;
@@ -13,9 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A parsed dictionary entry.
+ * Parses {@link DicEntry}.
  */
-public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags) {
+final class DicEntryParser {
 
     /** The pattern of a dictionary entry. */
     private static final Pattern PATTERN = Pattern.compile("^(?<forbidden>\\*)?" +
@@ -25,25 +26,32 @@ public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags)
             "[ \t]*$"); // trailing spaces or tabs should not cause parsing failure
 
     /**
-     * Parse a {@link DicEntry}.
+     * Private constructor to prevent instantiation, static methods only.
+     */
+    private DicEntryParser() {
+        // Nothing to do.
+    }
+
+    /**
+     * Parses a {@link DicEntry}.
      *
      * @param line the line to parse
      * @return a {@link DicEntry}
      * @throws InvalidDicEntryException if parsing goes wrong
      */
-    static DicEntry valueOf(final String line) throws InvalidDicEntryException {
-        return valueOf(line, FlagType.SINGLE_ASCII);
+    static DicEntry parse(final String line) throws InvalidDicEntryException {
+        return parse(line, FlagType.SINGLE_ASCII);
     }
 
     /**
-     * Parse a {@link DicEntry}.
+     * Parses a {@link DicEntry}.
      *
      * @param line     the line to parse
      * @param flagType the flag type
      * @return a {@link DicEntry}
      * @throws InvalidDicEntryException if parsing goes wrong
      */
-    static DicEntry valueOf(final String line, FlagType flagType) throws InvalidDicEntryException {
+    static DicEntry parse(final String line, final FlagType flagType) throws InvalidDicEntryException {
 
         final Matcher matcher = PATTERN.matcher(line);
         if (!matcher.matches()) {
@@ -56,5 +64,4 @@ public record DicEntry(boolean isForbidden, String word, Collection<Flag> flags)
 
         return new DicEntry(isForbidden, word, flags);
     }
-
 }

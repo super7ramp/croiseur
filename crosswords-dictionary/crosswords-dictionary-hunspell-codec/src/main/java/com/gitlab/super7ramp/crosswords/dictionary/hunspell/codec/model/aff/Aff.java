@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
+package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 
 import java.util.Collection;

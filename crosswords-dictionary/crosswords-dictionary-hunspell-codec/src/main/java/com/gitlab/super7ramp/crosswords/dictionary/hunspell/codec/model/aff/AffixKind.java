@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
+package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff;
 
 /**
  * Kind of affix.

@@ -5,21 +5,17 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClassHeader;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixKind;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * An affix class header as parsed from an ".aff" file.
- *
- * @param kind          the kind of affix (prefix/suffix)
- * @param flag          the affix flag
- * @param crossProduct  whether other affix of different kind can be applied when this affix is
- *                      applied
- * @param numberOfRules the number or rules under this header
+ * Parses {@link AffixClassHeader}.
  */
-public record AffixClassHeader(AffixKind kind, Flag flag, boolean crossProduct, int numberOfRules) {
+final class AffixClassHeaderParser {
 
     /** The pattern of an affix header. */
     private static final Pattern PATTERN = Pattern.compile("^(?<kind>(PFX|SFX)) +" +
@@ -28,12 +24,19 @@ public record AffixClassHeader(AffixKind kind, Flag flag, boolean crossProduct, 
             "(?<numberOfRules>[0-9]+)$");
 
     /**
+     * Private constructor to prevent instantiation, static methods only.
+     */
+    private AffixClassHeaderParser() {
+        // Nothing to do.
+    }
+
+    /**
      * Parse an affix header line.
      *
      * @param line the line to parse
      * @return the {@link AffixClassHeader}
      */
-    static AffixClassHeader valueOf(final String line) {
+    static AffixClassHeader parse(final String line) {
         final Matcher matcher = PATTERN.matcher(line);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Not an affix header: " + line);

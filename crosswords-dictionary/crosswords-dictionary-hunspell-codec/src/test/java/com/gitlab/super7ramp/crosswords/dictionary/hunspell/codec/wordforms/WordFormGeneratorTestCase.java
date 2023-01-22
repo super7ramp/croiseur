@@ -5,10 +5,10 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.DicParser;
 import org.junit.jupiter.api.Test;
 

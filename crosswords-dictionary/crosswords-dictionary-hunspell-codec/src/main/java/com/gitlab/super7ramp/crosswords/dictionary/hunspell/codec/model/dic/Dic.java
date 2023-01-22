@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic;
+package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic;
 
 import java.util.Collection;
 

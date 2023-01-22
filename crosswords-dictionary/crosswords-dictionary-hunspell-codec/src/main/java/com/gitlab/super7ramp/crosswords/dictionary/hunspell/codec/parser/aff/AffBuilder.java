@@ -5,7 +5,11 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClass;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClassHeader;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 

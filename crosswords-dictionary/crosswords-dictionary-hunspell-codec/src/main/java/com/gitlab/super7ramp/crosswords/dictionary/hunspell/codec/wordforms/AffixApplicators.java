@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixRule;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
 
 import java.util.Optional;
 

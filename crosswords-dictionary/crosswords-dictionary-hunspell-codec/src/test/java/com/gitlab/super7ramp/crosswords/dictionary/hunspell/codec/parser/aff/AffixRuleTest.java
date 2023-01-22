@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixKind;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,7 @@ final class AffixRuleTest {
     void parseValidAffixRule() {
         final String affixRule = "SFX p+ er é/L'D'Q' er";
 
-        final AffixRule parsedAffixRule = AffixRule.valueOf(affixRule, FlagType.LONG_ASCII);
+        final AffixRule parsedAffixRule = AffixRuleParser.parse(affixRule, FlagType.LONG_ASCII);
 
         assertEquals(AffixKind.SFX, parsedAffixRule.kind());
         assertEquals("p+", parsedAffixRule.flag().identifier());
@@ -36,7 +38,7 @@ final class AffixRuleTest {
     void parseValidAffixRuleWithoutContinuation() {
         final String affixRule = "SFX p+ er é er";
 
-        final AffixRule parsedAffixRule = AffixRule.valueOf(affixRule);
+        final AffixRule parsedAffixRule = AffixRuleParser.parse(affixRule);
 
         assertEquals(AffixKind.SFX, parsedAffixRule.kind());
         assertEquals("p+", parsedAffixRule.flag().identifier());

@@ -8,10 +8,10 @@ package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec;
 import com.gitlab.super7ramp.crosswords.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.crosswords.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.crosswords.dictionary.common.io.BomInputStream;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.DicParser;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms.WordFormGenerator;
 

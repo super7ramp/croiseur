@@ -5,6 +5,10 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClass;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClassHeader;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common;
+package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common;
 
 /**
  * An affix flag.

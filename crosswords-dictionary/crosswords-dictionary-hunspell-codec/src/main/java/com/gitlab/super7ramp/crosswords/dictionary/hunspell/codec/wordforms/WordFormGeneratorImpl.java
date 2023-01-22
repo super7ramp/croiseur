@@ -5,12 +5,12 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.Aff;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixClass;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff.AffixRule;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.Dic;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic.DicEntry;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClass;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.util.MoreCollections;
 
 import java.util.HashMap;

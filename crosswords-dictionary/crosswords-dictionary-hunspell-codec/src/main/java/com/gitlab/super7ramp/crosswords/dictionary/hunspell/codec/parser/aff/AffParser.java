@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 
 import java.util.EnumMap;
@@ -41,12 +42,12 @@ public final class AffParser {
     static {
         PARSERS = new EnumMap<>(AffItemKind.class);
         PARSERS.put(AffItemKind.AFFIX_HEADER,
-                (builder, line) -> builder.addAffixClassHeader(AffixClassHeader.valueOf(line)));
+                (builder, line) -> builder.addAffixClassHeader(AffixClassHeaderParser.parse(line)));
         PARSERS.put(AffItemKind.AFFIX_RULE,
-                (builder, line) -> builder.addAffixRule(AffixRule.valueOf(line,
+                (builder, line) -> builder.addAffixRule(AffixRuleParser.parse(line,
                         builder.flagType())));
         PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDFLAG,
-                (builder, line) -> builder.setCompoundFlag(CompoundFlag.valueOf(line)));
+                (builder, line) -> builder.setCompoundFlag(CompoundFlagParser.parse(line)));
         PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE,
                 (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
     }

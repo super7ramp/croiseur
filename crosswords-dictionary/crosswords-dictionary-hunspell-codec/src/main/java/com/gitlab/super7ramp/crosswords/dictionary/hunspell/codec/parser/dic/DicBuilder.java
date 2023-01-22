@@ -5,6 +5,9 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.Flag;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * Compound flag parser.
  */
-final class CompoundFlag {
+final class CompoundFlagParser {
 
     /** The textual representation. */
     private static final Pattern PATTERN = Pattern.compile("^COMPOUNDFLAG +(?<identifier>[^ ])+$");
@@ -21,7 +21,7 @@ final class CompoundFlag {
     /**
      * Private constructor to prevent instantiation.
      */
-    private CompoundFlag() {
+    private CompoundFlagParser() {
         // Nothing to do.
     }
 
@@ -29,9 +29,9 @@ final class CompoundFlag {
      * Parses a compound flag.
      *
      * @param line the line to parse
-     * @return the {@link CompoundFlag}
+     * @return the {@link CompoundFlagParser}
      */
-    static Flag valueOf(final String line) {
+    static Flag parse(final String line) {
         final Matcher matcher = PATTERN.matcher(line);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Not a compound flag: " + line);

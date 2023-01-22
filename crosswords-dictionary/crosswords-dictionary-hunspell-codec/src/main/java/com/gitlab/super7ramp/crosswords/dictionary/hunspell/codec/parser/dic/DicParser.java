@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.dic;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 
@@ -88,7 +90,8 @@ public final class DicParser {
         while (lines.hasNext()) {
             final String line = lines.next();
             if (!isCommented(line) && !line.isBlank()) {
-                builder.add(DicEntry.valueOf(line, flagType));
+                final DicEntry dicEntry = DicEntryParser.parse(line, flagType);
+                builder.add(dicEntry);
             } // else ignore comment or blank lines
         }
         return builder.build();

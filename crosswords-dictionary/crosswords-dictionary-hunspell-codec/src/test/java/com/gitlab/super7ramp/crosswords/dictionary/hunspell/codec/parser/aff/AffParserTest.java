@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 import org.junit.jupiter.api.Assertions;
