@@ -45,41 +45,41 @@ See the [documentation](doc/reference/0001-hunspell-format.md) for details about
 
 #### Affix Creation Options
 
-| Option                                                              | Description             | Recognized | Implemented | Note                                                                         |
-|---------------------------------------------------------------------|-------------------------|------------|-------------|------------------------------------------------------------------------------|
-| PFX flag cross_product number                                       | Prefix class definition | ✔️         | ✔️          |                                                                              |
-| PFX flag stripping prefix \[condition \[morphological_fields...\]\] | Prefix rule definition  | ✔️         | ⚠️          | Implemented except morphological fields; Probably lots of bugs; Tests to add |
-| SFX flag cross_product number                                       | Suffix class definition | ✔️         | ✔️          |                                                                              |
-| SFX flag stripping prefix \[condition \[morphological_fields...\]\] | Suffix rule definition  | ✔️         | ⚠️          | Implemented except morphological fields; Probably lots of bugs; Tests to add |
+| Option                                                              | Description             | Recognized | Implemented | Note                                                       |
+|---------------------------------------------------------------------|-------------------------|------------|-------------|------------------------------------------------------------|
+| PFX flag cross_product number                                       | Prefix class definition | ✔️         | ✔️          |                                                            |
+| PFX flag stripping prefix \[condition \[morphological_fields...\]\] | Prefix rule definition  | ✔️         | ⚠️          | Partially implemented; Probably lots of bugs; Tests to add |
+| SFX flag cross_product number                                       | Suffix class definition | ✔️         | ✔️          |                                                            |
+| SFX flag stripping prefix \[condition \[morphological_fields...\]\] | Suffix rule definition  | ✔️         | ⚠️          | Partially implemented; Probably lots of bugs; Tests to add |
 
 #### Compounding Options
 
-| Option                                                          | Description                                                                                             | Recognized | Implemented | Note |
-|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|------------|-------------|------|
-| BREAK number_of_break_definitions                               | Break definition header                                                                                 | ✔️         | ❌           |      |
-| BREAK character_or_character_sequence                           | Definition of the break-point characters                                                                | ✔️         | ❌           |      |
-| COMPOUNDRULE number_of_compound_definitions                     | Compound definitions header                                                                             | ✔️         | ❌           |      |
-| COMPOUNDRULE compound_pattern                                   | Custom compound pattern with a regex-like syntax                                                        | ✔️         | ❌           |      |
-| COMPOUNDMIN num                                                 | Minimum length of words used for compounding                                                            | ✔️         | ❌           |      |
-| COMPOUNDFLAG flag                                               | Flag to apply on words that can be in a compound (anywhere)                                             | ❌          | ❌           |      |
-| COMPOUNDBEGIN flag                                              | Flag to apply on words that can be in a compound (as first element only)                                | ✔️         | ❌           |      |
-| COMPOUNDLAST flag                                               | Flag to apply on words that can be in a compound (as last element only)                                 | ✔️         | ❌           |      |
-| COMPOUNDMIDDLE flag                                             | Flag to apply on words that can be in a compound (as middle element only)                               | ✔️         | ❌           |      |
-| ONLYINCOMPOUND flag                                             | Flag to apply on words that can only be in a compound                                                   | ❌          | ❌           |      | 
-| COMPOUNDPERMITFLAG flag                                         | Flag for affixes that can be applied inside compound (in addition to start and end of compound)         | ✔️         | ❌           |      |
-| COMPOUNDFORBIDFLAG flag                                         | Flag for affixes that cannot be applied on a compound                                                   | ❌          | ❌           |      |
-| COMPOUNDMORESUFFIXES                                            | Allow twofold suffixes within compounds                                                                 | ❌          | ❌           |      |
-| COMPOUNDROOT flag                                               | ? (only used for Hungarian dictionary)                                                                  | ❌          | ❌           |      |
-| COMPOUNDWORDMAX number                                          | Maximum number of word in a compound (default is unlimited)                                             | ❌          | ❌           |      |
-| CHECKCOMPOUNDDUP                                                | No word duplication in compound (e.g. no "foofoo")                                                      | ❌          | ❌           |      |
-| CHECKCOMPOUNDREP                                                | ?                                                                                                       | ❌          | ❌           |      |
-| CHECKCOMPOUNDCASE                                               | No upper case characters at word boundaries in compounds                                                | ❌          | ❌           |      |
-| CHECKCOMPOUNDTRIPLE                                             | No compounding, if compound word contains triple repeating letters (e.g. foo-ox or xo-oof)              | ❌          | ❌           |      |
-| SIMPLIFIEDTRIPLE                                                | Allow simplified 2-letter forms of the compounds forbidden by CHECKCOMPOUNDTRIPLE                       | ❌          | ❌           |      |
-| CHECKCOMPOUNDPATTERN number_of_checkcompoundpattern_definitions | Header of CHECKCOMPOUNDPATTERN rules                                                                    | ❌          | ❌           |      |
-| FORCEUCASE flag                                                 | Last word part of a compound <br/>with flag FORCEUCASE forces capitalization of the whole compound word | ❌          | ❌           |      |
-| COMPOUNDSYLLABLE max_syllable vowels                            | ? (special compounding rules in Hungarian)                                                              | ❌          | ❌           |      |
-| SYLLABLENUM flags                                               | ? (Hungarian specific                                                                                   | ❌          | ❌           |      |
+| Option                                                          | Description                                                                                             | Recognized | Implemented | Note                     |
+|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|------------|-------------|--------------------------|
+| BREAK number_of_break_definitions                               | Break definition header                                                                                 | ✔️         | ❌           |                          |
+| BREAK character_or_character_sequence                           | Definition of the break-point characters                                                                | ✔️         | ❌           |                          |
+| COMPOUNDRULE number_of_compound_definitions                     | Compound definitions header                                                                             | ✔️         | ❌           |                          |
+| COMPOUNDRULE compound_pattern                                   | Custom compound pattern with a regex-like syntax                                                        | ✔️         | ❌           |                          |
+| COMPOUNDMIN num                                                 | Minimum length of words used for compounding                                                            | ✔️         | ❌           |                          |
+| COMPOUNDFLAG flag                                               | Flag to apply on words that can be in a compound (anywhere)                                             | ✔️         | ⚠️          | First draft, in progress |
+| COMPOUNDBEGIN flag                                              | Flag to apply on words that can be in a compound (as first element only)                                | ✔️         | ❌           |                          |
+| COMPOUNDLAST flag                                               | Flag to apply on words that can be in a compound (as last element only)                                 | ✔️         | ❌           |                          |
+| COMPOUNDMIDDLE flag                                             | Flag to apply on words that can be in a compound (as middle element only)                               | ✔️         | ❌           |                          |
+| ONLYINCOMPOUND flag                                             | Flag to apply on words that can only be in a compound                                                   | ❌          | ❌           |                          | 
+| COMPOUNDPERMITFLAG flag                                         | Flag for affixes that can be applied inside compound (in addition to start and end of compound)         | ✔️         | ❌           |                          |
+| COMPOUNDFORBIDFLAG flag                                         | Flag for affixes that cannot be applied on a compound                                                   | ❌          | ❌           |                          |
+| COMPOUNDMORESUFFIXES                                            | Allow twofold suffixes within compounds                                                                 | ❌          | ❌           |                          |
+| COMPOUNDROOT flag                                               | ? (only used for Hungarian dictionary)                                                                  | ❌          | ❌           |                          |
+| COMPOUNDWORDMAX number                                          | Maximum number of word in a compound (default is unlimited)                                             | ❌          | ❌           |                          |
+| CHECKCOMPOUNDDUP                                                | No word duplication in compound (e.g. no "foofoo")                                                      | ❌          | ❌           |                          |
+| CHECKCOMPOUNDREP                                                | ?                                                                                                       | ❌          | ❌           |                          |
+| CHECKCOMPOUNDCASE                                               | No upper case characters at word boundaries in compounds                                                | ❌          | ❌           |                          |
+| CHECKCOMPOUNDTRIPLE                                             | No compounding, if compound word contains triple repeating letters (e.g. foo-ox or xo-oof)              | ❌          | ❌           |                          |
+| SIMPLIFIEDTRIPLE                                                | Allow simplified 2-letter forms of the compounds forbidden by CHECKCOMPOUNDTRIPLE                       | ❌          | ❌           |                          |
+| CHECKCOMPOUNDPATTERN number_of_checkcompoundpattern_definitions | Header of CHECKCOMPOUNDPATTERN rules                                                                    | ❌          | ❌           |                          |
+| FORCEUCASE flag                                                 | Last word part of a compound <br/>with flag FORCEUCASE forces capitalization of the whole compound word | ❌          | ❌           |                          |
+| COMPOUNDSYLLABLE max_syllable vowels                            | ? (special compounding rules in Hungarian)                                                              | ❌          | ❌           |                          |
+| SYLLABLENUM flags                                               | ? (Hungarian specific                                                                                   | ❌          | ❌           |                          |
 
 #### Suggestion Options
 
