@@ -6,20 +6,17 @@
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
-import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClass;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.Dic;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicEntry;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.util.MoreCollections;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -40,16 +37,18 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     private final Dic dic;
 
     /** Affix classes indexed by name to avoid looping the affix class list all the time. */
-    private final Map<Flag, AffixClass> affixClasses;
+    private final AffixClasses affixClasses;
 
     /**
      * Affix rule applicators indexed by affix rule to avoid re-creating the same applicator over
      * and over.
      */
-    private final Map<AffixRule, AffixApplicator> affixApplicators;
+    private final Map<AffixRule, AffixRuleApplicator> affixApplicators;
 
     /** The compound flag, if any. */
     private final Optional<Flag> optCompoundFlag;
+
+    private final AffixClassesApplicator affixClassesApplicator;
 
     /**
      * Constructor.
@@ -58,10 +57,8 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
      * @param aDic  the parsed dictionary file
      */
     WordFormGeneratorImpl(final Aff anAff, final Dic aDic) {
-        affixClasses = new HashMap<>();
-        for (final AffixClass affixClass : anAff.affixClasses()) {
-            affixClasses.put(affixClass.header().flag(), affixClass);
-        }
+        affixClasses = new AffixClasses(anAff);
+        affixClassesApplicator = new AffixClassesApplicator(affixClasses);
         affixApplicators = new HashMap<>();
         optCompoundFlag = anAff.compoundFlag();
         dic = aDic;
@@ -69,9 +66,7 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
 
     @Override
     public Stream<String> generate() {
-        final Stream<String> affixed = dic.entries()
-                                          .stream()
-                                          .mapMulti(applyAffixes().andThen((entry, consumer) -> consumer.accept(entry.word())));
+        final Stream<String> affixed = applyAffixes();
 
         final Stream<String> compounded;
         if (optCompoundFlag.isPresent()) {
@@ -88,89 +83,58 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
                 consumer.accept(rightLeftCompound);
 
                 // Apply prefixes of left and suffixes of right on leftRightCompound
-                pair.left()
-                    .flags()
-                    .stream()
-                    .map(affixClasses::get)
-                    .filter(Objects::nonNull)
-                    .flatMap(affixClass -> affixClass.rules().stream())
-                    .filter(AffixRule::isPrefix)
-                    .peek(rule -> System.out.println("Applying " + rule + " on " + leftRightCompound))
-                    .flatMap(rule -> applyAffix(rule, leftRightCompound).stream())
-                    .flatMap(prefixedLeftRightCompound -> {
-                        final Stream<String> crossProduct =
-                                pair.right().flags().stream().map(affixClasses::get)
-                                    .filter(Objects::nonNull)
-                                    .flatMap(affixClass -> affixClass.rules().stream())
-                                    .filter(AffixRule::isSuffix)
-                                    .peek(rule -> System.out.println("Applying " + rule + " on " + prefixedLeftRightCompound))
-                                    .flatMap(rule -> applyAffix(rule,
-                                            prefixedLeftRightCompound).stream());
-                        return Stream.concat(Stream.of(prefixedLeftRightCompound),
-                                crossProduct);
-                    })
-                    .forEach(consumer);
+                prefixRulesApplicableTo(pair.left())
+                        .peek(rule -> System.out.println("Applying " + rule + " on " + leftRightCompound))
+                        .flatMap(rule -> applyAffix(rule, leftRightCompound).stream())
+                        .flatMap(prefixedLeftRightCompound -> {
+                            final Stream<String> crossProduct =
+                                    suffixRulesApplicableTo(pair.right())
+                                            .peek(rule -> System.out.println("Applying " + rule + " on " + prefixedLeftRightCompound))
+                                            .flatMap(rule -> applyAffix(rule,
+                                                    prefixedLeftRightCompound).stream());
+                            return Stream.concat(Stream.of(prefixedLeftRightCompound),
+                                    crossProduct);
+                        })
+                        .forEach(consumer);
 
-                pair.right()
-                    .flags()
-                    .stream()
-                    .map(affixClasses::get)
-                    .filter(Objects::nonNull)
-                    .flatMap(affixClass -> affixClass.rules().stream())
-                    .filter(AffixRule::isSuffix)
-                    .peek(rule -> System.out.println("Applying " + rule + " on " + leftRightCompound))
-                    .flatMap(rule -> applyAffix(rule, leftRightCompound).stream())
-                    .flatMap(suffixedLeftRightCompound -> {
-                        final Stream<String> crossProduct =
-                                pair.left().flags().stream().map(affixClasses::get)
-                                    .filter(Objects::nonNull)
-                                    .flatMap(affixClass -> affixClass.rules().stream())
-                                    .filter(AffixRule::isPrefix)
-                                    .peek(rule -> System.out.println("Applying " + rule + " on " + suffixedLeftRightCompound))
-                                    .flatMap(rule -> applyAffix(rule, suffixedLeftRightCompound).stream());
-                        return Stream.concat(Stream.of(suffixedLeftRightCompound),
-                                crossProduct);
-                    })
-                    .forEach(consumer);
+                suffixRulesApplicableTo(pair.right())
+                        .peek(rule -> System.out.println("Applying " + rule + " on " + leftRightCompound))
+                        .flatMap(rule -> applyAffix(rule, leftRightCompound).stream())
+                        .flatMap(suffixedLeftRightCompound -> {
+                            final Stream<String> crossProduct =
+                                    prefixRulesApplicableTo(pair.left())
+                                            .peek(rule -> System.out.println("Applying " + rule + " on " + suffixedLeftRightCompound))
+                                            .flatMap(rule -> applyAffix(rule,
+                                                    suffixedLeftRightCompound).stream());
+                            return Stream.concat(Stream.of(suffixedLeftRightCompound),
+                                    crossProduct);
+                        })
+                        .forEach(consumer);
 
                 // Apply prefixes of right and suffixes of left on rightLeftCompound
-                pair.right()
-                    .flags()
-                    .stream()
-                    .map(affixClasses::get)
-                    .filter(Objects::nonNull)
-                    .flatMap(affixClass -> affixClass.rules().stream())
-                    .filter(AffixRule::isPrefix)
-                    .flatMap(rule -> applyAffix(rule, rightLeftCompound).stream())
-                    .flatMap(prefixedRightLeftCompound -> {
-                        final Stream<String> crossProduct =
-                                pair.left().flags().stream().map(affixClasses::get)
-                                    .filter(Objects::nonNull)
-                                    .flatMap(affixClass -> affixClass.rules().stream())
-                                    .filter(AffixRule::isSuffix)
-                                    .flatMap(rule -> applyAffix(rule, prefixedRightLeftCompound).stream());
-                        return Stream.concat(Stream.of(prefixedRightLeftCompound), crossProduct);
-                    })
-                    .forEach(consumer);
+                prefixRulesApplicableTo(pair.right())
+                        .flatMap(rule -> applyAffix(rule, rightLeftCompound).stream())
+                        .flatMap(prefixedRightLeftCompound -> {
+                            final Stream<String> crossProduct =
+                                    suffixRulesApplicableTo(pair.left())
+                                            .flatMap(rule -> applyAffix(rule,
+                                                    prefixedRightLeftCompound).stream());
+                            return Stream.concat(Stream.of(prefixedRightLeftCompound),
+                                    crossProduct);
+                        })
+                        .forEach(consumer);
 
-                pair.left()
-                    .flags()
-                    .stream()
-                    .map(affixClasses::get)
-                    .filter(Objects::nonNull)
-                    .flatMap(affixClass -> affixClass.rules().stream())
-                    .filter(AffixRule::isSuffix)
-                    .flatMap(rule -> applyAffix(rule, rightLeftCompound).stream())
-                    .flatMap(suffixedRightLeftCompound -> {
-                        final Stream<String> crossProduct =
-                                pair.right().flags().stream().map(affixClasses::get)
-                                    .filter(Objects::nonNull)
-                                    .flatMap(affixClass -> affixClass.rules().stream())
-                                    .filter(AffixRule::isPrefix)
-                                    .flatMap(rule -> applyAffix(rule, suffixedRightLeftCompound).stream());
-                        return Stream.concat(Stream.of(suffixedRightLeftCompound), crossProduct);
-                    })
-                    .forEach(consumer);
+                suffixRulesApplicableTo(pair.left())
+                        .flatMap(rule -> applyAffix(rule, rightLeftCompound).stream())
+                        .flatMap(suffixedRightLeftCompound -> {
+                            final Stream<String> crossProduct =
+                                    prefixRulesApplicableTo(pair.right())
+                                            .flatMap(rule -> applyAffix(rule,
+                                                    suffixedRightLeftCompound).stream());
+                            return Stream.concat(Stream.of(suffixedRightLeftCompound),
+                                    crossProduct);
+                        })
+                        .forEach(consumer);
             });
         } else {
             compounded = Stream.empty();
@@ -179,57 +143,33 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
         return Stream.concat(affixed, compounded);
     }
 
-    private BiConsumer<DicEntry, Consumer<String>> applyAffixes() {
-        return this::applyAffixes;
-    }
-
-    private void applyAffixes(final DicEntry entry, final Consumer<String> accumulator) {
-        for (final Flag flag : entry.flags()) {
-            final AffixClass affixClass = affixClasses.get(flag);
-            if (affixClass != null) {
-                applyAffixRules(entry, accumulator, affixClass);
-            }
-        }
-    }
-
-    // TODO simplify/split
-    private void applyAffixRules(final DicEntry entry, final Consumer<String> accumulator,
-                                 final AffixClass affixClass) {
-        for (final AffixRule affixRule : affixClass.rules()) {
-
-            final Optional<String> optAffixedForm = applyAffix(affixRule, entry.word());
-
-            if (optAffixedForm.isPresent()) {
-                final String affixedForm = optAffixedForm.get();
-                accumulator.accept(affixedForm);
-
-                if (affixClass.header().crossProduct()) {
-                    entry.flags()
-                         .stream()
-                         .map(affixClasses::get)
-                         .filter(Objects::nonNull)  // flag may refer to another option than PFX/SFX
-                         .flatMap(crossProductClass -> crossProductClass.rules().stream())
-                         .filter(rule -> rule.kind() != affixRule.kind())
-                         .flatMap(rule -> applyAffix(rule, affixedForm).stream())
-                         .limit(2)
-                         .forEach(accumulator);
-                }
-
-                affixRule.continuationClasses()
-                         .stream()
-                         .map(affixClasses::get)
-                         .filter(Objects::nonNull)  // flag may refer to another option than PFX/SFX
-                         .flatMap(continuationClass -> continuationClass.rules().stream())
-                         .flatMap(rule -> applyAffix(rule, affixedForm).stream())
-                         .forEach(accumulator);
-            }
-        }
+    private Stream<String> applyAffixes() {
+        return dic.entries()
+                  .stream()
+                  .flatMap((final DicEntry entry) -> {
+                      final Stream<String> nonAffixedForm = Stream.of(entry.word());
+                      final Stream<String> affixedForms = affixClassesApplicator.apply(entry);
+                      return Stream.concat(nonAffixedForm, affixedForms);
+                  });
     }
 
     private Optional<String> applyAffix(final AffixRule affixRule, final String baseWord) {
         return affixApplicators.computeIfAbsent(affixRule,
-                                       rule -> AffixApplicators.ofRule(affixRule))
+                                       rule -> AffixRuleApplicators.ofRule(affixRule))
                                .apply(baseWord);
+    }
+
+    private Stream<AffixRule> prefixRulesApplicableTo(final DicEntry dicEntry) {
+        return affixRulesOf(dicEntry.flags()).filter(AffixRule::isPrefix);
+    }
+
+    private Stream<AffixRule> suffixRulesApplicableTo(final DicEntry dicEntry) {
+        return affixRulesOf(dicEntry.flags()).filter(AffixRule::isSuffix);
+    }
+
+    private Stream<AffixRule> affixRulesOf(final Collection<Flag> flags) {
+        return affixClasses.referencedBy(flags)
+                           .flatMap(affixClass -> affixClass.rules().stream());
     }
 
 }

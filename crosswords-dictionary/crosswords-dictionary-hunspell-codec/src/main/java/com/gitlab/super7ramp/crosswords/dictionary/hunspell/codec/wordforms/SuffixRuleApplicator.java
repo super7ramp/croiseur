@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * Implementation of {@link AffixApplicator} for prefix.
+ * Implementation of {@link AffixRuleApplicator} for prefix.
  */
-final class SuffixApplicator implements AffixApplicator {
+final class SuffixRuleApplicator implements AffixRuleApplicator {
 
     /** The rule data. */
     private final AffixRule rule;
@@ -25,20 +25,20 @@ final class SuffixApplicator implements AffixApplicator {
     private final Optional<Pattern> strippingPattern;
 
     /**
-     * Constructor.
+     * Constructs an instance.
      *
      * @param aRule the rule data
      */
-    SuffixApplicator(final AffixRule aRule) {
+    SuffixRuleApplicator(final AffixRule aRule) {
         rule = validate(aRule);
         conditionPattern = compileConditionPattern(aRule);
         strippingPattern = compileStrippingPattern(aRule);
     }
 
     /**
-     * Build the condition {@link Pattern} from the condition characters.
+     * Builds the condition {@link Pattern} from the condition characters.
      *
-     * @param aRule the prefix rule
+     * @param aRule the suffix rule
      * @return the condition {@link Pattern}
      */
     private static Optional<Pattern> compileConditionPattern(final AffixRule aRule) {
@@ -46,27 +46,27 @@ final class SuffixApplicator implements AffixApplicator {
     }
 
     /**
-     * Build the stripping {@link Pattern} from the stripping characters.
+     * Builds the stripping {@link Pattern} from the stripping characters.
      *
-     * @param aRule the prefix rule
+     * @param rule the suffix rule
      * @return the stripping {@link Pattern}
      */
-    private static Optional<Pattern> compileStrippingPattern(final AffixRule aRule) {
-        return aRule.strippingCharacters().map(stripped -> Pattern.compile(stripped + "$"));
+    private static Optional<Pattern> compileStrippingPattern(final AffixRule rule) {
+        return rule.strippingCharacters().map(stripped -> Pattern.compile(stripped + "$"));
     }
 
     /**
-     * Ensure given rule is a suffix rule.
+     * Ensures the given rule is a suffix rule.
      *
-     * @param aRule a rule
+     * @param rule a rule
      * @return the given rule if it is a suffix rule
      * @throws IllegalArgumentException if given rule is not a suffix rule
      */
-    private static AffixRule validate(final AffixRule aRule) {
-        if (!aRule.kind().isSuffix()) {
-            throw new IllegalArgumentException(aRule + " is not a suffix");
+    private static AffixRule validate(final AffixRule rule) {
+        if (!rule.isSuffix()) {
+            throw new IllegalArgumentException(rule + " is not a suffix");
         }
-        return aRule;
+        return rule;
     }
 
     @Override

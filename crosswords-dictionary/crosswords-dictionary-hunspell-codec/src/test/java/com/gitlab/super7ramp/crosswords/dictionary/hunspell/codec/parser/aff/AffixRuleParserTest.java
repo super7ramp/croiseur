@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for {@link AffixRule}.
  */
-final class AffixRuleTest {
+final class AffixRuleParserTest {
 
     @Test
     void parseValidAffixRule() {

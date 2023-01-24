@@ -11,6 +11,6 @@ import java.util.function.Function;
 /**
  * Applies an affix to a word.
  */
-interface AffixApplicator extends Function<String, Optional<String>> {
+interface AffixRuleApplicator extends Function<String, Optional<String>> {
     // Marker interface
 }

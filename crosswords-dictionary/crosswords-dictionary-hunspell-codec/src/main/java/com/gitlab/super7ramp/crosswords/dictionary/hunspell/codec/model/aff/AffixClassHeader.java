@@ -14,7 +14,7 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.F
  * @param flag          the affix flag
  * @param crossProduct  whether other affix of different kind can be applied when this affix is
  *                      applied
- * @param numberOfRules the number or rules under this header
+ * @param numberOfRules the number of rules under this header
  */
 public record AffixClassHeader(AffixKind kind, Flag flag, boolean crossProduct, int numberOfRules) {
     // Nothing to add.

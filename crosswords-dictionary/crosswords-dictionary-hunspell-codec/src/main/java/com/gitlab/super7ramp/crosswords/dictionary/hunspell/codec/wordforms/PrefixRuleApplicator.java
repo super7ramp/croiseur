@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * Implementation of {@link AffixApplicator} for prefix.
+ * Implementation of {@link AffixRuleApplicator} for prefix.
  */
-final class PrefixApplicator implements AffixApplicator {
+final class PrefixRuleApplicator implements AffixRuleApplicator {
 
     /** The rule data. */
     private final AffixRule rule;
@@ -25,18 +25,18 @@ final class PrefixApplicator implements AffixApplicator {
     private final Optional<Pattern> strippingPattern;
 
     /**
-     * Constructor.
+     * Constructs an instance.
      *
      * @param aRule the rule data
      */
-    PrefixApplicator(final AffixRule aRule) {
+    PrefixRuleApplicator(final AffixRule aRule) {
         rule = validate(aRule);
         conditionPattern = compileConditionPattern(aRule);
         strippingPattern = compileStrippingPattern(aRule);
     }
 
     /**
-     * Build the condition {@link Pattern} from the condition characters.
+     * Builds the condition {@link Pattern} from the condition characters.
      *
      * @param aRule the prefix rule
      * @return the condition {@link Pattern}
@@ -46,7 +46,7 @@ final class PrefixApplicator implements AffixApplicator {
     }
 
     /**
-     * Build the stripping {@link Pattern} from the stripping characters.
+     * Builds the stripping {@link Pattern} from the stripping characters.
      *
      * @param aRule the prefix rule
      * @return the stripping {@link Pattern}
@@ -56,17 +56,17 @@ final class PrefixApplicator implements AffixApplicator {
     }
 
     /**
-     * Ensure given rule is a prefix rule.
+     * Ensures given rule is a prefix rule.
      *
-     * @param aRule a rule
+     * @param rule a rule
      * @return the given rule if it is a prefix rule
      * @throws IllegalArgumentException if given rule is not a prefix rule
      */
-    private static AffixRule validate(final AffixRule aRule) {
-        if (!aRule.kind().isPrefix()) {
-            throw new IllegalArgumentException(aRule + " is not a prefix");
+    private static AffixRule validate(final AffixRule rule) {
+        if (!rule.isPrefix()) {
+            throw new IllegalArgumentException(rule + " is not a prefix");
         }
-        return aRule;
+        return rule;
     }
 
     @Override
