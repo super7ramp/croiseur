@@ -67,7 +67,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
         if (optAffixedForm.isPresent()) {
             final String affixedForm = optAffixedForm.get();
             accumulator.accept(affixedForm);
-            applyCrossProductAffixRules(affixRule, entry, affixedForm, accumulator);
+            applyCrossProductAffixRules(entry, affixedForm, accumulator);
             applyContinuationAffixRules(affixRule, affixedForm, accumulator);
         } else {
             // Rule not applicable, no affixed form
@@ -84,42 +84,36 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      */
     private void applyContinuationAffixRules(final AffixRule affixRule, final String affixedForm,
                                              final Consumer<String> accumulator) {
-        affixRulesOf(affixRule.continuationClasses())
-                .flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
-                .forEach(accumulator);
+        affixRulesOf(affixRule.continuationClasses()).flatMap(rule -> applyAffixRule(rule,
+                                                             affixedForm).stream())
+                                                     .forEach(accumulator);
     }
 
     /**
-     * Applies, if cross-product is enabled for this class, the rules:
+     * If cross-product is enabled for this class, applies, on the given already affixed form, the
+     * rules:
      * <ul>
      *     <li>Referenced by the given entry;
      *     <li>For which cross-product is enabled;
      *     <li>Of opposite kind (i.e. suffix if this class is prefix, and vice-versa)</li>
      * </ul>
-     * on the given already affixed form.
+     *
      * <p>
      * Example:
      * <ul>
-     *     <li>rule: Suffix 'suf'</li>
-     *     <li>word: 'foosuf' (affixed form, stem was 'foo')</li>
-     *     <li>other class rule: Prefix 'pre', prefix 'Pre'</li>
-     * </ul>
-     * Then cross-product will give:
-     * <ul>
-     *     <li>'prefoosuf'</li>
-     *     <li>'Prefoosuf'</li>
+     *     <li>Rule: Suffix 'suf'</li>
+     *     <li>Word: 'foosuf' (affixed form, stem was 'foo')</li>
+     *     <li>Other classes rules: Prefix 'pre', prefix 'Pre'</li>
+     *     <li>Cross-product result: 'prefoosuf' and 'Prefoosuf'.
      * </ul>
      *
-     * @param affixRule   the affix rule to cross-product
      * @param affixedForm the word affixed using the given affix rule
      * @param accumulator the accumulator where to add new affixed forms
      */
-    private void applyCrossProductAffixRules(final AffixRule affixRule,
-                                             final DicEntry entry, final String affixedForm,
+    private void applyCrossProductAffixRules(final DicEntry entry, final String affixedForm,
                                              final Consumer<String> accumulator) {
-        crossProductAffixRulesOf(entry)
-                .flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
-                .forEach(accumulator);
+        crossProductAffixRulesOf(entry).flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
+                                       .forEach(accumulator);
     }
 
     /**
@@ -164,13 +158,13 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     private Stream<AffixRule> crossProductAffixRulesOf(final DicEntry entry) {
         final Stream<AffixRule> crossProductAffixRules;
         if (affixClass.crossProduct()) {
-            crossProductAffixRules =
-                    affixClasses.referencedBy(entry.flags())
-                                .filter(cls -> cls.crossProduct() && cls.kind() != affixClass.kind())
-                                .flatMap(cls -> cls.rules().stream());
+            crossProductAffixRules = affixClasses.referencedBy(entry.flags())
+                                                 .filter(cls -> cls.crossProduct() && cls.kind() != affixClass.kind())
+                                                 .flatMap(cls -> cls.rules().stream());
         } else {
             crossProductAffixRules = Stream.empty();
         }
         return crossProductAffixRules;
     }
+
 }

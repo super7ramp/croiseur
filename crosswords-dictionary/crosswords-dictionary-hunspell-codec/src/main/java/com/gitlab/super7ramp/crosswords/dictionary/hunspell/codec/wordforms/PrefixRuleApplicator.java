@@ -38,21 +38,21 @@ final class PrefixRuleApplicator implements AffixRuleApplicator {
     /**
      * Builds the condition {@link Pattern} from the condition characters.
      *
-     * @param aRule the prefix rule
+     * @param rule the prefix rule
      * @return the condition {@link Pattern}
      */
-    private static Optional<Pattern> compileConditionPattern(final AffixRule aRule) {
-        return aRule.condition().map(condition -> Pattern.compile("^" + condition));
+    private static Optional<Pattern> compileConditionPattern(final AffixRule rule) {
+        return rule.condition().map(condition -> Pattern.compile("^" + condition));
     }
 
     /**
      * Builds the stripping {@link Pattern} from the stripping characters.
      *
-     * @param aRule the prefix rule
+     * @param rule the prefix rule
      * @return the stripping {@link Pattern}
      */
-    private static Optional<Pattern> compileStrippingPattern(final AffixRule aRule) {
-        return aRule.strippingCharacters().map(stripped -> Pattern.compile("^" + stripped));
+    private static Optional<Pattern> compileStrippingPattern(final AffixRule rule) {
+        return rule.strippingCharacters().map(stripped -> Pattern.compile("^" + stripped));
     }
 
     /**
