@@ -38,17 +38,17 @@ See the [documentation](doc/reference/0001-hunspell-format.md) for details about
 
 #### General Options
 
-| Option                             | Description                                                    | Recognized | Implemented | Note                                                             |
-|------------------------------------|----------------------------------------------------------------|------------|-------------|------------------------------------------------------------------|
-| SET encoding                       | Character encoding                                             | ✔️         | ❌           | Recognized but not used: Only UTF-8 files are correctly decoded. |
-| FLAG value                         | Flag type                                                      | ✔️         | ⚠️          | Only default (ASCII) and "long" supported                        |
-| COMPLEXPREFIXES                    | Two-fold prefix stripping                                      | ✔️         | ❌           |                                                                  |
-| LANG langcode                      | Language specific functions (for Azeri and Turkish)            | ✔️         | ❌           |                                                                  |
-| IGNORE characters                  | Characters to ignore dictionary words, affixes and input words | ❌          | ❌           |                                                                  |
-| AF number_of_flag_vector_aliases   | Stuff for compression                                          | ❌          | ❌           |                                                                  |
-| AF flag_vector                     | Stuff for compression                                          | ❌          | ❌           |                                                                  |
-| AM number_of_morphological_aliases | Stuff for compression                                          | ❌          | ❌           |                                                                  |
-| AM morphological_fields            | Stuff for compression                                          | ❌          | ❌           |                                                                  |
+| Option                             | Description                                                    | Recognized | Implemented | Note                                       |
+|------------------------------------|----------------------------------------------------------------|------------|-------------|--------------------------------------------|
+| SET encoding                       | Character encoding                                             | ✔️         | ⚠️          | All encodings supported except ISO-8859-10 |
+| FLAG value                         | Flag type                                                      | ✔️         | ⚠️          | Only default (ASCII) and "long" supported  |
+| COMPLEXPREFIXES                    | Two-fold prefix stripping                                      | ✔️         | ❌           |                                            |
+| LANG langcode                      | Language specific functions (for Azeri and Turkish)            | ✔️         | ❌           |                                            |
+| IGNORE characters                  | Characters to ignore dictionary words, affixes and input words | ❌          | ❌           |                                            |
+| AF number_of_flag_vector_aliases   | Stuff for compression                                          | ❌          | ❌           |                                            |
+| AF flag_vector                     | Stuff for compression                                          | ❌          | ❌           |                                            |
+| AM number_of_morphological_aliases | Stuff for compression                                          | ❌          | ❌           |                                            |
+| AM morphological_fields            | Stuff for compression                                          | ❌          | ❌           |                                            |
 
 #### Affix Creation Options
 

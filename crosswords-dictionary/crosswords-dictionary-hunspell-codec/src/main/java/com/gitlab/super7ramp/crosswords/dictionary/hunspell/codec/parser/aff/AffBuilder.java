@@ -14,6 +14,8 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.F
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,9 @@ final class AffBuilder {
 
     /** Affix class builders, access by flag identifying the affix class. */
     private final Map<Flag, AffixClassBuilder> affixClassBuilders;
+
+    /** The declared encoding. */
+    private Charset encoding;
 
     /** Flag type. */
     private FlagType flagType;
@@ -42,6 +47,7 @@ final class AffBuilder {
      */
     AffBuilder() {
         affixClassBuilders = new HashMap<>();
+        encoding = StandardCharsets.US_ASCII;
         flagType = FlagType.SINGLE_ASCII;
         threePartsCompoundFlagsBuilder = new ThreePartsCompoundFlagsBuilder();
     }
@@ -90,18 +96,47 @@ final class AffBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code COMPOUNDBEGINFLAG} value.
+     *
+     * @param compoundBeginFlag the {@code COMPOUNDBEGINFLAG} value
+     * @return this builder
+     */
     AffBuilder setCompoundBeginFlag(final Flag compoundBeginFlag) {
         threePartsCompoundFlagsBuilder.setBeginFlag(compoundBeginFlag);
         return this;
     }
 
+    /**
+     * Sets the {@code COMPOUNDMIDDLEFLAG} value.
+     *
+     * @param compoundMiddleFlag the {@code COMPOUNDMIDDLEFLAG} value
+     * @return this builder
+     */
     AffBuilder setCompoundMiddleFlag(final Flag compoundMiddleFlag) {
         threePartsCompoundFlagsBuilder.setMiddleFlag(compoundMiddleFlag);
         return this;
     }
 
+    /**
+     * Sets the {@code COMPOUNDENDFLAG} value.
+     *
+     * @param compoundEndFlag the {@code COMPOUNDENDFLAG} value
+     * @return this builder
+     */
     AffBuilder setCompoundEndFlag(final Flag compoundEndFlag) {
         threePartsCompoundFlagsBuilder.setEndFlag(compoundEndFlag);
+        return this;
+    }
+
+    /**
+     * Sets the encoding.
+     *
+     * @param encodingArg the parsed encoding
+     * @return this builder
+     */
+    AffBuilder setEncoding(final Charset encodingArg) {
+        encoding = encodingArg;
         return this;
     }
 
@@ -119,7 +154,8 @@ final class AffBuilder {
         final Optional<Flag> optCompoundFlag = Optional.ofNullable(compoundFlag);
         final Optional<ThreePartsCompoundFlags> optThreePartsCompoundFlags =
                 threePartsCompoundFlagsBuilder.build();
-        return new Aff(flagType, affixClasses, optCompoundFlag, optThreePartsCompoundFlags);
+        return new Aff(encoding, flagType, affixClasses, optCompoundFlag,
+                optThreePartsCompoundFlags);
     }
 
     /**

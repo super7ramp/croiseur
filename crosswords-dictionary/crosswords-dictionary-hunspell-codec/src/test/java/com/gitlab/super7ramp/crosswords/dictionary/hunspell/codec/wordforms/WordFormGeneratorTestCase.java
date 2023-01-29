@@ -127,7 +127,6 @@ abstract class WordFormGeneratorTestCase {
 
         final Set<String> actual =
                 createGenerator(affFile, dicFile, charset()).generate().collect(toSet());
-        System.out.println(actual);
 
         assertAll(() -> assertContainsAll(goods, actual), () -> assertContainsNone(wrongs, actual));
     }

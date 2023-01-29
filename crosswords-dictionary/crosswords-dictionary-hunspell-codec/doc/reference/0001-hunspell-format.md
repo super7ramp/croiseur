@@ -98,14 +98,6 @@ Example:
 
     SET UTF-8
 
-> Encoding is not correctly supported by crosswords-hunspell-plugin: It assumes the files are
-> UTF-8 and sticks with it. It should eventually:
-> 1. Opens the .aff file in UTF-8
-> 2. Look for the SET options in the first 50 lines (check supported encodings to see what the 
-     > different values of SET gives in the different encoding, hopefully they will be the same)
-> 3. Reopens the file with the right encoding set and continue (and when it comes to the dic 
-     > file, open the file with the same encoding)
-
 ##### FLAG value
 
 Set flag type. Default type is the extended ASCII (8-bit) character. `UTF-8` parameter sets
@@ -122,22 +114,16 @@ Example:
 Set twofold prefix stripping (but single suffix stripping) e.g. for morphologically complex 
 languages with right-to-left writing system.
 
-> Not supported by crosswords-hunspell-plugin.
-
 ##### LANG langcode
 
 Set language code for language specific functions of Hunspell. Use it to activate special casing of
 Azeri (LANG az) and Turkish (LANG tr).
-
-> Not supported by crosswords-hunspell-plugin.
 
 ##### IGNORE characters
 
 Sets characters to ignore dictionary words, affixes and input words. Useful for optional characters,
 as Arabic (harakat) or Hebrew (niqqud) diacritical marks (see tests/ignore.* test dictionary in
 Hunspell distribution).
-
-> Not supported by crosswords-hunspell-plugin.
 
 ##### AF
 
@@ -146,16 +132,12 @@ Either `AF number_of_flag_vector_aliases` or `AF flag_vector`
 Hunspell can substitute affix flag sets with ordinal numbers in affix rules (alias compression, see
 makealias tool).
 
-> Not supported by crosswords-hunspell-plugin.
-
 ##### AM
 
 Either `AM number_of_morphological_aliases` or `AM morphological_fields`
 
 Hunspell can substitute also morphological data with ordinal numbers in affix rules
 (alias compression). See tests/alias* examples. 
-
-> Not supported by crosswords-hunspell-plugin.
 
 #### Affix Creation Options
 
@@ -197,11 +179,8 @@ can be applied. (Dot signs an arbitrary character. Characters in braces sign an 
 character from the character subset. Dash hasn't got special meaning, but circumflex (^) next 
 the first brace sets the complementer character set.)
 
-
 > TODO: What does "6. Optional morphological fields separated by spaces or tabulators" represent 
 > exactly?
-
-> TODO: Support status?
 
 #### Compounding Options
 

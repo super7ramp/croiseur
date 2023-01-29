@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,7 +67,12 @@ public final class HunspellDictionaryReader {
     }
 
     private static Stream<String> streamer(URL url) throws IOException {
-        return new BufferedReader(new InputStreamReader(new BomInputStream(url.openStream()))).lines();
+        return streamer(url, StandardCharsets.US_ASCII);
+    }
+
+    private static Stream<String> streamer(URL url, Charset charset) throws IOException {
+        return new BufferedReader(new InputStreamReader(new BomInputStream(url.openStream()),
+                charset)).lines();
     }
 
     /**
@@ -112,7 +119,15 @@ public final class HunspellDictionaryReader {
 
     private Optional<Aff> readAff() {
         final URL affUrl = affUrl();
+        final Charset encoding;
         try (final Stream<String> lines = streamer(affUrl)) {
+            encoding = AffParser.identifyEncoding(lines.iterator());
+        } catch (final IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to read aff file at " + affUrl, e);
+            return Optional.empty();
+        }
+        LOGGER.fine(() -> "Detected encoding " + encoding);
+        try (final Stream<String> lines = streamer(affUrl, encoding)) {
             final Aff aff = new AffParser().parse(lines.iterator());
             return Optional.of(aff);
         } catch (final IOException | ParserException e) {
@@ -122,7 +137,7 @@ public final class HunspellDictionaryReader {
     }
 
     private Optional<Dic> readDic(final Aff aff) {
-        try (final Stream<String> lines = streamer(dicURL)) {
+        try (final Stream<String> lines = streamer(dicURL, aff.encoding())) {
             final Dic dic = new DicParser(aff.flagType()).parse(lines.iterator());
             return Optional.of(dic);
         } catch (final IOException | ParserException e) {

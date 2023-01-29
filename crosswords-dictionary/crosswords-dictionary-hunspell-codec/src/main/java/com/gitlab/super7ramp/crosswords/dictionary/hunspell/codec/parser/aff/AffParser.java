@@ -8,6 +8,8 @@ package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,6 +41,9 @@ public final class AffParser {
     /** Parser per kind of item. */
     private static final Map<AffItemKind, Parser> PARSERS;
 
+    /** The maximum number of lines to parse before abandoning the encoding SET option lookup. */
+    private static final int ENCODING_OPTION_SEARCH_LIMIT = 50;
+
     static {
         PARSERS = new EnumMap<>(AffItemKind.class);
         PARSERS.put(AffItemKind.AFFIX_HEADER,
@@ -54,6 +59,8 @@ public final class AffParser {
                 (builder, line) -> builder.setCompoundMiddleFlag(CompoundFlagParser.COMPOUNDMIDDLE.parse(line)));
         PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDEND,
                 (builder, line) -> builder.setCompoundEndFlag(CompoundFlagParser.COMPOUNDEND.parse(line)));
+        PARSERS.put(AffItemKind.GENERAL_ENCODING,
+                (builder, line) -> builder.setEncoding(EncodingParser.parse(line)));
         PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE,
                 (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
     }
@@ -73,6 +80,35 @@ public final class AffParser {
      */
     private static Parser parser(final AffItemKind affItemKind) {
         return PARSERS.computeIfAbsent(affItemKind, kind -> Parser.DUMMY);
+    }
+
+    /**
+     * Identifies the encoding of the given lines.
+     * <p>
+     * Method searches the encoding option in the first 50 lines, after which identification
+     * attempt stops and ASCII charset is assumed.
+     * <p>
+     * Typically caller should:
+     * <ol>
+     *    <li>Open the aff file using its preferred charset</li>
+     *    <li>Identify the declared encoding using this method</li>
+     *    <li>Reopen the file with the detected encoding and parse the file with
+     *    {@link #parse(Iterator)}</li>
+     * </ol>
+     *
+     * @param lines iterator on the lines of the file
+     * @return the identified charset
+     */
+    public static Charset identifyEncoding(final Iterator<String> lines) {
+        for (int i = 1; i <= ENCODING_OPTION_SEARCH_LIMIT; i++) {
+            final String line = lines.next();
+            if (AffItemKind.identify(line)
+                           .filter(AffItemKind.GENERAL_ENCODING::equals)
+                           .isPresent()) {
+                return EncodingParser.parse(line);
+            }
+        }
+        return StandardCharsets.US_ASCII;
     }
 
     /**
