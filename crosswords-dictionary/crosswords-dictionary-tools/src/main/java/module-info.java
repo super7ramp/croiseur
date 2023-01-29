@@ -11,4 +11,6 @@ module com.gitlab.super7ramp.crosswords.dictionary.tools {
     requires com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec;
     requires com.gitlab.super7ramp.crosswords.dictionary.xml.codec;
     requires java.logging;
+
+    exports com.gitlab.super7ramp.crosswords.dictionary.tools;
 }

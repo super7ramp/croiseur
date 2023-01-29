@@ -58,6 +58,7 @@ public final class TextToXml {
             final List<String> entries =
                     lines.filter(StringFilters.atLeastTwoCharacters())
                          .map(StringTransformers.toAcceptableCrosswordEntry())
+                         .distinct()
                          .toList();
             LOGGER.info("Writing XML...");
             final Dictionary dictionary = new Dictionary(header, entries);
