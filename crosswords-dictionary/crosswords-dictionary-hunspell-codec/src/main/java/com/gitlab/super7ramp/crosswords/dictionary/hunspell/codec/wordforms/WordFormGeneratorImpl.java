@@ -24,22 +24,32 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     /** The function to create affixed forms. */
     private final Affixer affixer;
 
-    /** The function to create (simple) compound forms. */
-    private final Compounder simpleCompounder;
+    /** The function to create begin-end compounds, based on the {@code COMPOUNDFLAG} option. */
+    private final Compounder beginEndCompounder;
 
     /**
-     * Constructor.
+     * The function to create begin-middle-end compounds, based on the {@code COMPOUNDBEGIN},
+     * {@code COMPOUNDMIDDLE} and {@code COMPOUNDEND} options.
+     */
+    private final Compounder beginMiddleEndCompounder;
+
+    /**
+     * Constructs an instance.
      *
      * @param affArg the parsed affix file
      * @param dicArg the parsed dictionary file
      */
     WordFormGeneratorImpl(final Aff affArg, final Dic dicArg) {
         dic = dicArg;
-        final AffixClasses affixClasses = new AffixClasses(affArg);
-        affixer = new Affixer(affixClasses);
-        simpleCompounder = affArg.compoundFlag()
-                                 .<Compounder>map(flag -> new SimpleCompounder(flag, affixer))
-                                 .orElse(dicEntries -> Stream.empty());
+        affixer = new Affixer(new AffixClasses(affArg));
+        beginEndCompounder =
+                affArg.compoundFlag()
+                      .<Compounder>map(flag -> new BeginEndCompounder(flag, affixer))
+                      .orElse(dicEntries -> Stream.empty());
+        beginMiddleEndCompounder =
+                affArg.threePartsCompoundFlags()
+                      .<Compounder>map(compoundBeginMiddleEndFlags -> new BeginMiddleEndCompounder(compoundBeginMiddleEndFlags, affixer))
+                      .orElse(dicEntries -> Stream.empty());
     }
 
     @Override
@@ -50,7 +60,10 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     }
 
     private Stream<String> applyCompounds() {
-        return simpleCompounder.apply(dic.entries());
+        final Stream<String> beginEndCompounds = beginEndCompounder.apply(dic.entries());
+        final Stream<String> beginMiddleEndCompounds =
+                beginMiddleEndCompounder.apply(dic.entries());
+        return Stream.concat(beginEndCompounds, beginMiddleEndCompounds);
     }
 
     private Stream<String> applyAffixes() {

@@ -51,33 +51,65 @@ final class Affixer implements Function<DicEntry, Stream<String>> {
      * <p>
      * It is slightly more complex than on a normal entry:
      * <ul>
-     *     <li>Apply prefixes referenced by the left part on the compound</li>
-     *     <li>Apply suffixes referenced by the right part on the prefixed compound
+     *     <li>Apply prefixes referenced by the begin part on the compound</li>
+     *     <li>Apply suffixes referenced by the end part on the prefixed compound
      *     (cross-product)</li>
-     *     <li>Apply suffixes referenced by the right part on the compound</li>
-     *     <li>Apply prefixes referenced by left part on the suffixed compound (cross-product)</li>
+     *     <li>Apply suffixes referenced by the end part on the compound</li>
+     *     <li>Apply prefixes referenced by begin part on the suffixed compound (cross-product)</li>
      * </ul>
      *
      * @param compound the compound to affix
      * @return the affixed forms
      */
-    Stream<String> apply(final SimpleCompound compound) {
+    // TODO Affixes with COMPOUNDPERMITFLAG may be inside of compounds
+    Stream<String> apply(final BeginEndCompound compound) {
 
         final String compoundedForm = compound.word();
         final DicEntry prefixablePseudoDicEntry =
-                new DicEntry(false, compoundedForm, compound.rightFlags() /* for cross-product
+                new DicEntry(false, compoundedForm, compound.endFlags() /* for cross-product
                 suffix on prefixed form. */);
         final Stream<String> prefixed =
-                affixClasses.referencedBy(compound.leftFlags())
+                affixClasses.referencedBy(compound.beginFlags())
                             .filter(cls -> cls.kind().isPrefix())
                             .map(cls -> affixClassApplicators.get(cls.flag()))
                             .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
 
         final DicEntry suffixablePseudoDicEntry =
-                new DicEntry(false, compoundedForm, compound.leftFlags() /* for cross-product
+                new DicEntry(false, compoundedForm, compound.beginFlags() /* for cross-product
                 prefix on suffixed form*/);
         final Stream<String> suffixed =
-                affixClasses.referencedBy(compound.rightFlags())
+                affixClasses.referencedBy(compound.endFlags())
+                            .filter(cls -> cls.kind().isSuffix())
+                            .map(cls -> affixClassApplicators.get(cls.flag()))
+                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));
+
+        return Stream.concat(prefixed, suffixed);
+    }
+
+    /**
+     * Applies affix classes on a begin-middle-end compound.
+     *
+     * @param compound the compound to affix
+     * @return the affixed forms
+     */
+    // TODO Affixes with COMPOUNDPERMITFLAG may be inside of compounds
+    Stream<String> apply(final BeginMiddleEndCompound compound) {
+
+        final String compoundedForm = compound.word();
+        final DicEntry prefixablePseudoDicEntry =
+                new DicEntry(false, compoundedForm, compound.endFlags() /* for cross-product
+                suffix on prefixed form. */);
+        final Stream<String> prefixed =
+                affixClasses.referencedBy(compound.beginFlags())
+                            .filter(cls -> cls.kind().isPrefix())
+                            .map(cls -> affixClassApplicators.get(cls.flag()))
+                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
+
+        final DicEntry suffixablePseudoDicEntry =
+                new DicEntry(false, compoundedForm, compound.beginFlags() /* for cross-product
+                prefix on suffixed form*/);
+        final Stream<String> suffixed =
+                affixClasses.referencedBy(compound.endFlags())
                             .filter(cls -> cls.kind().isSuffix())
                             .map(cls -> affixClassApplicators.get(cls.flag()))
                             .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));

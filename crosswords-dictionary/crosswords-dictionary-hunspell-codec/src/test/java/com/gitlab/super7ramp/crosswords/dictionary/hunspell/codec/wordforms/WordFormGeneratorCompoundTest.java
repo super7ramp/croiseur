@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import java.util.Set;
-
 final class WordFormGeneratorCompoundTest extends WordFormGeneratorTestCase {
 
     @Override
@@ -14,8 +12,4 @@ final class WordFormGeneratorCompoundTest extends WordFormGeneratorTestCase {
         return "compound";
     }
 
-    @Override
-    Set<String> expected() {
-        return Set.of("foo", "bar", "foobar", "barfoo", "foofoo", "barbar");
-    }
 }

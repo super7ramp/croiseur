@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.Aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClass;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.AffixRule;
+import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.FlagType;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.parser.common.ParserException;
@@ -33,12 +34,16 @@ final class AffBuilder {
     /** The compound flag, if any, {@code null} otherwise. */
     private Flag compoundFlag;
 
+    /** The builder for {@link ThreePartsCompoundFlags}. */
+    private ThreePartsCompoundFlagsBuilder threePartsCompoundFlagsBuilder;
+
     /**
      * Constructs an instance.
      */
     AffBuilder() {
         affixClassBuilders = new HashMap<>();
         flagType = FlagType.SINGLE_ASCII;
+        threePartsCompoundFlagsBuilder = new ThreePartsCompoundFlagsBuilder();
     }
 
     /**
@@ -85,6 +90,21 @@ final class AffBuilder {
         return this;
     }
 
+    AffBuilder setCompoundBeginFlag(final Flag compoundBeginFlag) {
+        threePartsCompoundFlagsBuilder.setBeginFlag(compoundBeginFlag);
+        return this;
+    }
+
+    AffBuilder setCompoundMiddleFlag(final Flag compoundMiddleFlag) {
+        threePartsCompoundFlagsBuilder.setMiddleFlag(compoundMiddleFlag);
+        return this;
+    }
+
+    AffBuilder setCompoundEndFlag(final Flag compoundEndFlag) {
+        threePartsCompoundFlagsBuilder.setEndFlag(compoundEndFlag);
+        return this;
+    }
+
     /**
      * Build the {@link Aff}
      *
@@ -96,7 +116,10 @@ final class AffBuilder {
         for (final AffixClassBuilder affixClassBuilder : affixClassBuilders.values()) {
             affixClasses.add(affixClassBuilder.build());
         }
-        return new Aff(flagType, affixClasses, Optional.ofNullable(compoundFlag));
+        final Optional<Flag> optCompoundFlag = Optional.ofNullable(compoundFlag);
+        final Optional<ThreePartsCompoundFlags> optThreePartsCompoundFlags =
+                threePartsCompoundFlagsBuilder.build();
+        return new Aff(flagType, affixClasses, optCompoundFlag, optThreePartsCompoundFlags);
     }
 
     /**

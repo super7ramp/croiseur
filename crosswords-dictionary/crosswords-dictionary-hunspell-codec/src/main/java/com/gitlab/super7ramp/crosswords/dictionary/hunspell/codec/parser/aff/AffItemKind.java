@@ -28,21 +28,25 @@ enum AffItemKind {
      * Compounding option: Words signed with COMPOUNDBEGIN (or with a signed affix) may be first
      * elements in compound words.
      */
-    COMPOUNDING_BEGIN("^COMPOUNDBEGIN [^ ]+$"),
+    COMPOUNDING_COMPOUNDBEGIN("^COMPOUNDBEGIN [^ ]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK_HEADER("^BREAK [0-9]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_BREAK("^BREAK [^ ]+$"),
-    /** Compounding option: Words signed with COMPOUNDFLAG may be in compound words (except when
-     * word shorter than COMPOUNDMIN). */
+    /** Compounding option: Forbid upper case characters at word boundaries in compounds. */
+    COMPOUNDING_CHECK_CASE("^CHECKCOMPOUNDCASE$"),
+    /**
+     * Compounding option: Words signed with COMPOUNDFLAG may be in compound words (except when
+     * word shorter than COMPOUNDMIN).
+     */
     COMPOUNDING_COMPOUNDFLAG("^COMPOUNDFLAG [^ ]+$"),
     /** Compounding option: TODO document. */
-    COMPOUNDING_END("^COMPOUNDEND [^ ]+$"),
+    COMPOUNDING_COMPOUNDEND("^COMPOUNDEND [^ ]+$"),
     /**
      * Compounding option:  Words signed with COMPOUNDMIDDLE (or with a signed affix) may be
      * middle elements in compound words.
      */
-    COMPOUNDING_MIDDLE("^COMPOUNDMIDDLE [^ ]+$"),
+    COMPOUNDING_COMPOUNDMIDDLE("^COMPOUNDMIDDLE [^ ]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_MIN("^COMPOUNDMIN [0-9]+$"),
     /** Compounding option: TODO document. */

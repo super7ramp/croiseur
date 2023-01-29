@@ -11,12 +11,13 @@ import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.dic.DicE
 import java.util.Collection;
 
 /**
- * A simple compound composed of two dictionary entries.
+ * A compound composed of three dictionary entries.
  *
- * @param left  the dictionary entry for the left part
- * @param right the dictionary entry for the right part
+ * @param begin  the dictionary entry for the beginning part
+ * @param middle the dictionary entry for the middle part
+ * @param end    the dictionary entry for the end part
  */
-record SimpleCompound(DicEntry left, DicEntry right) {
+record BeginMiddleEndCompound(DicEntry begin, DicEntry middle, DicEntry end) {
 
     /**
      * Returns the flags of left part dictionary entry.
@@ -25,8 +26,8 @@ record SimpleCompound(DicEntry left, DicEntry right) {
      *
      * @return the flags of left part dictionary entry
      */
-    Collection<Flag> leftFlags() {
-        return left.flags();
+    Collection<Flag> beginFlags() {
+        return begin.flags();
     }
 
     /**
@@ -36,8 +37,8 @@ record SimpleCompound(DicEntry left, DicEntry right) {
      *
      * @return the flags of right part dictionary entry
      */
-    Collection<Flag> rightFlags() {
-        return right.flags();
+    Collection<Flag> endFlags() {
+        return end.flags();
     }
 
     /**
@@ -46,6 +47,7 @@ record SimpleCompound(DicEntry left, DicEntry right) {
      * @return the compounded form
      */
     String word() {
-        return left.word() + right.word();
+        // FIXME this assumes left-to-right language
+        return begin.word() + middle.word() + end.word();
     }
 }

@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toSet;
  * <p>
  * Every entry referencing the compound flag can be compounded with each other, in any order.
  */
-final class SimpleCompounder implements Compounder {
+final class BeginEndCompounder implements Compounder {
 
     /** The compound flag. */
     private final Flag compoundFlag;
@@ -36,8 +36,8 @@ final class SimpleCompounder implements Compounder {
      * @param compoundFlagArg the compound flag
      * @param affixerArg      the affixer
      */
-    SimpleCompounder(final Flag compoundFlagArg,
-                     final Affixer affixerArg) {
+    BeginEndCompounder(final Flag compoundFlagArg,
+                       final Affixer affixerArg) {
         compoundFlag = compoundFlagArg;
         affixer = affixerArg;
     }
@@ -46,11 +46,11 @@ final class SimpleCompounder implements Compounder {
     public Stream<String> apply(final Collection<DicEntry> entries) {
         final Set<DicEntry> compoundableEntries =
                 entries.stream()
-                       .filter(entry -> entry.flags().contains(compoundFlag))
+                       .filter(entry -> entry.isFlaggedWith(compoundFlag))
                        .collect(toSet());
 
         return pairs(compoundableEntries).stream().mapMulti((compoundParts, accumulator) -> {
-            final SimpleCompound compound = compound(compoundParts, accumulator);
+            final BeginEndCompound compound = compound(compoundParts, accumulator);
             applyAffixes(compound, accumulator);
         });
     }
@@ -64,9 +64,9 @@ final class SimpleCompounder implements Compounder {
      * @param accumulator   the accumulator where the compound is added
      * @return the created compound
      */
-    private SimpleCompound compound(final Pair<DicEntry, DicEntry> compoundParts,
-                                    final Consumer<String> accumulator) {
-        final SimpleCompound compound = new SimpleCompound(compoundParts.left(),
+    private BeginEndCompound compound(final Pair<DicEntry, DicEntry> compoundParts,
+                                      final Consumer<String> accumulator) {
+        final BeginEndCompound compound = new BeginEndCompound(compoundParts.left(),
                 compoundParts.right());
         accumulator.accept(compound.word());
         return compound;
@@ -78,7 +78,7 @@ final class SimpleCompounder implements Compounder {
      * @param compound    the compound
      * @param accumulator the accumulator where the compound is added.
      */
-    private void applyAffixes(final SimpleCompound compound, final Consumer<String> accumulator) {
+    private void applyAffixes(final BeginEndCompound compound, final Consumer<String> accumulator) {
         affixer.apply(compound).forEach(accumulator);
     }
 

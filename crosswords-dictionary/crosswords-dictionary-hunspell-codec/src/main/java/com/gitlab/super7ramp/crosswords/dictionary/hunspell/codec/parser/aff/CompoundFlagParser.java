@@ -13,16 +13,27 @@ import java.util.regex.Pattern;
 /**
  * Compound flag parser.
  */
-final class CompoundFlagParser {
+enum CompoundFlagParser {
+
+    /** Parser for {@code COMPOUNDFLAG}. */
+    COMPOUNDFLAG("FLAG"),
+    /** Parser for {@code COMPOUNDBEGIN}. */
+    COMPOUNDBEGIN("BEGIN"),
+    /** Parser for {@code COMPOUNDMIDDLE}. */
+    COMPOUNDMIDDLE("MIDDLE"),
+    /** Parser for {@code COMPOUNDEND}. */
+    COMPOUNDEND("END");
 
     /** The textual representation. */
-    private static final Pattern PATTERN = Pattern.compile("^COMPOUNDFLAG +(?<identifier>[^ ])+$");
+    private final Pattern pattern;
 
     /**
-     * Private constructor to prevent instantiation.
+     * Constructs an instance.
+     *
+     * @param nameSuffix the suffix to add to "COMPOUND" to have the full option name
      */
-    private CompoundFlagParser() {
-        // Nothing to do.
+    CompoundFlagParser(final String nameSuffix) {
+        pattern = Pattern.compile("^COMPOUND" + nameSuffix + " +(?<identifier>[^ ])+$");
     }
 
     /**
@@ -31,8 +42,8 @@ final class CompoundFlagParser {
      * @param line the line to parse
      * @return the {@link CompoundFlagParser}
      */
-    static Flag parse(final String line) {
-        final Matcher matcher = PATTERN.matcher(line);
+    Flag parse(final String line) {
+        final Matcher matcher = pattern.matcher(line);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Not a compound flag: " + line);
         }

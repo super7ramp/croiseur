@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.aff;
 import com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.model.common.Flag;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a parsed affix class.
@@ -16,6 +17,17 @@ import java.util.Collection;
  * @param rules  the affix class rules
  */
 public record AffixClass(AffixClassHeader header, Collection<AffixRule> rules) {
+
+    /**
+     * Performs some null checks.
+     *
+     * @param header the affix class header
+     * @param rules  the affix class rules
+     */
+    public AffixClass {
+        Objects.requireNonNull(header);
+        Objects.requireNonNull(rules);
+    }
 
     /**
      * Returns the flag identifying this affix class.
@@ -49,5 +61,4 @@ public record AffixClass(AffixClassHeader header, Collection<AffixRule> rules) {
     public AffixKind kind() {
         return header.kind();
     }
-
 }

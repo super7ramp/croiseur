@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.crosswords.dictionary.hunspell.codec.wordforms;
 
-import java.util.Set;
-
 final class WordFormGeneratorContinuationTest extends WordFormGeneratorTestCase {
 
     @Override
@@ -14,8 +12,4 @@ final class WordFormGeneratorContinuationTest extends WordFormGeneratorTestCase 
         return "continuation";
     }
 
-    @Override
-    Set<String> expected() {
-        return Set.of("drink", "drinkable", "drinkables");
-    }
 }
