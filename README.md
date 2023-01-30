@@ -3,38 +3,18 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## Crosswords
+## crosswords
 
-**Crosswords** is a software project aiming at generating crossword problems.
-It embeds a number of dictionaries and a decent solver (a.k.a _filler_).
-It is designed to be extensible: Dictionaries, solvers and even user interfaces can be added as
-_plugins_.
+**crosswords** is a software tool to generate crossword problems. It embeds dictionaries for 
+multiple language as well as several solvers. It is designed to be extensible: Solvers, 
+dictionaries and even user interfaces can be added as plugins.
 
-TODO insert image
+As a crossword enthusiast, you may be interested in creating your crossword with 
+[**crosswords-gui**](crosswords-gui), a desktop application based on **crosswords**.
 
-### Tutorials
+As a command-line fan, you may be interested in [**crosswords-cli**](crosswords-cli), a CLI 
+to **crosswords**.
 
-* TODO: Generate a grid using the graphical interface
-* TODO: Generate a grid using the command-line interface
+As a problem solver, you may be interested in discovering how [the solvers](crosswords-solver) work.
 
-### How-To Guides
-
-* TODO: How to plug your own solver
-* TODO: How to plug your own dictionary
-* TODO: How to plug your own user interface
-
-### Explanations
-
-* "Search Lessons Learned from Crossword Puzzles", _AAAI 1990_, by Matthew L. Ginsberg, Michael
-  Frank, Michael P. Halpin and Mark C. Torrance.
-* "Dynamic Backtracking", _Journal of Artificial Intelligence Research 1 (1993) 25-46_, by Matthew
-  L. Ginsberg.
-* [crosswordconstruction.com](https://www.crosswordconstruction.com/) by Otis Peterson and
-  Michael Wehar.
-* TODO: Design Decisions
-
-### References
-
-* TODO: Design Documentation
-* TODO: API Documentation
-* TODO: CLI man page
+Need more? Check the [project documentation](doc)!
