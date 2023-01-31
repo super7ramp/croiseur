@@ -8,6 +8,6 @@ plugins {
 }
 
 artifacts {
-    dictionary fileTree(layout.projectDirectory) { exclude 'build*', '*.md' }.files
+    dictionary fileTree(layout.projectDirectory) { exclude 'build*', '*.md', '**/*.license' }.files
 }
 

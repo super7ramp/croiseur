@@ -8,3 +8,8 @@ Source: https://gitlab.com/super7ramp/crosswords
 # Files: src/*
 # Copyright: $YEAR $NAME <$CONTACT>
 # License: ...
+
+# Test files directly imported from Hunspell
+Files: croiseur-dictionary/croiseur-dictionary-hunspell-codec/src/test/resources/*
+Copyright: 2023 Hunspell Authors
+License: GPL-3.0-or-later
