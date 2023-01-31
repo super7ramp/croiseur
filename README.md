@@ -49,7 +49,7 @@ comprehensive listing of all the files with their associated licences.
 
 [solvers]: ./doc/references/0001-available-providers.md#solvers
 
-<!-- Footer -->
+---
 
 [^1]: [_croiseur_](https://en.wiktionary.org/wiki/croiseur) is the French name for _cruiser_
 (battleship). It can also be literally understood as _the one which does crosses_ (_croi\[x\]_ is 
