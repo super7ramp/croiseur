@@ -9,3 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 frontend to the `croiseur` library.
 
 ![Screencast](doc/media/screencast.webm)
+
+### Installation
+
+Refer to [INSTALL.md](INSTALL.md).

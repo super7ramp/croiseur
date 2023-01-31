@@ -19,7 +19,7 @@ public final class DictionaryPath {
 
     /** The dictionary path system property name. */
     public static final String SYSTEM_PROPERTY =
-            "com.gitlab.super7ramp.crosswords.dictionary.path";
+            "com.gitlab.super7ramp.croiseur.dictionary.path";
 
     /**
      * The dictionary path. Contains files or directory path, separated by ':', similarly to a

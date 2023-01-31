@@ -130,10 +130,6 @@ solutions after unassignment is > 0). See Ginsberg papers.
   - Assess original Hunspell library and if it is worth trying to work with it using JNI
   - Alternatively: Create a dedicated project 
 
-##### XML
-
-There seems to be some duplicates in Spanish dictionary. Should be harmless but still, to clean up.
-
 ##### Other providers
 
 - Look for them.
@@ -155,8 +151,3 @@ There seems to be some duplicates in Spanish dictionary. Should be harmless but 
 
 - Every subproject should have one
 - Complete them, see TODOs in files directly
-
-##### Naming
-
-- Find a real name for the project. Ideas: `croiseur`, `croiseur-rouge` (because it sounds good), 
-  `cr`, `croisette`.

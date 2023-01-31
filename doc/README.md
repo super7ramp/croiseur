@@ -29,6 +29,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### References
 
+* [Available service providers](references/0001-available-providers.md)
 * TODO: Design Documentation
 * TODO: API Documentation
 * TODO: CLI man page
