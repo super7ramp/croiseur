@@ -44,15 +44,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 #### Support output formatter as plugins
 
-- `crosswords-spi-formatter`: Defines the API.
-- `crosswords-formatter-ipuz-plugin`: ipuz implementation (json like, use gson?)
-- `crosswords-formatter-pdf-plugin`: pdf implementation (check LaTeX packages).
+- `croiseur-spi-formatter`: Defines the API.
+- `croiseur-formatter-ipuz-plugin`: ipuz implementation (json like, use gson?)
+- `croiseur-formatter-pdf-plugin`: pdf implementation (check LaTeX packages).
 
 #### Suggest (interesting) definitions
 
 For the words of a solved grid. It can be a funny problem to explore.
 
-- `crosswords-spi-suggestion`: Defines the API.
+- `croiseur-spi-suggestion`: Defines the API.
 
 #### Add special treatment
 

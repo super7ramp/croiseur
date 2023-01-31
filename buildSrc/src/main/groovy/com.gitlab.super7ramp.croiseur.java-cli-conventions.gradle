@@ -1,0 +1,56 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
+ * Conventions for Java CLI applications define:
+ * <ul>
+ *     <li>A systematic mainModule/mainClass format
+ *     <li>A dependency on the picocli framework
+ *     <li>A dependency on graalvm to allow native compilation
+ * </ul>
+ */
+
+plugins {
+    id 'com.gitlab.super7ramp.croiseur.java-application-conventions'
+    // Cannot use version catalog in plugins block of pre-compiled script plugins, i.e.
+    // "alias(sbom.plugins.native)" doesn't work (gh#gradle/gradle#15383)
+    id 'org.graalvm.buildtools.native'
+}
+
+dependencies {
+    implementation sbom.picocli.framework
+    annotationProcessor sbom.picocli.codegen
+}
+
+/**
+ * Uses picocli-codegen annotation processor to create native compilation configuration.
+ * By convention, includes logging.properties and serialized objects as native resources.
+ */
+compileJava {
+    options.compilerArgs += [
+            "-Aproject=${project.group}/${project.name}",
+            "-Averbose",
+            "-Aother.resource.patterns=^(logging.properties|.*obj)\$"
+    ]
+}
+
+/**
+ * Native compilation option conventions.
+ */
+graalvmNative {
+    binaries {
+        main {
+            // Verbose so that we can see what options are passed to native-image
+            verbose = true
+            // Sometimes native image creation fails without this option
+            buildArgs.add('--report-unsupported-elements-at-runtime')
+            // Uses GraalVM matching language version defined in Java conventions
+            javaLauncher = javaToolchains.launcherFor {
+                languageVersion = java.toolchain.languageVersion
+                vendor = JvmVendorSpec.matching("GraalVM Community")
+            }
+        }
+    }
+}

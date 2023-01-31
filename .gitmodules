@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [submodule "crosswords-solver/crosswords-solver-paulgb/crossword-composer"]
-	path = crosswords-solver/crosswords-solver-paulgb/crossword-composer
+	path = croiseur-solver/croiseur-solver-paulgb/crossword-composer
 	url = https://github.com/super7ramp/crossword-composer.git
 [submodule "crosswords-dictionary/crosswords-dictionary-data/libreoffice-dictionaries"]
-	path = crosswords-dictionary/crosswords-dictionary-hunspell-data/libreoffice-dictionaries
+	path = croiseur-dictionary/croiseur-dictionary-hunspell-data/libreoffice-dictionaries
 	url = git://anongit.freedesktop.org/libreoffice/dictionaries

@@ -1,0 +1,40 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+plugins {
+    id 'com.gitlab.super7ramp.croiseur.java-application-conventions'
+    alias(sbom.plugins.javafx)
+}
+
+javafx {
+    version = sbom.versions.java.get()
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    implementation project(':croiseur')
+    implementation project(':croiseur-gui:croiseur-gui-controller')
+    implementation project(':croiseur-gui:croiseur-gui-presenter')
+    implementation project(':croiseur-gui:croiseur-gui-view')
+    implementation project(':croiseur-gui:croiseur-gui-view-model')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-hunspell-plugin')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
+    // Don't pull paulgb solver: There is no way to select the solver in GUI for now
+    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
+    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
+    // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
+    // as XML dictionaries
+}
+
+/**
+ * Configures parameters to be used when launch the application via './gradlew run'.
+ */
+// TODO find a way to move this to application convention plugin
+tasks.named('run') {
+    def dictionaryPath = configurations.getByName('dictionaryPath').asPath
+    jvmArgs.add('-Dcom.gitlab.super7ramp.croiseur.dictionary.path=' + dictionaryPath)
+}

@@ -1,0 +1,42 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+plugins {
+    id 'com.gitlab.super7ramp.croiseur.java-cli-conventions'
+}
+
+dependencies {
+    implementation project(':croiseur')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-hunspell-plugin')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
+    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
+    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
+    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
+    // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
+    // as XML dictionaries
+}
+
+/**
+ * Native build specifics.
+ */
+graalvmNative {
+    binaries {
+        main {
+            // Dictionary module requires the JVM locales for its dictionary management (JVM
+            // locales are not included by default in native build)
+            buildArgs.add('-H:IncludeLocales=fr,en')
+        }
+    }
+}
+/**
+ * Configures parameters to be used when launch the application via './gradlew run'.
+ */
+// TODO find a way to move this to application convention plugin
+tasks.named('run') {
+    def dictionaryPath = configurations.getByName('dictionaryPath').asPath
+    jvmArgs.add('-Dcom.gitlab.super7ramp.croiseur.dictionary.path=' + dictionaryPath)
+}

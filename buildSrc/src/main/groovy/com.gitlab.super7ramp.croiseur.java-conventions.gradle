@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
+ * Conventions for Java.
+ */
+
+plugins {
+    id 'java'
+}
+
+group = 'com.gitlab.super7ramp'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation sbom.junit5.api
+    testRuntimeOnly sbom.junit5.engine
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

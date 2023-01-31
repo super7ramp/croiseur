@@ -3,48 +3,48 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-rootProject.name = 'crosswords'
+rootProject.name = 'croiseur'
 
 // The application core library
-include 'crosswords'
+include 'croiseur'
 
 // The common types used as building blocks by all other modules
-include 'crosswords-common'
+include 'croiseur-common'
 
 // The application core library plugin definitions
-include 'crosswords-spi:crosswords-spi-dictionary'
-include 'crosswords-spi:crosswords-spi-solver'
-include 'crosswords-spi:crosswords-spi-presenter'
+include 'croiseur-spi:croiseur-spi-dictionary'
+include 'croiseur-spi:croiseur-spi-solver'
+include 'croiseur-spi:croiseur-spi-presenter'
 
 // Dictionary codecs/data/plugins/tools
-include 'crosswords-dictionary:crosswords-dictionary-common'
-include 'crosswords-dictionary:crosswords-dictionary-hunspell-codec'
-include 'crosswords-dictionary:crosswords-dictionary-hunspell-data'
-include 'crosswords-dictionary:crosswords-dictionary-hunspell-plugin'
-include 'crosswords-dictionary:crosswords-dictionary-tools'
-include 'crosswords-dictionary:crosswords-dictionary-txt-codec'
-include 'crosswords-dictionary:crosswords-dictionary-txt-data'
-include 'crosswords-dictionary:crosswords-dictionary-txt-plugin'
-include 'crosswords-dictionary:crosswords-dictionary-xml-codec'
-include 'crosswords-dictionary:crosswords-dictionary-xml-data'
-include 'crosswords-dictionary:crosswords-dictionary-xml-plugin'
+include 'croiseur-dictionary:croiseur-dictionary-common'
+include 'croiseur-dictionary:croiseur-dictionary-hunspell-codec'
+include 'croiseur-dictionary:croiseur-dictionary-hunspell-data'
+include 'croiseur-dictionary:croiseur-dictionary-hunspell-plugin'
+include 'croiseur-dictionary:croiseur-dictionary-tools'
+include 'croiseur-dictionary:croiseur-dictionary-txt-codec'
+include 'croiseur-dictionary:croiseur-dictionary-txt-data'
+include 'croiseur-dictionary:croiseur-dictionary-txt-plugin'
+include 'croiseur-dictionary:croiseur-dictionary-xml-codec'
+include 'croiseur-dictionary:croiseur-dictionary-xml-data'
+include 'croiseur-dictionary:croiseur-dictionary-xml-plugin'
 
 // Solvers libraries/plugins
-include 'crosswords-solver:crosswords-solver-ginsberg'
-include 'crosswords-solver:crosswords-solver-ginsberg-plugin'
-include 'crosswords-solver:crosswords-solver-paulgb'
-include 'crosswords-solver:crosswords-solver-paulgb:crossword-composer-jni'
-include 'crosswords-solver:crosswords-solver-paulgb-plugin'
+include 'croiseur-solver:croiseur-solver-ginsberg'
+include 'croiseur-solver:croiseur-solver-ginsberg-plugin'
+include 'croiseur-solver:croiseur-solver-paulgb'
+include 'croiseur-solver:croiseur-solver-paulgb:crossword-composer-jni'
+include 'croiseur-solver:croiseur-solver-paulgb-plugin'
 
 // CLI frontend
-include 'crosswords-cli'
+include 'croiseur-cli'
 
 // GUI frontend
-include 'crosswords-gui:crosswords-gui'
-include 'crosswords-gui:crosswords-gui-controller'
-include 'crosswords-gui:crosswords-gui-presenter'
-include 'crosswords-gui:crosswords-gui-view'
-include 'crosswords-gui:crosswords-gui-view-model'
+include 'croiseur-gui:croiseur-gui'
+include 'croiseur-gui:croiseur-gui-controller'
+include 'croiseur-gui:croiseur-gui-presenter'
+include 'croiseur-gui:croiseur-gui-view'
+include 'croiseur-gui:croiseur-gui-view-model'
 
 // Dependency versions
 dependencyResolutionManagement {

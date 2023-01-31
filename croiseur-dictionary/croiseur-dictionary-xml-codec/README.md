@@ -1,0 +1,17 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+## croiseur-dictionary-xml-codec
+
+`croiseur-dictionary-xml-codec` is a library which allows to read and write dictionaries in a 
+custom XML format.
+
+### References
+
+* [`dictionary.xsd`](src/main/resources/dictionary.xsd): The XML schema.
+
+### Examples
+
+* [`example.xml`](src/test/resources/example.xml): A simple example.

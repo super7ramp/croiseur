@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
+ * Conventions for Java libraries.
+ */
+
+plugins {
+    id 'java-library'
+    id 'com.gitlab.super7ramp.croiseur.java-conventions'
+}
