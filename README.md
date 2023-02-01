@@ -52,5 +52,5 @@ comprehensive listing of all the files with their associated licences.
 ---
 
 [^1]: [_croiseur_](https://en.wiktionary.org/wiki/croiseur) is the French name for _cruiser_
-(battleship). It can also be literally understood as _the one which does crosses_ (_croi\[x\]_ is 
+(battleship). It can also be literally understood as _the one who does crosses_ (_croi\[x\]_ is
 _cross_, and _-eur_ is equivalent to the English suffix _-er_).
