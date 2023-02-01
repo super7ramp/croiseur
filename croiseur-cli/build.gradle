@@ -22,16 +22,15 @@ dependencies {
 
 /**
  * Native build specifics.
+ * <p>
+ * This is used by picocli-codegen to generates the GraalVM configuration under
+ * META-INF/native-image/picocli-generated.
  */
-graalvmNative {
-    binaries {
-        main {
-            // Dictionary module requires the JVM locales for its dictionary management (JVM
-            // locales are not included by default in native build)
-            buildArgs.add('-H:IncludeLocales=fr,en')
-        }
-    }
+compileJava {
+    options.compilerArgs += ["-Aother.resource.bundles=l10n.SolverMessages,l10n.HelpMessages,l10n.DictionaryMessages"]
+    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties"]
 }
+
 /**
  * Configures parameters to be used when launch the application via './gradlew run'.
  */

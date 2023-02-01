@@ -25,7 +25,7 @@ public final class ResourceBundles {
      * @return the resource bundle for help messages.
      */
     public static ResourceBundle helpMessages() {
-        return ResourceBundle.getBundle("/l10n/HelpMessages");
+        return ResourceBundle.getBundle("l10n.HelpMessages");
     }
 
     /**
@@ -34,7 +34,7 @@ public final class ResourceBundles {
      * @return the resource bundle for application output dictionary messages
      */
     public static ResourceBundle dictionaryMessages() {
-        return ResourceBundle.getBundle("/l10n/DictionaryMessages");
+        return ResourceBundle.getBundle("l10n.DictionaryMessages");
     }
 
     /**
@@ -43,7 +43,7 @@ public final class ResourceBundles {
      * @return the resource bundle for application output solver messages
      */
     public static ResourceBundle solverMessages() {
-        return ResourceBundle.getBundle("/l10n/SolverMessages");
+        return ResourceBundle.getBundle("l10n.SolverMessages");
     }
 
 }

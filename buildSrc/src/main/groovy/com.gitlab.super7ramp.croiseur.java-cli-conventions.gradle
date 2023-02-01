@@ -26,13 +26,11 @@ dependencies {
 
 /**
  * Uses picocli-codegen annotation processor to create native compilation configuration.
- * By convention, includes logging.properties and serialized objects as native resources.
  */
 compileJava {
     options.compilerArgs += [
             "-Aproject=${project.group}/${project.name}",
-            "-Averbose",
-            "-Aother.resource.patterns=^(logging.properties|.*obj)\$"
+            "-Averbose"
     ]
 }
 
@@ -49,7 +47,7 @@ graalvmNative {
             // Uses GraalVM matching language version defined in Java conventions
             javaLauncher = javaToolchains.launcherFor {
                 languageVersion = java.toolchain.languageVersion
-                vendor = JvmVendorSpec.matching("GraalVM Community")
+                vendor = JvmVendorSpec.matching("Oracle")
             }
         }
     }
