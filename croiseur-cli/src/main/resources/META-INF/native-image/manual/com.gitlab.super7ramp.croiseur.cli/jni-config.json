@@ -1,0 +1,23 @@
+[
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary",
+        "allPublicMethods": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.Puzzle",
+        "allPublicMethods": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.Solution",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.SolverErrorException",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "java.util.Optional",
+        "allPublicMethods": true
+    }
+]
+

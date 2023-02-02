@@ -28,12 +28,26 @@ dependencies {
  */
 compileJava {
     options.compilerArgs += ["-Aother.resource.bundles=l10n.SolverMessages,l10n.HelpMessages,l10n.DictionaryMessages"]
-    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties"]
+    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*crossword_composer_jni.(dll|dylib|so)"]
 }
 
 /**
- * Configures parameters to be used when launch the application via './gradlew run'.
+ * Other native build specifics.
+ * <p>
+ * Things that cannot be configured via picocli-codegen, e.g. JNI.
  */
+graalvmNative {
+    binaries {
+        main {
+            def projectId = "${project.group}.${project.name}".replace('-', '.')
+            def jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
+            buildArgs.add("-H:JNIConfigurationFiles=${jniConfPath}")
+        }
+    }
+}
+
+/**
+ * Configures parameters to be used when launch the application via './gradlew run'.*/
 // TODO find a way to move this to application convention plugin
 tasks.named('run') {
     def dictionaryPath = configurations.getByName('dictionaryPath').asPath
