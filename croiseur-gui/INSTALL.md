@@ -12,10 +12,12 @@ official release is made.
 
 ### From sources
 
-`croiseur-gui` is written in Java and uses [gradle](https://gradle.org/) as build tool.
+In order to build `croiseur-cli` from sources, you need:
 
-Assuming you have a local installation of gradle, you can build `croiseur-gui` with the following
-commands:
+- [Gradle](https://gradle.org/) 7.6 or later
+- [Java](https://adoptium.net/temurin/releases/) 17 or later (this one is required as run-time too)
+
+You can build `croiseur-gui` with the following command:
 
 ```
 gradle installDist
@@ -34,4 +36,3 @@ Alternatively, you may run the executable directly via gradle without installati
 ```
 gradle run
 ```
-
