@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
@@ -20,6 +21,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * GUI implementation of {@link Presenter}.
@@ -159,5 +161,20 @@ public final class GuiPresenter implements Presenter {
     @Override
     public void presentPuzzleExportError(final String error) {
         puzzlePresenter.presentPuzzleExportError(error);
+    }
+
+    @Override
+    public void presentClueError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void presentClues(final Map<String, String> clues) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

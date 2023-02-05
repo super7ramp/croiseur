@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
@@ -38,13 +39,14 @@ final class CrosswordServiceLoader {
      */
     static CrosswordService load(final Presenter presenter) {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepository puzzleRepository =
                 load(PuzzleRepository.class).stream().findFirst()
                                             .orElseGet(DummyPuzzleRepository::new);
-        return CrosswordService.create(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders,
+        return CrosswordService.create(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders,
                                        puzzleRepository, presenter);
     }
 

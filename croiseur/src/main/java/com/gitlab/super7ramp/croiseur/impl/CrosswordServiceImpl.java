@@ -6,12 +6,15 @@
 package com.gitlab.super7ramp.croiseur.impl;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
+import com.gitlab.super7ramp.croiseur.impl.clue.ClueServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.dictionary.DictionaryServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.PuzzleServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.solver.SolverServiceImpl;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
@@ -29,6 +32,9 @@ public final class CrosswordServiceImpl implements CrosswordService {
     /** Dictionary service. */
     private final DictionaryService dictionaryService;
 
+    /** Clue service. */
+    private final ClueService clueService;
+
     /** Solver service. */
     private final SolverService solverService;
 
@@ -40,6 +46,7 @@ public final class CrosswordServiceImpl implements CrosswordService {
      *
      * @param solvers             the solvers
      * @param dictionaryProviders the dictionary providers
+     * @param clueProviders       the clue providers
      * @param puzzleDecoders      the puzzle decoders
      * @param puzzleEncoders      the puzzle encoders
      * @param puzzleRepository    the puzzle repository
@@ -47,6 +54,7 @@ public final class CrosswordServiceImpl implements CrosswordService {
      */
     public CrosswordServiceImpl(final Collection<CrosswordSolver> solvers,
                                 final Collection<DictionaryProvider> dictionaryProviders,
+                                final Collection<ClueProvider> clueProviders,
                                 final Collection<PuzzleDecoder> puzzleDecoders,
                                 final Collection<PuzzleEncoder> puzzleEncoders,
                                 final PuzzleRepository puzzleRepository,
@@ -54,6 +62,7 @@ public final class CrosswordServiceImpl implements CrosswordService {
         solverService =
                 new SolverServiceImpl(solvers, dictionaryProviders, puzzleRepository, presenter);
         dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
+        clueService = new ClueServiceImpl(clueProviders, presenter);
         puzzleService =
                 new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);
     }
@@ -61,6 +70,11 @@ public final class CrosswordServiceImpl implements CrosswordService {
     @Override
     public DictionaryService dictionaryService() {
         return dictionaryService;
+    }
+
+    @Override
+    public ClueService clueService() {
+        return clueService;
     }
 
     @Override

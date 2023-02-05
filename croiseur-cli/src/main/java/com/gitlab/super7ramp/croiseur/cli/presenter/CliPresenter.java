@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetail
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
@@ -19,6 +20,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CLI implementation of {@link Presenter}.
@@ -34,6 +36,9 @@ public final class CliPresenter implements Presenter {
     /** The {@link CliPuzzlePresenter}. */
     private final CliPuzzlePresenter cliPuzzlePresenter;
 
+    /** The {@link CliCluePresenter}. */
+    private final CliCluePresenter cliCluePresenter;
+
     /**
      * Constructs an instance.
      */
@@ -41,6 +46,7 @@ public final class CliPresenter implements Presenter {
         cliSolverPresenter = new CliSolverPresenter();
         cliDictionaryPresenter = new CliDictionaryPresenter();
         cliPuzzlePresenter = new CliPuzzlePresenter();
+        cliCluePresenter = new CliCluePresenter();
     }
 
     @Override
@@ -147,5 +153,20 @@ public final class CliPresenter implements Presenter {
     @Override
     public void presentPuzzleExportError(final String error) {
         cliPuzzlePresenter.presentPuzzleExportError(error);
+    }
+
+    @Override
+    public void presentClueError(final String error) {
+        cliCluePresenter.presentClueError(error);
+    }
+
+    @Override
+    public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
+        cliCluePresenter.presentClueProviders(clueProviderDescriptions);
+    }
+
+    @Override
+    public void presentClues(final Map<String, String> clues) {
+        cliCluePresenter.presentClues(clues);
     }
 }

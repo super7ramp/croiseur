@@ -7,7 +7,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 This page lists the available [Service Providers][] pluggable to croiseur.
 
-### Dictionary
+### Clue Providers
+
+None yet.
+
+### Dictionaries
 
 #### Providers
 
@@ -17,7 +21,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 | [Local XML Dictionary Provider][]      | Provides access to local dictionaries in an XML format.       |                                          |
 | [Local Text Dictionary Provider][]     | Provides access to local dictionaries in a simple text format |                                          |
 
-#### List
+#### Dictionary List
 
 | Provider                       | Name                                | Locale                  | Description                                                        |
 |--------------------------------|-------------------------------------|-------------------------|--------------------------------------------------------------------|

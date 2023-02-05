@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.context;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
@@ -67,6 +68,18 @@ public final class TestContext {
         Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
                                                  "called a deployment step?");
         return crosswordService.puzzleService();
+    }
+
+    /**
+     * Returns the clue service.
+     *
+     * @return the solver service
+     * @throws NullPointerException if test context is not initialised
+     */
+    public ClueService clueService() {
+        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
+                "called a deployment step?");
+        return crosswordService.clueService();
     }
 
     /**

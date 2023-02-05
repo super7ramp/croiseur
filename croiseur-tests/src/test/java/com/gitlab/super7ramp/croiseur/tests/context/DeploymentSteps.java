@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.context;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
@@ -67,23 +68,25 @@ public final class DeploymentSteps {
     public void givenDeployedWithoutDictionaryProvider() {
         final Collection<DictionaryProvider> dictionaryProviders = Collections.emptyList();
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
+        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
                presenterMock);
     }
 
     @Given("an application deployed without solver")
     public void givenDeployedWithoutSolver() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<CrosswordSolver> solvers = Collections.emptyList();
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
+        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
                presenterMock);
     }
 
@@ -94,11 +97,12 @@ public final class DeploymentSteps {
     public void deploy() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
+        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
                presenterMock);
     }
 
@@ -130,11 +134,13 @@ public final class DeploymentSteps {
     }
 
     private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
+                        final Collection<ClueProvider> clueProviders,
                         final Collection<CrosswordSolver> solvers,
                         final Collection<PuzzleDecoder> puzzleDecoders,
                         final Collection<PuzzleEncoder> puzzleEncoders,
                         final PuzzleRepositorySpy puzzleRepository, final Presenter presenter) {
         final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
+                                                                          clueProviders,
                                                                           solvers, puzzleDecoders,
                                                                           puzzleEncoders,
                                                                           puzzleRepository,

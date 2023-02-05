@@ -5,12 +5,14 @@
 cargo-plugin = "1.1.0"
 conveyor-plugin = "1.5"
 cucumber = "7.13.0"
+extra-java-module-info = "1.3"
 java = "17.0.7"
 javafx-plugin = "0.0.14"
 junit5 = "5.9.3"
 junit5-platform = "1.9.3"
 mockito = "5.4.0"
 native-plugin = "0.9.23"
+openai = "0.9.0"
 picocli = "4.7.4"
 testfx = "4.0.16-alpha"
 testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
@@ -20,6 +22,8 @@ testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 1
 cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
 cucumber-junit5-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
+# A Gradle plugin to modularize dependencies, applied in conventions
+extra-java-module-info = { module = "org.gradlex:extra-java-module-info", version.ref = "extra-java-module-info" }
 # Test libraries, used by all modules by convention
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
@@ -29,6 +33,8 @@ mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # A plugin for creating native executable using GraalVM, only used by cli module for now. It
 # should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
 native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native-plugin" }
+# A client to OpenAI's API, for clues
+openai = { module = "com.theokanning.openai-gpt3-java:client", version.ref = "openai" }
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
