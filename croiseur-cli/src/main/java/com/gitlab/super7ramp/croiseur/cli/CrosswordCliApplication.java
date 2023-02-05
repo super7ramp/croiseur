@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.cli;
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.cli.controller.TopLevelCommand;
+import com.gitlab.super7ramp.croiseur.cli.controller.clue.ClueCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverRunCommand;
@@ -47,6 +48,7 @@ final class CrosswordCliApplication {
                .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
                        .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
+               .addSubcommand(new ClueCommand(crosswordService.clueService()))
                .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,

@@ -5,12 +5,13 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter;
 
+import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 
 /**
  * Required presentation services.
  */
-public interface Presenter extends DictionaryPresenter, SolverPresenter {
+public interface Presenter extends DictionaryPresenter, SolverPresenter, CluePresenter {
     // Marker interface
 }

@@ -10,5 +10,6 @@ plugins {
 dependencies {
     api project(':croiseur-spi:croiseur-spi-dictionary')
     api project(':croiseur-spi:croiseur-spi-solver')
+    api project(':croiseur-spi:croiseur-spi-clue')
     api project(':croiseur-spi:croiseur-spi-presenter')
 }

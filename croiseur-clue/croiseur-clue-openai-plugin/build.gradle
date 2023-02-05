@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+plugins {
+    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+}
+
+dependencies {
+    api project(':croiseur-spi:croiseur-spi-clue')
+    implementation sbom.openai
+}
+
+extraJavaModuleInfo {
+    automaticModule("com.theokanning.openai-gpt3-java:client", "com.theokanning.openai") {
+        // api and client jars share com.theokanning.openai (split package) which is forbidden
+        // Merge them to workaround the issue
+        mergeJar("com.theokanning.openai-gpt3-java:api")
+    }
+}

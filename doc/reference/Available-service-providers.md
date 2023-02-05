@@ -36,6 +36,10 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 | [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Doesn't support grids prefilled with words or letters. Written in Rust. |
 | [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust.                                                        |
 
+### Clue Providers
+
+None yet.
+
 ### Presenters
 
 | Name    | Description                                             |

@@ -15,6 +15,7 @@ dependencies {
     runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
+    runtimeOnly project(':croiseur-clue:croiseur-clue-openai-plugin')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
@@ -44,5 +45,22 @@ graalvmNative {
             def jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
             buildArgs.add("-H:JNIConfigurationFiles=${jniConfPath}")
         }
+    }
+}
+
+
+// Hack for missing module info
+extraJavaModuleInfo {
+    module('io.reactivex.rxjava2:rxjava', 'rxjava2') {
+        requires('org.reactivestreams')
+    }
+    module('com.theokanning.openai-gpt3-java:client', 'com.theokanning.openai') {
+        // api and client jars share com.theokanning.openai (split package) which is forbidden
+        // Merge them to workaround the issue
+        mergeJar('com.theokanning.openai-gpt3-java:api')
+        requires('com.fasterxml.jackson.databind')
+        requires('retrofit2')
+        requires('okhttp3')
+        requires('rxjava2')
     }
 }

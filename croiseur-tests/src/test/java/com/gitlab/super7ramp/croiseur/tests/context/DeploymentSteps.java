@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.context;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
@@ -70,8 +71,9 @@ public final class DeploymentSteps {
     public void givenDeployedWithoutDictionaryProvider() {
         final Collection<DictionaryProvider> dictionaryProviders = Collections.emptyList();
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, presenterMock);
+        deploy(dictionaryProviders, solvers, clueProviders, presenterMock);
     }
 
     /**
@@ -81,8 +83,9 @@ public final class DeploymentSteps {
     public void deploy() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, presenterMock);
+        deploy(dictionaryProviders, solvers, clueProviders, presenterMock);
     }
 
     /**
@@ -94,11 +97,11 @@ public final class DeploymentSteps {
     }
 
     private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
-                        final Collection<CrosswordSolver> solvers, final Presenter presenter) {
+                        final Collection<CrosswordSolver> solvers,
+                        final Collection<ClueProvider> clueProviders,
+                        final Presenter presenter) {
         final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                solvers, presenter);
+                solvers, clueProviders, presenter);
         testContext.deploy(crosswordService, presenter);
     }
-
-
 }

@@ -9,12 +9,20 @@
 
 plugins {
     id 'java'
+    // Cannot use version catalog in plugins block of pre-compiled script plugins, i.e.
+    // "alias(sbom.plugins.extra.java.module.info)" doesn't work (gh#gradle/gradle#15383)
+    id 'org.gradlex.extra-java-module-info'
 }
 
 group = 'com.gitlab.super7ramp'
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
+}
+
+extraJavaModuleInfo {
+    failOnMissingModuleInfo = false
 }
 
 dependencies {

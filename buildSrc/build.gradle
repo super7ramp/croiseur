@@ -9,8 +9,10 @@ plugins {
 
 dependencies {
     implementation sbom.native
+    implementation sbom.extra.java.module.info
 }
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }

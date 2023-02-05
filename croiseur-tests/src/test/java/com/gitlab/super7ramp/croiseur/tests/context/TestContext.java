@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.context;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
@@ -48,6 +49,18 @@ public final class TestContext {
     }
 
     /**
+     * Returns the clue service.
+     *
+     * @return the solver service
+     * @throws NullPointerException if test context is not initialised
+     */
+    public ClueService clueService() {
+        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
+                "called a deployment step?");
+        return crosswordService.clueService();
+    }
+
+    /**
      * Returns the presenter (a mock)
      *
      * @return the presenter
@@ -82,4 +95,5 @@ public final class TestContext {
         crosswordService = null;
         presenterMock = null;
     }
+
 }
