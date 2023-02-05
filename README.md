@@ -39,7 +39,7 @@ comprehensive listing of all the files with their associated licences.
 
 [croiseur-gui]: ./croiseur-gui
 
-[dictionaries]: ./doc/references/0001-available-providers.md#dictionary-list
+[dictionaries]: doc/reference/Available-providers.md#dictionary-list
 
 [GPL-3.0-or-later]: ./LICENSES/GPL-3.0-or-later.txt
 
@@ -47,7 +47,7 @@ comprehensive listing of all the files with their associated licences.
 
 [platforms]: https://wiki.openjdk.org/display/Build/Supported+Build+Platforms
 
-[solvers]: ./doc/references/0001-available-providers.md#solvers
+[solvers]: doc/reference/Available-providers.md#solvers
 
 ---
 

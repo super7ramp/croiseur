@@ -12,10 +12,10 @@ official release is made.
 
 ### From sources
 
-In order to build `croiseur-cli` from sources, you need:
+In order to build `croiseur-gui` from sources, you need:
 
 - [Gradle](https://gradle.org/) 7.6 or later
-- [Java](https://adoptium.net/temurin/releases/) 17 or later (this one is required as run-time too)
+- [Java](https://adoptium.net/temurin/releases/) 17 or later (this one is required at run-time too)
 
 You can build `croiseur-gui` with the following command:
 

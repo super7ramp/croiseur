@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 <!-- Optional: Add here a short description of the feature, if you feel like ticket title is not
 enough. Don't put a lot here, details should be in the 'What' section below. -->
 

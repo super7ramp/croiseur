@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## Available Providers
+## Reference: Available Providers
 
 This page lists the available [Service Providers][] pluggable to croiseur.
 
@@ -30,10 +30,10 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 ### Solvers
 
-| Name                            | Description                                                                                                         |
-|---------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                                                 |
-| [paulgb (Crossword Composer)][] | The solver powering [Crossword Composer][]. Doesn't support grids prefilled with words or letters. Written in Rust. |
+| Name                            | Description                                                                                                              |
+|---------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                                                      |
+| [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Doesn't support <br/>grids prefilled with words or letters. Written in Rust. |
 
 ### Presenters
 
