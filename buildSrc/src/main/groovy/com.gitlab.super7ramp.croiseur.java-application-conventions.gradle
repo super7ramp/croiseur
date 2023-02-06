@@ -49,7 +49,7 @@ tasks.named('startScripts') {
     // $APP_HOME cannot be referenced directly in defaultJvmOpts (template engine escapes it).
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
     def appHome = 'APP_HOME_PLACEHOLDER'
-    defaultJvmOpts = ["-Dcom.gitlab.super7ramp.crosswords.dictionary." +
+    defaultJvmOpts = ["-Dcom.gitlab.super7ramp.croiseur.dictionary." +
                               "path=${appHome}/${dictionaryDir}/*".toString()]
     doLast {
         unixScript.text = unixScript.text.replace(appHome, "'\$APP_HOME'")
