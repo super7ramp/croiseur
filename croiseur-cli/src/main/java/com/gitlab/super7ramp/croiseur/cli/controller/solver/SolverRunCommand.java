@@ -34,9 +34,9 @@ public final class SolverRunCommand implements Runnable {
             "height 15")
     private GridSize size;
 
-    @Option(names = {"-d", "--dictionary"}, paramLabel = "<PROVIDER:DICTIONARY>", arity = "1",
-            description = "Dictionary identifier")
-    private DictionaryIdentifier dictionaryId;
+    @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "<PROVIDER:DICTIONARY>",
+            arity = "1..*", description = "Dictionary identifiers")
+    private DictionaryIdentifier[] dictionaryIds;
 
     @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", description =
             "Shaded boxes, e.g. '--shaded-boxes (1,2) (3,4)...'", paramLabel = "<COORDINATE> ")
@@ -71,7 +71,7 @@ public final class SolverRunCommand implements Runnable {
     @Override
     public void run() {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
-                prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryId, progress);
+                prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryIds, progress);
         solverService.solve(request);
     }
 

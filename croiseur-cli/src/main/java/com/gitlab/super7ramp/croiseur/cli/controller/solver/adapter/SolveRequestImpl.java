@@ -43,7 +43,7 @@ public final class SolveRequestImpl implements SolveRequest {
 
     private final boolean progress;
 
-    private final DictionaryIdentifier dictionaryId;
+    private final DictionaryIdentifier[] dictionaryIds;
 
     /**
      * Constructs an instance.
@@ -54,7 +54,7 @@ public final class SolveRequestImpl implements SolveRequest {
      * @param somePrefilledBoxes           the prefilled boxes
      * @param somePrefilledHorizontalSlots the prefilled horizontal boxes
      * @param somePrefilledVerticalSlots   the prefilled vertical boxes
-     * @param aDictionaryId                the dictionary identifier
+     * @param someDictionaryIds            the dictionary identifiers
      * @param aProgress                    whether progress should be notified
      */
     public SolveRequestImpl(final String aSolver,
@@ -63,7 +63,7 @@ public final class SolveRequestImpl implements SolveRequest {
                             final PrefilledBox[] somePrefilledBoxes,
                             final PrefilledSlot[] somePrefilledHorizontalSlots,
                             final PrefilledSlot[] somePrefilledVerticalSlots,
-                            final DictionaryIdentifier aDictionaryId,
+                            final DictionaryIdentifier[] someDictionaryIds,
                             final boolean aProgress) {
         solver = aSolver;
         size = aSize;
@@ -71,7 +71,7 @@ public final class SolveRequestImpl implements SolveRequest {
         prefilledBoxes = somePrefilledBoxes;
         prefilledHorizontalSlots = somePrefilledHorizontalSlots;
         prefilledVerticalSlots = somePrefilledVerticalSlots;
-        dictionaryId = aDictionaryId;
+        dictionaryIds = someDictionaryIds;
         progress = aProgress;
     }
 
@@ -83,8 +83,7 @@ public final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public Collection<DictionaryIdentifier> dictionaries() {
-        return dictionaryId != null ? Collections.singletonList(dictionaryId) :
-                Collections.emptyList();
+        return dictionaryIds != null ? Arrays.asList(dictionaryIds) : Collections.emptyList();
     }
 
     @Override
