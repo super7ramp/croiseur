@@ -70,6 +70,6 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 [Local XML Dictionary Provider]: ../../croiseur-dictionary/croiseur-dictionary-xml-plugin
 
-[paulgb (Crossword Composer)]: ../../croiseur-solver/croiseur-solver-paulgb-plugin
+[Crossword Composer (paulgb)]: ../../croiseur-solver/croiseur-solver-paulgb-plugin
 
 [Service Providers]: ../../croiseur-spi
