@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## Reference: Available Providers
+## Reference: Available Service Providers
 
 This page lists the available [Service Providers][] pluggable to croiseur.
 

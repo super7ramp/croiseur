@@ -36,7 +36,7 @@ Example: `croiseur-dictionary-xml-codec`.
 
 ### Dictionary plugins
 
-These modules are libraries implementing the crosswords dictionary provider interfaces defined
+These modules are libraries implementing the `croiseur` dictionary provider interfaces defined
 in [`croiseur-dictionary-spi`](../croiseur-spi/croiseur-spi-dictionary) and thus usable by
 the [`croiseur`](../croiseur/README.md) library.
 

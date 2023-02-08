@@ -27,7 +27,7 @@ Each dictionary provider supports a particular format:
   for more details.
 * Hunspell dictionary provider: A [Hunspell](https://hunspell.github.io/) dictionary. Popular format
   for dictionaries,
-  but [not well-supported by `croiseur` and disabled by default](../reference/Available-providers.md).
+  but [not well-supported by `croiseur` and disabled by default](../reference/Available-service-providers.md).
   Only useful if you have an existing dictionary and no way to convert it.
 
 #### 2. Locate the `croiseur` dictionary path

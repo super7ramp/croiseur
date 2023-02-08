@@ -22,16 +22,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 * [Design Decisions](explanation/design-decisions/README.md)
 * [How do crossword solvers work?](explanation/How-do-crossword-solvers-work.md)
-* "Search Lessons Learned from Crossword Puzzles", _AAAI 1990_, by Matthew L. Ginsberg, Michael
-  Frank, Michael P. Halpin and Mark C. Torrance.
-* "Dynamic Backtracking", _Journal of Artificial Intelligence Research 1 (1993) 25-46_, by Matthew
-  L. Ginsberg.
-* [crosswordconstruction.com](https://www.crosswordconstruction.com/) by Otis Peterson and
-  Michael Wehar.
 
 ### References
 
-* [Available service providers](reference/Available-providers.md)
+* [Available Service Providers](reference/Available-service-providers.md)
 * TODO: Design Documentation
 * TODO: croiseur API Javadoc
 * TODO: croiseur SPI Javadoc
