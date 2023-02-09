@@ -11,6 +11,7 @@ package com.gitlab.super7ramp.croiseur.common.dictionary;
  * @param provider   provider description
  * @param dictionary dictionary description
  */
+// TODO remove provider description and add dictionary description
 public record ProvidedDictionaryDescription(DictionaryProviderDescription provider,
                                             DictionaryDescription dictionary) {
 

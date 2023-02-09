@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec.plugin;
+package com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;

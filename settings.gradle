@@ -45,6 +45,9 @@ include 'croiseur-gui:croiseur-gui-presenter'
 include 'croiseur-gui:croiseur-gui-view'
 include 'croiseur-gui:croiseur-gui-view-model'
 
+// Acceptance tests
+include 'croiseur-tests'
+
 // Dependency versions
 dependencyResolutionManagement {
     versionCatalogs {
