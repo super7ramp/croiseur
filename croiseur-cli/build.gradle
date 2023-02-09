@@ -45,11 +45,3 @@ graalvmNative {
         }
     }
 }
-
-/**
- * Configures parameters to be used when launch the application via './gradlew run'.*/
-// TODO find a way to move this to application convention plugin
-tasks.named('run') {
-    def dictionaryPath = configurations.getByName('dictionaryPath').asPath
-    jvmArgs.add('-Dcom.gitlab.super7ramp.croiseur.dictionary.path=' + dictionaryPath)
-}

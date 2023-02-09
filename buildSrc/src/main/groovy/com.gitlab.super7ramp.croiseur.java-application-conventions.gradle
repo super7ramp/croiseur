@@ -56,3 +56,13 @@ tasks.named('startScripts') {
         windowsScript.text = windowsScript.text.replace(appHome, '%APP_HOME%')
     }
 }
+
+/**
+ * Configures parameters to be used when launch the application via './gradlew run'.
+ */
+afterEvaluate {
+    tasks.named('run') {
+        def dictionaryPath = configurations.dictionaryPath.asPath
+        systemProperty 'com.gitlab.super7ramp.croiseur.dictionary.path=', dictionaryPath
+    }
+}
