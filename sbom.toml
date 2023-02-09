@@ -13,6 +13,9 @@ picocli = "4.7.1"
 # Test libraries, used by all modules
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+# A plugin for creating native executable using GraalVM, only used by cli module for now. It
+# should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
+native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native" }
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
@@ -20,7 +23,5 @@ picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 [plugins]
 # Plugin to help embedding rust code, only used by one solver module for now
 cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo"}
-# For creating native executable using GraalVM, only used by cli module for now
-native = { id = "org.graalvm.buildtools.native", version.ref = "native" }
 # Plugin to pull JavaFx; only used by gui module
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx" }
