@@ -25,7 +25,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Technical steps related to deploying the test environment.
  */
-public class DeploymentSteps {
+public final class DeploymentSteps {
 
     /** The test context. */
     private final TestContext testContext;
@@ -96,4 +96,6 @@ public class DeploymentSteps {
                 solvers, presenter);
         testContext.deploy(crosswordService, presenter);
     }
+
+
 }

@@ -27,19 +27,17 @@ public final class DictionaryTypes {
     }
 
     @ParameterType(name = "locale", value = "[^ ]+")
-    public Locale parseLocale(final String languageTag) {
+    public Locale locale(final String languageTag) {
         return Locale.forLanguageTag(languageTag);
     }
 
     @DataTableType
-    public DictionaryProviderDescription parseDictionaryProviderDescription(final Map<String,
-            String> entry) {
+    public DictionaryProviderDescription dictionaryProviderDescription(final Map<String, String> entry) {
         return new DictionaryProviderDescription(entry.get("Provider"), entry.get("Description"));
     }
 
     @DataTableType
-    public ProvidedDictionaryDescription parseProvidedDictionaryDescription(final Map<String,
-            String> entry) {
+    public ProvidedDictionaryDescription providedDictionaryDescription(final Map<String, String> entry) {
         final DictionaryProviderDescription dictionaryProviderDescription =
                 new DictionaryProviderDescription(entry.get("Provider"), entry.get("Provider " +
                         "Description"));

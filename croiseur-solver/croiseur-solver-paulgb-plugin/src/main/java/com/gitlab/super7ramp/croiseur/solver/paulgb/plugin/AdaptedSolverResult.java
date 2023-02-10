@@ -80,4 +80,13 @@ final class AdaptedSolverResult implements SolverResult {
     public Set<GridPosition> unsolvableBoxes() {
         return Collections.unmodifiableSet(unsolvableBoxes);
     }
+
+    @Override
+    public String toString() {
+        return "AdaptedSolverResult{" +
+                "kind=" + kind +
+                ", filledBoxes=" + filledBoxes +
+                ", unsolvableBoxes=" + unsolvableBoxes +
+                '}';
+    }
 }

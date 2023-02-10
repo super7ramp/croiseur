@@ -20,13 +20,74 @@ and [`croiseur-gui`](../croiseur-gui). Such tests should be part of applications
 
 ### Test Deployment
 
-`croiseur` is deployed with the following service providers:
+The test environment is set up using the following tools:
 
-- Dictionary providers
-  - [Local Hunspell Dictionary Provider](../croiseur-dictionary/croiseur-dictionary-hunspell-plugin)
-  - [Local Text Dictionary Provider](../croiseur-dictionary/croiseur-dictionary-txt-plugin)
-  - [Local XML Dictionary Provider](../croiseur-dictionary/croiseur-dictionary-xml-plugin)
-- Solvers
-  - [Ginsberg](../croiseur-solver/croiseur-solver-ginsberg-plugin)
-  - [Crossword Composer (paulgb)](../croiseur-solver/croiseur-solver-paulgb-plugin)
-  - A mock presenter allowing to verify the output of `croiseur`
+- Cucumber
+- Mockito
+- PicoContainer (for auto-wiring scenario steps to glue code)
+- JUnit 5
+
+`croiseur` is deployed with all the main service providers,
+except [`Presenter`s](../doc/reference/Available-service-providers.md#presenters) as per the test
+strategy described above. Check [`build.gradle`](build.gradle) for the complete list of providers.
+
+A `Presenter` mock is used to verify the output of `croiseur`.
+
+For more details on this deployment, check the
+[`DeploymentSteps`](src/test/java/com/gitlab/super7ramp/croiseur/tests/context/DeploymentSteps.java)
+class.
+
+### Test Organisation
+
+Scenarios and glue code organisation follow `croiseur` API organisation.
+
+#### Scenarios
+
+Test packages are named following `CrosswordService` method names.
+Scenario files are named following tested service structure:
+`<tested-service>-<tested-method-alias>-<optional-test-flavour>`.
+
+```
+.
+├── dictionary                                        // Scenarios testing croiseur.api.dictionary
+│   ├── dictionary-cat.feature
+│   ├── dictionary-list-providers.feature 
+│   └── dictionary-list.feature
+│   └── ...
+└── solver                                            // Scenarios testing croiseur.api.solver
+    ├── solver-list.feature
+    ├── solver-run-ginsberg.feature
+    └── solver-run-paulgb.feature
+    └── ...
+```
+
+### Glue Code
+
+Test packages are named following `CrosswordService` method names.
+A specific package `context` is used for managing test lifecycle.
+In normal packages, the following kinds of classes are found:
+
+- Step classes (suffixed with `Steps`): The glue code implementing scenario steps;
+- Matcher classes (suffixed with `Matchers`): Allows to create Mockito's `ArgumentMatcher`s; Used in
+  verification steps;
+- Type classes (suffixed with `Types`): Type conversion methods, typically these class register
+  Cucumber datatable and parameter types.
+
+```
+.
+├── DictionaryTestSuite.java           // At root, JUnit test suites for easy individual launch
+├── SolverTestSuite.java
+├── WipTestSuite.java
+├── context                            // Manages test lifecycle
+│   ├── DeploymentSteps.java
+│   └── TestContext.java
+├── dictionary                         // Glue code for scenarios testing croiseur.api.dictionary
+│   ├── DictionaryMatchers.java
+│   ├── DictionarySteps.java
+│   └── DictionaryTypes.java
+└── solver                             // Glue code for scenarios testing croiseur.api.solver
+    ├── SolverMatchers.java
+    ├── SolverSteps.java
+    └── SolverTypes.java
+
+```

@@ -100,29 +100,45 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
     }
 
     /**
-     * Creates a search by dictionary locale.
+     * Creates a search by dictionary locale - fallbacks on dictionary language if not country is
+     * information is present in given locale.
      *
      * @param desiredDictionaryLocale the desired dictionary locale
      * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
      * the given locale
      */
     public static DictionarySelection byLocale(final Locale desiredDictionaryLocale) {
+        if (desiredDictionaryLocale.getCountry().isEmpty()) {
+            return byLanguage(desiredDictionaryLocale.getLanguage());
+        }
         return new DictionarySelection(satisfied(), dictionary -> dictionary.description().locale()
                                                                             .equals(desiredDictionaryLocale));
+    }
+
+    /**
+     * Creates a search by dictionary language (i.e. only the language part of the locale).
+     *
+     * @param desiredDictionaryLanguage the desired dictionary language, as returned by
+     *                                  {@link Locale#getLanguage()}
+     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
+     * the given language
+     */
+    public static DictionarySelection byLanguage(final String desiredDictionaryLanguage) {
+        return new DictionarySelection(satisfied(),
+                dictionary -> dictionary.description()
+                                        .locale()
+                                        .getLanguage()
+                                        .equals(desiredDictionaryLanguage));
     }
 
     /**
      * Creates a search by system's locale.
      *
      * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
-     * the given locale
+     * the system locale
      */
     public static DictionarySelection bySystemLocale() {
-        final Locale systemLocaleFull = Locale.getDefault();
-        // Try to match at least on language if not on language + country
-        final Locale systemLocaleLanguageOnly =
-                Locale.forLanguageTag(systemLocaleFull.getLanguage());
-        return byLocale(systemLocaleFull).or(byLocale(systemLocaleLanguageOnly));
+        return byLocale(Locale.getDefault());
     }
 
     /**

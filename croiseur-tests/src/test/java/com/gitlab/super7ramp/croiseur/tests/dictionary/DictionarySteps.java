@@ -11,7 +11,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -32,7 +32,7 @@ public final class DictionarySteps {
     private final DictionaryService dictionaryService;
 
     /** The mocked presenter. */
-    private final Presenter presenterMock;
+    private final DictionaryPresenter presenterMock;
 
     /**
      * Constructs an instance.

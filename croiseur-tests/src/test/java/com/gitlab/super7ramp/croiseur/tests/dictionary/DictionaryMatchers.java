@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 /**
  * Allows creating custom {@link ArgumentMatcher}s related to dictionary presentation.
  */
-public final class DictionaryMatchers {
+final class DictionaryMatchers {
 
     /**
      * Matches a {@link DictionaryContent} with the given number of entries and the given first
