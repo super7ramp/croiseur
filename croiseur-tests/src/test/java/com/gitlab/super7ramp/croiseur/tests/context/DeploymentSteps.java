@@ -40,7 +40,7 @@ public class DeploymentSteps {
     }
 
     /**
-     * Sets default locale to {@link Locale#ENGLISH} in order not to have results dependent from
+     * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
      * system's locale.
      */
     @BeforeAll

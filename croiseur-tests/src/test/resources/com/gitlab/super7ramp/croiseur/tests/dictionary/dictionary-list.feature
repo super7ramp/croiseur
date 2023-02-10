@@ -10,20 +10,26 @@ Feature: List Dictionaries
 
     When user requests to list the available dictionaries
     Then the application presents the following dictionaries:
-      | Provider            | Provider Description                                           | Name                                | Locale |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General German dictionary           | de-DE  |
-      | Local Text Provider | Provides access to local dictionaries in a simple text format. | The UK Advanced Cryptics Dictionary | en-GB  |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General British English dictionary  | en-GB  |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General Spanish dictionary          | es-ES  |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General French dictionary           | fr-FR  |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General Italian Dictionary          | it-IT  |
+      | Provider                | Provider Description                                           | Name                                | Locale |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary de_DE.dic       | de-DE  |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General German dictionary           | de-DE  |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary en_GB.dic       | en-GB  |
+      | Local Text Provider     | Provides access to local dictionaries in a simple text format. | The UK Advanced Cryptics Dictionary | en-GB  |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General British English dictionary  | en-GB  |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary es_ES.dic       | es-ES  |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General Spanish dictionary          | es-ES  |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary fr.dic          | fr     |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General French dictionary           | fr-FR  |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary it_IT.dic       | it-IT  |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General Italian Dictionary          | it-IT  |
 
   Scenario: List Dictionaries - Filter by Locale
     When user requests to list the available dictionaries of locale en-GB
     Then the application presents the following dictionaries:
-      | Provider            | Provider Description                                           | Name                                | Locale |
-      | Local Text Provider | Provides access to local dictionaries in a simple text format. | The UK Advanced Cryptics Dictionary | en-GB  |
-      | Local XML Provider  | Provides access to local dictionaries in an XML format.        | General British English dictionary  | en-GB  |
+      | Provider                | Provider Description                                           | Name                                | Locale |
+      | Local Hunspell Provider | Provides access to local dictionaries in the Hunspell format.  | Hunspell Dictionary en_GB.dic       | en-GB  |
+      | Local Text Provider     | Provides access to local dictionaries in a simple text format. | The UK Advanced Cryptics Dictionary | en-GB  |
+      | Local XML Provider      | Provides access to local dictionaries in an XML format.        | General British English dictionary  | en-GB  |
 
   Scenario: List Dictionaries - Filter by Provider
     When user requests to list the available dictionaries provided by Local Text Provider

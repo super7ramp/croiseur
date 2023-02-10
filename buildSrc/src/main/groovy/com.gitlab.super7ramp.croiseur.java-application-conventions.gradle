@@ -63,6 +63,6 @@ tasks.named('startScripts') {
 afterEvaluate {
     tasks.named('run') {
         def dictionaryPath = configurations.dictionaryPath.asPath
-        systemProperty 'com.gitlab.super7ramp.croiseur.dictionary.path=', dictionaryPath
+        systemProperty 'com.gitlab.super7ramp.croiseur.dictionary.path', dictionaryPath
     }
 }

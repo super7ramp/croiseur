@@ -5,22 +5,21 @@
 
 package com.gitlab.super7ramp.croiseur.tests.dictionary;
 
+import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
-import io.cucumber.java.DataTableType;
-import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionaryContentOf;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -45,6 +44,15 @@ public final class DictionarySteps {
         presenterMock = testContext.presenterMock();
     }
 
+    @When("user requests to display the entries of {string} provided by {string}")
+    public void whenDisplayEntries(final String dictionary, final String dictionaryProvider) {
+        final DictionaryIdentifier dictionaryIdentifier =
+                new DictionaryIdentifier(dictionaryProvider, dictionary);
+        final ListDictionaryEntriesRequest listDictionaryEntriesRequest =
+                ListDictionaryEntriesRequest.of(dictionaryIdentifier);
+        dictionaryService.listEntries(listDictionaryEntriesRequest);
+    }
+
     @When("user requests to list the available dictionary providers")
     public void whenListDictionaryProviders() {
         dictionaryService.listProviders();
@@ -53,15 +61,17 @@ public final class DictionarySteps {
     @When("^user requests to list the available dictionaries(?: of locale ([^ ]+))?(?: provided " +
             "by (.+))?$")
     public void whenListDictionariesOfLocaleProvidedBy(final String locale, final String provider) {
-        final Locale parsedLocale = locale != null ? parseLocale(locale) : null;
+        final Locale parsedLocale = locale != null ? Locale.forLanguageTag(locale) : null;
         final ListDictionariesRequest listDictionariesRequest =
                 ListDictionariesRequest.of(parsedLocale, provider);
         dictionaryService.listDictionaries(listDictionariesRequest);
     }
 
-    @Then("the application presents the following dictionary providers:")
-    public void thenPresentDictionaryProviders(final List<DictionaryProviderDescription> dictionaryProviders) {
-        verify(presenterMock).presentDictionaryProviders(eq(dictionaryProviders));
+    @Then("the application presents {int} dictionary entries, the first ones being:")
+    public void thenPresentDictionaryEntries(final int totalNumberOfEntries,
+                                             final List<String> firstEntries) {
+        verify(presenterMock).presentDictionaryEntries(dictionaryContentOf(totalNumberOfEntries,
+                firstEntries));
     }
 
     @Then("the application presents the following dictionaries:")
@@ -69,33 +79,14 @@ public final class DictionarySteps {
         verify(presenterMock).presentDictionaries(eq(dictionaries));
     }
 
+    @Then("the application presents the following dictionary providers:")
+    public void thenPresentDictionaryProviders(final List<DictionaryProviderDescription> dictionaryProviders) {
+        verify(presenterMock).presentDictionaryProviders(eq(dictionaryProviders));
+    }
+
     @Then("the application presents the dictionary error {string}")
     public void thenPresentError(final String error) {
         verify(presenterMock).presentDictionaryError(eq(error));
-    }
-
-    @ParameterType(name = "locale", value = "[^ ]+")
-    public Locale parseLocale(final String languageTag) {
-        return Locale.forLanguageTag(languageTag);
-    }
-
-    @DataTableType
-    public DictionaryProviderDescription parseDictionaryProviderDescription(final Map<String,
-            String> entry) {
-        return new DictionaryProviderDescription(entry.get("Provider"), entry.get("Description"));
-    }
-
-    @DataTableType
-    public ProvidedDictionaryDescription parseProvidedDictionaryDescription(final Map<String,
-            String> entry) {
-        final DictionaryProviderDescription dictionaryProviderDescription =
-                new DictionaryProviderDescription(entry.get("Provider"), entry.get("Provider " +
-                        "Description"));
-        final DictionaryDescription dictionaryDescription =
-                new DictionaryDescription(entry.get("Name"), Locale.forLanguageTag(entry.get(
-                        "Locale")));
-        return new ProvidedDictionaryDescription(dictionaryProviderDescription,
-                dictionaryDescription);
     }
 
 }

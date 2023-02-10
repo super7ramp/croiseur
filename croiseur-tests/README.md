@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Test Strategy
 
-This subproject contains tests for [`croiseur`](../croiseur) . They verify the good behaviour of
+This subproject contains tests for [`croiseur`](../croiseur). They verify the good behaviour of
 the core library and its main [solver](../croiseur-solver) and [dictionary](../croiseur-dictionary)
 plugins.
 
@@ -30,7 +30,3 @@ and [`croiseur-gui`](../croiseur-gui). Such tests should be part of applications
   - [Ginsberg](../croiseur-solver/croiseur-solver-ginsberg-plugin)
   - [Crossword Composer (paulgb)](../croiseur-solver/croiseur-solver-paulgb-plugin)
   - A mock presenter allowing to verify the output of `croiseur`
-
-TODO figure of deployment
-
-Tests are run using [Cucumber for JVM](https://github.com/cucumber/cucumber-jvm) and JUnit 5.
