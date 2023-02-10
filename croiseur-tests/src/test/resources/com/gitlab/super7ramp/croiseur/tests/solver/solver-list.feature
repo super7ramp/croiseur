@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 Feature: List Solvers
 
   "Solvers", in croiseur jargon, are modules able to fill a crossword grid. Some call them
