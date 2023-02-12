@@ -46,13 +46,13 @@ public final class SolverRunCommand implements Runnable {
             "e.g. '--boxes ((1,2),A) ((3,4),B)...'", paramLabel = "<(COORDINATE,LETTER)> ")
     private PrefilledBox[] prefilledBoxes = {};
 
-    @Option(names = {"-H", "--horizontal"}, arity = "1..*", description = "Pre-filled horizontal " +
-            "slots, e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
+    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", description = "Pre" +
+            "-filled horizontal slots, e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
             paramLabel = "<(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
-    @Option(names = {"-V", "--vertical"}, arity = "1..*", description = "Pre-filled vertical " +
-            "slots, e.g. '--vertical ((0,0),hello) ((5,0),world)...",
+    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", description = "Pre-filled " +
+            "vertical slots, e.g. '--vertical ((0,0),hello) ((5,0),world)...",
             paramLabel = "<(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
