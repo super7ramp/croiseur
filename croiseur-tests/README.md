@@ -28,7 +28,7 @@ The test environment is set up using the following tools:
 - JUnit 5
 
 `croiseur` is deployed with all the main service providers,
-except [`Presenter`s](../doc/reference/Available-service-providers.md#presenters) as per the test
+except [`Presenter`](../doc/reference/Available-service-providers.md#presenters)s as per the test
 strategy described above. Check [`build.gradle`](build.gradle) for the complete list of providers.
 
 A `Presenter` mock is used to verify the output of `croiseur`.
@@ -61,16 +61,16 @@ Scenario files are named following tested service structure:
     └── ...
 ```
 
-### Glue Code
+#### Glue Code
 
 Test packages are named following `CrosswordService` method names.
 A specific package `context` is used for managing test lifecycle.
 In normal packages, the following kinds of classes are found:
 
 - Step classes (suffixed with `Steps`): The glue code implementing scenario steps;
-- Matcher classes (suffixed with `Matchers`): Allows to create Mockito's `ArgumentMatcher`s; Used in
-  verification steps;
-- Type classes (suffixed with `Types`): Type conversion methods, typically these class register
+- Matcher classes (suffixed with `Matchers`): They allow to create Mockito's `ArgumentMatcher`s;
+  Used in verification steps;
+- Type classes (suffixed with `Types`): Type conversion methods, typically these classes register
   Cucumber datatable and parameter types.
 
 ```

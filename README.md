@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## croiseur
 
-![Logo](croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/application-icon.png).
+![Logo](croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/application-icon.png)
 
 **croiseur**[^1] is a software for generating crossword problems with the following features:
 

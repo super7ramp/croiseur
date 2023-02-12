@@ -10,10 +10,9 @@ interfaces – used by the core [`croiseur`](../croiseur/README.md) library. The
 
 * [`croiseur-spi-dictionary`](croiseur-spi-dictionary): The definition of a dictionary
   provider.
-* [`croiseur-spi-solver`](croiseur-spi-solver): The definition of crossword solver
-  provider.
-* [`croiseur-spi-presenter`](croiseur-spi-presenter): The definition of a _presenter_
-  provider – e.g. a Graphical User Interface.
+* [`croiseur-spi-solver`](croiseur-spi-solver): The definition of crossword solver.
+* [`croiseur-spi-presenter`](croiseur-spi-presenter): The definition of a _presenter_ – e.g. a
+  Graphical User Interface.
 
 These interfaces are designed to be implemented by any module willing to extend the capabilities of
 the `croiseur` library.
