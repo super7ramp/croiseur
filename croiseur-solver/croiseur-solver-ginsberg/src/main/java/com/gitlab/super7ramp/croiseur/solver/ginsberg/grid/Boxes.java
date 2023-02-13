@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 
+import java.util.NoSuchElementException;
+
 /**
  * Factory of {@link BoxData} implementations.
  */
@@ -14,6 +16,9 @@ final class Boxes {
      * A box containing a computed letter.
      */
     private static final class ComputedBox implements BoxData {
+
+        /** The empty value. */
+        private static char EMPTY_VALUE = ' ';
 
         /** The value. */
         private char character;
@@ -35,13 +40,21 @@ final class Boxes {
         }
 
         @Override
-        public final char value() {
+        public char value() {
+            if (character == EMPTY_VALUE) {
+                throw new NoSuchElementException("Box is empty");
+            }
             return character;
         }
 
         @Override
-        public final boolean isShaded() {
-            return character == SHADED_VALUE;
+        public boolean isShaded() {
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return character == EMPTY_VALUE;
         }
 
         @Override
@@ -93,6 +106,11 @@ final class Boxes {
         }
 
         @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
         public void set(final char aCharacter) {
             if (character != aCharacter) {
                 throw new UnsupportedOperationException("Illegal attempt to modify a prefilled " +
@@ -134,11 +152,16 @@ final class Boxes {
 
         @Override
         public char value() {
-            return SHADED_VALUE;
+            throw new NoSuchElementException("Shaded box has no value");
         }
 
         @Override
         public boolean isShaded() {
+            return true;
+        }
+
+        @Override
+        public boolean isEmpty() {
             return true;
         }
 
@@ -160,7 +183,7 @@ final class Boxes {
 
         @Override
         public String toString() {
-            return String.valueOf(value());
+            return String.valueOf('#');
         }
     }
 
@@ -192,7 +215,7 @@ final class Boxes {
      * @param character pre-filled value
      * @return a prefilled immutable box
      */
-    static BoxData prefilled(char character) {
+    static BoxData prefilled(final char character) {
         return new PrefilledBox(character);
     }
 }

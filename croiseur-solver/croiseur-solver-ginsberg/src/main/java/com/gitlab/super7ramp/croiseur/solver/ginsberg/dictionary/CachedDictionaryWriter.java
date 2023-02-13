@@ -30,7 +30,7 @@ public interface CachedDictionaryWriter extends CachedDictionary {
     }
 
     /**
-     * Update cache upon an assignment.
+     * Updates cache upon an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
      * {@link #invalidateCache invalidation}, the smaller the cache will be, the faster the
@@ -41,7 +41,7 @@ public interface CachedDictionaryWriter extends CachedDictionary {
     void updateCache(final Slot assignedVariable);
 
     /**
-     * Invalidate cache candidates upon unassignment.
+     * Invalidates cache candidates upon unassignment.
      * <p>
      * Cache will be reset to its initial state.
      *

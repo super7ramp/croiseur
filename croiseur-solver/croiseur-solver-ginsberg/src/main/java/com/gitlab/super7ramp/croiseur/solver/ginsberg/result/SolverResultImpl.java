@@ -48,10 +48,10 @@ final class SolverResultImpl implements SolverResult {
      * @param unsolvableBoxesArg the unsolvable boxes, if any
      * @param statisticsArg      the resolution statistics
      */
-    private SolverResultImpl(final Kind kindArg, final Map<GridPosition, Character> filledBoxes,
+    private SolverResultImpl(final Kind kindArg, final Map<GridPosition, Character> filledBoxesArg,
                              final Set<GridPosition> unsolvableBoxesArg,
                              final Statistics statisticsArg) {
-        this.filledBoxes = filledBoxes;
+        filledBoxes = filledBoxesArg;
         unsolvableBoxes = unsolvableBoxesArg;
         kind = kindArg;
         statistics = statisticsArg;

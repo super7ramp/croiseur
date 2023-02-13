@@ -8,7 +8,6 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,12 @@ import java.util.stream.Collectors;
  */
 final class GridData {
 
-    /** The grid. */
+    /**
+     * The grid.
+     * <p>
+     * The grid is indexed by row index (y) then by column index (x) so that it is easier to
+     * print, i.e. one can access (x,y) = (col_index,row_index) with {@code grid[y][x]}.
+     */
     private final BoxData[][] grid;
 
     /** The word slots. */
@@ -43,9 +47,9 @@ final class GridData {
      */
     private GridData(final GridData other) {
         grid = new BoxData[other.grid.length][other.grid[0].length];
-        for (int x = 0; x < other.grid.length; x++) {
-            for (int y = 0; y < other.grid[0].length; y++) {
-                grid[x][y] = other.grid[x][y].copy();
+        for (int y = 0; y < other.grid.length; y++) {
+            for (int x = 0; x < other.grid[0].length; x++) {
+                grid[y][x] = other.grid[y][x].copy();
             }
         }
 
@@ -100,15 +104,12 @@ final class GridData {
 
     Map<GridPosition, Character> toBoxes() {
         final Map<GridPosition, Character> result = new HashMap<>();
-        for (int x = 0; x < grid.length; x++) {
-            final BoxData[] row = grid[x];
-            for (int y = 0; y < row.length; y++) {
-                // FIXME why 2 checks on shaded?
-                if (!row[y].isShaded()) {
-                    final char boxValue = row[y].value();
-                    if (boxValue != BoxData.EMPTY_VALUE && boxValue != BoxData.SHADED_VALUE) {
-                        result.put(new GridPosition(x, y), boxValue);
-                    }
+        for (int y = 0; y < grid.length; y++) {
+            final BoxData[] row = grid[y];
+            for (int x = 0; x < row.length; x++) {
+                final BoxData box = row[x];
+                if (!box.isEmpty()) {
+                    result.put(new GridPosition(x, y), box.value());
                 }
             }
         }
@@ -117,6 +118,15 @@ final class GridData {
 
     @Override
     public String toString() {
-        return Arrays.deepToString(grid);
+        final StringBuilder sb = new StringBuilder(System.lineSeparator());
+        for (final BoxData[] row : grid) {
+            sb.append('|');
+            for (final BoxData box : row) {
+                sb.append(box.toString());
+                sb.append('|');
+            }
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 }

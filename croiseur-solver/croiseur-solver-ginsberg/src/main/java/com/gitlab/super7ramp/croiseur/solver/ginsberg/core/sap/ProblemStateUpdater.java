@@ -10,7 +10,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap;
  *
  * @param <VariableT>          the variable type
  * @param <ValueT>             the value type
- * @param <EliminationReasonT> the elimination reason type
+ * @param <EliminationReasonT> the elimination reasons type
  */
 public interface ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> {
 
@@ -27,7 +27,7 @@ public interface ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> {
      * <p>
      * No-op if given variable is not assigned.
      *
-     * @param elimination the variable to unassign and its reason
+     * @param elimination the variable to unassign and its reasons
      */
     void unassign(final Elimination<VariableT, EliminationReasonT> elimination);
 

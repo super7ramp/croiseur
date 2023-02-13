@@ -21,7 +21,7 @@ public interface Solver {
      * @param aBacktracker         the backtracker
      * @param <VariableT>          type of variable
      * @param <ValueT>             type of value assignable to the variables
-     * @param <EliminationReasonT> type of elimination reason
+     * @param <EliminationReasonT> type of elimination reasons
      * @return a new solver
      */
     static <VariableT, ValueT, EliminationReasonT> Solver create(

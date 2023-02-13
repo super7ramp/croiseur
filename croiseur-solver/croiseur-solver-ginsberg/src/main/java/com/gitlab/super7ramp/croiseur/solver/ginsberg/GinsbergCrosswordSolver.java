@@ -9,22 +9,34 @@ import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Solver;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.backtrack.Backtrackers;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation.CandidateChooserImpl;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation.CandidateChoosers;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.iteration.SlotIteratorImpl;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.ProgressDebugPrinter;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.ProgressNotifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.StatisticsRecorder;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.result.SolverResultFactory;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.state.Crossword;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.state.CrosswordUpdater;
 
+import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.Locale;
+import java.util.logging.Logger;
 
 /**
  * A crossword solver.
  */
 public final class GinsbergCrosswordSolver {
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(GinsbergCrosswordSolver.class.getName());
 
     /**
      * Constructor.
@@ -50,17 +62,24 @@ public final class GinsbergCrosswordSolver {
 
         // Instantiates heuristics
         final SlotIteratorImpl slotChooser = new SlotIteratorImpl(slots, problem.dictionary());
-        final CandidateChooserImpl candidateChooser =
-                new CandidateChooserImpl(problem.grid().puzzle(), problem.dictionary());
+        final CandidateChooser<Slot, String> candidateChooser =
+                CandidateChoosers.byDefault(problem.grid().puzzle(), problem.dictionary());
         final Backtracker<Slot, SlotIdentifier> backtracker =
-                Backtrackers.defaultBacktrack(problem.history());
+                Backtrackers.byDefault(new Prober(problem.grid()
+                                                         .puzzle(), problem.dictionary()),
+                        problem.grid().puzzle(),
+                        problem.history());
 
-        // A random listener
+        // A listener to advertise progress to library user
         final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
+
+        // A listener to advertise progress to library developer
+        final ProgressDebugPrinter progressDebugPrinter = new ProgressDebugPrinter(problem.grid());
 
         // The internal state updater
         final CrosswordUpdater crosswordUpdater =
-                new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder);
+                new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder,
+                        progressDebugPrinter);
 
         // Finally, instantiate the solver
         return Solver.create(crosswordUpdater, slotChooser, candidateChooser, backtracker);
@@ -85,9 +104,32 @@ public final class GinsbergCrosswordSolver {
         final StatisticsRecorder stats = new StatisticsRecorder();
         final Solver solver = newSolver(crossword, progressListener, stats);
 
+        LOGGER.info(() -> "Total branches (box variables): " + Math.pow(26,
+                puzzleDefinition.height() * puzzleDefinition.width()));
+        final BigInteger branches = crossword.grid()
+                                             .puzzle()
+                                             .slots()
+                                             .stream()
+                                             .map(s -> BigInteger.valueOf(crossword.dictionary()
+                                                                                   .candidatesCount(s)))
+                                             .reduce(BigInteger.ONE, BigInteger::multiply);
+        final NumberFormat formatter = new DecimalFormat("0.######E0",
+                DecimalFormatSymbols.getInstance(Locale.ROOT));
+        LOGGER.info(() -> "Total branches (slot variables, pruned): " + formatter.format(branches));
+
         progressListener.onInitialisationEnd();
 
-        boolean solved = solver.solve();
+        final boolean solved = solver.solve();
+
+        LOGGER.info(() -> "Dictionary cache dump after resolution: ");
+        final StringBuilder sb = new StringBuilder();
+        for (final Slot slot : crossword.grid().puzzle().slots()) {
+            sb.append(slot).append(": ").append(crossword.dictionary().candidates(slot).toList());
+            sb.append(System.lineSeparator());
+        }
+        LOGGER.info(sb::toString);
+        LOGGER.info(() -> "Elimination space dump after resolution: ");
+        LOGGER.info(() -> crossword.eliminationSpace().toString());
 
         return SolverResultFactory.createFrom(crossword, stats, solved);
     }

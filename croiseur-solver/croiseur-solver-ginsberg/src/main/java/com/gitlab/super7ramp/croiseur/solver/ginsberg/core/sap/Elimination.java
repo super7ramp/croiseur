@@ -11,10 +11,10 @@ import java.util.Collection;
  * An elimination.
  *
  * @param <VariableT>          the eliminated variable type
- * @param <EliminationReasonT> the elimination reason
+ * @param <EliminationReasonT> the elimination reasons
  */
 // FIXME EliminationReasonT should be VariableT, clarify Slot vs. SlotIdentifier usage
 public record Elimination<VariableT, EliminationReasonT>(VariableT eliminated,
-                                                         Collection<EliminationReasonT> reason) {
+                                                         Collection<EliminationReasonT> reasons) {
     // Nothing to add
 }

@@ -12,10 +12,13 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpa
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
@@ -30,6 +33,9 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     /** Eligibility. */
     private final BiPredicate<Slot, String> eligibility;
 
+    /** The elimination space. */
+    private final EliminationSpace els;
+
     /**
      * Constructor.
      *
@@ -38,8 +44,9 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
      */
     CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
                          final EliminationSpace eliminationSpace) {
+        els = eliminationSpace;
         eligibility = (slot, word) -> slot.isCompatibleWith(word) &&
-                !eliminationSpace.eliminations(slot.uid()).contains(word);
+                !eliminationSpace.eliminatedValues(slot.uid()).contains(word);
         cache = populateCache(dictionary, slots, eligibility);
     }
 
@@ -86,11 +93,11 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
-    public long refreshedCandidatesCount(final Slot wordVariable,
-                                         final SlotIdentifier probedVariable) {
+    public long refinedCandidatesCount(final Slot wordVariable,
+                                       final SlotIdentifier modified) {
         final Collection<String> candidates = cache.candidates(wordVariable);
         final long count;
-        if (wordVariable.isConnectedTo(probedVariable)) {
+        if (wordVariable.isConnectedTo(modified)) {
             count = candidates.stream()
                               .filter(word -> eligibility.test(wordVariable, word))
                               .count();
@@ -101,13 +108,34 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
+    public long reevaluatedCandidatesCount(final Slot wordVariable,
+                                           final List<SlotIdentifier> modifiedVariables) {
+        // Horrible probe of the elimination space
+        final Map<String, Set<SlotIdentifier>> refreshedEliminations =
+                new HashMap<>(els.eliminations(wordVariable.uid()));
+        final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()
+                                                                                         .iterator();
+        while (it.hasNext()) {
+            final Map.Entry<String, Set<SlotIdentifier>> elimination = it.next();
+            final Set<SlotIdentifier> reasons = elimination.getValue();
+            if (!Collections.disjoint(reasons, modifiedVariables)) {
+                it.remove();
+            }
+        }
+        return cache.initialCandidates(wordVariable)
+                    .stream()
+                    .filter(word -> wordVariable.isCompatibleWith(word) && !refreshedEliminations.containsKey(word))
+                    .count();
+    }
+
+    @Override
     public void invalidateCache(final Slot unassignedSlot) {
         cache.invalidateCache(slot -> slot.isConnectedTo(unassignedSlot) || slot.equals(unassignedSlot));
     }
 
     @Override
     public void updateCache(final Slot assignedSlot) {
-        cache.updateCache(slot -> slot.isConnectedTo(assignedSlot));
+        cache.updateCache(slot -> slot.isConnectedTo(assignedSlot) || slot.equals(assignedSlot));
     }
 
 }

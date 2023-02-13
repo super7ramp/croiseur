@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  * In other words, the selected value is the value which brings as little constraints on the grid
  * as possible.
  */
-public final class CandidateChooserImpl implements CandidateChooser<Slot, String> {
+final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, String> {
 
     /**
      * Associates a candidate to the estimated number of solutions of the grid.
@@ -48,7 +48,7 @@ public final class CandidateChooserImpl implements CandidateChooser<Slot, String
 
     /** Filter candidates with at least one puzzle solution. */
     private static final Predicate<NumberOfSolutionsPerCandidate> WITH_SOLUTION =
-            probe -> probe.numberOfSolutions.compareTo(BigInteger.ZERO) > 0;
+            probe -> probe.numberOfSolutions.signum() > 0;
 
     /** The dictionary to pick candidates from. */
     private final CachedDictionary dictionary;
@@ -62,21 +62,19 @@ public final class CandidateChooserImpl implements CandidateChooser<Slot, String
      * @param aPuzzle     the puzzle to solve
      * @param aDictionary the dictionary to pick candidates from
      */
-    public CandidateChooserImpl(final Probable aPuzzle, final CachedDictionary aDictionary) {
+    LeastConstrainingCandidateChooser(final Probable aPuzzle, final CachedDictionary aDictionary) {
         dictionary = aDictionary;
         prober = new Prober(aPuzzle, aDictionary);
     }
 
     @Override
     public Optional<String> find(final Slot wordVariable) {
-
         return dictionary.candidates(wordVariable)
                          .map(candidate -> probe(wordVariable, candidate))
                          .filter(WITH_SOLUTION)
                          .limit(MAX_NUMBER_OF_CANDIDATES_TO_COMPARE)
                          .max(BY_NUMBER_OF_SOLUTIONS)
                          .map(NumberOfSolutionsPerCandidate::candidate);
-
     }
 
     /**
@@ -89,8 +87,9 @@ public final class CandidateChooserImpl implements CandidateChooser<Slot, String
      * number of solutions for the grid
      */
     private NumberOfSolutionsPerCandidate probe(final Slot wordVariable, final String candidate) {
-        return new NumberOfSolutionsPerCandidate(candidate,
-                prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate)));
+        final BigInteger numberOfSolutions =
+                prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate));
+        return new NumberOfSolutionsPerCandidate(candidate, numberOfSolutions);
     }
 
 }

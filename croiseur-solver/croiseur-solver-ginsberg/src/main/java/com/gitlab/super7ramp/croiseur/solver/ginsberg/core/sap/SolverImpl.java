@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @param <VariableT>          type of variable
  * @param <ValueT>             type of value assignable to the variables
- * @param <EliminationReasonT> type of elimination reason
+ * @param <EliminationReasonT> type of elimination reasons
  */
 final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver {
 
@@ -73,8 +73,11 @@ final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver 
             } else {
                 final List<Elimination<VariableT, EliminationReasonT>> toUnassign =
                         backtracker.backtrackFrom(variable);
-                toUnassign.forEach(problem::unassign);
-                hasSolution = !toUnassign.isEmpty();
+                if (toUnassign.isEmpty()) {
+                    hasSolution = false;
+                } else {
+                    toUnassign.forEach(problem::unassign);
+                }
             }
         }
 

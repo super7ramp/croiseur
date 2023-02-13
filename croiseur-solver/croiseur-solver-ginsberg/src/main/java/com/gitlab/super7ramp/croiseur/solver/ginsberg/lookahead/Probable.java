@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Provides lookahead capabilities.
@@ -30,5 +31,5 @@ public interface Probable {
      * @return Returns a {@link Collection} of {@link Slot} as if given {@link Unassignment} were
      * applied.
      */
-    Collection<Slot> probe(final Unassignment unassignment);
+    Collection<Slot> probe(final List<Unassignment> unassignments);
 }

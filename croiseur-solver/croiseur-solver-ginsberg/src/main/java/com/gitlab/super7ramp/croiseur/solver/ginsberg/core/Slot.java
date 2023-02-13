@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.core;
 
-import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Read/write access to a slot of a crossword puzzle.
@@ -54,11 +54,11 @@ public interface Slot {
     boolean isConnectedTo(final SlotIdentifier other);
 
     /**
-     * Returns the identifiers of the slots connected to this slot.
+     * Returns the slots connected to this slot.
      *
-     * @return the identifiers of the slots connected to this slot
+     * @return the slots connected to this slot
      */
-    Collection<SlotIdentifier> connectedSlots();
+    Stream<? extends Slot> connectedSlots();
 
     /**
      * The ratio of empty boxes inside this slot, as a percentage.

@@ -8,27 +8,27 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Implementation of {@link Slot}.
+ * <p>
+ * Just a view above {@link SlotData}.
  */
-final class SlotImpl implements Slot {
-
-    /** Connected slots. */
-    private final Map<SlotIdentifier, SlotData> connectedSlots;
+final class SlotImpl implements InternalSlot {
 
     /** Raw data access to slot. */
     private final SlotData data;
 
     /** Uid. */
     private final SlotIdentifier uid;
+
+    private final Connectivity connectivity;
 
     /**
      * Constructor.
@@ -37,10 +37,10 @@ final class SlotImpl implements Slot {
      * @param someData raw data access
      */
     SlotImpl(final SlotIdentifier anUid, final SlotData someData,
-             final Map<SlotIdentifier, SlotData> someConnectedSlots) {
+             final Connectivity connectivityArg) {
         uid = anUid;
         data = someData;
-        connectedSlots = someConnectedSlots;
+        connectivity = connectivityArg;
     }
 
     @Override
@@ -60,24 +60,17 @@ final class SlotImpl implements Slot {
 
     @Override
     public boolean isConnectedTo(final SlotIdentifier other) {
-        return connectedSlots.containsKey(other);
+        return connectivity.test(uid, other);
     }
 
     @Override
-    public Collection<SlotIdentifier> connectedSlots() {
-        return Collections.unmodifiableCollection(connectedSlots.keySet());
+    public Stream<? extends Slot> connectedSlots() {
+        return connectivity.connectedSlots(uid);
     }
 
     @Override
     public int emptyBoxRatio() {
-        int empty = 0;
-        for (int i = 0; i < data.length(); i++) {
-            final char letter = data.letterAt(i);
-            if (letter == BoxData.EMPTY_VALUE) {
-                empty++;
-            }
-        }
-        return empty * 100 / data.length();
+        return data.emptyBoxRatio();
     }
 
     @Override
@@ -87,8 +80,8 @@ final class SlotImpl implements Slot {
         }
 
         for (int i = 0; i < data.length(); i++) {
-            final char letter = data.letterAt(i);
-            if (letter != BoxData.EMPTY_VALUE && letter != value.charAt(i)) {
+            final BoxData box = data.boxAt(i);
+            if (!box.isEmpty() && box.value() != value.charAt(i)) {
                 return false;
             }
         }
@@ -135,18 +128,25 @@ final class SlotImpl implements Slot {
          */
         final SlotDefinition definition = data.definition();
         final Set<Integer> boxesToKeep =
-                connectedSlots.values().stream()
-                              .filter(SlotData::isInstantiated)
-                              .map(connectedSlot ->
-                                      definition.connectionWith(connectedSlot.definition()))
-                              .collect(Collectors.toSet());
+                connectivity.connectedSlots(uid)
+                            .filter(Slot::isInstantiated)
+                            .map(connectedSlot ->
+                                    definition.connectionWith(connectedSlot.definition()))
+                            .collect(toSet());
 
+        /*
         if (boxesToKeep.size() == data.length()) {
             throw new IllegalStateException("Illegal attempt to unassign slot whereas all " +
                     "connected slots are instantiated");
         }
+         */
         data.clearExcept(boxesToKeep);
 
         return clearedValue;
+    }
+
+    @Override
+    public SlotDefinition definition() {
+        return data.definition();
     }
 }

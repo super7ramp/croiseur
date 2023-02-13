@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Probable;
 
 import java.util.Collection;
@@ -21,4 +22,13 @@ public interface Puzzle extends Probable {
      * @return the slots
      */
     Collection<Slot> slots();
+
+    /**
+     * The slot with given identifier.
+     *
+     * @param slotIdentifier the identifier
+     * @return the slot with given identifer
+     */
+    Slot slot(SlotIdentifier slotIdentifier);
+
 }

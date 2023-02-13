@@ -5,10 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.history;
 
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
-
-import java.util.Iterator;
-import java.util.Optional;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Assignment history. Useful for backtracking.
@@ -16,29 +13,14 @@ import java.util.Optional;
 public interface History {
 
     /**
-     * Gets the last assigned slot from history.
-     *
-     * @return the last assigned slot in history if any; otherwise, returns {@link Optional#empty()}
-     */
-    Optional<Slot> lastAssignedSlot();
-
-    /**
-     * Gets the last assigned slot from history, connected to given variable.
-     *
-     * @param toBeConnectedWith the slot that the returned last assigned slot must be connected to
-     * @return the last assigned slot connected to given slot, if any; otherwise, returns
-     * {@link Optional#empty()}
-     */
-    Optional<Slot> lastAssignedConnectedSlot(final Slot toBeConnectedWith);
-
-    /**
-     * Gets an iterator on the history.
+     * Returns the "assignment date" of this slot.
      * <p>
-     * Element removal is not supported - this class is for read-only access. Behaviour on element
-     * removal is not fully determined yet, at best it will be no effect, otherwise it will throw a
-     * runtime exception.
+     * The assignment date is a value from 1 to {@link Long#MAX_VALUE} - 1.
+     * <p>
+     * If slot is not assigned, returns {@link Long#MAX_VALUE}.
      *
-     * @return the iterator on history
+     * @param slot the slot
+     * @return the assignment age of the given slot, or {@link Long#MAX_VALUE} if not assigned
      */
-    Iterator<Slot> explorer();
+    long assignmentDate(final SlotIdentifier slot);
 }

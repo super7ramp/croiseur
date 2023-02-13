@@ -29,11 +29,11 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
      * The eliminations for a slot are also stored as a map with:
      * <ul>
      *     <li>Key: The eliminated value</li>
-     *     <li>Value: The reason(s) for this value to be eliminated - typically some well
+     *     <li>Value: The reasons(s) for this value to be eliminated - typically some well
      *     chosen slots connected to the unassignable variable at the origin of the elimination</li>
      * </ul>
      * <p>
-     * Eliminations for a slot are indexed by eliminated values rather than by reason because
+     * Eliminations for a slot are indexed by eliminated values rather than by reasons because
      * it's faster on read and read is more used than write.
      */
     private final Map<SlotIdentifier, Map<String, Set<SlotIdentifier>>> eliminations;
@@ -46,28 +46,29 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
     }
 
     @Override
-    public Set<String> eliminations(final SlotIdentifier slot) {
+    public Set<String> eliminatedValues(final SlotIdentifier slot) {
         return Collections.unmodifiableSet(initialisedEliminations(slot).keySet());
+    }
+
+    @Override
+    public Map<String, Set<SlotIdentifier>> eliminations(final SlotIdentifier slot) {
+        return Collections.unmodifiableMap(initialisedEliminations(slot));
     }
 
     @Override
     public void eliminate(final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons,
                           final String eliminated) {
 
-        initialisedEliminations(unassigned, eliminated).addAll(reasons);
+        eliminationReasons(unassigned, eliminated).addAll(reasons);
 
         // Unassigned slot is not a valid elimination reasons any more
         for (final Map<String, Set<SlotIdentifier>> entry : eliminations.values()) {
-
             final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = entry.entrySet().iterator();
             while (it.hasNext()) {
-
                 final Set<SlotIdentifier> previousReasons = it.next().getValue();
-                previousReasons.remove(unassigned);
-                if (previousReasons.isEmpty()) {
+                if (previousReasons.contains(unassigned)) {
                     it.remove();
                 }
-
             }
         }
     }
@@ -89,8 +90,13 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
      * @param eliminatedValue the eliminated value
      * @return the elimination reasons
      */
-    private Set<SlotIdentifier> initialisedEliminations(final SlotIdentifier slot,
-                                                        final String eliminatedValue) {
+    private Set<SlotIdentifier> eliminationReasons(final SlotIdentifier slot,
+                                                   final String eliminatedValue) {
         return initialisedEliminations(slot).computeIfAbsent(eliminatedValue, k -> new HashSet<>());
+    }
+
+    @Override
+    public String toString() {
+        return eliminations.toString();
     }
 }

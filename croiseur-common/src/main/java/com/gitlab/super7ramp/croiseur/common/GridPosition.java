@@ -13,16 +13,16 @@ package com.gitlab.super7ramp.croiseur.common;
  * Coordinates cannot be negative. Attempting to create a new instance using negative coordinate
  * will result into an {@link IllegalArgumentException}.
  *
- * @param x the column number
- * @param y the row number
+ * @param x the column number, i.e. the horizontal index, starting at 0
+ * @param y the row number, i.e. the vertical index, starting at 0
  */
 public record GridPosition(int x, int y) {
 
     /**
      * Constructor.
      *
-     * @param x horizontal index, starting at 0
-     * @param y vertical index, starting at 0
+     * @param x the column number, i.e. the horizontal index, starting at 0
+     * @param y the row number, i.e. the vertical index, starting at 0
      */
     public GridPosition {
         if (x < 0 || y < 0) {

@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination;
 
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,5 +21,16 @@ public interface EliminationSpace {
      * @param slot the slot for which return the eliminated values
      * @return the eliminated values for given slot
      */
-    Set<String> eliminations(final SlotIdentifier slot);
+    default Set<String> eliminatedValues(final SlotIdentifier slot) {
+        return eliminations(slot).keySet();
+    }
+
+    /**
+     * Returns the eliminations for a given slot, i.e. the eliminated values associated with the
+     * reasons of their eliminations.
+     *
+     * @param slot the slot for which return the elimination
+     * @return the eliminations for a given slot
+     */
+    Map<String, Set<SlotIdentifier>> eliminations(final SlotIdentifier slot);
 }

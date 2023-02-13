@@ -166,16 +166,16 @@ public final class GridDataBuilder {
     }
 
     private BoxData[][] buildGrid() {
-        final BoxData[][] result = new BoxData[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        final BoxData[][] result = new BoxData[height][width];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 final GridPosition coord = new GridPosition(x, y);
                 if (shaded.contains(coord)) {
-                    result[x][y] = Boxes.shaded();
+                    result[y][x] = Boxes.shaded();
                 } else if (prefilled.containsKey(coord)) {
-                    result[x][y] = Boxes.prefilled(prefilled.get(coord));
+                    result[y][x] = Boxes.prefilled(prefilled.get(coord));
                 } else {
-                    result[x][y] = Boxes.computed();
+                    result[y][x] = Boxes.computed();
                 }
             }
         }

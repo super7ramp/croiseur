@@ -42,10 +42,12 @@ final class SlotData {
     /**
      * Constructor.
      *
-     * @param aDefinition the slot definition
-     * @param aGrid       the whole grid data
+     * @param aDefinition    the slot definition
+     * @param aGrid          the whole grid data
+     * @param anInstantiated whether the slot has been instantiated
      */
-    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid, boolean anInstantiated) {
+    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid,
+             final boolean anInstantiated) {
         definition = aDefinition;
         grid = aGrid;
         instantiated = anInstantiated;
@@ -58,10 +60,6 @@ final class SlotData {
 
     int length() {
         return definition.length();
-    }
-
-    char letterAt(final int index) {
-        return boxAt(index).value();
     }
 
     void write(final String value) {
@@ -105,13 +103,12 @@ final class SlotData {
         }
         final char[] readValue = new char[definition.length()];
         for (int i = 0; i < definition.length(); i++) {
-            final char letter = boxAt(i).value();
-            if (letter == BoxData.EMPTY_VALUE) {
-                // FIXME that shouldn't happen unless there is a space in dictionary words
-                //  which is *not* supported. Throw an exception? Drop this check? Add an assert?
-                return Optional.empty();
+            final BoxData box = boxAt(i);
+            if (box.isEmpty()) {
+                throw new IllegalStateException("Detected blank in an assigned word, check your " +
+                        "dictionary");
             }
-            readValue[i] = letter;
+            readValue[i] = box.value();
         }
         return Optional.of(String.valueOf(readValue));
     }
@@ -120,12 +117,22 @@ final class SlotData {
         return instantiated;
     }
 
-    private BoxData boxAt(final int i) {
+    int emptyBoxRatio() {
+        int empty = 0;
+        for (int i = 0; i < length(); i++) {
+            if (boxAt(i).isEmpty()) {
+                empty++;
+            }
+        }
+        return empty * 100 / length();
+    }
+
+    BoxData boxAt(final int i) {
         final BoxData box;
         if (definition.type().isHorizontal()) {
-            box = grid[definition.start() + i][definition.offset()];
-        } else {
             box = grid[definition.offset()][definition.start() + i];
+        } else {
+            box = grid[definition.start() + i][definition.offset()];
         }
         return box;
     }

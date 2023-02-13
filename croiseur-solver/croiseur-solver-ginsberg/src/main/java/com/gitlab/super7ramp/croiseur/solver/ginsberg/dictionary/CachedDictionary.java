@@ -8,10 +8,13 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
  * A dictionary caching results of potentially slow external dictionary.
+ * <p>
+ * The following methods do not modify the dictionary, they are read-only.
  */
 public interface CachedDictionary {
 
@@ -54,17 +57,37 @@ public interface CachedDictionary {
     /**
      * Returns the number of candidates for given variable.
      * <p>
-     * Similar to {@link #candidatesCount(Slot)} but indicates that cache result shall be refined.
-     * To be used when probing candidates, i.e. when puzzle is not in sync with the puzzle data
-     * backing this dictionary.
+     * Similar to {@link #candidatesCount(Slot)} but indicates that the cached count shall be
+     * refined.
      * <p>
-     * Probed slot is a hint for cache optimization (avoid refreshing all values, only connected
-     * ones).
+     * To be used when probing <em>assignment candidates</em>, i.e. when puzzle is not in sync
+     * with the puzzle data backing this dictionary.
      *
-     * @param wordVariable   a variable
+     * @param wordVariable   the variable for which to get the candidates count
      * @param probedVariable variable which is not in sync with the puzzle data backing this
-     *                       {@link CachedDictionary}; connected slots candidates will be refreshed
+     *                       {@link CachedDictionary}; connected slots candidates will be refined
+     *                       using cached result and current state
      * @return the candidates for given variable
+     * @see #reevaluatedCandidatesCount(Slot, SlotIdentifier)
      */
-    long refreshedCandidatesCount(final Slot wordVariable, final SlotIdentifier probedVariable);
+    long refinedCandidatesCount(final Slot wordVariable, final SlotIdentifier probedVariable);
+
+    /**
+     * Returns the number of candidates for given variable.
+     * <p>
+     * Similar to {@link #candidatesCount(Slot)} but indicates that the cached count shall not be
+     * taken into account and the count shall be completely re-evaluated.
+     * <p>
+     * To be used when probing <em>unassignment candidates</em>, i.e. when puzzle is not in
+     * sync with the puzzle data backing this dictionary.
+     *
+     * @param wordVariable   the variable for which to get the candidates count
+     * @param probedVariable variable which is not in sync with the puzzle data backing this
+     *                       {@link CachedDictionary}; connected slots candidates will be
+     *                       re-evaluated using initial candidates and current state
+     * @return the candidates for given variable
+     * @see #refinedCandidatesCount(Slot, SlotIdentifier)
+     */
+    long reevaluatedCandidatesCount(final Slot wordVariable,
+                                    final List<SlotIdentifier> probedVariables);
 }

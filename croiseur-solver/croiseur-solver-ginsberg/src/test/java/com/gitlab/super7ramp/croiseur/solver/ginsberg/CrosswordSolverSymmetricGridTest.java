@@ -6,11 +6,15 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
 import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
 
@@ -19,22 +23,37 @@ import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleDefinitionPar
  */
 final class CrosswordSolverSymmetricGridTest {
 
-    /**
-     * Test dictionary filename.
-     */
-    private static final String DIC_FILE = "/fr.dic";
+    /** The test dictionary. */
+    private static Dictionary dictionary;
 
-    private static Dictionary createDictionary() throws IOException, URISyntaxException {
-        final Path dicPath = Path.of(CrosswordSolverSymmetricGridTest.class.getResource(DIC_FILE)
-                                                                           .toURI());
-        return new DictionaryMock(dicPath);
+    @BeforeAll
+    static void beforeAll() throws IOException, URISyntaxException {
+        final URL dicUrl =
+                Objects.requireNonNull(CrosswordSolverSymmetricGridTest.class.getResource("/fr" +
+                        ".dic"));
+        final Path dicPath = Path.of(dicUrl.toURI());
+        dictionary = new DictionaryMock(dicPath);
+    }
+
+    @AfterAll
+    static void afterAll() {
+        dictionary = null;
     }
 
     /*
-     * This takes < 3 s to solve at 1 GHz.
+     * This takes < 2 s to solve at 1 GHz.
+     *
+     * First viable:
+     * 7 unassignments
+     * 17 assignments
+     *
+     * Least constraining
+     * 0 unassignments
+     * 10 assignments
+     *
      */
     @Test
-    void shaded5x5() throws URISyntaxException, IOException, InterruptedException {
+    void shaded5x5() throws InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle("""
                 |#|#| | | |
                 |#| | | | |
@@ -42,9 +61,9 @@ final class CrosswordSolverSymmetricGridTest {
                 | | | | |#|
                 | | | |#|#|
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+        System.out.println(result);
 
         Assertions.assertSuccess("""
                 |#|#|C|I|L|
@@ -56,10 +75,16 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 3 s to solve at 1 GHz. No backtrack necessary.
+     * This takes < 2 s to solve at 1 GHz. No backtrack necessary.
+     * First viable:
+     * 2 unassignments
+     * 26 assignments
+     * Least constraining
+     * 0 unassignments
+     * 24 assignments
      */
     @Test
-    void shaded9x9() throws URISyntaxException, IOException, InterruptedException {
+    void shaded9x9() throws InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle("""
                 |#|#|#| | | |#|#|#|
                 |#|#| | | | | |#|#|
@@ -71,9 +96,9 @@ final class CrosswordSolverSymmetricGridTest {
                 |#|#| | | | | |#|#|
                 |#|#|#| | | |#|#|#|
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+        System.out.println(result);
 
         Assertions.assertSuccess("""
                 |#|#|#|R|A|M|#|#|#|
@@ -89,10 +114,16 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 5s to solve at 1 GHz.
+     * This takes < 3s to solve at 1 GHz.
+     * First viable:
+     * 128 unassignments
+     * 192 assignments
+     * Least constraining
+     * 41 unassignments
+     * 105 assignments
      */
     @Test
-    void shaded13x13() throws URISyntaxException, IOException, InterruptedException {
+    void shaded13x13() throws InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle("""
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
@@ -108,9 +139,9 @@ final class CrosswordSolverSymmetricGridTest {
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+        System.out.println(result);
 
         Assertions.assertSuccess("""
                 |T|A|R|A|#|C|I|A|#|M|A|E|L|
@@ -131,9 +162,15 @@ final class CrosswordSolverSymmetricGridTest {
 
     /*
      * This takes < 5 to solve at 1 GHz.
+     * First viable:
+     * 32 unassignments
+     * 92 assignments
+     * Least constraining
+     * 40 unassignments
+     * 100 assignments
      */
     @Test
-    void shaded13x13WithLongWords() throws URISyntaxException, IOException, InterruptedException {
+    void shaded13x13WithLongWords() throws InterruptedException {
         final PuzzleDefinition puzzle = parsePuzzle("""
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
@@ -149,9 +186,9 @@ final class CrosswordSolverSymmetricGridTest {
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+        System.out.println(result);
 
         Assertions.assertSuccess("""
                 |S|A|I|D|#|V|I|S|#|P|A|C|K|
@@ -171,10 +208,16 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 10 s to solve at 1 GHz - which is a bit long.
+     * This takes < 9 s to solve at 1 GHz - which is a bit long.
+     * First viable:
+     * 138 unassignments
+     * 216 assignments
+     * Least constraining
+     * 134 unassignments
+     * 212 assignments
      */
     @Test
-    void shaded15x15() throws URISyntaxException, IOException, InterruptedException {
+    void shaded15x15() throws InterruptedException {
 
         final PuzzleDefinition puzzle = parsePuzzle("""
                 | | | | |#| | | | | |#| | | | |
@@ -193,9 +236,9 @@ final class CrosswordSolverSymmetricGridTest {
                 | | | | |#| | | | | |#| | | | |
                 | | | | |#| | | | | |#| | | | |
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+        System.out.println(result);
 
         Assertions.assertSuccess("""
                 |M|I|R|E|#|F|I|L|E|T|#|B|A|A|L|

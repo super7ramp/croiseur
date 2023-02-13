@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionar
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.List;
 
 import static java.util.function.Predicate.not;
 
@@ -54,11 +55,45 @@ public final class Prober {
 
         return probeResult.stream()
                           .filter(not(Slot::isInstantiated))
-                          .map(slot -> dictionary.refreshedCandidatesCount(slot,
+                          .map(slot -> dictionary.refinedCandidatesCount(slot,
                                   assignment.slotUid()))
                           .map(BigInteger::valueOf)
-                          .reduce(BigInteger::multiply)
-                          .orElse(BigInteger.ONE);
+                          .reduce(BigInteger.ONE, BigInteger::multiply);
 
+    }
+
+    /**
+     * Returns whether after performing the given unassignment the given unassignable slot would
+     * become assignable again.
+     *
+     * @param unassignment the unassignment to test
+     * @param unassignable the unassignable variable
+     * @return whether after performing the given unassignment the given unassignable slot would
+     * become assignable again
+     */
+    public boolean doesUnassignmentSolveIssue(final Unassignment unassignment,
+                                              final Slot unassignable) {
+        return doesUnassignmentSolveIssue(List.of(unassignment), unassignable);
+    }
+
+    /**
+     * Returns whether after performing the given unassignment the given unassignable slot would
+     * become assignable again.
+     *
+     * @param unassignment the unassignment to test
+     * @param unassignable the unassignable variable
+     * @return whether after performing the given unassignment the given unassignable slot would
+     * become assignable again
+     */
+    public boolean doesUnassignmentSolveIssue(final List<Unassignment> unassignment,
+                                              final Slot unassignable) {
+        final Collection<Slot> probeResult = puzzle.probe(unassignment);
+        final Slot previouslyUnassignable =
+                probeResult.stream()
+                           .filter(s -> s.uid() == unassignable.uid())
+                           .findFirst()
+                           .orElseThrow();
+        return dictionary.reevaluatedCandidatesCount(previouslyUnassignable,
+                unassignment.stream().map(Unassignment::slotUid).toList()) > 0;
     }
 }

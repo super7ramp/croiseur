@@ -70,6 +70,16 @@ final class DictionaryCache<SlotT, ValueT> {
     }
 
     /**
+     * Returns the initial candidates for the given slot.
+     *
+     * @param slot the slot to give candidates for
+     * @return the initial candidates for the given slot
+     */
+    Collection<ValueT> initialCandidates(final SlotT slot) {
+        return Collections.unmodifiableCollection(initial.get(slot));
+    }
+
+    /**
      * Invalidate cache candidates.
      * <p>
      * Cache will be reset to its initial state.
