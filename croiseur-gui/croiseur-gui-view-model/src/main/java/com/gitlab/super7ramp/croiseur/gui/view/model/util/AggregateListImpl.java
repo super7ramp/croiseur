@@ -46,6 +46,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
      * @param others     other collections
      * @throws NullPointerException if a given collection is {@code null}
      */
+    @SafeVarargs
     AggregateListImpl(final Collection<T> collection, final Collection<T>... others) {
         this(collection);
         for (final Collection<T> other : others) {
@@ -81,17 +82,17 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
     }
 
     @Override
-    public void aggregate(int index, final Collection<T> collection) {
+    public void aggregate(final int index, final Collection<T> collection) {
         lists.add(index, new ArrayList<>(collection));
     }
 
     @Override
-    public void disaggregate(int index) {
+    public void disaggregate(final int index) {
         lists.remove(index);
     }
 
     @Override
-    public List<T> aggregatedAt(int index) {
+    public List<T> aggregatedAt(final int index) {
         return lists.get(index);
     }
 
