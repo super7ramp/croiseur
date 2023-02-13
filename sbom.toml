@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [versions]
-cargo = "1.1.0"
+cargo-plugin = "1.1.0"
 cucumber = "7.11.1"
-java = "17.0.2"
-javafx = "0.0.13"
-junit5 = "5.9.1"
+java = "17.0.6"
+javafx-plugin = "0.0.13"
+junit5 = "5.9.2"
 junit5-platform = "1.9.2"
 mockito = "5.1.1"
-native = "0.9.10"
+native-plugin = "0.9.19"
 picocli = "4.7.1"
 
 [libraries]
@@ -25,13 +25,13 @@ junit5-platform-suite = { module = "org.junit.platform:junit-platform-suite", ve
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # A plugin for creating native executable using GraalVM, only used by cli module for now. It
 # should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
-native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native" }
+native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native-plugin" }
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 
 [plugins]
 # Plugin to help embedding rust code, only used by one solver module for now
-cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo" }
+cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin" }
 # Plugin to pull JavaFx; only used by gui module
-javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx" }
+javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
