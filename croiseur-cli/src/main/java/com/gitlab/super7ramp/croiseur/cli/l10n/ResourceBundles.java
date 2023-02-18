@@ -20,30 +20,21 @@ public final class ResourceBundles {
     }
 
     /**
-     * Retrieves the resource bundle for help messages.
+     * Retrieves the resource bundle for application messages.
      *
-     * @return the resource bundle for help messages.
+     * @return the resource bundle for application messages
      */
-    public static ResourceBundle helpMessages() {
-        return ResourceBundle.getBundle("l10n.HelpMessages");
+    public static ResourceBundle messages() {
+        return ResourceBundle.getBundle("com.gitlab.super7ramp.croiseur.cli.l10n.Messages");
     }
 
     /**
-     * Retrieves the resource bundle for application output dictionary messages.
+     * Retrieves the localised message of given key.
      *
-     * @return the resource bundle for application output dictionary messages
+     * @param key the key of the message to retrieve
+     * @return the localised message with given key
      */
-    public static ResourceBundle dictionaryMessages() {
-        return ResourceBundle.getBundle("l10n.DictionaryMessages");
+    public static String $(final String key) {
+        return messages().getString(key);
     }
-
-    /**
-     * Retrieves the resource bundle for application output solver messages.
-     *
-     * @return the resource bundle for application output solver messages
-     */
-    public static ResourceBundle solverMessages() {
-        return ResourceBundle.getBundle("l10n.SolverMessages");
-    }
-
 }

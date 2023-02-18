@@ -10,8 +10,7 @@ import picocli.CommandLine.Command;
 /**
  * The top-level command, which only prints help.
  */
-@Command(name = "croiseur-cli", synopsisSubcommandLabel = "COMMAND" /* instead of [COMMAND],
-because subcommand is mandatory */)
+@Command(name = "croiseur-cli")
 public final class TopLevelCommand {
 
     /**

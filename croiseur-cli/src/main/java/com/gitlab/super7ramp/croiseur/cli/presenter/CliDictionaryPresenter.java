@@ -15,24 +15,19 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresent
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
+
+import static com.gitlab.super7ramp.croiseur.cli.presenter.CliPresenterUtil.lineOf;
 
 /**
  * CLI implementation of {@link DictionaryPresenter}.
  */
 final class CliDictionaryPresenter implements DictionaryPresenter {
 
-    /** The translated strings. */
-    private static final ResourceBundle L10N = ResourceBundles.dictionaryMessages();
-
     /** Providers output format. */
     private static final String PROVIDERS_FORMAT = "%-16s\t%-54s%n";
 
     /** List output format. */
     private static final String LIST_FORMAT = "%-16s\t%-48s\t%-16s%n";
-
-    /** Show preferred dictionary format. */
-    private static final String PREFERRED_DICTIONARY_FORMAT = L10N.getString("preferred.format");
 
     /**
      * Constructs an instance.
@@ -42,23 +37,23 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     /**
-     * Creates a line of "-" suitable to underline the given header string.
+     * Returns the localised message with given key.
      *
-     * @param header the header to underline
-     * @return the underline composed of repeated "-", same size as the given string
+     * @param key the message key
+     * @return the localised message
      */
-    private static String underline(final String header) {
-        return "-".repeat(header.length());
+    private static String $(final String key) {
+        return ResourceBundles.$("presenter.dictionary." + key);
     }
 
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
-        final String providerHeader = L10N.getString("provider");
-        final String descriptionHeader = L10N.getString("description");
+        final String providerHeader = $("provider");
+        final String descriptionHeader = $("description");
 
         System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
-        System.out.printf(PROVIDERS_FORMAT, underline(providerHeader),
-                underline(descriptionHeader));
+        System.out.printf(PROVIDERS_FORMAT, lineOf(providerHeader.length()),
+                lineOf(descriptionHeader.length()));
 
         providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
                 provider.description()));
@@ -66,13 +61,13 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
-        final String providerHeader = L10N.getString("provider");
-        final String nameHeader = L10N.getString("name");
-        final String localeHeader = L10N.getString("locale");
+        final String providerHeader = $("provider");
+        final String nameHeader = $("name");
+        final String localeHeader = $("locale");
 
         System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
-        System.out.printf(LIST_FORMAT, underline(providerHeader), underline(nameHeader),
-                underline(localeHeader));
+        System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()), lineOf(nameHeader.length()),
+                lineOf(localeHeader.length()));
 
         for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
             final DictionaryProviderDescription provider = providedDictionary.provider();
@@ -99,7 +94,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
         final DictionaryProviderDescription provider = preferredDictionary.provider();
         final DictionaryDescription dictionary = preferredDictionary.dictionary();
-        System.out.printf(PREFERRED_DICTIONARY_FORMAT, dictionary.name(),
+        System.out.printf($("preferred.format"), dictionary.name(),
                 dictionary.locale().getDisplayName(), provider.name());
     }
 

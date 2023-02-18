@@ -18,45 +18,50 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * "solver run" subcommand.
+ * "solver run" subcommand: Solves a crossword puzzle.
  */
-@Command(name = "run", aliases = {"solve"}, description = "Solve a crossword puzzle")
+@Command(name = "run", aliases = {"solve"})
 public final class SolverRunCommand implements Runnable {
 
     /** Solver service. */
     private final SolverService solverService;
 
-    @Parameters(arity = "0..1", description = "The name of the solver to use")
+    /** The name of the solver to use. */
+    @Parameters(arity = "0..1")
     private String solver;
 
+    /** The grid dimensions. */
     @Option(names = {"-s", "--size"}, paramLabel = "<INTEGERxINTEGER>", arity = "1", required =
-            true, description = "Grid dimensions, e.g. '--size 7x15' for a grid of width 7 and " +
-            "height 15")
+            true)
     private GridSize size;
 
+    /** The identifiers of the dictionary to use for solving. */
     @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "<PROVIDER:DICTIONARY>",
-            arity = "1..*", description = "Dictionary identifiers")
+            arity = "1..*")
     private DictionaryIdentifier[] dictionaryIds;
 
-    @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", description =
-            "Shaded boxes, e.g. '--shaded-boxes (1,2) (3,4)...'", paramLabel = "<COORDINATE> ")
+    /** The definition of the shaded boxes. */
+    @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", paramLabel =
+            "<COORDINATE> ")
     private GridPosition[] shadedBoxes = {};
 
-    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", description = "Pre-filled boxes, " +
-            "e.g. '--boxes ((1,2),A) ((3,4),B)...'", paramLabel = "<(COORDINATE,LETTER)> ")
+    /** The definition of the pre-filled boxes. */
+    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", paramLabel = "<(COORDINATE," +
+            "LETTER)> ")
     private PrefilledBox[] prefilledBoxes = {};
 
-    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", description = "Pre" +
-            "-filled horizontal slots, e.g. '--horizontal ((0,0),hello) ((5,0),world)...",
-            paramLabel = "<(COORDINATE,WORD)> ")
+    /** The definition of the pre-filled horizontal slots. */
+    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", paramLabel = "<" +
+            "(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
-    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", description = "Pre-filled " +
-            "vertical slots, e.g. '--vertical ((0,0),hello) ((5,0),world)...",
-            paramLabel = "<(COORDINATE,WORD)> ")
+    /** The definition of the pre-filled vertical slots. */
+    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", paramLabel = "<(COORDINATE," +
+            "WORD)> ")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
-    @Option(names = {"-p", "--progress"}, description = "Show solver progress")
+    /** Flag to show solver progress. */
+    @Option(names = {"-p", "--progress"})
     private boolean progress;
 
     /**

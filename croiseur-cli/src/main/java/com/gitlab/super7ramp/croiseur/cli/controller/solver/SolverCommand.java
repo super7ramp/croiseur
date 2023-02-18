@@ -9,11 +9,9 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import picocli.CommandLine.Command;
 
 /**
- * The 'solver' command.
+ * The 'solver' command: Solve crosswords and list available solvers.
  */
-@Command(name = "solver", description = "Solve crosswords and list available solvers",
-        synopsisSubcommandLabel = "COMMAND" /* instead of [COMMAND], because subcommand is
-        mandatory */)
+@Command(name = "solver")
 public final class SolverCommand {
 
     /** The solver service. */
@@ -28,7 +26,8 @@ public final class SolverCommand {
         solverService = solverServiceArg;
     }
 
-    @Command(name = "list", aliases = {"ls"}, description = "List available solvers")
+    /** Lists the available solvers. */
+    @Command(name = "list", aliases = {"ls"})
     void list() {
         solverService.listProviders();
     }

@@ -47,7 +47,7 @@ final class CrosswordCliApplication {
                .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
                        .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
-               .setResourceBundle(ResourceBundles.helpMessages());
+               .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,
                        TypeConverter.wrap(DictionaryIdentifier::valueOf))

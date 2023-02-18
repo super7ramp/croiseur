@@ -16,11 +16,9 @@ import picocli.CommandLine.Parameters;
 import java.util.Locale;
 
 /**
- * "dictionary" subcommand.
+ * "dictionary" subcommand: List and print available dictionaries.
  */
-@Command(name = "dictionary", description = "List and print available dictionaries",
-        synopsisSubcommandLabel = "COMMAND" // instead of [COMMAND], because subcommand is mandatory
-)
+@Command(name = "dictionary")
 public final class DictionaryCommand {
 
     /** The dictionary service. */
@@ -35,26 +33,43 @@ public final class DictionaryCommand {
         dictionaryService = aDictionaryService;
     }
 
-    @Command(name = "cat", description = "Display dictionary entries")
+    /**
+     * Displays dictionary entries.
+     *
+     * @param dictionaryId the dictionary identifier
+     */
+    @Command(name = "cat")
     void cat(@Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId) {
         final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
         dictionaryService.listEntries(request);
     }
 
-    @Command(name = "get-default", description = "Return the default dictionary")
+    /**
+     * Displays the default dictionary.
+     */
+    @Command(name = "get-default")
     void getDefault() {
         dictionaryService.showPreferredDictionary();
     }
 
-    @Command(name = "list", aliases = {"ls"}, description = "List available dictionaries")
-    void list(@Option(names = {"-p", "--provider"}, description = "Filter on provider",
+    /**
+     * Lists the available dictionary.
+     *
+     * @param provider filter on the provider
+     * @param locale   filter on the locale
+     */
+    @Command(name = "list", aliases = {"ls"})
+    void list(@Option(names = {"-p", "--provider"},
             paramLabel = "PROVIDER") final String provider, @Option(names = {"-l", "--locale"},
-            description = "Filter on locale", paramLabel = "LOCALE") final Locale locale) {
+            paramLabel = "LOCALE") final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
         dictionaryService.listDictionaries(request);
     }
 
-    @Command(name = "list-providers", description = "List available dictionary providers")
+    /**
+     * Lists the available dictionary providers.
+     */
+    @Command(name = "list-providers")
     void listProviders() {
         dictionaryService.listProviders();
     }
