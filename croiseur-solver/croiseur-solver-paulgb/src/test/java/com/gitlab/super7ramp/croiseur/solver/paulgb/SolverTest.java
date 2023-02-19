@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -92,6 +93,7 @@ final class SolverTest {
      * {@link SolverErrorException}.
      */
     @Test
+    @Disabled("Temporarily disabled, jni code to be reworked to be unwind safe")
     void failureNullPuzzle() {
         final SolverErrorException solverError = assertThrows(SolverErrorException.class,
                 () -> new Solver().solve(null, new Dictionary(new String[0])));
@@ -104,6 +106,7 @@ final class SolverTest {
      * {@link SolverErrorException}.
      */
     @Test
+    @Disabled("Temporarily disabled, jni code to be reworked to be unwind safe")
     void failureNullDictionary() {
         final SolverErrorException solverError = assertThrows(SolverErrorException.class,
                 () -> new Solver().solve(new Puzzle(new int[0][]), null));

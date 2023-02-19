@@ -7,13 +7,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-catch_panic = "1.0.0"
 crossword = { path = "../crossword-composer" }
-jni = "^0.20.0"
-
-[patch.crates-io]
-# See https://gitlab.com/super7ramp/croiseur/-/issues/35
-catch_panic = { git = 'https://github.com/super7ramp/catch_panic.git', branch = 'jni-0.20' }
+jni = "0.21.0"
 
 [lib]
 crate_type = ["cdylib"]

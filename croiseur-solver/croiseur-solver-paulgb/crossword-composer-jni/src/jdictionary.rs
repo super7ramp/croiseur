@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+use std::cell::RefCell;
+use std::rc::Rc;
+
 use crossword::dictionary::Dictionary;
 use jni::JNIEnv;
 use jni::objects::JObject;
@@ -12,13 +15,13 @@ use crate::jarray::JArray;
 /// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary` Java object.
 pub struct JDictionary<'a> {
     /// The [JNI environment](JNIEnv).
-    env: JNIEnv<'a>,
+    env: Rc<RefCell<JNIEnv<'a>>>,
     /// The wrapped `Dictionary` Java object.
     dic: JObject<'a>,
 }
 
 impl<'a> JDictionary<'a> {
-    pub fn new(jni_env: JNIEnv<'a>, dictionary: JObject<'a>) -> Self {
+    pub fn new(jni_env: Rc<RefCell<JNIEnv<'a>>>, dictionary: JObject<'a>) -> Self {
         Self {
             env: jni_env,
             dic: dictionary,
@@ -27,18 +30,16 @@ impl<'a> JDictionary<'a> {
 }
 
 impl<'a> From<JDictionary<'a>> for Vec<String> {
-    fn from(val: JDictionary<'a>) -> Self {
-        let j_string = val
+    fn from(wrapper: JDictionary<'a>) -> Self {
+        let array = wrapper
             .env
-            .call_method(val.dic, "words", "()[Ljava/lang/String;", &[])
-            .expect("Failed to access dictionary words");
-        JArray::new(
-            val.env,
-            j_string
-                .l()
-                .expect("Failed to unwrap dictionary into a JObject"),
-        )
-        .into()
+            .borrow_mut()
+            .call_method(wrapper.dic, "words", "()[Ljava/lang/String;", &[])
+            .expect("Failed to access dictionary words")
+            .l()
+            .expect("Failed to unwrap dictionary words into an object");
+
+        JArray::new(Rc::clone(&wrapper.env), array).into()
     }
 }
 
