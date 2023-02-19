@@ -27,7 +27,9 @@ public interface AggregateList<T> extends List<T> {
      * @param <T>              the element type
      * @return the created {@link AggregateList}
      */
-    static <T> AggregateList of(Collection<T> collection, Collection<T>... otherCollections) {
+    @SafeVarargs
+    static <T> AggregateList<T> of(final Collection<T> collection,
+                                   final Collection<T>... otherCollections) {
         return new AggregateListImpl<>(collection, otherCollections);
     }
 
