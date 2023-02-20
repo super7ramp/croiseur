@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::any::Any;
+use std::ops::DerefMut;
+use std::panic::catch_unwind;
 
 use crossword::solver;
 use jni::JNIEnv;
@@ -38,22 +39,47 @@ mod jsolution;
 ///
 #[no_mangle]
 pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_paulgb_Solver_solve<'a>(
-    env: JNIEnv<'a>,
+    mut env: JNIEnv<'a>,
     _java_solver: JObject,
     java_puzzle: JObject,
     java_dictionary: JObject,
 ) -> jobject {
-    let shared_env = Rc::new(RefCell::new(env));
+    let mut wrapped_env = std::panic::AssertUnwindSafe(&mut env);
+    let result = catch_unwind(move || solve(wrapped_env.deref_mut(), java_puzzle, java_dictionary));
+    result.unwrap_or_else(|err| handle_panic(env, err))
+}
 
-    let grid = JPuzzle::new(Rc::clone(&shared_env), java_puzzle).into();
-    let dictionary = JDictionary::new(Rc::clone(&shared_env), java_dictionary).into();
+/// Where the actual solve job is done.
+fn solve<'a>(env: &mut JNIEnv<'a>, java_puzzle: JObject, java_dictionary: JObject) -> jobject {
+    let grid = JPuzzle::new(java_puzzle).into_grid(env);
+    let dictionary = JDictionary::new(java_dictionary).into_dictionary(env);
 
     let result = solver::solve(&grid, &dictionary);
 
     result
-        .map(|chars| JSolution::from(Rc::clone(&shared_env), chars))
-        .map(|solution| JOptional::of(Rc::clone(&shared_env), solution.unwrap_object()))
-        .unwrap_or_else(|| JOptional::empty(Rc::clone(&shared_env)))
-        .unwrap_object()
+        .map(|chars| JSolution::from(chars, env))
+        .map(|solution| JOptional::of(solution.unwrap_object(), env))
+        .unwrap_or_else(|| JOptional::empty(env))
+        .into_object()
         .into_raw()
+}
+
+/// Handles panic from native code by throwing an appropriate exception to the JVM.
+///
+/// Inspired by:
+/// - The [`catch_panic`](https://github.com/HermitSocialClub/catch_panic) macro
+/// - This [blog post](https://engineering.avast.io/scala-and-rust-interoperability-via-jni/)
+fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
+    let error_msg = match err.downcast_ref::<&'static str>() {
+        Some(s) => *s,
+        None => match err.downcast_ref::<String>() {
+            Some(s) => &s[..],
+            None => "Unknown error in native code.",
+        },
+    };
+    let _ = env.throw_new(
+        "com/gitlab/super7ramp/croiseur/solver/paulgb/SolverErrorException",
+        error_msg,
+    );
+    JObject::default().into_raw()
 }

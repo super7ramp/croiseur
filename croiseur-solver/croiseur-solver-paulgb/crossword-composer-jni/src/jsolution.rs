@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use std::cell::RefCell;
-use std::rc::Rc;
-
 use jni::JNIEnv;
 use jni::objects::{JObject, JValue};
 
@@ -18,23 +15,21 @@ pub struct JSolution<'a> {
 }
 
 impl<'a> JSolution<'a> {
-    fn new(env: Rc<RefCell<JNIEnv<'a>>>, solution_arg: JArray<'a>) -> Self {
+    fn new(solution_arg: JArray, env: &mut JNIEnv<'a>) -> Self {
         let class = env
-            .borrow_mut()
             .find_class("com/gitlab/super7ramp/croiseur/solver/paulgb/Solution")
             .expect("Solution class not found");
-        let object = solution_arg.unwrap_object();
+        let object = solution_arg.into_object();
         let array = JValue::from(&object);
         let solution = env
-            .borrow_mut()
             .new_object(class, "([C)V", &[array])
             .expect("Failed to create a Solution object");
         Self { solution }
     }
 
-    pub fn from(jni_env: Rc<RefCell<JNIEnv<'a>>>, chars: Vec<char>) -> Self {
-        let wrapper = JArray::from(Rc::clone(&jni_env), chars);
-        Self::new(jni_env, wrapper)
+    pub fn from(chars: Vec<char>, env: &mut JNIEnv<'a>) -> Self {
+        let wrapper = JArray::from_vec_chars(chars, env);
+        Self::new(wrapper, env)
     }
 
     pub fn unwrap_object(self) -> JObject<'a> {
