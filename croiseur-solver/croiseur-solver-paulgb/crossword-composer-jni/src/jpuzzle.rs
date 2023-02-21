@@ -16,10 +16,12 @@ pub struct JPuzzle<'a> {
 }
 
 impl<'a> JPuzzle<'a> {
+    /// Creates a new `JPuzzle` wrapping the given `JObject`.
     pub fn new(puzzle_arg: JObject<'a>) -> Self {
         Self { puzzle: puzzle_arg }
     }
 
+    /// Transforms this `JPuzzle` to a [`Grid`][].
     pub fn into_grid(self, env: &mut JNIEnv) -> Grid {
         let j_array_2d = env
             .call_method(self.puzzle, "slots", "()[[I", &[])

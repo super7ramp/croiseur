@@ -16,15 +16,18 @@ pub struct JDictionary<'a> {
 }
 
 impl<'a> JDictionary<'a> {
+    /// Creates a new `JDictionary` wrapping the given `JObject`.
     pub fn new(dictionary: JObject<'a>) -> Self {
         Self { dic: dictionary }
     }
 
+    /// Transforms the given `JDictionary` into a [`Dictionary`][].
     pub fn into_dictionary(self, env: &mut JNIEnv) -> Dictionary {
         let words = self.into_string_vector(env);
         Dictionary::from_vec(words)
     }
 
+    /// Transforms this `JDictionary` into a vector of `String`s.
     fn into_string_vector(self, env: &mut JNIEnv) -> Vec<String> {
         let array = env
             .call_method(self.dic, "words", "()[Ljava/lang/String;", &[])

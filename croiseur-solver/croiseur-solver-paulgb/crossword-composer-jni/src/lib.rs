@@ -58,7 +58,7 @@ fn solve<'a>(env: &mut JNIEnv<'a>, java_puzzle: JObject, java_dictionary: JObjec
 
     result
         .map(|chars| JSolution::from(chars, env))
-        .map(|solution| JOptional::of(solution.unwrap_object(), env))
+        .map(|solution| JOptional::of(solution.into_object(), env))
         .unwrap_or_else(|| JOptional::empty(env))
         .into_object()
         .into_raw()
