@@ -1,0 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+plugins {
+    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+}
+
+configurations {
+    // Configuration of the rust native library
+    rust {
+        canBeConsumed false
+        canBeResolved true
+    }
+}
+
+dependencies {
+    rust project(':croiseur-solver:croiseur-solver-szunami:xwords-rs-jni')
+}
+
+processResources {
+    // Copy the native library into the final jar
+    from(configurations.rust)
+}
+
+jar {
+    /*
+     * As jar includes a native library, it is suffixed with the native library operating system
+     * identification. It is assumed that native library is not cross-compiled, hence using current
+     * system information.
+     */
+    archiveClassifier.set(currentOperatingSystemIdentifier())
+}
+
+static def currentOperatingSystemIdentifier() {
+    def osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
+    def osArch = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH)
+    "${osName}-${osArch}"
+}
+
+tasks.named('test') {
+    // For JNI debug
+    jvmArgs '-Xcheck:jni', '-verbose:jni'
+}
