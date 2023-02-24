@@ -27,7 +27,7 @@ dependencies {
  * META-INF/native-image/picocli-generated.
  */
 compileJava {
-    options.compilerArgs += ["-Aother.resource.bundles=l10n.SolverMessages,l10n.HelpMessages,l10n.DictionaryMessages"]
+    options.compilerArgs += ["-Aother.resource.bundles=com.gitlab.super7ramp.croiseur.cli.l10n.Messages"]
     options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*crossword_composer_jni.(dll|dylib|so)"]
 }
 
