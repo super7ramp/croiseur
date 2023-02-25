@@ -23,12 +23,12 @@ impl<'a> JDictionary<'a> {
 
     /// Transforms the given `JDictionary` into a [`Dictionary`][].
     pub fn into_dictionary(self, env: &mut JNIEnv) -> Dictionary {
-        let words = self.into_string_vector(env);
+        let words = self.into_vec_string(env);
         Dictionary::from_vec(words)
     }
 
     /// Transforms this `JDictionary` into a vector of `String`s.
-    fn into_string_vector(self, env: &mut JNIEnv) -> Vec<String> {
+    fn into_vec_string(self, env: &mut JNIEnv) -> Vec<String> {
         let array = env
             .call_method(self.dic, "words", "()[Ljava/lang/String;", &[])
             .expect("Failed to access dictionary words")
