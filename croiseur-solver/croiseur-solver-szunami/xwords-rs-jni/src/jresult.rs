@@ -36,8 +36,14 @@ impl<'a> JResult<'a> {
 
     /// Creates a new `JResult` wrapping a Java `Result` of type `Err`.
     pub fn ok(solution: Crossword, env: &mut JNIEnv<'a>) -> Self {
-        let solution = JCrossword::from_crossword(solution, env).into_object();
-        Self::new(solution)
+        let solved_crossword = JCrossword::from_crossword(solution, env).into_object();
+        let result = Self::call(
+            env,
+            "ok",
+            "(Lcom/gitlab/super7ramp/croiseur/solver/szunami/Crossword;)Lcom/gitlab/super7ramp/croiseur/solver/szunami/Result;",
+            &[JValue::from(&solved_crossword)],
+        );
+        Self::new(result)
     }
 
     /// Unwraps the underlying `JObject`.

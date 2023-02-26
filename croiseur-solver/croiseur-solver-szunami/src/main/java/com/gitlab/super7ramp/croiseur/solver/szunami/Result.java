@@ -91,7 +91,7 @@ public final class Result {
      * @return {@code true} iff this result is of type "Ok"
      */
     public boolean isOk() {
-        return true;
+        return solution != null;
     }
 
     /**

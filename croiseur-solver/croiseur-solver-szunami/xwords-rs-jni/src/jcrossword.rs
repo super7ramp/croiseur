@@ -5,6 +5,7 @@
 
 use jni::JNIEnv;
 use jni::objects::{JObject, JString, JValue, JValueOwned};
+use jni::sys::jint;
 use xwords::crossword::Crossword;
 
 /// Wrapper for the `com.gitlab.croiseur.solver.szunami.Crossword` Java object.
@@ -23,12 +24,25 @@ impl<'a> JCrossword<'a> {
     /// `Crossword` structure.
     pub fn from_crossword(crossword: Crossword, env: &mut JNIEnv<'a>) -> Self {
         let contents = crossword.to_string();
+        // Re-find height and width since they are not exposed
+        let height = contents.chars().filter(|c| *c == '\n').count();
+        let width = if height > 0 {
+            (contents.len() - height) / height
+        } else {
+            contents.len()
+        };
+
         let contents = env
             .new_string(contents)
             .expect("Failed to create Java String");
         let contents = JValue::from(&contents);
-        let width = JValue::from(3); // FIXME how to get width?
-        let height = JValue::from(3); // FIXME how to get height?
+        let height = jint::try_from(height)
+            .map(JValue::from)
+            .expect("Failed to convert height to jint (i32)");
+        let width = jint::try_from(width)
+            .map(JValue::from)
+            .expect("Failed to convert width to jint (i32)");
+
         let class = env
             .find_class("com/gitlab/super7ramp/croiseur/solver/szunami/Crossword")
             .expect("Crossword class not found");

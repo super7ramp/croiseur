@@ -49,11 +49,40 @@ final class FillerTest {
         final Result result = new Filler().fill(crossword, dictionary);
 
         assertTrue(result.isOk());
+        final Crossword solution = result.solution();
         assertEquals("""
                 ABC
                 ABD
                 ABE
-                """, result.solution().contents());
+                """, solution.contents());
+        assertEquals(3, solution.width());
+        assertEquals(3, solution.height());
+    }
+
+    /**
+     * Simple 3x3 with a tailored dictionary and pre-filled and shaded boxes.
+     */
+    @Test
+    void possible3x3PreFilled() {
+        final Crossword crossword = new Crossword("""
+                \s\sC
+                \s\s*
+                \s\sE
+                """, 3, 3);
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "ABC", "AB",
+                "ABE", "C", "E")); // solver seems to consider 1-character slot, hence "C" and "E"
+
+        final Result result = new Filler().fill(crossword, dictionary);
+
+        assertTrue(result.isOk());
+        final Crossword solution = result.solution();
+        assertEquals("""
+                ABC
+                AB*
+                ABE
+                """, solution.contents());
+        assertEquals(3, solution.width());
+        assertEquals(3, solution.height());
     }
 
     /**
