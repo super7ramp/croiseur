@@ -14,6 +14,7 @@ dependencies {
     runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
@@ -28,7 +29,7 @@ dependencies {
  */
 compileJava {
     options.compilerArgs += ["-Aother.resource.bundles=com.gitlab.super7ramp.croiseur.cli.l10n.Messages"]
-    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*crossword_composer_jni.(dll|dylib|so)"]
+    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)"]
 }
 
 /**

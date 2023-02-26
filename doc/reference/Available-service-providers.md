@@ -34,6 +34,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 |---------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                                                      |
 | [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Doesn't support <br/>grids prefilled with words or letters. Written in Rust. |
+| [xwords-rs (szunami)][]         | The solver powering [xwords-rs][]. Written in Rust.                                                                      |
 
 ### Presenters
 
@@ -47,6 +48,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 [cli]: ../../croiseur-cli
 
 [Crossword Composer]: https://github.com/paulgb/crossword-composer
+
+[Crossword Composer (paulgb)]: ../../croiseur-solver/croiseur-solver-paulgb-plugin
 
 [Ginsberg]: ../../croiseur-solver/croiseur-solver-ginsberg-plugin
 
@@ -70,6 +73,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 [Local XML Dictionary Provider]: ../../croiseur-dictionary/croiseur-dictionary-xml-plugin
 
-[Crossword Composer (paulgb)]: ../../croiseur-solver/croiseur-solver-paulgb-plugin
-
 [Service Providers]: ../../croiseur-spi
+
+[xwords-rs (szunami)]: ../../croiseur-solver/croiseur-solver-szunami-plugin
+
+[xwords-rs]: https://github.com/szunami/xwords-rs

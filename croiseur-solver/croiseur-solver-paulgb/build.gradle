@@ -38,3 +38,9 @@ static def currentOperatingSystemIdentifier() {
     def osArch = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH)
     "${osName}-${osArch}"
 }
+
+tasks.named('test') {
+    // Some settings to ease native code debugging
+    environment 'RUST_BACKTRACE', '1'
+    jvmArgs '-Xcheck:jni'
+}

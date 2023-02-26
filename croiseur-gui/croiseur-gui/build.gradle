@@ -23,7 +23,7 @@ dependencies {
     runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
     runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
-    // Don't pull paulgb solver: There is no way to select the solver in GUI for now
+    // Don't pull alternative solvers: There is no way to select the solver in GUI for now
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same

@@ -44,11 +44,14 @@ impl<'a> JDictionary<'a> {
         while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
             // Wrap object into AutoLocal as recommended by JList::iter to limit memory usage
             let auto_local_word = env.auto_local(JString::from(obj));
-            let word = env
+            let word: String = env
                 .get_string(&auto_local_word)
                 .expect("Failed to convert JObject to String")
                 .into();
-            words.push(word);
+            if word.is_ascii() {
+                // xwords-rs only supports ASCII: https://github.com/szunami/xwords-rs/issues/2
+                words.push(word);
+            }
         }
         words
     }

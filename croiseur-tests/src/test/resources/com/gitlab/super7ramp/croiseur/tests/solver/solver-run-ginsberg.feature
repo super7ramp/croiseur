@@ -68,5 +68,3 @@ Feature: Run Solver - Ginsberg
       | A | B | O |
       | C | # | M |
       | T | U | # |
-
-

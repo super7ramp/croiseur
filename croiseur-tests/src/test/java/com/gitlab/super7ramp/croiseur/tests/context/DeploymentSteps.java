@@ -49,17 +49,27 @@ public final class DeploymentSteps {
     }
 
     /**
+     * Loads all the implementations of given services class.
+     *
+     * @param clazz the service provider class
+     * @param <T>   the type of the service
+     * @return all the implementations of given services class.
+     */
+    private static <T> Collection<T> load(final Class<T> clazz) {
+        return ServiceLoader.load(clazz)
+                            .stream()
+                            .map(Supplier::get)
+                            .toList();
+    }
+
+    /**
      * Instantiates croiseur, simulating the deployment of an application using the library,
      * without dictionary provider.
      */
     @Given("an application deployed without dictionary provider")
     public void givenDeployedWithoutDictionaryProvider() {
         final Collection<DictionaryProvider> dictionaryProviders = Collections.emptyList();
-        final Collection<CrosswordSolver> solvers =
-                ServiceLoader.load(CrosswordSolver.class)
-                             .stream()
-                             .map(Supplier::get)
-                             .toList();
+        final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
         final Presenter presenterMock = mock(Presenter.class);
         deploy(dictionaryProviders, solvers, presenterMock);
     }
@@ -69,15 +79,8 @@ public final class DeploymentSteps {
      */
     @Before("not @no-auto-deploy")
     public void deploy() {
-        final Collection<DictionaryProvider> dictionaryProviders =
-                ServiceLoader.load(DictionaryProvider.class).stream()
-                             .map(Supplier::get)
-                             .toList();
-        final Collection<CrosswordSolver> solvers =
-                ServiceLoader.load(CrosswordSolver.class)
-                             .stream()
-                             .map(Supplier::get)
-                             .toList();
+        final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
         final Presenter presenterMock = mock(Presenter.class);
         deploy(dictionaryProviders, solvers, presenterMock);
     }

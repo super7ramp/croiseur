@@ -40,6 +40,7 @@ static def currentOperatingSystemIdentifier() {
 }
 
 tasks.named('test') {
-    // For JNI debug
-    jvmArgs '-Xcheck:jni', '-verbose:jni'
+    // Some settings to ease native code debugging
+    environment 'RUST_BACKTRACE', '1'
+    jvmArgs '-Xcheck:jni'
 }
