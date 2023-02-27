@@ -18,6 +18,55 @@
     {
         "name": "java.util.Optional",
         "allPublicMethods": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.szunami.Crossword",
+        "allPublicMethods": true,
+        "allPublicConstructors": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary",
+        "allPublicMethods": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.szunami.Result",
+        "allPublicMethods": true
+    },
+    {
+        "name": "java.util.List",
+        "methods": [
+            {
+                "name": "add",
+                "parameterTypes": [
+                    "int",
+                    "java.lang.Object"
+                ]
+            },
+            {
+                "name": "add",
+                "parameterTypes": [
+                    "java.lang.Object"
+                ]
+            },
+            {
+                "name": "get",
+                "parameterTypes": [
+                    "int"
+                ]
+            },
+            {
+                "name": "remove",
+                "parameterTypes": [
+                    "int"
+                ]
+            },
+            {
+                "name": "size",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
     }
 ]
 
