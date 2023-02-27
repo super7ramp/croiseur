@@ -49,11 +49,11 @@ public final class DeploymentSteps {
     }
 
     /**
-     * Loads all the implementations of given services class.
+     * Loads all the implementations of the given service class.
      *
      * @param clazz the service provider class
      * @param <T>   the type of the service
-     * @return all the implementations of given services class.
+     * @return all the implementations of the given service class
      */
     private static <T> Collection<T> load(final Class<T> clazz) {
         return ServiceLoader.load(clazz)
