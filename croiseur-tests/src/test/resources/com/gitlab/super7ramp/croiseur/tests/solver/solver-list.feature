@@ -15,4 +15,4 @@ Feature: List Solvers
       | Name               | Description                                                           |
       | Ginsberg           | A crossword solver based on Ginsberg's papers. Written in Java.       |
       | Crossword Composer | The solver powering the Crossword Composer software. Written in Rust. |
-      | xwords-rs          | The solver powering the xwords-rs software. Written in Rust.          |
+      | xwords-rs          | The solver powering the xwords-rs tool. Written in Rust.              |
