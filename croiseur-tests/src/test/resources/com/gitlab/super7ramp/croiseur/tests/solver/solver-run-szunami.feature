@@ -58,7 +58,6 @@ Feature: Run Solver - xwords-rs (szunami)
       | C | F | O |
       | T | C | O |
 
-  @wip
   Scenario: Run Solver - xwords-rs (szunami) - With Prefilled and Shaded Cells
 
     When user requests to solve the following grid with "xwords-rs" solver:
