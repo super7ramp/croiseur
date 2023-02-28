@@ -37,22 +37,31 @@ impl<'a> JDictionary<'a> {
             .get_list(&words_jobject)
             .expect("Failed to get word list from Dictionary");
 
-        let mut words = Vec::new();
         let mut iterator = words_jlist
             .iter(env)
             .expect("Failed to create word list iterator");
+
+        let mut words = Vec::new();
         while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
-            // Wrap object into AutoLocal as recommended by JList::iter to limit memory usage
-            let auto_local_word = env.auto_local(JString::from(obj));
-            let word: String = env
-                .get_string(&auto_local_word)
-                .expect("Failed to convert JObject to String")
-                .into();
+            let j_string = env.auto_local(JString::from(obj));
+            let word = Self::rust_string_from(&j_string, env);
             if word.is_ascii() {
                 // xwords-rs only supports ASCII: https://github.com/szunami/xwords-rs/issues/2
                 words.push(word);
             }
         }
         words
+    }
+
+    /// Converts a `JString` into a `String`.
+    fn rust_string_from(j_string: &JString, env: &mut JNIEnv) -> String {
+        unsafe {
+            // Use unchecked flavour of get_string() for performance reason. Also, safe
+            // get_string() seems to create local references behind the hood so it is not very
+            // practical when called in a loop.
+            env.get_string_unchecked(j_string)
+                .expect("Failed to convert JObject to String")
+                .into()
+        }
     }
 }

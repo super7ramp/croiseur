@@ -9,4 +9,5 @@ plugins {
 
 cargo {
     outputs = ['': System.mapLibraryName('crossword_composer_jni')]
+    profile = 'release'
 }
