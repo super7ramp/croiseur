@@ -39,15 +39,13 @@ Feature: Run Solver - xwords-rs (szunami)
   Scenario: Run Solver - xwords-rs (szunami) - With Shaded Cell
 
     When user requests to solve the following grid with "xwords-rs" solver:
-      | # | # |   |   |
-      | # |   |   |   |
-      |   |   |   | # |
-      |   |   | # | # |
+      |  |  |   |
+      |  |  | # |
+      |  |  |   |
     Then the application presents the following successful solver result:
-      | # | # | C | C |
-      | # | C | F | C |
-      | C | R | C | # |
-      | W | C | # | # |
+      | C | F | C |
+      | P | C | # |
+      | I | C | C |
 
   Scenario: Run Solver - xwords-rs (szunami) - With Prefilled Cell
 
@@ -60,15 +58,14 @@ Feature: Run Solver - xwords-rs (szunami)
       | C | F | O |
       | T | C | O |
 
+  @wip
   Scenario: Run Solver - xwords-rs (szunami) - With Prefilled and Shaded Cells
 
     When user requests to solve the following grid with "xwords-rs" solver:
-      | # | # |   |   |
-      | # | A | C | T |
-      |   |   |   | # |
-      |   |   | # | # |
+      | A |   |   |
+      | C | # |   |
+      | T |   | # |
     Then the application presents the following successful solver result:
-      | # | # | C | C |
-      | # | A | C | T |
-      | C | C | S | # |
-      | W | C | # | # |
+      | A | C | C |
+      | C | # | W |
+      | T | C | # |

@@ -57,7 +57,7 @@ final class TxtDictionary implements Dictionary {
      */
     private static List<String> readWords(final File file) {
         try (final Stream<String> lines = Files.lines(file.toPath())) {
-            return lines.filter(StringFilters.atLeastTwoCharacters())
+            return lines.filter(StringFilters.notEmpty())
                         .map(StringTransformers.toAcceptableCrosswordEntry())
                         .toList();
         } catch (final IOException e) {

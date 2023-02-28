@@ -38,7 +38,7 @@ final class HunspellDictionary implements Dictionary {
         final HunspellDictionaryReader dictionary = new HunspellDictionaryReader(aDicURL);
         description = Lazy.of(dictionary::description);
         words = Lazy.of(() -> dictionary.stream()
-                                        .filter(StringFilters.atLeastTwoCharacters())
+                                        .filter(StringFilters.notEmpty())
                                         .map(StringTransformers.toAcceptableCrosswordEntry())
                                         .toList());
     }

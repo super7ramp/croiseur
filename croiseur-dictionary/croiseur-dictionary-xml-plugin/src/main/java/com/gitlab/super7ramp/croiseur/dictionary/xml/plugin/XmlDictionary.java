@@ -89,7 +89,7 @@ final class XmlDictionary implements Dictionary {
     private static List<String> readWords(final DictionaryReader reader) {
         try {
             return reader.readWords()
-                         .filter(StringFilters.atLeastTwoCharacters())
+                         .filter(StringFilters.notEmpty())
                          .map(StringTransformers.toAcceptableCrosswordEntry()).toList();
         } catch (final DictionaryReadException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary words");

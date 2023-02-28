@@ -56,7 +56,7 @@ public final class TextToXml {
             LOGGER.info("Reading lines...");
             // TODO make filtering optional
             final List<String> entries =
-                    lines.filter(StringFilters.atLeastTwoCharacters())
+                    lines.filter(StringFilters.notEmpty())
                          .map(StringTransformers.toAcceptableCrosswordEntry())
                          .distinct()
                          .toList();

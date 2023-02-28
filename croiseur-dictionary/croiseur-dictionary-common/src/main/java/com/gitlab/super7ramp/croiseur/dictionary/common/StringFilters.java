@@ -7,6 +7,8 @@ package com.gitlab.super7ramp.croiseur.dictionary.common;
 
 import java.util.function.Predicate;
 
+import static java.util.function.Predicate.not;
+
 /**
  * Common filters applied on dictionaries.
  */
@@ -24,7 +26,7 @@ public final class StringFilters {
      *
      * @return a filter suitable to exclude single-letter dictionary entries
      */
-    public static Predicate<String> atLeastTwoCharacters() {
-        return s -> s.length() >= 2;
+    public static Predicate<String> notEmpty() {
+        return not(String::isEmpty);
     }
 }
