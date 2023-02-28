@@ -19,3 +19,7 @@ dependencies {
     testDictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
     testDictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
 }
+
+test {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
