@@ -5,8 +5,11 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -82,7 +85,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
 
     /** The solve button. */
     @FXML
-    private Button solveButton;
+    private SolveSplitMenuButton solveButton;
 
     /** The 'dictionaries' toggle button. */
     @FXML
@@ -115,7 +118,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
         Stream.of(resizeGridButton, addColumnButton, addRowButton, deleteColumnButton,
                       deleteRowButton, deleteGridButton, clearGridMenuButton)
               .map(Node::disableProperty)
-              .forEach(disabledProperty -> disabledProperty.bind(gridEditionButtonsDisableProperty));
+              .forEach(disableProperty -> disableProperty.bind(gridEditionButtonsDisableProperty));
     }
 
     /**
@@ -237,5 +240,13 @@ public final class CrosswordEditionToolbar extends ToolBar {
      */
     public StringProperty solveButtonTextProperty() {
         return solveButton.textProperty();
+    }
+
+    public ReadOnlyProperty<String> solveButtonSelectedItemProperty() {
+        return solveButton.selectedSolverProperty();
+    }
+
+    public ListProperty<SolverItemViewModel> solveButtonMenuItemsProperty() {
+        return solveButton.availableSolversProperty();
     }
 }

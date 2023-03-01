@@ -8,11 +8,13 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -139,6 +141,26 @@ public final class CrosswordSolverPane extends BorderPane {
      */
     public ListProperty<DictionaryViewModel> dictionariesProperty() {
         return dictionariesPane.dictionariesProperty();
+    }
+
+    /**
+     * Returns the displayed solvers.
+     *
+     * @return the displayed solvers
+     */
+    public ListProperty<SolverItemViewModel> solversProperty() {
+        return toolbar.solveButtonMenuItemsProperty();
+    }
+
+    /**
+     * Returns the selected solver.
+     * <p>
+     * If no selected solver, value is {@code null}.
+     *
+     * @return the displayed solver
+     */
+    public ReadOnlyProperty<String> selectedSolverProperty() {
+        return toolbar.solveButtonSelectedItemProperty();
     }
 
     /**

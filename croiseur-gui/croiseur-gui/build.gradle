@@ -23,6 +23,8 @@ dependencies {
     runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
     runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
     runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
+    runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
     // Don't pull alternative solvers: There is no way to select the solver in GUI for now
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
     dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')

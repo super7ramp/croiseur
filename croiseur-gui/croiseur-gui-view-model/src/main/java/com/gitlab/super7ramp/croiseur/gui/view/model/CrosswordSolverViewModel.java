@@ -19,6 +19,9 @@ public final class CrosswordSolverViewModel {
     /** The view model of the dictionary. */
     private final DictionariesViewModel dictionariesViewModel;
 
+    /** The view model of the solver selection. */
+    private final SolverSelectionViewModel solverSelectionViewModel;
+
     /** Whether the solver is running. */
     private final BooleanProperty solverRunning;
 
@@ -28,6 +31,7 @@ public final class CrosswordSolverViewModel {
     public CrosswordSolverViewModel() {
         crosswordGridViewModel = new CrosswordGridViewModel();
         dictionariesViewModel = new DictionariesViewModel();
+        solverSelectionViewModel = new SolverSelectionViewModel();
         solverRunning = new SimpleBooleanProperty(this, "solverRunning", false);
     }
 
@@ -50,6 +54,15 @@ public final class CrosswordSolverViewModel {
     }
 
     /**
+     * Returns the view model of the solver selection.
+     *
+     * @return the view model of the solver selection
+     */
+    public SolverSelectionViewModel solverSelectionViewModel() {
+        return solverSelectionViewModel;
+    }
+
+    /**
      * Returns whether the solver is running.
      *
      * @return whether the solver is running
@@ -57,4 +70,5 @@ public final class CrosswordSolverViewModel {
     public BooleanProperty solverRunning() {
         return solverRunning;
     }
+
 }

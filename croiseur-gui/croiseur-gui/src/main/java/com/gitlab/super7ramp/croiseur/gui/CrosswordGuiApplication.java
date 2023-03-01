@@ -6,6 +6,8 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutorService;
+import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutors;
 import com.gitlab.super7ramp.croiseur.gui.presenter.GuiPresenter;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
@@ -19,8 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * The crossword GUI application.
@@ -95,10 +95,12 @@ public final class CrosswordGuiApplication extends Application {
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
 
         // Additional dependency: Background executor
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        resources.add(executor::shutdown);
+        final AutoCloseableExecutorService executor =
+                AutoCloseableExecutors.newSingleThreadExecutor();
+        resources.add(executor);
 
         return new CrosswordSolverRootController(crosswordService, crosswordSolverViewModel,
                 executor);
     }
+
 }

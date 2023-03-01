@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -30,14 +31,19 @@ final class SolveRequestImpl implements SolveRequest {
     /** Selected dictionaries. */
     private final Collection<DictionaryIdentifier> dictionaries;
 
+    /** The selected solver. */
+    private final String selectedSolver;
+
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModel the crossword model
-     * @param dictionariesViewModel  the dictionary model
+     * @param crosswordGridViewModel   the crossword model
+     * @param dictionariesViewModel    the dictionary model
+     * @param solverSelectionViewModel the solver selection model
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
-                     final DictionariesViewModel dictionariesViewModel) {
+                     final DictionariesViewModel dictionariesViewModel,
+                     final SolverSelectionViewModel solverSelectionViewModel) {
 
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
@@ -46,11 +52,11 @@ final class SolveRequestImpl implements SolveRequest {
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
             final GridPosition position = box.getKey();
             final CrosswordBoxViewModel content = box.getValue();
-            final boolean shaded = content.shadedProperty().get();
+            final boolean shaded = content.isShaded();
             if (shaded) {
                 pdb.shade(position);
-            } else if (!content.contentProperty().get().isEmpty()) {
-                pdb.fill(position, content.contentProperty().get().charAt(0));
+            } else if (!content.getContent().isEmpty()) {
+                pdb.fill(position, content.getContent().charAt(0));
             } else {
                 // Empty, not needed by solver
             }
@@ -71,6 +77,8 @@ final class SolveRequestImpl implements SolveRequest {
                                      .map(entry -> new DictionaryIdentifier(entry.provider(),
                                              entry.name()))
                                      .toList();
+
+        selectedSolver = solverSelectionViewModel.getSelectedSolver();
     }
 
     @Override
@@ -85,8 +93,7 @@ final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public Optional<String> solver() {
-        // TODO implement
-        return Optional.empty();
+        return Optional.ofNullable(selectedSolver);
     }
 
     @Override

@@ -79,6 +79,15 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Returns the value of the content property.
+     *
+     * @return the value of the content property
+     */
+    public String getContent() {
+        return content.get();
+    }
+
+    /**
      * Resets the content of this box model to its defaults.
      */
     public void reset() {

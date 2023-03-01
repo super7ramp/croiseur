@@ -17,6 +17,9 @@ public interface SolverPresenter {
 
     /**
      * Presents the available solvers.
+     * <p>
+     * First solver is the preferred solver and is implementation dependent. The other solvers are
+     * sorted alphabetically by their name.
      *
      * @param solverDescriptions the solver descriptions
      */

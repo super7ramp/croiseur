@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-SPDX-FileCopyrightText: 2023 Antoine Belvire
-SPDX-License-Identifier: GPL-3.0-or-later
--->
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 
+<?import com.gitlab.super7ramp.croiseur.gui.view.SolveSplitMenuButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -24,7 +25,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%resize-grid-tooltip"/>
         </tooltip>
     </ToggleButton>
-    <Button fx:id="addRowButton" text="%add-row-button" managed="${resizeGridButton.selected}"
+    <Button fx:id="addRowButton" managed="${resizeGridButton.selected}" text="%add-row-button"
             visible="${resizeGridButton.selected}">
         <graphic>
             <ImageView id="add-row-button-image-view"/>
@@ -33,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%add-row-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="deleteRowButton" text="%delete-row-button" managed="${resizeGridButton.selected}"
+    <Button fx:id="deleteRowButton" managed="${resizeGridButton.selected}" text="%delete-row-button"
             visible="${resizeGridButton.selected}">
         <graphic>
             <ImageView id="delete-row-button-image-view"/>
@@ -42,7 +43,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%delete-row-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="addColumnButton" text="%add-column-button" managed="${resizeGridButton.selected}"
+    <Button fx:id="addColumnButton" managed="${resizeGridButton.selected}" text="%add-column-button"
             visible="${resizeGridButton.selected}">
         <graphic>
             <ImageView id="add-column-button-image-view"/>
@@ -51,8 +52,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%add-column-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="deleteColumnButton" text="%delete-column-button"
-            managed="${resizeGridButton.selected}" visible="${resizeGridButton.selected}">
+    <Button fx:id="deleteColumnButton" managed="${resizeGridButton.selected}"
+            text="%delete-column-button" visible="${resizeGridButton.selected}">
         <graphic>
             <ImageView id="delete-column-button-image-view"/>
         </graphic>
@@ -60,8 +61,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%delete-column-tooltip"/>
         </tooltip>
     </Button>
-    <Button fx:id="deleteGridButton" text="%delete-grid-button"
-            managed="${resizeGridButton.selected}" visible="${resizeGridButton.selected}">
+    <Button fx:id="deleteGridButton" managed="${resizeGridButton.selected}"
+            text="%delete-grid-button" visible="${resizeGridButton.selected}">
         <graphic>
             <ImageView id="delete-grid-button-image-view"/>
         </graphic>
@@ -69,8 +70,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%delete-grid-tooltip"/>
         </tooltip>
     </Button>
-    <MenuButton fx:id="clearGridMenuButton" text="%clear-grid-button"
-                managed="${! resizeGridButton.selected}" visible="${! resizeGridButton.selected}">
+    <MenuButton fx:id="clearGridMenuButton" managed="${! resizeGridButton.selected}"
+                text="%clear-grid-button" visible="${! resizeGridButton.selected}">
         <items>
             <MenuItem fx:id="clearGridLettersMenuItem" text="%clear-grid-letters-menu-item"/>
             <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
@@ -82,19 +83,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <Tooltip text="%clear-grid-tooltip"/>
         </tooltip>
     </MenuButton>
-    <Button fx:id="solveButton" text="%solve-button" managed="${! resizeGridButton.selected}"
-            visible="${! resizeGridButton.selected}">
-        <graphic>
-            <ImageView id="solve-button-image-view"/>
-        </graphic>
-        <tooltip>
-            <Tooltip text="%solve-tooltip"/>
-        </tooltip>
-    </Button>
+    <SolveSplitMenuButton fx:id="solveButton" managed="${! resizeGridButton.selected}"
+                          visible="${! resizeGridButton.selected}"/>
     <Pane HBox.hgrow="ALWAYS"/>
-    <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button"
-                  managed="${! resizeGridButton.selected}"
-                  visible="${! resizeGridButton.selected}">
+    <ToggleButton fx:id="dictionariesToggleButton" managed="${! resizeGridButton.selected}"
+                  text="%dictionaries-button" visible="${! resizeGridButton.selected}">
         <graphic>
             <ImageView id="show-dictionaries-button-image-view"/>
         </graphic>

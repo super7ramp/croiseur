@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.cli.controller.solver;
+package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
-import picocli.CommandLine.Command;
+import javafx.concurrent.Task;
 
 /**
- * The 'solver' command: Solve crosswords and list available solvers.
+ * List solvers task.
  */
-@Command(name = "solver")
-public final class SolverCommand {
+final class ListSolversTask extends Task<Void> {
 
     /** The solver service. */
     private final SolverService solverService;
@@ -22,13 +21,13 @@ public final class SolverCommand {
      *
      * @param solverServiceArg the solver service
      */
-    public SolverCommand(final SolverService solverServiceArg) {
+    ListSolversTask(final SolverService solverServiceArg) {
         solverService = solverServiceArg;
     }
 
-    /** Lists the available solvers. */
-    @Command(name = "list", aliases = {"ls"})
-    void list() {
+    @Override
+    protected Void call() {
         solverService.listSolvers();
+        return null;
     }
 }

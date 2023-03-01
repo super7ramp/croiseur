@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.concurrent.Task;
 
 /**
@@ -31,8 +32,10 @@ final class SolveTask extends Task<Void> {
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionariesViewModel dictionariesViewModelArg,
+              final SolverSelectionViewModel solverSelectionViewModelArg,
               final SolverService solverServiceArg) {
-        solveRequest = new SolveRequestImpl(crosswordGridViewModelArg, dictionariesViewModelArg);
+        solveRequest = new SolveRequestImpl(crosswordGridViewModelArg, dictionariesViewModelArg,
+                solverSelectionViewModelArg);
         solverService = solverServiceArg;
     }
 

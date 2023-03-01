@@ -8,6 +8,8 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
@@ -27,24 +29,36 @@ final class GuiSolverPresenter implements SolverPresenter {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(GuiSolverPresenter.class.getName());
 
-    /** The grid model. */
+    /** The grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
+
+    /** The solver selection view model. */
+    private final SolverSelectionViewModel solverSelectionViewModel;
 
     /**
      * Constructs an instance.
+     *
+     * @param crosswordGridViewModelArg   the grid view model
+     * @param solverSelectionViewModelArg the solver selection view model
      */
-    GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg) {
+    GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
+                       final SolverSelectionViewModel solverSelectionViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
+        solverSelectionViewModel = solverSelectionViewModelArg;
     }
 
     @Override
-    public void presentAvailableSolvers(List<SolverDescription> solverDescriptions) {
-        // TODO really implement
-        LOGGER.info(() -> "Available solvers: " + solverDescriptions);
+    public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
+        final List<SolverItemViewModel> solverNames =
+                solverDescriptions.stream()
+                                  .map(s -> new SolverItemViewModel(s.name(),
+                                          s.description()))
+                                  .toList();
+        solverSelectionViewModel.availableSolversProperty().addAll(solverNames);
     }
 
     @Override
-    public void presentSolverInitialisationState(SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         // TODO really implement
         LOGGER.info(() -> "Solver initialisation: " + solverInitialisationState);
     }

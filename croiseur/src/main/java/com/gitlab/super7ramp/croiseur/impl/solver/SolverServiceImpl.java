@@ -35,13 +35,12 @@ public final class SolverServiceImpl implements SolverService {
     public SolverServiceImpl(final Collection<CrosswordSolver> solversArg,
                              final Collection<DictionaryProvider> dictionaryProvidersArg,
                              final SolverPresenter presenterArg) {
-
         listSolversUsecase = new ListSolversUsecase(solversArg, presenterArg);
         solveUsecase = new SolveUsecase(solversArg, dictionaryProvidersArg, presenterArg);
     }
 
     @Override
-    public void listProviders() {
+    public void listSolvers() {
         listSolversUsecase.process();
     }
 

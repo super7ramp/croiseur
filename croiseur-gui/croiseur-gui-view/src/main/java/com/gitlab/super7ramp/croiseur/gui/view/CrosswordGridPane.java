@@ -364,11 +364,11 @@ public final class CrosswordGridPane extends StackPane {
         boxNodes.put(coordinate, textField);
 
         // Add column constraints
-        int oldColumnCount = grid.getColumnConstraints().size();
+        final int oldColumnCount = grid.getColumnConstraints().size();
         for (int column = oldColumnCount; column <= coordinate.x(); column++) {
             addColumnConstraint();
         }
-        int oldRowCount = grid.getRowConstraints().size();
+        final int oldRowCount = grid.getRowConstraints().size();
         for (int row = oldRowCount; row <= coordinate.y(); row++) {
             addRowConstraint();
         }
@@ -379,8 +379,8 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void addRowConstraint() {
         final RowConstraints rowConstraint = new RowConstraints();
-        rowConstraint.prefHeightProperty().set(CELL_PREF_SIZE);
-        rowConstraint.vgrowProperty().set(Priority.ALWAYS);
+        rowConstraint.setPrefHeight(CELL_PREF_SIZE);
+        rowConstraint.setVgrow(Priority.ALWAYS);
         grid.getRowConstraints().add(rowConstraint);
     }
 
@@ -389,8 +389,8 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void addColumnConstraint() {
         final ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.prefWidthProperty().set(CELL_PREF_SIZE);
-        columnConstraints.hgrowProperty().set(Priority.ALWAYS);
+        columnConstraints.setPercentWidth(CELL_PREF_SIZE);
+        columnConstraints.setHgrow(Priority.ALWAYS);
         grid.getColumnConstraints().add(columnConstraints);
     }
 

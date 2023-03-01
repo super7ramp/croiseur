@@ -6,6 +6,9 @@
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
+/**
+ * GUI application module.
+ */
 module com.gitlab.super7ramp.croiseur.gui {
 
     requires com.gitlab.super7ramp.croiseur.gui.controller;

@@ -48,7 +48,7 @@ public final class SolverSteps {
 
     @When("user requests to list the available solvers")
     public void whenListSolvers() {
-        solverService.listProviders();
+        solverService.listSolvers();
     }
 
     @When("^user requests to solve the following grid(?: with \"([^\"]+)\" solver)?(?: and)?(?: " +
