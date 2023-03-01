@@ -7,10 +7,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ![Logo](croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/application-icon.png)
 
-**croiseur**[^1] is a software for generating crossword problems with the following features:
+**croiseur**[^1] is a software for generating crossword problems. It has the following features:
 
 * It is written mainly in Java and thus can run on many [platforms][];
-* It embeds [dictionaries][] for multiple languages as well as a couple of crossword [solvers][];
+* It embeds [dictionaries][] for multiple languages as well as several crossword [solvers][];
 * It is designed to be [extensible][]: Solvers, dictionaries and even user interfaces can be plugged
   to a core component.
 

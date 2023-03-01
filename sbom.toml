@@ -31,7 +31,7 @@ picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "pico
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 
 [plugins]
-# Plugin to help embedding rust code, only used by one solver module for now
+# Plugin to help embedding rust code, only used by native solvers
 cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin" }
 # Plugin to pull JavaFx; only used by gui module
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
