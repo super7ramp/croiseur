@@ -61,7 +61,7 @@ public final class SolverController {
             }
         };
         // FIXME #43 native solvers don't respond to interruption, have to use the Service default
-        //  non-daemon thread pool for now so that the JVM can exit if the solver is stuck.
+        //  daemon thread pool for now so that the JVM can exit if the solver is stuck.
         // solver.setExecutor(executor);
         solver.setOnReady(e -> LOGGER.info("Solver ready"));
         solver.setOnRunning(e -> LOGGER.info("Solving"));
