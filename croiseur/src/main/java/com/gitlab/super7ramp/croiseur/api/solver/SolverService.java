@@ -5,12 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.api.solver;
 
-import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
-import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
-
-import java.util.List;
-
 /**
  * Services pertaining to solving crossword puzzle.
  * <p>
@@ -22,7 +16,7 @@ public interface SolverService {
     /**
      * Lists available solver providers.
      *
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentAvailableSolvers(List)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentAvailableSolvers
      * SolverPresenterpresentAvailableSolvers
      */
     void listSolvers();
@@ -31,13 +25,13 @@ public interface SolverService {
      * Solves a puzzle.
      *
      * @param event details about the puzzle to solve
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverInitialisationState(SolverInitialisationState)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverInitialisationState
      * SolverPresenter.presentSolverInitialisationState
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentProgress(SolverProgress)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentProgress
      * SolverPresenter.presentProgress
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentResult(SolverResult)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentResult
      * SolverPresenter.presentResult
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverError(String)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverError
      * SolverPresenter.presentSolverError
      */
     void solve(final SolveRequest event);
