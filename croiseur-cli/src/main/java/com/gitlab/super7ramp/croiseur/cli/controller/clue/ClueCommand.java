@@ -40,7 +40,7 @@ public final class ClueCommand {
     }
 
 
-    @CommandLine.Command(name = "create", description = "Create clues for the given words")
+    @CommandLine.Command(name = "get", description = "Get clues for the given words")
     void create(@CommandLine.Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
         final CreateClueRequest request = new CreateClueRequest() {
             @Override
