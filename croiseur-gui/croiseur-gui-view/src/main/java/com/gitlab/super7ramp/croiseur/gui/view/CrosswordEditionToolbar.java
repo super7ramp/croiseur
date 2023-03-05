@@ -242,11 +242,23 @@ public final class CrosswordEditionToolbar extends ToolBar {
         return solveButton.textProperty();
     }
 
-    public ReadOnlyProperty<String> solveButtonSelectedItemProperty() {
+    /**
+     * Returns the solve button selected solver property.
+     * <p>
+     * Value is {@code null} if no solver is selected.
+     *
+     * @return the solve button selected solver property
+     */
+    public ReadOnlyProperty<String> solveButtonSelectedSolverProperty() {
         return solveButton.selectedSolverProperty();
     }
 
-    public ListProperty<SolverItemViewModel> solveButtonMenuItemsProperty() {
+    /**
+     * Returns the solve button available solvers property.
+     *
+     * @return the solve button available solvers property.
+     */
+    public ListProperty<SolverItemViewModel> solveButtonAvailableSolversProperty() {
         return solveButton.availableSolversProperty();
     }
 }

@@ -126,6 +126,8 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /**
      * Returns the selected solver property.
+     * <p>
+     * Value is {@code null} if no solver is selected.
      *
      * @return the selected solver property
      */

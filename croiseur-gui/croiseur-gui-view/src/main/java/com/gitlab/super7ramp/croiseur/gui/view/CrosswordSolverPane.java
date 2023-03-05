@@ -149,7 +149,7 @@ public final class CrosswordSolverPane extends BorderPane {
      * @return the displayed solvers
      */
     public ListProperty<SolverItemViewModel> solversProperty() {
-        return toolbar.solveButtonMenuItemsProperty();
+        return toolbar.solveButtonAvailableSolversProperty();
     }
 
     /**
@@ -160,7 +160,7 @@ public final class CrosswordSolverPane extends BorderPane {
      * @return the displayed solver
      */
     public ReadOnlyProperty<String> selectedSolverProperty() {
-        return toolbar.solveButtonSelectedItemProperty();
+        return toolbar.solveButtonSelectedSolverProperty();
     }
 
     /**
