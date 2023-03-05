@@ -12,7 +12,7 @@ junit5 = "5.9.3"
 junit5-platform = "1.9.3"
 mockito = "5.4.0"
 native-plugin = "0.9.23"
-openai = "0.9.0"
+openai = "0.11.0"
 picocli = "4.7.4"
 testfx = "4.0.16-alpha"
 testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
@@ -34,7 +34,7 @@ mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
 native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native-plugin" }
 # A client to OpenAI's API, for clues
-openai = { module = "com.theokanning.openai-gpt3-java:client", version.ref = "openai" }
+openai = { module = "com.theokanning.openai-gpt3-java:service", version.ref = "openai" }
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }

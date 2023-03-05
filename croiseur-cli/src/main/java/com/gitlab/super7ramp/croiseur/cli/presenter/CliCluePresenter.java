@@ -24,7 +24,7 @@ final class CliCluePresenter implements CluePresenter {
 
     /** Clue presentation format. */
     // TODO l10n (there may be space before ':')
-    private static final String CLUE_FORMAT = "%s: %s";
+    private static final String CLUE_FORMAT = "%s: %s\n";
 
     /**
      * Constructs an instance.
