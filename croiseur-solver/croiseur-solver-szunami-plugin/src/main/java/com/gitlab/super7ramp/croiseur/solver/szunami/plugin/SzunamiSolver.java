@@ -16,6 +16,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,14 @@ public final class SzunamiSolver implements CrosswordSolver {
 
     /** The logger. */
     private static final Logger LOGGER = Logger.getLogger(SzunamiSolver.class.getName());
+
+    /** The solver name. */
+    private static final String NAME = "XWords RS";
+
+    /** The solver description. */
+    private static final String DESCRIPTION = ResourceBundle
+            .getBundle("com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages")
+            .getString("description");
 
     /** The adapted solver. */
     private final Filler filler;
@@ -39,15 +48,15 @@ public final class SzunamiSolver implements CrosswordSolver {
 
     @Override
     public String name() {
-        return "xwords-rs";
+        return NAME;
     }
 
     @Override
     public String description() {
-        return "The solver powering the xwords-rs tool. Written in Rust.";
+        return DESCRIPTION;
     }
 
-    // TODO try to make native code interruptible
+    // TODO #43 make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) {
@@ -72,7 +81,7 @@ public final class SzunamiSolver implements CrosswordSolver {
         try {
             return filler.fill(adaptedPuzzle, adaptedDictionary);
         } catch (final NativePanicException e) {
-            LOGGER.log(Level.WARNING, "xwords-rs solver encountered an error.", e);
+            LOGGER.log(Level.WARNING, NAME + " solver encountered an error.", e);
             return Result.err("Native solver code panicked");
         }
     }

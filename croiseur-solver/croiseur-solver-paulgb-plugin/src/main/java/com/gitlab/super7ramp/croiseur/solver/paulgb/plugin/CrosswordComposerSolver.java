@@ -16,6 +16,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +29,14 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
 
     /** The logger. */
     private static final Logger LOGGER = Logger.getLogger(CrosswordComposerSolver.class.getName());
+
+    /** The solver name. */
+    private static final String NAME = "Crossword Composer";
+
+    /** The solver description. */
+    private static final String DESCRIPTION = ResourceBundle
+            .getBundle("com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
+            .getString("description");
 
     /** The adapted solver. */
     private final Solver solver;
@@ -63,15 +72,15 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
 
     @Override
     public String name() {
-        return "Crossword Composer";
+        return NAME;
     }
 
     @Override
     public String description() {
-        return "The solver powering the Crossword Composer software. Written in Rust.";
+        return DESCRIPTION;
     }
 
-    // TODO try to make native code interruptible
+    // TODO #43 make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) {
@@ -103,7 +112,7 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
         try {
             return solver.solve(adaptedPuzzle, adaptedDictionary);
         } catch (final SolverErrorException e) {
-            LOGGER.log(Level.WARNING, "Crossword composer solver encountered an error.", e);
+            LOGGER.log(Level.WARNING, NAME + " solver encountered an error.", e);
             return Optional.empty();
         }
     }

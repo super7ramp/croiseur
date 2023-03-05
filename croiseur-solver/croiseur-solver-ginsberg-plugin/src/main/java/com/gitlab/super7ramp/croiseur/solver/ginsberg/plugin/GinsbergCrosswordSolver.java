@@ -13,6 +13,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
@@ -50,7 +51,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
         }
 
         @Override
-        public void onSolverProgressUpdate(short completionPercentage) {
+        public void onSolverProgressUpdate(final short completionPercentage) {
             adapted.onSolverProgressUpdate(completionPercentage);
         }
     }
@@ -69,7 +70,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
          *
          * @param adaptedArg the adapted instance
          */
-        AdaptedSolverResult(com.gitlab.super7ramp.croiseur.solver.ginsberg.SolverResult adaptedArg) {
+        AdaptedSolverResult(final com.gitlab.super7ramp.croiseur.solver.ginsberg.SolverResult adaptedArg) {
             adapted = adaptedArg;
         }
 
@@ -98,8 +99,9 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     private static final String NAME = "Ginsberg";
 
     /** This solver's description. */
-    private static final String DESCRIPTION = "A crossword solver based on Ginsberg's papers. " +
-            "Written in Java.";
+    private static final String DESCRIPTION = ResourceBundle
+            .getBundle("com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages")
+            .getString("description");
 
     /** The adapted solver. */
     private final com.gitlab.super7ramp.croiseur.solver.ginsberg.GinsbergCrosswordSolver adapted;
@@ -126,8 +128,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
                               final ProgressListener progressListener) throws InterruptedException {
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.Dictionary adaptedDictionary =
                 dictionary::lookup;
-        final com.gitlab.super7ramp.croiseur.solver.ginsberg.ProgressListener adaptedProgressListener
-                = new AdaptedProgressListener(progressListener);
+        final com.gitlab.super7ramp.croiseur.solver.ginsberg.ProgressListener adaptedProgressListener = new AdaptedProgressListener(progressListener);
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.SolverResult result =
                 adapted.solve(puzzle, adaptedDictionary, adaptedProgressListener);
         return new AdaptedSolverResult(result);
