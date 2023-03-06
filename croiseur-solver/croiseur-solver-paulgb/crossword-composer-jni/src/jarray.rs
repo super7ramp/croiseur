@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{JIntArray, JObject, JObjectArray, JString};
 use jni::sys::jchar;
+use jni::JNIEnv;
 
 /// Wrapper for `J{Char,Int,...,Object}Array`s.
 ///

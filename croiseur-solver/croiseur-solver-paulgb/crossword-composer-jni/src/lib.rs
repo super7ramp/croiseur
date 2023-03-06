@@ -7,21 +7,25 @@ use std::any::Any;
 use std::ops::DerefMut;
 use std::panic::catch_unwind;
 
+use crossword::dictionary::Dictionary;
+use crossword::grid::Grid;
 use crossword::solver;
-use jni::JNIEnv;
 use jni::objects::JObject;
 use jni::sys::jobject;
+use jni::JNIEnv;
 
 use crate::jdictionary::JDictionary;
 use crate::joptional::JOptional;
 use crate::jpuzzle::JPuzzle;
 use crate::jsolution::JSolution;
+use crate::jthread::JThread;
 
 mod jarray;
 mod jdictionary;
 mod joptional;
 mod jpuzzle;
 mod jsolution;
+mod jthread;
 
 ///
 /// Solves the given puzzle with the given dictionary. Implements Java's `Solver#solve()` native
@@ -54,14 +58,21 @@ fn solve<'a>(env: &mut JNIEnv<'a>, java_puzzle: JObject, java_dictionary: JObjec
     let grid = JPuzzle::new(java_puzzle).into_grid(env);
     let dictionary = JDictionary::new(java_dictionary).into_dictionary(env);
 
-    let result = solver::solve(&grid, &dictionary);
+    let current_thread = JThread::current_thread(env);
+    let mut is_interrupted = || current_thread.is_interrupted(env);
+    let result = solver::solve_interruptible(&grid, &dictionary, &mut is_interrupted);
 
-    result
-        .map(|chars| JSolution::from(chars, env))
-        .map(|solution| JOptional::of(solution.into_object(), env))
-        .unwrap_or_else(|| JOptional::empty(env))
-        .into_object()
-        .into_raw()
+    if is_interrupted() {
+        let _ = env.throw_new("java/lang/InterruptedException", "Solver interrupted");
+        JObject::default().into_raw()
+    } else {
+        result
+            .map(|chars| JSolution::from(chars, env))
+            .map(|solution| JOptional::of(solution.into_object(), env))
+            .unwrap_or_else(|| JOptional::empty(env))
+            .into_object()
+            .into_raw()
+    }
 }
 
 /// Handles panic from native code by throwing an appropriate exception to the JVM.
@@ -78,7 +89,7 @@ fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
         },
     };
     let _ = env.throw_new(
-        "com/gitlab/super7ramp/croiseur/solver/paulgb/SolverErrorException",
+        "com/gitlab/super7ramp/croiseur/solver/paulgb/NativePanicException",
         error_msg,
     );
     JObject::default().into_raw()

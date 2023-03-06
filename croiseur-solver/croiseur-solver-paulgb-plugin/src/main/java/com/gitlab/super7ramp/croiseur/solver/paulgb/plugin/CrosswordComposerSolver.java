@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Solution;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Solver;
-import com.gitlab.super7ramp.croiseur.solver.paulgb.SolverErrorException;
+import com.gitlab.super7ramp.croiseur.solver.paulgb.NativePanicException;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
@@ -80,10 +80,9 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
         return DESCRIPTION;
     }
 
-    // TODO #43 make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) {
+                              final ProgressListener progressListener) throws InterruptedException {
 
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
         if (!numberedPuzzle.filled().isEmpty()) {
@@ -106,12 +105,13 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
      * @param adaptedPuzzle     the puzzle to solve
      * @param adaptedDictionary the dictionary
      * @return the {@link Solution}, if any; {@link Optional#empty()} otherwise
+     * @throws InterruptedException if interrupted while solving
      */
     private Optional<Solution> safeSolve(final Puzzle adaptedPuzzle,
-                                         final com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary adaptedDictionary) {
+                                         final com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary adaptedDictionary) throws InterruptedException {
         try {
             return solver.solve(adaptedPuzzle, adaptedDictionary);
-        } catch (final SolverErrorException e) {
+        } catch (final NativePanicException e) {
             LOGGER.log(Level.WARNING, NAME + " solver encountered an error.", e);
             return Optional.empty();
         }

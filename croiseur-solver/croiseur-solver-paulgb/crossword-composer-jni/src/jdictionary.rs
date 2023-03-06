@@ -4,8 +4,8 @@
  */
 
 use crossword::dictionary::Dictionary;
-use jni::JNIEnv;
 use jni::objects::JObject;
+use jni::JNIEnv;
 
 use crate::jarray::JArray;
 

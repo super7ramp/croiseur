@@ -26,9 +26,10 @@ public final class Solver {
      * @param puzzle     the puzzle to solve
      * @param dictionary the dictionary
      * @return the {@link Solution}
-     * @throws SolverErrorException if solver encountered an error
+     * @throws InterruptedException if interrupted while solving
+     * @throws NativePanicException if solver encountered an error
      */
     public native Optional<Solution> solve(final Puzzle puzzle, final Dictionary dictionary)
-            throws SolverErrorException;
+            throws InterruptedException;
 
 }

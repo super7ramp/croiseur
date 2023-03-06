@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{JObject, JValue};
+use jni::JNIEnv;
 
 use crate::jarray::JArray;
 

@@ -8,6 +8,12 @@ package com.gitlab.super7ramp.croiseur.solver.paulgb;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,10 +28,10 @@ final class SolverTest {
     /**
      * Grid is void, so result is present but the encapsulated array is empty.
      *
-     * @throws SolverErrorException should not happen
+     * @throws InterruptedException should not happen
      */
     @Test
-    void possible0x0() throws SolverErrorException {
+    void possible0x0() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[0][0]);
         final Dictionary emptyDictionary = new Dictionary(new String[0]);
 
@@ -38,10 +44,10 @@ final class SolverTest {
     /**
      * Dictionary is empty so there is no solution.
      *
-     * @throws SolverErrorException should not happen
+     * @throws InterruptedException should not happen
      */
     @Test
-    void impossible3x3() throws SolverErrorException {
+    void impossible3x3() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
                 {0, 1, 2},
@@ -62,10 +68,10 @@ final class SolverTest {
     /**
      * Simple 3x3 with a tailored dictionary.
      *
-     * @throws SolverErrorException should not happen
+     * @throws InterruptedException should not happen
      */
     @Test
-    void possible3x3() throws SolverErrorException {
+    void possible3x3() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
                 {0, 1, 2},
@@ -89,11 +95,11 @@ final class SolverTest {
 
     /**
      * Verifies that Rust panic upon {@code null} puzzle is turned into
-     * {@link SolverErrorException}.
+     * {@link NativePanicException}.
      */
     @Test
     void failureNullPuzzle() {
-        final SolverErrorException solverError = assertThrows(SolverErrorException.class,
+        final NativePanicException solverError = assertThrows(NativePanicException.class,
                 () -> new Solver().solve(null, new Dictionary(new String[0])));
         assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")",
                 solverError.getMessage());
@@ -101,13 +107,48 @@ final class SolverTest {
 
     /**
      * Verifies that Rust panic upon {@code null} dictionary is turned into
-     * {@link SolverErrorException}.
+     * {@link NativePanicException}.
      */
     @Test
     void failureNullDictionary() {
-        final SolverErrorException solverError = assertThrows(SolverErrorException.class,
+        final NativePanicException solverError = assertThrows(NativePanicException.class,
                 () -> new Solver().solve(new Puzzle(new int[0][]), null));
         assertEquals("Failed to access dictionary words: NullPtr(\"call_method obj argument\")",
                 solverError.getMessage());
+    }
+
+    /**
+     * Verifies that an {@link InterruptedException} when solver is interrupted.
+     *
+     * @throws InterruptedException if test is interrupted, should not happen
+     * @throws ExecutionException should not happen
+     * @throws TimeoutException should not happen
+     */
+    @Test
+    void interruption() throws InterruptedException, ExecutionException, TimeoutException {
+        final Puzzle puzzle = new Puzzle(new int[][]{
+                // horizontal slots
+                {0, 1, 2},
+                {3, 4, 5},
+                {6, 7, 8},
+                // vertical slots
+                {0, 3, 6},
+                {1, 4, 7},
+                {2, 5, 8}
+        });
+        final Dictionary dictionary = new Dictionary(new String[]{"AAA", "BBB", "CDE", "ABC"
+                , "ABD", "ABE"});
+
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        final Future<Optional<Solution>> solution = executor.submit(() -> {
+            try {
+                return new Solver().solve(puzzle, dictionary);
+            } catch (final InterruptedException e) {
+                assertEquals("Solver interrupted", e.getMessage());
+                return Optional.empty();
+            }
+        });
+        executor.shutdownNow();
+        assertTrue(solution.get(1L, TimeUnit.SECONDS).isEmpty());
     }
 }
