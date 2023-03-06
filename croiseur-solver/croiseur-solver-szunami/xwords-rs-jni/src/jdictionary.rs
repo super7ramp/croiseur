@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{JObject, JString};
+use jni::JNIEnv;
 use xwords::trie::Trie;
 
 /// Wrapper for the `com.gitlab.croiseur.solver.szunami.Dictionary` Java object.

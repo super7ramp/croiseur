@@ -56,10 +56,9 @@ public final class SzunamiSolver implements CrosswordSolver {
         return DESCRIPTION;
     }
 
-    // TODO #43 make native code interruptible
     @Override
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) {
+                              final ProgressListener progressListener) throws InterruptedException {
         final com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary adaptedDictionary =
                 DictionaryAdapter.adapt(dictionary);
         final Crossword crossword = PuzzleAdapter.adapt(puzzle);
@@ -75,9 +74,10 @@ public final class SzunamiSolver implements CrosswordSolver {
      * @param adaptedPuzzle     the puzzle to solve
      * @param adaptedDictionary the dictionary
      * @return the {@link Result}, if any; {@link Optional#empty()} otherwise
+     * @throws InterruptedException if interrupted while solving
      */
     private Result safeSolve(final Crossword adaptedPuzzle,
-                             final com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary adaptedDictionary) {
+                             final com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary adaptedDictionary) throws InterruptedException {
         try {
             return filler.fill(adaptedPuzzle, adaptedDictionary);
         } catch (final NativePanicException e) {

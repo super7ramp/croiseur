@@ -7,19 +7,21 @@ use std::any::Any;
 use std::ops::DerefMut;
 use std::panic::catch_unwind;
 
-use jni::JNIEnv;
 use jni::objects::JObject;
 use jni::sys::jobject;
-use xwords::fill::Fill;
+use jni::JNIEnv;
 use xwords::fill::filler::Filler;
+use xwords::fill::Fill;
 
 use crate::jcrossword::JCrossword;
 use crate::jdictionary::JDictionary;
 use crate::jresult::JResult;
+use crate::jthread::JThread;
 
 mod jcrossword;
 mod jdictionary;
 mod jresult;
+mod jthread;
 
 ///
 /// Solves the given puzzle with the given dictionary. Implements Java's `Filler#fill()` native
@@ -57,13 +59,20 @@ fn solve<'a>(
     let crossword = JCrossword::new(java_crossword).into_crossword(env);
     let trie = JDictionary::new(java_dictionary).into_trie(env);
 
-    let result = Filler::new(&trie).fill(&crossword);
+    let current_thread = JThread::current_thread(env);
+    let mut is_interrupted = || current_thread.is_interrupted(env);
+    let result = Filler::new(&trie, &mut is_interrupted).fill(&crossword);
 
-    result
-        .map(|solution| JResult::ok(solution, env))
-        .unwrap_or_else(|err| JResult::err(err.as_str(), env))
-        .into_object()
-        .into_raw()
+    if is_interrupted() {
+        let _ = env.throw_new("java/lang/InterruptedException", "Filler interrupted");
+        JObject::default().into_raw()
+    } else {
+        result
+            .map(|solution| JResult::ok(solution, env))
+            .unwrap_or_else(|err| JResult::err(err.as_str(), env))
+            .into_object()
+            .into_raw()
+    }
 }
 
 /// Handles panic from native code by throwing an appropriate exception to the JVM.

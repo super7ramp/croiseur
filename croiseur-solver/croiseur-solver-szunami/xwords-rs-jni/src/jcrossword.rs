@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{JObject, JString, JValue, JValueOwned};
 use jni::sys::jint;
+use jni::JNIEnv;
 use xwords::crossword::Crossword;
 
 /// Wrapper for the `com.gitlab.croiseur.solver.szunami.Crossword` Java object.
