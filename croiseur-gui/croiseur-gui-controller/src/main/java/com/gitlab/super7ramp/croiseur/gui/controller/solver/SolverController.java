@@ -60,9 +60,7 @@ public final class SolverController {
                         crosswordSolverViewModel.solverSelectionViewModel(), solverService);
             }
         };
-        // FIXME #43 native solvers don't respond to interruption, have to use the Service default
-        //  daemon thread pool for now so that the JVM can exit if the solver is stuck.
-        // solver.setExecutor(executor);
+        solver.setExecutor(executor);
         solver.setOnReady(e -> LOGGER.info("Solver ready"));
         solver.setOnRunning(e -> LOGGER.info("Solving"));
         solver.setOnCancelled(e -> LOGGER.info("Solver cancelled"));

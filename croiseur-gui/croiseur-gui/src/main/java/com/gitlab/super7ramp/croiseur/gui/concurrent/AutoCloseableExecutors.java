@@ -19,14 +19,15 @@ public final class AutoCloseableExecutors {
     }
 
     /**
-     * Creates a new {@link AutoCloseableExecutorService} backed by a single worker thread
+     * Creates a new {@link AutoCloseableExecutorService} backed by a fixed number of threads
      * operating off an unbounded queue.
      *
+     * @param nThreads the number of threads in the pool
      * @return a new {@link AutoCloseableExecutorService}
-     * @see Executors#newSingleThreadExecutor()
+     * @see Executors#newFixedThreadPool(int)
      */
-    public static AutoCloseableExecutorService newSingleThreadExecutor() {
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        return new DefaultAutoCloseableExecutorService(executor);
+    public static AutoCloseableExecutorService newFixedThreadPool(final int nThreads) {
+        final ExecutorService executor = Executors.newFixedThreadPool(nThreads);
+        return new QuickClosureExecutorService(executor);
     }
 }

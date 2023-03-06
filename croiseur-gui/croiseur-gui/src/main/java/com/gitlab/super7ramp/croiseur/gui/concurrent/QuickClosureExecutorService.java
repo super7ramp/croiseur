@@ -11,10 +11,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An {@link AutoCloseableExecutorService} which adds to the given {@link ExecutorService} the
- * same implementation of {@link AutoCloseable#close()} as in Java 19.
+ * An {@link AutoCloseableExecutorService} with a simple and quick {@link #close()}
+ * implementation - initiate termination, await termination, then interrupt if still not
+ * terminated after {@link #SHUTDOWN_TIMEOUT a little while}.
  */
-final class DefaultAutoCloseableExecutorService extends AbstractExecutorService implements AutoCloseableExecutorService {
+final class QuickClosureExecutorService extends AbstractExecutorService implements AutoCloseableExecutorService {
+
+    /** The shutdown timeout (in milliseconds). */
+    private static final long SHUTDOWN_TIMEOUT = 250L;
 
     /** The actual executor service. */
     private final ExecutorService executorService;
@@ -24,7 +28,7 @@ final class DefaultAutoCloseableExecutorService extends AbstractExecutorService 
      *
      * @param executorServiceArg the actual executor service
      */
-    DefaultAutoCloseableExecutorService(final ExecutorService executorServiceArg) {
+    QuickClosureExecutorService(final ExecutorService executorServiceArg) {
         executorService = executorServiceArg;
     }
 
@@ -60,23 +64,14 @@ final class DefaultAutoCloseableExecutorService extends AbstractExecutorService 
 
     @Override
     public void close() {
-        boolean terminated = isTerminated();
-        if (!terminated) {
-            shutdown();
-            boolean interrupted = false;
-            while (!terminated) {
-                try {
-                    terminated = awaitTermination(1L, TimeUnit.DAYS);
-                } catch (final InterruptedException e) {
-                    if (!interrupted) {
-                        shutdownNow();
-                        interrupted = true;
-                    }
-                }
+        shutdown();
+        try {
+            if (!awaitTermination(SHUTDOWN_TIMEOUT, TimeUnit.MILLISECONDS)) {
+                shutdownNow();
             }
-            if (interrupted) {
-                Thread.currentThread().interrupt();
-            }
+        } catch (final InterruptedException ex) {
+            shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 }

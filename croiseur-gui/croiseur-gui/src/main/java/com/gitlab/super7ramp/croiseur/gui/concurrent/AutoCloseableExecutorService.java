@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.concurrent;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An {@link ExecutorService} which is also {@link AutoCloseable}.
@@ -38,5 +39,24 @@ public interface AutoCloseableExecutorService extends ExecutorService, AutoClose
      * to complete execution with {@code awaitTermination}.
      */
     @Override
-    void close();
+    default void close() {
+        boolean terminated = isTerminated();
+        if (!terminated) {
+            shutdown();
+            boolean interrupted = false;
+            while (!terminated) {
+                try {
+                    terminated = awaitTermination(1L, TimeUnit.DAYS);
+                } catch (final InterruptedException e) {
+                    if (!interrupted) {
+                        shutdownNow();
+                        interrupted = true;
+                    }
+                }
+            }
+            if (interrupted) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 }

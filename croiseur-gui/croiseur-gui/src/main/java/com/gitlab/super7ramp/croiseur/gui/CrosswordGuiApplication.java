@@ -39,6 +39,12 @@ public final class CrosswordGuiApplication extends Application {
     /** The application icon name. */
     private static final String ICON_NAME = "application-icon.png";
 
+    /**
+     * The number of background threads. At least 2 so that dictionaries can be browsed while
+     * solver is running.
+     */
+    private static final int NUMBER_OF_BACKGROUND_THREADS = 2;
+
     /** Resources to be closed upon application shutdown. */
     private final Collection<AutoCloseable> resources;
 
@@ -96,7 +102,7 @@ public final class CrosswordGuiApplication extends Application {
 
         // Additional dependency: Background executor
         final AutoCloseableExecutorService executor =
-                AutoCloseableExecutors.newSingleThreadExecutor();
+                AutoCloseableExecutors.newFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
 
         return new CrosswordSolverRootController(crosswordService, crosswordSolverViewModel,
