@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -118,11 +117,11 @@ final class FillerTest {
 
 
     /**
-     * Verifies that an {@link InterruptedException} when solver is interrupted.
+     * Verifies that an {@link InterruptedException} is thrown when filler is interrupted.
      *
      * @throws InterruptedException if test is interrupted, should not happen
-     * @throws ExecutionException should not happen
-     * @throws TimeoutException should not happen
+     * @throws ExecutionException   should not happen
+     * @throws TimeoutException     should not happen
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {

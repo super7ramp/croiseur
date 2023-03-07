@@ -118,11 +118,11 @@ final class SolverTest {
     }
 
     /**
-     * Verifies that an {@link InterruptedException} when solver is interrupted.
+     * Verifies that an {@link InterruptedException} is thrown when solver is interrupted.
      *
      * @throws InterruptedException if test is interrupted, should not happen
-     * @throws ExecutionException should not happen
-     * @throws TimeoutException should not happen
+     * @throws ExecutionException   should not happen
+     * @throws TimeoutException     should not happen
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {
