@@ -53,6 +53,15 @@ public final class DictionaryViewModel {
     }
 
     /**
+     * Sets the value of the selected property.
+     *
+     * @param selectedValue the value to set
+     */
+    public void setSelected(final boolean selectedValue) {
+        selected.set(selectedValue);
+    }
+
+    /**
      * Returns whether the dictionary is selected.
      *
      * @return whether the dictionary is selected.

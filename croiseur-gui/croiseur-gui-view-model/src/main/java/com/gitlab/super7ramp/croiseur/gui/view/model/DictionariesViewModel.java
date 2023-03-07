@@ -88,15 +88,25 @@ public final class DictionariesViewModel {
     }
 
     /**
-     * Adds words for a dictionary.
+     * Adds words for a selected dictionary.
+     * <p>
+     * If the dictionary is not selected, given words are ignored.
      *
      * @param key   the dictionary key
      * @param words the words
      */
     public void addWords(final DictionaryKey key, final List<String> words) {
-        final int aggregateNumber = backingAggregateWordList.aggregateCount();
-        backingAggregateWordList.aggregate(words);
-        dictionaryToWordAggregateIndex.put(key, aggregateNumber);
+        if (selectedDictionaries.stream().anyMatch(dictionary -> dictionary.key().equals(key))) {
+            final int aggregateNumber = backingAggregateWordList.aggregateCount();
+            backingAggregateWordList.aggregate(words);
+            dictionaryToWordAggregateIndex.put(key, aggregateNumber);
+        } else {
+            /*
+             * Dictionary is not selected. It has probably been selected then unselected before the
+             * words could be retrieved by the application. Discard the retrieved words which are
+             * now irrelevant.
+             */
+        }
     }
 
     /**
@@ -106,7 +116,7 @@ public final class DictionariesViewModel {
      *
      * @param change the dictionary selection change
      */
-    private void onSelectedDictionaryChange(ListChangeListener.Change<?
+    private void onSelectedDictionaryChange(final ListChangeListener.Change<?
             extends DictionaryViewModel> change) {
         while (change.next()) {
             if (change.wasRemoved()) {
@@ -114,15 +124,19 @@ public final class DictionariesViewModel {
                 for (final DictionaryViewModel removedDictionaryViewModel : removedDictionaries) {
                     final Integer removedAggregateIndex =
                             dictionaryToWordAggregateIndex.remove(removedDictionaryViewModel.key());
-                    backingAggregateWordList.disaggregate(removedAggregateIndex);
-                    refreshAggregateIndexes(removedAggregateIndex);
+                    if (removedAggregateIndex != null) {
+                        backingAggregateWordList.disaggregate(removedAggregateIndex);
+                        refreshAggregateIndexes(removedAggregateIndex);
+                    } else {
+                        // No words for this dictionary, nothing to do.
+                    }
                 }
             }
         }
     }
 
     /**
-     * Refresh aggregate word list indexes after aggregate list has been modified.
+     * Refreshes aggregate word list indexes after aggregate list has been modified.
      *
      * @param removedAggregateIndex the aggregate word list index that has been removed
      */
