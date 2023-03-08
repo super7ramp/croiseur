@@ -389,7 +389,7 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void addColumnConstraint() {
         final ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.setPercentWidth(CELL_PREF_SIZE);
+        columnConstraints.setPrefWidth(CELL_PREF_SIZE);
         columnConstraints.setHgrow(Priority.ALWAYS);
         grid.getColumnConstraints().add(columnConstraints);
     }
