@@ -186,12 +186,12 @@ public final class CrosswordGridPane extends StackPane {
      * Creates an empty row at the bottom of the grid.
      */
     public void addRow() {
-        final int newRowIndex = grid.getRowCount();
+        final int newRowIndex = getRowCount();
         if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        final int columnCount = grid.getColumnCount();
-        for (int column = 0; (column < columnCount) || (column == 0 && columnCount == 0); column++) {
+        final int columnCount = getColumnCount();
+        for (int column = 0; (column < columnCount) || (column == 0); column++) {
             final GridPosition coordinate = new GridPosition(column, newRowIndex);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBoxViewModel());
@@ -202,12 +202,12 @@ public final class CrosswordGridPane extends StackPane {
      * Creates an empty column at the right of the grid.
      */
     public void addColumn() {
-        final int newColumnIndex = grid.getColumnCount();
+        final int newColumnIndex = getColumnCount();
         if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        final int rowCount = grid.getRowCount();
-        for (int row = 0; (row < rowCount) || (row == 0 && rowCount == 0); row++) {
+        final int rowCount = getRowCount();
+        for (int row = 0; (row < rowCount) || (row == 0); row++) {
             final GridPosition coordinate = new GridPosition(newColumnIndex, row);
             // Just add the box to the model: Model update listener will synchronize the view.
             boxModels.put(coordinate, new CrosswordBoxViewModel());
@@ -218,12 +218,12 @@ public final class CrosswordGridPane extends StackPane {
      * Deletes the last row (reading top to bottom, so the row at the bottom of the grid).
      */
     public void deleteLastRow() {
-        final int oldRowCount = grid.getRowCount();
+        final int oldRowCount = getRowCount();
         if (oldRowCount == 0) {
             return;
         }
         final int deletedRowIndex = oldRowCount - 1;
-        for (int column = 0; column < grid.getColumnCount(); column++) {
+        for (int column = 0; column < getColumnCount(); column++) {
             final GridPosition coordinate = new GridPosition(column, deletedRowIndex);
             // Just remove the box from the model: Model update listener will synchronize the view.
             boxModels.remove(coordinate);
@@ -234,12 +234,12 @@ public final class CrosswordGridPane extends StackPane {
      * Deletes the last column (reading left to right, so the column on the right of the grid).
      */
     public void deleteLastColumn() {
-        final int oldColumnCount = grid.getColumnCount();
+        final int oldColumnCount = getColumnCount();
         if (oldColumnCount == 0) {
             return;
         }
         final int deletedColumnIndex = oldColumnCount - 1;
-        for (int row = 0; row < grid.getRowCount(); row++) {
+        for (int row = 0; row < getRowCount(); row++) {
             final GridPosition coordinate = new GridPosition(deletedColumnIndex, row);
             // Just remove the box from the model: Model update listener will synchronize the view.
             boxModels.remove(coordinate);
@@ -333,10 +333,10 @@ public final class CrosswordGridPane extends StackPane {
 
         // Remove all leftover columns/rows if all boxes have been removed
         final boolean emptyModel = boxModels.isEmpty();
-        if (emptyModel && grid.getRowCount() != 0) {
+        if (emptyModel && !grid.getRowConstraints().isEmpty()) {
             grid.getRowConstraints().clear();
         }
-        if (emptyModel && grid.getColumnCount() != 0) {
+        if (emptyModel && !grid.getColumnConstraints().isEmpty()) {
             grid.getColumnConstraints().clear();
         }
     }
@@ -359,11 +359,11 @@ public final class CrosswordGridPane extends StackPane {
         boxNodes.put(coordinate, textField);
 
         // Add column constraints
-        final int oldColumnCount = grid.getColumnConstraints().size();
+        final int oldColumnCount = getColumnCount();
         for (int column = oldColumnCount; column <= coordinate.x(); column++) {
             addColumnConstraint();
         }
-        final int oldRowCount = grid.getRowConstraints().size();
+        final int oldRowCount = getRowCount();
         for (int row = oldRowCount; row <= coordinate.y(); row++) {
             addRowConstraint();
         }
@@ -408,8 +408,8 @@ public final class CrosswordGridPane extends StackPane {
      * @return the column / row ratio when row count is > 0; 1.0 when row or column count is 0
      */
     private double columnPerRowRatio() {
-        final int columnCount = grid.getColumnConstraints().size();
-        final int rowCount = grid.getRowConstraints().size();
+        final int columnCount = getColumnCount();
+        final int rowCount = getRowCount();
         final double ratio;
         if (columnCount == 0 || rowCount == 0) {
             ratio = 1.0;
@@ -427,5 +427,33 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
         boxModels.values().stream().filter(predicate).forEach(CrosswordBoxViewModel::reset);
+    }
+
+    /**
+     * Gets the grid row count.
+     *
+     * @return the grid row count
+     */
+    private int getRowCount() {
+        /*
+         * Avoid grid#getRowCount(): It loops on all nodes to get the max row index. We don't
+         * need it since we add constraints for each row (no more, no less). Hence, the number of
+         * row constraints is the number of rows.
+         */
+        return grid.getRowConstraints().size();
+    }
+
+    /**
+     * Gets the grid column count.
+     *
+     * @return the grid column count
+     */
+    private int getColumnCount() {
+        /*
+         * Avoid grid#getColumnCount(): It loops on all nodes to get the max column index. We don't
+         * need it since we add constraints for each column (no more, no less). Hence, the number of
+         * column constraints is the number of columns.
+         */
+        return grid.getColumnConstraints().size();
     }
 }
