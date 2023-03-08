@@ -21,7 +21,6 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 
@@ -99,10 +98,6 @@ public final class CrosswordGridPane extends StackPane {
 
     /** The maximum number of rows or columns. */
     private static final int MAX_ROW_COLUMN_COUNT = 20;
-
-    /** The preferred size for cells. */
-    // TODO allow configuration via CSS
-    private static final int CELL_PREF_SIZE = 30;
 
     /**
      * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a
@@ -379,8 +374,7 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void addRowConstraint() {
         final RowConstraints rowConstraint = new RowConstraints();
-        rowConstraint.setPrefHeight(CELL_PREF_SIZE);
-        rowConstraint.setVgrow(Priority.ALWAYS);
+        rowConstraint.setPercentHeight(100);
         grid.getRowConstraints().add(rowConstraint);
     }
 
@@ -389,8 +383,7 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void addColumnConstraint() {
         final ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.setPrefWidth(CELL_PREF_SIZE);
-        columnConstraints.setHgrow(Priority.ALWAYS);
+        columnConstraints.setPercentWidth(100);
         grid.getColumnConstraints().add(columnConstraints);
     }
 
