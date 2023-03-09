@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordGridPane.css" type="StackPane"
-         xmlns="http://javafx.com/javafx/17" minHeight="200" minWidth="200" prefHeight="400.0"
-         prefWidth="400.0">
+         xmlns="http://javafx.com/javafx/17" prefHeight="400.0" prefWidth="400.0">
     <CrosswordGridPlaceholder fx:id="placeholder"/>
-    <GridPane id="crossword-grid" fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity"/>
+    <GridPane id="crossword-grid" fx:id="grid"/>
 </fx:root>
