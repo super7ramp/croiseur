@@ -9,5 +9,5 @@ plugins {
 
 dependencies {
     api project(':croiseur-spi:croiseur-spi-solver')
-    implementation project(':croiseur-solver:croiseur-solver-szunami')
+    // You may add additional implementation dependencies here
 }
