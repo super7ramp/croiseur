@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## How To: Plug a New Solver
+## How To: Plug a Solver
 
 ### Audience
 
