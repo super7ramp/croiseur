@@ -24,34 +24,35 @@ requires basic knowledge of the Java programming language.
 ##### 1.1. First alternative: Create the project outside `croiseur` source tree
 
 > `croiseur-spi-solver` is not published to an artifact repository such as Maven Central yet. As a
-> result, it is not possible for now to just pull the SPI jar using Maven or Gradle and develop your
+> result, it is not possible for now to just pull the SPI jar using Maven or Gradle and develop a
 > solver plugin outside `croiseur` source code tree. This section will be updated when SPIs are
 > published to an artifact repository.
 
 ##### 1.2. Second alternative: Create the project inside `croiseur` source tree
 
-###### 1.2.1. Create a local clone of `croiseur` (or of your own `croiseur`'s fork)
+###### 1.2.1. Retrieve `croiseur` sources
 
-For example:
+For example, using Git:
 
 ```
 git clone https://gitlab.com/super7ramp/croiseur.git
 ```
 
-Alternatively, if you are not familiar with git, you may just download a zip archive of `croiseur`
+Alternatively,
+download [a zip archive of `croiseur` sources](https://gitlab.com/super7ramp/croiseur/-/archive/master/croiseur-master.zip)
 and unzip it.
 
-###### 1.2.2. Create new solver plugin subproject inside `croiseur-solver`
+###### 1.2.2. Create a new solver plugin subproject inside `croiseur-solver`
 
 Create a subproject folder under `croiseur-solver`:
 
 ```
 cd croiseur/croiseur-solver
-mkdir croiseur-solver-<your_solver_name>-plugin
+mkdir croiseur-solver-<new_solver_name>-plugin
 ```
 
 Add a `build.gradle` (since `croiseur` uses Gradle as build system) in
-`croiseur-solver-<your_solver_name>-plugin`:
+`croiseur-solver-<new_solver_name>-plugin`:
 
 ```
 plugins {
@@ -67,14 +68,14 @@ dependencies {
 Finally, declare the subproject by adding the following line in root's `settings.gradle`:
 
 ```
-include 'croiseur-solver:croiseur-solver-<your_solver_name>-plugin'
+include 'croiseur-solver:croiseur-solver-<new__solver_name>-plugin'
 ```
 
-At this point, you may check that everything is OK by running `gradle build`.
+At this point, check that everything is OK by running `gradle build`.
 
 #### 2. Implement the solver plugin
 
-Create a class inside your plugin project implementing the `CrosswordSolver` interface defined
+Create a class inside the new plugin project implementing the `CrosswordSolver` interface defined
 in `croiseur-spi-solver`.
 
 A commented example is available in `croiseur-solver-example-plugin`:
@@ -82,40 +83,56 @@ A commented example is available in `croiseur-solver-example-plugin`:
 
 #### 3. Declare the solver plugin
 
-In order for `croiseur` to find your plugin at run-time, your implementation needs to advertise
+In order for `croiseur` to find the plugin at run-time, the implementation needs to advertise
 itself as a solver plugin.
 
-To do so, create the file `com.gitlab.super7ramp.croiseur.solver.spi.CrosswordSolver` in
-`src/main/resources/META-INF/services` and add the qualified name of your implementation as
+There are two ways to do that:
+
+- Use the modern module `provides` directive, or
+- Using the traditional `META-INF/services` folder.
+
+The first way should be preferred since the `croiseur` project is fully modularised.
+
+For compatibility for custom non-modular deployments (like in `croiseur-tests`), it is advised 
+to declare the solver plugin using the second method in addition to the first method.
+
+##### 3.1. Using the module `provides` directive
+
+Create a `module-info.java` file in `src/main/java`. Here is a template of `module-info`:
+
+```
+import com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver;
+import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+
+module com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin {
+    requires com.gitlab.super7ramp.croiseur.spi.solver;
+    provides CrosswordSolver with <NewSolverName>CrosswordSolver;
+}
+```
+
+##### 3.2. Using the `META-INF/services` folder
+
+Create the file `com.gitlab.super7ramp.croiseur.solver.spi.CrosswordSolver`
+in `src/main/resources/META-INF/services` and add the qualified name of your implementation as
 content, e.g.:
 
 ```
-com.gitlab.super7ramp.croiseur.solver.<your_solver_name>.plugin.<YourSolverName>CrosswordSolver
-```
-
-Also, as `croiseur` is fully modularised, it requires that your implementation is modularised as
-well. Basically, it means that your project dependencies shall be declared in a `module-info.java`
-file. Here is a template of `module-info`:
-
-```
-module com.gitlab.super7ramp.croiseur.solver.<your_solver_name>.plugin {
-    requires com.gitlab.super7ramp.croiseur.spi.solver;
-    provides CrosswordSolver with <YourSolverName>CrosswordSolver;
-}
+com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver
 ```
 
 #### 4. Install the solver plugin
 
-In order for `croiseur` to find your solver plugin, this one needs to be present in `croiseur`'s
+In order for `croiseur` to find the solver plugin, this one needs to be present in `croiseur`'s
 module path.
 
-Assuming you have a distribution of [`croiseur-cli`](../../croiseur-cli/INSTALL.md) or
-[`croiseur-gui`](../../croiseur-gui/INSTALL.md), you have to:
+Assuming a distribution of [`croiseur-cli`](../../croiseur-cli/INSTALL.md)
+or [`croiseur-gui`](../../croiseur-gui/INSTALL.md), perform the following actions:
 
 - Put the plugin's jar into the distribution's `lib` folder
-- Adjust the `MODULE_PATH` variable in the launcher scripts in `bin` folder
+- Adjust the `MODULE_PATH` variable in the launcher scripts in the distribution's `bin` folder
 
-Follows an example for `croiseur-cli` – the process for `croiseur-gui` is similar.
+The next two paragraphs detail these steps for `croiseur-cli` – the process for `croiseur-gui`
+is similar.
 
 ##### 4.1. Put the plugin's jar into the distribution's `lib` folder
 
@@ -128,27 +145,29 @@ Follows an example for `croiseur-cli` – the process for `croiseur-gui` is simi
 │   └── dictionaries
 │       ├── general-de_DE.xml
 │       ├── ...
-└── lib                                              # Put the solver plugin jar in this folder
+└── lib                                     # Put the solver plugin jar in this folder
     ├── croiseur-cli.jar
     ├── (...)
 ```
 
-##### 4.2. Adjust the `MODULE_PATH` variable in the launcher scripts in the `bin` folder
+##### 4.2. Adjust the `MODULE_PATH` variable in the launcher scripts in the distribution's `bin` folder
 
-Append the path to your jar to the `MODULE_PATH` variable in `bin/croiseur-cli` (for Unix) and/or
-`bin/croiseur-cli.bat` (for Windows) so that it includes the new jar:
+Append the path to the solver plugin jar to the `MODULE_PATH` variable in `bin/croiseur-cli` (for
+Unix) and/or `bin/croiseur-cli.bat` (for Windows) so that it includes the new jar:
 
-```
-# In bin/croiseur-cli
-MODULE_PATH=$APP_HOME/lib/croiseur-cli.jar:(...):$APP_HOME/lib/<your_solver_plugin>.jar
-```
+In `bin/croiseur-cli`:
 
 ```
-@rem In bin/croiseur-cli.bat
-set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<your_solver_plugin>.jar
+MODULE_PATH=$APP_HOME/lib/croiseur-cli.jar:(...):$APP_HOME/lib/<new_solver_plugin>.jar
 ```
 
-At this point, you should be able to interact with your solver. You can check that it is detected
+In `bin/croiseur-clit.bat`:
+
+```
+set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<newr_solver_plugin>.jar
+```
+
+At this point, it should be possible to interact with the new solver. Check that it is detected
 using the following command:
 
 ```
@@ -181,11 +200,11 @@ runtimeOnly project(':croiseur-solver:croiseur-solver-<your_solver_name>-plugin'
 - [`croiseur-solver-example-plugin`](../../croiseur-solver/croiseur-solver-example-plugin): A
   minimal example plugin.
 - Real plugin implementations:
-  - [`croiseur-solver-ginsberg-plugin`](../../croiseur-solver/croiseur-solver-ginsberg-plugin)
-  - [`croiseur-solver-paulgb-plugin`](../../croiseur-solver/croiseur-solver-paulgb-plugin)
-  - [`croiseur-solver-szunami-plugin`](../../croiseur-solver/croiseur-solver-szunami-plugin)
+    - [`croiseur-solver-ginsberg-plugin`](../../croiseur-solver/croiseur-solver-ginsberg-plugin)
+    - [`croiseur-solver-paulgb-plugin`](../../croiseur-solver/croiseur-solver-paulgb-plugin)
+    - [`croiseur-solver-szunami-plugin`](../../croiseur-solver/croiseur-solver-szunami-plugin)
 - TODO croiseur solver SPI generated Javadoc
-- [Java's `ServiceLoader` documentation](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html)
+- [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's
   module system.

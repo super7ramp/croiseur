@@ -66,8 +66,10 @@ public final class ExampleCrosswordSolver implements CrosswordSolver {
          * then you just cannot provide it. That's OK: It's purely indicative.
          */
         progressListener.onInitialisationStart();
-        progressListener.onSolverProgressUpdate((short) 0);
         progressListener.onInitialisationEnd();
+        progressListener.onSolverProgressUpdate((short) 0);
+        progressListener.onSolverProgressUpdate((short) 50);
+        progressListener.onSolverProgressUpdate((short) 100);
 
         /*
          * When the solver has finished running, a result respecting the SolverResult interface
@@ -96,9 +98,9 @@ public final class ExampleCrosswordSolver implements CrosswordSolver {
             @Override
             public Set<GridPosition> unsolvableBoxes() {
                 /*
-                 * Here, when solver considers the puzzle as impossible, solver can indicate the
-                 * positions that it thinks are problematic. Here, solver creates a set of all
-                 * grid positions because it doesn't know any better.
+                 * When solver considers the puzzle as impossible, it can indicate the positions
+                 * that it thinks are problematic. Here, solver creates a set of all grid
+                 * positions because it doesn't know any better.
                  */
                 final Set<GridPosition> unsolvableBoxes = new HashSet<>();
                 for (int column = 0; column < puzzle.width(); column++) {
