@@ -82,6 +82,10 @@ final class ListSolversUsecase {
      * Processes the list solvers command.
      */
     void process() {
-        presenter.presentAvailableSolvers(solvers);
+        if (solvers.isEmpty()) {
+            presenter.presentSolverError("No solver found");
+        } else {
+            presenter.presentAvailableSolvers(solvers);
+        }
     }
 }

@@ -48,24 +48,10 @@ final class SolveUsecase {
     SolveUsecase(final Collection<CrosswordSolver> solversArg,
                  final Collection<DictionaryProvider> dictionaryProvidersArg,
                  final SolverPresenter presenterArg) {
-        solvers = collectSolversMap(solversArg);
+        solvers = solversArg.stream().collect(toMap(CrosswordSolver::name, Function.identity()));
         presenter = presenterArg;
         dictionaryLoader = new DictionaryLoader(dictionaryProvidersArg);
         progressListenerFactory = new ProgressListenerFactory(presenter);
-    }
-
-    /**
-     * Creates a map associating the given solvers to their names.
-     *
-     * @param solvers the solvers
-     * @return a map associating the given solvers to their names
-     */
-    private static Map<String, CrosswordSolver> collectSolversMap(final Collection<CrosswordSolver> solvers) {
-        if (solvers.isEmpty()) {
-            throw new IllegalArgumentException("Failed to initialise solver service: No solver " +
-                    "found.");
-        }
-        return solvers.stream().collect(toMap(CrosswordSolver::name, Function.identity()));
     }
 
     /**
@@ -122,16 +108,7 @@ final class SolveUsecase {
      * @return the solver to use
      */
     private Optional<CrosswordSolver> selectSolver(final SolveRequest request) {
-        final Optional<String> specifiedSolver = request.solver();
-        final Optional<CrosswordSolver> selectedSolver;
-        if (specifiedSolver.isPresent()) {
-            selectedSolver = Optional.ofNullable(solvers.get(specifiedSolver.get()));
-        } else {
-            // hasNext() unnecessary as constructor verifies that at least one solver exists
-            final CrosswordSolver defaultSolver = solvers.values().iterator().next();
-            selectedSolver = Optional.of(defaultSolver);
-        }
-        return selectedSolver;
+        return request.solver().map(solvers::get).or(solvers.values().stream()::findFirst);
     }
 
 }

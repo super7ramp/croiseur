@@ -74,6 +74,14 @@ public final class DeploymentSteps {
         deploy(dictionaryProviders, solvers, presenterMock);
     }
 
+    @Given("an application deployed without solver")
+    public void givenDeployedWithoutSolver() {
+        final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<CrosswordSolver> solvers = Collections.emptyList();
+        final Presenter presenterMock = mock(Presenter.class);
+        deploy(dictionaryProviders, solvers, presenterMock);
+    }
+
     /**
      * Instantiates croiseur, simulating the deployment of an application using the library.
      */
