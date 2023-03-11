@@ -1,63 +1,26 @@
 # SPDX-FileCopyrightText: 2023 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-image: gradle:alpine
-
 variables:
   GIT_SUBMODULE_STRATEGY: normal
   # Include only Crossword Composer submodule, LibreOffice dictionaries are not required for build
   GIT_SUBMODULE_PATHS: croiseur-solver/croiseur-solver-paulgb/crossword-composer
 
-before_script:
-  - apk add cargo reuse
-  - export CARGO_HOME="$(pwd)/.cargo"
-  - export GRADLE_USER_HOME="$(pwd)/.gradle"
-
 stages:
   - build
-  - test
-  - distribute
 
-build:
+build linux:
+  # Use a tailored image derived from a minimal openSUSE Tumbleweed image.
+  # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:15.1
   stage: build
   script:
     - reuse lint
-    - gradle --build-cache --parallel assemble -x distZip
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
-    paths:
-      # Gradle caches
-      - "**/build"
-      - "**/.gradle"
-      # Cargo caches
-      - "**/target"
-      - .cargo
-
-test:
-  stage: test
-  script: gradle --parallel check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      # Gradle caches
-      - "**/build"
-      - "**/.gradle"
-      # Cargo caches
-      - "**/target"
-      - .cargo
-
-distribute:
-  stage: distribute
-  script: gradle --parallel distZip
+    - gradle --parallel assemble -x distZip
+    - gradle --parallel check
+    - gradle --parallel distZip
   artifacts:
     paths:
-      - "**/build/distributions/*.zip"
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      # Gradle caches
-      - "**/build"
-      - "**/.gradle"
+      - "croiseur-cli/build/distributions/croiseur-cli*.zip"
+      - "croiseur-gui/croiseur-gui/build/distributions/croiseur-gui*.zip"
+
