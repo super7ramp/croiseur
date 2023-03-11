@@ -18,13 +18,11 @@ stages:
   - test
   - distribute
 
-lint:
+build:
   stage: build
-  script: reuse lint
-
-assemble:
-  stage: build
-  script: gradle --build-cache --parallel assemble -x distZip
+  script:
+    - reuse lint
+    - gradle --build-cache --parallel assemble -x distZip
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
