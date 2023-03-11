@@ -58,15 +58,12 @@ tasks.named('startScripts') {
 }
 
 /*
- * Disable distZip and disTar by default. Not used and time-consuming.
+ * Disable disTar. Not used and time-consuming.
  */
-tasks.named('distZip') {
-    enabled = false
-}
-
 tasks.named('distTar') {
     enabled = false
 }
+
 /**
  * Configures parameters to be used when launch the application via './gradlew run'.
  */

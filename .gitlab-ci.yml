@@ -16,6 +16,7 @@ before_script:
 stages:
   - build
   - test
+  - distribute
 
 lint:
   stage: build
@@ -23,7 +24,7 @@ lint:
 
 assemble:
   stage: build
-  script: gradle --build-cache --parallel assemble
+  script: gradle --build-cache --parallel assemble -x distZip
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -48,3 +49,17 @@ test:
       # Cargo caches
       - "**/target"
       - .cargo
+
+distribute:
+  stage: distribute
+  script: gradle --parallel distZip
+  artifacts:
+    paths:
+      - "**/build/distributions/*.zip"
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      # Gradle caches
+      - "**/build"
+      - "**/.gradle"
