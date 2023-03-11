@@ -14,15 +14,14 @@ before_script:
   - export GRADLE_USER_HOME="$(pwd)/.gradle"
 
 stages:
-  - lint
   - build
   - test
 
 lint:
-  stage: lint
+  stage: build
   script: reuse lint
 
-build:
+assemble:
   stage: build
   script: gradle --build-cache --parallel assemble
   cache:
