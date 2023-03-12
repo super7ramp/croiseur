@@ -8,6 +8,30 @@
  */
 
 plugins {
-    id 'java-library'
     id 'com.gitlab.super7ramp.croiseur.java-conventions'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        "${camelCasedProjectName()}"(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'GitlabMaven'
+            url = 'https://gitlab.com/api/v4/projects/43029946/packages/maven'
+            credentials {
+                username = property('croiseur.maven.username')
+                password = property('croiseur.maven.password')
+            }
+        }
+    }
+}
+
+def camelCasedProjectName() {
+    def dashLetterMatcher = project.name =~ ~/-([a-z])/
+    dashLetterMatcher.replaceAll(match -> match.group(1).toUpperCase())
 }
