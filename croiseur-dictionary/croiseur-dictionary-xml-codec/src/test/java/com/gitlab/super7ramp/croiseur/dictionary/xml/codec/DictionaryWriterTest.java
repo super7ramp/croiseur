@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 final class DictionaryWriterTest {
 
-    private static String formatXml(String xml) {
+    private static String formatXml(final String xml) {
         try {
             final Transformer t = TransformerFactory.newInstance().newTransformer();
             t.setOutputProperty(OutputKeys.INDENT, "yes");

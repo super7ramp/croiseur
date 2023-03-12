@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -103,7 +104,7 @@ public final class DictionaryWriter {
         }
     }
 
-    private static void writeDictionaryStartElement(XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeDictionaryStartElement(final XMLStreamWriter writer) throws XMLStreamException {
         writer.writeStartElement("tns", "dictionary", "http://www.example.org/dictionary");
         writer.writeAttribute("xmlns", "", "tns", "http://www.example.org/dictionary");
         writer.writeAttribute("xmlns", "", "xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -111,9 +112,9 @@ public final class DictionaryWriter {
                 " dictionary.xsd");
     }
 
-    private static XMLStreamWriter createWriter(OutputStream os) throws XMLStreamException {
+    private static XMLStreamWriter createWriter(final OutputStream os) throws XMLStreamException {
         final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
         // TODO configuration?
-        return xmlOutputFactory.createXMLStreamWriter(os);
+        return xmlOutputFactory.createXMLStreamWriter(os, Charset.defaultCharset().name());
     }
 }
