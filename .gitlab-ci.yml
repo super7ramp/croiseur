@@ -19,7 +19,7 @@ build linux:
     - gradle --parallel assemble -x distZip
     - gradle --parallel check
     - gradle --parallel distZip
-    - gradle --parallel publish -Pcroiseur.maven.username="Job-Token" -Pcroiseur.maven.password="${CI_JOB_TOKEN}"
+    - gradle --parallel publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.toke.value="${CI_JOB_TOKEN}"
   artifacts:
     paths:
       - "croiseur-cli/build/distributions/croiseur-cli*.zip"

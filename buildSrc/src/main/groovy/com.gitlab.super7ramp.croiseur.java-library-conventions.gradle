@@ -23,9 +23,12 @@ publishing {
         maven {
             name = 'GitlabMaven'
             url = 'https://gitlab.com/api/v4/projects/43029946/packages/maven'
-            credentials {
-                username = findProperty('croiseur.maven.username') ?: '<none>'
-                password = findProperty('croiseur.maven.password') ?: '<none>'
+            credentials(HttpHeaderCredentials.class) {
+                name = findProperty('croiseur.maven.token.name') ?: '<none_found>'
+                value = findProperty('croiseur.maven.token.value') ?: '<none_found>'
+            }
+            authentication {
+                header(HttpHeaderAuthentication.class)
             }
         }
     }
