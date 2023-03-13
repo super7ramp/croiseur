@@ -12,7 +12,7 @@ stages:
 build linux:
   # Use a tailored image derived from a minimal openSUSE Tumbleweed image.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
-  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:15.1
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:15.2
   stage: build
   script:
     - reuse lint
