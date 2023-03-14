@@ -8,6 +8,11 @@ variables:
 
 stages:
   - build
+  - publish
+
+before_script:
+  - export CARGO_HOME="$(pwd)/.cargo"
+  - export GRADLE_USER_HOME="$(pwd)/.gradle"
 
 build linux:
   # Use a tailored image derived from a minimal openSUSE Tumbleweed image.
@@ -18,8 +23,33 @@ build linux:
     - reuse lint
     - gradle --parallel assemble -x distZip
     - gradle --parallel check
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-linux"
+    policy: push
+    paths:
+      # Gradle caches
+      - "**/build"
+      - "**/.gradle"
+      # Cargo caches
+      - "**/target"
+      - .cargo
+
+publish linux:
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:15.2
+  stage: publish
+  script:
     - gradle --parallel distZip
     - gradle publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-linux"
+    policy: pull
+    paths:
+      # Gradle caches
+      - "**/build"
+      - "**/.gradle"
+      # Cargo caches
+      - "**/target"
+      - .cargo
   artifacts:
     paths:
       - "croiseur-cli/build/distributions/croiseur-cli*.zip"
