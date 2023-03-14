@@ -21,12 +21,42 @@ requires basic knowledge of the Java programming language.
 
 #### 1. Create a solver plugin project
 
+You can develop a solver plugin either:
+
+1. Outside `croiseur` source tree, or
+2. Inside `croiseur` source tree
+
+The first way is simpler to set up but requires a distribution of `croiseur` and manual
+manipulations to test the integration of the solver plugin inside `croiseur`.
+
+The second way is heavier to set up but allows to more comfortably test and debug the solver plugin
+when run by `croiseur`.
+
 ##### 1.1. First alternative: Create the project outside `croiseur` source tree
 
-> `croiseur-spi-solver` is not published to an artifact repository such as Maven Central yet. As a
-> result, it is not possible for now to just pull the SPI jar using Maven or Gradle and develop a
-> solver plugin outside `croiseur` source code tree. This section will be updated when SPIs are
-> published to an artifact repository.
+`croiseur-solver-spi` jar is published
+in [a Maven repository](https://gitlab.com/super7ramp/croiseur/-/packages). It can be retrieved with
+a build tool such as Maven or Gradle to develop a new solver plugin without having to download
+and rebuild all `croiseur` sources.
+
+Assuming a Gradle project, add the following lines to your project's `build.gradle`:
+
+```gradle
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    maven {
+        name = 'CroiseurMaven'
+        url = 'https://gitlab.com/api/v4/projects/43029946/packages/maven'
+    }
+}
+
+dependencies {
+    api 'com.gitlab.super7ramp:croiseur-spi-solver:0.1'
+}
+```
 
 ##### 1.2. Second alternative: Create the project inside `croiseur` source tree
 
@@ -79,7 +109,7 @@ Create a class inside the new plugin project implementing the `CrosswordSolver` 
 in `croiseur-spi-solver`.
 
 A commented example is available in `croiseur-solver-example-plugin`:
-[ExampleCrosswordSolver](../../croiseur-solver/croiseur-solver-example-plugin/src/main/java/com/gitlab/super7ramp/croiseur/solver/example/plugin/ExampleCrosswordSolver.java).
+[`ExampleCrosswordSolver`](../../croiseur-solver/croiseur-solver-example-plugin/src/main/java/com/gitlab/super7ramp/croiseur/solver/example/plugin/ExampleCrosswordSolver.java).
 
 #### 3. Declare the solver plugin
 
@@ -89,11 +119,11 @@ itself as a solver plugin.
 There are two ways to do that:
 
 - Use the modern module `provides` directive, or
-- Using the traditional `META-INF/services` folder.
+- Use the traditional `META-INF/services` folder.
 
 The first way should be preferred since the `croiseur` project is fully modularised.
 
-For compatibility for custom non-modular deployments (like in `croiseur-tests`), it is advised 
+For compatibility for custom non-modular deployments (like in `croiseur-tests`), it is advised
 to declare the solver plugin using the second method in addition to the first method.
 
 ##### 3.1. Using the module `provides` directive
@@ -185,9 +215,9 @@ The solver should appear in the solvers list.
 
 ##### Alternative when developing in `croiseur` source tree
 
-If you are developing your plugin directly inside `croiseur` source tree, you may add your plugin
-as a dependency of `croiseur-cli` or `croiseur-gui` so that your plugin is included when you run
-the applications using `gradle run`, or when you create a distribution using `gradle installDist`.
+When developing a plugin directly inside `croiseur` source tree, the plugin may be added as a
+dependency of `croiseur-cli` or `croiseur-gui` so that it is included when running the applications
+via `gradle run`, or when creating a distribution using `gradle installDist`.
 
 This is a single line to add in the `dependencies` block of the applications' `build.gradle`:
 
