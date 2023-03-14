@@ -64,7 +64,7 @@ dependencies {
 
 For example, using Git:
 
-```
+```sh
 git clone https://gitlab.com/super7ramp/croiseur.git
 ```
 
@@ -76,7 +76,7 @@ and unzip it.
 
 Create a subproject folder under `croiseur-solver`:
 
-```
+```sh
 cd croiseur/croiseur-solver
 mkdir croiseur-solver-<new_solver_name>-plugin
 ```
@@ -84,7 +84,7 @@ mkdir croiseur-solver-<new_solver_name>-plugin
 Add a `build.gradle` (since `croiseur` uses Gradle as build system) in
 `croiseur-solver-<new_solver_name>-plugin`:
 
-```
+```gradle
 plugins {
     id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
 }
@@ -97,7 +97,7 @@ dependencies {
 
 Finally, declare the subproject by adding the following line in root's `settings.gradle`:
 
-```
+```gradle
 include 'croiseur-solver:croiseur-solver-<new__solver_name>-plugin'
 ```
 
@@ -123,7 +123,7 @@ There are two ways to do that:
 
 The first way should be preferred since the `croiseur` project is fully modularised.
 
-For compatibility for custom non-modular deployments (like in `croiseur-tests`), it is advised
+For compatibility with custom non-modular deployments (like in `croiseur-tests`), it is advised
 to declare the solver plugin using the second method in addition to the first method.
 
 ##### 3.1. Using the module `provides` directive
@@ -187,20 +187,20 @@ Unix) and/or `bin/croiseur-cli.bat` (for Windows) so that it includes the new ja
 
 In `bin/croiseur-cli`:
 
-```
+```sh
 MODULE_PATH=$APP_HOME/lib/croiseur-cli.jar:(...):$APP_HOME/lib/<new_solver_plugin>.jar
 ```
 
 In `bin/croiseur-clit.bat`:
 
-```
-set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<newr_solver_plugin>.jar
+```bat
+set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<new_solver_plugin>.jar
 ```
 
 At this point, it should be possible to interact with the new solver. Check that it is detected
 using the following command:
 
-```
+```sh
 croiseur-cli solver ls
 ```
 
@@ -221,7 +221,7 @@ via `gradle run`, or when creating a distribution using `gradle installDist`.
 
 This is a single line to add in the `dependencies` block of the applications' `build.gradle`:
 
-```
+```gradle
 runtimeOnly project(':croiseur-solver:croiseur-solver-<your_solver_name>-plugin')
 ```
 
