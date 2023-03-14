@@ -34,7 +34,11 @@ build linux:
       - "**/target"
       - .cargo
 
+# A split publish task only executed on master
+# Let's avoid to run it on every branches since it is slow and flakey (gitlab-org/gitlab#362665)
 publish linux:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:15.2
   stage: publish
   script:
