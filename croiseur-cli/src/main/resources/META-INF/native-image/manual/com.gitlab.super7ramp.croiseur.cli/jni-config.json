@@ -12,7 +12,7 @@
         "allPublicConstructors": true
     },
     {
-        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.SolverErrorException",
+        "name": "com.gitlab.super7ramp.croiseur.solver.paulgb.NativePanicException",
         "allPublicConstructors": true
     },
     {
@@ -31,6 +31,25 @@
     {
         "name": "com.gitlab.super7ramp.croiseur.solver.szunami.Result",
         "allPublicMethods": true
+    },
+    {
+        "name": "com.gitlab.super7ramp.croiseur.solver.szunami.NativePanicException",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "java.lang.Thread",
+        "methods": [
+            {
+                "name": "currentThread",
+                "parameterTypes": [
+                ]
+            },
+            {
+                "name": "isInterrupted",
+                "parameterTypes": [
+                ]
+            }
+        ]
     },
     {
         "name": "java.util.List",
@@ -63,7 +82,6 @@
             {
                 "name": "size",
                 "parameterTypes": [
-
                 ]
             }
         ]

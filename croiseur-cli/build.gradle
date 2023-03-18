@@ -28,7 +28,12 @@ dependencies {
  * META-INF/native-image/picocli-generated.
  */
 compileJava {
-    options.compilerArgs += ["-Aother.resource.bundles=com.gitlab.super7ramp.croiseur.cli.l10n.Messages"]
+    options.compilerArgs += [
+            "-Aother.resource.bundles=" +
+                    "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +
+                    "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
+                    "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
+                    "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages"]
     options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)"]
 }
 
