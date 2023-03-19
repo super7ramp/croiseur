@@ -16,6 +16,9 @@ import javafx.application.Platform;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * GUI implementation of {@link DictionaryPresenter}.
+ */
 final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     /** The view model. */
@@ -23,6 +26,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     /**
      * Constructs an instance.
+     *
+     * @param dictionariesViewModelArg the dictionaries view model
      */
     GuiDictionaryPresenter(final DictionariesViewModel dictionariesViewModelArg) {
         dictionariesViewModel = dictionariesViewModelArg;

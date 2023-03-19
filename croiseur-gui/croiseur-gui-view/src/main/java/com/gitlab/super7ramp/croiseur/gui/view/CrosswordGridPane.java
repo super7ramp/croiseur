@@ -145,8 +145,7 @@ public final class CrosswordGridPane extends StackPane {
      * It is meant to be the principal mean of communication with the application view model.
      * <p>
      * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel})
-     * entry if
-     * and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
+     * entry if and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
      * Note that a map containing a given {@link GridPosition} key without any value (i.e. a
@@ -155,7 +154,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * <h4>Adding new boxes</h4>
      * <p>
-     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}es can also
+     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}s can also
      * be added via {@link #addColumn()} and {@link #addRow()}.
      *
      * <h4>Modifying boxes</h4>
