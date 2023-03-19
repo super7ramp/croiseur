@@ -15,10 +15,12 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationS
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
+import javafx.application.Platform;
 import javafx.beans.property.MapProperty;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -54,7 +56,8 @@ final class GuiSolverPresenter implements SolverPresenter {
                                   .map(s -> new SolverItemViewModel(s.name(),
                                           s.description()))
                                   .toList();
-        solverSelectionViewModel.availableSolversProperty().addAll(solverNames);
+        Platform.runLater(() ->
+                solverSelectionViewModel.availableSolversProperty().addAll(solverNames));
     }
 
     @Override
@@ -72,6 +75,46 @@ final class GuiSolverPresenter implements SolverPresenter {
     @Override
     public void presentResult(final SolverResult result) {
         LOGGER.info(() -> "Received result: " + result);
+        Platform.runLater(() -> {
+            updateBoxContent(result);
+            updateBoxSolvableState(result);
+        });
+    }
+
+    @Override
+    public void presentSolverError(final String error) {
+        // TODO really implement
+        LOGGER.warning(error);
+    }
+
+    /**
+     * Updates box solvable state.
+     * <p>
+     * All boxes will be updated with returned result. This ensures that previously set unsolvable
+     * status will be cleared.
+     *
+     * @param result the solver result
+     */
+    private void updateBoxSolvableState(final SolverResult result) {
+        final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
+                crosswordGridViewModel.boxes();
+        final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
+        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
+                viewModelBoxes.entrySet()) {
+            final GridPosition position = entry.getKey();
+            final CrosswordBoxViewModel box = entry.getValue();
+            box.unsolvableProperty().set(unsolvableBoxes.contains(position));
+        }
+    }
+
+    /**
+     * Update box content.
+     * <p>
+     * Only boxes that have been filled by solver will be updated.
+     *
+     * @param result the solver result
+     */
+    private void updateBoxContent(final SolverResult result) {
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
         final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxes();
@@ -80,17 +123,5 @@ final class GuiSolverPresenter implements SolverPresenter {
             final CrosswordBoxViewModel box = viewModelBoxes.get(position);
             box.contentProperty().set(entry.getValue().toString());
         }
-        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
-                viewModelBoxes.entrySet()) {
-            final GridPosition position = entry.getKey();
-            final CrosswordBoxViewModel box = entry.getValue();
-            box.unsolvableProperty().set(result.unsolvableBoxes().contains(position));
-        }
-    }
-
-    @Override
-    public void presentSolverError(final String error) {
-        // TODO really implement
-        LOGGER.warning(error);
     }
 }
