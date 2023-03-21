@@ -84,15 +84,13 @@ final class DictionaryCache<SlotT, ValueT> {
      * <p>
      * Cache will be reset to its initial state.
      */
-    void invalidateCache(final Predicate<SlotT> refreshNeeded) {
-        for (final Map.Entry<SlotT, Collection<ValueT>> entry : current.entrySet()) {
-            final SlotT slot = entry.getKey();
-            if (refreshNeeded.test(slot)) {
-                final Collection<ValueT> candidates = entry.getValue();
-                candidates.clear();
-                initial.get(slot).stream().filter(isCompatibleWith(slot)).forEach(candidates::add);
-            }
-        }
+    void invalidateCache(final SlotT invalidated) {
+        final Collection<ValueT> candidates = current.get(invalidated);
+        candidates.clear();
+        initial.get(invalidated)
+               .stream()
+               .filter(isCompatibleWith(invalidated))
+               .forEach(candidates::add);
     }
 
     /**
@@ -104,14 +102,9 @@ final class DictionaryCache<SlotT, ValueT> {
      *
      * @param refreshNeeded the predicate that specifies which slot should be re-evaluated
      */
-    void updateCache(final Predicate<SlotT> refreshNeeded) {
-        for (final Map.Entry<SlotT, Collection<ValueT>> entry : current.entrySet()) {
-            final SlotT slot = entry.getKey();
-            if (refreshNeeded.test(slot)) {
-                final Collection<ValueT> candidates = entry.getValue();
-                candidates.removeIf(not(isCompatibleWith(slot)));
-            }
-        }
+    void updateCache(final SlotT updated) {
+        final Collection<ValueT> candidates = current.get(updated);
+        candidates.removeIf(not(isCompatibleWith(updated)));
     }
 
     private Predicate<ValueT> isCompatibleWith(final SlotT slot) {

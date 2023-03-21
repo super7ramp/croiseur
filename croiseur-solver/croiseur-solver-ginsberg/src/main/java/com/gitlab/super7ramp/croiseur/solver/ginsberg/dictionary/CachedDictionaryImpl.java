@@ -130,12 +130,14 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
     @Override
     public void invalidateCache(final Slot unassignedSlot) {
-        cache.invalidateCache(slot -> slot.isConnectedTo(unassignedSlot) || slot.equals(unassignedSlot));
+        cache.invalidateCache(unassignedSlot);
+        unassignedSlot.connectedSlots().forEach(cache::invalidateCache);
     }
 
     @Override
     public void updateCache(final Slot assignedSlot) {
-        cache.updateCache(slot -> slot.isConnectedTo(assignedSlot) || slot.equals(assignedSlot));
+        cache.updateCache(assignedSlot);
+        assignedSlot.connectedSlots().forEach(cache::updateCache);
     }
 
 }
