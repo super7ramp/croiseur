@@ -54,6 +54,20 @@ final class SlotImpl implements InternalSlot {
     }
 
     @Override
+    public String asPattern() {
+        final StringBuilder sb = new StringBuilder(data.length());
+        for (int i = 0; i < data.length(); i++) {
+            final BoxData box = data.boxAt(i);
+            if (box.isEmpty()) {
+                sb.append(' ');
+            } else {
+                sb.append(box.value());
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
     public boolean isInstantiated() {
         return data.isInstantiated();
     }

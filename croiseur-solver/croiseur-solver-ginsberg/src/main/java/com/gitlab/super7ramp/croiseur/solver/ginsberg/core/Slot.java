@@ -29,6 +29,17 @@ public interface Slot {
     Optional<String> value();
 
     /**
+     * Returns this slot as a pattern.
+     * <p>
+     * Non-filled boxes will be replaced with the space character (' ').
+     * <p>
+     * If the slot is assigned, then pattern is strictly equal to the {@link #value()}.
+     *
+     * @return the slot as a pattern
+     */
+    String asPattern();
+
+    /**
      * Return whether the variable is instantiated.
      *
      * @return {@code true} iff the variable is instantiated.

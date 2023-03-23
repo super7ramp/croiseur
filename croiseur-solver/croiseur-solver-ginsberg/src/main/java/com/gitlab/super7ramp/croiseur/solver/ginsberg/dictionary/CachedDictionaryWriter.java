@@ -36,16 +36,18 @@ public interface CachedDictionaryWriter extends CachedDictionary {
      * {@link #invalidateCache invalidation}, the smaller the cache will be, the faster the
      * results will be.
      *
-     * @param assignedVariable the assigned variable
+     * @param assignedVariable the assigned variable (or variable connected to the assigned
+     *                         variable)
      */
     void updateCache(final Slot assignedVariable);
 
     /**
      * Invalidates cache candidates upon unassignment.
      * <p>
-     * Cache will be reset to its initial state.
+     * Cache will be reset to its initial state then re-evaluated based on current slot state.
      *
-     * @param unassignedVariable the unassigned variable
+     * @param unassignedVariable the unassigned variable (or variable linked to the unassigned
+     *                           variable)
      */
     void invalidateCache(final Slot unassignedVariable);
 

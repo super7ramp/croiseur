@@ -5,20 +5,17 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.function.BiPredicate;
 import java.util.function.Predicate;
-
-import static java.util.function.Predicate.not;
+import java.util.stream.Stream;
 
 /**
  * Dictionary cache.
+ *
+ * @param <K> the key type
  */
-final class DictionaryCache<SlotT, ValueT> {
+final class DictionaryCache<K> {
 
     /**
      * Contains the initial candidates for each slot, after lookup in the real dictionary.
@@ -26,88 +23,69 @@ final class DictionaryCache<SlotT, ValueT> {
      * It serves as a first cache to avoid filtering all the dictionary again. It is assumed that
      * subsequent requests will be more restrictive than the first lookup.
      */
-    private final Map<SlotT, Collection<ValueT>> initial;
+    private final Map<K, Trie> initial;
 
-    /** The current candidates for each slot. */
-    private final Map<SlotT, Collection<ValueT>> current;
-
-    /** The eligibility predicate for a word to be a valid candidate for a slot. */
-    private final BiPredicate<SlotT, ValueT> eligibility;
+    /** The current candidates count for each slot. */
+    private final Map<K, Integer> cachedCounts;
 
     /**
      * Constructor.
      *
-     * @param someInitialCandidates initial lookup result
-     * @param anEligibility         slot-word eligibility predicate for future updates
+     * @param initialCandidates initial lookup result
+     * @param anEligibility     slot-word eligibility predicate for future updates
      */
-    DictionaryCache(final Map<SlotT, Collection<ValueT>> someInitialCandidates,
-                    final BiPredicate<SlotT, ValueT> anEligibility) {
-        eligibility = anEligibility;
-        initial = someInitialCandidates;
-        current = new HashMap<>(someInitialCandidates.size());
-        // Using LinkedHashSet to preserve order of initial lookup and have reproducible results
-        initial.forEach((slot, value) -> current.put(slot, new LinkedHashSet<>(value)));
-    }
-
-    /**
-     * Returns {@code true} if and only if the cache contains the given value.
-     *
-     * @param value the value to test
-     * @return {@code true} if and only if the cache contains the given value
-     */
-    boolean contains(final SlotT slot, final ValueT value) {
-        return current.get(slot).contains(value);
+    DictionaryCache(final Map<K, Trie> initialCandidates) {
+        initial = initialCandidates;
+        cachedCounts = new HashMap<>(initialCandidates.size());
+        initial.forEach(((slotIdentifier, trie) -> cachedCounts.put(slotIdentifier, trie.size())));
     }
 
     /**
      * Returns the cached candidates for the given slot.
      *
-     * @param slot the slot to give candidates for
+     * @param slotId the id of the slot to give candidates for
      * @return the cached candidates for the given slot
      */
-    Collection<ValueT> candidates(final SlotT slot) {
-        return Collections.unmodifiableCollection(current.get(slot));
+    Stream<String> candidates(final K slotId, final String pattern) {
+        return initial.get(slotId).streamMatching(pattern);
     }
 
     /**
-     * Returns the initial candidates for the given slot.
+     * Returns the cached candidate count for the given slot id.
      *
-     * @param slot the slot to give candidates for
-     * @return the initial candidates for the given slot
+     * @param slotId the slot id
+     * @return the current candidate count
      */
-    Collection<ValueT> initialCandidates(final SlotT slot) {
-        return Collections.unmodifiableCollection(initial.get(slot));
+    int cachedCount(final K slotId) {
+        return cachedCounts.get(slotId);
     }
 
     /**
      * Invalidate cache candidates.
      * <p>
-     * Cache will be reset to its initial state.
+     * Cache will be reset to its initial state then re-evaluated given current slot state.
      */
-    void invalidateCache(final SlotT invalidated) {
-        final Collection<ValueT> candidates = current.get(invalidated);
-        candidates.clear();
-        initial.get(invalidated)
-               .stream()
-               .filter(isCompatibleWith(invalidated))
-               .forEach(candidates::add);
+    void invalidateCache(final K invalidated, final String newSlotPattern,
+                         final Predicate<String> additionalFilter) {
+        final long updatedCount = initial.get(invalidated)
+                                         .streamMatching(newSlotPattern)
+                                         .filter(additionalFilter)
+                                         .count();
+        cachedCounts.put(invalidated, (int) updatedCount);
     }
 
     /**
-     * Update cache given an assignment.
+     * Updates cache given an assignment.
      * <p>
      * This will have the effect to narrow the cache. The more the cache is updated without
      * {@link #invalidateCache invalidation}, the smaller the cache will be, the faster the
      * results will be.
      *
-     * @param refreshNeeded the predicate that specifies which slot should be re-evaluated
+     * @param updated the updated slot
      */
-    void updateCache(final SlotT updated) {
-        final Collection<ValueT> candidates = current.get(updated);
-        candidates.removeIf(not(isCompatibleWith(updated)));
+    void updateCache(final K updated, final String newSlotPattern,
+                     final Predicate<String> additionalFilter) {
+        invalidateCache(updated, newSlotPattern, additionalFilter);
     }
 
-    private Predicate<ValueT> isCompatibleWith(final SlotT slot) {
-        return word -> eligibility.test(slot, word);
-    }
 }
