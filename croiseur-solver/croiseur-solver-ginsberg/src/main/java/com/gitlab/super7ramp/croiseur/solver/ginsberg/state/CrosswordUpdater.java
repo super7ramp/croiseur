@@ -66,38 +66,11 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
 
     @Override
     public void unassign(final Elimination<Slot, SlotIdentifier> elimination) {
-        /*
-        final boolean debug = elimination.eliminated().value().get().equals("TRINQUA");
-        if (debug) {
-            return;
-        }
-        */
         final Slot variable = elimination.eliminated();
         final String oldValue = variable.unassign();
         crossword.history().removeAssignmentRecord(variable);
         crossword.eliminationSpace().eliminate(variable.uid(), elimination.reasons(), oldValue);
         crossword.dictionary().invalidateCache(variable);
         listeners.forEach(listener -> listener.onUnassignment(variable, oldValue));
-        // Debug consistency check
-        /*
-        final EliminationSpace es = crossword.eliminationSpace();
-        final Map<SlotIdentifier, Slot> slots = new HashMap<>();
-        for (final Slot slot : crossword.grid().puzzle().slots()) {
-            slots.put(slot.uid(), slot);
-        }
-        for (final Slot slot : slots.values()) {
-            final Optional<SlotIdentifier> uninstantiatedSlotIsAReason =
-                    es.debugEliminations(slot.uid())
-                      .values()
-                      .stream()
-                      .flatMap(Collection::stream)
-                      .distinct()
-                      .filter(id -> !slots.get(id).isInstantiated())
-                      .findFirst();
-            if (uninstantiatedSlotIsAReason.isPresent()) {
-                throw new IllegalStateException("A non-instantiated slot is still being used as " +
-                        "an elimination reason");
-            }
-        }*/
     }
 }

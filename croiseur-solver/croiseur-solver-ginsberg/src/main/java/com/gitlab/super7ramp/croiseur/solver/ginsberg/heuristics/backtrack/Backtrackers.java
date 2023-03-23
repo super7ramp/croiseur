@@ -8,9 +8,9 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.backtrack;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.history.History;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
 
 /**
  * A factory of backtracking strategies.
@@ -30,10 +30,10 @@ public final class Backtrackers {
      * @param history assignment history
      * @return the best {@link Backtracker} in most situations.
      */
-    public static Backtracker<Slot, SlotIdentifier> byDefault(final Prober prober,
-                                                              final Puzzle puzzle,
+    public static Backtracker<Slot, SlotIdentifier> byDefault(final Puzzle puzzle,
+                                                              final CachedDictionary dictionary,
                                                               final History history) {
-        return new DynamicBacktracker(prober, puzzle, history);
+        return new DynamicBacktracker(puzzle, dictionary, history);
     }
 
 }

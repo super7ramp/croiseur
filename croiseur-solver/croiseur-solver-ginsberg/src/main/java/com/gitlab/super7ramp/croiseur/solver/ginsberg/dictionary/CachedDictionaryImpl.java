@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -43,23 +42,18 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
                          final EliminationSpace eliminationSpace) {
         els = eliminationSpace;
-        final BiPredicate<SlotIdentifier, String> eligibility =
-                (slotId, word) -> !eliminationSpace.eliminatedValues(slotId).contains(word);
-        cache = populateCache(dictionary, slots, eligibility);
+        cache = populateCache(dictionary, slots);
     }
 
     /**
      * Create the dictionary cache.
      *
-     * @param dictionary  the external dictionary
-     * @param slots       the puzzle's slots
-     * @param eligibility the word eligibility predicate per slot
+     * @param dictionary the external dictionary
+     * @param slots      the puzzle's slots
      * @return the created {@link DictionaryCache}
      */
     private static DictionaryCache<SlotIdentifier> populateCache(final Dictionary dictionary,
-                                                                 final Collection<Slot> slots,
-                                                                 final BiPredicate<SlotIdentifier
-                                                                         , String> eligibility) {
+                                                                 final Collection<Slot> slots) {
         final Map<SlotIdentifier, Trie> initialLookup = new HashMap<>();
         slots.forEach(slot -> initialLookup.put(slot.uid(), new Trie()));
         for (final String word : dictionary.lookup(w -> true)) {
@@ -72,35 +66,28 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
         return new DictionaryCache<>(initialLookup);
     }
 
-    private static Predicate<String> notEliminated(final EliminationSpace els,
-                                                   final SlotIdentifier slotId) {
-        final Set<String> eliminatedValues = els.eliminatedValues(slotId);
-        return not(eliminatedValues::contains);
-    }
-
     @Override
     public Stream<String> candidates(final Slot wordVariable) {
-        final Predicate<String> notEliminated = notEliminated(wordVariable.uid());
-        return cache.candidates(wordVariable.uid(), wordVariable.asPattern())
-                    .filter(notEliminated);
+        return cache.stream(wordVariable.uid());
     }
 
     @Override
     public long candidatesCount(final Slot wordVariable) {
-        return cache.cachedCount(wordVariable.uid());
+        return cache.size(wordVariable.uid());
     }
 
     @Override
     public long refinedCandidatesCount(final Slot wordVariable,
                                        final SlotIdentifier modified) {
         final long count;
-        if (wordVariable.isConnectedTo(modified)) {
+        if (!wordVariable.isInstantiated()) {
             final Predicate<String> notEliminated = notEliminated(wordVariable.uid());
-            count = cache.candidates(wordVariable.uid(), wordVariable.asPattern())
+            count = cache.initial(wordVariable.uid())
+                         .streamMatching(wordVariable.asPattern())
                          .filter(notEliminated)
                          .count();
         } else {
-            count = cache.cachedCount(wordVariable.uid());
+            count = 1L;
         }
         return count;
     }
@@ -108,7 +95,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     @Override
     public long reevaluatedCandidatesCount(final Slot wordVariable,
                                            final List<SlotIdentifier> modifiedVariables) {
-        // Horrible probe of the elimination space
+        // Probe of the elimination space
         final Map<String, Set<SlotIdentifier>> refreshedEliminations =
                 new HashMap<>(els.eliminations(wordVariable.uid()));
         final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()
@@ -122,30 +109,38 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
         }
 
         final Predicate<String> notEliminated = not(refreshedEliminations.keySet()::contains);
-        return cache.candidates(wordVariable.uid(), wordVariable.asPattern())
+        return cache.initial(wordVariable.uid())
+                    .streamMatching(wordVariable.asPattern())
                     .filter(notEliminated)
                     .count();
     }
 
     @Override
     public void invalidateCache(final Slot unassignedSlot) {
-        final Predicate<String> notEliminated = notEliminated(unassignedSlot.uid());
-        cache.invalidateCache(unassignedSlot.uid(), unassignedSlot.asPattern(), notEliminated);
+        cache.invalidate(unassignedSlot.uid(), unassignedSlot.asPattern(),
+                notEliminated(unassignedSlot.uid()));
         unassignedSlot.connectedSlots()
-                      .forEach(connectedSlot -> cache.invalidateCache(connectedSlot.uid(),
-                              connectedSlot.asPattern(), notEliminated));
+                      .forEach(connectedSlot -> cache.invalidate(connectedSlot.uid(),
+                              connectedSlot.asPattern(), notEliminated(connectedSlot.uid())));
     }
 
     @Override
     public void updateCache(final Slot assignedSlot) {
-        final Predicate<String> notEliminated = notEliminated(assignedSlot.uid());
-        cache.updateCache(assignedSlot.uid(), assignedSlot.asPattern(), notEliminated);
+        cache.update(assignedSlot.uid(), assignedSlot.asPattern(),
+                notEliminated(assignedSlot.uid()));
         assignedSlot.connectedSlots()
-                    .forEach(connectedSlot -> cache.updateCache(connectedSlot.uid(),
-                            connectedSlot.asPattern(), notEliminated));
+                    .forEach(connectedSlot -> cache.update(connectedSlot.uid(),
+                            connectedSlot.asPattern(), notEliminated(connectedSlot.uid())));
     }
 
+    /**
+     * Helper to filter out eliminated values.
+     *
+     * @param slotId the slot id
+     * @return a filter matching only non-eliminated candidates of given slot
+     */
     private Predicate<String> notEliminated(final SlotIdentifier slotId) {
-        return notEliminated(els, slotId);
+        final Set<String> eliminatedValues = els.eliminatedValues(slotId);
+        return not(eliminatedValues::contains);
     }
 }

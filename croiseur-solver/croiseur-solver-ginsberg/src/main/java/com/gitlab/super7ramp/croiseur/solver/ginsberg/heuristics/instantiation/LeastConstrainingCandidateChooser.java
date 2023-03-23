@@ -8,8 +8,8 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Probable;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
 
 import java.math.BigInteger;
@@ -62,7 +62,7 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      * @param aPuzzle     the puzzle to solve
      * @param aDictionary the dictionary to pick candidates from
      */
-    LeastConstrainingCandidateChooser(final Probable aPuzzle, final CachedDictionary aDictionary) {
+    LeastConstrainingCandidateChooser(final Puzzle aPuzzle, final CachedDictionary aDictionary) {
         dictionary = aDictionary;
         prober = new Prober(aPuzzle, aDictionary);
     }
@@ -88,7 +88,8 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      */
     private NumberOfSolutionsPerCandidate probe(final Slot wordVariable, final String candidate) {
         final BigInteger numberOfSolutions =
-                prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate));
+                prober.computeNumberOfLocalSolutionsAfter(Assignment.of(wordVariable.uid(),
+                        candidate));
         return new NumberOfSolutionsPerCandidate(candidate, numberOfSolutions);
     }
 

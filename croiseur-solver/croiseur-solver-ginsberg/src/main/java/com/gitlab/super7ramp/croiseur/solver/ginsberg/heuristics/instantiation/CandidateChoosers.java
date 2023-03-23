@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Probable;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 
 /**
  * Factory of {@link com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser}s.
@@ -27,7 +27,7 @@ public final class CandidateChoosers {
      * @param dictionary the dictionary
      * @return the default {@link CandidateChooser}
      */
-    public static CandidateChooser<Slot, String> byDefault(final Probable puzzle,
+    public static CandidateChooser<Slot, String> byDefault(final Puzzle puzzle,
                                                            final CachedDictionary dictionary) {
         return leastConstraining(puzzle, dictionary);
     }
@@ -39,7 +39,7 @@ public final class CandidateChoosers {
      * @param dictionary the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
-    public static CandidateChooser<Slot, String> firstViable(final Probable puzzle,
+    public static CandidateChooser<Slot, String> firstViable(final Puzzle puzzle,
                                                              final CachedDictionary dictionary) {
         return new FirstViableCandidateChooser(puzzle, dictionary);
     }
@@ -54,7 +54,7 @@ public final class CandidateChoosers {
      * @param dictionary the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
-    public static CandidateChooser<Slot, String> leastConstraining(final Probable puzzle,
+    public static CandidateChooser<Slot, String> leastConstraining(final Puzzle puzzle,
                                                                    final CachedDictionary dictionary) {
         return new LeastConstrainingCandidateChooser(puzzle, dictionary);
     }

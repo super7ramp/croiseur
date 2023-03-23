@@ -8,12 +8,9 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Unassignment;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -72,22 +69,11 @@ final class GridImpl implements Grid {
         }
 
         @Override
-        public Collection<Slot> probe(final Assignment assignment) {
-            final GridData probedData = data.copy();
-            final PuzzleImpl probedPuzzle = new PuzzleImpl(probedData);
-            probedPuzzle.slot(assignment.slotUid()).assign(assignment.word());
-            return probedPuzzle.slots();
+        public Puzzle copy() {
+            final GridData dataCopy = data.copy();
+            return new PuzzleImpl(dataCopy);
         }
 
-        @Override
-        public Collection<Slot> probe(final List<Unassignment> unassignments) {
-            final GridData probedData = data.copy();
-            final PuzzleImpl probedPuzzle = new PuzzleImpl(probedData);
-            for (final Unassignment unassignment : unassignments) {
-                probedPuzzle.slot(unassignment.slotUid()).unassign();
-            }
-            return probedPuzzle.slots();
-        }
     }
 
     /**

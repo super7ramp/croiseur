@@ -6,25 +6,31 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
 import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Tests on some asymmetric French grids.
  */
 final class CrosswordSolverAsymmetricGridTest {
 
-    /** Test dictionary filename. */
-    private static final String DIC_FILE = "/fr.dic";
+    /** The test dictionary. */
+    private static Dictionary dictionary;
 
-    private static Dictionary createDictionary() throws IOException, URISyntaxException {
-        final Path dicPath = Path.of(CrosswordSolverSymmetricGridTest.class.getResource(DIC_FILE)
-                                                                           .toURI());
-        return new DictionaryMock(dicPath);
+    @BeforeAll
+    static void beforeAll() throws IOException, URISyntaxException {
+        final URL dicUrl =
+                Objects.requireNonNull(CrosswordSolverSymmetricGridTest.class.getResource("/fr" +
+                        ".dic"));
+        final Path dicPath = Path.of(dicUrl.toURI());
+        dictionary = new DictionaryMock(dicPath);
     }
 
     @Test
@@ -35,12 +41,11 @@ final class CrosswordSolverAsymmetricGridTest {
                 | | |#| | | |
                 | | |#| | | |
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |S|A|G|A|#|T|
+                |S|A|R|A|#|T|
                 |A|I|#|A|B|A|
                 |A|N|#|B|A|I|
                 |D|E|#|A|I|N|
@@ -62,7 +67,6 @@ final class CrosswordSolverAsymmetricGridTest {
                 | | | |#| | | | |#| | | |
                 | | | | | | | | | | | | |
                 """);
-        final Dictionary dictionary = createDictionary();
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 

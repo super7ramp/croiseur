@@ -10,13 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * Mock for {@link Dictionary}.
@@ -41,7 +41,7 @@ final class DictionaryMock implements Dictionary {
      * @param someWords words of the dictionary
      */
     DictionaryMock(final String... someWords) {
-        words = Arrays.stream(someWords).collect(Collectors.toCollection(TreeSet::new));
+        words = Arrays.stream(someWords).collect(toCollection(LinkedHashSet::new));
     }
 
     DictionaryMock(final Path dicFile) throws IOException {
@@ -51,25 +51,25 @@ final class DictionaryMock implements Dictionary {
                          .map(DictionaryMock::removeHyphen)
                          .map(DictionaryMock::removeAccentuation)
                          .map(String::toUpperCase)
-                         .collect(Collectors.toCollection(HashSet::new));
+                         .collect(toCollection(LinkedHashSet::new));
         }
     }
 
-    private static String removeAffixes(String word) {
+    private static String removeAffixes(final String word) {
         return AFFIXES.matcher(word).replaceAll(EMPTY);
     }
 
-    private static String removeAccentuation(String word) {
+    private static String removeAccentuation(final String word) {
         final String normalized = Normalizer.normalize(word, Normalizer.Form.NFD);
         return ACCENTS.matcher(normalized).replaceAll(EMPTY);
     }
 
-    private static String removeHyphen(String word) {
+    private static String removeHyphen(final String word) {
         return word.replace(HYPHEN, EMPTY);
     }
 
     @Override
     public Set<String> lookup(final Predicate<String> predicate) {
-        return words.stream().filter(predicate).collect(Collectors.toUnmodifiableSet());
+        return words.stream().filter(predicate).collect(toCollection(LinkedHashSet::new));
     }
 }

@@ -11,13 +11,13 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Solver;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.backtrack.Backtrackers;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation.CandidateChoosers;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.iteration.SlotIteratorImpl;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.ProgressDebugPrinter;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.FineProgressPrinter;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.ProgressNotifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.StatisticsRecorder;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.result.SolverResultFactory;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.state.Crossword;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.state.CrosswordUpdater;
@@ -65,24 +65,39 @@ public final class GinsbergCrosswordSolver {
         final CandidateChooser<Slot, String> candidateChooser =
                 CandidateChoosers.byDefault(problem.grid().puzzle(), problem.dictionary());
         final Backtracker<Slot, SlotIdentifier> backtracker =
-                Backtrackers.byDefault(new Prober(problem.grid()
-                                                         .puzzle(), problem.dictionary()),
-                        problem.grid().puzzle(),
+                Backtrackers.byDefault(problem.grid().puzzle(), problem.dictionary(),
                         problem.history());
 
         // A listener to advertise progress to library user
         final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
 
         // A listener to advertise progress to library developer
-        final ProgressDebugPrinter progressDebugPrinter = new ProgressDebugPrinter(problem.grid());
+        final FineProgressPrinter fineProgressPrinter = new FineProgressPrinter(problem.grid());
 
         // The internal state updater
         final CrosswordUpdater crosswordUpdater =
                 new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder,
-                        progressDebugPrinter);
+                        fineProgressPrinter);
 
         // Finally, instantiate the solver
         return Solver.create(crosswordUpdater, slotChooser, candidateChooser, backtracker);
+    }
+
+    /**
+     * Prints some insights on the given crossword.
+     *
+     * @param crossword the puzzle to solve
+     */
+    private static void printPuzzleInsights(final Crossword crossword) {
+        final CachedDictionary dictionary = crossword.dictionary();
+        final Collection<Slot> slots = crossword.grid().puzzle().slots();
+        final BigInteger branches =
+                slots.stream()
+                     .map(s -> BigInteger.valueOf(dictionary.candidatesCount(s)))
+                     .reduce(BigInteger.ONE, BigInteger::multiply);
+        final NumberFormat formatter = new DecimalFormat("0.######E0",
+                DecimalFormatSymbols.getInstance(Locale.ROOT));
+        LOGGER.info(() -> "Total branches (slot variables, pre-pruned): " + formatter.format(branches));
     }
 
     /**
@@ -103,33 +118,11 @@ public final class GinsbergCrosswordSolver {
         final Crossword crossword = Crossword.create(puzzleDefinition, externalDictionary);
         final StatisticsRecorder stats = new StatisticsRecorder();
         final Solver solver = newSolver(crossword, progressListener, stats);
-
-        LOGGER.info(() -> "Total branches (box variables): " + Math.pow(26,
-                puzzleDefinition.height() * puzzleDefinition.width()));
-        final BigInteger branches = crossword.grid()
-                                             .puzzle()
-                                             .slots()
-                                             .stream()
-                                             .map(s -> BigInteger.valueOf(crossword.dictionary()
-                                                                                   .candidatesCount(s)))
-                                             .reduce(BigInteger.ONE, BigInteger::multiply);
-        final NumberFormat formatter = new DecimalFormat("0.######E0",
-                DecimalFormatSymbols.getInstance(Locale.ROOT));
-        LOGGER.info(() -> "Total branches (slot variables, pruned): " + formatter.format(branches));
+        printPuzzleInsights(crossword);
 
         progressListener.onInitialisationEnd();
 
         final boolean solved = solver.solve();
-
-        LOGGER.info(() -> "Dictionary cache dump after resolution: ");
-        final StringBuilder sb = new StringBuilder();
-        for (final Slot slot : crossword.grid().puzzle().slots()) {
-            sb.append(slot).append(": ").append(crossword.dictionary().candidates(slot).toList());
-            sb.append(System.lineSeparator());
-        }
-        LOGGER.info(sb::toString);
-        LOGGER.info(() -> "Elimination space dump after resolution: ");
-        LOGGER.info(() -> crossword.eliminationSpace().toString());
 
         return SolverResultFactory.createFrom(crossword, stats, solved);
     }

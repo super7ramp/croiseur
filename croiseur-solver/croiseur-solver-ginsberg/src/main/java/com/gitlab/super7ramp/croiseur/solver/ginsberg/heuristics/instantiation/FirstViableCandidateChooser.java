@@ -8,11 +8,10 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Probable;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 /**
@@ -33,7 +32,7 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
      * @param puzzleArg     the puzzle to solve
      * @param dictionaryArg the dictionary to pick candidates from
      */
-    FirstViableCandidateChooser(final Probable puzzleArg, final CachedDictionary dictionaryArg) {
+    FirstViableCandidateChooser(final Puzzle puzzleArg, final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
         prober = new Prober(puzzleArg, dictionaryArg);
     }
@@ -55,9 +54,6 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
      * value to given slot.
      */
     private boolean isViable(final Slot wordVariable, final String candidate) {
-        // TODO create hasSolutionAfter
-        final BigInteger numberOfSolutions =
-                prober.computeNumberOfSolutionsAfter(Assignment.of(wordVariable.uid(), candidate));
-        return numberOfSolutions.signum() > 0;
+        return prober.hasSolutionAfter(Assignment.of(wordVariable.uid(), candidate));
     }
 }

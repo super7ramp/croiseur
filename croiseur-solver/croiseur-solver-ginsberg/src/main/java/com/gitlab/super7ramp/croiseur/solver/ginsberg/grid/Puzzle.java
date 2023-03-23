@@ -7,14 +7,13 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Probable;
 
 import java.util.Collection;
 
 /**
  * Read/write access to crossword puzzle model.
  */
-public interface Puzzle extends Probable {
+public interface Puzzle {
 
     /**
      * The slots.
@@ -31,4 +30,10 @@ public interface Puzzle extends Probable {
      */
     Slot slot(SlotIdentifier slotIdentifier);
 
+    /**
+     * Returns a deep copy of this puzzle.
+     *
+     * @return a deep copy of this puzzle
+     */
+    Puzzle copy();
 }

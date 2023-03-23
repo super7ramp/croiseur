@@ -52,16 +52,6 @@ public interface Slot {
      * @param other the other variable
      * @return {@code true} iff the two variables are connected
      */
-    default boolean isConnectedTo(final Slot other) {
-        return isConnectedTo(other.uid());
-    }
-
-    /**
-     * Return whether the variable is connected to the given other variable.
-     *
-     * @param other the other variable
-     * @return {@code true} iff the two variables are connected
-     */
     boolean isConnectedTo(final SlotIdentifier other);
 
     /**

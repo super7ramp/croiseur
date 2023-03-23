@@ -52,7 +52,7 @@ public interface CachedDictionary {
      *                       {@link CachedDictionary}; connected slots candidates will be refined
      *                       using cached result and current state
      * @return the candidates for given variable
-     * @see #reevaluatedCandidatesCount(Slot, SlotIdentifier)
+     * @see #reevaluatedCandidatesCount(Slot, List)
      */
     long refinedCandidatesCount(final Slot wordVariable, final SlotIdentifier probedVariable);
 
@@ -65,10 +65,10 @@ public interface CachedDictionary {
      * To be used when probing <em>unassignment candidates</em>, i.e. when puzzle is not in
      * sync with the puzzle data backing this dictionary.
      *
-     * @param wordVariable   the variable for which to get the candidates count
-     * @param probedVariable variable which is not in sync with the puzzle data backing this
-     *                       {@link CachedDictionary}; connected slots candidates will be
-     *                       re-evaluated using initial candidates and current state
+     * @param wordVariable    the variable for which to get the candidates count
+     * @param probedVariables variables which are not in sync with the puzzle data backing this
+     *                        {@link CachedDictionary}; connected slots candidates will be
+     *                        re-evaluated using initial candidates and current state
      * @return the candidates for given variable
      * @see #refinedCandidatesCount(Slot, SlotIdentifier)
      */
