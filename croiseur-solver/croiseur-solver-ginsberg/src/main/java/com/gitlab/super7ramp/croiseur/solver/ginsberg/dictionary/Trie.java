@@ -79,7 +79,6 @@ final class Trie extends AbstractCollection<String> {
          */
         private String nextWord;
 
-
         /**
          * Constructs an instance.
          *
@@ -89,12 +88,11 @@ final class Trie extends AbstractCollection<String> {
         TrieIterator(final Trie trieArg, final String patternArg) {
             pattern = patternArg;
             nodeIterators = new ArrayList<>();
-            nextWordBuilder = new StringBuilder();
+            nextWordBuilder = new StringBuilder(patternArg != null ? patternArg.length() : 16);
             if (!trieArg.isEmpty()) {
                 nodeIterators.add(trieArg.root.children.entrySet().iterator());
                 findAndUpdateNextWord();
             }
-            // current intentionally left null
         }
 
         @Override
@@ -195,7 +193,16 @@ final class Trie extends AbstractCollection<String> {
          * {@code null}
          */
         private boolean patternMatches(final char actual, final int position) {
-            return pattern == null || (position >= 0 && position < pattern.length() && (pattern.charAt(position) == actual || pattern.charAt(position) == ANY_CHARACTER_WILDCARD));
+            final boolean matches;
+            if (pattern == null) {
+                matches = true;
+            } else if (position < 0 || position >= pattern.length()) {
+                matches = false;
+            } else {
+                final char patternChar = pattern.charAt(position);
+                matches = patternChar == actual || patternChar == ANY_CHARACTER_WILDCARD;
+            }
+            return matches;
         }
 
         /**
