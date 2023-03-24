@@ -8,7 +8,6 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -28,6 +27,7 @@ final class SlotImpl implements InternalSlot {
     /** Uid. */
     private final SlotIdentifier uid;
 
+    /** Connectivity between slots. */
     private final Connectivity connectivity;
 
     /**
@@ -73,11 +73,6 @@ final class SlotImpl implements InternalSlot {
     }
 
     @Override
-    public boolean isConnectedTo(final SlotIdentifier other) {
-        return connectivity.test(uid, other);
-    }
-
-    @Override
     public Stream<? extends Slot> connectedSlots() {
         return connectivity.connectedSlots(uid);
     }
@@ -104,30 +99,8 @@ final class SlotImpl implements InternalSlot {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final SlotImpl slot = (SlotImpl) o;
-        return uid.equals(slot.uid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uid);
-    }
-
-    @Override
     public void assign(final String value) {
         data.write(value);
-    }
-
-    @Override
-    public String toString() {
-        return "SlotImpl{" + "data=" + data + ", uid=" + uid + '}';
     }
 
     @Override
@@ -148,12 +121,6 @@ final class SlotImpl implements InternalSlot {
                                     definition.connectionWith(connectedSlot.definition()))
                             .collect(toSet());
 
-        /*
-        if (boxesToKeep.size() == data.length()) {
-            throw new IllegalStateException("Illegal attempt to unassign slot whereas all " +
-                    "connected slots are instantiated");
-        }
-         */
         data.clearExcept(boxesToKeep);
 
         return clearedValue;
@@ -162,5 +129,10 @@ final class SlotImpl implements InternalSlot {
     @Override
     public SlotDefinition definition() {
         return data.definition();
+    }
+
+    @Override
+    public String toString() {
+        return "SlotImpl{" + "data=" + data + ", uid=" + uid + '}';
     }
 }

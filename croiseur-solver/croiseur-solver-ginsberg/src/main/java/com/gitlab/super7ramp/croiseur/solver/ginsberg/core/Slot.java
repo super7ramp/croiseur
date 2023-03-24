@@ -47,14 +47,6 @@ public interface Slot {
     boolean isInstantiated();
 
     /**
-     * Return whether the variable is connected to the given other variable.
-     *
-     * @param other the other variable
-     * @return {@code true} iff the two variables are connected
-     */
-    boolean isConnectedTo(final SlotIdentifier other);
-
-    /**
      * Returns the slots connected to this slot.
      *
      * @return the slots connected to this slot
