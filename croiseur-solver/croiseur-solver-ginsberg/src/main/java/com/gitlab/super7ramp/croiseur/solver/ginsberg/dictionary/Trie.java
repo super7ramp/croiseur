@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Spliterator;
@@ -34,7 +34,7 @@ import java.util.stream.StreamSupport;
  * Some methods ({@link #containsMatching(String)}, {@link #streamMatching(String)}) support a
  * simplistic form of pattern matching. The supported wildcards for these methods are:
  * <ul>
- *     <li>"{@value ANY_CHARACTER_WILDCARD}": Any character</li>
+ *     <li>"{@value Trie.TrieIterator#ANY_CHARACTER_WILDCARD}": Any character</li>
  * </ul>
  *
  * @see <a href="https://en.wikipedia.org/wiki/Trie">Trie on Wikipedia</a>
@@ -57,10 +57,13 @@ final class Trie extends AbstractCollection<String> {
      * A trie {@link Iterator} implementation. Optionally filters words according to a pattern
      * passed at construction time.
      */
-    private static final class TrieIterator implements Iterator<String> {
+    private final class TrieIterator implements Iterator<String> {
+
+        /** The any-character wildcard. */
+        private static final char ANY_CHARACTER_WILDCARD = ' ';
 
         /** The current node iterator stack. Each node is given its own iterator. */
-        private final List<Iterator<Map.Entry<Character, TrieNode>>> nodeIterators;
+        private final ListIterator<Iterator<Map.Entry<Character, TrieNode>>> nodeIterators;
 
         /** The pattern to match, or {@code null} if no pattern to match. */
         private final String pattern;
@@ -82,17 +85,48 @@ final class Trie extends AbstractCollection<String> {
         /**
          * Constructs an instance.
          *
-         * @param trieArg    the trie to iterate
          * @param patternArg the pattern to match, or {@code null} if no filter
          */
-        TrieIterator(final Trie trieArg, final String patternArg) {
+        TrieIterator(final String patternArg) {
             pattern = patternArg;
-            nodeIterators = new ArrayList<>();
             nextWordBuilder = new StringBuilder(patternArg != null ? patternArg.length() : 16);
-            if (!trieArg.isEmpty()) {
-                nodeIterators.add(trieArg.root.children.entrySet().iterator());
-                findAndUpdateNextWord();
+            nodeIterators =
+                    new ArrayList<Iterator<Map.Entry<Character, TrieNode>>>().listIterator();
+            nodeIterators.add(nextLetterMatches(Trie.this.root, 0, pattern));
+            findAndUpdateNextWord();
+        }
+
+        /**
+         * Returns the next children nodes satisfying the given pattern.
+         *
+         * @param node     the node to get the valid children from
+         * @param position the position in the pattern
+         * @param pattern  the pattern
+         * @return the next children nodes satisfying the given pattern
+         */
+        private static Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
+                                                                                  final int position,
+                                                                                  final String pattern) {
+            final Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches;
+            if (pattern == null) {
+                nextLetterMatches = node.children.entrySet().iterator();
+            } else if (position >= pattern.length()) {
+                nextLetterMatches = Collections.emptyIterator();
+            } else {
+                final char patternLetter = pattern.charAt(position);
+                if (patternLetter == ANY_CHARACTER_WILDCARD) {
+                    nextLetterMatches = node.children.entrySet().iterator();
+                } else {
+                    final TrieNode exactLetterNode = node.children.get(patternLetter);
+                    if (exactLetterNode != null) {
+                        nextLetterMatches = Collections.singletonMap(patternLetter,
+                                exactLetterNode).entrySet().iterator();
+                    } else {
+                        nextLetterMatches = Collections.emptyIterator();
+                    }
+                }
             }
+            return nextLetterMatches;
         }
 
         @Override
@@ -117,92 +151,71 @@ final class Trie extends AbstractCollection<String> {
          * no next word was found.
          */
         private void findAndUpdateNextWord() {
-
-            /*
-             * nextWordBuilder is a buffer used for building nextWord. It contains the last found
-             *  word, if any.
-             *
-             * From this basis, the method finds the next word by repeating the following steps:
-             *
-             * 1. Chop the content of nextWordBuilder to the next valid prefix.
-             * 2. When a prefix node is found, traverse the trie from this node until a valid
-             * terminal node is found, appending nodes to nextWordBuilder.
-             * 3. Repeat if current prefix lead to nowhere until a word is found or no more nodes
-             *  left to explore.
-             */
-
-            boolean foundWord = false;
-            while (!nodeIterators.isEmpty() && !foundWord) {
-
-                // Cleanup terminated iterators, find next prefix, chopping current one
-                final var nodeItIt = nodeIterators.listIterator(nodeIterators.size());
-                boolean foundPrefix = false;
-                while (nodeItIt.hasPrevious() && !foundPrefix) {
-                    final var previousNodeIt = nodeItIt.previous();
-                    while (previousNodeIt.hasNext() && !foundPrefix) {
-                        final Map.Entry<Character, TrieNode> nodeEntry = previousNodeIt.next();
-                        final char nodeChar = nodeEntry.getKey();
-                        if (patternMatches(nodeChar, nodeItIt.nextIndex())) {
-                            // We found the next potential prefix
-                            foundPrefix = true;
-                            nextWordBuilder.delete(nodeItIt.nextIndex(), nextWordBuilder.length());
-                            nextWordBuilder.append(nodeChar);
-                            // Add it after current. ListIterator usage is a bit awkward here.
-                            nodeItIt.next();
-                            nodeItIt.add(nodeEntry.getValue().children.entrySet().iterator());
-                            nodeItIt.previous();
-                            // Check if this prefix is actually a terminal node
-                            if (isMatchingTerminalNode(nodeEntry.getValue(),
-                                    nodeItIt.nextIndex())) {
-                                foundWord = true;
-                            }
-                        }
-                    }
-                    if (!foundPrefix) {
-                        nodeItIt.remove();
-                    }
-                }
-
-                // Append not yet explored letters to the current prefix.
-                while (nodeItIt.hasNext() && !foundWord) {
-                    final var nodeIt = nodeItIt.next();
-                    if (nodeIt.hasNext()) {
-                        final Map.Entry<Character, TrieNode> nodeEntry = nodeIt.next();
-                        final char nodeChar = nodeEntry.getKey();
-                        if (patternMatches(nodeChar, nodeIterators.size() - 1)) {
-                            nextWordBuilder.append(nodeChar);
-                            nodeItIt.add(nodeEntry.getValue().children.entrySet().iterator());
-                            nodeItIt.previous();
-                            foundWord = isMatchingTerminalNode(nodeEntry.getValue(),
-                                    nextWordBuilder.length());
-                        }
-                    }
-                }
+            boolean foundWord = descendToNextWord();
+            while (!foundWord && ascendToNextPrefix()) {
+                foundWord = descendToNextWord();
             }
-
-            // Finally update next word
             nextWord = foundWord ? nextWordBuilder.toString() : null;
         }
 
         /**
-         * Assesses whether given char matches {@link #pattern}, if any, at given position.
+         * Descends the trie down to the next word.
+         * <p>
+         * After this function returns either:
+         * <ul>
+         *     <li>Next word is found and is contained in {@link #nextWordBuilder}: This is
+         *     denoted by a return value of {@code true}</li>
+         *     <li>Next word is not found and {@link #nodeIterators} is in position to ascend the
+         *     trie</li>
+         * </ul>
          *
-         * @param actual   the char to test
-         * @param position the char position
-         * @return {@code true} if given char matches pattern at given position or if pattern is
-         * {@code null}
+         * @return {@code} true if the next word has been found
          */
-        private boolean patternMatches(final char actual, final int position) {
-            final boolean matches;
-            if (pattern == null) {
-                matches = true;
-            } else if (position < 0 || position >= pattern.length()) {
-                matches = false;
-            } else {
-                final char patternChar = pattern.charAt(position);
-                matches = patternChar == actual || patternChar == ANY_CHARACTER_WILDCARD;
+        private boolean descendToNextWord() {
+            boolean foundWord = false;
+            while (nodeIterators.hasNext() && !foundWord) {
+                final var nodeIt = nodeIterators.next();
+                if (nodeIt.hasNext()) {
+                    final Map.Entry<Character, TrieNode> nodeEntry = nodeIt.next();
+                    final char nodeChar = nodeEntry.getKey();
+                    nextWordBuilder.append(nodeChar);
+                    final TrieNode node = nodeEntry.getValue();
+                    nodeIterators.add(nextLetterMatches(node, nodeIterators.nextIndex(), pattern));
+                    nodeIterators.previous();
+                    foundWord = isMatchingTerminalNode(node, nextWordBuilder.length());
+                } else {
+                    nodeIterators.remove();
+                }
             }
-            return matches;
+            return foundWord;
+        }
+
+        /**
+         * Ascends the trie up to the next valid prefix.
+         * <p>
+         * After this function returns, either:
+         * <ul>
+         *     <li>A prefix is found and {@link #nextWordBuilder} and {@link #nodeIterators} are
+         *     positioned so that a descent can proceed: This is denoted by a returned value of
+         *     {@code true}.</li>
+         *     <li>Iteration is finished, no word nor valid prefix was found: This is denoted
+         *     by a returned value of {@code false}.</li>
+         * </ul>
+         *
+         * @return {@code true} if the next valid prefix has been found
+         */
+        private boolean ascendToNextPrefix() {
+            boolean foundPrefix = false;
+            while (nodeIterators.hasPrevious() && !foundPrefix) {
+                final var previousNodeIt = nodeIterators.previous();
+                if (previousNodeIt.hasNext()) {
+                    foundPrefix = true;
+                    nextWordBuilder.delete(nodeIterators.nextIndex(), nextWordBuilder.length());
+                } else {
+                    nodeIterators.remove();
+                }
+            }
+            return foundPrefix;
         }
 
         /**
@@ -218,9 +231,6 @@ final class Trie extends AbstractCollection<String> {
             return node.isTerminal && (pattern == null || pattern.length() == length);
         }
     }
-
-    /** The any-character wildcard. */
-    private static final char ANY_CHARACTER_WILDCARD = ' ';
 
     /** The root node. */
     private final TrieNode root;
@@ -302,7 +312,7 @@ final class Trie extends AbstractCollection<String> {
 
     @Override
     public Iterator<String> iterator() {
-        return new TrieIterator(this, null);
+        return new TrieIterator(null);
     }
 
     @Override
@@ -319,7 +329,7 @@ final class Trie extends AbstractCollection<String> {
      * @see Trie class documentation about patterns
      */
     boolean containsMatching(final String pattern) {
-        return new TrieIterator(this, pattern).hasNext();
+        return new TrieIterator(pattern).hasNext();
     }
 
     /**
@@ -330,7 +340,7 @@ final class Trie extends AbstractCollection<String> {
      * @see Trie class documentation about patterns
      */
     Stream<String> streamMatching(final String pattern) {
-        final Iterator<String> iterator = new TrieIterator(this, pattern);
+        final Iterator<String> iterator = new TrieIterator(pattern);
         final Spliterator<String> splitIterator = Spliterators.spliteratorUnknownSize(iterator,
                 0 /* TODO specify characteristics? */);
         return StreamSupport.stream(splitIterator, false /* no parallel. */);
