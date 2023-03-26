@@ -24,8 +24,6 @@ import java.util.stream.StreamSupport;
  * <p>
  * All methods expect non-null arguments.
  * <p>
- * Note that element removal is not supported, at the exception of {@link #clear()} which is
- * trivial.
  *
  * <h2>Thread safety</h2>
  * This collection is not thread-safe.
@@ -82,6 +80,12 @@ final class Trie extends AbstractCollection<String> {
          */
         private String nextWord;
 
+        /** The next node or {@code null} if iterator has no next element. */
+        private TrieNode next;
+
+        /** The current node, or {@code null} if {@link #next()} hasn't been called yet. */
+        private TrieNode current;
+
         /**
          * Constructs an instance.
          *
@@ -130,6 +134,25 @@ final class Trie extends AbstractCollection<String> {
         }
 
         @Override
+        public void remove() {
+            if (current == null) {
+                throw new IllegalStateException();
+            }
+            /*
+             * Lazy removal: Do not actually remove node from trie.
+             *
+             * Not great for a general-purpose trie (useless nodes are kept in memory, slower
+             * iteration due to useless nodes) but for our use case it fits well: We frequently
+             * remove words then rollback, which is faster if we don't remove the nodes - we just
+             * have to set and reset the isTerminal flags. Slower iteration is not perceptible
+             * (TBC).
+             */
+            current.isTerminal = false;
+            Trie.this.size--;
+            current = null;
+        }
+
+        @Override
         public boolean hasNext() {
             return nextWord != null;
         }
@@ -139,9 +162,10 @@ final class Trie extends AbstractCollection<String> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            final String current = nextWord;
+            current = next;
+            final String currentWord = nextWord;
             findAndUpdateNextWord();
-            return current;
+            return currentWord;
         }
 
         /**
@@ -183,6 +207,9 @@ final class Trie extends AbstractCollection<String> {
                     nodeIterators.add(nextLetterMatches(node, nodeIterators.nextIndex(), pattern));
                     nodeIterators.previous();
                     foundWord = isMatchingTerminalNode(node, nextWordBuilder.length());
+                    if (foundWord) {
+                        next = node;
+                    }
                 } else {
                     nodeIterators.remove();
                 }
@@ -314,6 +341,8 @@ final class Trie extends AbstractCollection<String> {
     public Iterator<String> iterator() {
         return new TrieIterator(null);
     }
+
+    // TODO override remove(Object), current default implementation iterates on all trie
 
     @Override
     public int size() {

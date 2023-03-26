@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -82,7 +81,6 @@ final class TrieTest {
     }
 
     @Test
-    @Disabled("remove not supported yet")
     void iteratorRemove() {
         // Using list for reproducibility
         final Trie trie = new Trie(List.of("AAA", "ABBA", "CAC"));
@@ -118,12 +116,23 @@ final class TrieTest {
     }
 
     @Test
-    void streamMatchingNoMatchEmptyTry() {
+    void streamMatchingNoMatchEmptyTrie() {
         final Trie trie = new Trie();
         final Set<String> matches = trie.streamMatching(" A ").collect(toSet());
         assertEquals(Collections.emptySet(), matches);
     }
 
+    /*
+    @Test
+    void streamNotMatching() {
+        final Set<String> content = Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE");
+        final Trie trie = new Trie(content);
+
+        final Set<String> nonMatches = trie.streamNonMatching(" B ").collect(toSet());
+
+        assertEquals(Set.of("AAA", "AB", "CDE"), nonMatches);
+    }
+*/
     @Test
     void clear() {
         final Trie trie = new Trie(Set.of("AAA", "ABBA", "CAC"));
@@ -137,7 +146,6 @@ final class TrieTest {
     }
 
     @Test
-    @Disabled("remove not supported yet")
     void remove() {
         final Trie trie = new Trie(Set.of("AAA", "ABBA", "CAC"));
 
@@ -149,7 +157,6 @@ final class TrieTest {
     }
 
     @Test
-    @Disabled("remove not supported yet")
     void removeIf() {
         final Trie trie = new Trie(Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE"));
 

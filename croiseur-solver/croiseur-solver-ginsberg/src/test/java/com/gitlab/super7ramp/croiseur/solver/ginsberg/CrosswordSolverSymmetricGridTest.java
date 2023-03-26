@@ -97,6 +97,46 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
+     * This takes < 2s to solve at 1 GHz.
+     */
+    @Test
+    void shaded13x13WithLongWords() throws InterruptedException {
+        final PuzzleDefinition puzzle = parsePuzzle("""
+                | | | | |#| | | |#| | | | |
+                | | | | |#| | | |#| | | | |
+                | | | | |#| | | |#| | | | |
+                | | | | | | | | | | | | | |
+                |#|#|#| | | |#| | | |#|#|#|
+                | | | | | |#|#|#| | | | | |
+                | | | | |#|#|#|#|#| | | | |
+                | | | | | |#|#|#| | | | | |
+                |#|#|#| | | |#| | | |#|#|#|
+                | | | | | | | | | | | | | |
+                | | | | |#| | | |#| | | | |
+                | | | | |#| | | |#| | | | |
+                | | | | |#| | | |#| | | | |
+                """);
+
+        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
+
+        Assertions.assertSuccess("""
+                |S|A|I|D|#|V|I|S|#|P|E|R|L|
+                |A|R|M|E|#|I|E|L|#|E|P|E|E|
+                |N|U|E|R|#|I|R|A|#|R|E|I|N|
+                |A|M|I|N|C|I|S|S|E|M|E|N|T|
+                |#|#|#|I|I|E|#|H|I|E|#|#|#|
+                |A|B|C|E|S|#|#|#|B|A|G|O|U|
+                |B|A|A|R|#|#|#|#|#|B|A|A|R|
+                |A|L|L|E|R|#|#|#|B|I|L|I|E|
+                |#|#|#|S|A|C|#|M|A|L|#|#|#|
+                |I|D|E|N|T|I|T|A|R|I|S|M|E|
+                |M|A|L|E|#|R|A|Z|#|S|O|A|P|
+                |E|L|B|E|#|A|I|D|#|E|U|R|E|
+                |I|I|E|S|#|D|E|A|#|R|I|X|E|
+                 """, result);
+    }
+
+    /*
      * This takes < 3s to solve at 1 GHz.
      */
     @Test
@@ -136,45 +176,6 @@ final class CrosswordSolverSymmetricGridTest {
                 """, result);
     }
 
-    /*
-     * This takes < 3s to solve at 1 GHz.
-     */
-    @Test
-    void shaded13x13WithLongWords() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | | | | | | | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | |#|#|#| | | | | |
-                | | | | |#|#|#|#|#| | | | |
-                | | | | | |#|#|#| | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | | | | | | | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                """);
-
-        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
-
-        Assertions.assertSuccess("""
-                |S|A|I|D|#|V|I|S|#|P|E|R|L|
-                |A|R|M|E|#|I|E|L|#|E|P|E|E|
-                |N|U|E|R|#|I|R|A|#|R|E|I|N|
-                |A|M|I|N|C|I|S|S|E|M|E|N|T|
-                |#|#|#|I|I|E|#|H|I|E|#|#|#|
-                |A|B|C|E|S|#|#|#|B|A|G|O|U|
-                |B|A|A|R|#|#|#|#|#|B|A|A|R|
-                |A|L|L|E|R|#|#|#|B|I|L|I|E|
-                |#|#|#|S|A|C|#|M|A|L|#|#|#|
-                |I|D|E|N|T|I|T|A|R|I|S|M|E|
-                |M|A|L|E|#|R|A|Z|#|S|O|A|P|
-                |E|L|B|E|#|A|I|D|#|E|U|R|E|
-                |I|I|E|S|#|D|E|A|#|R|I|X|E|
-                 """, result);
-    }
 
     /*
      * This takes < 6 s to solve at 1 GHz - which is a bit long.
