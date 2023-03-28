@@ -178,7 +178,7 @@ final class CrosswordSolverSymmetricGridTest {
 
 
     /*
-     * This takes < 6 s to solve at 1 GHz - which is a bit long.
+     * This takes < 4 s to solve at 1 GHz - which is a bit long.
      */
     @Test
     void shaded15x15() throws InterruptedException {

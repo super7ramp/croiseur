@@ -7,10 +7,12 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
+
+import static java.util.function.Predicate.not;
 
 /**
  * Dictionary cache.
@@ -22,10 +24,10 @@ final class DictionaryCache<K> {
     /**
      * Data necessary to update dictionary cache after invalidation.
      *
-     * @param pattern          the new pattern to use
-     * @param additionalFilter an additional filter
+     * @param pattern   the new pattern to use
+     * @param blacklist an additional filter on slot
      */
-    private record Invalidation(String pattern, Predicate<String> additionalFilter) {
+    private record Invalidation(String pattern, Collection<String> blacklist) {
         // Nothing to add.
     }
 
@@ -38,10 +40,12 @@ final class DictionaryCache<K> {
     private final Map<? extends K, Trie> initial;
 
     /**
-     * The cached candidates for each slot. The cached collections are simple lists, which are
-     * fast to iterate on.
+     * The current candidates for each slot.
+     * <p>
+     * Values are frequently modified upon assignments/unassignments. Values are array lists
+     * rather than tries because array lists are faster to modify and to iterate than tries.
      */
-    private final Map<K, Collection<String>> cached;
+    private final Map<K, Collection<String>> current;
 
     /** The invalidations for each cached slot. */
     private final Map<K, Invalidation> invalidations;
@@ -53,90 +57,64 @@ final class DictionaryCache<K> {
      */
     DictionaryCache(final Map<? extends K, Trie> initialCandidates) {
         initial = initialCandidates;
-        cached = new HashMap<>(initialCandidates.size());
-        initial.forEach(((slotIdentifier, trie) -> cached.put(slotIdentifier,
-                new ArrayList<>(trie))));
+        current = new HashMap<>(initialCandidates.size());
+        initial.forEach(((slotId, trie) -> current.put(slotId, new ArrayList<>(trie))));
         invalidations = new HashMap<>(initialCandidates.size());
     }
 
     /**
-     * Returns the initial candidates.
+     * Returns the current candidates.
      *
-     * @param slotId the id of the slot to give the initial candidates for
-     * @return the initial candidates
+     * @param slotId the id of the slot to give the current candidates for
+     * @return the current candidates
      */
-    Trie initial(final K slotId) {
-        return initial.get(slotId);
+    Collection<String> get(final K slotId) {
+        return Collections.unmodifiableCollection(current(slotId));
     }
 
     /**
-     * Returns the cached candidates for the given slot.
-     *
-     * @param slotId the id of the slot to give candidates for
-     * @return the cached candidates for the given slot
-     */
-    Stream<String> stream(final K slotId) {
-        return cached(slotId).stream();
-    }
-
-    /**
-     * Returns the cached candidate count for the given slot id.
-     *
-     * @param slotId the slot id
-     * @return the current candidate count
-     */
-    int size(final K slotId) {
-        return cached(slotId).size();
-    }
-
-    /**
-     * Invalidate candidates cache for given slot id.
+     * Invalidate the current candidates cache for given slot id.
      * <p>
-     * Cache will be reset to its initial state then re-evaluated given current slot state.
+     * Cache will be reset to its initial state then re-evaluated given new slot pattern and
+     * blacklist.
      *
-     * @param slotId           the invalidated slot id
-     * @param newSlotPattern   the new slot pattern
-     * @param additionalFilter an additional filter on slot
+     * @param slotId         the invalidated slot id
+     * @param newSlotPattern the new slot pattern
+     * @param blacklist      an additional filter on slot
      */
     void invalidate(final K slotId, final String newSlotPattern,
-                    final Predicate<String> additionalFilter) {
-        invalidations.put(slotId, new Invalidation(newSlotPattern, additionalFilter));
+                    final Collection<String> blacklist) {
+        invalidations.put(slotId, new Invalidation(newSlotPattern, blacklist));
     }
 
     /**
-     * Updates cache given an assignment.
+     * Narrows current candidates according to given predicate.
      * <p>
-     * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidate invalidation}, the smaller the cache will be, the faster the
-     * results will be.
+     * The more the cache is updated without {@link #invalidate invalidation}, the smaller the
+     * cache will be, the faster the results will be.
      *
-     * @param slotId           the updated slot id
-     * @param newSlotPattern   the new slot pattern
-     * @param additionalFilter an additional filter on slot
+     * @param slotId          the updated slot id
+     * @param narrowPredicate the predicate that words must now satisfy
      */
-    void update(final K slotId, final String newSlotPattern,
-                final Predicate<String> additionalFilter) {
-        // TODO Actually reduce the cache instead of invalidating and rebuilding it entirely
-        //  Ideally, create a kind of removeNonMatching(String pattern) on Trie and use Trie as
-        //  cached collection. As of now, there is no point to filter on a simple list, it is
-        //  slower than rebuilding it from a filtered Trie Stream.
-        invalidate(slotId, newSlotPattern, additionalFilter);
+    void narrow(final K slotId, final Predicate<String> narrowPredicate) {
+        current(slotId).removeIf(not(narrowPredicate));
     }
 
     /**
-     * Gets the cached data for given slot id.
+     * Gets the current cached data for given slot id, recreating data from initial dictionary if
+     * cache has been invalidated.
      *
      * @param slotId the slot id
      * @return the cached data for given slot id
      */
-    private Collection<String> cached(final K slotId) {
-        final Collection<String> result = cached.get(slotId);
+    private Collection<String> current(final K slotId) {
+        final Collection<String> result = current.get(slotId);
         final Invalidation invalidation = invalidations.remove(slotId);
         if (invalidation != null) {
             result.clear();
             initial.get(slotId)
                    .streamMatching(invalidation.pattern)
-                   .filter(invalidation.additionalFilter)
+                   .filter(not(invalidation.blacklist::contains))
                    .forEach(result::add);
         }
         return result;

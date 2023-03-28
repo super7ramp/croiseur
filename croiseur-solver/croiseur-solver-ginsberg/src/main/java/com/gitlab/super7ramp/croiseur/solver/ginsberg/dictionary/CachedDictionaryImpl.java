@@ -27,8 +27,11 @@ import static java.util.function.Predicate.not;
  */
 final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
-    /** Cached dictionary. */
-    private final DictionaryCache<SlotIdentifier> cache;
+    /** The initial word candidates per slot. */
+    private final Map<SlotIdentifier, Trie> initialCandidates;
+
+    /** The current word candidates per slot. */
+    private final DictionaryCache<SlotIdentifier> currentCandidates;
 
     /** The elimination space. */
     private final EliminationSpace els;
@@ -42,38 +45,26 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
                          final EliminationSpace eliminationSpace) {
         els = eliminationSpace;
-        cache = populateCache(dictionary, slots);
-    }
-
-    /**
-     * Create the dictionary cache.
-     *
-     * @param dictionary the external dictionary
-     * @param slots      the puzzle's slots
-     * @return the created {@link DictionaryCache}
-     */
-    private static DictionaryCache<SlotIdentifier> populateCache(final Dictionary dictionary,
-                                                                 final Collection<Slot> slots) {
-        final Map<SlotIdentifier, Trie> initialLookup = new HashMap<>();
-        slots.forEach(slot -> initialLookup.put(slot.uid(), new Trie()));
+        initialCandidates = new HashMap<>();
+        slots.forEach(slot -> initialCandidates.put(slot.uid(), new Trie()));
         for (final String word : dictionary.lookup(w -> true)) {
             for (final Slot slot : slots) {
                 if (slot.isCompatibleWith(word)) {
-                    initialLookup.get(slot.uid()).add(word);
+                    initialCandidates.get(slot.uid()).add(word);
                 }
             }
         }
-        return new DictionaryCache<>(initialLookup);
+        currentCandidates = new DictionaryCache<>(initialCandidates);
     }
 
     @Override
     public Stream<String> candidates(final Slot wordVariable) {
-        return cache.stream(wordVariable.uid());
+        return currentCandidates.get(wordVariable.uid()).stream();
     }
 
     @Override
     public long candidatesCount(final Slot wordVariable) {
-        return cache.size(wordVariable.uid());
+        return currentCandidates.get(wordVariable.uid()).size();
     }
 
     @Override
@@ -81,11 +72,10 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
                                        final SlotIdentifier modified) {
         final long count;
         if (!wordVariable.isInstantiated()) {
-            final Predicate<String> notEliminated = notEliminated(wordVariable.uid());
-            count = cache.initial(wordVariable.uid())
-                         .streamMatching(wordVariable.asPattern())
-                         .filter(notEliminated)
-                         .count();
+            count = currentCandidates.get(wordVariable.uid())
+                                     .stream()
+                                     .filter(wordVariable::isCompatibleWith)
+                                     .count();
         } else {
             count = 1L;
         }
@@ -109,38 +99,26 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
         }
 
         final Predicate<String> notEliminated = not(refreshedEliminations.keySet()::contains);
-        return cache.initial(wordVariable.uid())
-                    .streamMatching(wordVariable.asPattern())
-                    .filter(notEliminated)
-                    .count();
+        return initialCandidates.get(wordVariable.uid())
+                                .streamMatching(wordVariable.asPattern())
+                                .filter(notEliminated)
+                                .count();
     }
 
     @Override
     public void invalidateCache(final Slot unassignedSlot) {
-        cache.invalidate(unassignedSlot.uid(), unassignedSlot.asPattern(),
-                notEliminated(unassignedSlot.uid()));
+        currentCandidates.invalidate(unassignedSlot.uid(), unassignedSlot.asPattern(),
+                els.eliminatedValues(unassignedSlot.uid()));
         unassignedSlot.connectedSlots()
-                      .forEach(connectedSlot -> cache.invalidate(connectedSlot.uid(),
-                              connectedSlot.asPattern(), notEliminated(connectedSlot.uid())));
+                      .forEach(slot -> currentCandidates.invalidate(slot.uid(), slot.asPattern(),
+                              els.eliminatedValues(slot.uid())));
     }
 
     @Override
     public void updateCache(final Slot assignedSlot) {
-        cache.update(assignedSlot.uid(), assignedSlot.asPattern(),
-                notEliminated(assignedSlot.uid()));
+        currentCandidates.narrow(assignedSlot.uid(), assignedSlot::isCompatibleWith);
         assignedSlot.connectedSlots()
-                    .forEach(connectedSlot -> cache.update(connectedSlot.uid(),
-                            connectedSlot.asPattern(), notEliminated(connectedSlot.uid())));
+                    .forEach(slot -> currentCandidates.narrow(slot.uid(), slot::isCompatibleWith));
     }
 
-    /**
-     * Helper to filter out eliminated values.
-     *
-     * @param slotId the slot id
-     * @return a filter matching only non-eliminated candidates of given slot
-     */
-    private Predicate<String> notEliminated(final SlotIdentifier slotId) {
-        final Set<String> eliminatedValues = els.eliminatedValues(slotId);
-        return not(eliminatedValues::contains);
-    }
 }
