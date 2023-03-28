@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 
-import java.util.AbstractCollection;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,30 +14,81 @@ import java.util.LinkedHashMap;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+
 /**
  * An implementation of the trie data structure.
  * <p>
  * All methods expect non-null arguments.
- * <p>
+ *
+ * <h2>Patterns</h2>
+ * Some methods ({@link #containsMatching(String)}, {@link #removeNonMatching(String)},
+ * {@link #streamMatching(String)})
+ * support a simplistic form of pattern matching. The supported wildcards for these methods are:
+ * <ul>
+ *     <li>"{@value PatternMatcher#ANY_CHARACTER_WILDCARD}": Any character</li>
+ * </ul>
  *
  * <h2>Thread safety</h2>
  * This collection is not thread-safe.
  *
- * <h2>Patterns</h2>
- * Some methods ({@link #containsMatching(String)}, {@link #streamMatching(String)}) support a
- * simplistic form of pattern matching. The supported wildcards for these methods are:
- * <ul>
- *     <li>"{@value Trie.TrieIterator#ANY_CHARACTER_WILDCARD}": Any character</li>
- * </ul>
- *
  * @see <a href="https://en.wikipedia.org/wiki/Trie">Trie on Wikipedia</a>
  */
-final class Trie extends AbstractCollection<String> {
+final class Trie extends AbstractSet<String> {
+
+    /**
+     * A pattern matcher.
+     * <p>
+     * Used in {@link TrieIterator} to efficiently filter a trie, calling
+     * {@link #nextLetterMatches(TrieNode, int)} when descending the trie.
+     */
+    private interface PatternMatcher {
+
+        /** The any-character wildcard. */
+        char ANY_CHARACTER_WILDCARD = ' ';
+
+        /**
+         * Returns the next children nodes satisfying the pattern.
+         *
+         * @param node     the node to get the valid children from
+         * @param position the position in the pattern
+         * @return the next children nodes satisfying the given pattern
+         */
+        Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
+                                                                   final int position);
+
+        /**
+         * Whether the given word matches with the pattern.
+         * <p>
+         * This is called when evaluating a terminal node, meaning that all letters come from an
+         * iterator returned by a previous call to {@link #nextLetterMatches(TrieNode, int)}).
+         *
+         * @param word the word
+         * @return {@code true} iff the given word length matches with the pattern length
+         */
+        boolean matches(final CharSequence word);
+    }
+
+    /** A dummy {@link PatternMatcher} that will match any word. */
+    private enum NoPatternMatcher implements PatternMatcher {
+        INSTANCE;
+
+        @Override
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
+                                                                          final int position) {
+            return node.children.entrySet().iterator();
+        }
+
+        @Override
+        public boolean matches(final CharSequence word) {
+            return true;
+        }
+    }
 
     /**
      * A node of the trie.
@@ -52,19 +103,122 @@ final class Trie extends AbstractCollection<String> {
     }
 
     /**
-     * A trie {@link Iterator} implementation. Optionally filters words according to a pattern
-     * passed at construction time.
+     * The standard {@link PatternMatcher}.
+     * <p>
+     * For a pattern of letters (or wildcards of length 1) {@literal p_i}, a word positively
+     * matches if and only if it has same size n and all its letters {@literal x_j} matches, i.e.
+     * {@literal x_1 ~ p_1 && x_2 ~ p_2 && ... && x_n ~ p_n}.
+     * <p>
+     * This can be verified sequentially, i.e. branches can be filtered out as soon as a letter
+     * does not match the pattern. It means that when {@link #matches(CharSequence)} is called
+     * then all letters matches the pattern - only the word length needs to be verified against
+     * pattern length.
+     */
+    private static final class PositivePatternMatcher implements PatternMatcher {
+
+        /** The pattern to match. */
+        private final String pattern;
+
+        /**
+         * Constructs an instance.
+         *
+         * @param patternArg the pattern to match
+         */
+        PositivePatternMatcher(final String patternArg) {
+            pattern = Objects.requireNonNull(patternArg);
+        }
+
+        @Override
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
+                                                                          final int position) {
+            final Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches;
+            if (position >= pattern.length()) {
+                nextLetterMatches = Collections.emptyIterator();
+            } else {
+                final char patternLetter = pattern.charAt(position);
+                if (patternLetter == ANY_CHARACTER_WILDCARD) {
+                    nextLetterMatches = node.children.entrySet().iterator();
+                } else {
+                    final TrieNode exactLetterNode = node.children.get(patternLetter);
+                    if (exactLetterNode != null) {
+                        nextLetterMatches = Collections.singletonMap(patternLetter,
+                                exactLetterNode).entrySet().iterator();
+                    } else {
+                        nextLetterMatches = Collections.emptyIterator();
+                    }
+                }
+            }
+            return nextLetterMatches;
+        }
+
+        @Override
+        public boolean matches(final CharSequence word) {
+            return pattern.length() == word.length();
+        }
+    }
+
+    /**
+     * A {@link PatternMatcher} that matches words <em>not</em> respecting a given pattern.
+     * <p>
+     * For a pattern of letters (or wildcards of length 1) {@literal p_i}, a word
+     * negatively matches if and only if it has different size, or it has same size n and all its
+     * letters {@literal x_j} matches, i.e. {@literal x_1 !~ p_1 && x_2 !~ p_2 && ... && x_n !~
+     * p_n}.
+     * <p>
+     * It is less natural than a positive matcher because a word may match the pattern thanks
+     * only to its first letter, but it can only be definitive when checking the final word
+     * {@link #matches(CharSequence)}. This means matcher has to maintain some kind of memory of
+     * the previous matches or perform the entire check in the {@link #matches(CharSequence)}
+     * method. Implementation performs the latter, which may not be the most efficient, but it
+     * certainly is simpler than making the class stateful.
+     */
+    private static final class NegativePatternMatcher implements PatternMatcher {
+
+        /** The pattern <em>not</em> to match. */
+        private final String pattern;
+
+        /**
+         * Constructs an instance.
+         *
+         * @param patternArg the pattern <em>not</em> to match
+         */
+        NegativePatternMatcher(final String patternArg) {
+            pattern = Objects.requireNonNull(patternArg);
+        }
+
+        @Override
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
+                                                                          final int position) {
+            // All children may match
+            return node.children.entrySet().iterator();
+        }
+
+        @Override
+        public boolean matches(final CharSequence word) {
+            if (pattern.length() != word.length()) {
+                return true;
+            }
+            for (int i = 0; i < pattern.length(); i++) {
+                final char pi = pattern.charAt(i);
+                if (pi != ANY_CHARACTER_WILDCARD && pi != word.charAt(i)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /**
+     * A trie {@link Iterator} implementation. Optionally filters words according to a
+     * {@link PatternMatcher} passed at construction time.
      */
     private final class TrieIterator implements Iterator<String> {
-
-        /** The any-character wildcard. */
-        private static final char ANY_CHARACTER_WILDCARD = ' ';
 
         /** The current node iterator stack. Each node is given its own iterator. */
         private final ListIterator<Iterator<Map.Entry<Character, TrieNode>>> nodeIterators;
 
-        /** The pattern to match, or {@code null} if no pattern to match. */
-        private final String pattern;
+        /** The pattern matcher. */
+        private final PatternMatcher patternMatcher;
 
         /**
          * The {@link #nextWord} builder.
@@ -87,51 +241,27 @@ final class Trie extends AbstractCollection<String> {
         private TrieNode current;
 
         /**
-         * Constructs an instance.
+         * Constructs an instance iterating on all words contained in the enclosing trie matching
+         * the given pattern.
          *
-         * @param patternArg the pattern to match, or {@code null} if no filter
+         * @param patternMatcherArg the pattern matcher
          */
-        TrieIterator(final String patternArg) {
-            pattern = patternArg;
-            nextWordBuilder = new StringBuilder(patternArg != null ? patternArg.length() : 16);
+        TrieIterator(final PatternMatcher patternMatcherArg) {
+            patternMatcher = patternMatcherArg;
+            nextWordBuilder = new StringBuilder();
             nodeIterators =
                     new ArrayList<Iterator<Map.Entry<Character, TrieNode>>>().listIterator();
-            nodeIterators.add(nextLetterMatches(Trie.this.root, 0, pattern));
+            nodeIterators.add(patternMatcher.nextLetterMatches(Trie.this.root, 0));
             findAndUpdateNextWord();
         }
 
         /**
-         * Returns the next children nodes satisfying the given pattern.
-         *
-         * @param node     the node to get the valid children from
-         * @param position the position in the pattern
-         * @param pattern  the pattern
-         * @return the next children nodes satisfying the given pattern
+         * Constructs an instance iterating on all words contained in the enclosing trie.
          */
-        private static Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
-                                                                                  final int position,
-                                                                                  final String pattern) {
-            final Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches;
-            if (pattern == null) {
-                nextLetterMatches = node.children.entrySet().iterator();
-            } else if (position >= pattern.length()) {
-                nextLetterMatches = Collections.emptyIterator();
-            } else {
-                final char patternLetter = pattern.charAt(position);
-                if (patternLetter == ANY_CHARACTER_WILDCARD) {
-                    nextLetterMatches = node.children.entrySet().iterator();
-                } else {
-                    final TrieNode exactLetterNode = node.children.get(patternLetter);
-                    if (exactLetterNode != null) {
-                        nextLetterMatches = Collections.singletonMap(patternLetter,
-                                exactLetterNode).entrySet().iterator();
-                    } else {
-                        nextLetterMatches = Collections.emptyIterator();
-                    }
-                }
-            }
-            return nextLetterMatches;
+        TrieIterator() {
+            this(NoPatternMatcher.INSTANCE);
         }
+
 
         @Override
         public void remove() {
@@ -139,13 +269,8 @@ final class Trie extends AbstractCollection<String> {
                 throw new IllegalStateException();
             }
             /*
-             * Lazy removal: Do not actually remove node from trie.
-             *
-             * Not great for a general-purpose trie (useless nodes are kept in memory, slower
-             * iteration due to useless nodes) but for our use case it fits well: We frequently
-             * remove words then rollback, which is faster if we don't remove the nodes - we just
-             * have to set and reset the isTerminal flags. Slower iteration is not perceptible
-             * (TBC).
+             * Lazy removal: Do not actually remove node from trie. Not great, leaves useless
+             * nodes in the trie which slows down iteration.
              */
             current.isTerminal = false;
             Trie.this.size--;
@@ -204,9 +329,10 @@ final class Trie extends AbstractCollection<String> {
                     final char nodeChar = nodeEntry.getKey();
                     nextWordBuilder.append(nodeChar);
                     final TrieNode node = nodeEntry.getValue();
-                    nodeIterators.add(nextLetterMatches(node, nodeIterators.nextIndex(), pattern));
+                    nodeIterators.add(patternMatcher.nextLetterMatches(node,
+                            nodeIterators.nextIndex()));
                     nodeIterators.previous();
-                    foundWord = isMatchingTerminalNode(node, nextWordBuilder.length());
+                    foundWord = isMatchingTerminalNode(node);
                     if (foundWord) {
                         next = node;
                     }
@@ -246,16 +372,14 @@ final class Trie extends AbstractCollection<String> {
         }
 
         /**
-         * Assesses whether given node is a node terminating a word which is matching
-         * {@link #pattern}.
+         * Assesses whether given node is a node terminating a word which is matching the pattern.
          *
-         * @param node   the node to test
-         * @param length the current word length
-         * @return {@code true} if given node is a node terminating a word which is matching
-         * {@link #pattern}
+         * @param node the node to test
+         * @return {@code true} if given node is a node terminating a word which is matching the
+         * pattern
          */
-        private boolean isMatchingTerminalNode(final TrieNode node, final int length) {
-            return node.isTerminal && (pattern == null || pattern.length() == length);
+        private boolean isMatchingTerminalNode(final TrieNode node) {
+            return node.isTerminal && patternMatcher.matches(nextWordBuilder);
         }
     }
 
@@ -316,6 +440,24 @@ final class Trie extends AbstractCollection<String> {
     }
 
     @Override
+    public boolean remove(final Object o) {
+        final boolean removed;
+        if (!(o instanceof String word)) {
+            removed = false;
+        } else {
+            final Iterator<String> it = new TrieIterator(new PositivePatternMatcher(word));
+            if (it.hasNext()) {
+                it.next();
+                it.remove();
+                removed = true;
+            } else {
+                removed = false;
+            }
+        }
+        return removed;
+    }
+
+    @Override
     public void clear() {
         root.children.clear();
         size = 0;
@@ -339,10 +481,8 @@ final class Trie extends AbstractCollection<String> {
 
     @Override
     public Iterator<String> iterator() {
-        return new TrieIterator(null);
+        return new TrieIterator();
     }
-
-    // TODO override remove(Object), current default implementation iterates on all trie
 
     @Override
     public int size() {
@@ -358,18 +498,37 @@ final class Trie extends AbstractCollection<String> {
      * @see Trie class documentation about patterns
      */
     boolean containsMatching(final String pattern) {
-        return new TrieIterator(pattern).hasNext();
+        return new TrieIterator(new PositivePatternMatcher(pattern)).hasNext();
     }
 
     /**
-     * Returns a {@link Stream} of String matching the given pattern.
+     * Similar to {@link #remove(Object)} but the given string is a pattern removed elements
+     * do not match.
+     *
+     * @param pattern the pattern the removed elements do not match
+     * @return {@code true} if a word has been removed
+     * @see Trie class documentation about patterns
+     */
+    boolean removeNonMatching(final String pattern) {
+        final TrieIterator it = new TrieIterator(new NegativePatternMatcher(pattern));
+        boolean removed = false;
+        while (it.hasNext()) {
+            it.next();
+            it.remove();
+            removed = true;
+        }
+        return removed;
+    }
+
+    /**
+     * Returns a {@link Stream} of Strings contained in this trie and matching the given pattern.
      *
      * @param pattern the pattern to match
      * @return a stream of Strings matching the given pattern
      * @see Trie class documentation about patterns
      */
     Stream<String> streamMatching(final String pattern) {
-        final Iterator<String> iterator = new TrieIterator(pattern);
+        final Iterator<String> iterator = new TrieIterator(new PositivePatternMatcher(pattern));
         final Spliterator<String> splitIterator = Spliterators.spliteratorUnknownSize(iterator,
                 0 /* TODO specify characteristics? */);
         return StreamSupport.stream(splitIterator, false /* no parallel. */);

@@ -102,37 +102,26 @@ final class TrieTest {
     }
 
     @Test
-    void streamMatchingSecond() {
+    void streamMatching_Second() {
         final Trie trie = new Trie(Set.of("AAA", "ABBA", "CAC"));
         final Set<String> matches = trie.streamMatching("C  ").collect(toSet());
         assertEquals(Set.of("CAC"), matches);
     }
 
     @Test
-    void streamMatchingNoMatch() {
+    void streamMatching_NoMatch() {
         final Trie trie = new Trie(Set.of("AAA", "ABBA", "CAC"));
         final Set<String> matches = trie.streamMatching("").collect(toSet());
         assertEquals(Collections.emptySet(), matches);
     }
 
     @Test
-    void streamMatchingNoMatchEmptyTrie() {
+    void streamMatching_NoMatchEmptyTrie() {
         final Trie trie = new Trie();
         final Set<String> matches = trie.streamMatching(" A ").collect(toSet());
         assertEquals(Collections.emptySet(), matches);
     }
 
-    /*
-    @Test
-    void streamNotMatching() {
-        final Set<String> content = Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE");
-        final Trie trie = new Trie(content);
-
-        final Set<String> nonMatches = trie.streamNonMatching(" B ").collect(toSet());
-
-        assertEquals(Set.of("AAA", "AB", "CDE"), nonMatches);
-    }
-*/
     @Test
     void clear() {
         final Trie trie = new Trie(Set.of("AAA", "ABBA", "CAC"));
@@ -163,5 +152,35 @@ final class TrieTest {
         trie.removeIf(s -> true);
 
         assertTrue(trie.isEmpty());
+    }
+
+    @Test
+    void removeNonMatching_middle() {
+        final Trie trie = new Trie(Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE"));
+
+        trie.removeNonMatching(" B ");
+
+        assertEquals(4, trie.size());
+        assertTrue(trie.containsAll(Set.of("BBB", "ABC", "ABD", "ABE")));
+    }
+
+    @Test
+    void removeNonMatching_prefix() {
+        final Trie trie = new Trie(Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE"));
+
+        trie.removeNonMatching("A  ");
+
+        assertEquals(4, trie.size());
+        assertTrue(trie.containsAll(Set.of("AAA", "ABC", "ABD", "ABE")));
+    }
+
+    @Test
+    void removeNonMatching_suffix() {
+        final Trie trie = new Trie(Set.of("AAA", "AB", "BBB", "CDE", "ABC", "ABD", "ABE"));
+
+        trie.removeNonMatching(" BE");
+
+        assertEquals(1, trie.size());
+        assertTrue(trie.contains("ABE"));
     }
 }
