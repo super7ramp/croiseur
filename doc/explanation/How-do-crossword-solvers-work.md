@@ -7,8 +7,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Disclaimer
 
-This is a short, high level and unreviewed explanation written by a non-expert. If you are
-looking for more thorough explanations, check out the [reference papers](#references).
+This is a short, high level and unreviewed explanation of how the solvers embedded in **croiseur**
+work. Do not take everything here as necessarily correct. If you are looking for more thorough
+explanations, check out the [reference papers](#references).
 
 ### Generalities
 
@@ -42,8 +43,8 @@ crossing slots. [Ginsberg90] suggests the latter is the more effective.
 
 A more primitive strategy is to always select a slot connected to the previously assigned slot.
 
-In practice, dynamically using the most constrained slot as next slot often follows connections
-(the previous assignment constraining significantly the crossing slots).
+> — In practice, using the currently most constrained slot as next slot seems to often follows
+> connections (the previous assignment constraining significantly the crossing slots).
 
 #### Word Selection
 
@@ -64,7 +65,7 @@ This kind of strategies, where one takes a look in the future to make a choice, 
 
 Backtrack strategies are the most complicated to understand or at least to implement correctly.
 
-##### Simple Backtrack
+##### Chronological Backtrack
 
 The simplest backtrack strategy is the chronological one: Take the latest assigned slot and give
 it another value.
@@ -74,34 +75,33 @@ However, such a strategy may:
 - Lead to a lot of repeated work (*thrashing* [Posser99]);
 - Not be smart enough for solving crosswords ([Ginsberg90])
 
-> *Programmer* – A typical implementation implicitly pushes state on a stack when assigning
-> variables using a recursive call, to pop back to the previous state when a dead-end is
-> encountered. Such an implementation is elegant but lacks flexibility because it does not allow
-> to (easily) change the search order later. It couples variable selection with backtrack
-> strategies, forward move and backward move.
+> — A classic implementation implicitly pushes state on a stack when assigning variables using a
+> recursive call, to pop back to the previous state when a dead-end is encountered. Such an
+> implementation is elegant but is a bit rigid because it does not allow to (easily) change the
+> search order later. It couples the way we move forward with the way we move backwards.
 
 ##### Backmark
 
 An improved version of the simple backtrack that stores some information to avoid repeating the
-same work. [Gaschnig79] and [Posser99].
+same work, proposed by [Gaschnig79].
 
 ##### Backjump
 
-Backjump is a backtrack to the real source of the dead-end, erasing assignments made in-between. In
-the context of crossword problem, it can be implemented by backtracking to a slot crossing the
-unassignable slot according to [Ginsberg90].
+Backjump ([Gaschnig79]) is a backtrack to the real source of the dead-end, erasing assignments made
+in-between. In the context of crossword problem, it can be implemented by backtracking to a slot
+crossing the unassignable slot according to [Ginsberg90].
 
-> *Programmer* – [Ginsberg90] suggests an improved variant called "smart backjump" that
-> identifies the problematic letters of the word of the backtracked slot and avoid them when
-> choosing a new word. I do not see clearly how it is supposed to be done.
+> — [Ginsberg90] suggests an improved variant called "smart backjump" that identifies the
+> problematic letters of the word of the backtracked slot and avoid them when choosing a new word. I
+> do not see clearly how it is supposed to be done.
 
 ##### Dynamic Backtrack
 
 A kind of backjump which does not erase the values set for the variables jumped over. Relies on
-an elimination memory for each variable. Allows to effectively reorder search.
+an elimination memory for each variable. Effectively changes search order.
 
-> *Programmer* – Honestly it feels a bit magical. I'm not fully confident
-> that `croiseur-solver-ginsberg` has a 100% correct implementation. But it seems to work.
+> — Honestly it feels a bit magical. I am not confident at all that `croiseur-solver-ginsberg`
+> implementation is correct.
 
 ##### Example
 
@@ -119,9 +119,10 @@ The digits outside the grid indicate the slot number.
 3 > |#| | | | | |
 ```
 
-Let us also assume our dictionary is `{ABCDEF,ATCDEF,FGHIJK,TSRQPO,BSRQPX,ONMLK,ONMLJ,ONMLI,
-ONMLH,ONMLG}` and that we are going to naively iterate over slots using slot numbers and
-iterating over word candidates using the dictionary order.
+Let us also assume our dictionary
+is `{ABCDEF,ATCDEF,FGHIJK,TSRQPO,BSRQPX,ONMLK,ONMLJ,ONMLI,ONMLH,ONMLG}` and that we are going to
+naively iterate over slots using slot numbers and iterating over word candidates using the
+dictionary order.
 
 Let us proceed until a dead end is reached:
 
@@ -168,11 +169,11 @@ Let us proceed until a dead end is reached:
     |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                                 | FGHIJK |
     |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                                  | ONMLK  |
     |#| |#|#|#|J|         | 4 |         | (none, dead-end)                       | !!!!!! |
-3 > |#| | | | |K| 
+3 > |#|O|N|M|L|K| 
 ```
 
-Slot #4 cannot be assigned a value. The problem actually comes from the slot #1, because of the
-constraint it puts on slot #4. One should have chosen `ATCDEF` so that the grid could be filled
+Slot 4 cannot be assigned a value. The problem actually comes from the slot 1, because of the
+constraint it puts on slot 4. One should have chosen `ATCDEF` so that the grid could be filled
 like this:
 
 ```
@@ -184,7 +185,6 @@ like this:
     |#| |#|#|#| |            |#| |#|#|#|I|            |#| |#|#|#|I|            |#|Q|#|#|#|I|
     |#| |#|#|#| |            |#| |#|#|#|J|            |#| |#|#|#|J|            |#|P|#|#|#|J|
 3 > |#| | | | | |        3 > |#| | | | |K|        3 > |#|O|N|M|L|K|        3 > |#|O|N|M|L|K|
-
 ```
 
 Let us see how the different backtrack strategies deal with this situation.
@@ -240,9 +240,8 @@ propagates till the source of the problem, slot #1:
 [Then no problem to fill the grid as described above.]
 ```
 
-Backjump avoids this repeated backtrack (and candidates list update/potential moves forward that we
-don't have here) by directly going to the source of the problem found in slot #4: The value of
-the crossing slot #1.
+Backjump avoids this repeated backtrack by directly going to the source of the problem found in slot
+4: The value of the crossing slot 1.
 
 ```
 -- Backjumping to 1, unassigning slot 1 to 3 - ABCDEF definitely eliminated
@@ -270,9 +269,9 @@ the crossing slot #1.
 [Then no problem to fill the grid as described above.]
 ```
 
-Dynamic backtrack tries to be smarter and say: "I can determine that slot #1 is the source of the
-problem, and I don't want to lose the work done for #2 and #3, so I'll just unassign #1 and keep
-in mind that have eliminated its value because of this situation":
+Dynamic backtrack tries to be smarter and say: "I can determine that slot 1 is the source of the
+problem, and I don't want to lose the work done for 2 and 3, so I'll just unassign #1 and keep
+in mind that I have eliminated its value because of this situation".
 
 ```
 -- Unassigning slot #1 - ABCDEF eliminated because of slot #3 
@@ -300,12 +299,8 @@ in mind that have eliminated its value because of this situation":
 [Then no problem to assign slot #4 with TSRQPO]
 ```
 
-Note that here elimination of `ABCDEF` for slot #1 because of slot #3 is not definitive: It is
-valid until slot #1 is unassigned (which does not occur here).
-
-> *Programmer* – It might not be obvious to determine what slot is the cause of a dead-end.
->
-Checkout [detailed notes for `croiseur-solver-ginsberg`](#in-details-how-does-the-ginsberg-solver-work).
+Note that here elimination of `ABCDEF` for slot 1 because of slot 3 is not definitive: It is
+valid until slot 1 is unassigned (which does not occur here).
 
 #### Solvers comparison
 
@@ -314,29 +309,10 @@ Here is a comparison between solvers available in **croiseur**:
 | Solvers ↓ Steps →  | Variable selection         | Value selection    | Backtrack     |
 |--------------------|----------------------------|--------------------|---------------|
 | Ginsberg           | Currently most constrained | Least constraining | Dynamic       |
-| Crossword Composer | TBD                        | First viable       | Chronological |
+| Crossword Composer | Initially most constrained | First viable       | Chronological |
 | xwords-rs          | Initially most constrained | First viable       | Chronological |
 
-### In details: How does the Ginsberg solver work?
-
-See
-the [dedicated page](../../croiseur-solver/croiseur-solver-ginsberg/doc/explanation/How-does-the-solver-work.md").
-
-### In details: How does the Crossword Composer solver work?
-
-See
-the [dedicated page](../../croiseur-solver/croiseur-solver-paulgb/doc/explanation/How-does-the-solver-work.md").
-
-### In details: How does the xwords-rs solver work?
-
-See
-the [dedicated page](../../croiseur-solver/croiseur-solver-szunami/doc/explanation/How-does-the-solver-work.md").
-
-### Other solvers/techniques
-
-#### SAT
-
-TBD.
+### Other solving techniques
 
 #### Neural Network
 
