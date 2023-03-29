@@ -68,8 +68,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
-    public long refinedCandidatesCount(final Slot wordVariable,
-                                       final SlotIdentifier modified) {
+    public long refinedCandidatesCount(final Slot wordVariable) {
         final long count;
         if (!wordVariable.isInstantiated()) {
             count = currentCandidates.get(wordVariable.uid())
@@ -86,6 +85,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     public long reevaluatedCandidatesCount(final Slot wordVariable,
                                            final List<SlotIdentifier> modifiedVariables) {
         // Probe of the elimination space
+        // TODO that should be in prober
         final Map<String, Set<SlotIdentifier>> refreshedEliminations =
                 new HashMap<>(els.eliminations(wordVariable.uid()));
         final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()

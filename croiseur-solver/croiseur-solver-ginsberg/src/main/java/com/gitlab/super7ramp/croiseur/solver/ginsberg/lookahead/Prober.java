@@ -59,11 +59,14 @@ public final class Prober {
      */
     public BigInteger computeNumberOfLocalSolutionsAfter(final Assignment assignment) {
         final Slot probedSlot = probeAssignment(assignment);
+        // @formatter:off
         return probedSlot.connectedSlots()
-                         .map(slot -> dictionary.refinedCandidatesCount(slot, assignment.slotUid()))
-                         .map(BigInteger::valueOf)
-                         .reduce(BigInteger.ONE, BigInteger::multiply);
-
+                         .reduce(BigInteger.ONE, // default value if no connected slot
+                                 (previous, slot) ->
+                                     previous.signum() == 0 ? previous : // already 0, don't probe
+                                     previous.multiply(BigInteger.valueOf(dictionary.refinedCandidatesCount(slot))),
+                                 BigInteger::multiply);
+        // @formatter:on
     }
 
     /**
@@ -88,8 +91,7 @@ public final class Prober {
      * @return whether after performing the given unassignment the given unassignable slot would
      * become assignable again
      */
-    public boolean hasSolutionAfter(final Unassignment unassignment,
-                                    final Slot unassignable) {
+    public boolean hasSolutionAfter(final Unassignment unassignment, final Slot unassignable) {
         return hasSolutionAfter(Collections.singletonList(unassignment), unassignable);
     }
 
@@ -105,8 +107,9 @@ public final class Prober {
     public boolean hasSolutionAfter(final Collection<Unassignment> unassignment,
                                     final Slot unassignable) {
         final Slot probedSlot = probeUnassignment(unassignment, unassignable);
-        return dictionary.reevaluatedCandidatesCount(probedSlot,
-                unassignment.stream().map(Unassignment::slotUid).toList()) > 0;
+        return dictionary.reevaluatedCandidatesCount(probedSlot, unassignment.stream()
+                                                                             .map(Unassignment::slotUid)
+                                                                             .toList()) > 0;
     }
 
     /**

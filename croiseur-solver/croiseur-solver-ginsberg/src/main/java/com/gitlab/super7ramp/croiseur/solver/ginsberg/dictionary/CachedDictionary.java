@@ -48,13 +48,10 @@ public interface CachedDictionary {
      * with the puzzle data backing this dictionary.
      *
      * @param wordVariable   the variable for which to get the candidates count
-     * @param probedVariable variable which is not in sync with the puzzle data backing this
-     *                       {@link CachedDictionary}; connected slots candidates will be refined
-     *                       using cached result and current state
      * @return the candidates for given variable
      * @see #reevaluatedCandidatesCount(Slot, List)
      */
-    long refinedCandidatesCount(final Slot wordVariable, final SlotIdentifier probedVariable);
+    long refinedCandidatesCount(final Slot wordVariable);
 
     /**
      * Returns the number of candidates for given variable.
