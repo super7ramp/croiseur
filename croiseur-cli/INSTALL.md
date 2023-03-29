@@ -7,8 +7,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### From release
 
-No official release of the application has been made yet. This section will be updated when an
-official release is made.
+No stable release of the application has been made yet. This section will be updated when a stable
+release is made.
 
 ### From sources
 
@@ -18,14 +18,14 @@ In order to build `croiseur-cli` from sources, you need:
 
 - [Gradle](https://gradle.org/) 7.6 or later
 - [Java](https://adoptium.net/temurin/releases/) 17 or later (this one is required at run-time too)
-- [Rust](https://www.rust-lang.org/tools/install) 2018 or later
+- [Rust](https://www.rust-lang.org/tools/install) 2021 or later
 
 Note that Rust is only needed for
 the [Crossword Composer](../croiseur-solver/croiseur-solver-paulgb)
 and [xwords-rs](../croiseur-solver/croiseur-solver-szunami) solvers. You may disable them by
 commenting the following lines in `croiseur-cli`'s `build.gradle`:
 
-```
+```gradle
 runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
 runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
 ```
@@ -34,7 +34,7 @@ runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
 
 You can build `croiseur-cli` with the following command:
 
-```
+```shell
 gradle installDist
 ```
 
@@ -42,13 +42,13 @@ This will generate a portable distribution of `croiseur-cli` inside `build/insta
 
 You can then run the executable like this:
 
-```
+```shell
 ./build/install/croiseur-cli/bin/croiseur-cli help
 ```
 
 Alternatively, you may run the executable directly via Gradle without installation with:
 
-```
+```shell
 gradle run --args=help
 ```
 
@@ -67,13 +67,13 @@ of the GraalVM Gradle plugin documentation for troubleshooting.
 
 The command to build a native image of `croiseur-cli` is:
 
-```
+```shell
 gradle nativeCompile
 ```
 
 You may then run the executable like this:
 
-```
+```shell
 ./build/native/nativeCompile/croiseur-cli help
 ```
 
@@ -83,7 +83,7 @@ dictionaries out-of-the-box. You need to indicate the path to the dictionaries (
 standard build distribution) via the `com.gitlab.super7ramp.croiseur.dictionary.path` property,
 e.g.:
 
-```
+```shell
 ./build/native/nativeCompile/croiseur-cli \
   -Dcom.gitlab.super7ramp.croiseur.dictionary.path=<YOUR_DICTIONARY_PATH> \
   dictionary ls
