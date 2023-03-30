@@ -68,22 +68,21 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
-    public long refinedCandidatesCount(final Slot wordVariable) {
-        final long count;
+    public Stream<String> refinedCandidates(final Slot wordVariable) {
+        final Stream<String> refinedCandidates;
         if (!wordVariable.isInstantiated()) {
-            count = currentCandidates.get(wordVariable.uid())
-                                     .stream()
-                                     .filter(wordVariable::isCompatibleWith)
-                                     .count();
+            refinedCandidates = currentCandidates.get(wordVariable.uid())
+                                                 .stream()
+                                                 .filter(wordVariable::isCompatibleWith);
         } else {
-            count = 1L;
+            refinedCandidates = Stream.of(wordVariable.value().orElseThrow());
         }
-        return count;
+        return refinedCandidates;
     }
 
     @Override
-    public long reevaluatedCandidatesCount(final Slot wordVariable,
-                                           final List<SlotIdentifier> modifiedVariables) {
+    public Stream<String> reevaluatedCandidates(final Slot wordVariable,
+                                                final List<SlotIdentifier> modifiedVariables) {
         // Probe of the elimination space
         // TODO that should be in prober
         final Map<String, Set<SlotIdentifier>> refreshedEliminations =
@@ -101,8 +100,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
         final Predicate<String> notEliminated = not(refreshedEliminations.keySet()::contains);
         return initialCandidates.get(wordVariable.uid())
                                 .streamMatching(wordVariable.asPattern())
-                                .filter(notEliminated)
-                                .count();
+                                .filter(notEliminated);
     }
 
     @Override

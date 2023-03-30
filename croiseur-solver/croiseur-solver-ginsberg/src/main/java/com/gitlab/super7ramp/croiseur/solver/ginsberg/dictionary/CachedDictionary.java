@@ -39,25 +39,26 @@ public interface CachedDictionary {
     long candidatesCount(final Slot wordVariable);
 
     /**
-     * Returns the number of candidates for given variable.
+     * Returns the refined candidates for given variable.
      * <p>
-     * Similar to {@link #candidatesCount(Slot)} but indicates that the cached count shall be
+     * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall be
      * refined.
      * <p>
      * To be used when probing <em>assignment candidates</em>, i.e. when puzzle is not in sync
      * with the puzzle data backing this dictionary.
      *
-     * @param wordVariable   the variable for which to get the candidates count
+     * @param wordVariable the variable for which to get the candidates count
      * @return the candidates for given variable
-     * @see #reevaluatedCandidatesCount(Slot, List)
+     * @see #reevaluatedCandidates(Slot, List)
      */
-    long refinedCandidatesCount(final Slot wordVariable);
+    Stream<String> refinedCandidates(final Slot wordVariable);
 
     /**
-     * Returns the number of candidates for given variable.
+     * Returns the candidates for given variable.
      * <p>
-     * Similar to {@link #candidatesCount(Slot)} but indicates that the cached count shall not be
-     * taken into account and the count shall be completely re-evaluated.
+     * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall not be
+     * taken into account at all and the candidates shall be completely re-evaluated from initial
+     * dictionary.
      * <p>
      * To be used when probing <em>unassignment candidates</em>, i.e. when puzzle is not in
      * sync with the puzzle data backing this dictionary.
@@ -67,8 +68,8 @@ public interface CachedDictionary {
      *                        {@link CachedDictionary}; connected slots candidates will be
      *                        re-evaluated using initial candidates and current state
      * @return the candidates for given variable
-     * @see #refinedCandidatesCount(Slot, SlotIdentifier)
+     * @see #refinedCandidates(Slot)
      */
-    long reevaluatedCandidatesCount(final Slot wordVariable,
-                                    final List<SlotIdentifier> probedVariables);
+    Stream<String> reevaluatedCandidates(final Slot wordVariable,
+                                         final List<SlotIdentifier> probedVariables);
 }
