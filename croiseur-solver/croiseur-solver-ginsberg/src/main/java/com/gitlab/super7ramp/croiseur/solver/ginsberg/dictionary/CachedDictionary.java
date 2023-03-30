@@ -17,27 +17,27 @@ import java.util.stream.Stream;
 public interface CachedDictionary {
 
     /**
-     * Returns the candidates for given variable as a new {@link Stream}.
+     * Returns the candidates for given slot as a new {@link Stream}.
      *
-     * @param wordVariable a variable
-     * @return the candidates for given variable
+     * @param slot a slot
+     * @return the candidates for given slot
      */
-    Stream<String> candidates(final Slot wordVariable);
+    Stream<String> candidates(final Slot slot);
 
     /**
-     * Returns the number of candidates for given variable.
+     * Returns the number of candidates for given slot.
      * <p>
      * To be preferred over counting stream provided by {@link #candidates(Slot)} if no
      * intermediate stream operation needed, that is to say prefer
-     * {@code candidatesCount(variable)} over {@code candidates(variable).count()}.
+     * {@code candidatesCount(slot)} over {@code candidates(slot).count()}.
      *
-     * @param wordVariable a variable
-     * @return the candidates for given variable
+     * @param slot a slot
+     * @return the candidates for given slot
      */
-    long candidatesCount(final Slot wordVariable);
+    long candidatesCount(final Slot slot);
 
     /**
-     * Returns the refined candidates for given variable.
+     * Returns the refined candidates for given slot.
      * <p>
      * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall be
      * refined.
@@ -45,25 +45,25 @@ public interface CachedDictionary {
      * To be used when probing <em>assignment candidates</em>, i.e. when puzzle is not in sync
      * with the puzzle data backing this dictionary.
      *
-     * @param wordVariable the variable for which to get the candidates count
+     * @param slot a slot
      * @return the candidates for given variable
      * @see #reevaluatedCandidates(Slot)
      */
-    Stream<String> refinedCandidates(final Slot wordVariable);
+    Stream<String> refinedCandidates(final Slot slot);
 
     /**
-     * Returns the candidates for given variable.
+     * Returns the reevaluated candidates for given slot.
      * <p>
      * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall not be
-     * taken into account at all and the candidates shall be completely re-evaluated from initial
+     * taken into account at all and the candidates shall be completely reevaluated from initial
      * dictionary.
      * <p>
      * To be used when probing <em>unassignment candidates</em>, i.e. when puzzle is not in
      * sync with the puzzle data backing this dictionary.
      *
-     * @param wordVariable    the variable for which to get the candidates count
+     * @param slot a slot
      * @return the candidates for given variable
      * @see #refinedCandidates(Slot)
      */
-    Stream<String> reevaluatedCandidates(final Slot wordVariable);
+    Stream<String> reevaluatedCandidates(final Slot slot);
 }

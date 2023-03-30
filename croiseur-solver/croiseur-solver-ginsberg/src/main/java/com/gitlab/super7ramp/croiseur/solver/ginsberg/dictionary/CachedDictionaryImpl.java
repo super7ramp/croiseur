@@ -51,32 +51,32 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
-    public Stream<String> candidates(final Slot wordVariable) {
-        return currentCandidates.get(wordVariable.uid()).stream();
+    public Stream<String> candidates(final Slot slot) {
+        return currentCandidates.get(slot.uid()).stream();
     }
 
     @Override
-    public long candidatesCount(final Slot wordVariable) {
-        return currentCandidates.get(wordVariable.uid()).size();
+    public long candidatesCount(final Slot slot) {
+        return currentCandidates.get(slot.uid()).size();
     }
 
     @Override
-    public Stream<String> refinedCandidates(final Slot wordVariable) {
+    public Stream<String> refinedCandidates(final Slot slot) {
         final Stream<String> refinedCandidates;
-        if (!wordVariable.isInstantiated()) {
-            refinedCandidates = currentCandidates.get(wordVariable.uid())
+        if (!slot.isInstantiated()) {
+            refinedCandidates = currentCandidates.get(slot.uid())
                                                  .stream()
-                                                 .filter(wordVariable::isCompatibleWith);
+                                                 .filter(slot::isCompatibleWith);
         } else {
-            refinedCandidates = Stream.of(wordVariable.value().orElseThrow());
+            refinedCandidates = Stream.of(slot.value().orElseThrow());
         }
         return refinedCandidates;
     }
 
     @Override
-    public Stream<String> reevaluatedCandidates(final Slot wordVariable) {
-        return initialCandidates.get(wordVariable.uid())
-                                .streamMatching(wordVariable.asPattern());
+    public Stream<String> reevaluatedCandidates(final Slot slot) {
+        return initialCandidates.get(slot.uid())
+                                .streamMatching(slot.asPattern());
     }
 
     @Override
