@@ -35,7 +35,7 @@ build linux:
       - .cargo
 
 # A split publish task only executed on master
-# Let's avoid to run it on every branches since it is slow and flakey (gitlab-org/gitlab#362665)
+# Let's avoid to run it on every branches since it is slow
 publish linux:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -43,7 +43,7 @@ publish linux:
   stage: publish
   script:
     - gradle --parallel distZip
-    - gradle publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
+    - gradle --parallel publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
     policy: pull
