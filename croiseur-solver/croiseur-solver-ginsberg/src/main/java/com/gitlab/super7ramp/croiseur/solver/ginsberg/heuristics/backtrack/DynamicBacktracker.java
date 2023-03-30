@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Elimination;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.history.History;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
@@ -56,8 +57,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * @param historyArg    the history
      */
     DynamicBacktracker(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                       final History historyArg) {
-        prober = new Prober(puzzleArg, dictionaryArg);
+                       final EliminationSpace elsArg, final History historyArg) {
+        prober = new Prober(puzzleArg, dictionaryArg, elsArg);
         puzzle = puzzleArg;
         history = historyArg;
     }

@@ -6,9 +6,7 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary;
 
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -49,7 +47,7 @@ public interface CachedDictionary {
      *
      * @param wordVariable the variable for which to get the candidates count
      * @return the candidates for given variable
-     * @see #reevaluatedCandidates(Slot, List)
+     * @see #reevaluatedCandidates(Slot)
      */
     Stream<String> refinedCandidates(final Slot wordVariable);
 
@@ -64,12 +62,8 @@ public interface CachedDictionary {
      * sync with the puzzle data backing this dictionary.
      *
      * @param wordVariable    the variable for which to get the candidates count
-     * @param probedVariables variables which are not in sync with the puzzle data backing this
-     *                        {@link CachedDictionary}; connected slots candidates will be
-     *                        re-evaluated using initial candidates and current state
      * @return the candidates for given variable
      * @see #refinedCandidates(Slot)
      */
-    Stream<String> reevaluatedCandidates(final Slot wordVariable,
-                                         final List<SlotIdentifier> probedVariables);
+    Stream<String> reevaluatedCandidates(final Slot wordVariable);
 }

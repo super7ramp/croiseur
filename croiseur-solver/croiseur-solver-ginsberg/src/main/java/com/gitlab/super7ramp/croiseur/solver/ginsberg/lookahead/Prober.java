@@ -6,12 +6,21 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead;
 
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static java.util.function.Predicate.not;
 
 /**
  * Provides some common lookahead functions.
@@ -24,15 +33,21 @@ public final class Prober {
     /** The dictionary. */
     private final CachedDictionary dictionary;
 
+    /** The elimination space. */
+    private final EliminationSpace els;
+
     /**
-     * Constructor.
+     * Constructs an instance.
      *
-     * @param aPuzzle     a puzzle to probe
-     * @param aDictionary a dictionary
+     * @param puzzleArg     a puzzle to probe
+     * @param dictionaryArg a dictionary
+     * @param elsArg        an elimination space
      */
-    public Prober(final Puzzle aPuzzle, final CachedDictionary aDictionary) {
-        puzzle = aPuzzle;
-        dictionary = aDictionary;
+    public Prober(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
+                  final EliminationSpace elsArg) {
+        puzzle = puzzleArg;
+        dictionary = dictionaryArg;
+        els = elsArg;
     }
 
     /**
@@ -58,13 +73,13 @@ public final class Prober {
      * estimation can be very large computation is made using {@link BigInteger}
      */
     public BigInteger computeNumberOfLocalSolutionsAfter(final Assignment assignment) {
-        final Slot probedSlot = probeAssignment(assignment);
+        final Slot probedSlot = probeSlot(assignment);
         // @formatter:off
         return probedSlot.connectedSlots()
                          .reduce(BigInteger.ONE, // default value if no connected slot
                                  (previous, slot) ->
                                      previous.signum() == 0 ? previous : // already 0, don't probe
-                                     previous.multiply(BigInteger.valueOf(dictionary.refinedCandidatesCount(slot))),
+                                     previous.multiply(BigInteger.valueOf(dictionary.refinedCandidates(slot).count())),
                                  BigInteger::multiply);
         // @formatter:on
     }
@@ -75,7 +90,7 @@ public final class Prober {
      * @param assignment the assignment
      * @return a slot deep copy as it the assignment were applied
      */
-    private Slot probeAssignment(final Assignment assignment) {
+    private Slot probeSlot(final Assignment assignment) {
         final Puzzle probePuzzle = puzzle.copy();
         final Slot probedSlot = probePuzzle.slot(assignment.slotUid());
         probedSlot.assign(assignment.word());
@@ -106,10 +121,37 @@ public final class Prober {
      */
     public boolean hasSolutionAfter(final Collection<Unassignment> unassignment,
                                     final Slot unassignable) {
-        final Slot probedSlot = probeUnassignment(unassignment, unassignable);
-        return dictionary.reevaluatedCandidatesCount(probedSlot, unassignment.stream()
-                                                                             .map(Unassignment::slotUid)
-                                                                             .toList()) > 0;
+        final Slot probedSlot = probeSlot(unassignment, unassignable);
+        final Set<String> probedEliminations = probeEliminationSpace(unassignment, unassignable);
+        return dictionary.reevaluatedCandidates(probedSlot)
+                         .anyMatch(not(probedEliminations::contains));
+    }
+
+    /**
+     * Probes the {@link #els elimination space} against the given unassignments.
+     *
+     * @param unassignments the unassignments to apply
+     * @param unassignable  the unassignable slot
+     * @return the set of eliminated values for the unassignable variable
+     */
+    private Set<String> probeEliminationSpace(final Collection<Unassignment> unassignments,
+                                              final Slot unassignable) {
+        // TODO that would be simpler if elimination space provided a deep copy method like puzzle
+        final List<SlotIdentifier> modifiedVariables = unassignments.stream()
+                                                                    .map(Unassignment::slotUid)
+                                                                    .toList();
+        final Map<String, Set<SlotIdentifier>> refreshedEliminations =
+                new HashMap<>(els.eliminations(unassignable.uid()));
+        final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()
+                                                                                         .iterator();
+        while (it.hasNext()) {
+            final Map.Entry<String, Set<SlotIdentifier>> elimination = it.next();
+            final Set<SlotIdentifier> reasons = elimination.getValue();
+            if (!Collections.disjoint(reasons, modifiedVariables)) {
+                it.remove();
+            }
+        }
+        return refreshedEliminations.keySet();
     }
 
     /**
@@ -120,8 +162,8 @@ public final class Prober {
      * @return a deep copy of the given unassignable variable with the effects of the
      * unassignment applied
      */
-    private Slot probeUnassignment(final Collection<Unassignment> unassignments,
-                                   final Slot unassignable) {
+    private Slot probeSlot(final Collection<Unassignment> unassignments,
+                           final Slot unassignable) {
         final Puzzle probedPuzzle = puzzle.copy();
         for (final Unassignment unassignment : unassignments) {
             probedPuzzle.slot(unassignment.slotUid()).unassign();

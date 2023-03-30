@@ -11,16 +11,9 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import static java.util.function.Predicate.not;
 
 /**
  * Implementation of {@link CachedDictionary}.
@@ -81,26 +74,9 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     }
 
     @Override
-    public Stream<String> reevaluatedCandidates(final Slot wordVariable,
-                                                final List<SlotIdentifier> modifiedVariables) {
-        // Probe of the elimination space
-        // TODO that should be in prober
-        final Map<String, Set<SlotIdentifier>> refreshedEliminations =
-                new HashMap<>(els.eliminations(wordVariable.uid()));
-        final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()
-                                                                                         .iterator();
-        while (it.hasNext()) {
-            final Map.Entry<String, Set<SlotIdentifier>> elimination = it.next();
-            final Set<SlotIdentifier> reasons = elimination.getValue();
-            if (!Collections.disjoint(reasons, modifiedVariables)) {
-                it.remove();
-            }
-        }
-
-        final Predicate<String> notEliminated = not(refreshedEliminations.keySet()::contains);
+    public Stream<String> reevaluatedCandidates(final Slot wordVariable) {
         return initialCandidates.get(wordVariable.uid())
-                                .streamMatching(wordVariable.asPattern())
-                                .filter(notEliminated);
+                                .streamMatching(wordVariable.asPattern());
     }
 
     @Override

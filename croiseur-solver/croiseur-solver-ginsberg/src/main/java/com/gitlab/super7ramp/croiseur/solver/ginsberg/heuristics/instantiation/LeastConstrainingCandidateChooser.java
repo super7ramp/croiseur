@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
@@ -59,12 +60,14 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
     /**
      * Constructor.
      *
-     * @param aPuzzle     the puzzle to solve
-     * @param aDictionary the dictionary to pick candidates from
+     * @param puzzleArg     the puzzle to solve
+     * @param dictionaryArg the dictionary to pick candidates from
+     * @param elsArg        the elimination space
      */
-    LeastConstrainingCandidateChooser(final Puzzle aPuzzle, final CachedDictionary aDictionary) {
-        dictionary = aDictionary;
-        prober = new Prober(aPuzzle, aDictionary);
+    LeastConstrainingCandidateChooser(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
+                                      final EliminationSpace elsArg) {
+        dictionary = dictionaryArg;
+        prober = new Prober(puzzleArg, dictionaryArg, elsArg);
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 
 /**
@@ -25,11 +26,13 @@ public final class CandidateChoosers {
      *
      * @param puzzle     the puzzle
      * @param dictionary the dictionary
+     * @param els        the elimination space
      * @return the default {@link CandidateChooser}
      */
     public static CandidateChooser<Slot, String> byDefault(final Puzzle puzzle,
-                                                           final CachedDictionary dictionary) {
-        return leastConstraining(puzzle, dictionary);
+                                                           final CachedDictionary dictionary,
+                                                           final EliminationSpace els) {
+        return leastConstraining(puzzle, dictionary, els);
     }
 
     /**
@@ -37,11 +40,13 @@ public final class CandidateChoosers {
      *
      * @param puzzle     the puzzle
      * @param dictionary the dictionary
+     * @param els        the elimination space
      * @return a {@link CandidateChooser} selecting the first viable value
      */
     public static CandidateChooser<Slot, String> firstViable(final Puzzle puzzle,
-                                                             final CachedDictionary dictionary) {
-        return new FirstViableCandidateChooser(puzzle, dictionary);
+                                                             final CachedDictionary dictionary,
+                                                             final EliminationSpace els) {
+        return new FirstViableCandidateChooser(puzzle, dictionary, els);
     }
 
     /**
@@ -52,11 +57,13 @@ public final class CandidateChoosers {
      *
      * @param puzzle     the puzzle
      * @param dictionary the dictionary
+     * @param els        the elimination space
      * @return a {@link CandidateChooser} selecting the first viable value
      */
     public static CandidateChooser<Slot, String> leastConstraining(final Puzzle puzzle,
-                                                                   final CachedDictionary dictionary) {
-        return new LeastConstrainingCandidateChooser(puzzle, dictionary);
+                                                                   final CachedDictionary dictionary,
+                                                                   final EliminationSpace els) {
+        return new LeastConstrainingCandidateChooser(puzzle, dictionary, els);
     }
 
 }

@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.history.History;
 
@@ -27,13 +28,17 @@ public final class Backtrackers {
     /**
      * Returns the best {@link Backtracker} in most situations.
      *
-     * @param history assignment history
+     * @param puzzle     the puzzle
+     * @param dictionary the dictionary
+     * @param els        the elimination space
+     * @param history    assignment history
      * @return the best {@link Backtracker} in most situations.
      */
     public static Backtracker<Slot, SlotIdentifier> byDefault(final Puzzle puzzle,
                                                               final CachedDictionary dictionary,
+                                                              final EliminationSpace els,
                                                               final History history) {
-        return new DynamicBacktracker(puzzle, dictionary, history);
+        return new DynamicBacktracker(puzzle, dictionary, els, history);
     }
 
 }

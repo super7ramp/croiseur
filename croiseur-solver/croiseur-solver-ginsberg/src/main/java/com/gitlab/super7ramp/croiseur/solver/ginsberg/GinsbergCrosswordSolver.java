@@ -63,10 +63,11 @@ public final class GinsbergCrosswordSolver {
         // Instantiates heuristics
         final SlotIteratorImpl slotChooser = new SlotIteratorImpl(slots, problem.dictionary());
         final CandidateChooser<Slot, String> candidateChooser =
-                CandidateChoosers.byDefault(problem.grid().puzzle(), problem.dictionary());
+                CandidateChoosers.byDefault(problem.grid().puzzle(), problem.dictionary(),
+                        problem.eliminationSpace());
         final Backtracker<Slot, SlotIdentifier> backtracker =
                 Backtrackers.byDefault(problem.grid().puzzle(), problem.dictionary(),
-                        problem.history());
+                        problem.eliminationSpace(), problem.history());
 
         // A listener to advertise progress to library user
         final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
