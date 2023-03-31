@@ -3,13 +3,13 @@
 
 [versions]
 cargo-plugin = "1.1.0"
-cucumber = "7.11.1"
+cucumber = "7.11.2"
 java = "17.0.6"
 javafx-plugin = "0.0.13"
 junit5 = "5.9.2"
 junit5-platform = "1.9.2"
-mockito = "5.1.1"
-native-plugin = "0.9.19"
+mockito = "5.2.0"
+native-plugin = "0.9.20"
 picocli = "4.7.1"
 
 [libraries]
