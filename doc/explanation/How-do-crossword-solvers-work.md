@@ -83,7 +83,7 @@ However, such a strategy may:
 ##### Backmark
 
 An improved version of the simple backtrack that stores some information to avoid repeating the
-same work, proposed by [Gaschnig79].
+same work, proposed by [Gaschnig79]. This strategy is not used in **croiseur**.
 
 ##### Backjump
 
@@ -97,11 +97,12 @@ crossing the unassignable slot according to [Ginsberg90].
 
 ##### Dynamic Backtrack
 
-A kind of backjump which does not erase the values set for the variables jumped over. Relies on
-an elimination memory for each variable. Effectively changes search order.
+A kind of backjump which does not erase the values set for the variables jumped over [Ginsberg93].
+Relies on an elimination memory for each variable. Effectively changes search order.
 
-> — Honestly it feels a bit magical. I am not confident at all that `croiseur-solver-ginsberg`
-> implementation is correct.
+> — I am not sure to understand it and as a result I have doubts on the correctness of the
+> implementation in `croiseur-solver-ginsberg`. It does not prevent this solver to find solutions
+> though, but it might only be due to the other heuristics, for slot selection and value selection.
 
 ##### Example
 
@@ -109,198 +110,299 @@ Let us take the following grid. `#` indicates a shaded box while a blank indicat
 The digits outside the grid indicate the slot number.
 
 ```
-       4       2
-       v       v
-1 > | | | | | | |
-    |#| |#|#|#| |
-    |#| |#|#|#| |
-    |#| |#|#|#| |
-    |#| |#|#|#| |
-3 > |#| | | | | |
+     1
+     v
+2 > | | |#|#|
+    | |#|#|#|
+3 > | | | |#|
+    | |#|#|#|
+4 > | | | | |
 ```
 
-Let us also assume our dictionary
-is `{ABCDEF,ATCDEF,FGHIJK,TSRQPO,BSRQPX,ONMLK,ONMLJ,ONMLI,ONMLH,ONMLG}` and that we are going to
-naively iterate over slots using slot numbers and iterating over word candidates using the
-dictionary order.
-
-Let us proceed until a dead end is reached:
+This grid is accompanied by the following dictionary: `{AXCXX,ABCDE,AB,AX,CDE,CXX,EFGH,YYYY}`.
+To be clearer, let us represent the possible words per slot:
 
 ```
--- Assigning slot #1:
-
-       4       2  
-       v       v      
-1 > | | | | | | |         | # | Current | Candidates                             | New    |
-    |#| |#|#|#| |         | 1 |         | ABCDEF, ATCDEF, FGHIJK, TSRQPO, BSRQPX | ABCDEF |
-    |#| |#|#|#| |         | 2 |         | ABCDEF, ATCDEF, FGHIJK, TSRQPO, BSRQPX |        |
-    |#| |#|#|#| |         | 3 |         | ONMLK, ONMLJ, ONMLI, ONMLH, ONMLG      |        |
-    |#| |#|#|#| |         | 4 |         | ABCDEF, ATCDEF, FGHIJK, TSRQPO, BSRQPX |        |
-3 > |#| | | | | |          
-
--- Assigning slot #2
-
-       4       2
-       v       v
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                             | New    |
-    |#| |#|#|#| |         | 1 | ABCDEF  | ABCDEF                                 | ABCDEF |
-    |#| |#|#|#| |         | 2 |         | FGHIJK                                 | FGHIJK |
-    |#| |#|#|#| |         | 3 |         | ONMLK, ONMLJ, ONMLI, ONMLH             |        |
-    |#| |#|#|#| |         | 4 |         | BSRQPX                                 |        |
-3 > |#| | | | | |
-
--- Assigning slot #3
-
-       4       2
-       v       v
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                             | New    |
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                                 | ABCDEF |
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                                 | FGHIJK |
-    |#| |#|#|#|I|         | 3 |         | ONMLK                                  | ONMLK  |
-    |#| |#|#|#|J|         | 4 |         | BSRQPX                                 |        |
-3 > |#| | | | |K|
-
--- Cannot assign slot #4
-
-       4       2  
-       v       v  
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                             | New    |
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                                 | ABCDEF |
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                                 | FGHIJK |
-    |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                                  | ONMLK  |
-    |#| |#|#|#|J|         | 4 |         | (none, dead-end)                       | !!!!!! |
-3 > |#|O|N|M|L|K| 
+1: {AXCXX,ABCDE}
+2: {AB,AX}
+3: {CDE,CXX}
+4: {EFGH,YYYY}
 ```
 
-Slot 4 cannot be assigned a value. The problem actually comes from the slot 1, because of the
-constraint it puts on slot 4. One should have chosen `ATCDEF` so that the grid could be filled
-like this:
+For this example, we will:
+
+- Take a default search order based on slot number;
+- Take the values in the order of the dictionary;
+- Not do any forward checking.
+
+> — Forward checking makes this example trivial and removes differences between backtrack
+> strategies.
+
+Let us now represent our search space as a tree:
 
 ```
-       4       2                4       2                4       2                4       2 
-       v       v                v       v                v       v                v       v 
-1 > |A|T|C|D|E|F|        1 > |A|T|C|D|E|F|        1 > |A|T|C|D|E|F|        1 > |A|T|C|D|E|F|
-    |#| |#|#|#| |            |#| |#|#|#|G|            |#| |#|#|#|G|            |#|S|#|#|#|G|
-    |#| |#|#|#| |            |#| |#|#|#|H|            |#| |#|#|#|H|            |#|R|#|#|#|H|
-    |#| |#|#|#| |            |#| |#|#|#|I|            |#| |#|#|#|I|            |#|Q|#|#|#|I|
-    |#| |#|#|#| |            |#| |#|#|#|J|            |#| |#|#|#|J|            |#|P|#|#|#|J|
-3 > |#| | | | | |        3 > |#| | | | |K|        3 > |#|O|N|M|L|K|        3 > |#|O|N|M|L|K|
+├── 1:AXCXX
+│   ├── 2:AB
+│   │   ├── 3:CDE
+│   │   │   ├── 4:EFGH
+│   │   │   └── 4:YYYY
+│   │   └── 3:XXX
+│   │       ├── 4:EFGH
+│   │       └── 4:YYYY
+│   └── 2:AX
+│      ├── 3:CDE
+│      │   ├── 4:EFGH
+│      │   └── 4:YYYY
+│      └── 3:CXX
+│          ├── 4:EFGH
+│          └── 4:YYYY
+└── 1:ABCDE
+    ├── 2:AB
+    │   ├── 3:CDE
+    │   │   ├── 4:EFGH
+    │   │   └── 4:YYYY
+    │   └── 3:CXX
+    │       ├── 4:EFGH
+    │       └── 4:YYYY
+    └── 2:AX
+        ├── 3:CDE
+        │   ├── 4:EFGH
+        │   └── 4:YYYY
+        └── 3:CXX
+            ├── 4:EFGH
+            └── 4:YYYY
 ```
 
-Let us see how the different backtrack strategies deal with this situation.
-
-With simple backtrack, the algorithm repeatedly backtracks to the previous slot. The dead-end
-propagates till the source of the problem, slot #1:
+Let us see how the different strategies handles the situation, beginning with simple
+chronological backtrack:
 
 ```
--- Unassigning slot #3
+-- Assigning 1: AXCXX
 
-       4       2                                                                              
-       v       v                                                                              
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                              | New    |
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                                  | ABCDEF |
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                                  | FGHIJK |
-    |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                                   |        |
-    |#| |#|#|#|J|         | 4 |         | (none, dead-end)                        |        |
-3 > |#|O|N|M|L|K|                                                                             
+     1
+     v
+2 > |A| |#|#|         | # | Current | Candidates  | New    |                         
+    |X|#|#|#|         | 1 |         | AXCXX,ABCDE | AXCXX  | 
+3 > |C| | |#|         | 2 |         | AB,AX       |        | 
+    |X|#|#|#|         | 3 |         | CDE,CXX     |        | 
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Unassigning slot #2
+-- Because we do not have an intelligent search order and no forward check, we do not see that 4 is 
+-- not assignable anymore and this is a dead-end. We will do a lot of useless tries since we have 
+-- not spotted that.
 
-       4       2
-       v       v
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                              | New    |
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                                  | ABCDEF |
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                                  |        |
-    |#| |#|#|#|I|         | 3 |         | (none, dead-end)                        |        |
-    |#| |#|#|#|J|         | 4 |         | BSRQPX                                  |        |
-3 > |#| | | | |K|
+-- Assigning 2: AB
 
--- Unassigning slot #1 - ABCDEF definitely eliminated
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C| | |#|         | 2 |         | AB,AX       | AB     |       
+    |X|#|#|#|         | 3 |         | CDE,CXX     |        |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
-       4       2
-       v       v
-1 > |A|B|C|D|E|F|         | # | Current | Candidates                              | New    |
-    |#| |#|#|#| |         | 1 | ABCDEF  | ABCDEF                                  |        |
-    |#| |#|#|#| |         | 2 |         | (none, dead-end)                        |        |
-    |#| |#|#|#| |         | 3 |         | ONMLK, ONMLJ, ONMLI, ONMLH              |        |
-    |#| |#|#|#| |         | 4 |         | BSRQPX                                  |        |
-3 > |#| | | | | |
+-- Assigning 3: CDE
 
--- Assigning slot #1
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|D|E|#|         | 2 | AB      | AB,AX       | AB     |       
+    |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
-       4       2
-       v       v
-1 > | | | | | | |         | # | Current | Candidates                              | New    |
-    |#| |#|#|#| |         | 1 |         | ATCDEF, FGHIJK, TSRQPO, BSRQPX          | ATCDEF |
-    |#| |#|#|#| |         | 2 |         | ABCDEF, ATCDEF, FGHIJK, TSRQPO, BSRQPX  |        |
-    |#| |#|#|#| |         | 3 |         | ONMLK, ONMLJ, ONMLI, ONMLH              |        |
-    |#| |#|#|#| |         | 4 |         | BSRQPX                                  |        |
-3 > |#| | | | | |
+-- Assigning 4: Both YYYY and EFGH fails
+-- Backtracking to last slot 3
+-- Assigning slot 3: CXX
 
-[Then no problem to fill the grid as described above.]
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|X|X|#|         | 2 | AB      | AB,AX       | AB     |       
+    |X|#|#|#|         | 3 | CDE     | (CDE) CXX   | CXX    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
+
+-- Assigning 4: Both YYYY and EFGH fails
+-- Backtracking to last slot 3: No more values left.
+-- Backtracking to last slot 2
+-- Assigning 2: AX
+
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|X|X|#|         | 2 | AB      | (AB) AX     | AX     |       
+    |X|#|#|#|         | 3 |         | CDE, CXX    |        |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
+
+-- Assigning 3: CDE
+
+     1                                                             
+     v                                                             
+2 > |A|X|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|D|E|#|         | 2 | AX      | (AB) AX     | AX     |       
+    |X|#|#|#|         | 3 |         | CDE, CXX    | CDE    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
+
+-- Assigning 4: Both YYYY and EFGH fails
+-- Backtracking to last slot 3
+-- Assigning slot 3: CXX
+
+     1                                                             
+     v                                                             
+2 > |A|X|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|X|X|#|         | 2 | AX      | (AB) AX     | AX     |       
+    |X|#|#|#|         | 3 | CDE     | (CDE) CXX   | CXX    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
+
+-- Assigning 4: Both YYYY and EFGH fails
+-- Backtracking to last slot 3: No more values left.
+-- Backtracking to last slot 2: No more values left.
+-- Backtracking to last slot 1 (at last).
+-- Assigning 1: ABCDE
+
+     1
+     v
+2 > |A| |#|#|         | # | Current | Candidates    | New    |                         
+    |B|#|#|#|         | 1 |         | (AXCXX) ABCDE | ABCDE  | 
+3 > |C| | |#|         | 2 |         | AB, AX        |        | 
+    |D|#|#|#|         | 3 |         | CDE, CXX      |        | 
+4 > |E| | | |         | 4 |         | EFGH,YYYY     |        |
+
+-- Assigning 2: AB
+-- Assigning 3: CDE
+-- Assigning 4: EFGH
+-- All slots filled
+
+     1         
+     v         
+2 > |A|B|#|#|  
+    |B|#|#|#|  
+3 > |C|D|E|#|  
+    |D|#|#|#|  
+4 > |E|F|G|H|   
 ```
 
-Backjump avoids this repeated backtrack by directly going to the source of the problem found in slot
-4: The value of the crossing slot 1.
+As expected, simple backtrack (coupled with no intelligence on the slot selection and the way we
+verify constraints) takes a lot of steps.
+
+Basically we have covered this part of the search tree entirely:
 
 ```
--- Backjumping to 1, unassigning slot 1 to 3 - ABCDEF definitely eliminated
-
-       4       2                                                                              
-       v       v                                                                              
-1 > |A|B|C|D|E|F|         | # | Current | Candidates              | New    |                  
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                  |        | < dead-end cause
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                  |        |                  
-    |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                   |        |                  
-    |#| |#|#|#|J|         | 4 |         | (none, dead-end)        |        |        
-3 > |#|O|N|M|L|K|
-
--- Assigning slot 1
-
-       4       2
-       v       v
-1 > | | | | | | |         | # | Current | Candidates                              | New    |
-    |#| |#|#|#| |         | 1 |         | ATCDEF, FGHIJK, TSRQPO, BSRQPX          | ATCDEF |
-    |#| |#|#|#| |         | 2 |         | ABCDEF, ATCDEF, FGHIJK, TSRQPO, BSRQPX  |        |
-    |#| |#|#|#| |         | 3 |         | ONMLK, ONMLJ, ONMLI, ONMLH              |        |
-    |#| |#|#|#| |         | 4 |         | BSRQPX                                  |        |
-3 > |#| | | | | |
-
-[Then no problem to fill the grid as described above.]
+├── 1:AXCXX
+│   ├── 2:AB
+│   │   ├── 3:CDE
+│   │   │   ├── 4:EFGH
+│   │   │   └── 4:YYYY
+│   │   └── 3:XXX
+│   │       ├── 4:EFGH
+│   │       └── 4:YYYY
+│   └── 2:AX
+│      ├── 3:CDE
+│      │   ├── 4:EFGH
+│      │   └── 4:YYYY
+│      └── 3:CXX
+│          ├── 4:EFGH
+│          └── 4:YYYY
+└── 1:ABCDE
+    └── 2:AB
+        └── 3:CDE
+            └── 4:EFGH
 ```
 
-Dynamic backtrack tries to be smarter and say: "I can determine that slot 1 is the source of the
-problem, and I don't want to lose the work done for 2 and 3, so I'll just unassign #1 and keep
-in mind that I have eliminated its value because of this situation".
+Now let us look at how backjump would handle this situation. Backjump is able to determine that
+slots 2 and 3 have no influence on 4: They do not cross 4. But 1 is, so it is the backjump point
+to target.
 
 ```
--- Unassigning slot #1 - ABCDEF eliminated because of slot #3 
+-- Assigning 1: AXCXX
+-- Assigning 2: AB
+-- Assigning 3: CDE
 
-       4       2                                                                              
-       v       v                                                                              
-1 > |A|B|C|D|E|F|         | # | Current | Candidates              | New    |                  
-    |#| |#|#|#|G|         | 1 | ABCDEF  | ABCDEF                  |        | < dead-end cause                 
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                  | FGHIJK |                  
-    |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                   | ONMLK  |                  
-    |#| |#|#|#|J|         | 4 |         | (none, dead-end)        |        |        
-3 > |#|O|N|M|L|K|
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|D|E|#|         | 2 | AB      | AB,AX       | AB     |       
+    |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning slot #1
+-- Assigning 4: Both YYYY and EFGH fails
+-- Backjumping to latest connected slot 1
+-- Assigning 1: ABCDE
 
-       4       2                                                                              
-       v       v                                                                              
-1 > | | | | | |F|         | # | Current | Candidates              | New    |                 
-    |#| |#|#|#|G|         | 1 |         | ATCDEF                  | ATCDEF | 
-    |#| |#|#|#|H|         | 2 | FGHIJK  | FGHIJK                  | FGHIJK |                  
-    |#| |#|#|#|I|         | 3 | ONMLK   | ONMLK                   | ONMLK  |                  
-    |#| |#|#|#|J|         | 4 |         | BSRQPX, TSRQPO          |        |        
-3 > |#|O|N|M|L|K|
+     1                                                             
+     v                                                             
+2 > |A| |#|#|         | # | Current | Candidates    | New    |       
+    |B|#|#|#|         | 1 | AXCXX   | (AXCXX) ABCDE | ABCDE  |       
+3 > |C| | |#|         | 2 | AB      | AB,AX         |        |       
+    |D|#|#|#|         | 3 | CDE     | CDE,CXX       |        |       
+4 > |E| | | |         | 4 |         | EFGH,YYYY     |        |
 
-[Then no problem to assign slot #4 with TSRQPO]
+-- Then no problem to find solution
 ```
 
-Note that here elimination of `ABCDEF` for slot 1 because of slot 3 is not definitive: It is
-valid until slot 1 is unassigned (which does not occur here).
+With this strategy, here are the nodes which have been visited from the search tree:
+
+```
+├── 1:AXCXX
+│   └── 2:AB
+│       └── 3:CDE
+│           ├── 4:EFGH
+│           └── 4:YYYY
+└── 1:ABCDE
+    └── 2:AB
+        └── 3:CDE
+            └── 4:EFGH
+```
+
+That is significantly less.
+
+Dynamic backtracking pushes the idea further by keeping values of nodes which have been jumped
+over:
+
+```
+-- Assigning 1: AXCXX
+-- Assigning 2: AB
+-- Assigning 3: CDE
+
+     1                                                             
+     v                                                             
+2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+    |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
+3 > |C|D|E|#|         | 2 | AB      | AB,AX       | AB     |       
+    |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
+4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
+
+-- Assigning 4: Both YYYY and EFGH fails
+-- Dynamically backtracking to latest connected slot 1
+-- Assigning 1: ABCDE
+
+     1                                                             
+     v                                                             
+2 > |A| |#|#|         | # | Current | Candidates    | New    |       
+    |B|#|#|#|         | 1 | AXCXX   | (AXCXX) ABCDE | ABCDE  |       
+3 > |C| | |#|         | 2 | AB      | AB,AX         | AB     |       
+    |D|#|#|#|         | 3 | CDE     | CDE,CXX       | CDE    |       
+4 > |E| | | |         | 4 |         | EFGH,YYYY     |        |
+
+-- Assigning 4: EFGH, done.
+```
+
+With this strategy, the search order has actually been modified:
+
+```
+   1:AXCXX  ---------------------------\
+    └── 2:AB                           |
+        └── 3:CDE                      |
+            ├── 4:EFGH  -- invalid     | reordered
+            ├── 4:YYYY  -- invalid     |
+            └── 1:ABCDE <--------------/
+                └── 4:EFGH
+```
 
 #### Solvers comparison
 
