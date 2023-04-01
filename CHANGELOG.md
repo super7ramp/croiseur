@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## Version 0.2 – Solver Improvements – 2023/04/01
 
 - Improved `croiseur-solver-ginsberg`:
