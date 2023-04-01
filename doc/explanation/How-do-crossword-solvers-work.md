@@ -189,7 +189,7 @@ chronological backtrack:
 
 -- Because we do not have an intelligent search order and no forward check, we do not see that 4 is 
 -- not assignable anymore and this is a dead-end. We will do a lot of useless tries since we have 
--- not spotted that.
+-- not spotted this issue.
 
 -- Assigning 2: AB
 
@@ -211,7 +211,7 @@ chronological backtrack:
     |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Backtracking to last slot 3
 -- Assigning slot 3: CXX
 
@@ -223,7 +223,7 @@ chronological backtrack:
     |X|#|#|#|         | 3 | CDE     | (CDE) CXX   | CXX    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Backtracking to last slot 3: No more values left.
 -- Backtracking to last slot 2
 -- Assigning 2: AX
@@ -246,7 +246,7 @@ chronological backtrack:
     |X|#|#|#|         | 3 |         | CDE, CXX    | CDE    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Backtracking to last slot 3
 -- Assigning slot 3: CXX
 
@@ -258,7 +258,7 @@ chronological backtrack:
     |X|#|#|#|         | 3 | CDE     | (CDE) CXX   | CXX    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Backtracking to last slot 3: No more values left.
 -- Backtracking to last slot 2: No more values left.
 -- Backtracking to last slot 1 (at last).
@@ -330,7 +330,7 @@ to target.
     |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Backjumping to latest connected slot 1
 -- Assigning 1: ABCDE
 
@@ -359,7 +359,7 @@ With this strategy, here are the nodes which have been visited from the search t
             └── 4:EFGH
 ```
 
-That is significantly less.
+This is significantly less.
 
 Dynamic backtracking pushes the idea further by keeping values of nodes which have been jumped
 over:
@@ -377,7 +377,7 @@ over:
     |X|#|#|#|         | 3 |         | CDE,CXX     | CDE    |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
--- Assigning 4: Both YYYY and EFGH fails
+-- Assigning 4: Both YYYY and EFGH fail
 -- Dynamically backtracking to latest connected slot 1
 -- Assigning 1: ABCDE
 
@@ -408,11 +408,11 @@ With this strategy, the search order has actually been modified:
 
 Here is a comparison between solvers available in **croiseur**:
 
-| Solvers ↓ Steps →  | Variable selection         | Value selection    | Backtrack     |
-|--------------------|----------------------------|--------------------|---------------|
-| Ginsberg           | Currently most constrained | Least constraining | Dynamic       |
-| Crossword Composer | Initially most constrained | First viable       | Chronological |
-| xwords-rs          | Initially most constrained | First viable       | Chronological |
+| Solvers ↓ Steps →  | Variable selection                                           | Value selection    | Backtrack     |
+|--------------------|--------------------------------------------------------------|--------------------|---------------|
+| Ginsberg           | Min by current number of possible values                     | Least constraining | Dynamic       |
+| Crossword Composer | Max by slot length then by number of assigned crossing slots | First satisfying   | Chronological |
+| xwords-rs          | Min by current number of possible values                     | First viable       | Chronological |
 
 ### Other solving techniques
 
