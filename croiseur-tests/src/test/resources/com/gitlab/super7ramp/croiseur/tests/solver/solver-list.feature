@@ -10,10 +10,10 @@ Feature: List Solvers
 
     When user requests to list the available solvers
     Then the application presents the following solvers:
-      | Name               | Description                                                           |
-      | Ginsberg           | A crossword solver based on Ginsberg's papers. Written in Java.       |
-      | Crossword Composer | The solver powering the Crossword Composer software. Written in Rust. |
-      | XWords RS          | The solver powering the XWords RS tool. Written in Rust.              |
+      | Name               | Description                                                                             |
+      | Ginsberg           | A crossword solver based on Ginsberg's papers.                                          |
+      | Crossword Composer | The solver powering the Crossword Composer software. Does not support pre-filled grids. |
+      | XWords RS          | The solver powering the XWords RS tool.                                                 |
 
   @no-auto-deploy
   Scenario: List Solver - No solver installed

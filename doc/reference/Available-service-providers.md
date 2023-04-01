@@ -30,11 +30,11 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 ### Solvers
 
-| Name                            | Description                                                                                                         |
-|---------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                                                 |
-| [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Doesn't support grids prefilled with words or letters. Written in Rust. |
-| [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust.                                                        |
+| Name                            | Description                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------|
+| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                             |
+| [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Written in Rust. Does not support pre-filled grids. |
+| [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust. Generally the fastest solver.      |
 
 ### Presenters
 
