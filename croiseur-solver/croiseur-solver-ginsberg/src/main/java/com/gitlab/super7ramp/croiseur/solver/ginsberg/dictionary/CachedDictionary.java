@@ -10,14 +10,14 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import java.util.stream.Stream;
 
 /**
- * A dictionary caching results of potentially slow external dictionary.
- * <p>
- * The following methods do not modify the dictionary, they are read-only.
+ * A dictionary caching results of potentially slow external dictionary and taking into account
+ * words eliminated by search.
  */
 public interface CachedDictionary {
 
     /**
-     * Returns the candidates for given slot as a new {@link Stream}.
+     * Returns the current candidates for given slot as a new {@link Stream}, taking into account
+     * current elimination space.
      *
      * @param slot a slot
      * @return the candidates for given slot
@@ -25,45 +25,28 @@ public interface CachedDictionary {
     Stream<String> candidates(final Slot slot);
 
     /**
-     * Returns the number of candidates for given slot.
+     * Returns the cached number of candidates for given slot.
      * <p>
      * To be preferred over counting stream provided by {@link #candidates(Slot)} if no
-     * intermediate stream operation needed, that is to say prefer
-     * {@code candidatesCount(slot)} over {@code candidates(slot).count()}.
+     * intermediate stream operation needed, that is to say prefer {@code candidatesCount(slot)}
+     * over {@code candidates(slot).count()}.
      *
      * @param slot a slot
      * @return the candidates for given slot
      */
-    long candidatesCount(final Slot slot);
+    long cachedCandidatesCount(final Slot slot);
 
     /**
-     * Returns the refined candidates for given slot.
+     * Returns the reevaluated candidates for given slot, ignoring current elimination space.
      * <p>
-     * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall be
-     * refined.
+     * Similar to {@link #candidates(Slot)} but indicates that the words eliminated by search so
+     * far shall be taken into account again and the candidates shall be completely reevaluated
+     * from initial dictionary.
      * <p>
-     * To be used when probing <em>assignment candidates</em>, i.e. when puzzle is not in sync
-     * with the puzzle data backing this dictionary.
+     * To be used when probing <em>unassignment candidates</em>.
      *
      * @param slot a slot
      * @return the candidates for given variable
-     * @see #reevaluatedCandidates(Slot)
-     */
-    Stream<String> refinedCandidates(final Slot slot);
-
-    /**
-     * Returns the reevaluated candidates for given slot.
-     * <p>
-     * Similar to {@link #candidates(Slot)} but indicates that the cached candidates shall not be
-     * taken into account at all and the candidates shall be completely reevaluated from initial
-     * dictionary.
-     * <p>
-     * To be used when probing <em>unassignment candidates</em>, i.e. when puzzle is not in
-     * sync with the puzzle data backing this dictionary.
-     *
-     * @param slot a slot
-     * @return the candidates for given variable
-     * @see #refinedCandidates(Slot)
      */
     Stream<String> reevaluatedCandidates(final Slot slot);
 }

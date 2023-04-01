@@ -94,7 +94,7 @@ public final class GinsbergCrosswordSolver {
         final Collection<Slot> slots = crossword.grid().puzzle().slots();
         final BigInteger branches =
                 slots.stream()
-                     .map(s -> BigInteger.valueOf(dictionary.candidatesCount(s)))
+                     .map(s -> BigInteger.valueOf(dictionary.cachedCandidatesCount(s)))
                      .reduce(BigInteger.ONE, BigInteger::multiply);
         final NumberFormat formatter = new DecimalFormat("0.######E0",
                 DecimalFormatSymbols.getInstance(Locale.ROOT));

@@ -76,7 +76,7 @@ public final class SlotIteratorImpl implements VariableIterator<Slot> {
         return variables.stream()
                         .filter(NOT_INSTANTIATED)
                         .map(slot -> new NumberOfCandidatesPerSlot(slot,
-                                dictionary.candidatesCount(slot)))
+                                dictionary.cachedCandidatesCount(slot)))
                         .min(BY_OPENNESS)
                         .map(NumberOfCandidatesPerSlot::slot)
                         .orElseThrow(NoSuchElementException::new);

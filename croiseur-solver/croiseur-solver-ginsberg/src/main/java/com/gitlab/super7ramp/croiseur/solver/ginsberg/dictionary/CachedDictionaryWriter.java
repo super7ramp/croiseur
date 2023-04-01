@@ -30,25 +30,12 @@ public interface CachedDictionaryWriter extends CachedDictionary {
     }
 
     /**
-     * Updates cache upon an assignment.
+     * Invalidates {@link #cachedCandidatesCount(Slot)} upon an assignment/unassignment.
      * <p>
-     * This will have the effect to narrow the cache. The more the cache is updated without
-     * {@link #invalidateCache invalidation}, the smaller the cache will be, the faster the
-     * results will be.
+     * Cache will be rebuilt on next call to {@link #cachedCandidatesCount(Slot)}.
      *
-     * @param assignedVariable the assigned variable (or variable connected to the assigned
-     *                         variable)
+     * @param modifiedSlot the assigned/unassigned slot
      */
-    void updateCache(final Slot assignedVariable);
-
-    /**
-     * Invalidates cache candidates upon unassignment.
-     * <p>
-     * Cache will be reset to its initial state then re-evaluated based on current slot state.
-     *
-     * @param unassignedVariable the unassigned variable (or variable linked to the unassigned
-     *                           variable)
-     */
-    void invalidateCache(final Slot unassignedVariable);
+    void invalidateCacheCount(final Slot modifiedSlot);
 
 }

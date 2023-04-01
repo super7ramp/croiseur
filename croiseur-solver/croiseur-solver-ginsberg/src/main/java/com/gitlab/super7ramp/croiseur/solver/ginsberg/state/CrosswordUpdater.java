@@ -60,7 +60,7 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
     public void assign(final Slot variable, final String value) {
         variable.assign(value);
         crossword.history().addAssignmentRecord(variable);
-        crossword.dictionary().updateCache(variable);
+        crossword.dictionary().invalidateCacheCount(variable);
         listeners.forEach(listener -> listener.onAssignment(variable, value));
     }
 
@@ -70,7 +70,7 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
         final String oldValue = variable.unassign();
         crossword.history().removeAssignmentRecord(variable);
         crossword.eliminationSpace().eliminate(variable.uid(), elimination.reasons(), oldValue);
-        crossword.dictionary().invalidateCache(variable);
+        crossword.dictionary().invalidateCacheCount(variable);
         listeners.forEach(listener -> listener.onUnassignment(variable, oldValue));
     }
 }

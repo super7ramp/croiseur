@@ -49,7 +49,7 @@ public final class SolverResultFactory {
                              .slots()
                              .stream()
                              .filter(slot -> crossword.dictionary()
-                                                      .candidatesCount(slot) == 0L)
+                                                      .cachedCandidatesCount(slot) == 0L)
                              .flatMap(slot -> crossword.grid()
                                                        .slotPositions(slot)
                                                        .stream())

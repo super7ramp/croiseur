@@ -79,7 +79,7 @@ public final class Prober {
                          .reduce(BigInteger.ONE, // default value if no connected slot
                                  (previous, slot) ->
                                      previous.signum() == 0 ? previous : // already 0, don't probe
-                                     previous.multiply(BigInteger.valueOf(dictionary.refinedCandidates(slot).count())),
+                                     previous.multiply(BigInteger.valueOf(dictionary.candidates(slot).count())),
                                  BigInteger::multiply);
         // @formatter:on
     }
