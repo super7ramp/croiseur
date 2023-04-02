@@ -98,7 +98,7 @@ dependencies {
 Finally, declare the subproject by adding the following line in root's `settings.gradle`:
 
 ```gradle
-include 'croiseur-solver:croiseur-solver-<new__solver_name>-plugin'
+include 'croiseur-solver:croiseur-solver-<new_solver_name>-plugin'
 ```
 
 At this point, check that everything is OK by running `gradle build`.
@@ -191,7 +191,7 @@ In `bin/croiseur-cli`:
 MODULE_PATH=$APP_HOME/lib/croiseur-cli.jar:(...):$APP_HOME/lib/<new_solver_plugin>.jar
 ```
 
-In `bin/croiseur-clit.bat`:
+In `bin/croiseur-cli.bat`:
 
 ```bat
 set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<new_solver_plugin>.jar
