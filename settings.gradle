@@ -18,6 +18,7 @@ include 'croiseur-spi:croiseur-spi-presenter'
 
 // Dictionary codecs/data/plugins/tools
 include 'croiseur-dictionary:croiseur-dictionary-common'
+include 'croiseur-dictionary:croiseur-dictionary-example-plugin'
 include 'croiseur-dictionary:croiseur-dictionary-hunspell-codec'
 include 'croiseur-dictionary:croiseur-dictionary-hunspell-data'
 include 'croiseur-dictionary:croiseur-dictionary-hunspell-plugin'
