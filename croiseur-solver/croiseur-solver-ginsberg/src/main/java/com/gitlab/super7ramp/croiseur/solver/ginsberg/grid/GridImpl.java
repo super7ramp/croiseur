@@ -58,14 +58,13 @@ final class GridImpl implements Grid {
         @Override
         public Stream<InternalSlot> connectedSlots(final SlotIdentifier uid) {
             return data.connectedSlots(uid)
-                       .entrySet()
-                       .stream()
-                       .map(entry -> new SlotImpl(entry.getKey(), entry.getValue(), this));
+                    .stream()
+                    .map(slotId -> new SlotImpl(slotId, data.slot(slotId), this));
         }
 
         @Override
         public boolean test(final SlotIdentifier a, final SlotIdentifier b) {
-            return data.connectedSlots(a).containsKey(b);
+            return data.connectedSlots(a).contains(b);
         }
 
         @Override

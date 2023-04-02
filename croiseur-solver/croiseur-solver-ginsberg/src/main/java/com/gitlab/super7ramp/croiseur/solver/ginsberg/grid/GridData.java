@@ -10,8 +10,9 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  * Stores a crossword puzzle data.
@@ -29,6 +30,9 @@ final class GridData {
     /** The word slots. */
     private final Map<SlotIdentifier, SlotData> slots;
 
+    /** The slot connections. */
+    private final Map<SlotIdentifier, Set<SlotIdentifier>> connections;
+
     /**
      * Constructor.
      *
@@ -38,6 +42,16 @@ final class GridData {
     GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotData> someSlots) {
         grid = aGrid;
         slots = someSlots;
+        connections = new HashMap<>();
+        for (final Map.Entry<SlotIdentifier, SlotData> oneSlot : someSlots.entrySet()) {
+            final Set<SlotIdentifier> connectedSlots = new LinkedHashSet<>();
+            for (final Map.Entry<SlotIdentifier, SlotData> anotherSlot : someSlots.entrySet()) {
+                if (oneSlot.getValue().definition().isConnected(anotherSlot.getValue().definition())) {
+                    connectedSlots.add(anotherSlot.getKey());
+                }
+            }
+            connections.put(oneSlot.getKey(), Collections.unmodifiableSet(connectedSlots));
+        }
     }
 
     /**
@@ -59,6 +73,9 @@ final class GridData {
             final SlotData data = slotEntry.getValue();
             slots.put(slotIdentifier, new SlotData(data.definition(), grid, data.isInstantiated()));
         }
+
+        // Connections are immutable, no need to copy
+        connections = other.connections;
     }
 
     /**
@@ -90,16 +107,12 @@ final class GridData {
     }
 
     /**
-     * Returns the slots connected to given slot identifier
+     * Returns the slots connected to given slot identifier.
+     *
+     * @param slotId the slot identifier
      */
-    Map<SlotIdentifier, SlotData> connectedSlots(final SlotIdentifier slotId) {
-        final SlotData slotData = slots.get(slotId);
-        final SlotDefinition slotDefinition = slotData.definition();
-
-        return slots.entrySet()
-                    .stream()
-                    .filter(entry -> entry.getValue().definition().isConnected(slotDefinition))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    Set<SlotIdentifier> connectedSlots(final SlotIdentifier slotId) {
+        return connections.get(slotId);
     }
 
     Map<GridPosition, Character> toBoxes() {
