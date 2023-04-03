@@ -79,7 +79,7 @@ impl<'other_local_1: 'obj_ref, 'obj_ref> JIterable<'other_local_1, 'obj_ref> {
     /// Each call to `next` creates two new local references. To prevent
     /// excessive memory usage or overflow error, the local references should
     /// be deleted using [`JNIEnv::delete_local_ref`] or [`JNIEnv::auto_local`]
-    /// before the next loop iteration. Alternatively, if the map is known to
+    /// before the next loop iteration. Alternatively, if the iterable is known to
     /// have a small, predictable size, the loop could be wrapped in
     /// [`JNIEnv::with_local_frame`] to delete all of the local references at
     /// once.
@@ -93,7 +93,6 @@ impl<'other_local_1: 'obj_ref, 'obj_ref> JIterable<'other_local_1, 'obj_ref> {
 
         let next = env.get_method_id(&iter_class, "next", "()Ljava/lang/Object;")?;
 
-        // SAFETY: We keep the class loaded, and fetched the method ID for this function. Arg list is known empty.
         let iter = AutoLocal::new(
             unsafe {
                 env.call_method_unchecked(self.internal, self.iterator, ReturnType::Object, &[])
@@ -103,7 +102,7 @@ impl<'other_local_1: 'obj_ref, 'obj_ref> JIterable<'other_local_1, 'obj_ref> {
         );
 
         Ok(JIter {
-            _phantom_map: PhantomData,
+            _phantom_iterable: PhantomData,
             has_next,
             next,
             iter,
@@ -111,10 +110,10 @@ impl<'other_local_1: 'obj_ref, 'obj_ref> JIterable<'other_local_1, 'obj_ref> {
     }
 }
 
-/// An iterator over the keys and values in a map. See [`JIterable::iter`] for more
+/// An iterator over the elements of an iterable. See [`JIterable::iter`] for more
 /// information.
 pub struct JIter<'iterable, 'other_local_1: 'obj_ref, 'obj_ref, 'iter_local> {
-    _phantom_map: PhantomData<&'iterable JIterable<'other_local_1, 'obj_ref>>,
+    _phantom_iterable: PhantomData<&'iterable JIterable<'other_local_1, 'obj_ref>>,
     has_next: JMethodID,
     next: JMethodID,
     iter: AutoLocal<'iter_local, JObject<'iter_local>>,
@@ -131,17 +130,17 @@ JIter<'iterable, 'other_local_1, 'obj_ref, 'iter_local>
     /// This method creates two new local references. To prevent excessive
     /// memory usage or overflow error, the local references should be deleted
     /// using [`JNIEnv::delete_local_ref`] or [`JNIEnv::auto_local`] before the
-    /// next loop iteration. Alternatively, if the map is known to have a
+    /// next loop iteration. Alternatively, if the iterable is known to have a
     /// small, predictable size, the loop could be wrapped in
     /// [`JNIEnv::with_local_frame`] to delete all of the local references at
     /// once.
     ///
     /// This method returns:
     ///
-    /// * `Ok(Some(_))`: if there was another key-value pair in the map.
-    /// * `Ok(None)`: if there are no more key-value pairs in the map.
+    /// * `Ok(Some(_))`: if there was another element in the iterable.
+    /// * `Ok(None)`: if there are no more element in the iterable.
     /// * `Err(_)`: if there was an error calling the Java method to
-    ///   get the next key-value pair.
+    ///   get the next element.
     ///
     /// This is like [`Iterator::next`], but requires a parameter of
     /// type `&mut JNIEnv` in order to call into Java.
@@ -149,7 +148,6 @@ JIter<'iterable, 'other_local_1, 'obj_ref, 'iter_local>
         &mut self,
         env: &mut JNIEnv<'other_local_2>,
     ) -> Result<Option<JObject<'other_local_2>>> {
-        // SAFETY: We keep the class loaded, and fetched the method ID for these functions. We know none expect args.
 
         let has_next = unsafe {
             env.call_method_unchecked(
