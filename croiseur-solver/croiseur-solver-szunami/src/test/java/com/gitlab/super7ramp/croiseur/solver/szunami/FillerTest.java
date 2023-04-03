@@ -80,7 +80,7 @@ final class FillerTest {
                 \s\sE
                 """, 3, 3);
         final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "ABC", "AB", "ABE", "C"
-                , "E")); // solver seems to consider 1-character slot, hence "C" and "E"
+                , "E")); // solver considers 1-character slot, hence "C" and "E"
 
         final Result result = new Filler().fill(crossword, dictionary);
 
