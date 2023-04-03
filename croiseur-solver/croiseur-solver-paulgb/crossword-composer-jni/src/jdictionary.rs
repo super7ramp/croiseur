@@ -4,10 +4,10 @@
  */
 
 use crossword::dictionary::Dictionary;
-use jni::objects::JObject;
 use jni::JNIEnv;
+use jni::objects::{JObject, JString};
 
-use crate::jarray::JArray;
+use crate::jiterable::JIterable;
 
 /// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary` Java object.
 pub struct JDictionary<'a> {
@@ -29,12 +29,37 @@ impl<'a> JDictionary<'a> {
 
     /// Transforms this `JDictionary` into a vector of `String`s.
     fn into_vec_string(self, env: &mut JNIEnv) -> Vec<String> {
-        let array = env
-            .call_method(self.dic, "words", "()[Ljava/lang/String;", &[])
-            .expect("Failed to access dictionary words")
+        let words_jobject = env
+            .call_method(&self.dic, "words", "()Ljava/lang/Iterable;", &[])
+            .expect("Failed to retrieve dictionary words")
             .l()
-            .expect("Failed to unwrap dictionary words into an object");
+            .expect("Failed to convert JValue to JObject");
 
-        JArray::new(array).into_vec_string(env)
+        let words_jiterable = JIterable::from_env(env, &words_jobject)
+            .expect("Failed to get word list from Dictionary");
+
+        let mut iterator = words_jiterable
+            .iter(env)
+            .expect("Failed to create word list iterator");
+
+        let mut words = Vec::new();
+        while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
+            let j_string = env.auto_local(JString::from(obj));
+            let word = Self::rust_string_from(&j_string, env);
+            words.push(word);
+        }
+        words
+    }
+
+    /// Converts a `JString` into a `String`.
+    fn rust_string_from(j_string: &JString, env: &mut JNIEnv) -> String {
+        unsafe {
+            // Use unchecked flavour of get_string() for performance reason. Also, safe
+            // get_string() seems to create local references behind the hood so it is not very
+            // practical when called in a loop.
+            env.get_string_unchecked(j_string)
+                .expect("Failed to convert JObject to String")
+                .into()
+        }
     }
 }

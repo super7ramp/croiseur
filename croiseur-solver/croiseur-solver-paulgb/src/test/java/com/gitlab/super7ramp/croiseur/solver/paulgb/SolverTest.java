@@ -7,7 +7,10 @@ package com.gitlab.super7ramp.croiseur.solver.paulgb;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +36,7 @@ final class SolverTest {
     @Test
     void possible0x0() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[0][0]);
-        final Dictionary emptyDictionary = new Dictionary(new String[0]);
+        final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
         final Optional<Solution> solution = new Solver().solve(puzzle, emptyDictionary);
 
@@ -50,15 +53,10 @@ final class SolverTest {
     void impossible3x3() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
-                {0, 1, 2},
-                {3, 4, 5},
-                {6, 7, 8},
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                 // vertical slots
-                {0, 3, 6},
-                {1, 4, 7},
-                {2, 5, 8}
-        });
-        final Dictionary emptyDictionary = new Dictionary(new String[0]);
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
+        final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
         final Optional<Solution> solution = new Solver().solve(puzzle, emptyDictionary);
 
@@ -74,16 +72,11 @@ final class SolverTest {
     void possible3x3() throws InterruptedException {
         final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
-                {0, 1, 2},
-                {3, 4, 5},
-                {6, 7, 8},
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                 // vertical slots
-                {0, 3, 6},
-                {1, 4, 7},
-                {2, 5, 8}
-        });
-        final Dictionary dictionary = new Dictionary(new String[]{"AAA", "BBB", "CDE", "ABC"
-                , "ABD", "ABE"});
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
+                "ABE"));
 
         final Optional<Solution> solution = new Solver().solve(puzzle, dictionary);
 
@@ -100,7 +93,7 @@ final class SolverTest {
     @Test
     void failureNullPuzzle() {
         final NativePanicException solverError = assertThrows(NativePanicException.class,
-                () -> new Solver().solve(null, new Dictionary(new String[0])));
+                () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
         assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")",
                 solverError.getMessage());
     }
@@ -113,8 +106,8 @@ final class SolverTest {
     void failureNullDictionary() {
         final NativePanicException solverError = assertThrows(NativePanicException.class,
                 () -> new Solver().solve(new Puzzle(new int[0][]), null));
-        assertEquals("Failed to access dictionary words: NullPtr(\"call_method obj argument\")",
-                solverError.getMessage());
+        assertEquals("Failed to retrieve dictionary words: NullPtr(\"call_method obj argument\")"
+                , solverError.getMessage());
     }
 
     /**
@@ -128,16 +121,11 @@ final class SolverTest {
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {
         final Puzzle puzzle = new Puzzle(new int[][]{
                 // horizontal slots
-                {0, 1, 2},
-                {3, 4, 5},
-                {6, 7, 8},
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                 // vertical slots
-                {0, 3, 6},
-                {1, 4, 7},
-                {2, 5, 8}
-        });
-        final Dictionary dictionary = new Dictionary(new String[]{"AAA", "BBB", "CDE", "ABC"
-                , "ABD", "ABE"});
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
+        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "CDE", "ABC", "ABD",
+                "ABE"));
 
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Future<Optional<Solution>> solution = executor.submit(() -> {

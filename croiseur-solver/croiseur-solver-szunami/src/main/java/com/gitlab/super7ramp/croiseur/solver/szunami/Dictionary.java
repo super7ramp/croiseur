@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.solver.szunami;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * A dictionary.
@@ -17,7 +16,7 @@ import java.util.Set;
  * @see <a href="https://docs.rs/xwords/0.3.1/xwords/trie/struct.Trie.html">The Crate
  * Documentation</a>
  */
-public record Dictionary(Set<String> words) {
+public record Dictionary(Iterable<String> words) {
 
     /**
      * Constructs an instance.

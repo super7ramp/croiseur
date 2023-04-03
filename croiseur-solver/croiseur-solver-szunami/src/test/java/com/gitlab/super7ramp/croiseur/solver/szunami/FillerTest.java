@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.solver.szunami;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class FillerTest {
 
     /**
-     * Verifies that native code panic upon a {@code null} {@link Crossword} is correctly caught
-     * and turned into a {@link NativePanicException}.
+     * Verifies that native code panic upon a {@code null} {@link Crossword} is correctly caught and
+     * turned into a {@link NativePanicException}.
      */
     @Test
     void failureNullCrossword() {
@@ -51,7 +51,7 @@ final class FillerTest {
                 \s\s\s
                 \s\s\s
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "CDE", "ABC", "ABD",
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
                 "ABE"));
 
         final Result result = new Filler().fill(crossword, dictionary);
@@ -79,7 +79,7 @@ final class FillerTest {
                 \s\s*
                 \s\sE
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "ABC", "AB", "ABE", "C"
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "ABC", "AB", "ABE", "C"
                 , "E")); // solver seems to consider 1-character slot, hence "C" and "E"
 
         final Result result = new Filler().fill(crossword, dictionary);
@@ -130,7 +130,7 @@ final class FillerTest {
                 \s\s\s
                 \s\s\s
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "CDE", "ABC", "ABD",
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
                 "ABE"));
 
         final ExecutorService executor = Executors.newSingleThreadExecutor();

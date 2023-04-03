@@ -30,7 +30,7 @@ impl<'a> JDictionary<'a> {
     /// Retrieves the words of the `Dictionary` object and returns them as a vector of `String`s.
     fn words(&self, env: &mut JNIEnv) -> Vec<String> {
         let words_jobject = env
-            .call_method(&self.value, "words", "()Ljava/util/Set;", &[])
+            .call_method(&self.value, "words", "()Ljava/lang/Iterable;", &[])
             .expect("Failed to retrieve dictionary words")
             .l()
             .expect("Failed to convert JValue to JObject");

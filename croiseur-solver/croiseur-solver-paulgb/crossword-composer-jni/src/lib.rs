@@ -7,12 +7,10 @@ use std::any::Any;
 use std::ops::DerefMut;
 use std::panic::catch_unwind;
 
-use crossword::dictionary::Dictionary;
-use crossword::grid::Grid;
 use crossword::solver;
+use jni::JNIEnv;
 use jni::objects::JObject;
 use jni::sys::jobject;
-use jni::JNIEnv;
 
 use crate::jdictionary::JDictionary;
 use crate::joptional::JOptional;
@@ -22,6 +20,7 @@ use crate::jthread::JThread;
 
 mod jarray;
 mod jdictionary;
+mod jiterable;
 mod joptional;
 mod jpuzzle;
 mod jsolution;
@@ -42,8 +41,8 @@ mod jthread;
 /// * The `Solution` Java object (see Java side).
 ///
 #[no_mangle]
-pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_paulgb_Solver_solve<'a>(
-    mut env: JNIEnv<'a>,
+pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_paulgb_Solver_solve(
+    mut env: JNIEnv,
     _java_solver: JObject,
     java_puzzle: JObject,
     java_dictionary: JObject,
@@ -54,7 +53,7 @@ pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_paulgb_Solver_
 }
 
 /// Where the actual solve job is done.
-fn solve<'a>(env: &mut JNIEnv<'a>, java_puzzle: JObject, java_dictionary: JObject) -> jobject {
+fn solve(env: &mut JNIEnv, java_puzzle: JObject, java_dictionary: JObject) -> jobject {
     let grid = JPuzzle::new(java_puzzle).into_grid(env);
     let dictionary = JDictionary::new(java_dictionary).into_dictionary(env);
 

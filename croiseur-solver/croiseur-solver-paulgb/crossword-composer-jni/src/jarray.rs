@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::objects::{JIntArray, JObject, JObjectArray, JString};
-use jni::sys::jchar;
 use jni::JNIEnv;
+use jni::objects::{JIntArray, JObject, JObjectArray};
+use jni::sys::jchar;
 
 /// Wrapper for `J{Char,Int,...,Object}Array`s.
 ///
@@ -52,20 +52,6 @@ impl<'a> JArray<'a> {
             let object = self.element(i, env);
             let object_array = JArray::new(object);
             vec.push(object_array);
-        }
-        vec
-    }
-
-    /// Transforms this `JArray` into a vector of `String`s.
-    pub fn into_vec_string(self, env: &mut JNIEnv<'a>) -> Vec<String> {
-        let mut vec = Vec::new();
-        let length = self.length(env);
-        for i in 0..length {
-            let j_string = self.element(i, env).into();
-            let rust_string = Self::rust_string_from(&j_string, env);
-            vec.push(rust_string);
-            env.delete_local_ref(j_string)
-                .expect("Failed to delete local ref")
         }
         vec
     }
@@ -117,17 +103,5 @@ impl<'a> JArray<'a> {
         length
             .try_into()
             .expect("Failed to convert jsize (i32) to usize (u32 or u64)")
-    }
-
-    /// Converts a `JString` into a `String`.
-    fn rust_string_from(j_string: &JString, env: &mut JNIEnv) -> String {
-        unsafe {
-            // Use unchecked flavour of get_string() for performance reason. Also, safe
-            // get_string() seems to create local references behind the hood so it is not very
-            // practical when called in a loop.
-            env.get_string_unchecked(j_string)
-                .expect("Failed to convert JObject to String")
-                .into()
-        }
     }
 }

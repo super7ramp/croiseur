@@ -10,7 +10,6 @@ package com.gitlab.super7ramp.croiseur.solver.paulgb;
  *
  * @param words the words
  */
-// TODO change String[] to Set<String> to avoid useless copy on Java side
-public record Dictionary(String[] words) {
+public record Dictionary(Iterable<String> words) {
     // Nothing to add.
 }
