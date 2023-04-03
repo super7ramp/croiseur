@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent
 import org.mockito.ArgumentMatcher;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.argThat;
 
@@ -29,9 +30,18 @@ final class DictionaryMatchers {
 
         @Override
         public boolean matches(final DictionaryContent actual) {
-            final List<String> actualEntries = actual.words();
-            return actualEntries.size() == numberOfEntries &&
-                    actualEntries.subList(0, firstEntries.size()).equals(firstEntries);
+            final Set<String> actualEntries = actual.words();
+            return actualEntries.size() == numberOfEntries && firstEntries(actualEntries).equals(firstEntries);
+        }
+
+        /**
+         * Returns the first entries of this (expected sequenced) Set as a List.
+         *
+         * @param set the set to take the first entries from
+         * @return the first entries
+         */
+        private List<String> firstEntries(final Set<String> set) {
+            return set.stream().limit(firstEntries.size()).toList();
         }
     }
 

@@ -17,13 +17,15 @@ import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * An XML dictionary.
@@ -37,7 +39,7 @@ final class XmlDictionary implements Dictionary {
     private final Lazy<DictionaryDescription> description;
 
     /** The dictionary words, lazily read. */
-    private final Lazy<List<String>> words;
+    private final Lazy<Set<String>> words;
 
     /**
      * Constructs an instance.
@@ -86,14 +88,15 @@ final class XmlDictionary implements Dictionary {
      * @param reader the reader
      * @return the dictionary words
      */
-    private static List<String> readWords(final DictionaryReader reader) {
+    private static Set<String> readWords(final DictionaryReader reader) {
         try {
             return reader.readWords()
                          .filter(StringFilters.notEmpty())
-                         .map(StringTransformers.toAcceptableCrosswordEntry()).toList();
+                         .map(StringTransformers.toAcceptableCrosswordEntry())
+                         .collect(toCollection(LinkedHashSet::new));
         } catch (final DictionaryReadException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary words");
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 
@@ -103,7 +106,7 @@ final class XmlDictionary implements Dictionary {
     }
 
     @Override
-    public Stream<String> stream() {
-        return words.get().stream();
+    public Set<String> words() {
+        return words.get();
     }
 }

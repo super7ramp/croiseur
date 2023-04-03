@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.spi.presenter.dictionary;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * The words of a dictionary for presentation purposes.
@@ -15,6 +15,6 @@ import java.util.List;
  * @param description the description of the dictionary and its provider
  * @param words       all the words inside the dictionary
  */
-public record DictionaryContent(ProvidedDictionaryDescription description, List<String> words) {
+public record DictionaryContent(ProvidedDictionaryDescription description, Set<String> words) {
     // Nothing to add.
 }

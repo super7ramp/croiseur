@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A dictionary.
@@ -14,10 +14,10 @@ import java.util.Objects;
  * Used to create a trie on Rust side.
  *
  * @param words the words
- * @see
- * <a href="https://docs.rs/xwords/0.3.1/xwords/trie/struct.Trie.html">The Crate Documentation</a>
+ * @see <a href="https://docs.rs/xwords/0.3.1/xwords/trie/struct.Trie.html">The Crate
+ * Documentation</a>
  */
-public record Dictionary(List<String> words) {
+public record Dictionary(Set<String> words) {
 
     /**
      * Constructs an instance.

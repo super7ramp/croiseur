@@ -76,6 +76,6 @@ final class DictionaryLoader {
      * @return the dictionary of solver SPI
      */
     private Dictionary toSolverDictionary(final com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary dictionary) {
-        return dictionary::lookup;
+        return dictionary::words;
     }
 }

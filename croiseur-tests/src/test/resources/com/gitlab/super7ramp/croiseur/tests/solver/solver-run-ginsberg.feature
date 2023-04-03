@@ -21,9 +21,9 @@ Feature: Run Solver - Ginsberg
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | A | A | A |
-      | A | B | M |
-      | A | M | Y |
+      | D | C | M |
+      | E | P | A |
+      | S | A | Y |
 
   Scenario: Run Solver - Ginsberg - With Specific Dictionary
 
@@ -43,7 +43,7 @@ Feature: Run Solver - Ginsberg
       |  |  | # |
       |  |  |   |
     Then the application presents the following successful solver result:
-      | A | C | C |
+      | C | M | S |
       | A | A | # |
       | A | D | V |
 
@@ -54,9 +54,9 @@ Feature: Run Solver - Ginsberg
       | C |  |  |
       | T |  |  |
     Then the application presents the following successful solver result:
-      | A | B | S |
+      | A | D | S |
       | C | A | A |
-      | T | A | D |
+      | T | D | D |
 
   Scenario: Run Solver - Ginsberg - With Prefilled and Shaded Cells
 
@@ -66,5 +66,5 @@ Feature: Run Solver - Ginsberg
       | T |   | # |
     Then the application presents the following successful solver result:
       | A | B | O |
-      | C | # | M |
-      | T | U | # |
+      | C | # | T |
+      | T | Y | # |

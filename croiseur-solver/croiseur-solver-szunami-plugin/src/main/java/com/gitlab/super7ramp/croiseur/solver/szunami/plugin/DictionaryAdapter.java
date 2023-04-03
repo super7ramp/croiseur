@@ -26,8 +26,6 @@ final class DictionaryAdapter {
      * @return xwords-rs' {@link com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary}
      */
     static com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary adapt(final Dictionary dictionary) {
-        return new com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary(dictionary.lookup(word -> true)
-                                                                                      .stream()
-                                                                                      .toList());
+        return new com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary(dictionary.words());
     }
 }

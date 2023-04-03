@@ -12,7 +12,7 @@ Feature: Display Dictionary Content
   Scenario: Display Dictionary Content - Local Hunspell Provider, Hunspell Dictionary en_GB.dic
 
     When user requests to display the entries of "Hunspell Dictionary en_GB.dic" provided by "Local Hunspell Provider"
-    Then the application presents 274449 dictionary entries, the first ones being:
+    Then the application presents 224662 dictionary entries, the first ones being:
       | GAINST     |
       | MONGST     |
       | NEATH      |
@@ -25,7 +25,7 @@ Feature: Display Dictionary Content
   Scenario: Display Dictionary Content - Local Text Provider, The UK Advanced Cryptics Dictionary
 
     When user requests to display the entries of "The UK Advanced Cryptics Dictionary" provided by "Local Text Provider"
-    Then the application presents 250594 dictionary entries, the first ones being:
+    Then the application presents 250592 dictionary entries, the first ones being:
       | A          |
       | AA         |
       | AACHEN     |

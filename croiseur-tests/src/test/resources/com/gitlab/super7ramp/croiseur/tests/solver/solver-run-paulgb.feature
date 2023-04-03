@@ -16,9 +16,9 @@ Feature: Run Solver - Crossword Composer (paulgb)
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | C | A | A |
-      | I | D | A |
-      | A | D | A |
+      | G | A | D |
+      | L | B | J |
+      | C | M | D |
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Specific Dictionary
 
@@ -38,9 +38,9 @@ Feature: Run Solver - Crossword Composer (paulgb)
       |  |  | # |
       |  |  |   |
     Then the application presents the following successful solver result:
-      | B | A | A |
-      | E | A | # |
-      | A | A | C |
+      | F | D | A |
+      | O | J | # |
+      | Y | D | S |
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Prefilled Cell
 

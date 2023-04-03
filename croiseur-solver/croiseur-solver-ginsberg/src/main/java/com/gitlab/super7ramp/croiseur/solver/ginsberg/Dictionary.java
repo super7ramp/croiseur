@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 /**
  * Dictionary interface (to be provided).
@@ -14,10 +13,18 @@ import java.util.function.Predicate;
 public interface Dictionary {
 
     /**
-     * Search for words matching the given {@link Predicate}.
+     * Returns the dictionary words.
      *
-     * @param predicate the predicate to satisfy
-     * @return a set of words matching the given pattern
+     * @return the dictionary words as a {@link Set}
+     * @implSpec the returned strings:
+     * <ul>
+     *     <li>shall only contain characters which can be represented as a primitive char value
+     *     (a single 16-bit Unicode character, range {@code u0000} to {@code uFFFF} inclusive)
+     *     <li>shall not contain the character ' ' (space)
+     *     <li>shall not contain the character '#' (number sign}
+     *     <li>should be either all uppercase or all lowercase but not a mix of the two (processing
+     *     is case sensitive)</li>
+     * </ul>
      */
-    Set<String> lookup(final Predicate<String> predicate);
+    Set<String> words();
 }

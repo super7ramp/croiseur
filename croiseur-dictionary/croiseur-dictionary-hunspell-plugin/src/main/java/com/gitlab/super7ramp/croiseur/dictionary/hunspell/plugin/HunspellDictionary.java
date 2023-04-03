@@ -13,8 +13,11 @@ import com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec.HunspellDictiona
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
 
 import java.net.URL;
-import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * Adapts {@link HunspellDictionaryReader} to
@@ -26,7 +29,7 @@ final class HunspellDictionary implements Dictionary {
     private final Lazy<DictionaryDescription> description;
 
     /** The dictionary words, lazily read. */
-    private final Lazy<Collection<String>> words;
+    private final Lazy<Set<String>> words;
 
     /**
      * Constructs an instance.
@@ -40,7 +43,7 @@ final class HunspellDictionary implements Dictionary {
         words = Lazy.of(() -> dictionary.stream()
                                         .filter(StringFilters.notEmpty())
                                         .map(StringTransformers.toAcceptableCrosswordEntry())
-                                        .toList());
+                                        .collect(toCollection(LinkedHashSet::new)));
     }
 
     @Override
@@ -49,7 +52,7 @@ final class HunspellDictionary implements Dictionary {
     }
 
     @Override
-    public Stream<String> stream() {
-        return words.get().stream();
+    public Set<String> words() {
+        return Collections.unmodifiableSet(words.get());
     }
 }

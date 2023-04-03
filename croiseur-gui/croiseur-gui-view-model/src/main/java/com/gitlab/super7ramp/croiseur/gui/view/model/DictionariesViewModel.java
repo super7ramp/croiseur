@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,7 @@ public final class DictionariesViewModel {
      * @param key   the dictionary key
      * @param words the words
      */
-    public void addWords(final DictionaryKey key, final List<String> words) {
+    public void addWords(final DictionaryKey key, final Collection<String> words) {
         if (selectedDictionaries.stream().anyMatch(dictionary -> dictionary.key().equals(key))) {
             final int aggregateNumber = backingAggregateWordList.aggregateCount();
             backingAggregateWordList.aggregate(words);

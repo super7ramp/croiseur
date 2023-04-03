@@ -7,11 +7,11 @@ use std::any::Any;
 use std::ops::DerefMut;
 use std::panic::catch_unwind;
 
+use jni::JNIEnv;
 use jni::objects::JObject;
 use jni::sys::jobject;
-use jni::JNIEnv;
-use xwords::fill::filler::Filler;
 use xwords::fill::Fill;
+use xwords::fill::filler::Filler;
 
 use crate::jcrossword::JCrossword;
 use crate::jdictionary::JDictionary;
@@ -20,6 +20,7 @@ use crate::jthread::JThread;
 
 mod jcrossword;
 mod jdictionary;
+mod jiterable;
 mod jresult;
 mod jthread;
 

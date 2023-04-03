@@ -8,10 +8,6 @@ package com.gitlab.super7ramp.croiseur.spi.dictionary;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
 
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * A dictionary.
@@ -26,30 +22,24 @@ public interface Dictionary {
     DictionaryDescription description();
 
     /**
-     * Returns the dictionary as a stream of strings.
+     * Returns the dictionary words.
      *
-     * @return the dictionary as a stream of strings
+     * @return the dictionary words as a {@link Set}
      * @implSpec the returned strings:
      * <ul>
      *     <li>shall only contain characters which can be represented as a primitive char value
      *     (a single 16-bit Unicode character, range {@code u0000} to {@code uFFFF} inclusive)
      *     <li>shall not contain the character ' ' (space)
      *     <li>shall not contain the character '#' (number sign}
-     *     <li>should be unique</li>
      *     <li>should be either all uppercase or all lowercase but not a mix of the two (processing
      *     is case sensitive)</li>
+     *     <li>should be fast to iterate on and with a deterministic order in
+     *     order to have as fast as possible and deterministic results. A typical implementation
+     *     would use a LinkedHashSet.</li>
      * </ul>
+     * @see <a href="https://openjdk.org/jeps/431">SequencedSet (Java 21)</a>, which describes
+     * better than Set the expected behaviour of the returned collection
      */
-    Stream<String> stream();
-
-    /**
-     * Searches for words matching the given {@link Predicate}.
-     *
-     * @param predicate the predicate to satisfy
-     * @return a set of words matching the given pattern
-     */
-    default Set<String> lookup(final Predicate<String> predicate) {
-        return stream().filter(predicate).collect(toSet());
-    }
+    Set<String> words();
 
 }

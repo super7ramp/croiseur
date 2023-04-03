@@ -127,7 +127,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) throws InterruptedException {
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.Dictionary adaptedDictionary =
-                dictionary::lookup;
+                dictionary::words;
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.ProgressListener adaptedProgressListener = new AdaptedProgressListener(progressListener);
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.SolverResult result =
                 adapted.solve(puzzle, adaptedDictionary, adaptedProgressListener);

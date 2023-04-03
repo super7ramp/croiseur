@@ -27,7 +27,7 @@ final class DictionaryAdapter {
      * {@link com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary}
      */
     static com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary adapt(final Dictionary dictionary) {
-        return new com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary(dictionary.lookup(word -> true)
+        return new com.gitlab.super7ramp.croiseur.solver.paulgb.Dictionary(dictionary.words()
                                                                                      .toArray(String[]::new));
     }
 }

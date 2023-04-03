@@ -54,7 +54,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
         wordsByPattern = new SizedMap<>(slots.size() * CACHED_PATTERNS_PER_SLOT);
         currentCandidatesCount = new HashMap<>();
         slots.forEach(slot -> initialCandidates.put(slot.uid(), new Trie()));
-        for (final String word : dictionary.lookup(w -> true)) {
+        for (final String word : dictionary.words()) {
             for (final Slot slot : slots) {
                 if (slot.isCompatibleWith(word)) {
                     initialCandidates.get(slot.uid()).add(word);

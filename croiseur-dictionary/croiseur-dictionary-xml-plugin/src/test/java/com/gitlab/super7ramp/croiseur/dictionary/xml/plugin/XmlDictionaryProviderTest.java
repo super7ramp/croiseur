@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,7 +46,7 @@ final class XmlDictionaryProviderTest {
         assertEquals(1, dictionaries.size());
         final Dictionary dictionary = dictionaries.iterator().next();
         assertEquals("Dictionary example", dictionary.description().name());
-        assertEquals(List.of("HELLO", "WORLD"), dictionary.stream().toList());
+        assertEquals(Set.of("HELLO", "WORLD"), dictionary.words());
     }
 
     /**

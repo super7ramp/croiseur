@@ -8,10 +8,10 @@ package com.gitlab.super7ramp.croiseur.impl.solver;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * A dictionary collecting results of several dictionaries.
@@ -31,9 +31,9 @@ final class CompositeSolverDictionary implements Dictionary {
     }
 
     @Override
-    public Set<String> lookup(final Predicate<String> predicate) {
+    public Set<String> words() {
         return dictionaries.stream()
-                           .flatMap(dictionary -> dictionary.lookup(predicate).stream())
-                           .collect(toSet());
+                           .flatMap(dictionary -> dictionary.words().stream())
+                           .collect(toCollection(LinkedHashSet::new));
     }
 }

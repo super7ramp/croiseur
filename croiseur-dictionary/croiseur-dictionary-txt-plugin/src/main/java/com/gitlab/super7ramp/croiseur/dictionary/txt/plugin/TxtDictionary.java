@@ -17,12 +17,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * Dictionary backed by simple text file.
@@ -36,7 +39,7 @@ final class TxtDictionary implements Dictionary {
     private final Lazy<DictionaryDescription> description;
 
     /** The dictionary words, lazily read. */
-    private final Lazy<List<String>> words;
+    private final Lazy<Set<String>> words;
 
     /**
      * Constructs an instance.
@@ -55,14 +58,14 @@ final class TxtDictionary implements Dictionary {
      *
      * @return the dictionary words
      */
-    private static List<String> readWords(final File file) {
+    private static Set<String> readWords(final File file) {
         try (final Stream<String> lines = Files.lines(file.toPath())) {
             return lines.filter(StringFilters.notEmpty())
                         .map(StringTransformers.toAcceptableCrosswordEntry())
-                        .toList();
+                        .collect(toCollection(LinkedHashSet::new));
         } catch (final IOException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary words");
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 
@@ -73,8 +76,8 @@ final class TxtDictionary implements Dictionary {
      * list of words.
      * <p>
      * Name of the companion properties file is the name of the dictionary file suffixed with
-     * {@code .properties}, e.g. if dictionary is {@code example.txt}, then description is stored
-     * in {@code example.txt.properties}.
+     * {@code .properties}, e.g. if dictionary is {@code example.txt}, then description is stored in
+     * {@code example.txt.properties}.
      *
      * @return the dictionary description
      */
@@ -98,7 +101,7 @@ final class TxtDictionary implements Dictionary {
     }
 
     @Override
-    public Stream<String> stream() {
-        return words.get().stream();
+    public Set<String> words() {
+        return words.get();
     }
 }

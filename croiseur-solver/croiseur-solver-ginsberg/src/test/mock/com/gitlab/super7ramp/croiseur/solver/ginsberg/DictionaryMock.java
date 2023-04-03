@@ -10,9 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -69,7 +69,7 @@ final class DictionaryMock implements Dictionary {
     }
 
     @Override
-    public Set<String> lookup(final Predicate<String> predicate) {
-        return words.stream().filter(predicate).collect(toCollection(LinkedHashSet::new));
+    public Set<String> words() {
+        return Collections.unmodifiableSet(words);
     }
 }

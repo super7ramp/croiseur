@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::objects::{JObject, JString};
 use jni::JNIEnv;
+use jni::objects::{JObject, JString};
 use xwords::trie::Trie;
+
+use crate::jiterable::JIterable;
 
 /// Wrapper for the `com.gitlab.croiseur.solver.szunami.Dictionary` Java object.
 pub struct JDictionary<'a> {
@@ -28,16 +30,15 @@ impl<'a> JDictionary<'a> {
     /// Retrieves the words of the `Dictionary` object and returns them as a vector of `String`s.
     fn words(&self, env: &mut JNIEnv) -> Vec<String> {
         let words_jobject = env
-            .call_method(&self.value, "words", "()Ljava/util/List;", &[])
+            .call_method(&self.value, "words", "()Ljava/util/Set;", &[])
             .expect("Failed to retrieve dictionary words")
             .l()
             .expect("Failed to convert JValue to JObject");
 
-        let words_jlist = env
-            .get_list(&words_jobject)
+        let words_jiterable = JIterable::from_env(env, &words_jobject)
             .expect("Failed to get word list from Dictionary");
 
-        let mut iterator = words_jlist
+        let mut iterator = words_jiterable
             .iter(env)
             .expect("Failed to create word list iterator");
 

@@ -14,8 +14,8 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Lists the dictionary entries.
@@ -34,8 +34,8 @@ final class ListDictionaryEntriesUsecase {
      * @param dictionaryProvidersArg the dictionary providers
      * @param presenterArg           the presenter
      */
-    ListDictionaryEntriesUsecase(Collection<DictionaryProvider> dictionaryProvidersArg,
-                                 DictionaryPresenter presenterArg) {
+    ListDictionaryEntriesUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
+                                 final DictionaryPresenter presenterArg) {
         dictionaryProviders = dictionaryProvidersArg;
         presenter = presenterArg;
     }
@@ -51,7 +51,7 @@ final class ListDictionaryEntriesUsecase {
         final ProvidedDictionaryDescription description =
                 new ProvidedDictionaryDescription(selectedDictionaryProvider.description(),
                         dictionary.description());
-        final List<String> words = dictionary.stream().toList();
+        final Set<String> words = dictionary.words();
         return new DictionaryContent(description, words);
     }
 
@@ -82,8 +82,8 @@ final class ListDictionaryEntriesUsecase {
         }
 
         final Dictionary dictionary = optFirstDictionary.get();
-        final DictionaryContent dictionaryContent =
-                readContent(selectedDictionaryProvider, dictionary);
+        final DictionaryContent dictionaryContent = readContent(selectedDictionaryProvider,
+                dictionary);
         presenter.presentDictionaryEntries(dictionaryContent);
     }
 
@@ -93,8 +93,7 @@ final class ListDictionaryEntriesUsecase {
      * @param request the request to use as filter
      * @return the selected dictionary providers
      */
-    private Collection<DictionaryProvider> selectDictionaryProviders(ListDictionaryEntriesRequest request) {
-        return DictionarySelection.byId(request.dictionaryIdentifier())
-                                  .apply(dictionaryProviders);
+    private Collection<DictionaryProvider> selectDictionaryProviders(final ListDictionaryEntriesRequest request) {
+        return DictionarySelection.byId(request.dictionaryIdentifier()).apply(dictionaryProviders);
     }
 }
