@@ -52,35 +52,25 @@
         ]
     },
     {
-        "name": "java.util.List",
+        "name": "java.lang.Iterable",
         "methods": [
             {
-                "name": "add",
+                "name": "iterator",
                 "parameterTypes": [
-                    "int",
-                    "java.lang.Object"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "java.util.Iterator",
+        "methods": [
+            {
+                "name": "hasNext",
+                "parameterTypes": [
                 ]
             },
             {
-                "name": "add",
-                "parameterTypes": [
-                    "java.lang.Object"
-                ]
-            },
-            {
-                "name": "get",
-                "parameterTypes": [
-                    "int"
-                ]
-            },
-            {
-                "name": "remove",
-                "parameterTypes": [
-                    "int"
-                ]
-            },
-            {
-                "name": "size",
+                "name": "next",
                 "parameterTypes": [
                 ]
             }
