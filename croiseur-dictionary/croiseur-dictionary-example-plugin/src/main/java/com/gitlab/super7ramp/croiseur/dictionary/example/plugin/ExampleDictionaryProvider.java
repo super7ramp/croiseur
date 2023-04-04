@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * An example dictionary provider plugin.
@@ -39,8 +38,8 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
         }
 
         @Override
-        public Stream<String> stream() {
-            return Set.of("Hello", "Word").stream();
+        public Set<String> words() {
+            return Set.of("Hello", "Word");
         }
     }
 
