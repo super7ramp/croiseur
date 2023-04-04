@@ -100,5 +100,4 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names,
             return new DictionaryHeader(locale, names, descriptions);
         }
     }
-    // TODO add validation
 }

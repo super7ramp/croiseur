@@ -21,4 +21,6 @@ final class AutoCloseableXMLStreamReader extends StreamReaderDelegate implements
     AutoCloseableXMLStreamReader(final XMLStreamReader decorated) {
         super(decorated);
     }
+
+    // close() method declared by StreamReaderDelegate implements the Autocloseable interface
 }

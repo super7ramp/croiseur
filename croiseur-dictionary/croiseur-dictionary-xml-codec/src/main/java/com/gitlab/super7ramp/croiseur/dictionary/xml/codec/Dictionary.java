@@ -14,5 +14,5 @@ import java.util.List;
  * @param words  the words
  */
 public record Dictionary(DictionaryHeader header, List<String> words) {
-    // TODO add validation
+    // Nothing to add.
 }

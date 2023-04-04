@@ -80,7 +80,7 @@ public final class DictionaryReader {
      * @throws DictionaryReadException if read fails
      */
     public DictionaryHeader readHeader() throws DictionaryReadException {
-        long before = System.currentTimeMillis();
+        final long before = System.currentTimeMillis();
         try {
             return dictionaryHeaderReader.read();
         } catch (final IOException | XMLStreamException e) {
