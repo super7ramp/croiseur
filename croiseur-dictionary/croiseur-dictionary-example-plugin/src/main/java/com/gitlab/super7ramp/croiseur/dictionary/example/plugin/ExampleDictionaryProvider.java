@@ -56,7 +56,7 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
          * A real-life dictionary provider would cache dictionary and dictionary entries as
          * fields in this class, instead of creating new instances in methods like in this
          * example. But note that dictionary provider constructor is always called at croiseur
-         * startup, even if dictionary did not end up being used. In order to avoid costly and
+         * startup, even if dictionary does not end up being used. In order to avoid costly and
          * useless reads, one may use the Lazy class from dictionary-common.
          */
 

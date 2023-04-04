@@ -230,9 +230,9 @@ chronological backtrack:
 
      1                                                             
      v                                                             
-2 > |A|B|#|#|         | # | Current | Candidates  | New    |       
+2 > |A|X|#|#|         | # | Current | Candidates  | New    |       
     |X|#|#|#|         | 1 | AXCXX   | AXCXX,ABCDE | AXCXX  |       
-3 > |C|X|X|#|         | 2 | AB      | (AB) AX     | AX     |       
+3 > |C| | |#|         | 2 | AB      | (AB) AX     | AX     |       
     |X|#|#|#|         | 3 |         | CDE, CXX    |        |       
 4 > |X| | | |         | 4 |         | EFGH,YYYY   |        |
 
@@ -383,9 +383,9 @@ over:
 
      1                                                             
      v                                                             
-2 > |A| |#|#|         | # | Current | Candidates    | New    |       
+2 > |A|B|#|#|         | # | Current | Candidates    | New    |       
     |B|#|#|#|         | 1 | AXCXX   | (AXCXX) ABCDE | ABCDE  |       
-3 > |C| | |#|         | 2 | AB      | AB,AX         | AB     |       
+3 > |C|D|E|#|         | 2 | AB      | AB,AX         | AB     |       
     |D|#|#|#|         | 3 | CDE     | CDE,CXX       | CDE    |       
 4 > |E| | | |         | 4 |         | EFGH,YYYY     |        |
 
