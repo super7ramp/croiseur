@@ -44,10 +44,10 @@ public final class DictionaryWriter {
     }
 
     /**
-     * Writes the given description using the given writer.
+     * Writes the given dictionary description using the given writer.
      *
-     * @param lang        the description locale
-     * @param description the description to write
+     * @param lang        the dictionary description locale
+     * @param description the dictionary description to write
      * @param writer      the writer to use
      * @throws XMLStreamException if write fails
      */
@@ -62,7 +62,7 @@ public final class DictionaryWriter {
     }
 
     /**
-     * Writes the given dictionary name using the given writer.
+     * Writes the given name using the given writer.
      *
      * @param lang   the dictionary name locale
      * @param name   the dictionary name to write
@@ -128,7 +128,8 @@ public final class DictionaryWriter {
      * @throws DictionaryWriteException if write fails
      */
     public static void write(final OutputStream os, final Dictionary dictionary) throws DictionaryWriteException {
-        try (final OutputStream bufferedOutputStream = new BufferedOutputStream(os); final AutocloseableXMLStreamWriter writer = createWriter(bufferedOutputStream)) {
+        try (final OutputStream bufferedOutputStream = new BufferedOutputStream(os);
+             final AutocloseableXMLStreamWriter writer = createWriter(bufferedOutputStream)) {
 
             writer.writeStartDocument();
 

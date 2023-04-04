@@ -147,7 +147,7 @@ final class AutocloseableXMLStreamWriter implements XMLStreamWriter, AutoCloseab
 
     @Override
     public void writeStartDocument(final String encoding, final String version) throws XMLStreamException {
-        writer.writeStartDocument();
+        writer.writeStartDocument(encoding, version);
     }
 
     @Override
