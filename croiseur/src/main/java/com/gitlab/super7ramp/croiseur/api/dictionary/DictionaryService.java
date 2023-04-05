@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.api.dictionary;
 
-import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
-
 /**
  * The dictionary service.
  * <p>
@@ -18,6 +16,9 @@ public interface DictionaryService {
 
     /**
      * Lists available dictionary providers.
+     *
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaryProviders
+     * DictionaryPresenter#presentDictionaryProviders
      */
     void listProviders();
 
@@ -25,6 +26,8 @@ public interface DictionaryService {
      * Lists available dictionaries.
      *
      * @param request the request
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaries
+     * DictionaryPresenter#presentDictionaries
      */
     void listDictionaries(final ListDictionariesRequest request);
 
@@ -32,6 +35,8 @@ public interface DictionaryService {
      * Lists entries for a dictionary.
      *
      * @param request the request
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaryEntries
+     * DictionaryPresenter#presentDictionaryEntries
      */
     void listEntries(final ListDictionaryEntriesRequest request);
 
@@ -39,7 +44,7 @@ public interface DictionaryService {
      * Searches entries inside a dictionary.
      *
      * @param request the request
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionarySearchResult(DictionarySearchResult)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionarySearchResult
      * DictionaryPresenter#presentDictionarySearchResult
      */
     void searchEntries(final SearchDictionaryEntriesRequest request);
@@ -59,6 +64,9 @@ public interface DictionaryService {
      *     guarantee the dictionary list can be completely sorted, assuming that identifiers are
      *     unique.)</li>
      * </ul>
+     *
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentPreferredDictionary
+     * DictionaryPresenter#presentPreferredDictionary
      */
     void showPreferredDictionary();
 }
