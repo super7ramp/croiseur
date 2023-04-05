@@ -33,6 +33,9 @@ build linux:
       # Cargo caches
       - "**/target"
       - .cargo
+  artifacts:
+    reports:
+      junit: "**/TEST-*.xml"
 
 # A split publish task only executed on master
 # Let's avoid to run it on every branches since it is slow
