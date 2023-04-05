@@ -21,7 +21,7 @@ public interface ListDictionariesRequest {
      *                 desired
      * @return a new {@link ListDictionaryEntriesRequest}
      */
-    static ListDictionariesRequest of(Locale locale, String provider) {
+    static ListDictionariesRequest of(final Locale locale, final String provider) {
         return new ListDictionariesRequest() {
             @Override
             public Optional<Locale> locale() {

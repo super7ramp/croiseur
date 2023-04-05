@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
@@ -16,10 +17,12 @@ import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionaryContentOf;
+import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionarySearchResultOf;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -53,13 +56,23 @@ public final class DictionarySteps {
         dictionaryService.listEntries(listDictionaryEntriesRequest);
     }
 
+    @When("user requests to search the entries of {string} provided by {string} matching the " +
+            "regular expression {string}")
+    public void whenSearch(final String dictionary, final String dictionaryProvider,
+                           final String regex) {
+        final DictionaryIdentifier dictionaryIdentifier =
+                new DictionaryIdentifier(dictionaryProvider, dictionary);
+        final SearchDictionaryEntriesRequest searchDictionaryEntriesRequest =
+                SearchDictionaryEntriesRequest.of(dictionaryIdentifier, regex);
+        dictionaryService.searchEntries(searchDictionaryEntriesRequest);
+    }
+
     @When("user requests to list the available dictionary providers")
     public void whenListDictionaryProviders() {
         dictionaryService.listProviders();
     }
 
-    @When("^user requests to list the available dictionaries(?: of locale ([^ ]+))?(?: provided " +
-            "by (.+))?$")
+    @When("^user requests to list the available dictionaries(?: of locale ([^ ]+))?(?: provided " + "by (.+))?$")
     public void whenListDictionariesOfLocaleProvidedBy(final String locale, final String provider) {
         final Locale parsedLocale = locale != null ? Locale.forLanguageTag(locale) : null;
         final ListDictionariesRequest listDictionariesRequest =
@@ -74,13 +87,30 @@ public final class DictionarySteps {
                 firstEntries));
     }
 
+    @Then("the application presents {int} search results, the first ones being:")
+    public void thenPresentSearchResults(final int totalNumberOfSearchResults,
+                                         final List<String> firstSearchResults) {
+        verify(presenterMock).presentDictionarySearchResult(dictionarySearchResultOf(totalNumberOfSearchResults, firstSearchResults));
+    }
+
+    @Then("the application presents the following search results:")
+    public void thenPresentSearchResults(final List<String> words) {
+        thenPresentSearchResults(words.size(), words);
+    }
+
+    @Then("the application presents an empty search result")
+    public void thenPresentSearchResults() {
+        thenPresentSearchResults(Collections.emptyList());
+    }
+
     @Then("the application presents the following dictionaries:")
     public void thenPresentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
         verify(presenterMock).presentDictionaries(eq(dictionaries));
     }
 
     @Then("the application presents the following dictionary providers:")
-    public void thenPresentDictionaryProviders(final List<DictionaryProviderDescription> dictionaryProviders) {
+    public void thenPresentDictionaryProviders(
+            final List<DictionaryProviderDescription> dictionaryProviders) {
         verify(presenterMock).presentDictionaryProviders(eq(dictionaryProviders));
     }
 

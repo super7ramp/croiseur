@@ -5,8 +5,14 @@
 
 package com.gitlab.super7ramp.croiseur.api.dictionary;
 
+import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
+
 /**
- * The dictionary service. Mainly queries on the available dictionaries.
+ * The dictionary service.
+ * <p>
+ * Mainly queries on the available dictionaries. Results of the requests are forwarded to the
+ * {@link com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter
+ * DictionaryPresenter}.
  */
 public interface DictionaryService {
 
@@ -28,6 +34,15 @@ public interface DictionaryService {
      * @param request the request
      */
     void listEntries(final ListDictionaryEntriesRequest request);
+
+    /**
+     * Searches entries inside a dictionary.
+     *
+     * @param request the request
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionarySearchResult(DictionarySearchResult)
+     * DictionaryPresenter#presentDictionarySearchResult
+     */
+    void searchEntries(final SearchDictionaryEntriesRequest request);
 
     /**
      * Shows the preferred dictionary.

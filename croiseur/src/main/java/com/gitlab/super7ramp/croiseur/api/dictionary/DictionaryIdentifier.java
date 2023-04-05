@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  * @param providerName   the dictionary provider name
  * @param dictionaryName the dictionary name
  */
+// TODO remove textual representation
+// TODO move to an interface for consistency with the rest?
 public record DictionaryIdentifier(String providerName, String dictionaryName) {
 
     /** Textual representation pattern: providerName:dictionaryName. */

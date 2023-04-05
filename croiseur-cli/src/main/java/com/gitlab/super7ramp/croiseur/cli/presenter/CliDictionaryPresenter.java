@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescri
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -47,7 +48,8 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+    public void presentDictionaryProviders(
+            final Collection<DictionaryProviderDescription> providers) {
         final String providerHeader = $("provider");
         final String descriptionHeader = $("description");
 
@@ -66,40 +68,55 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         final String localeHeader = $("locale");
 
         System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
-        System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()), lineOf(nameHeader.length()),
-                lineOf(localeHeader.length()));
+        System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()),
+                lineOf(nameHeader.length()), lineOf(localeHeader.length()));
 
         for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
             final DictionaryProviderDescription provider = providedDictionary.provider();
             final DictionaryDescription dictionary = providedDictionary.dictionary();
-            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(),
-                    dictionary.locale().getDisplayName());
+            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(), dictionary.locale()
+                    .getDisplayName());
         }
     }
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
-        /*
-         * As output may be very large, it is likely the output is going to be piped (grep,
-         * head, ...). Checking error status on System.out allows detecting broken pipe and
-         * fast exit.
-         */
-        final Iterator<String> wordIterator = content.words().iterator();
-        while (wordIterator.hasNext() && !System.out.checkError()) {
-            System.out.println(wordIterator.next());
-        }
+        printWords(content.words());
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
+    public void presentDictionarySearchResult(final DictionarySearchResult searchResult) {
+        printWords(searchResult.words());
+    }
+
+    @Override
+    public void presentPreferredDictionary(
+            final ProvidedDictionaryDescription preferredDictionary) {
         final DictionaryProviderDescription provider = preferredDictionary.provider();
         final DictionaryDescription dictionary = preferredDictionary.dictionary();
-        System.out.printf($("preferred.format"), dictionary.name(),
-                dictionary.locale().getDisplayName(), provider.name());
+        System.out.printf($("preferred.format"), dictionary.name(), dictionary.locale()
+                .getDisplayName(), provider.name());
     }
 
     @Override
     public void presentDictionaryError(final String error) {
         System.err.println(error);
+    }
+
+    /**
+     * Prints the given words to standard output.
+     *
+     * @param words the words to print
+     */
+    private void printWords(final Iterable<String> words) {
+        /*
+         * As output may be very large, it is likely the output is going to be piped (grep,
+         * head, ...). Checking error status on System.out allows detecting broken pipe and
+         * fast exit.
+         */
+        final Iterator<String> wordIterator = words.iterator();
+        while (wordIterator.hasNext() && !System.out.checkError()) {
+            System.out.println(wordIterator.next());
+        }
     }
 }

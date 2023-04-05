@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import javafx.application.Platform;
 
 import java.util.Collection;
@@ -47,18 +48,23 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
             presentedDictionaries.get(0).setSelected(true);
         }
         Platform.runLater(() -> dictionariesViewModel.dictionariesProperty()
-                                                     .setAll(presentedDictionaries));
+                .setAll(presentedDictionaries));
     }
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
         Platform.runLater(() -> dictionariesViewModel.addWords(content.description()
-                                                                      .toDictionaryKey(),
-                content.words()));
+                .toDictionaryKey(), content.words()));
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
+    public void presentDictionarySearchResult(final DictionarySearchResult searchResult) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void presentPreferredDictionary(
+            final ProvidedDictionaryDescription preferredDictionary) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

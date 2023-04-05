@@ -43,6 +43,13 @@ public interface DictionaryPresenter {
     void presentDictionaryEntries(final DictionaryContent content);
 
     /**
+     * Presents the result of search.
+     *
+     * @param searchResult the search result
+     */
+    void presentDictionarySearchResult(final DictionarySearchResult searchResult);
+
+    /**
      * Presents the preferred dictionary.
      * <p>
      * Typically, this is the first dictionary returned by {@link #presentDictionaries(List)}.

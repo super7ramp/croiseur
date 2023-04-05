@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescri
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
+import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
@@ -77,7 +78,13 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary) {
+    public void presentDictionarySearchResult(final DictionarySearchResult searchResult) {
+        cliDictionaryPresenter.presentDictionarySearchResult(searchResult);
+    }
+
+    @Override
+    public void presentPreferredDictionary(
+            final ProvidedDictionaryDescription preferredDictionary) {
         cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 

@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.impl.dictionary;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 
@@ -27,6 +28,9 @@ public final class DictionaryServiceImpl implements DictionaryService {
     /** The 'list dictionary entries' usecase. */
     private final ListDictionaryEntriesUsecase listDictionaryEntries;
 
+    /** The 'search dictionary entries' usecase. */
+    private final SearchDictionaryEntriesUsecase searchDictionaryEntries;
+
     /** The 'show preferred dictionary' usecase. */
     private final ShowPreferredDictionaryUsecase showPreferredDictionaryUsecase;
 
@@ -42,6 +46,8 @@ public final class DictionaryServiceImpl implements DictionaryService {
                 new ListDictionaryProvidersUsecase(dictionaryProvidersArg, presenterArg);
         listDictionariesUsecase = new ListDictionariesUsecase(dictionaryProvidersArg, presenterArg);
         listDictionaryEntries = new ListDictionaryEntriesUsecase(dictionaryProvidersArg,
+                presenterArg);
+        searchDictionaryEntries = new SearchDictionaryEntriesUsecase(dictionaryProvidersArg,
                 presenterArg);
         showPreferredDictionaryUsecase =
                 new ShowPreferredDictionaryUsecase(dictionaryProvidersArg, presenterArg);
@@ -60,6 +66,11 @@ public final class DictionaryServiceImpl implements DictionaryService {
     @Override
     public void listEntries(final ListDictionaryEntriesRequest request) {
         listDictionaryEntries.process(request);
+    }
+
+    @Override
+    public void searchEntries(final SearchDictionaryEntriesRequest request) {
+        searchDictionaryEntries.process(request);
     }
 
     @Override
