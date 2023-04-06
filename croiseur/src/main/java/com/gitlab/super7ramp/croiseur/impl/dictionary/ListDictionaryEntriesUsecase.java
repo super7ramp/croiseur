@@ -7,14 +7,10 @@ package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
-import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.croiseur.common.util.Either;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
-import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -22,8 +18,8 @@ import java.util.Set;
  */
 final class ListDictionaryEntriesUsecase {
 
-    /** The dictionary providers. */
-    private final Collection<DictionaryProvider> dictionaryProviders;
+    /** The dictionary selector. */
+    private final DictionarySelector dictionarySelector;
 
     /** The presenter. */
     private final DictionaryPresenter presenter;
@@ -31,27 +27,27 @@ final class ListDictionaryEntriesUsecase {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg           the presenter
+     * @param dictionarySelectorArg the dictionary selector
+     * @param presenterArg          the presenter
      */
-    ListDictionaryEntriesUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
+    ListDictionaryEntriesUsecase(final DictionarySelector dictionarySelectorArg,
                                  final DictionaryPresenter presenterArg) {
-        dictionaryProviders = dictionaryProvidersArg;
+        dictionarySelector = dictionarySelectorArg;
         presenter = presenterArg;
     }
 
     /**
-     * Reads the content of the given dictionary into a {@link DictionaryContent}.
+     * Reads the content of the given dictionary into a presentable {@link DictionaryContent}.
      *
-     * @param selectedDictionaryProvider the selected dictionary provider
-     * @param dictionary                 the selected dictionary
-     * @return the content of the given dictionary
+     * @param selectedDictionary the selected dictionary
+     * @return the presentable content of the given dictionary
      */
-    private static DictionaryContent readContent(final DictionaryProvider selectedDictionaryProvider, final Dictionary dictionary) {
+    private static DictionaryContent readContent(
+            final DictionarySelector.SelectedDictionary selectedDictionary) {
         final ProvidedDictionaryDescription description =
-                new ProvidedDictionaryDescription(selectedDictionaryProvider.description(),
-                        dictionary.description());
-        final Set<String> words = dictionary.words();
+                new ProvidedDictionaryDescription(selectedDictionary.providerName(),
+                        selectedDictionary.description());
+        final Set<String> words = selectedDictionary.words();
         return new DictionaryContent(description, words);
     }
 
@@ -61,39 +57,16 @@ final class ListDictionaryEntriesUsecase {
      * @param request the {@link ListDictionaryEntriesRequest}
      */
     void process(final ListDictionaryEntriesRequest request) {
-        final Collection<DictionaryProvider> selectedDictionaryProviders =
-                selectDictionaryProviders(request);
 
-        if (selectedDictionaryProviders.isEmpty()) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
-            return;
-        }
-        if (selectedDictionaryProviders.size() > 1) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + selectedDictionaryProviders + ")");
-            return;
-        }
+        final Either<String, DictionarySelector.SelectedDictionary> dictionarySelection =
+                dictionarySelector.select(request.dictionaryIdentifier());
 
-        final DictionaryProvider selectedDictionaryProvider = selectedDictionaryProviders.iterator()
-                                                                                         .next();
-        final Optional<Dictionary> optFirstDictionary = selectedDictionaryProvider.getFirst();
-        if (optFirstDictionary.isEmpty()) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
-            return;
+        if (dictionarySelection.isLeft()) {
+            presenter.presentDictionaryError(dictionarySelection.left());
+        } else {
+            final DictionaryContent dictionaryContent = readContent(dictionarySelection.right());
+            presenter.presentDictionaryEntries(dictionaryContent);
         }
-
-        final Dictionary dictionary = optFirstDictionary.get();
-        final DictionaryContent dictionaryContent = readContent(selectedDictionaryProvider,
-                dictionary);
-        presenter.presentDictionaryEntries(dictionaryContent);
     }
 
-    /**
-     * Selects the dictionary providers using the given request as filer.
-     *
-     * @param request the request to use as filter
-     * @return the selected dictionary providers
-     */
-    private Collection<DictionaryProvider> selectDictionaryProviders(final ListDictionaryEntriesRequest request) {
-        return DictionarySelection.byId(request.dictionaryIdentifier()).apply(dictionaryProviders);
-    }
 }

@@ -50,10 +50,12 @@ final class ShowPreferredDictionaryUsecase {
      * @param provider the dictionary provider
      * @return a stream of {@link ProvidedDictionaryDescription}s
      */
-    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(final DictionaryProvider provider) {
+    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(
+            final DictionaryProvider provider) {
         return provider.get()
                        .stream()
-                       .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()));
+                       .map(dictionary -> new ProvidedDictionaryDescription(
+                               provider.description().name(), dictionary.description()));
     }
 
     void process() {
@@ -70,7 +72,8 @@ final class ShowPreferredDictionaryUsecase {
                                        .min(DICTIONARY_COMPARATOR);
 
             if (optPreferredDictionary.isEmpty()) {
-                presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
+                presenter.presentDictionaryError(
+                        DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
             } else {
                 presenter.presentPreferredDictionary(optPreferredDictionary.get());
             }

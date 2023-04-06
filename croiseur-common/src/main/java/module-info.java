@@ -10,4 +10,5 @@
 module com.gitlab.super7ramp.croiseur.common {
     exports com.gitlab.super7ramp.croiseur.common;
     exports com.gitlab.super7ramp.croiseur.common.dictionary;
+    exports com.gitlab.super7ramp.croiseur.common.util;
 }

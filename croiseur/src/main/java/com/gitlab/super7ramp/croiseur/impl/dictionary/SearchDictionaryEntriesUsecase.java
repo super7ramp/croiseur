@@ -6,16 +6,10 @@
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
-import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.croiseur.common.util.Either;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -23,8 +17,8 @@ import java.util.regex.Pattern;
  */
 final class SearchDictionaryEntriesUsecase {
 
-    /** The dictionary providers. */
-    private final Collection<DictionaryProvider> dictionaryProviders;
+    /** The dictionary selector. */
+    private final DictionarySelector dictionarySelector;
 
     /** The dictionary presenter. */
     private final DictionaryPresenter presenter;
@@ -32,11 +26,12 @@ final class SearchDictionaryEntriesUsecase {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryProvidersArg the dictionary providers
+     * @param dictionarySelectorArg  the dictionary selector
+     * @param dictionaryPresenterArg the dictionary presenter
      */
-    SearchDictionaryEntriesUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
+    SearchDictionaryEntriesUsecase(final DictionarySelector dictionarySelectorArg,
                                    final DictionaryPresenter dictionaryPresenterArg) {
-        dictionaryProviders = dictionaryProvidersArg;
+        dictionarySelector = dictionarySelectorArg;
         presenter = dictionaryPresenterArg;
     }
 
@@ -47,38 +42,20 @@ final class SearchDictionaryEntriesUsecase {
      */
     void process(final SearchDictionaryEntriesRequest request) {
 
-        // start dictionary search logic
-        // TODO this is the same as "list entries usecase", find a clean way to share it
-        final Collection<DictionaryProvider> selectedDictionaryProviders =
-                DictionarySelection.byId(request.dictionaryIdentifier())
-                .apply(dictionaryProviders);
+        final Either<String, DictionarySelector.SelectedDictionary> dictionarySelection =
+                dictionarySelector.select(request.dictionaryIdentifier());
 
-        if (selectedDictionaryProviders.isEmpty()) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
-            return;
+        if (dictionarySelection.isLeft()) {
+            presenter.presentDictionaryError(dictionarySelection.left());
+        } else {
+            final DictionarySelector.SelectedDictionary selectedDictionary =
+                    dictionarySelection.right();
+            final var regex = Pattern.compile(request.searchExpression()).asMatchPredicate();
+            final var foundWords = selectedDictionary.words().stream().filter(regex).toList();
+            final var searchResult = new DictionarySearchResult(foundWords);
+
+            presenter.presentDictionarySearchResult(searchResult);
         }
-        if (selectedDictionaryProviders.size() > 1) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + selectedDictionaryProviders + ")");
-            return;
-        }
-
-        final DictionaryProvider selectedDictionaryProvider = selectedDictionaryProviders.iterator()
-                .next();
-        final Optional<Dictionary> optFirstDictionary = selectedDictionaryProvider.getFirst();
-        if (optFirstDictionary.isEmpty()) {
-            presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
-            return;
-        }
-
-        final Dictionary dictionary = optFirstDictionary.get();
-        // end dictionary search logic
-
-        final Predicate<String> regex = Pattern.compile(request.searchExpression())
-                .asMatchPredicate();
-        final List<String> foundWords = dictionary.words().stream().filter(regex).toList();
-        final DictionarySearchResult searchResult = new DictionarySearchResult(foundWords);
-
-        presenter.presentDictionarySearchResult(searchResult);
     }
 
 }

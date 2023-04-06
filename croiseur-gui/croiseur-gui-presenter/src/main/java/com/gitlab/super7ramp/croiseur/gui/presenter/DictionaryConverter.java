@@ -29,10 +29,10 @@ final class DictionaryConverter {
      * @return a {@link DictionaryViewModel}
      */
     static DictionaryViewModel toViewModelType(final ProvidedDictionaryDescription providedDictionary) {
-        final String provider = providedDictionary.provider().name();
+        final String providerName = providedDictionary.providerName();
         final Locale locale = providedDictionary.dictionary().locale();
         final String dictionaryName = providedDictionary.dictionary().name();
-        return new DictionaryViewModel(locale, provider, dictionaryName);
+        return new DictionaryViewModel(locale, providerName, dictionaryName);
     }
 
 }

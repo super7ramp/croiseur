@@ -32,19 +32,18 @@ public final class DictionaryTypes {
     }
 
     @DataTableType
-    public DictionaryProviderDescription dictionaryProviderDescription(final Map<String, String> entry) {
+    public DictionaryProviderDescription dictionaryProviderDescription(
+            final Map<String, String> entry) {
         return new DictionaryProviderDescription(entry.get("Provider"), entry.get("Description"));
     }
 
     @DataTableType
-    public ProvidedDictionaryDescription providedDictionaryDescription(final Map<String, String> entry) {
-        final DictionaryProviderDescription dictionaryProviderDescription =
-                new DictionaryProviderDescription(entry.get("Provider"), entry.get("Provider " +
-                        "Description"));
+    public ProvidedDictionaryDescription providedDictionaryDescription(
+            final Map<String, String> entry) {
+        final String providerName = entry.get("Provider");
         final DictionaryDescription dictionaryDescription =
-                new DictionaryDescription(entry.get("Name"), Locale.forLanguageTag(entry.get(
-                        "Locale")));
-        return new ProvidedDictionaryDescription(dictionaryProviderDescription,
-                dictionaryDescription);
+                new DictionaryDescription(entry.get("Name"),
+                        Locale.forLanguageTag(entry.get("Locale")));
+        return new ProvidedDictionaryDescription(providerName, dictionaryDescription);
     }
 }

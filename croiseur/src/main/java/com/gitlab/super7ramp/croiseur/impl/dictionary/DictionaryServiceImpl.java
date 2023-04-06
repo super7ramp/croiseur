@@ -45,10 +45,10 @@ public final class DictionaryServiceImpl implements DictionaryService {
         listDictionaryProvidersUsecase =
                 new ListDictionaryProvidersUsecase(dictionaryProvidersArg, presenterArg);
         listDictionariesUsecase = new ListDictionariesUsecase(dictionaryProvidersArg, presenterArg);
-        listDictionaryEntries = new ListDictionaryEntriesUsecase(dictionaryProvidersArg,
-                presenterArg);
-        searchDictionaryEntries = new SearchDictionaryEntriesUsecase(dictionaryProvidersArg,
-                presenterArg);
+        final var dictionarySelector = new DictionarySelector(dictionaryProvidersArg);
+        listDictionaryEntries = new ListDictionaryEntriesUsecase(dictionarySelector, presenterArg);
+        searchDictionaryEntries =
+                new SearchDictionaryEntriesUsecase(dictionarySelector, presenterArg);
         showPreferredDictionaryUsecase =
                 new ShowPreferredDictionaryUsecase(dictionaryProvidersArg, presenterArg);
     }

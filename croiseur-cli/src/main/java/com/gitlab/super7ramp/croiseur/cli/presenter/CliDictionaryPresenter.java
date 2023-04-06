@@ -68,14 +68,14 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         final String localeHeader = $("locale");
 
         System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
-        System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()),
-                lineOf(nameHeader.length()), lineOf(localeHeader.length()));
+        System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()), lineOf(nameHeader.length()),
+                lineOf(localeHeader.length()));
 
         for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
-            final DictionaryProviderDescription provider = providedDictionary.provider();
+            final String providerName = providedDictionary.providerName();
             final DictionaryDescription dictionary = providedDictionary.dictionary();
-            System.out.printf(LIST_FORMAT, provider.name(), dictionary.name(), dictionary.locale()
-                    .getDisplayName());
+            System.out.printf(LIST_FORMAT, providerName, dictionary.name(),
+                    dictionary.locale().getDisplayName());
         }
     }
 
@@ -92,10 +92,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentPreferredDictionary(
             final ProvidedDictionaryDescription preferredDictionary) {
-        final DictionaryProviderDescription provider = preferredDictionary.provider();
+        final String providerName = preferredDictionary.providerName();
         final DictionaryDescription dictionary = preferredDictionary.dictionary();
-        System.out.printf($("preferred.format"), dictionary.name(), dictionary.locale()
-                .getDisplayName(), provider.name());
+        System.out.printf($("preferred.format"), dictionary.name(),
+                dictionary.locale().getDisplayName(), providerName);
     }
 
     @Override

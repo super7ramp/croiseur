@@ -50,10 +50,12 @@ final class ListDictionariesUsecase {
      * @param provider the dictionary provider
      * @return a stream of {@link ProvidedDictionaryDescription}s
      */
-    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(final DictionaryProvider provider) {
+    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(
+            final DictionaryProvider provider) {
         return provider.get()
                        .stream()
-                       .map(dictionary -> new ProvidedDictionaryDescription(provider.description(), dictionary.description()));
+                       .map(dictionary -> new ProvidedDictionaryDescription(
+                               provider.description().name(), dictionary.description()));
     }
 
     /**
@@ -64,9 +66,11 @@ final class ListDictionariesUsecase {
      * @return a list of the given selected dictionary providers ordered by
      * {@link #DICTIONARY_COMPARATOR}
      */
-    private static List<ProvidedDictionaryDescription> orderDictionaries(final Collection<DictionaryProvider> selectedDictionaryProviders) {
+    private static List<ProvidedDictionaryDescription> orderDictionaries(
+            final Collection<DictionaryProvider> selectedDictionaryProviders) {
         return selectedDictionaryProviders.stream()
-                                          .flatMap(provider -> toDictionaryDescriptionStream(provider))
+                                          .flatMap(provider -> toDictionaryDescriptionStream(
+                                                  provider))
                                           .sorted(DICTIONARY_COMPARATOR)
                                           .toList();
     }
@@ -95,7 +99,8 @@ final class ListDictionariesUsecase {
      * @param request the {@link ListDictionariesRequest} to use as filter
      * @return the selected dictionary providers
      */
-    private Collection<DictionaryProvider> selectDictionaryProviders(final ListDictionariesRequest request) {
+    private Collection<DictionaryProvider> selectDictionaryProviders(
+            final ListDictionariesRequest request) {
         return DictionarySelection.byOptionalProvider(request.provider())
                                   .and(DictionarySelection.byOptionalLocale(request.locale()))
                                   .apply(dictionaryProviders);

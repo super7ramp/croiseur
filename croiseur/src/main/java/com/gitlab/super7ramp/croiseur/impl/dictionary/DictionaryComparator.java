@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
 
 import java.util.Comparator;
@@ -16,8 +15,7 @@ import java.util.Locale;
  * <p>
  * The smaller, the more preferred.
  * <p>
- * The criteria used to compare dictionaries are, by order of
- * preference:
+ * The criteria used to compare dictionaries are, by order of preference:
  * <ul>
  *     <li>Locale: Dictionary matching system's locale (language + country) is preferred over
  *     one which doesn't;</li>
@@ -62,10 +60,12 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
                 return 1;
             }
             // At this point: Both locales are not default system locale.
-            if (left.equals(defaultSystemLocaleLanguageOnly) && !right.equals(defaultSystemLocaleLanguageOnly)) {
+            if (left.equals(defaultSystemLocaleLanguageOnly) && !right.equals(
+                    defaultSystemLocaleLanguageOnly)) {
                 return -1;
             }
-            if (!left.equals(defaultSystemLocaleLanguageOnly) && right.equals(defaultSystemLocaleLanguageOnly)) {
+            if (!left.equals(defaultSystemLocaleLanguageOnly) && right.equals(
+                    defaultSystemLocaleLanguageOnly)) {
                 return 1;
             }
             // At this point: Both locales are not default system languages.
@@ -77,7 +77,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     /**
      * Comparator for dictionary providers.
      */
-    private static final class ProviderComparator implements Comparator<DictionaryProviderDescription> {
+    private static final class ProviderNameComparator implements Comparator<String> {
 
         /** The name of the preferred dictionary. */
         // TODO to be passed by configuration
@@ -86,15 +86,12 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
         /**
          * Constructs an instance.
          */
-        ProviderComparator() {
+        ProviderNameComparator() {
             // Nothing to do.
         }
 
         @Override
-        public int compare(final DictionaryProviderDescription left,
-                           final DictionaryProviderDescription right) {
-            final String leftName = left.name();
-            final String rightName = right.name();
+        public int compare(final String leftName, final String rightName) {
             if (leftName.equals(PREFERRED_PROVIDER) && !rightName.equals(PREFERRED_PROVIDER)) {
                 return -1;
             }
@@ -102,12 +99,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
                 return 1;
             }
             // At this point: None of the providers are the preferred one.
-            final int nameComparison = leftName.compareTo(rightName);
-            if (nameComparison != 0) {
-                return nameComparison;
-            }
-            // At this point: Same provider name. Sort with description.
-            return left.description().compareTo(right.description());
+            return leftName.compareTo(rightName);
         }
     }
 
@@ -115,28 +107,28 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     private final LocaleComparator localeComparator;
 
     /** The comparator of dictionary provider. */
-    private final ProviderComparator providerComparator;
+    private final ProviderNameComparator providerNameComparator;
 
     /**
      * Constructs an instance.
      */
     DictionaryComparator() {
         localeComparator = new LocaleComparator();
-        providerComparator = new ProviderComparator();
+        providerNameComparator = new ProviderNameComparator();
     }
 
     @Override
     public int compare(final ProvidedDictionaryDescription left,
                        final ProvidedDictionaryDescription right) {
 
-        final int localeComparison = localeComparator.compare(left.dictionary().locale(),
-                right.dictionary().locale());
+        final int localeComparison =
+                localeComparator.compare(left.dictionary().locale(), right.dictionary().locale());
         if (localeComparison != 0) {
             return localeComparison;
         }
 
-        final int providerComparison = providerComparator.compare(left.provider(),
-                right.provider());
+        final int providerComparison =
+                providerNameComparator.compare(left.providerName(), right.providerName());
         if (providerComparison != 0) {
             return providerComparison;
         }
