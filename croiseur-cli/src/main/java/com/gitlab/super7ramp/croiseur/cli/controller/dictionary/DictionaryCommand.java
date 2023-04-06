@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
+import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -53,14 +54,26 @@ public final class DictionaryCommand {
     }
 
     /**
+     * Greps the dictionary content.
+     */
+    @Command(name = "grep")
+    void grep(
+            @Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId,
+            @Parameters(index = "1", paramLabel = "<PATTERN>") final String pattern) {
+        final SearchDictionaryEntriesRequest request =
+                SearchDictionaryEntriesRequest.of(dictionaryId, pattern);
+        dictionaryService.searchEntries(request);
+    }
+
+    /**
      * Lists the available dictionary.
      *
      * @param provider filter on the provider
      * @param locale   filter on the locale
      */
     @Command(name = "list", aliases = {"ls"})
-    void list(@Option(names = {"-p", "--provider"},
-            paramLabel = "PROVIDER") final String provider, @Option(names = {"-l", "--locale"},
+    void list(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
+              @Option(names = {"-l", "--locale"},
             paramLabel = "LOCALE") final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
         dictionaryService.listDictionaries(request);
