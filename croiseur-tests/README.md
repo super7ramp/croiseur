@@ -50,14 +50,14 @@ Scenario files are named following tested service structure:
 ```
 .
 ├── dictionary                                        // Scenarios testing croiseur.api.dictionary
-│   ├── dictionary-cat.feature
-│   ├── dictionary-list-providers.feature 
-│   └── dictionary-list.feature
-│   └── ...
+│   ├── dictionary-cat.feature
+│   ├── dictionary-grep.feature 
+│   ├── dictionary-list.feature
+│   └── ...
 └── solver                                            // Scenarios testing croiseur.api.solver
     ├── solver-list.feature
     ├── solver-run-ginsberg.feature
-    └── solver-run-paulgb.feature
+    ├── solver-run-paulgb.feature
     └── ...
 ```
 
@@ -79,15 +79,14 @@ In normal packages, the following kinds of classes are found:
 ├── SolverTestSuite.java
 ├── WipTestSuite.java
 ├── context                            // Manages test lifecycle
-│   ├── DeploymentSteps.java
-│   └── TestContext.java
+│   ├── DeploymentSteps.java
+│   └── TestContext.java
 ├── dictionary                         // Glue code for scenarios testing croiseur.api.dictionary
-│   ├── DictionaryMatchers.java
-│   ├── DictionarySteps.java
-│   └── DictionaryTypes.java
+│   ├── DictionaryMatchers.java
+│   ├── DictionarySteps.java
+│   └── DictionaryTypes.java
 └── solver                             // Glue code for scenarios testing croiseur.api.solver
-    ├── SolverMatchers.java
-    ├── SolverSteps.java
-    └── SolverTypes.java
-
+     ├── SolverMatchers.java
+     ├── SolverSteps.java
+     └── SolverTypes.java
 ```

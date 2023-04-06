@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionaryContentOf;
-import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionarySearchResultOf;
+import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionaryContentWith;
+import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.searchResultWith;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -83,24 +83,25 @@ public final class DictionarySteps {
     @Then("the application presents {int} dictionary entries, the first ones being:")
     public void thenPresentDictionaryEntries(final int totalNumberOfEntries,
                                              final List<String> firstEntries) {
-        verify(presenterMock).presentDictionaryEntries(dictionaryContentOf(totalNumberOfEntries,
-                firstEntries));
+        verify(presenterMock).presentDictionaryEntries(dictionaryContentWith(totalNumberOfEntries
+                , firstEntries));
     }
 
-    @Then("the application presents {int} search results, the first ones being:")
-    public void thenPresentSearchResults(final int totalNumberOfSearchResults,
-                                         final List<String> firstSearchResults) {
-        verify(presenterMock).presentDictionarySearchResult(dictionarySearchResultOf(totalNumberOfSearchResults, firstSearchResults));
+    @Then("the application presents {int} dictionary entry matches, the first ones being:")
+    public void thenPresentSearchResult(final int totalNumberOfMatches,
+                                        final List<String> firstMatches) {
+        verify(presenterMock).presentDictionarySearchResult(searchResultWith(totalNumberOfMatches
+                , firstMatches));
     }
 
-    @Then("the application presents the following search results:")
-    public void thenPresentSearchResults(final List<String> words) {
-        thenPresentSearchResults(words.size(), words);
+    @Then("the application presents the following dictionary entry match(es):")
+    public void thenPresentSearchResult(final List<String> words) {
+        thenPresentSearchResult(words.size(), words);
     }
 
-    @Then("the application presents an empty search result")
-    public void thenPresentSearchResults() {
-        thenPresentSearchResults(Collections.emptyList());
+    @Then("the application presents an empty dictionary search result")
+    public void thenPresentSearchResult() {
+        thenPresentSearchResult(Collections.emptyList());
     }
 
     @Then("the application presents the following dictionaries:")
