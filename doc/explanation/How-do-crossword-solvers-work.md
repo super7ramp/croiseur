@@ -7,17 +7,38 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Disclaimer
 
-This is a short, high level and unreviewed explanation of how the solvers embedded in **croiseur**
-work. Do not take everything here as necessarily correct. If you are looking for more thorough
-explanations, check out the [reference papers](#references).
+This is a short, high level and unreviewed explanation of how the solvers available in **croiseur**
+and elsewhere work. Do not take everything here as necessarily correct. If you are looking for more
+thorough explanations, check out the [reference papers](#references).
 
-### Generalities
+### Problem Definition
 
-Crossword solving is a constraint satisfaction problem: Variables (word slots) must be assigned
-values (words) satisfying a set of constraints (letters shared by slots).
+[Jensen97] proposes the following definition:
 
-Solvers currently available in **croiseur** search for a solution using similar approaches
-described notably by [Ginsberg90] or [Peterson20].
+> Given a word list and a grid configuration a crossword compiler, man or machine should find one or
+> more solutions. A solution in this context is a filling of the grid with words all belonging to
+> the specified word list.
+
+He also introduces the "unconstrained" problem variant, where shaded cells are not an input of the
+problem but determined at run-time by the program. This variant will not be discussed here.
+
+### Approach
+
+Crossword solving is typically a constraint satisfaction problem: Variables (word slots) must be
+assigned values (words) satisfying a set of constraints (letters shared by slots).
+
+An alternative approach is to consider that the variables are the letter cells, the values are
+the letters and the constraints are that certain groups of letters must form valid words.
+
+Despite the by-letter approach being historically the first successful one ([Mazlack76]), most of
+the subsequent works have used the by-word approach. The following explanations are made with a
+by-word approach in mind but should be transposable to a by-letter approach.
+
+> — [Jensen97] presents a hybrid, generalised approach where a variable is a _chunk_, which can be a
+> letter or a group of letters, possibly an entire word.
+
+Solvers currently available in **croiseur** search for a solution using similar techniques
+described notably by [Ginsberg90], [Peterson20] and [Jensen97].
 
 This search can be summarised in three steps:
 
@@ -46,15 +67,15 @@ A more primitive strategy is to always select a slot connected to the previously
 > — In practice, using the currently most constrained slot as next slot seems to often follows
 > connections (the previous assignment constraining significantly the crossing slots).
 
-#### Word Selection
+#### Value Selection
 
-A typical strategy to avoid backtracks is to probe the grid with the candidate word to check if it
+A typical strategy to avoid backtracks is to probe the grid with the candidate value to check if it
 is viable, i.e. if the grid has still solutions after filling the selected slot with the
-candidate word. Given the nature of the problem, verifying that the crossed slots have still
+candidate value. Given the nature of the problem, verifying that the crossing slots have still
 solutions suffices.
 
-A finer strategy is to compare the viable word candidates and select the *least-constraining*
-one, i.e. the word leaving the crossing slots with the highest number of candidates. [Ginsberg90]
+A finer strategy is to compare the viable candidates and select the *least-constraining* one, i.e.
+the value leaving the crossing slots with the highest number of candidates. [Ginsberg90]
 suggests it is the more effective strategy to avoid backtracks, although it is more costly. In
 order to reduce costs, only the 10 first word candidates may be used in the comparison.
 
@@ -63,11 +84,11 @@ This kind of strategies, where one takes a look in the future to make a choice, 
 
 #### Backtrack
 
-Backtrack strategies are the most complicated to understand or at least to implement correctly.
+> — Backtrack strategies are more complicated to understand or at least to implement correctly.
 
 ##### Chronological Backtrack
 
-The simplest backtrack strategy is the chronological one: Take the latest assigned slot and give
+The simplest backtrack strategy is the chronological one: Take the slot assigned last and give
 it another value.
 
 However, such a strategy may:
@@ -83,7 +104,10 @@ However, such a strategy may:
 ##### Backmark
 
 An improved version of the simple backtrack that stores some information to avoid repeating the
-same work, proposed by [Gaschnig79]. This strategy is not used in **croiseur**.
+same work, proposed by [Gaschnig79].
+
+> — This strategy is not used in **croiseur**. I am not sure whether it can scale for very large
+> search spaces such as the ones found in crossword problems.
 
 ##### Backjump
 
@@ -103,6 +127,19 @@ Relies on an elimination memory for each variable. Effectively changes search or
 > — I am not sure to understand it and as a result I have doubts on the correctness of the
 > implementation in `croiseur-solver-ginsberg`. It does not prevent this solver to find solutions
 > though, but it might only be due to the other heuristics, for slot selection and value selection.
+
+##### Limited Discrepancy Search
+
+Limited Discrepancy Search (LDS) is a backtrack technique introduced by [Harvey95] which aims to
+offer a way to reduce the impact of value selection heuristics limitations. Indeed, a solver can get
+stuck exploring a large space with no or few solutions because of a few bad decisions taken early in
+the search process. LDS dynamically reorders the search in a way which allows to get back faster to
+these early decisions.
+
+> — This technique is not implemented in **croiseur** yet but is planned to be. This technique has
+> been adapted and implemented in Matt Ginsberg's Dr. Fill software ([Ginsberg11]), whose source
+> code is available for educational
+> purpose [here](https://github.com/albertkx/Berkeley-Crossword-Solver/tree/drfill).
 
 ##### Example
 
@@ -173,8 +210,8 @@ Let us now represent our search space as a tree:
             └── 4:YYYY
 ```
 
-Let us see how the different strategies handles the situation, beginning with simple
-chronological backtrack:
+Let us see how the chronological backtrack, backjump and dynamic backtrack strategies handle the
+situation, beginning with chronological backtrack:
 
 ```
 -- Assigning 1: AXCXX
@@ -404,28 +441,31 @@ With this strategy, the search order has actually been modified:
                 └── 4:EFGH
 ```
 
-#### Solvers comparison
+### Solver Comparison
 
 Here is a comparison between solvers available in **croiseur**:
 
-| Solvers ↓ Steps →  | Variable selection                                           | Value selection    | Backtrack     |
-|--------------------|--------------------------------------------------------------|--------------------|---------------|
-| Ginsberg           | Min by current number of possible values                     | Least constraining | Dynamic       |
-| Crossword Composer | Max by slot length then by number of assigned crossing slots | First satisfying   | Chronological |
-| xwords-rs          | Min by current number of possible values                     | First viable       | Chronological |
+| Solvers ↓ Characteristics → | Variable Kind | Variable Selection                                                      | Value Selection    | Backtrack     |
+|-----------------------------|---------------|-------------------------------------------------------------------------|--------------------|---------------|
+| Crossword Composer          | Letter        | Max by word constraint length then by number of assigned crossing words | First satisfying   | Chronological |
+| Ginsberg                    | Word          | Min by current number of possible values                                | Least constraining | Dynamic       |
+| XWords RS                   | Word          | Min by current number of possible values                                | First viable       | Chronological |
 
-### Other solving techniques
+### Other Approaches
+
+#### Integer Programming
+
+[Wilson89] used Integer Programming but concluded that other approaches may be preferable.
+
+Another example can be
+found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles.html).
 
 #### Neural Network
 
 The [Dr. Fill/Berkeley Crossword Solver](https://berkeleycrosswordsolver.com/) is a solver combining
 Neural-Network (NN) answer generation based on provided clues with traditional search
-techniques [Wallace22].
-
-#### Integer Programming
-
-Unsure whether this has been explored a lot but an example can be
-found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles.html).
+techniques [Wallace22]. Excellent to solve an already created grid, but not usable to create a new
+crossword grid as it uses clues as inputs.
 
 ### References
 
@@ -435,9 +475,17 @@ found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles
   Lessons Learned from Crossword Puzzles", _AAAI_, 1990.
 * [Ginsberg93]: Matthew Ginsberg. "Dynamic Backtracking", _Journal of Artificial Intelligence
   Research_, 1 (1993) 25-46.
+* [Ginsberg11]: Matthew Ginsberg, "Dr.Fill: Crosswords and an Implemented Solver for Singly Weighted
+  CSPs", _Journal of Artificial Intelligence Research_, 42 (2011) 851-886.
+* [Harvey95]: William Harvey, "Limited Discrepancy Search", _IJCAI'95: Proceedings of the 14th
+  international joint conference on Artificial intelligence_, Volume 1, 1995, 607–613.
+* [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_, 1997.
+* [Mazlack76]: Lawrence Mazlack. "Computer construction of crossword puzzles using precedence
+  relationships". _Artificial Intelligence_, 7:1-19, 1976.
 * [Peterson20]: Otis Peterson and Michael
   Wehar [crosswordconstruction.com](https://www.crosswordconstruction.com/).
 * [Posser99]: Patrick Posser. "Hybrid Algorithms for the Constraint Satisfaction Problem",
   _Computational Intelligence_, Volume 9, Number 3, 1999.
 * [Wallace22]: Eric Wallace, Nicholas Tomlin, Albert Xu, Kevin Yang, Eshaan Pathak, Matthew
   Ginsberg, Dan Klein. "Automated Crossword Solving", _arXiv:2205.09665_, 2022.
+* [Wilson89]: J.M. Wilson, _Crossword Compilation using Integer Programming_, 1989.
