@@ -36,12 +36,15 @@ build linux:
   artifacts:
     reports:
       junit: "**/TEST-*.xml"
-
-# A split publish task only executed on master
-# Let's avoid to run it on every branches since it is slow
-publish linux:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      # Always build on master branch
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      # Don't build if no code change on non-master branch
+      changes:
+        - "**/src/**"
+
+publish linux:
   image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.1
   stage: publish
   script:
@@ -61,3 +64,6 @@ publish linux:
     paths:
       - "croiseur-cli/build/distributions/croiseur-cli*.zip"
       - "croiseur-gui/croiseur-gui/build/distributions/croiseur-gui*.zip"
+  rules:
+    # Let's avoid to run it on every branch since it is slow
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
