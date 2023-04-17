@@ -19,13 +19,14 @@ thorough explanations, check out the [reference papers](#references).
 > more solutions. A solution in this context is a filling of the grid with words all belonging to
 > the specified word list.
 
-He also introduces the "unconstrained" problem variant, where shaded cells are not an input of the
-problem but determined at run-time by the program. This variant will not be discussed here.
+He also introduces an unconstrained variant, where shaded cells are not an input of the problem but
+determined at run-time, by the compiler. This variant, known as *crozzle*, will not be discussed
+here.
 
 ### Approach
 
-Crossword solving is typically a constraint satisfaction problem: Variables (word slots) must be
-assigned values (words) satisfying a set of constraints (letters shared by slots).
+Crossword solving is typically a *constraint satisfaction problem (CSP)*: Variables (word slots)
+must be assigned values (words) satisfying a set of constraints (letters shared by slots).
 
 An alternative approach is to consider that the variables are the letter cells, the values are
 the letters and the constraints are that certain groups of letters must form valid words.
@@ -47,7 +48,7 @@ This search can be summarised in three steps:
 3. If a value is present, assign it and continue search; Otherwise, backtrack to a previously
    assigned slot, choose another value for it then continue search.
 
-Solvers implement these steps using slightly different heuristics, as described in next section.
+Solvers implement these steps using slightly different heuristics, as described in the next section.
 
 ### Heuristics
 
@@ -56,7 +57,7 @@ Solvers implement these steps using slightly different heuristics, as described 
 All slots must be filled at the end so one may be tempted to use a default order like the
 numbering of slots. But that might lead to more work in the end.
 
-The typical strategy is to select *the most constrained slot first*. This can be e.g. by
+An efficient strategy is to select *the most constrained slot first*. This can be e.g. by
 determining the number of words in dictionary that satisfy the slot constraints, either
 initially – the number of words of the length of the slot – or at the moment of variable
 selection – the number of words of the length of the slots respecting the letters already set by
@@ -70,17 +71,18 @@ A more primitive strategy is to always select a slot connected to the previously
 #### Value Selection
 
 A typical strategy to avoid backtracks is to probe the grid with the candidate value to check if it
-is viable, i.e. if the grid has still solutions after filling the selected slot with the
-candidate value. Given the nature of the problem, verifying that the crossing slots have still
-solutions suffices.
+is viable, i.e. if the grid has still solutions after filling the selected slot with the candidate
+value. Given the nature of the problem, verifying that the crossing slots have still solutions
+suffices.
 
 A finer strategy is to compare the viable candidates and select the *least-constraining* one, i.e.
 the value leaving the crossing slots with the highest number of candidates. [Ginsberg90]
-suggests it is the more effective strategy to avoid backtracks, although it is more costly. In
-order to reduce costs, only the 10 first word candidates may be used in the comparison.
+suggests it is the more effective strategy to avoid backtracks, although it is more costly. A
+solution to reduce costs is to only compare a subset of the viable candidates. Experiments suggest
+that a limit of 10 elements in the comparison is the best compromise.
 
 This kind of strategies, where one takes a look in the future to make a choice, is called
-*forward-checking (FC)* [Posser99].
+*look-ahead* or *forward-checking (FC)* [Posser99].
 
 #### Backtrack
 
@@ -477,9 +479,10 @@ crossword grid as it uses clues as inputs.
   Research_, 1 (1993) 25-46.
 * [Ginsberg11]: Matthew Ginsberg, "Dr.Fill: Crosswords and an Implemented Solver for Singly Weighted
   CSPs", _Journal of Artificial Intelligence Research_, 42 (2011) 851-886.
-* [Harvey95]: William Harvey, "Limited Discrepancy Search", _IJCAI'95: Proceedings of the 14th
-  international joint conference on Artificial intelligence_, Volume 1, 1995, 607–613.
-* [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_, 1997.
+* [Harvey95]: William Harvey, Matthew Ginsberg, "Limited Discrepancy Search", _IJCAI'95: Proceedings
+  of the 14th international joint conference on Artificial intelligence_, Volume 1, 1995, 607–613.
+* [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_,
+    1997.
 * [Mazlack76]: Lawrence Mazlack. "Computer construction of crossword puzzles using precedence
   relationships". _Artificial Intelligence_, 7:1-19, 1976.
 * [Peterson20]: Otis Peterson and Michael
