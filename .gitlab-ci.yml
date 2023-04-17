@@ -10,15 +10,21 @@ stages:
   - build
   - publish
 
-before_script:
-  - export CARGO_HOME="$(pwd)/.cargo"
-  - export GRADLE_USER_HOME="$(pwd)/.gradle"
-
-build linux:
-  # Use a tailored image derived from a minimal openSUSE Tumbleweed image.
+##
+# Builds croiseur on a Linux machine.
+#
+Build on Linux:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes: ["**/src/**"] # Build only if code has changed
+  # Use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
-  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.1
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.2
   stage: build
+  before_script:
+    # Choose wisely cargo and gradle homes so that they can easily be cached later
+    - export CARGO_HOME="$(pwd)/.cargo"
+    - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
     - reuse lint
     - gradle --parallel assemble -x distZip
@@ -36,17 +42,43 @@ build linux:
   artifacts:
     reports:
       junit: "**/TEST-*.xml"
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # Always build on master branch
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      # Don't build if no code change on non-master branch
-      changes:
-        - "**/src/**"
 
-publish linux:
-  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.1
+##
+# Builds croiseur on a Windows machine.
+# Quite slow, only use for merge requests.
+#
+Build on Windows:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes: ["**/src/**"] # Build only if code has changed
+  stage: build
+  tags: [ windows ]
+  before_script:
+    # To be eventually extracted to build a dedicated image, too many limitations on Gitlab side for now
+    - choco install -y oracle17jdk
+    - choco install -y gradle
+    - choco install -y rust
+    - refreshenv
+  script:
+    - gradle --parallel assemble -x distZip
+    - gradle --parallel check
+    # Gradle daemon seems to prevent the script to be considered as terminated on Windows, shut it down
+    - gradle --stop
+  artifacts:
+    reports:
+      junit: "**/TEST-*.xml"
+
+##
+# Publishes a portable Linux distribution of croiseur.
+# Slow, only run on master branch.
+#
+Publish Linux Distribution:
+  rules: [ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ]
   stage: publish
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.2
+  before_script:
+    - export CARGO_HOME="$(pwd)/.cargo"
+    - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
     - gradle --parallel distZip
     - gradle --parallel publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
@@ -64,6 +96,3 @@ publish linux:
     paths:
       - "croiseur-cli/build/distributions/croiseur-cli*.zip"
       - "croiseur-gui/croiseur-gui/build/distributions/croiseur-gui*.zip"
-  rules:
-    # Let's avoid to run it on every branch since it is slow
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
