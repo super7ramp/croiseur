@@ -20,6 +20,6 @@ dependencies {
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
-tasks.withType(Test).configureEach {
-    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+tasks.withType<Test>().configureEach {
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
 }

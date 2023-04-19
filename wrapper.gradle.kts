@@ -4,9 +4,9 @@
  */
 
 /*
- * Use: "gradle wrapper --build-file=wrapper.gradle" to generate a gradle wrapper whose version is verified
+ * Use: "gradle wrapper --build-file=wrapper.gradle.kts" to generate a gradle wrapper whose version is verified
  * to be compatible with the gradle features used by this project.
  */
-wrapper {
+tasks.wrapper {
     gradleVersion = "8.0.2"
 }

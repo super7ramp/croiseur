@@ -29,7 +29,7 @@ The test environment is set up using the following tools:
 
 `croiseur` is deployed with all the main service providers,
 except [`Presenter`](../doc/reference/Available-service-providers.md#presenters)s as per the test
-strategy described above. Check [`build.gradle`](build.gradle) for the complete list of providers.
+strategy described above. Check [`build.gradle`](build.gradle.kts) for the complete list of providers.
 
 A `Presenter` mock is used to verify the output of `croiseur`.
 

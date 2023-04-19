@@ -10,7 +10,7 @@ plugins {
 
 javafx {
     version = sbom.versions.java.get()
-    modules = ["javafx.graphics"]
+    modules = listOf("javafx.graphics")
 }
 
 dependencies {

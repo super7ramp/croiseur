@@ -12,4 +12,6 @@ dependencies {
 }
 
 // Additional mock directory for tests
-sourceSets.test.java.srcDir "src/test/mock"
+sourceSets.named("test").configure {
+    java.srcDir("src/test/mock")
+}

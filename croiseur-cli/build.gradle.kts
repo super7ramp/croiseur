@@ -27,14 +27,13 @@ dependencies {
  * This is used by picocli-codegen to generates the GraalVM configuration under
  * META-INF/native-image/picocli-generated.
  */
-tasks.withType(JavaCompile).named("compileJava") {
-    options.compilerArgs += [
-            "-Aother.resource.bundles=" +
-                    "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +
-                    "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
-                    "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
-                    "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages"]
-    options.compilerArgs += ["-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)"]
+tasks.named<JavaCompile>("compileJava") {
+    options.compilerArgs.add("-Aother.resource.bundles=" +
+            "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +
+            "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
+            "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
+            "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
+    options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
 }
 
 /**
@@ -44,9 +43,9 @@ tasks.withType(JavaCompile).named("compileJava") {
  */
 graalvmNative {
     binaries {
-        main {
-            def projectId = "${project.group}.${project.name}".replace('-', '.')
-            def jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
+        named("main") {
+            val projectId = "${project.group}.${project.name}".replace('-', '.')
+            val jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
             buildArgs.add("-H:JNIConfigurationFiles=${jniConfPath}")
         }
     }

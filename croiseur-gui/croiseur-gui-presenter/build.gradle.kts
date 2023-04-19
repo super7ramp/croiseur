@@ -10,14 +10,11 @@ plugins {
 
 javafx {
     version = sbom.versions.java.get()
-    modules = ["javafx.controls", "javafx.fxml"]
+    modules = listOf("javafx.graphics")
 }
 
 dependencies {
+    api(project(":croiseur-common"))
+    api(project(":croiseur-spi:croiseur-spi-presenter"))
     api(project(":croiseur-gui:croiseur-gui-view-model"))
-}
-
-tasks.withType(ProcessResources).named("processResources") {
-    // There is no point to include .license files in jar, nobody is going to read them there
-    exclude("**/*.license")
 }

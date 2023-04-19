@@ -8,6 +8,6 @@ plugins {
 }
 
 cargo {
-    outputs = ["": System.mapLibraryName("xwords_rs_jni")]
+    outputs = mapOf("" to System.mapLibraryName("xwords_rs_jni"))
     profile = "release"
 }

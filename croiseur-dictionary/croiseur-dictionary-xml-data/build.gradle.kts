@@ -7,6 +7,6 @@ plugins {
     id("com.gitlab.super7ramp.croiseur.dictionary-data-conventions")
 }
 
-artifacts {
-    dictionary(fileTree(layout.projectDirectory) { exclude("build*", "*.md") }.files)
+fileTree(layout.projectDirectory) { exclude("build*", "*.md") }.forEach {
+    artifacts.add("dictionary", it)
 }

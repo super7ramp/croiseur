@@ -50,6 +50,6 @@ The application crashes with the following stack trace:
 
 <!-- Optional; May be useful for other users in order not to be blocked. Example:
 
-Comment the line `runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')` in `build.gradle` so that plugin is not included in build.
+Comment the line `runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')` in `build.gradle.kts` so that plugin is not included in build.
 
 -->

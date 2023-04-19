@@ -7,8 +7,6 @@ plugins {
     id("com.gitlab.super7ramp.croiseur.dictionary-data-conventions")
 }
 
-artifacts {
-    dictionary(fileTree(layout.projectDirectory.dir("libreoffice-dictionaries-edited")) {
-        include("**/*.dic", "**/*.aff")
-    }.files)
+fileTree(layout.projectDirectory.dir("libreoffice-dictionaries-edited")) { include("**/*.dic", "**/*.aff") }.forEach {
+    artifacts.add("dictionary", it)
 }

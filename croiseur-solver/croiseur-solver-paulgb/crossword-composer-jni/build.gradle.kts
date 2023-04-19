@@ -8,6 +8,6 @@ plugins {
 }
 
 cargo {
-    outputs = ["": System.mapLibraryName("crossword_composer_jni")]
+    outputs = mapOf("" to System.mapLibraryName("crossword_composer_jni"))
     profile = "release"
 }
