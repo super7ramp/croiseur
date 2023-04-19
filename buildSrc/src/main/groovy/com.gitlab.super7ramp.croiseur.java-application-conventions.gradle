@@ -8,11 +8,11 @@
  */
 
 plugins {
-    id 'application'
-    id 'com.gitlab.super7ramp.croiseur.java-conventions'
+    id("application")
+    id("com.gitlab.super7ramp.croiseur.java-conventions")
 }
 
-configurations.create('dictionaryPath') {
+configurations.create("dictionaryPath") {
     canBeConsumed = false
     canBeResolved = true
 }
@@ -29,10 +29,10 @@ application {
     mainModule = "${project.group}.${project.name}".replace('-', '.')
 }
 
-def dictionaryDir = project.property('datadir') + File.separator + 'dictionaries'
+def dictionaryDir = project.property("datadir") + File.separator + "dictionaries"
 
 applicationDistribution.from(configurations.dictionaryPath) {
-    into dictionaryDir
+    into(dictionaryDir)
 }
 
 /**
@@ -43,25 +43,25 @@ applicationDistribution.from(configurations.dictionaryPath) {
  * '/usr/share/crosswords/dictionaries' then one has to set the datadir property to
  * 'share/crosswords/dictionaries' and copy the installation tree to '/usr'.
  */
-tasks.named('startScripts') {
-    executableDir = project.property('bindir')
+tasks.withType(CreateStartScripts).named("startScripts") {
+    executableDir = project.property("bindir")
 
     // $APP_HOME cannot be referenced directly in defaultJvmOpts (template engine escapes it).
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
-    def appHome = 'APP_HOME_PLACEHOLDER'
+    def appHome = "APP_HOME_PLACEHOLDER"
     def sep = File.separator
     defaultJvmOpts = ["-Dcom.gitlab.super7ramp.croiseur.dictionary." +
                               "path=${appHome}${sep}${dictionaryDir}${sep}".toString()]
     doLast {
         unixScript.text = unixScript.text.replace(appHome, "'\$APP_HOME'")
-        windowsScript.text = windowsScript.text.replace(appHome, '%APP_HOME%')
+        windowsScript.text = windowsScript.text.replace(appHome, "%APP_HOME%")
     }
 }
 
 /*
  * Disable disTar. Not used and time-consuming.
  */
-tasks.named('distTar') {
+tasks.withType(Tar).named("distTar") {
     enabled = false
 }
 
@@ -69,8 +69,8 @@ tasks.named('distTar') {
  * Configures parameters to be used when launch the application via './gradlew run'.
  */
 afterEvaluate {
-    tasks.named('run') {
+    tasks.withType(JavaExec).named("run") {
         def dictionaryPath = configurations.dictionaryPath.asPath
-        systemProperty 'com.gitlab.super7ramp.croiseur.dictionary.path', dictionaryPath
+        systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", dictionaryPath)
     }
 }

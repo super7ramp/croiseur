@@ -8,23 +8,21 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
 }
 
-configurations {
-    // Configuration of the rust native library
-    rust {
-        canBeConsumed false
-        canBeResolved true
-    }
+// Configuration of the rust native library
+configurations.register("rust") {
+    canBeConsumed = false
+    canBeResolved = true
 }
 
-processResources {
+tasks.withType(ProcessResources).named("processResources").configure {
     // Copy the native library into the final jar
-    from(configurations.rust)
+    from(configurations.named("rust"))
 }
 
-jar {
+tasks.withType(Jar).named("jar").configure {
     /*
      * As jar includes a native library, it is suffixed with the native library operating system
      * identification. It is assumed that native library is not cross-compiled, hence using current
@@ -33,10 +31,10 @@ jar {
     archiveClassifier.set(currentOperatingSystemIdentifier())
 }
 
-test {
+tasks.withType(Test).configureEach {
     // Some settings to ease native code debugging
-    environment 'RUST_BACKTRACE', '1'
-    jvmArgs '-Xcheck:jni'
+    environment("RUST_BACKTRACE", "1")
+    jvmArgs("-Xcheck:jni")
 }
 
 static def currentOperatingSystemIdentifier() {

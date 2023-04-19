@@ -8,26 +8,26 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-conventions")
 }
 
 dependencies {
-    testImplementation sbom.cucumber
-    testImplementation sbom.cucumber.junit5.engine
-    testImplementation sbom.junit5.platform.suite
-    testImplementation sbom.mockito
-    testRuntimeOnly sbom.cucumber.picocontainer
+    testImplementation(sbom.cucumber)
+    testImplementation(sbom.cucumber.junit5.engine)
+    testImplementation(sbom.junit5.platform.suite)
+    testImplementation(sbom.mockito)
+    testRuntimeOnly(sbom.cucumber.picocontainer)
 }
 
 /**
  * Just as application convention, a dictionary path is necessary.
  */
-configurations.create('testDictionaryPath') {
+configurations.register("testDictionaryPath") {
     canBeConsumed = false
     canBeResolved = true
 }
 
-tasks.named('test') {
-    systemProperty 'com.gitlab.super7ramp.croiseur.dictionary.path',
-            configurations.named('testDictionaryPath').get().asPath
+tasks.withType(Test).named("test") {
+    systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path",
+            configurations.named("testDictionaryPath").get().asPath)
 }

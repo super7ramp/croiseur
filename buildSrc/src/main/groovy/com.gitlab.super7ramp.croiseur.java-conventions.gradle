@@ -8,18 +8,18 @@
  */
 
 plugins {
-    id 'java'
+    id("java")
 }
 
-group = 'com.gitlab.super7ramp'
+group = "com.gitlab.super7ramp"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation sbom.junit5.api
-    testRuntimeOnly sbom.junit5.engine
+    testImplementation(sbom.junit5.api)
+    testRuntimeOnly(sbom.junit5.engine)
 }
 
 java {
@@ -29,11 +29,11 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 tasks.withType(Javadoc).configureEach {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 tasks.withType(Test).configureEach {

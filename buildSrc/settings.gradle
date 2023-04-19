@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-rootProject.name = 'gradle-conventions'
+rootProject.name = "gradle-conventions"
 
 // Dependency versions
 dependencyResolutionManagement {
     versionCatalogs {
         sbom {
-            from(files('../sbom.toml'))
+            from(files("../sbom.toml"))
         }
     }
 }

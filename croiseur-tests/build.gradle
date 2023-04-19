@@ -4,22 +4,22 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-acceptance-tests-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-acceptance-tests-conventions")
 }
 
 dependencies {
-    testImplementation project(':croiseur')
-    testRuntimeOnly project(':croiseur-dictionary:croiseur-dictionary-hunspell-plugin')
-    testRuntimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
-    testRuntimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
-    testRuntimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
-    testRuntimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
-    testRuntimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
-    testDictionaryPath project(':croiseur-dictionary:croiseur-dictionary-hunspell-data')
-    testDictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
-    testDictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
+    testImplementation(project(":croiseur"))
+    testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
+    testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
+    testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    testRuntimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
+    testRuntimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
+    testRuntimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-hunspell-data"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
-test {
+tasks.withType(Test).configureEach {
     maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }

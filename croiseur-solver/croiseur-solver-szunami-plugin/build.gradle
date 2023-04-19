@@ -4,10 +4,10 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
 }
 
 dependencies {
-    api project(':croiseur-spi:croiseur-spi-solver')
-    implementation project(':croiseur-solver:croiseur-solver-szunami')
+    api(project(":croiseur-spi:croiseur-spi-solver"))
+    implementation(project(":croiseur-solver:croiseur-solver-szunami"))
 }

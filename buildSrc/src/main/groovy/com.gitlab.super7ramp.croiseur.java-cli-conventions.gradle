@@ -13,15 +13,15 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-application-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-application-conventions")
     // Cannot use version catalog in plugins block of pre-compiled script plugins, i.e.
     // "alias(sbom.plugins.native)" doesn't work (gh#gradle/gradle#15383)
-    id 'org.graalvm.buildtools.native'
+    id("org.graalvm.buildtools.native")
 }
 
 dependencies {
-    implementation sbom.picocli.framework
-    annotationProcessor sbom.picocli.codegen
+    implementation(sbom.picocli.framework)
+    annotationProcessor(sbom.picocli.codegen)
 }
 
 /**
@@ -43,7 +43,7 @@ graalvmNative {
             // Verbose so that we can see what options are passed to native-image
             verbose = true
             // Sometimes native image creation fails without this option
-            buildArgs.add('--report-unsupported-elements-at-runtime')
+            buildArgs.add("--report-unsupported-elements-at-runtime")
             // Uses GraalVM matching language version defined in Java conventions
             javaLauncher = javaToolchains.launcherFor {
                 languageVersion = java.toolchain.languageVersion

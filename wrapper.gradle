@@ -8,5 +8,5 @@
  * to be compatible with the gradle features used by this project.
  */
 wrapper {
-    gradleVersion = '8.0.2'
+    gradleVersion = "8.0.2"
 }

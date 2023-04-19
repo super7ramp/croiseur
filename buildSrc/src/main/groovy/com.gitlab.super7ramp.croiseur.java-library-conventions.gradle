@@ -8,9 +8,9 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-conventions'
-    id 'java-library'
-    id 'maven-publish'
+    id("com.gitlab.super7ramp.croiseur.java-conventions")
+    id("java-library")
+    id("maven-publish")
 }
 
 java {
@@ -20,16 +20,16 @@ java {
 publishing {
     publications {
         "${camelCasedProjectName()}"(MavenPublication) {
-            from components.java
+            from(components.java)
         }
     }
     repositories {
         maven {
-            name = 'GitlabMaven'
-            url = 'https://gitlab.com/api/v4/projects/43029946/packages/maven'
+            name = "GitlabMaven"
+            url = "https://gitlab.com/api/v4/projects/43029946/packages/maven"
             credentials(HttpHeaderCredentials.class) {
-                name = findProperty('croiseur.maven.token.name') ?: '<none_found>'
-                value = findProperty('croiseur.maven.token.value') ?: '<none_found>'
+                name = findProperty("croiseur.maven.token.name") ?: "<none_found>"
+                value = findProperty("croiseur.maven.token.value") ?: '<none_found>'
             }
             authentication {
                 header(HttpHeaderAuthentication.class)

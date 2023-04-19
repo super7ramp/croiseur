@@ -8,7 +8,7 @@
  */
 
 plugins {
-    id 'base'
+    id("base")
 }
 
 /**
@@ -38,11 +38,11 @@ plugins {
  * }
  *}</pre>
  */
-configurations.create('dictionary') {
+configurations.register("dictionary") {
     canBeConsumed = true
     canBeResolved = false
 }
 
-configurations.named('default') {
-    extendsFrom configurations.dictionary
+configurations.named("default") {
+    extendsFrom(configurations.dictionary)
 }

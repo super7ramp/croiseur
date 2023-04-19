@@ -4,11 +4,11 @@
  */
 
 plugins {
-    id 'groovy-gradle-plugin'
+    id("groovy-gradle-plugin")
 }
 
 dependencies {
-    implementation sbom.native
+    implementation(sbom.native)
 }
 
 repositories {

@@ -4,11 +4,11 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
 }
 
 dependencies {
-    api project(':croiseur-spi:croiseur-spi-dictionary')
-    implementation project(':croiseur-dictionary:croiseur-dictionary-common')
-    implementation project(':croiseur-dictionary:croiseur-dictionary-hunspell-codec')
+    api(project(":croiseur-spi:croiseur-spi-dictionary"))
+    implementation(project(":croiseur-dictionary:croiseur-dictionary-common"))
+    implementation(project(":croiseur-dictionary:croiseur-dictionary-hunspell-codec"))
 }

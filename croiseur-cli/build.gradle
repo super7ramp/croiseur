@@ -4,19 +4,19 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-cli-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-cli-conventions")
 }
 
 dependencies {
-    implementation project(':croiseur')
-    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-hunspell-plugin')
-    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-txt-plugin')
-    runtimeOnly project(':croiseur-dictionary:croiseur-dictionary-xml-plugin')
-    runtimeOnly project(':croiseur-solver:croiseur-solver-ginsberg-plugin')
-    runtimeOnly project(':croiseur-solver:croiseur-solver-paulgb-plugin')
-    runtimeOnly project(':croiseur-solver:croiseur-solver-szunami-plugin')
-    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-txt-data')
-    dictionaryPath project(':croiseur-dictionary:croiseur-dictionary-xml-data')
+    implementation(project(":croiseur"))
+    runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
+    runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
+    runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
+    runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
+    runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
+    dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
+    dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
     // as XML dictionaries
 }
@@ -27,7 +27,7 @@ dependencies {
  * This is used by picocli-codegen to generates the GraalVM configuration under
  * META-INF/native-image/picocli-generated.
  */
-compileJava {
+tasks.withType(JavaCompile).named("compileJava") {
     options.compilerArgs += [
             "-Aother.resource.bundles=" +
                     "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +

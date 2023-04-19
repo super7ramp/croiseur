@@ -4,16 +4,16 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
     alias(sbom.plugins.javafx)
 }
 
 javafx {
     version = sbom.versions.java.get()
-    modules = ['javafx.graphics']
+    modules = ["javafx.graphics"]
 }
 
 dependencies {
-    api project(':croiseur')
-    implementation project(':croiseur-gui:croiseur-gui-view-model')
+    api(project(":croiseur"))
+    implementation(project(":croiseur-gui:croiseur-gui-view-model"))
 }
