@@ -8,7 +8,7 @@ rootProject.name = "gradle-conventions"
 // Dependency versions
 dependencyResolutionManagement {
     versionCatalogs {
-        sbom {
+        create("sbom") {
             from(files("../sbom.toml"))
         }
     }

@@ -39,10 +39,10 @@ plugins {
  *}</pre>
  */
 configurations.register("dictionary") {
-    canBeConsumed = true
-    canBeResolved = false
+    isCanBeConsumed = true
+    isCanBeResolved = false
 }
 
 configurations.named("default") {
-    extendsFrom(configurations.dictionary)
+    extendsFrom(configurations.getByName("dictionary"))
 }
