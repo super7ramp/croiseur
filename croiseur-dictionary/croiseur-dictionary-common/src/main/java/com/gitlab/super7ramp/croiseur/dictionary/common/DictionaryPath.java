@@ -25,7 +25,7 @@ public final class DictionaryPath {
      * The dictionary path. Contains files or directory path, separated by ':', similarly to a
      * classpath.
      * <p>
-     * Example: {@code "/a/directory/*:/a/dictionary.extension"}.
+     * Example: {@code "/a/directory/:/a/dictionary.extension"}.
      */
     private final String path;
 
@@ -109,7 +109,7 @@ public final class DictionaryPath {
      * @return a new {@link DictionaryPath} with given path added at the end of this path
      */
     public DictionaryPath append(final DictionaryPath other) {
-        return new DictionaryPath(path + ':' + other.path);
+        return new DictionaryPath(path + File.pathSeparator + other.path);
     }
 
     /**
@@ -128,7 +128,7 @@ public final class DictionaryPath {
      * @return the dictionary path into individual paths
      */
     public List<String> split() {
-        return List.of(path.split(":"));
+        return List.of(path.split(File.pathSeparator));
     }
 
     /**
@@ -140,7 +140,6 @@ public final class DictionaryPath {
      */
     public List<File> list() {
         return split().stream()
-                      .map(s -> s.replace("/*", ""))
                       .map(File::new)
                       .filter(f -> f.exists() && !Files.isSymbolicLink(f.toPath()))
                       .flatMap(DictionaryPath::expandDirectory)
