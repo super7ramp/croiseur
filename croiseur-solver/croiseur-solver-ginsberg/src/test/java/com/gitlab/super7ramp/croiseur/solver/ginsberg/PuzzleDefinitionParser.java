@@ -31,12 +31,15 @@ public final class PuzzleDefinitionParser {
     }
 
     /**
-     * Parse puzzle from multi-line string such as:
+     * Parses puzzle from multi-line string such as:
      * <pre>
      *  |H|E|Y|
      *  | | | |
      *  | | |#|
      * </pre>
+     * This method is robust to line ending variations, i.e. one can indifferently pass a Java text
+     * block - whose line endings are the Unix ones, independently of the platform - or the content
+     * of a file with Windows or Unix line endings.
      *
      * @param puzzle the string representation
      * @return the {@link PuzzleDefinition}
@@ -44,7 +47,7 @@ public final class PuzzleDefinitionParser {
     public static PuzzleDefinition parsePuzzle(final String puzzle) {
         final Set<GridPosition> shaded = new HashSet<>();
         final Map<GridPosition, Character> prefilled = new HashMap<>();
-        final String[] lines = puzzle.split(System.lineSeparator());
+        final String[] lines = splitLines(puzzle);
         final int height = lines.length;
         final int width = (int) CHARACTER_SEPARATOR.matcher(lines[0]).results().count() - 1;
 
@@ -68,5 +71,15 @@ public final class PuzzleDefinitionParser {
         }
 
         return new PuzzleDefinition(width, height, shaded, prefilled);
+    }
+
+    /**
+     * Splits puzzle textual representation by line.
+     *
+     * @param puzzle the textual representation of the grid
+     * @return the textual representation of rows
+     */
+    private static String[] splitLines(final String puzzle) {
+        return puzzle.replaceAll("\r\n", "\n").split("\n");
     }
 }
