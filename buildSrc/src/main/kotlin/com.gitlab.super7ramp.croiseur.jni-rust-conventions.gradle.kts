@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import java.util.*
+import java.util.Locale
 
 /**
  * Conventions for Java libraries relying on JNI implemented in Rust.
