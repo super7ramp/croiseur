@@ -12,10 +12,18 @@ plugins {
     id("com.gitlab.super7ramp.croiseur.java-conventions")
 }
 
+/**
+ * The resolvable dictionary path, where the dictionaries come from.
+ */
 configurations.create("dictionaryPath") {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
+
+/**
+ * The installation dictionary directory, relative to destination directory, basically $(datadir)/dictionaries
+ */
+val dictionaryDir = project.property("datadir") as String + File.separator + "dictionaries"
 
 /**
  * Configures application parameters.
@@ -27,12 +35,7 @@ configurations.create("dictionaryPath") {
 application {
     mainClass.set("${project.group}.${project.name}.Main".replace('-', '.'))
     mainModule.set("${project.group}.${project.name}".replace('-', '.'))
-}
-
-val dictionaryDir = project.property("datadir").toString() + File.separator + "dictionaries"
-
-application.applicationDistribution.from(configurations.getByName("dictionaryPath")) {
-    into(dictionaryDir)
+    applicationDistribution.from(configurations.named("dictionaryPath")).into(dictionaryDir)
 }
 
 /**
@@ -44,24 +47,22 @@ application.applicationDistribution.from(configurations.getByName("dictionaryPat
  * 'share/crosswords/dictionaries' and copy the installation tree to '/usr'.
  */
 tasks.named<CreateStartScripts>("startScripts") {
-    executableDir = project.property("bindir").toString()
+    executableDir = project.property("bindir") as String
 
     // $APP_HOME cannot be referenced directly in defaultJvmOpts (template engine escapes it).
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
     val appHome = "APP_HOME_PLACEHOLDER"
     val sep = File.separator
-    defaultJvmOpts = listOf("-Dcom.gitlab.super7ramp.croiseur.dictionary." +
-                              "path=${appHome}${sep}${dictionaryDir}${sep}".toString())
+    defaultJvmOpts = listOf("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}")
 
     doLast {
-        // TODO scripts are of type File, no easy way to replace all text in Kotlin
-        //unixScript.text(unixScript.text().replace(appHome, "'\$APP_HOME'"))
-        //windowsScript.text(windowsScript.text.replace(appHome, "%APP_HOME%"))
+        unixScript.writeText(unixScript.readText().replace(appHome, "'\$APP_HOME'"))
+        windowsScript.writeText(windowsScript.readText().replace(appHome, "%APP_HOME%"))
     }
 }
 
-/*
- * Disable disTar. Not used and time-consuming.
+/**
+ * Disables distTar. Not used and time-consuming.
  */
 tasks.named<Tar>("distTar") {
     enabled = false
