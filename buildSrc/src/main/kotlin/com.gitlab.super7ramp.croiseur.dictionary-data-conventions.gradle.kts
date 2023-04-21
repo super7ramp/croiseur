@@ -17,8 +17,8 @@ plugins {
  * Producer (on which this plugin is applied) shall add dictionaries like this:
  *
  * <pre>{@code
- * configurations.named('dictionary') {
- *     dictionary files('my-dictionary.txt')
+ * artifacts {
+ *     add("dictionary", layout.projectDirectory.file("my-dictionary.txt"))
  * }
  *}</pre>
  *
@@ -26,7 +26,7 @@ plugins {
  *
  * <pre>{@code
  * dependencies {
- *     runtimeOnly project(path: ':example-producer', configuration: 'dictionary')
+ *     runtimeOnly(project(":example-producer", "dictionary")
  * }
  *}</pre>
  *
@@ -34,7 +34,7 @@ plugins {
  *
  * <pre>{@code
  * dependencies {
- *     runtimeOnly project(':example-producer')
+ *     runtimeOnly(project(":example-producer"))
  * }
  *}</pre>
  */

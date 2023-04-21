@@ -39,22 +39,22 @@ in [a Maven repository](https://gitlab.com/super7ramp/croiseur/-/packages). It c
 a build tool such as Maven or Gradle to develop a new solver plugin without having to download
 and rebuild all `croiseur` sources.
 
-Assuming a Gradle project, add the following lines to your project's `build.gradle`:
+Assuming a Gradle project, add the following lines to your project's `build.gradle.kts`:
 
 ```gradle
 plugins {
-    id 'java-library'
+    id("java-library")
 }
 
 repositories {
     maven {
-        name = 'CroiseurMaven'
-        url = 'https://gitlab.com/api/v4/projects/43029946/packages/maven'
+        name = "CroiseurMaven"
+        url = uri("https://gitlab.com/api/v4/projects/43029946/packages/maven")
     }
 }
 
 dependencies {
-    api 'com.gitlab.super7ramp:croiseur-spi-solver:0.1'
+    api("com.gitlab.super7ramp:croiseur-spi-solver:0.1")
 }
 ```
 
@@ -81,16 +81,16 @@ cd croiseur/croiseur-solver
 mkdir croiseur-solver-<new_solver_name>-plugin
 ```
 
-Add a `build.gradle` (since `croiseur` uses Gradle as build system) in
+Add a `build.gradle.kts` (since `croiseur` uses Gradle as build system) in
 `croiseur-solver-<new_solver_name>-plugin`:
 
 ```gradle
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
 }
 
 dependencies {
-    api project(':croiseur-spi:croiseur-spi-solver')
+    api(project(":croiseur-spi:croiseur-spi-solver"))
     // You may add additional implementation dependencies here
 }
 ```
@@ -98,7 +98,7 @@ dependencies {
 Finally, declare the subproject by adding the following line in root's `settings.gradle`:
 
 ```gradle
-include 'croiseur-solver:croiseur-solver-<new_solver_name>-plugin'
+include("croiseur-solver:croiseur-solver-<new_solver_name>-plugin")
 ```
 
 At this point, check that everything is OK by running `gradle build`.
@@ -219,10 +219,10 @@ When developing a plugin directly inside `croiseur` source tree, the plugin may 
 dependency of `croiseur-cli` or `croiseur-gui` so that it is included when running the applications
 via `gradle run`, or when creating a distribution using `gradle installDist`.
 
-This is a single line to add in the `dependencies` block of the applications' `build.gradle`:
+This is a single line to add in the `dependencies` block of the applications' `build.gradle.kts`:
 
 ```gradle
-runtimeOnly project(':croiseur-solver:croiseur-solver-<your_solver_name>-plugin')
+runtimeOnly(project(":croiseur-solver:croiseur-solver-<your_solver_name>-plugin"))
 ```
 
 ### See also
