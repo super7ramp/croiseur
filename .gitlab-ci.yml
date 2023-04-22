@@ -27,8 +27,8 @@ Build on Linux:
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
     - reuse lint
-    - gradle --parallel assemble -x distZip
-    - gradle --parallel check
+    - gradle --parallel --build-cache assemble -x distZip
+    - gradle --parallel --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
     policy: push
@@ -80,8 +80,8 @@ Publish Linux Distribution:
     - export CARGO_HOME="$(pwd)/.cargo"
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
-    - gradle --parallel distZip
-    - gradle --parallel publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
+    - gradle --parallel --build-cache distZip
+    - gradle --parallel --build-cache publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
     policy: pull
