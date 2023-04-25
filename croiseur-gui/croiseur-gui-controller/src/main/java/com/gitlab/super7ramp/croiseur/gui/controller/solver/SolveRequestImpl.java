@@ -17,6 +17,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 import static java.util.Comparator.comparingInt;
 
@@ -89,6 +90,11 @@ final class SolveRequestImpl implements SolveRequest {
     @Override
     public Collection<DictionaryIdentifier> dictionaries() {
         return dictionaries;
+    }
+
+    @Override
+    public Optional<Random> dictionariesShuffle() {
+        return Optional.empty();
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * A request to solve a crossword puzzle.
@@ -42,6 +43,17 @@ public interface SolveRequest {
      * @return the identifier of the dictionary to use
      */
     Collection<DictionaryIdentifier> dictionaries();
+
+    /**
+     * The randomness source to use to shuffle the dictionaries.
+     * <p>
+     * The search for solutions depends on the order the words are read from the dictionaries.
+     * Shuffling dictionary is likely to lead to a different order of solutions.
+     *
+     * @return The randomness source to use to shuffle the dictionaries; An empty source means the
+     * dictionaries will <em>not</em> be shuffled
+     */
+    Optional<Random> dictionariesShuffle();
 
     /**
      * The name of the solver to use, if any.

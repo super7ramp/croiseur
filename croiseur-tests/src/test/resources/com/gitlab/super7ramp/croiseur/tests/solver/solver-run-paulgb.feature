@@ -61,3 +61,14 @@ Feature: Run Solver - Crossword Composer (paulgb)
       | C | # |   |
       | T |   | # |
     Then the application presents the grid as impossible to solve
+
+  Scenario: Run Solver - Crossword Composer (paulgb) - With Randomness
+
+    When user requests to solve the following grid with "Crossword Composer" solver and with dictionary shuffled using a seed of 42:
+      |  |  |  |
+      |  |  |  |
+      |  |  |  |
+    Then the application presents the following successful solver result:
+      | A | M | T |
+      | B | E | V |
+      | S | E | A |

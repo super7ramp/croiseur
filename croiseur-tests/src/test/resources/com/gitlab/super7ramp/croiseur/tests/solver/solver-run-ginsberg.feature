@@ -68,3 +68,14 @@ Feature: Run Solver - Ginsberg
       | A | B | O |
       | C | # | T |
       | T | Y | # |
+
+  Scenario: Run Solver - Ginsberg - With Randomness
+
+    When user requests to solve the following grid with "Ginsberg" solver and with dictionary shuffled using a seed of 42:
+      |  |  |  |
+      |  |  |  |
+      |  |  |  |
+    Then the application presents the following successful solver result:
+      | T | E | S |
+      | U | S | A |
+      | C | A | Y |

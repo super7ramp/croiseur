@@ -44,7 +44,7 @@ final class TypeConverter<T> implements ITypeConverter<T> {
     }
 
     @Override
-    public T convert(String value) {
+    public T convert(final String value) {
         try {
             return parser.apply(value);
         } catch (final Exception e) {

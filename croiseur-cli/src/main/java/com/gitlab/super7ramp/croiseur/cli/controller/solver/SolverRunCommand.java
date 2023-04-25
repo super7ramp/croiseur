@@ -17,6 +17,8 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.util.Random;
+
 /**
  * "solver run" subcommand: Solves a crossword puzzle.
  */
@@ -60,6 +62,10 @@ public final class SolverRunCommand implements Runnable {
             "WORD)> ")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
+    /** The randomness source for shuffling dictionary. */
+    @Option(names = { "-r", "--random", "--shuffle" }, arity = "0..1", paramLabel = "SEED")
+    private Random random;
+
     /** Flag to show solver progress. */
     @Option(names = {"-p", "--progress"})
     private boolean progress;
@@ -76,7 +82,7 @@ public final class SolverRunCommand implements Runnable {
     @Override
     public void run() {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
-                prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryIds, progress);
+                prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryIds, random, progress);
         solverService.solve(request);
     }
 

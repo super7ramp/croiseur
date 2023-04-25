@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
@@ -41,49 +42,60 @@ public final class SolveRequestImpl implements SolveRequest {
 
     private final PrefilledSlot[] prefilledVerticalSlots;
 
-    private final boolean progress;
-
     private final DictionaryIdentifier[] dictionaryIds;
+
+    private final Random random;
+
+    private final boolean progress;
 
     /**
      * Constructs an instance.
      *
-     * @param aSolver                      the solver name
-     * @param aSize                        grid size
-     * @param someShadedBoxes              the shaded boxes
-     * @param somePrefilledBoxes           the prefilled boxes
-     * @param somePrefilledHorizontalSlots the prefilled horizontal boxes
-     * @param somePrefilledVerticalSlots   the prefilled vertical boxes
-     * @param someDictionaryIds            the dictionary identifiers
-     * @param aProgress                    whether progress should be notified
+     * @param solverArg                   the solver name
+     * @param sizeArg                     grid size
+     * @param someShadedBoxesArg          the shaded boxes
+     * @param prefilledBoxesArg           the prefilled boxes
+     * @param prefilledHorizontalSlotsArg the prefilled horizontal boxes
+     * @param prefilledVerticalSlotsArg   the prefilled vertical boxes
+     * @param dictionaryIdArg             the dictionary identifiers
+     * @param randomArg                   the randomness source to shuffle dictionaries
+     * @param progressArg                 whether progress should be notified
      */
-    public SolveRequestImpl(final String aSolver,
-                            final GridSize aSize,
-                            final GridPosition[] someShadedBoxes,
-                            final PrefilledBox[] somePrefilledBoxes,
-                            final PrefilledSlot[] somePrefilledHorizontalSlots,
-                            final PrefilledSlot[] somePrefilledVerticalSlots,
-                            final DictionaryIdentifier[] someDictionaryIds,
-                            final boolean aProgress) {
-        solver = aSolver;
-        size = aSize;
-        shadedBoxes = someShadedBoxes;
-        prefilledBoxes = somePrefilledBoxes;
-        prefilledHorizontalSlots = somePrefilledHorizontalSlots;
-        prefilledVerticalSlots = somePrefilledVerticalSlots;
-        dictionaryIds = someDictionaryIds;
-        progress = aProgress;
+    public SolveRequestImpl(final String solverArg,
+                            final GridSize sizeArg,
+                            final GridPosition[] someShadedBoxesArg,
+                            final PrefilledBox[] prefilledBoxesArg,
+                            final PrefilledSlot[] prefilledHorizontalSlotsArg,
+                            final PrefilledSlot[] prefilledVerticalSlotsArg,
+                            final DictionaryIdentifier[] dictionaryIdArg,
+                            final Random randomArg,
+                            final boolean progressArg) {
+        solver = solverArg;
+        size = sizeArg;
+        shadedBoxes = someShadedBoxesArg;
+        prefilledBoxes = prefilledBoxesArg;
+        prefilledHorizontalSlots = prefilledHorizontalSlotsArg;
+        prefilledVerticalSlots = prefilledVerticalSlotsArg;
+        dictionaryIds = dictionaryIdArg;
+        random = randomArg;
+        progress = progressArg;
     }
 
     @Override
     public PuzzleDefinition puzzle() {
         return new PuzzleDefinition(size.width(), size.height(),
-                Arrays.stream(shadedBoxes).collect(toSet()), mergePrefilledBoxes());
+                                    Arrays.stream(shadedBoxes).collect(toSet()),
+                                    mergePrefilledBoxes());
     }
 
     @Override
     public Collection<DictionaryIdentifier> dictionaries() {
         return dictionaryIds != null ? Arrays.asList(dictionaryIds) : Collections.emptyList();
+    }
+
+    @Override
+    public Optional<Random> dictionariesShuffle() {
+        return Optional.ofNullable(random);
     }
 
     @Override
@@ -120,22 +132,22 @@ public final class SolveRequestImpl implements SolveRequest {
         final Map<GridPosition, Character> horizontalSlots =
                 Arrays.stream(prefilledHorizontalSlots)
                       .flatMap(slot ->
-                              OrientedPrefilledSlot.horizontal(slot)
-                                                   .toMap()
-                                                   .entrySet()
-                                                   .stream())
+                                       OrientedPrefilledSlot.horizontal(slot)
+                                                            .toMap()
+                                                            .entrySet()
+                                                            .stream())
                       .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
 
         final Map<GridPosition, Character> verticalSlots =
                 Arrays.stream(prefilledVerticalSlots)
                       .flatMap(slot ->
-                              OrientedPrefilledSlot.vertical(slot)
-                                                   .toMap()
-                                                   .entrySet()
-                                                   .stream())
+                                       OrientedPrefilledSlot.vertical(slot)
+                                                            .toMap()
+                                                            .entrySet()
+                                                            .stream())
                       .collect(toMap(Map.Entry::getKey,
-                              Map.Entry::getValue,
-                              mergeFunction));
+                                     Map.Entry::getValue,
+                                     mergeFunction));
 
         return Stream.of(singleBoxes, horizontalSlots, verticalSlots)
                      .flatMap(map -> map.entrySet().stream())

@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.tests;
 
+import org.junit.platform.suite.api.ExcludeTags;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
@@ -13,6 +14,7 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasspathResource("com/gitlab/super7ramp/croiseur/tests/solver")
+@ExcludeTags("disabled")
 public final class SolverTestSuite {
     // Nothing to add.
 }

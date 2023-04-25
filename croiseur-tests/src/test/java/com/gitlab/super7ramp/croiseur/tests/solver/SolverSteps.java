@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static com.gitlab.super7ramp.croiseur.tests.solver.SolverMatchers.impossible;
 import static com.gitlab.super7ramp.croiseur.tests.solver.SolverMatchers.success;
@@ -30,6 +31,14 @@ import static org.mockito.Mockito.verify;
  */
 public final class SolverSteps {
 
+    private static final String OPTIONALLY_WITH_SOLVER = "(?: with \"([^\"]+)\" solver)?";
+
+    private static final String OPTIONALLY_WITH_DICTIONARY =
+            "(?: with \"([^\"]+)\"(?: dictionary)? provided by \"([^\"]+)\")?";
+
+    private static final String OPTIONALLY_AND = "(?: and)?";
+
+    private static final String OPTIONALLY_WITH_RANDOMNESS = "(?: with dictionary shuffled using a seed of (\\d+))?";
     /** The dictionary service. */
     private final SolverService solverService;
 
@@ -51,11 +60,12 @@ public final class SolverSteps {
         solverService.listSolvers();
     }
 
-    @When("^user requests to solve the following grid(?: with \"([^\"]+)\" solver)?(?: and)?(?: " +
-            "with \"([^\"]+)\"(?: dictionary)? provided by \"([^\"]+)\")?:$")
+    @When("^user requests to solve the following grid" + OPTIONALLY_WITH_SOLVER + OPTIONALLY_AND +
+          OPTIONALLY_WITH_DICTIONARY + OPTIONALLY_AND + OPTIONALLY_WITH_RANDOMNESS + ":$")
     public void whenSolveWith(final String solver,
                               final String dictionary,
                               final String dictionaryProvider,
+                              final Integer randomSeed,
                               final PuzzleDefinition puzzleDefinition) {
         final SolveRequest solveRequest = new SolveRequest() {
 
@@ -75,6 +85,11 @@ public final class SolverSteps {
                     dictionaryIdentifiers = Collections.emptySet();
                 }
                 return dictionaryIdentifiers;
+            }
+
+            @Override
+            public Optional<Random> dictionariesShuffle() {
+                return Optional.ofNullable(randomSeed).map(Random::new);
             }
 
             @Override

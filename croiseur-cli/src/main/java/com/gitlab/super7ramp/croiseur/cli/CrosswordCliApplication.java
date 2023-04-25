@@ -15,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridPositionP
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
+import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.RandomParser;
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import picocli.CommandLine;
@@ -23,6 +24,7 @@ import picocli.CommandLine.HelpCommand;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Random;
 import java.util.logging.LogManager;
 
 /**
@@ -45,18 +47,20 @@ final class CrosswordCliApplication {
 
         command.addSubcommand(HelpCommand.class)
                .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
-                       .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
+                                      .addSubcommand(new SolverRunCommand(
+                                              crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
                .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,
-                       TypeConverter.wrap(DictionaryIdentifier::valueOf))
+                                  TypeConverter.wrap(DictionaryIdentifier::valueOf))
                .registerConverter(GridPosition.class,
-                       TypeConverter.wrap(GridPositionParser::parse))
+                                  TypeConverter.wrap(GridPositionParser::parse))
                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
-               .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf));
+               .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf))
+               .registerConverter(Random.class, TypeConverter.wrap(RandomParser::parse));
     }
 
     /**
@@ -64,7 +68,8 @@ final class CrosswordCliApplication {
      */
     private static void loadLoggingConfiguration() {
         try (final InputStream is = CrosswordCliApplication.class.getClassLoader()
-                                                                 .getResourceAsStream("logging" + ".properties")) {
+                                                                 .getResourceAsStream("logging" +
+                                                                                      ".properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {
             System.err.println("Failed to load logging parameters: " + e.getMessage());

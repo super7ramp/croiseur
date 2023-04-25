@@ -68,3 +68,16 @@ Feature: Run Solver - XWords RS (szunami)
       | A | C | C |
       | C | # | W |
       | T | C | # |
+
+  @disabled
+  # FIXME Result is always the same with XWords RS: Does the solver sort the given word list?
+  Scenario: Run Solver - XWords RS (szunami) - With Randomness
+
+    When user requests to solve the following grid with "XWords RS" solver and with dictionary shuffled using a seed of 42:
+      |  |  |  |
+      |  |  |  |
+      |  |  |  |
+    Then the application presents the following successful solver result:
+      | X | X | X |
+      | X | X | X |
+      | X | X | X |

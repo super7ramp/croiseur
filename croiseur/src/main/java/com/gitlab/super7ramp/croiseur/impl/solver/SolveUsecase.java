@@ -61,25 +61,39 @@ final class SolveUsecase {
      */
     void process(final SolveRequest event) {
 
-        final Optional<Dictionary> optDictionary = dictionaryLoader.load(event.dictionaries());
-        if (optDictionary.isEmpty()) {
-            presenter.presentSolverError("Dictionary not found");
-            return;
-        }
-
         final Optional<CrosswordSolver> optSolver = selectSolver(event);
         if (optSolver.isEmpty()) {
             presenter.presentSolverError("Solver not found");
             return;
         }
 
-        final PuzzleDefinition puzzle = event.puzzle();
-        final Dictionary dictionary = optDictionary.get();
-        final ProgressListener progressListener = progressListenerFactory.from(event.progress());
+        final Optional<Dictionary> optDictionary = dictionaryLoader.load(event.dictionaries());
+        if (optDictionary.isEmpty()) {
+            presenter.presentSolverError("Dictionary not found");
+            return;
+        }
+
         final CrosswordSolver solver = optSolver.get();
+        final PuzzleDefinition puzzle = event.puzzle();
+        final Dictionary dictionary = optionallyShuffledDictionary(event, optDictionary.get());
+        final ProgressListener progressListener = progressListenerFactory.from(event.progress());
 
         runSolver(solver, puzzle, dictionary, progressListener);
 
+    }
+
+    /**
+     * Returns an optionally shuffled dictionary, if requested.
+     *
+     * @param event      the solve request
+     * @param dictionary the non-shuffled dictionary
+     * @return the dictionary shuffled, if requested
+     */
+    private static Dictionary optionallyShuffledDictionary(final SolveRequest event,
+                                                           final Dictionary dictionary) {
+        return event.dictionariesShuffle()
+                    .<Dictionary>map(random -> new ShuffledSolverDictionary(dictionary, random))
+                    .orElse(dictionary);
     }
 
     /**
