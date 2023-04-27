@@ -17,11 +17,11 @@ import java.util.concurrent.Callable;
  * For a given word list, computes a score corresponding to the capability of the words to cross
  * with each other: A <em>crossability</em> score.
  * <p>
- * This score corresponds to the cumulated sum of the number of crossings between words taken 2 by
- * 2.
+ * This score corresponds to the cumulated sum of the number of crossings between word pairs divided
+ * by the number of pairs.
  * <p>
- * Example: "HELLO", "CROSS", "WORLD" will return 6 because there are 6 ways to cross these words
- * 2-by-2:
+ * Example: "HELLO", "CROSS", "WORLD" will return 2.0 (6.0/3.0) because there are 6 ways to cross
+ * word pairs on a total of 3 word pairs.
  *
  * <ul>
  * <li>HELLO and CROSS:
@@ -54,7 +54,7 @@ import java.util.concurrent.Callable;
  * </li>
  * </ul>
  */
-public final class Scorer implements Callable<Long> {
+public final class Scorer implements Callable<Double> {
 
     /** The words for which to compute the number of crossings. */
     private final List<String> words;
@@ -69,16 +69,25 @@ public final class Scorer implements Callable<Long> {
     }
 
     @Override
-    public Long call() {
-        long score = 0;
-        final Map<Character, Long> countedCharacters = new HashMap<>();
-        for (final String word : words) {
-            for (int i = 0; i < word.length(); i++) {
-                score += countedCharacters.getOrDefault(word.charAt(i), 0L);
+    public Double call() {
+        final double score;
+        if (words.size() > 1) {
+
+            long numberOfCrossings = 0;
+            final Map<Character, Long> countedCharacters = new HashMap<>();
+            for (final String word : words) {
+                for (int i = 0; i < word.length(); i++) {
+                    numberOfCrossings += countedCharacters.getOrDefault(word.charAt(i), 0L);
+                }
+                for (int i = 0; i < word.length(); i++) {
+                    countedCharacters.merge(word.charAt(i), 1L, Long::sum);
+                }
             }
-            for (int i = 0; i < word.length(); i++) {
-                countedCharacters.merge(word.charAt(i), 1L, Long::sum);
-            }
+            final double numberOfPairs = words.size() * (words.size() - 1.0) / 2.0;
+            score = numberOfCrossings / numberOfPairs;
+
+        } else {
+            score = 0.0;
         }
         return score;
     }
@@ -96,8 +105,8 @@ public final class Scorer implements Callable<Long> {
         final Path wordListPath = Path.of(args[0]);
         try {
             final List<String> words = Files.readAllLines(wordListPath);
-            final Long result = new Scorer(words).call();
-            System.out.println(result);
+            final Double result = new Scorer(words).call();
+            System.out.printf("%.2f%n", result);
         } catch (final IOException e) {
             System.err.println("Failed to read " + wordListPath + ": " + e.getMessage());
             System.exit(2);

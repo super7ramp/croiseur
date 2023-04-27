@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 final class ScorerTest {
 
     /**
-     * Example: "HELLO", "WORLD" will return 3 because there are three ways to cross these words:
+     * Example: "HELLO", "WORLD" will return 3.0 (3.0/1.0) because there are 3 ways to cross word
+     * pairs on a total of 1 word pair:
      * <pre>
      *        |W|             |W|             |W|
      *        |O|             |O|     |H|E|L|L|O|
@@ -29,13 +30,13 @@ final class ScorerTest {
     @Test
     void helloWorld() {
         final Scorer scorer = new Scorer(List.of("HELLO", "WORLD"));
-        final Long score = scorer.call();
-        assertEquals(3, score);
+        final Double score = scorer.call();
+        assertEquals(3.0, score);
     }
 
     /**
-     * Example: "HELLO", "CROSS", "WORLD" will return 6 because there are 6 ways to cross these
-     * words 2-by-2:
+     * Example: "HELLO", "CROSS", "WORLD" will return 2.00 (6.0/3.0) because there are 6 ways to
+     * cross word pairs on a total of 3 word pairs:
      *
      * <ul>
      * <li>HELLO and CROSS:
@@ -71,7 +72,47 @@ final class ScorerTest {
     @Test
     void helloCrossWorld() {
         final Scorer scorer = new Scorer(List.of("HELLO", "CROSS", "WORLD"));
-        final Long score = scorer.call();
-        assertEquals(6, score);
+        final Double score = scorer.call();
+        assertEquals(2.00, score);
+    }
+
+    /**
+     * Example: "HELLO", "CROSS", "WORD" will return 1.33 (4.0/3.0) because there are 4 ways to
+     * cross word pairs on a total of 3 word pairs:
+     *
+     * <ul>
+     * <li>HELLO and CROSS:
+     * <pre>
+     *             |C|
+     *             |R|
+     *     |H|E|L|L|O|
+     *             |S|
+     *             |S|
+     * </pre>
+     * </li>
+     * <li>HELLO and WORD:
+     * <pre>
+     *          |W|
+     *  |H|E|L|L|O|
+     *          |R|
+     *          |D|
+     * </pre>
+     * </li>
+     * <li>CROSS and WORD:
+     * <pre>
+     *        |W|            |W|
+     *        |O|        |C|R|O|S|S|
+     *      |C|R|O|S|S|      |R|
+     *        |L|            |D|
+     *
+     * </pre>
+     * </li>
+     * </ul>
+     */
+    @Test
+    void helloCrossWord() {
+        final Scorer scorer = new Scorer(List.of("HELLO", "CROSS", "WORD"));
+        final Double score = scorer.call();
+        assertEquals(1.33, score, 10E-2);
     }
 }
