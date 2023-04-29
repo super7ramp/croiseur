@@ -22,7 +22,7 @@ java {
 
 publishing {
     publications {
-        create<MavenPublication>(camelCasedProjectName()) {
+        register<MavenPublication>(camelCasedProjectName()) {
             from(components.getByName("java"))
         }
     }

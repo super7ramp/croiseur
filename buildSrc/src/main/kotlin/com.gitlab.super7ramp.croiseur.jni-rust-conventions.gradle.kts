@@ -33,7 +33,7 @@ tasks.named<Jar>("jar") {
     archiveClassifier.set(currentOperatingSystemIdentifier())
 }
 
-tasks.withType(Test::class) {
+tasks.named<Test>("test") {
     // Some settings to ease native code debugging
     environment("RUST_BACKTRACE", "1")
     jvmArgs("-Xcheck:jni")

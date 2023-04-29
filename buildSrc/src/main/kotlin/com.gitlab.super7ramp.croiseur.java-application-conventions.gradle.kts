@@ -15,7 +15,7 @@ plugins {
 /**
  * The resolvable dictionary path, where the dictionaries come from.
  */
-configurations.create("dictionaryPath") {
+configurations.register("dictionaryPath") {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
