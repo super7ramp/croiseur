@@ -19,15 +19,11 @@ plugins {
     id("org.graalvm.buildtools.native")
 }
 
-// Hack to make version catalog works with kotlin, see:
-// - https://github.com/gradle/gradle/issues/15383
-// - https://github.com/gradle/gradle/issues/22468
-if (!project.name.equals("gradle-kotlin-dsl-accessors")) {
-    val sbom = the<org.gradle.accessors.dm.LibrariesForSbom>()
-    dependencies {
-        implementation(sbom.picocli.framework)
-        annotationProcessor(sbom.picocli.codegen)
-    }
+// Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
+val sbom = the<org.gradle.accessors.dm.LibrariesForSbom>()
+dependencies {
+    implementation(sbom.picocli.framework)
+    annotationProcessor(sbom.picocli.codegen)
 }
 
 /**

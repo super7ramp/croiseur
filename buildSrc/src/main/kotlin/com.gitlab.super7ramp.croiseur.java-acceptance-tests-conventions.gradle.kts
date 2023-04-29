@@ -11,18 +11,14 @@ plugins {
     id("com.gitlab.super7ramp.croiseur.java-conventions")
 }
 
-// Hack to make version catalog works with kotlin, see:
-// - https://github.com/gradle/gradle/issues/15383
-// - https://github.com/gradle/gradle/issues/22468
-if (!project.name.equals("gradle-kotlin-dsl-accessors")) {
-    val sbom = the<org.gradle.accessors.dm.LibrariesForSbom>()
-    dependencies {
-        testImplementation(sbom.cucumber)
-        testImplementation(sbom.cucumber.junit5.engine)
-        testImplementation(sbom.junit5.platform.suite)
-        testImplementation(sbom.mockito)
-        testRuntimeOnly(sbom.cucumber.picocontainer)
-    }
+// Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
+val sbom = the<org.gradle.accessors.dm.LibrariesForSbom>()
+dependencies {
+    testImplementation(sbom.cucumber)
+    testImplementation(sbom.cucumber.junit5.engine)
+    testImplementation(sbom.junit5.platform.suite)
+    testImplementation(sbom.mockito)
+    testRuntimeOnly(sbom.cucumber.picocontainer)
 }
 
 /**
