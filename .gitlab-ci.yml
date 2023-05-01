@@ -57,11 +57,22 @@ Build on Windows:
     - choco install -y gradle
     - choco install -y rust
     - refreshenv
+    # Choose wisely cargo and gradle homes so that they can easily be cached later
+    - $env:CARGO_HOME=(Get-Location).Path + "\.cargo"
+    - $env:GRADLE_USER_HOME=(Get-Location).Path + "\.gradle"
   script:
-    - gradle --parallel assemble -x distZip
-    - gradle --parallel check
+    - gradle --parallel --build-cache assemble -x distZip
+    - gradle --parallel --build-cache check
     # Gradle daemon seems to prevent the script to be considered as terminated on Windows, shut it down
     - gradle --stop
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-windows"
+    paths:
+      # Gradle caches
+      - .gradle
+      # Cargo caches
+      - "**/target"
+      - .cargo
   artifacts:
     reports:
       junit: "**/TEST-*.xml"
