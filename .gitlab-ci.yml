@@ -33,8 +33,7 @@ Build on Linux:
     key: "${CI_COMMIT_REF_NAME}-linux"
     paths:
       # Gradle caches
-      - "**/build"
-      - "**/.gradle"
+      - .gradle
       # Cargo caches
       - "**/target"
       - .cargo
@@ -86,8 +85,7 @@ Publish Linux Distribution:
     policy: pull
     paths:
       # Gradle caches
-      - "**/build"
-      - "**/.gradle"
+      - .gradle
       # Cargo caches
       - "**/target"
       - .cargo
