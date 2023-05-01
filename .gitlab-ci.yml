@@ -16,7 +16,7 @@ stages:
 Build on Linux:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: ["**/src/**", "**.gradle", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
+      changes: ["**/src/**", "**.gradle.kts", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
   # Use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
   image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:19.2
@@ -51,7 +51,7 @@ Build on Linux:
 Build on Windows:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: ["**/src/**", "**.gradle", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
+      changes: ["**/src/**", "**.gradle.kts", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
       when: manual
       allow_failure: true
   stage: build
