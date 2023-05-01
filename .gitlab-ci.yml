@@ -19,7 +19,7 @@ Build on Linux:
       changes: ["**/src/**", "**.gradle", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
   # Use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
-  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.2
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:19.2
   stage: build
   before_script:
     # Choose wisely cargo and gradle homes so that they can easily be cached later
@@ -31,7 +31,6 @@ Build on Linux:
     - gradle --parallel --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
-    policy: push
     paths:
       # Gradle caches
       - "**/build"
@@ -75,7 +74,7 @@ Build on Windows:
 Publish Linux Distribution:
   rules: [ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ]
   stage: publish
-  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:18.2
+  image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:19.2
   before_script:
     - export CARGO_HOME="$(pwd)/.cargo"
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
