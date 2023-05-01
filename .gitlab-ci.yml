@@ -46,12 +46,14 @@ Build on Linux:
 
 ##
 # Builds croiseur on a Windows machine.
-# Quite slow, only use for merge requests.
+# Very slow so no automatic trigger, but build can be launched manually.
 #
 Build on Windows:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes: ["**/src/**", "**.gradle", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
+      when: manual
+      allow_failure: true
   stage: build
   tags: [ windows ]
   before_script:
