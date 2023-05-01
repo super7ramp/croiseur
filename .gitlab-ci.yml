@@ -57,6 +57,8 @@ Build on Windows:
     - choco install -y gradle
     - choco install -y rust
     - refreshenv
+    # Use sparse protocol for faster crate index construction
+    - $env:CARGO_REGISTRIES_CRATES_IO_PROTOCOL="sparse"
     # Choose wisely cargo and gradle homes so that they can easily be cached later
     - $env:CARGO_HOME=(Get-Location).Path + "\.cargo"
     - $env:GRADLE_USER_HOME=(Get-Location).Path + "\.gradle"
