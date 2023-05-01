@@ -25,9 +25,18 @@ dependencies {
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
-    // Don't pull alternative solvers: There is no way to select the solver in GUI for now
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
     // as XML dictionaries
+}
+
+tasks.named<JavaExec>("run") {
+    jvmArgs = listOf(
+        // Useful debug options
+        //"-Dprism.order=sw",           // force sw rendering
+        //"-Dprism.verbose=true",       // print rendering pipeline info on startup
+        //"-Dprism.showdirty=true",     // show dirty regions
+        //"-Djavafx.pulseLogger=true"   // display pulse event information
+    )
 }
