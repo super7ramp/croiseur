@@ -95,7 +95,6 @@ Publish Linux Distribution:
     - gradle --parallel --build-cache publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
-    policy: pull
     paths:
       # Gradle caches
       - .gradle
