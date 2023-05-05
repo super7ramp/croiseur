@@ -54,7 +54,7 @@ import java.util.concurrent.Callable;
  * </li>
  * </ul>
  */
-public final class Scorer implements Callable<Double> {
+public final class BasicScorer implements Callable<Double> {
 
     /** The words for which to compute the number of crossings. */
     private final List<String> words;
@@ -64,7 +64,7 @@ public final class Scorer implements Callable<Double> {
      *
      * @param wordsArg the words for which to compute the number of crossings
      */
-    Scorer(final List<String> wordsArg) {
+    BasicScorer(final List<String> wordsArg) {
         words = wordsArg;
     }
 
@@ -105,7 +105,7 @@ public final class Scorer implements Callable<Double> {
         final Path wordListPath = Path.of(args[0]);
         try {
             final List<String> words = Files.readAllLines(wordListPath);
-            final Double result = new Scorer(words).call();
+            final Double result = new BasicScorer(words).call();
             System.out.printf("%.2f%n", result);
         } catch (final IOException e) {
             System.err.println("Failed to read " + wordListPath + ": " + e.getMessage());

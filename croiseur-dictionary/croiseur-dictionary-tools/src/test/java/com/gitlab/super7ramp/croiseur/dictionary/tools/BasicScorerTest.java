@@ -12,9 +12,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for {@link Scorer}.
+ * Tests for {@link BasicScorer}.
  */
-final class ScorerTest {
+final class BasicScorerTest {
 
     /**
      * Example: "HELLO", "WORLD" will return 3.0 (3.0/1.0) because there are 3 ways to cross word
@@ -29,7 +29,7 @@ final class ScorerTest {
      */
     @Test
     void helloWorld() {
-        final Scorer scorer = new Scorer(List.of("HELLO", "WORLD"));
+        final BasicScorer scorer = new BasicScorer(List.of("HELLO", "WORLD"));
         final Double score = scorer.call();
         assertEquals(3.0, score);
     }
@@ -71,7 +71,7 @@ final class ScorerTest {
      */
     @Test
     void helloCrossWorld() {
-        final Scorer scorer = new Scorer(List.of("HELLO", "CROSS", "WORLD"));
+        final BasicScorer scorer = new BasicScorer(List.of("HELLO", "CROSS", "WORLD"));
         final Double score = scorer.call();
         assertEquals(2.00, score);
     }
@@ -111,7 +111,7 @@ final class ScorerTest {
      */
     @Test
     void helloCrossWord() {
-        final Scorer scorer = new Scorer(List.of("HELLO", "CROSS", "WORD"));
+        final BasicScorer scorer = new BasicScorer(List.of("HELLO", "CROSS", "WORD"));
         final Double score = scorer.call();
         assertEquals(1.33, score, 10E-2);
     }

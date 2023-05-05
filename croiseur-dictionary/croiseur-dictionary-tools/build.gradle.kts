@@ -13,10 +13,10 @@ dependencies {
     implementation(project(":croiseur-dictionary:croiseur-dictionary-xml-codec"))
 }
 
-tasks.register<JavaExec>("scorer") {
+tasks.register<JavaExec>("basicScorer") {
     group = "Dictionary"
     description = "Give a score to a given dictionary corresponding to the capability of its words to cross with each other"
-    mainClass.set("com.gitlab.super7ramp.croiseur.dictionary.tools.Scorer")
+    mainClass.set("com.gitlab.super7ramp.croiseur.dictionary.tools.BasicScorer")
     mainModule.set("com.gitlab.super7ramp.croiseur.dictionary.tools")
     classpath = sourceSets.getByName("main").runtimeClasspath
 }
