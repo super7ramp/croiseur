@@ -12,29 +12,27 @@
     /* In a beautiful square. */
     -fx-background-radius: 0;
     -fx-border-radius: 0;
-    -fx-border-color: black;
+    -fx-border-color: -color-fg-default;
     -fx-border-width: 1px;
 
     /* Taking all the space. */
     -fx-max-height: Infinity;
     -fx-max-width: Infinity;
-
-    /* With black-ish focus color. */
-    -fx-faint-focus-color: #00000022;
 }
 
 /* A shaded cell. */
 .crossword-box-text:shaded {
-    -fx-background-color: black;
+    -fx-background-color: -color-fg-default;
 }
 
 /* An unsolvable cell. */
 .crossword-box-text:unsolvable {
-    -fx-background-color: #ff000011;
+    -fx-background-color: -color-danger-muted;
 }
 
 /* The grid. */
 #crossword-grid {
+    -fx-border-color: -color-fg-default;
     -fx-border-radius: 0;
     -fx-border-style: solid inside;
     -fx-border-width: 2px;

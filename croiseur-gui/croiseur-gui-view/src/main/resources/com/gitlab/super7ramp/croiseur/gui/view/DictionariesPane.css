@@ -4,8 +4,8 @@
  */
 
 #dictionary-pane-root {
-    -fx-background-color: #edf0f4;
-    -fx-border-color: lightgray;
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-border-default;
     -fx-border-width: 0 0 0 1px;
     -fx-padding: 10px;
 }

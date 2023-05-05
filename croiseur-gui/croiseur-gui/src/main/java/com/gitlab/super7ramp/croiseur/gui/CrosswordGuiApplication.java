@@ -19,8 +19,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * The crossword GUI application.
@@ -39,9 +41,12 @@ public final class CrosswordGuiApplication extends Application {
     /** The application icon name. */
     private static final String ICON_NAME = "application-icon.png";
 
+    /** The application stylesheet. */
+    private static final String STYLESHEET = "theme-light.css";
+
     /**
-     * The number of background threads. At least 2 so that dictionaries can be browsed while
-     * solver is running.
+     * The number of background threads. At least 2 so that dictionaries can be browsed while solver
+     * is running.
      */
     private static final int NUMBER_OF_BACKGROUND_THREADS = 2;
 
@@ -69,13 +74,15 @@ public final class CrosswordGuiApplication extends Application {
         stage.setMinHeight(MIN_HEIGHT);
         final InputStream iconLocation =
                 CrosswordGuiApplication.class.getResourceAsStream(ICON_NAME);
-        if (iconLocation != null) {
-            stage.getIcons().add(new Image(iconLocation));
-        }
+        Objects.requireNonNull(iconLocation, "Application icon not found");
+        stage.getIcons().add(new Image(iconLocation));
     }
 
     @Override
     public void start(final Stage stage) throws IOException {
+        final URL themeUrl = CrosswordGuiApplication.class.getResource(STYLESHEET);
+        Objects.requireNonNull(themeUrl, "Application stylesheet not found");
+        Application.setUserAgentStylesheet(themeUrl.toString());
         final CrosswordSolverRootController controller = loadController();
         final Parent view = CrosswordSolverViewLoader.load(controller);
         configureStage(stage, view);
@@ -106,7 +113,7 @@ public final class CrosswordGuiApplication extends Application {
         resources.add(executor);
 
         return new CrosswordSolverRootController(crosswordService, crosswordSolverViewModel,
-                executor);
+                                                 executor);
     }
 
 }
