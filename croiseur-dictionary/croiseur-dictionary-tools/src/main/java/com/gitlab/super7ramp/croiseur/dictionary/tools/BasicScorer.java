@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.tools;
 
+import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.stream.Stream;
 
 /**
  * For a given word list, computes a score corresponding to the capability of the words to cross
@@ -103,8 +106,10 @@ public final class BasicScorer implements Callable<Double> {
             System.exit(1);
         }
         final Path wordListPath = Path.of(args[0]);
-        try {
-            final List<String> words = Files.readAllLines(wordListPath);
+        try (final Stream<String> lines = Files.lines(wordListPath)) {
+            final List<String> words =
+                    lines.map(StringTransformers.toAcceptableCrosswordEntry())
+                         .toList();
             final Double result = new BasicScorer(words).call();
             System.out.printf("%.2f%n", result);
         } catch (final IOException e) {
