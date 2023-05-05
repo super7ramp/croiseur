@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 ### Explanations
 
 * [Design Decisions](explanation/design-decisions/README.md)
-* [How do crossword solvers work?](explanation/How-do-crossword-solvers-work.md)
+* [How Crossword Solvers Work](explanation/How-crossword-solvers-work.md)
 
 ### References
 
