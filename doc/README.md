@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 * [Design Decisions](explanation/design-decisions/README.md)
 * [How Crossword Solvers Work](explanation/How-crossword-solvers-work.md)
+* [Why Dictionaries Matter](explanation/Why-dictionaries-matter.md)
 
 ### References
 
