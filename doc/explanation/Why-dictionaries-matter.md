@@ -19,9 +19,9 @@ TODO: Examples
 
 A first intuition is that the more the words the dictionary contains, the more solutions there are.
 
-> — Unfortunately, it doesn't mean that necessarily the more solutions there is, the shorter will be
-> the solving time. If heuristics gives wrong directions early, a depth-first solver can get stuck
-> in a search space with not many solutions.
+> — Unfortunately, it doesn't mean that necessarily the more solutions there are, the shorter will
+> be the solving time. If heuristics gives wrong directions early, a depth-first solver can get
+> stuck in a search space with not many solutions.
 
 In this section are presented a few estimations on the number of solutions based on the dictionary
 content and the grid geometry.
@@ -53,15 +53,12 @@ This formula comes with two important hypothesises:
 2. Words can be repeated in the grid.
 
 > — [Long92] in his paper does mention having computed results dropping hypothesis 1., which
-> resulted in slightly higher numbers with the dictionary it used. Unfortunately, he doesn't precise
+> resulted in slightly higher numbers with the dictionary he used. Unfortunately, he did not precise
 > the formula in this case, nor the dictionary he used for his results.
 > [Long92] did not mention the second point. It might be a mistake from my side but this what
 > I deduced when trying to re-find the formula, see next section.
 
-#### Rationale
-
-[Long92] does not describe the steps he used to get to this estimation. Here is an attempt to
-re-find them.
+##### Rationale
 
 Let us start with the simplest case, a square grid of size $n = 2$. Let us define the fixed
 crossings $c_1, c_2, c_3, c_4$:
@@ -88,7 +85,7 @@ w4 > | c3 | c4 |
 The probability of event $X_2$ is:
 
 ```math
-P(X_2) = P(x_i)×P(x_2)×P(x_3)×P(x_4)
+P(X_2) = P(x_1)×P(x_2)×P(x_3)×P(x_4)
 ```
 
 Let us note, $w_i[j]$ the $j$'th letter of word $w_i$. So the expression becomes:
@@ -98,15 +95,17 @@ P(X_2) = P(w_1[1] == w_3[1])×P(w_2[1] == w_3[1])×P(w_1[2] == w_4[1])×P(w_4[2]
 ```
 
 Let us define the event $a_i$ (respectively $b_i, c_i, …, z_i$) the probability to have the letter
-a (resp. b, c, …, z) at the position $i$ for a word of length 2 picked in the dictionary.
+$a$ (resp. $b$, $c$, …, $z$) at the position $i$ for a word of length 2 picked in the dictionary.
 
 Assuming that letter frequencies in a word are independent of other letters in the word:
 
 ```math
-P(X_2) = (P(a_1) × P(a_1) + P(b_1) × P(b_1) + … + P(z_1) × P(z_1)) × \newline
-         (P(a_2) × P(a_1) + P(b_2) × P(b_1) + … + P(z_2) × P(z_1)) × \newline
-         (P(a_1) × P(a_2) + P(b_1) × P(b_2) + … + P(z_1) × P(z_2)) × \newline
-         (P(a_2) × P(a_2) + P(b_2) × P(b_2) + … + P(z_2) × P(z_2))
+\begin{split}
+P(X) = & (P(a_1) × P(a_1) + P(b_1) × P(b_1) + … + P(z_1) × P(z_1)) × \newline
+       & (P(a_2) × P(a_1) + P(b_2) × P(b_1) + … + P(z_2) × P(z_1)) × \newline
+       & (P(a_1) × P(a_2) + P(b_1) × P(b_2) + … + P(z_1) × P(z_2)) × \newline
+       & (P(a_2) × P(a_2) + P(b_2) × P(b_2) + … + P(z_2) × P(z_2))
+\end{split}
 ```
 
 Assuming that letter frequencies are totally positionally independent, i.e. $P(a_i) = f(a)$ for
@@ -114,15 +113,17 @@ every letter and word position $i$, where $f(\*)$ is the frequency of letter $\*
 the expression can be simplified to:
 
 ```math
-P(X_2) = (f(a)^2 + f(b)^2 + … f(z)^2) × \newline
-         (f(a)^2 + f(b)^2 + … f(z)^2) × \newline
-         (f(a)^2 + f(b)^2 + … f(z)^2) × \newline
-         (f(a)^2 + f(b)^2 + … f(z)^2) \newline
-P(X_2) = (f(a)^2 + f(b)^2 + … f(z)^2)^4
+\begin{split}
+P(X_2) = &(f(a)^2 + f(b)^2 + … f(z)^2) × \newline
+         &(f(a)^2 + f(b)^2 + … f(z)^2) × \newline
+         &(f(a)^2 + f(b)^2 + … f(z)^2) × \newline
+         &(f(a)^2 + f(b)^2 + … f(z)^2) \newline
+P(X_2) = &(f(a)^2 + f(b)^2 + … f(z)^2)^4
+\end{split}
 ```
 
 To get the estimated number of valid fills $E_2$ for square grids of size 2, we multiply the
-probability of $X_4$ with the number of possible arrangement with repetition of 4 words of length
+probability of $X_2$ with the number of possible arrangements with repetition of 4 words of length
 2 in the word list. Noting $W_2$ the number of words of length 2 in the word list, the number of
 possible arrangement of 4 words among W is $W_2^4$ hence the estimated number of fills:
 
@@ -135,10 +136,10 @@ Let us note $X_n$ the event to pick $2n$ words of size $n$, not necessarily dist
 a square grid of size $n$ with a similar ordering of crossings as for $X_2$.
 We find that $P(X_n) = (f(a)^2 + f(b)^2 + … f(z)^2)^{n^2}$.
 Noting $P(X_n) = p$, and $W$ the number of words of length $n$ in the word list, we get back to Long
-formula for the estimated number of fills $E_n$:
+formula for the estimated number of fills $E$:
 
 ```math
-E_n = W^{2n}×p^{n^2}
+E = W^{2n}×p^{n^2}
 ```
 
 #### Generic Grid
