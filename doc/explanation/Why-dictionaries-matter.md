@@ -6,21 +6,61 @@ This is an unreviewed explanation of how the dictionaries content can influence 
 duration. Do not take everything here as necessarily correct. If you are looking for more
 thorough explanations, check out the [reference papers](#references).
 
-### Preliminary Observation
+### Preliminary Observations
 
 The effort to fill a grid may greatly differ between the used dictionaries.
 
-TODO: Examples
+The following table lists the times (and number of backtracks if available) necessary to find a
+solution to several grids with different dictionaries.
 
-- grid 1: 3 dictionaries, 3 solvers
-- grid 2: 3 dictionaries, 3 solvers
+| Grid          | Dictionary              | Crossword Composer | Ginsberg               | XWords RS | 
+|---------------|-------------------------|--------------------|------------------------|-----------|
+| 5x5           | UKACD                   | 1s                 | <1s (1 backtrack)      | <1s       |
+| 5x5           | General British English |                    | <1s (67 backtracks)    | <1s       |
+| 5x5           | General French          |                    | <1s (50 backtracks)    | 1s        |
+| 6x6           | UKACD                   |                    | <1s (509 backtracks)   | 1s        |
+| 6x6           | General British English |                    |                        | 1s        |
+| 6x6           | General French          |                    |                        | 2s        |
+| 7x7           | UKACD                   |                    | T.O.                   | T.O.      |
+| 7x7           | General British English |                    | T.O.                   | T.O.      |
+| 7x7           | General French          |                    | 6s (11,363 backtracks) | 81s       |
+| 9x9 (3-5-7-9) | UKACD                   | T.O.               | T.O.                   | 112s      |
+| 9x9 (3-5-7-9) | General British English |                    | T.O.                   | 5s        |
+| 9x9 (3-5-7-9) | General French          |                    | T.O.                   | 9s        |
+
+(T.O. = Timed Out, no solution found in 180s)
+
+The dictionaries used are all available in Croiseur. The example grids are the following:
+
+```
+| | | | | |      | | | | | | |     | | | | | | | |     |#|#|#| | | |#|#|#| 
+| | | | | |      | | | | | | |     | | | | | | | |     |#|#| | | | | |#|#| 
+| | | | | |      | | | | | | |     | | | | | | | |     |#| | | | | | | |#| 
+| | | | | |      | | | | | | |     | | | | | | | |     | | | | | | | | | | 
+| | | | | |      | | | | | | |     | | | | | | | |     | | | | | | | | | | 
+                 | | | | | | |     | | | | | | | |     | | | | | | | | | | 
+                                   | | | | | | | |     |#| | | | | | | |#| 
+                                                       |#|#| | | | | |#|#|
+                                                       |#|#|#| | | |#|#|#|   
+                                                                  
+    5x5               6x6                7x7              9x9 (3-5-7-9)         
+```
+
+For each dictionary, 5 attempts are made with different shuffling in order to limit the effect of
+the word order in the search. The 3 different solvers available in Croiseur are used to avoid
+the effect of a specific search method.
+
+TODO: Actually do several tries per dictionary (shuffle)
+TODO: Increase timeout? And maybe run with faster CPU (computations have been made on a CPU capped
+at 1.7 GHz for both reproducibility and overheating reasons)
+TODO: Comment observation
 
 ### How to Predict the Number of Solutions
 
-A first intuition is that the more the words the dictionary contains, the more solutions there are.
+A first intuition is that the more the words in the dictionary, the more the solutions.
 
-> — Unfortunately, it doesn't mean that necessarily the more solutions there are, the shorter will
-> be the solving time. If heuristics gives wrong directions early, a depth-first solver can get
+> — Unfortunately, it doesn't mean that necessarily the more solutions, the shorter will be the
+> solving time. If heuristics gives wrong directions early, a depth-first solver can get
 > stuck in a search space with not many solutions.
 
 In this section are presented a few estimations on the number of solutions based on the dictionary
@@ -52,13 +92,16 @@ This formula comes with two important hypothesises:
 1. Letter frequencies are positionally independent in the dictionary;
 2. Words can be repeated in the grid.
 
-> — [Long92] in his paper does mention having computed results dropping hypothesis 1., which
+> — [Long92] in his paper did mention having computed results dropping hypothesis 1., which
 > resulted in slightly higher numbers with the dictionary he used. Unfortunately, he did not precise
 > the formula in this case, nor the dictionary he used for his results.
 > [Long92] did not mention the second point. It might be a mistake from my side but this what
 > I deduced when trying to re-find the formula, see next section.
 
 ##### Rationale
+
+TODO Long mentions the Bayes Theorem, but where is it used here? Everything ends up assumed
+independent.
 
 Let us start with the simplest case, a square grid of size $n = 2$. Let us define the fixed
 crossings $c_1, c_2, c_3, c_4$:
@@ -142,6 +185,26 @@ formula for the estimated number of fills $E$:
 E = W^{2n}×p^{n^2}
 ```
 
+#### Application
+
+Here is a table with the estimated number of solutions for the dictionaries used in
+our [preliminary observations](#preliminary-observations).
+
+| ↓ Dictionary / n →      | 5                                     | 6                                     | 7                                  |
+|-------------------------|---------------------------------------|---------------------------------------|------------------------------------|
+| UKACD                   | 9,030,548,510 (W = 11,646; p = 0.059) | 89,013,686 (W = 20,160; p = 0.061)    | 1,705 (W = 29,050; p = 0.062)      |
+| General British English | 8,764,187,461 (W = 11,082; p = 0.060) | 127,703,534 (W = 19,948; p = 0.062)   | 2,350 (W = 28,681; p = 0.062)      |
+| General French          | 11,207,001,557 (W = 8,116; p = 0.069) | 6,711,200,867 (W = 17,882; p = 0.072) | 45,575,233 (W = 31,744; p = 0.074) |
+
+TODO comment.
+Result for n = 7 matches the prediction in the sense that solvers could only find solutions with
+French dictionary.
+Result for n = 6 does not match the prediction. UKACD seems the easiest one, but it has the
+lowest number of estimated solutions. Do several tries with shuffled dictionaries to see if it's
+just bad luck.
+Result for n = 5, nothing to say, all dictionaries have roughly the same number of estimated
+solutions and all solvers quickly find a solution.
+
 #### Generic Grid
 
 ##### Estimation
@@ -168,6 +231,10 @@ Where:
 > TODO understand that. I think it is closer to the estimation of [Long92] than it looks, if
 > you remove the assumption than letter frequencies are positionally independent (right part of the
 > formula). It seems to use combinations instead of arrangements with repetition (left part).
+
+##### Application
+
+TODO do the comparison for grid 9x9 (3-5-7-9)
 
 ### References
 
