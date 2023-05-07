@@ -20,3 +20,11 @@ tasks.register<JavaExec>("basicScorer") {
     mainModule.set("com.gitlab.super7ramp.croiseur.dictionary.tools")
     classpath = sourceSets.getByName("main").runtimeClasspath
 }
+
+tasks.register<JavaExec>("squareSolutionEstimator") {
+    group = "Dictionary"
+    description = "Give an estimated number of solutions for various square grids for the given dictionary"
+    mainClass.set("com.gitlab.super7ramp.croiseur.dictionary.tools.SquareSolutionEstimator")
+    mainModule.set("com.gitlab.super7ramp.croiseur.dictionary.tools")
+    classpath = sourceSets.getByName("main").runtimeClasspath
+}
