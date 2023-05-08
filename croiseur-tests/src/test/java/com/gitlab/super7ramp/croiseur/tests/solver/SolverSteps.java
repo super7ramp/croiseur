@@ -31,14 +31,20 @@ import static org.mockito.Mockito.verify;
  */
 public final class SolverSteps {
 
-    private static final String OPTIONALLY_WITH_SOLVER = "(?: with \"([^\"]+)\" solver)?";
-
-    private static final String OPTIONALLY_WITH_DICTIONARY =
-            "(?: with \"([^\"]+)\"(?: dictionary)? provided by \"([^\"]+)\")?";
-
+    /** Non-capturing regex for " and". */
     private static final String OPTIONALLY_AND = "(?: and)?";
 
-    private static final String OPTIONALLY_WITH_RANDOMNESS = "(?: with dictionary shuffled using a seed of (\\d+))?";
+    /** Regex for solver declaration. Captures the solver name. */
+    private static final String OPTIONALLY_WITH_SOLVER = "(?: with \"([^\"]+)\" solver)?";
+
+    /** Regex for dictionary declaration. Captures the dictionary name and its provider. */
+    private static final String AND_OPTIONALLY_WITH_DICTIONARY =
+            OPTIONALLY_AND + "(?: with \"([^\"]+)\"(?: dictionary)? provided by \"([^\"]+)\")?";
+
+    /** Regex for dictionary shuffle randomness source definition. Captures the randomness seed. */
+    private static final String AND_OPTIONALLY_WITH_RANDOMNESS =
+            OPTIONALLY_AND + "(?: with dictionary shuffled using a seed of (\\d+))?";
+
     /** The dictionary service. */
     private final SolverService solverService;
 
@@ -60,12 +66,12 @@ public final class SolverSteps {
         solverService.listSolvers();
     }
 
-    @When("^user requests to solve the following grid" + OPTIONALLY_WITH_SOLVER + OPTIONALLY_AND +
-          OPTIONALLY_WITH_DICTIONARY + OPTIONALLY_AND + OPTIONALLY_WITH_RANDOMNESS + ":$")
+    @When("^user requests to solve the following grid" + OPTIONALLY_WITH_SOLVER +
+          AND_OPTIONALLY_WITH_DICTIONARY + AND_OPTIONALLY_WITH_RANDOMNESS + ":$")
     public void whenSolveWith(final String solver,
                               final String dictionary,
                               final String dictionaryProvider,
-                              final Integer randomSeed,
+                              final Long randomSeed,
                               final PuzzleDefinition puzzleDefinition) {
         final SolveRequest solveRequest = new SolveRequest() {
 

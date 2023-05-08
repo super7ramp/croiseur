@@ -83,11 +83,13 @@ final class SolveUsecase {
     }
 
     /**
-     * Returns an optionally shuffled dictionary, if requested.
+     * Returns a dictionary shuffled with the request's randomness source, if any, otherwise returns
+     * the given dictionary as is.
      *
      * @param event      the solve request
      * @param dictionary the non-shuffled dictionary
-     * @return the dictionary shuffled, if requested
+     * @return the dictionary shuffled with the request's randomness source, if any, otherwise
+     * returns the given dictionary as is.
      */
     private static Dictionary optionallyShuffledDictionary(final SolveRequest event,
                                                            final Dictionary dictionary) {

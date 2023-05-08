@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.solver.parser;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-
 import java.util.Random;
 
 /**
@@ -22,13 +20,13 @@ public final class RandomParser {
     /**
      * Parses the textual representation of a {@link Random}.
      *
-     * @param seedValue the value to parse
-     * @return the parsed {@link GridPosition}
+     * @param seedValue the random seed value to parse
+     * @return the parsed {@link Random}
      * @throws IllegalArgumentException if given string cannot be parsed
      */
     public static Random parse(final String seedValue) {
         final Random random;
-        if (seedValue == null || seedValue.isEmpty()) {
+        if (seedValue.isEmpty()) {
             random = new Random();
         } else {
             final long seed = Long.parseLong(seedValue);

@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * A dictionary shuffled with given seed.
+ * A dictionary shuffled with given randomness source.
  */
 final class ShuffledSolverDictionary implements Dictionary {
 
