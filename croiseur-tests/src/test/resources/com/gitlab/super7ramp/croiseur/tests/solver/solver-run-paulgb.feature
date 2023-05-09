@@ -64,6 +64,9 @@ Feature: Run Solver - Crossword Composer (paulgb)
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Randomness
 
+  It is the same grid that the first scenario "Simple" but the dictionary is shuffled. This leads
+  to a different solution found.
+
     When user requests to solve the following grid with "Crossword Composer" solver and with dictionary shuffled using a seed of 42:
       |  |  |  |
       |  |  |  |

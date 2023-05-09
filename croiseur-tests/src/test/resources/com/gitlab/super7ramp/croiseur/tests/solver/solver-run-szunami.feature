@@ -21,9 +21,9 @@ Feature: Run Solver - XWords RS (szunami)
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | C | C | S |
-      | C | C | S |
-      | S | D | S |
+      | Z | U | Z |
+      | U | T | U |
+      | Z | U | G |
 
   Scenario: Run Solver - XWords RS (szunami) - With Specific Dictionary
 
@@ -32,9 +32,9 @@ Feature: Run Solver - XWords RS (szunami)
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | C | U | R |
-      | I | F | E |
-      | D | O | W |
+      | Z | U | Z |
+      | U | T | U |
+      | Z | U | G |
 
   Scenario: Run Solver - XWords RS (szunami) - With Shaded Cell
 
@@ -43,9 +43,9 @@ Feature: Run Solver - XWords RS (szunami)
       |  |  | # |
       |  |  |   |
     Then the application presents the following successful solver result:
-      | C | F | C |
-      | P | C | # |
-      | I | C | C |
+      | Z | U | Z |
+      | U | T | # |
+      | Z | E | D |
 
   Scenario: Run Solver - XWords RS (szunami) - With Prefilled Cell
 
@@ -54,9 +54,9 @@ Feature: Run Solver - XWords RS (szunami)
       | C |  |  |
       | T |  |  |
     Then the application presents the following successful solver result:
-      | A | P | C |
-      | C | F | O |
-      | T | C | O |
+      | A | S | L |
+      | C | R | Y |
+      | T | A | N |
 
   Scenario: Run Solver - XWords RS (szunami) - With Prefilled and Shaded Cells
 
@@ -65,19 +65,20 @@ Feature: Run Solver - XWords RS (szunami)
       | C | # |   |
       | T |   | # |
     Then the application presents the following successful solver result:
-      | A | C | C |
-      | C | # | W |
-      | T | C | # |
+      | A | Z | T |
+      | C | # | V |
+      | T | A | # |
 
-  @disabled
-  # FIXME Result is always the same with XWords RS: Does the solver sort the given word list?
   Scenario: Run Solver - XWords RS (szunami) - With Randomness
+
+  It is the same grid that the first scenario "Simple" but the dictionary is shuffled. This leads
+  to a different solution found.
 
     When user requests to solve the following grid with "XWords RS" solver and with dictionary shuffled using a seed of 42:
       |  |  |  |
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | X | X | X |
-      | X | X | X |
-      | X | X | X |
+      | B | Y | S |
+      | O | O | O |
+      | B | B | S |
