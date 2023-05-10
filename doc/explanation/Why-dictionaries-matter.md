@@ -12,8 +12,8 @@ thorough explanations, check out the [reference papers](#references).
 
 The effort to fill a grid differs between the used dictionaries.
 
-To visualise this effort differences, we tried to solve various grids using
-various solvers and dictionaries.
+To visualise this effort differences, we tried to solve various grids using various solvers and
+dictionaries.
 
 The selected grids were:
 
@@ -37,8 +37,8 @@ The selected dictionaries, available in Croiseur, were:
 - General British English
 - General French
 
-For each dictionary, 6 solving attempts were made with different shuffles in order
-to limit the effect of the word order in the search:
+For each dictionary, 6 solving attempts were made with different shuffles in order to limit the
+effect of the word order in the search:
 
 - No shuffle
 - Shuffle with seed 7
@@ -49,35 +49,37 @@ to limit the effect of the word order in the search:
 
 The selected solvers, available in Croiseur, were:
 
-- Ginsberg: A solver implementing in Java some of the solutions found by Matt Ginsberg.
-- XWords RS: A solver with simpler backtrack algorithms but whose implementation in Rust
-  is more optimised.
+- [Ginsberg](../../croiseur-solver/croiseur-solver-ginsberg): A solver implementing in Java some of
+  the solutions found by Matt Ginsberg.
+- [XWords RS](../../croiseur-solver/croiseur-solver-szunami): A solver with simpler backtrack
+  algorithms but whose implementation in Rust is more optimised.
 
 We ignored Crossword Composer solver as early tests showed it did not manage well
-on the selected grids. More details about these solvers are available [here](../How-crossword-solvers-work.md).
+on the selected grids. More details about these solvers are
+available [here](How-crossword-solvers-work.md).
 
 #### Environment
 
-We used Croiseur CLI to run the solvers. Given Croiseur CLI architecture (no daemon),
-each solving attempt resulted in the launch of a new Java Virtual Machine and a read
-of the selected dictionary from the filesystem, plus optionally a shuffle. This
-overhead is estimated to 2 to 3 seconds on the machine used for the tests.
+We used Croiseur CLI to run the solvers. Given Croiseur CLI architecture (no daemon), each solving
+attempt resulted in the launch of a new Java Virtual Machine and a read of the selected dictionary
+from the filesystem, plus optionally a shuffle. This overhead is estimated to 2 to 3 seconds on the
+machine used for the tests.
 
-Given current Croiseur project architecture, overhead could have been eliminated or
-reduced using either:
+Given current Croiseur project architecture, overhead could have been eliminated or reduced using
+either:
 
-- Croiseur GUI: This would have allowed to load the JVM and dictionaries only once
-  but that would have made the test automation more difficult;
-- Croiseur CLI Ahead-of-Time compilation option: We preferred to use the standard
-  build for reproducibility, given the experimental nature of this option.
+- Croiseur GUI: This would have allowed to load the JVM and dictionaries only once but that would
+  have made the test automation more difficult;
+- Croiseur CLI Ahead-of-Time compilation option: We preferred to use the standard build for
+  reproducibility, given the experimental nature of this option.
 
-The machine used to run the tests is using a 2010's i5 CPU capped by software at
-1.7 GHz for reproducibility.
+The machine used to run the tests is using a 2010's i5 CPU capped by software at 1.7 GHz for
+reproducibility.
 
 #### Results
 
-The following table lists the durations in seconds necessary to find a solution to
-several grids with different dictionaries.
+The following table lists the durations in seconds necessary to find a solution to several grids
+with different dictionaries.
 
 | Grid          | Dictionary              | Ginsberg                | XWords RS              | 
 |---------------|-------------------------|-------------------------|------------------------|
@@ -96,13 +98,12 @@ several grids with different dictionaries.
 
 (DNF = Did not finish within 245 seconds.)
 
-> — It will be interesting in the future to capture the number of backtracks
-> instead of the solving durations, in order to abstract away the raw throughput
-> differences between solvers. For a given solver, the number of backtrack is expected
-> to be proportional to the solving duration.
+> — It will be interesting to capture the number of backtracks instead of the solving durations, in
+> order to abstract away the raw throughput differences between solvers. For a given solver, the
+> number of backtrack is expected to be proportional to the solving duration.
 
-From the results above, one can make the following hypothesises on the difficulty of the
-dictionaries:
+From the results above, one can make the following hypothesises on the compared difficulties of the
+dictionaries, with A > B meaning "Dictionary A is easier to work with than dictionary B":
 
 - 6x6: UKACD > General French >> General British English
 - 7x7: General French > General British English, UKACD
@@ -111,7 +112,7 @@ dictionaries:
 ### How to Predict the Number of Solutions
 
 A first intuition is that the more the words in the dictionary, the more chances to have solutions,
-and the more easier for the solvers to find one.
+and the easier for the solvers to find one.
 
 In this section are presented a few estimations on the number of solutions based on the dictionary
 content and the grid geometry. We will see that these estimations effectively depend on the number
@@ -151,8 +152,8 @@ This formula comes with two important hypothesises:
 
 ##### Rationale
 
-TODO Long mentions the Bayes Theorem, but where is it used here? Everything ends up assumed
-independent.
+> — Be cautious about this section. [Long92] mentions the Bayes Theorem, but where is it used here?
+> Everything ends up assumed independent.
 
 Let us start with the simplest case, a square grid of size $n = 2$. Let us define the fixed
 crossings $c_1, c_2, c_3, c_4$:
@@ -236,10 +237,10 @@ formula for the estimated number of fills $E$:
 E = W^{2n}×p^{n^2}
 ```
 
-#### Application
+##### Application
 
 Here is a table with the estimated number of solutions for the dictionaries used in
-our [preliminary observations](#preliminary-observations).
+our [experiments](#experiments).
 
 | ↓ Dictionary / n →      | 5                                     | 6                                     | 7                                  |
 |-------------------------|---------------------------------------|---------------------------------------|------------------------------------|
@@ -247,14 +248,29 @@ our [preliminary observations](#preliminary-observations).
 | General British English | 8,764,187,461 (W = 11,082; p = 0.060) | 127,703,534 (W = 19,948; p = 0.062)   | 2,350 (W = 28,681; p = 0.062)      |
 | General French          | 11,207,001,557 (W = 8,116; p = 0.069) | 6,711,200,867 (W = 17,882; p = 0.072) | 45,575,233 (W = 31,744; p = 0.074) |
 
-TODO comment.
-Result for n = 7 matches the prediction in the sense that solvers could only find solutions with
-French dictionary.
-Result for n = 6 does not match the prediction. UKACD seems the easiest one, but it has the
-lowest number of estimated solutions. Do several tries with shuffled dictionaries to see if it's
-just bad luck.
-Result for n = 5, nothing to say, all dictionaries have roughly the same number of estimated
-solutions and all solvers quickly find a solution.
+And a recall of what we expected based on our experiments:
+
+- 6x6: UKACD > General French >> General British English
+- 7x7: General French > General British English, UKACD
+
+Estimations for n = 7 are consistent with the experiments: General French dictionary is supposed to
+have 2 orders of magnitude more solutions than the others and is effectively easier to work with.
+
+Estimations for n = 6 are more surprising.
+
+Even if UKACD has more words of size 6 than the others, UKACD is supposed to have fewer solutions
+than the others considering its letter frequencies. But in practice, solvers seem to work better
+with it. Maybe UKACD has another property that is useful here.
+
+> — It would be interesting to drop the hypothesis that letter frequencies are positionally
+> independent here and see if that makes a difference.
+
+General British English, which is "in the middle" in the estimations, performs significantly worse
+than the others. But if you ignore UKACD, it is consistent compared with the General French
+dictionary, which is supposed to have an order of magnitude more solutions.
+
+For n = 5, nothing to say, all dictionaries have roughly the same number of estimated solutions
+and all solvers quickly find a solution.
 
 #### Generic Grid
 
@@ -279,13 +295,19 @@ Where:
 
 ##### Rationale
 
-> TODO understand that. I think it is closer to the estimation of [Long92] than it looks, if
-> you remove the assumption than letter frequencies are positionally independent (right part of the
-> formula). It seems to use combinations instead of arrangements with repetition (left part).
+> — This section is empty. It will eventually contain explanations for the formula. For the time
+> being, refer to [Jensen97] which contains some high level explanations, or [Harris90] if you are
+> lucky (no free access).
+>
+> Note: I think the estimation is closer to the estimation of [Long92] than it looks, if you remove
+> the assumption that letter frequencies are positionally independent (right part of the formula).
+> It seems to use combinations instead of arrangements with repetition (left part).
 
 ##### Application
 
-TODO do the comparison for grid 9x9 (3-5-7-9)
+> — This section is empty. It will eventually contain computed estimations for the dictionary used
+> in experiments and a comparison between these estimations and the solving durations for grid 9x9 (
+> 3-5-7-9).
 
 ### References
 
