@@ -6,31 +6,16 @@ This is an unreviewed explanation of how the dictionaries content can influence 
 duration. Do not take everything here as necessarily correct. If you are looking for more
 thorough explanations, check out the [reference papers](#references).
 
-### Preliminary Observations
+### Experiments
 
-The effort to fill a grid may greatly differ between the used dictionaries.
+#### Scenarios
 
-The following table lists the times (and number of backtracks if available) necessary to find a
-solution to several grids with different dictionaries.
+The effort to fill a grid differs between the used dictionaries.
 
-| Grid          | Dictionary              | Crossword Composer | Ginsberg               | XWords RS | 
-|---------------|-------------------------|--------------------|------------------------|-----------|
-| 5x5           | UKACD                   | 1s                 | <1s (1 backtrack)      | <1s       |
-| 5x5           | General British English |                    | <1s (67 backtracks)    | <1s       |
-| 5x5           | General French          |                    | <1s (50 backtracks)    | 1s        |
-| 6x6           | UKACD                   |                    | <1s (509 backtracks)   | 1s        |
-| 6x6           | General British English |                    |                        | 1s        |
-| 6x6           | General French          |                    |                        | 2s        |
-| 7x7           | UKACD                   |                    | T.O.                   | T.O.      |
-| 7x7           | General British English |                    | T.O.                   | T.O.      |
-| 7x7           | General French          |                    | 6s (11,363 backtracks) | 81s       |
-| 9x9 (3-5-7-9) | UKACD                   | T.O.               | T.O.                   | 112s      |
-| 9x9 (3-5-7-9) | General British English |                    | T.O.                   | 5s        |
-| 9x9 (3-5-7-9) | General French          |                    | T.O.                   | 9s        |
+To visualise this effort differences, we tried to solve various grids using
+various solvers and dictionaries.
 
-(T.O. = Timed Out, no solution found in 180s)
-
-The dictionaries used are all available in Croiseur. The example grids are the following:
+The selected grids were:
 
 ```
 | | | | | |      | | | | | | |     | | | | | | | |     |#|#|#| | | |#|#|#| 
@@ -46,25 +31,91 @@ The dictionaries used are all available in Croiseur. The example grids are the f
     5x5               6x6                7x7              9x9 (3-5-7-9)         
 ```
 
-For each dictionary, 5 attempts are made with different shuffling in order to limit the effect of
-the word order in the search. The 3 different solvers available in Croiseur are used to avoid
-the effect of a specific search method.
+The selected dictionaries, available in Croiseur, were:
 
-TODO: Actually do several tries per dictionary (shuffle)
-TODO: Increase timeout? And maybe run with faster CPU (computations have been made on a CPU capped
-at 1.7 GHz for both reproducibility and overheating reasons)
-TODO: Comment observation
+- UKACD
+- General British English
+- General French
+
+For each dictionary, 6 solving attempts were made with different shuffles in order
+to limit the effect of the word order in the search:
+
+- No shuffle
+- Shuffle with seed 7
+- Shuffle with seed 42
+- Shuffle with seed 365
+- Shuffle with seed 1992
+- Shuffle with seed 2023
+
+The selected solvers, available in Croiseur, were:
+
+- Ginsberg: A solver implementing in Java some of the solutions found by Matt Ginsberg.
+- XWords RS: A solver with simpler backtrack algorithms but whose implementation in Rust
+  is more optimised.
+
+We ignored Crossword Composer solver as early tests showed it did not manage well
+on the selected grids. More details about these solvers are available [here](../How-crossword-solvers-work.md).
+
+#### Environment
+
+We used Croiseur CLI to run the solvers. Given Croiseur CLI architecture (no daemon),
+each solving attempt resulted in the launch of a new Java Virtual Machine and a read
+of the selected dictionary from the filesystem, plus optionally a shuffle. This
+overhead is estimated to 2 to 3 seconds on the machine used for the tests.
+
+Given current Croiseur project architecture, overhead could have been eliminated or
+reduced using either:
+
+- Croiseur GUI: This would have allowed to load the JVM and dictionaries only once
+  but that would have made the test automation more difficult;
+- Croiseur CLI Ahead-of-Time compilation option: We preferred to use the standard
+  build for reproducibility, given the experimental nature of this option.
+
+The machine used to run the tests is using a 2010's i5 CPU capped by software at
+1.7 GHz for reproducibility.
+
+#### Results
+
+The following table lists the durations in seconds necessary to find a solution to
+several grids with different dictionaries.
+
+| Grid          | Dictionary              | Ginsberg                | XWords RS              | 
+|---------------|-------------------------|-------------------------|------------------------|
+| 5x5           | UKACD                   | 3-3-3-5-3-3             | 3-4-4-4-4-4            |
+| 5x5           | General British English | 3-5-5-4-4-4             | 4-5-5-4-5-4            |
+| 5x5           | General French          | 4-5-4-4-5-5             | 6-7-6-7-6-6            |
+| 6x6           | UKACD                   | 4-6-16-5-7-9            | 4-7-4-4-7-6            |
+| 6x6           | General British English | DNF-12-10-DNF-40-7      | 5-6-6-10-19-11         |
+| 6x6           | General French          | DNF-6-7-7-7-13          | 6-7-7-6-6-7            |
+| 7x7           | UKACD                   | DNF-DNF-DNF-DNF-DNF-DNF | 35-221-DNF-DNF-132-164 |
+| 7x7           | General British English | DNF-DNF-15-DNF-DNF-DNF  | 33-DNF-DNF-DNF-145-DNF |
+| 7x7           | General French          | 11-DNF-DNF-DNF-DNF-11   | 6-24-122-157-227-12    |
+| 9x9 (3-5-7-9) | UKACD                   | DNF-DNF-DNF-DNF-DNF-DNF | 64-231-189-29-68-10    |
+| 9x9 (3-5-7-9) | General British English | DNF-170-DNF-DNF-DNF-DNF | 63-12-72-76-63-28      |
+| 9x9 (3-5-7-9) | General French          | 198-DNF-41-165-DNF-10   | 23-19-43-8-8-81        |
+
+(DNF = Did not finish within 245 seconds.)
+
+> — It will be interesting in the future to capture the number of backtracks
+> instead of the solving durations, in order to abstract away the raw throughput
+> differences between solvers. For a given solver, the number of backtrack is expected
+> to be proportional to the solving duration.
+
+From the results above, one can make the following hypothesises on the difficulty of the
+dictionaries:
+
+- 6x6: UKACD > General French >> General British English
+- 7x7: General French > General British English, UKACD
+- 9x9 (3-5-7-9): General French > General British English > UKACD
 
 ### How to Predict the Number of Solutions
 
-A first intuition is that the more the words in the dictionary, the more the solutions.
-
-> — Unfortunately, it doesn't mean that necessarily the more solutions, the shorter will be the
-> solving time. If heuristics gives wrong directions early, a depth-first solver can get
-> stuck in a search space with not many solutions.
+A first intuition is that the more the words in the dictionary, the more chances to have solutions,
+and the more easier for the solvers to find one.
 
 In this section are presented a few estimations on the number of solutions based on the dictionary
-content and the grid geometry.
+content and the grid geometry. We will see that these estimations effectively depend on the number
+of words, but not only.
 
 #### Square Grids
 
@@ -95,7 +146,7 @@ This formula comes with two important hypothesises:
 > — [Long92] in his paper did mention having computed results dropping hypothesis 1., which
 > resulted in slightly higher numbers with the dictionary he used. Unfortunately, he did not precise
 > the formula in this case, nor the dictionary he used for his results.
-> [Long92] did not mention the second point. It might be a mistake from my side but this what
+> [Long92] did not mention the second point. It might be a mistake from my side but this is what
 > I deduced when trying to re-find the formula, see next section.
 
 ##### Rationale
