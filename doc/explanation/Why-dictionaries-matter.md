@@ -60,21 +60,23 @@ available [here](How-crossword-solvers-work.md).
 
 #### Environment
 
-We used Croiseur CLI to run the solvers. Given Croiseur CLI architecture (no daemon), each solving
-attempt resulted in the launch of a new Java Virtual Machine and a read of the selected dictionary
-from the filesystem, plus optionally a shuffle. This overhead is estimated to 2 to 3 seconds on the
-machine used for the tests.
+We used [Croiseur CLI](../../croiseur-cli/README.md) to run the solvers. Given Croiseur CLI
+architecture (no daemon), each solving attempt resulted in the launch of a new Java Virtual Machine
+and a read of the selected dictionary from the filesystem, plus optionally a shuffle. This overhead
+is estimated to 2 to 3 seconds on the machine used for the tests.
 
 Given current Croiseur project architecture, overhead could have been eliminated or reduced using
 either:
 
-- Croiseur GUI: This would have allowed to load the JVM and dictionaries only once but that would
-  have made the test automation more difficult;
-- Croiseur CLI Ahead-of-Time compilation option: We preferred to use the standard build for
-  reproducibility, given the experimental nature of this option.
+- [Croiseur GUI](../../croiseur-gui/README.md): This would have allowed to load the JVM and
+  dictionaries only once but the GUI would have made the test automation more difficult;
+- Croiseur
+  CLI [Ahead-of-Time compilation option](../../croiseur-cli/INSTALL.md#native-image-experimental):
+  We preferred to use the standard build for reproducibility, given the experimental nature of this
+  option.
 
-The machine used to run the tests is using a 2010's i5 CPU capped by software at 1.7 GHz for
-reproducibility.
+The machine which ran the tests had an i5 CPU from 2010 whose maximum frequency was set to 1.7 GHz
+for reproducibility.
 
 #### Results
 
@@ -100,10 +102,11 @@ with different dictionaries.
 
 > — It will be interesting to capture the number of backtracks instead of the solving durations, in
 > order to abstract away the raw throughput differences between solvers. For a given solver, the
-> number of backtrack is expected to be proportional to the solving duration.
+> number of backtracks is expected to be proportional to the solving duration.
 
-From the results above, one can make the following hypothesises on the compared difficulties of the
-dictionaries, with A > B meaning "Dictionary A is easier to work with than dictionary B":
+From the results above, one can make the hypothesises on the compared difficulties of the
+dictionaries. With the notation "A > B" meaning "Dictionary A is easier to work with than dictionary
+B":
 
 - 6x6: UKACD > General French >> General British English
 - 7x7: General French > General British English, UKACD
@@ -122,8 +125,8 @@ of words, but not only.
 
 ##### Estimation
 
-Using probabilities, [Long92] proposed the following simple estimation for the number of solutions
-for square grids without shaded boxes:
+Using probabilities, [Long92] proposed the following estimation for the number of solutions for
+square grids without shaded boxes:
 
 ```math
 W^{2n} × p^{n^2}
@@ -183,7 +186,7 @@ The probability of event $X_2$ is:
 P(X_2) = P(x_1)×P(x_2)×P(x_3)×P(x_4)
 ```
 
-Let us note, $w_i[j]$ the $j$'th letter of word $w_i$. So the expression becomes:
+Another way to write it, by noting $w_i[j]$ the $j$'th letter of word $w_i$, is:
 
 ```math
 P(X_2) = P(w_1[1] == w_3[1])×P(w_2[1] == w_3[1])×P(w_1[2] == w_4[1])×P(w_4[2] == w_2[2])
