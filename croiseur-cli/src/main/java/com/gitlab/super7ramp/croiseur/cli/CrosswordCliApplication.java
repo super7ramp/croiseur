@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.cli.controller.TopLevelCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.DictionaryCommand;
+import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.parser.DictionaryIdentifierParser;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverRunCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridPositionParser;
@@ -53,7 +54,7 @@ final class CrosswordCliApplication {
                .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,
-                                  TypeConverter.wrap(DictionaryIdentifier::valueOf))
+                                  TypeConverter.wrap(DictionaryIdentifierParser::parse))
                .registerConverter(GridPosition.class,
                                   TypeConverter.wrap(GridPositionParser::parse))
                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
