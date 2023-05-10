@@ -3,6 +3,16 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.3 – Dictionary Improvements – 2023/05/11
+
+- Added a function to search words by pattern in core, usable via CLI (!26)
+- Added a function to shuffle dictionaries in core, usable via CLI (!34)
+- Made search order of `xwords-rs` more deterministic
+- Improved performance of `croiseur-solver-ginsberg` marginally (!22)
+- Added and improved documentation (!23, !25, !29, !35)
+- Migrated build to Gradle Kotlin DSL (!30)
+- Add some dictionary descriptions (!28)
+
 ## Version 0.2 – Solver Improvements – 2023/04/01
 
 - Improved `croiseur-solver-ginsberg`:
