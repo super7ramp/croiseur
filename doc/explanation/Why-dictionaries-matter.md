@@ -70,15 +70,17 @@ architecture (no daemon), each solving attempt resulted in the launch of a new J
 and a read of the selected dictionary from the filesystem, plus optionally a shuffle. This overhead
 is estimated to 2 to 3 seconds on the machine used for the tests.
 
-Given current Croiseur project architecture, overhead could have been eliminated or reduced using
-either:
+This overhead could have been eliminated or reduced by:
 
-- [Croiseur GUI](../../croiseur-gui/README.md): This would have allowed to load the JVM and
+- Using [Croiseur GUI](../../croiseur-gui/README.md): This would have allowed to load the JVM and
   dictionaries only once but the GUI would have made the test automation more difficult;
-- Croiseur
+- Using Croiseur
   CLI [Ahead-of-Time compilation option](../../croiseur-cli/INSTALL.md#native-image-experimental):
   We preferred to use the standard build for reproducibility, given the experimental nature of this
   option.
+- Using [a solver performance test framework](https://gitlab.com/super7ramp/croiseur/-/issues/42),
+  which would have measured the solving durations at the boundaries of the solver interface: Such
+  a framework is not developed in Croiseur yet.
 
 The machine which ran the tests had an i5 CPU from 2010 whose maximum frequency was set to 1.7 GHz
 for reproducibility.
@@ -197,8 +199,8 @@ Another way to write it, by noting $w_i[j]$ the $j$'th letter of word $w_i$, is:
 P(X_2) = P(w_1[1] == w_3[1])×P(w_2[1] == w_3[1])×P(w_1[2] == w_4[1])×P(w_4[2] == w_2[2])
 ```
 
-Let us define the event $a_i$ (respectively $b_i, c_i, …, z_i$) the probability to have the letter
-$a$ (resp. $b$, $c$, …, $z$) at the position $i$ for a word of length 2 picked in the dictionary.
+Let us define $a_i$ (respectively $b_i$, $c_i$, …, $z_i$) the event to have the letter $a$ (resp.
+$b$, $c$, …, $z$) at the position $i$ for a word of length 2 picked in the dictionary.
 
 Assuming that letter frequencies in a word are independent of other letters in the word:
 
@@ -228,7 +230,8 @@ P(X_2) = &(f(a)^2 + f(b)^2 + … f(z)^2)^4
 To get the estimated number of valid fills $E_2$ for square grids of size 2, we multiply the
 probability of $X_2$ with the number of possible arrangements with repetition of 4 words of length
 2 in the word list. Noting $W_2$ the number of words of length 2 in the word list, the number of
-possible arrangement of 4 words among W is $W_2^4$ hence the estimated number of fills:
+possible arrangements with repetion of 4 words among W is $W_2^4$ hence the estimated number of
+fills:
 
 ```math
 E_2 = W_2^4×P(X_2)^4
