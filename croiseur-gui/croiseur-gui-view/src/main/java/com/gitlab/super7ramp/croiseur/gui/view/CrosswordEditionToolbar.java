@@ -95,17 +95,20 @@ public final class CrosswordEditionToolbar extends ToolBar {
      * Constructs an instance.
      */
     public CrosswordEditionToolbar() {
-        gridEditionButtonsDisableProperty = new SimpleBooleanProperty(this, "gridEdition" +
-                "ButtonsDisableProperty", false);
+        gridEditionButtonsDisableProperty =
+                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty",
+                                          false);
 
-        final String fxmlName = CrosswordEditionToolbar.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName),
-                "Failed to locate " + fxmlName);
-        final ResourceBundle resourceBundle =
-                ResourceBundle.getBundle(CrosswordEditionToolbar.class.getName());
+        final Class<CrosswordEditionToolbar> clazz = CrosswordEditionToolbar.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
+                                                    "Failed to locate " + fxmlName);
+        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+        // Only to help SceneBuilder find other custom controls shipped in the same jar
+        fxmlLoader.setClassLoader(clazz.getClassLoader());
         try {
             fxmlLoader.load();
         } catch (final IOException exception) {
@@ -116,7 +119,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
     @FXML
     private void initialize() {
         Stream.of(resizeGridButton, addColumnButton, addRowButton, deleteColumnButton,
-                      deleteRowButton, deleteGridButton, clearGridMenuButton)
+                  deleteRowButton, deleteGridButton, clearGridMenuButton)
               .map(Node::disableProperty)
               .forEach(disableProperty -> disableProperty.bind(gridEditionButtonsDisableProperty));
     }

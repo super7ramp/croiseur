@@ -43,11 +43,12 @@ public final class CrosswordGridPlaceholder extends VBox {
      */
     public CrosswordGridPlaceholder() {
         wrappingWidth = new SimpleDoubleProperty(this, "wrappingWidth", 0.0);
-        final String fxmlName = CrosswordGridPlaceholder.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
-        final ResourceBundle resourceBundle =
-                ResourceBundle.getBundle(CrosswordGridPlaceholder.class.getName());
+
+        final Class<CrosswordGridPlaceholder> clazz = CrosswordGridPlaceholder.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
+                                                    "Failed to locate " + fxmlName);
+        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);

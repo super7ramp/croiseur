@@ -48,12 +48,15 @@ public final class CrosswordSolverPane extends BorderPane {
      * Constructs an instance.
      */
     public CrosswordSolverPane() {
-        final String fxmlName = CrosswordSolverPane.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
+        final Class<CrosswordSolverPane> clazz = CrosswordSolverPane.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
+                                                    "Failed to locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+        // Only to help SceneBuilder find other custom controls shipped in the same jar
+        fxmlLoader.setClassLoader(clazz.getClassLoader());
         try {
             fxmlLoader.load();
         } catch (final IOException exception) {

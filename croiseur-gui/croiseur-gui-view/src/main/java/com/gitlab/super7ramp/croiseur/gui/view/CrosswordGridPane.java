@@ -38,8 +38,8 @@ import static java.util.function.Predicate.not;
 /**
  * A standalone crossword grid control.
  * <p>
- * It is basically a {@link StackPane} encapsulating a {@link GridPane} with some bindings
- * defined with code to constrain the grid pane so that it always presents nice square cells. See
+ * It is basically a {@link StackPane} encapsulating a {@link GridPane} with some bindings defined
+ * with code to constrain the grid pane so that it always presents nice square cells. See
  * {@link #defineGridConstraints()} to see how these constraints are built.
  */
 public final class CrosswordGridPane extends StackPane {
@@ -88,9 +88,9 @@ public final class CrosswordGridPane extends StackPane {
      * A comparator for the grid child boxes.
      * <p>
      * Children are sorted using this comparator in order to maintain a consistent navigation with
-     * tab key. Otherwise, navigation follows node insertion order, which may be erratic - nodes
-     * can be added in columns using {@link #addColumn()}, in rows using {@link #addRow()} or in
-     * a completely custom order using {@link #boxes()}).
+     * tab key. Otherwise, navigation follows node insertion order, which may be erratic - nodes can
+     * be added in columns using {@link #addColumn()}, in rows using {@link #addRow()} or in a
+     * completely custom order using {@link #boxes()}).
      */
     private static final Comparator<Node> BOX_COMPARATOR =
             Comparator.comparingInt(GridPane::getRowIndex)
@@ -100,14 +100,14 @@ public final class CrosswordGridPane extends StackPane {
     private static final int MAX_ROW_COLUMN_COUNT = 20;
 
     /**
-     * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a
-     * node from a position).
+     * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a node
+     * from a position).
      */
     private final MapProperty<GridPosition, CrosswordBoxViewModel> boxModels;
 
     /**
-     * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property,
-     * only used internally.
+     * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property, only
+     * used internally.
      */
     private final Map<GridPosition, Node> boxNodes;
 
@@ -126,12 +126,15 @@ public final class CrosswordGridPane extends StackPane {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
 
-        final String fxmlName = CrosswordGridPane.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
+        final Class<CrosswordGridPane> clazz = CrosswordGridPane.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
+                                                    "Failed to locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+        // Only to help SceneBuilder find other custom controls shipped in the same jar
+        fxmlLoader.setClassLoader(clazz.getClassLoader());
         try {
             fxmlLoader.load();
         } catch (final IOException exception) {
@@ -149,23 +152,23 @@ public final class CrosswordGridPane extends StackPane {
      * grid coordinates with the corresponding content.</strong>
      * <p>
      * Note that a map containing a given {@link GridPosition} key without any value (i.e. a
-     * {@code null} value) is equivalent to a map not containing the given coordinates, i.e. in
-     * both cases no text field is visible on the view.
+     * {@code null} value) is equivalent to a map not containing the given coordinates, i.e. in both
+     * cases no text field is visible on the view.
      *
      * <h4>Adding new boxes</h4>
      * <p>
-     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}s can also
-     * be added via {@link #addColumn()} and {@link #addRow()}.
+     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}s can also be
+     * added via {@link #addColumn()} and {@link #addRow()}.
      *
      * <h4>Modifying boxes</h4>
      * <p>
-     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply
-     * set their properties to new values, either via the view or the application model.
+     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply set
+     * their properties to new values, either via the view or the application model.
      * <p>
      * Replacing a {@link CrosswordBoxViewModel} object by a new instance will have the same effect
      * though. It is deemed to be the desired behaviour. Implementation may try to avoid
-     * instantiating a new {@link CrosswordBoxTextField} in this situation but unlink the old
-     * model and reuse the existing text field with the new model object.
+     * instantiating a new {@link CrosswordBoxTextField} in this situation but unlink the old model
+     * and reuse the existing text field with the new model object.
      *
      * <h4>Deleting boxes</h4>
      * <p>
