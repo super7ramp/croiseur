@@ -6,8 +6,10 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -21,11 +23,10 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryVie
     /**
      * Converts a {@link DictionaryViewModel} to a {@link String}.
      */
-    private static final class DictionaryListCellStringConverter extends StringConverter<DictionaryViewModel> {
+    private static final class DictionaryListCellStringConverter
+            extends StringConverter<DictionaryViewModel> {
 
-        /**
-         * The format used to display {@link DictionaryViewModel}, i.e. {@literal <name>}.
-         */
+        /** The format used to display {@link DictionaryViewModel}, i.e. {@literal <name>}. */
         private static final String FORMAT = "%s";
 
         /**
@@ -46,19 +47,30 @@ final class DictionaryListCellFactory implements Callback<ListView<DictionaryVie
         }
     }
 
-    /** The actual callback. */
-    private final Callback<ListView<DictionaryViewModel>, ListCell<DictionaryViewModel>> actual;
+    /** The factory for creating a {@link CheckBoxListCell}. */
+    private final Callback<ListView<DictionaryViewModel>, ListCell<DictionaryViewModel>>
+            checkBoxListCellFactory;
 
     /**
      * Constructs an instance.
      */
     DictionaryListCellFactory() {
-        actual = CheckBoxListCell.forListView(DictionaryViewModel::selectedProperty,
-                new DictionaryListCellStringConverter());
+        checkBoxListCellFactory =
+                CheckBoxListCell.forListView(DictionaryViewModel::selectedProperty,
+                                             new DictionaryListCellStringConverter());
     }
 
     @Override
     public ListCell<DictionaryViewModel> call(final ListView<DictionaryViewModel> listView) {
-        return actual.call(listView);
+        final ListCell<DictionaryViewModel> cell = checkBoxListCellFactory.call(listView);
+
+        // Avoid horizontal scroll, prefer ellipsis with tooltip
+        cell.setPrefWidth(0);
+        cell.tooltipProperty().bind(Bindings.createObjectBinding(() -> {
+            final String text = cell.getText();
+            return text == null ? null : new Tooltip(text);
+        }, cell.textProperty()));
+
+        return cell;
     }
 }

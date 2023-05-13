@@ -3,29 +3,48 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#dictionary-pane-root {
+.titled-pane > .title {
+    /* Use subtle background color to be consistent with toolbar. */
     -fx-background-color: -color-bg-subtle;
+
     -fx-border-color: -color-border-default;
-    -fx-border-width: 0 0 0 1px;
-    -fx-padding: 10px;
+    /* Straight border. */
+    -fx-border-radius: 0;
+    /* Only top and left borders, No border between title and content, and nothing on the right. */
+    -fx-border-width: 1px 0px 0px 1px;
 }
 
-.section-label {
-    -fx-font-weight: bold;
+.first-titled-pane > .title {
+    /* Blend top border with top pane. */
+    -fx-border-width: 0px 0px 0px 1px;
 }
 
-/* Placeholder when dictionary is not present, an image-view. */
-#dictionary-placeholder {
-    -fx-image: url("lc_errorcellstyles.png");
+.titled-pane > .content {
+    /* Make sure list views are not half bg-default, half-bg-subtle. */
+    -fx-background-color: -color-bg-subtle;
+
+    /* Straight border. */
+    -fx-border-radius: 0;
+    /* Only left border; Blend bottom border with bottom pane. */
+    -fx-border-width: 0px 0px 0px 1px;
+}
+
+.titled-pane.dense > .content {
+    /* Denser padding (5px on top instead of 10). */
+    -fx-padding: 5px 10px 10px 10px;
 }
 
 .list-view {
-    /* Borderless. */
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-background-color: inherit;
+    /* Make sure list view is not half bg-subtle, half bg-default. */
+    -fx-background-color: -color-bg-default;
 }
 
-.list-cell:empty {
-    -fx-opacity: 0;
+#words-vbox {
+    /* Separate word search box from word list. */
+    -fx-spacing: 10px;
+}
+
+#dictionary-placeholder {
+    /* Placeholder when dictionary is not present, an image-view. */
+    -fx-image: url("lc_errorcellstyles.png");
 }

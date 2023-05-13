@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-SPDX-FileCopyrightText: 2023 Antoine Belvire
-SPDX-License-Identifier: GPL-3.0-or-later
--->
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" spacing="10.0" stylesheets="@DictionariesPane.css"
-         type="VBox" xmlns="http://javafx.com/javafx/17"
-         id="dictionary-pane-root">
-    <Label styleClass="section-label" text="%dictionaries-label"/>
-    <ListView fx:id="dictionariesListView" VBox.vgrow="ALWAYS" prefHeight="0">
-        <placeholder>
-            <VBox alignment="CENTER">
-                <ImageView id="dictionary-placeholder"/>
-                <Label text="%dictionaries-placeholder-label"/>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="Accordion" xmlns="http://javafx.com/javafx/17"
+         stylesheets="@DictionariesPane.css">
+    <panes>
+        <TitledPane animated="false" text="%dictionaries-label" styleClass="dense">
+            <ListView fx:id="dictionariesListView" styleClass="dense">
+                <placeholder>
+                    <VBox alignment="CENTER">
+                        <ImageView id="dictionary-placeholder"/>
+                        <Label text="%dictionaries-placeholder-label"/>
+                    </VBox>
+                </placeholder>
+            </ListView>
+        </TitledPane>
+        <TitledPane animated="false" text="%words-label" styleClass="dense">
+            <VBox id="words-vbox">
+                <TextField fx:id="searchTextField" promptText="%search-text-field"/>
+                <ListView fx:id="wordsListView" VBox.vgrow="ALWAYS" styleClass="dense">
+                    <placeholder>
+                        <Label text="%words-placeholder-label"/>
+                    </placeholder>
+                </ListView>
             </VBox>
-        </placeholder>
-    </ListView>
-    <Label styleClass="section-label" text="%words-label"/>
-    <TextField fx:id="searchTextField" promptText="%search-text-field"/>
-    <ListView fx:id="wordsListView" VBox.vgrow="ALWAYS">
-        <placeholder>
-            <Label text="%words-placeholder-label"/>
-        </placeholder>
-    </ListView>
+        </TitledPane>
+    </panes>
 </fx:root>

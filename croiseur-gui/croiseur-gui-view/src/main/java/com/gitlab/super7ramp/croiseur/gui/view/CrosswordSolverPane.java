@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -20,6 +21,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -32,17 +35,33 @@ import java.util.Objects;
  */
 public final class CrosswordSolverPane extends BorderPane {
 
-    /** The grid. */
-    @FXML
-    private CrosswordGridPane grid;
+    /** The selector for the split pane divider node. */
+    private static final String DIVIDER_SELECTOR = ".split-pane-divider";
 
-    /** The dictionary pane. */
-    @FXML
-    private DictionariesPane dictionariesPane;
+    /** The index of the unique divider of the {@link #centerSplitPane}. */
+    private static final int DIVIDER = 0;
+
+    /** The divider position when dictionaries pane is collapsed. */
+    private static final double DIVIDER_POSITION_RIGHT_COLLAPSED = 1.0;
+
+    /** The ideal position of the divider (1 / golden ratio). */
+    private static final double DIVIDER_POSITION_IDEAL = 0.618;
 
     /** The toolbar. */
     @FXML
     private CrosswordEditionToolbar toolbar;
+
+    /** The pane splitting the grid and the dictionary pane. */
+    @FXML
+    private SplitPane centerSplitPane;
+
+    /** The grid. */
+    @FXML
+    private CrosswordGridPane grid;
+
+    /** The dictionaries pane. */
+    @FXML
+    private DictionariesPane dictionariesPane;
 
     /**
      * Constructs an instance.
@@ -66,7 +85,15 @@ public final class CrosswordSolverPane extends BorderPane {
 
     @FXML
     private void initialize() {
-        // Bind the grid editor buttons to the grid
+        initializeToolbarGridPaneBindings();
+        initializeToolbarDictionariesPaneBindings();
+        initializeDictionariesPaneSplitPaneBindings();
+    }
+
+    /**
+     * Binds the grid pane properties to toolbar ones.
+     */
+    private void initializeToolbarGridPaneBindings() {
         toolbar.onAddColumnActionButtonProperty().set(event -> grid.addColumn());
         toolbar.onAddRowActionButtonProperty().set(event -> grid.addRow());
         toolbar.onDeleteColumnActionButtonProperty().set(event -> grid.deleteLastColumn());
@@ -75,17 +102,47 @@ public final class CrosswordSolverPane extends BorderPane {
                .set(event -> grid.resetContentLettersOnly());
         toolbar.onClearGridContentMenuItemActionProperty().set(event -> grid.resetContentAll());
         toolbar.onDeleteGridActionProperty().set(event -> grid.clear());
+        grid.disableProperty().bind(toolbar.gridEditionButtonsDisableProperty());
+    }
 
-        // Grid and toolbar edition buttons follow the same edition disable property
-        grid.disableProperty().bind(gridEditionDisableProperty());
-
-        // Display the dictionary pane only when the dictionaries toggle button is visible
-        // and selected
+    /**
+     * Binds the dictionaries pane properties to toolbar ones.
+     */
+    private void initializeToolbarDictionariesPaneBindings() {
         final BooleanBinding dictionariesToggleButtonSelectedProperty =
                 toolbar.dictionariesToggleButtonSelectedProperty()
                        .and(toolbar.resizeModeProperty().not());
         dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
         dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
+    }
+
+    /**
+     * Binds the split pane properties with dictionaries pane ones.
+     */
+    private void initializeDictionariesPaneSplitPaneBindings() {
+        dictionariesPane.visibleProperty().addListener(
+                (observable, wasDictionaryVisible, isDictionaryVisible) -> updateSplitPane(
+                        isDictionaryVisible));
+        final boolean dictionariesPaneInitiallyVisible = dictionariesPane.isVisible();
+        updateSplitPane(dictionariesPaneInitiallyVisible);
+    }
+
+    /**
+     * Updates split pane properties.
+     *
+     * @param dictionariesPaneVisible whether split pane should actually be split
+     */
+    private void updateSplitPane(final boolean dictionariesPaneVisible) {
+        final Node divider = centerSplitPane.lookup(DIVIDER_SELECTOR);
+        if (divider != null) {
+            divider.setVisible(dictionariesPaneVisible);
+            centerSplitPane.setDividerPosition(DIVIDER,
+                                               dictionariesPaneVisible ? DIVIDER_POSITION_IDEAL :
+                                                       DIVIDER_POSITION_RIGHT_COLLAPSED);
+        } else {
+            // Node may not be created yet
+            Platform.runLater(() -> updateSplitPane(dictionariesPaneVisible));
+        }
     }
 
     /**

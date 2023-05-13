@@ -9,19 +9,21 @@
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordGridPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.DictionariesPane?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" type="BorderPane"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+         stylesheets="@CrosswordSolverPane.css" type="BorderPane"
          xmlns="http://javafx.com/javafx/17">
     <center>
-        <CrosswordGridPane fx:id="grid">
-            <BorderPane.margin>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-            </BorderPane.margin>
-        </CrosswordGridPane>
+        <SplitPane fx:id="centerSplitPane">
+            <CrosswordGridPane fx:id="grid">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+            </CrosswordGridPane>
+            <DictionariesPane fx:id="dictionariesPane" SplitPane.resizableWithParent="false"/>
+        </SplitPane>
     </center>
-    <right>
-        <DictionariesPane fx:id="dictionariesPane"/>
-    </right>
     <top>
         <CrosswordEditionToolbar fx:id="toolbar"/>
     </top>

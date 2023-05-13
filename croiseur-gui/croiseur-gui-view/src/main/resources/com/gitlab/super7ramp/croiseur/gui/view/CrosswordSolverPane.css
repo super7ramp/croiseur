@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.split-pane > .split-pane-divider {
+    /* Hide the decoration, make it looks like a non-resizable border. */
+    -fx-opacity: 0;
+}

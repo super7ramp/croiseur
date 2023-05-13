@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.util.SortedByCopyList;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -16,10 +17,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TitledPane;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -28,19 +30,11 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 
 /**
  * A pane to browse dictionaries and dictionary entries.
  */
-public final class DictionariesPane extends VBox {
-
-    /** Filters input so that text field contains only upper case characters. */
-    private static final UnaryOperator<TextFormatter.Change> TO_UPPER_CASE =
-            change -> {
-                change.setText(change.getText().toUpperCase());
-                return change;
-            };
+public final class DictionariesPane extends Accordion {
 
     /** The dictionaries. */
     private final ListProperty<DictionaryViewModel> dictionaries;
@@ -65,14 +59,14 @@ public final class DictionariesPane extends VBox {
      */
     public DictionariesPane() {
         dictionaries = new SimpleListProperty<>(this, "dictionaries",
-                FXCollections.observableArrayList());
+                                                FXCollections.observableArrayList());
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
 
-        final String fxmlName = DictionariesPane.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
-        final ResourceBundle resourceBundle =
-                ResourceBundle.getBundle(DictionariesPane.class.getName());
+        final Class<DictionariesPane> clazz = DictionariesPane.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
+                                                    "Failed to locate " + fxmlName);
+        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -85,21 +79,57 @@ public final class DictionariesPane extends VBox {
 
     @FXML
     private void initialize() {
-        // Input text shall be transformed to upper case like dictionary words
-        searchTextField.setTextFormatter(new TextFormatter<>(TO_UPPER_CASE));
+        initializeTitledPanes();
+        initializeDictionariesList();
+        initializeSearchBox();
+        initializeWordsList();
+    }
 
-        // Add custom cell factory (adds checkboxes and customises string representation)
+    /**
+     * Initializes titled panes: Make sure always one titled pane is expanded.
+     */
+    private void initializeTitledPanes() {
+        expandedPaneProperty().addListener((observable, oldValue, newValue) -> {
+            final boolean hasExpanded = getPanes().stream().anyMatch(TitledPane::isExpanded);
+            if (!hasExpanded && oldValue != null) {
+                Platform.runLater(() -> setExpandedPane(oldValue));
+            }
+        });
+        setExpandedPane(getPanes().get(0));
+    }
+
+    /**
+     * Initialises dictionaries list: Sets custom cell factory (adds checkboxes and customises
+     * string representation).
+     */
+    private void initializeDictionariesList() {
         dictionariesListView.setCellFactory(new DictionaryListCellFactory());
         dictionariesListView.setItems(dictionaries);
+    }
 
-        // Filter the displayed dictionary words
+    /**
+     * Initializes search box: Adds a text formatter to search box so that text field contains only
+     * upper case characters.
+     */
+    private void initializeSearchBox() {
+        searchTextField.setTextFormatter(new TextFormatter<>(change -> {
+            change.setText(change.getText().toUpperCase());
+            return change;
+        }));
+    }
+
+    /**
+     * Initialises words list: Binds to property, adds filter from search box.
+     */
+    private void initializeWordsList() {
         // TODO uniq
         final ObservableList<String> sortedWords = new SortedByCopyList<>(words,
-                Comparator.naturalOrder());
+                                                                          Comparator.naturalOrder());
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
         final ObservableValue<Predicate<String>> searchPredicate =
                 Bindings.createObjectBinding(() -> matchesSearch,
-                        searchTextField.textProperty(), dictionariesListView.itemsProperty());
+                                             searchTextField.textProperty(),
+                                             dictionariesListView.itemsProperty());
         final FilteredList<String> searchedWords = new FilteredList<>(sortedWords);
         searchedWords.predicateProperty().bind(searchPredicate);
         wordsListView.setItems(searchedWords);
@@ -109,8 +139,8 @@ public final class DictionariesPane extends VBox {
      * Returns the words to display.
      * <p>
      * Note that this list contains all the words unfiltered; The words that will be actually
-     * displayed will be the given words which contain the {@link #searchTextField searched
-     * substring}.
+     * displayed will be the given words which contain the
+     * {@link #searchTextField searched substring}.
      *
      * @return the words
      */
