@@ -8,6 +8,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":croiseur-spi:croiseur-spi-dictionary"))
     api(project(":croiseur-spi:croiseur-spi-solver"))
 }
