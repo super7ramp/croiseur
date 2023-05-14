@@ -53,17 +53,31 @@ final class XmlDictionary implements Dictionary {
     }
 
     /**
-     * Returns the name of the dictionary from the given header, in the system's current locale
-     * if present and fallbacks on English if not present.
+     * Returns the name of the dictionary from the given header, in the system's current locale if
+     * present and fallbacks on English if not present.
      *
      * @param header the dictionary header
-     * @return the name of the dictionary, in system's locale or in English if no translation
-     * in system's locale is available
+     * @return the name of the dictionary, in system's locale or in English if no translation in
+     * system's locale is available
      */
     private static String extractName(final DictionaryHeader header) {
         final Map<Locale, String> names = header.names();
         return Objects.requireNonNullElseGet(names.get(Locale.getDefault()),
-                () -> names.get(Locale.ENGLISH));
+                                             () -> names.get(Locale.ENGLISH));
+    }
+
+    /**
+     * Returns the description of the dictionary from the given header, in the system's current
+     * locale if present and fallbacks on English if not present.
+     *
+     * @param header the dictionary header
+     * @return the description of the dictionary, in system's locale or in English if no translation
+     * in system's locale is available
+     */
+    private static String extractDescription(final DictionaryHeader header) {
+        final Map<Locale, String> descriptions = header.descriptions();
+        return Objects.requireNonNullElseGet(descriptions.get(Locale.getDefault()),
+                                             () -> descriptions.get(Locale.ENGLISH));
     }
 
     /**
@@ -75,7 +89,10 @@ final class XmlDictionary implements Dictionary {
     private static DictionaryDetails readDetails(final DictionaryReader reader) {
         try {
             final DictionaryHeader header = reader.readHeader();
-            return new DictionaryDetails(extractName(header), header.locale());
+            final String name = extractName(header);
+            final Locale locale = header.locale();
+            final String description = extractDescription(header);
+            return new DictionaryDetails(name, locale, description);
         } catch (final DictionaryReadException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary details");
             return DictionaryDetails.unknown();

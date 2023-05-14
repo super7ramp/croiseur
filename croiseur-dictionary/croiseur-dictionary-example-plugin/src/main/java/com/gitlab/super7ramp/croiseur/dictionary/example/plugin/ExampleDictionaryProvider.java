@@ -34,7 +34,8 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
 
         @Override
         public DictionaryDetails details() {
-            return new DictionaryDetails("Example Dictionary", Locale.ENGLISH);
+            return new DictionaryDetails("Example Dictionary", Locale.ENGLISH,
+                                         "An example dictionary");
         }
 
         @Override

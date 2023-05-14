@@ -72,7 +72,7 @@ public final class HunspellDictionaryReader {
 
     private static Stream<String> streamer(URL url, Charset charset) throws IOException {
         return new BufferedReader(new InputStreamReader(new BomInputStream(url.openStream()),
-                charset)).lines();
+                                                        charset)).lines();
     }
 
     /**
@@ -81,7 +81,7 @@ public final class HunspellDictionaryReader {
      * @return details about this dictionary
      */
     public DictionaryDetails details() {
-        return new DictionaryDetails("Hunspell Dictionary " + name(), locale());
+        return new DictionaryDetails(name(), locale(), description());
     }
 
     /**
@@ -99,7 +99,11 @@ public final class HunspellDictionaryReader {
     }
 
     private String name() {
-        return new SegmentableUrl(dicURL).lastPathSegment();
+        return "Hunspell Dictionary " + new SegmentableUrl(dicURL).lastPathSegment();
+    }
+
+    private String description() {
+        return "Hunspell Dictionary for " + locale().getDisplayName();
     }
 
     private Stream<String> readEntries() {

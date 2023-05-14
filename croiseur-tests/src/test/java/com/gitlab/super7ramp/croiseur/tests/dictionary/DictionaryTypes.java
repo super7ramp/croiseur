@@ -43,7 +43,8 @@ public final class DictionaryTypes {
         final String providerName = entry.get("Provider");
         final DictionaryDetails dictionaryDetails =
                 new DictionaryDetails(entry.get("Name"),
-                                      Locale.forLanguageTag(entry.get("Locale")));
+                                      Locale.forLanguageTag(entry.get("Locale")),
+                                      entry.get("Description"));
         return new ProvidedDictionaryDetails(providerName, dictionaryDetails);
     }
 }

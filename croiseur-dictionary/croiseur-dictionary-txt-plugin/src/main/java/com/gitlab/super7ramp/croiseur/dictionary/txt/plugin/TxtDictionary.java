@@ -87,8 +87,10 @@ final class TxtDictionary implements Dictionary {
         try (final InputStream fis = new FileInputStream(propertiesPath)) {
             properties.load(fis);
             final Locale locale = Locale.forLanguageTag(properties.getProperty("locale", "en"));
+            // TODO #63 manage translations
             final String name = properties.getProperty("name");
-            return new DictionaryDetails(name, locale);
+            final String description = properties.getProperty("description");
+            return new DictionaryDetails(name, locale, description);
         } catch (final IOException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary details");
             return DictionaryDetails.unknown();
