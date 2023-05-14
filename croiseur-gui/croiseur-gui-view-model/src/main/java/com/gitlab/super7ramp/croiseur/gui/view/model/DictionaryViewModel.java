@@ -28,19 +28,24 @@ public final class DictionaryViewModel {
     /** The dictionary name. */
     private final String name;
 
+    /** The dictionary description. */
+    private final String description;
+
     /**
      * Constructs an instance.
      *
-     * @param localeArg   the dictionary locale
-     * @param providerArg the dictionary provider
-     * @param nameArg     the dictionary name
+     * @param localeArg      the dictionary locale
+     * @param providerArg    the dictionary provider
+     * @param nameArg        the dictionary name
+     * @param descriptionArg the dictionary description
      */
     public DictionaryViewModel(final Locale localeArg, final String providerArg,
-                               final String nameArg) {
+                               final String nameArg, final String descriptionArg) {
         selected = new SimpleBooleanProperty(this, "selected", false);
         locale = localeArg;
         provider = providerArg;
         name = nameArg;
+        description = descriptionArg;
     }
 
     /**
@@ -53,21 +58,21 @@ public final class DictionaryViewModel {
     }
 
     /**
-     * Sets the value of the selected property.
-     *
-     * @param selectedValue the value to set
-     */
-    public void setSelected(final boolean selectedValue) {
-        selected.set(selectedValue);
-    }
-
-    /**
      * Returns whether the dictionary is selected.
      *
      * @return whether the dictionary is selected.
      */
     public boolean isSelected() {
         return selected.get();
+    }
+
+    /**
+     * Sets the value of the selected property.
+     *
+     * @param selectedValue the value to set
+     */
+    public void setSelected(final boolean selectedValue) {
+        selected.set(selectedValue);
     }
 
     /**
@@ -98,6 +103,15 @@ public final class DictionaryViewModel {
     }
 
     /**
+     * Returns the dictionary description.
+     *
+     * @return the dictionary description
+     */
+    public String description() {
+        return description;
+    }
+
+    /**
      * Builds a {@link DictionaryKey} from the information of this {@link DictionaryViewModel}.
      *
      * @return the built {@link DictionaryKey}
@@ -109,10 +123,12 @@ public final class DictionaryViewModel {
     @Override
     public String toString() {
         return "Dictionary{" +
-                "selected=" + selected.get() +
-                ", locale='" + locale + '\'' +
-                ", provider='" + provider + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+               "selected=" + selected.get() +
+               ", locale='" + locale + '\'' +
+               ", provider='" + provider + '\'' +
+               ", name='" + name + '\'' +
+               ", description='" + description + '\'' +
+               '}';
     }
+
 }

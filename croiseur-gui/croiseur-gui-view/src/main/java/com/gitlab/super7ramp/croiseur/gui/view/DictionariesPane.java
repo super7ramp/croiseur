@@ -103,7 +103,7 @@ public final class DictionariesPane extends Accordion {
      * string representation).
      */
     private void initializeDictionariesList() {
-        dictionariesListView.setCellFactory(new DictionaryListCellFactory());
+        dictionariesListView.setCellFactory(list -> new DictionaryListCell());
         dictionariesListView.setItems(dictionaries);
     }
 

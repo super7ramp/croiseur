@@ -33,7 +33,7 @@ final class DictionariesViewModelTest {
     void beforeEach() {
         dictionaries = new DictionariesViewModel();
         dictionary = new DictionaryViewModel(Locale.ENGLISH, "A Dictionary Provider", "A " +
-                "Dictionary Name");
+                "Dictionary Name", "A dictionary description");
         dictionaries.dictionariesProperty().add(dictionary);
     }
 
