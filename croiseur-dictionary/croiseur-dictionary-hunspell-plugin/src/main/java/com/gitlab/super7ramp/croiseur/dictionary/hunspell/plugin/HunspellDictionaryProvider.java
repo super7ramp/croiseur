@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.DictionaryPath;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
@@ -23,8 +23,8 @@ import java.util.stream.Stream;
  */
 public final class HunspellDictionaryProvider implements DictionaryProvider {
 
-    /** The provider description. */
-    private final DictionaryProviderDescription description;
+    /** Details about the dictionary provider. */
+    private final DictionaryProviderDetails details;
 
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
@@ -33,8 +33,8 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
      * Constructor.
      */
     public HunspellDictionaryProvider() {
-        description = new DictionaryProviderDescription("Local Hunspell Provider",
-                "Provides access to local dictionaries in the Hunspell format.");
+        details = new DictionaryProviderDetails("Local Hunspell Provider",
+                                                "Provides access to local dictionaries in the Hunspell format.");
         dictionaries =
                 Lazy.of(() -> dictionaryFiles().<Dictionary>map(HunspellDictionary::new).toList());
     }
@@ -69,8 +69,8 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public DictionaryProviderDescription description() {
-        return description;
+    public DictionaryProviderDetails details() {
+        return details;
     }
 
     @Override

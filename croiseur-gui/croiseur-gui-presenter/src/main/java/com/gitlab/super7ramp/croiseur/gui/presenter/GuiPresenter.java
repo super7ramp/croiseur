@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -69,12 +69,12 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers) {
         dictionaryPresenter.presentDictionaryProviders(providers);
     }
 
     @Override
-    public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+    public void presentDictionaries(final List<ProvidedDictionaryDetails> dictionaries) {
         dictionaryPresenter.presentDictionaries(dictionaries);
     }
 
@@ -90,7 +90,7 @@ public final class GuiPresenter implements Presenter {
 
     @Override
     public void presentPreferredDictionary(
-            final ProvidedDictionaryDescription preferredDictionary) {
+            final ProvidedDictionaryDetails preferredDictionary) {
         dictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 

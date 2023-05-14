@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.util.Either;
 import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
@@ -25,11 +25,10 @@ final class DictionarySelector {
      * The dictionary selection logic result.
      *
      * @param providerName the name of the provider of the selected dictionary
-     * @param description  the selected dictionary description
+     * @param details      details about the selected dictionary
      * @param words        the selected dictionary words
      */
-    record SelectedDictionary(String providerName, DictionaryDescription description,
-            Set<String> words) {
+    record SelectedDictionary(String providerName, DictionaryDetails details, Set<String> words) {
         // Nothing to add.
     }
 
@@ -62,7 +61,8 @@ final class DictionarySelector {
     private static Either<String, SelectedDictionary> ambiguousRequestError(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {
         final String errorMessage =
-                DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + selectedDictionaryProviders + ")";
+                DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" +
+                selectedDictionaryProviders + ")";
         return Either.leftOf(errorMessage);
     }
 
@@ -76,8 +76,8 @@ final class DictionarySelector {
     private static Either<String, SelectedDictionary> success(
             final DictionaryProvider dictionaryProvider, final Dictionary dictionary) {
         final var selectedDictionary =
-                new SelectedDictionary(dictionaryProvider.description().name(),
-                        dictionary.description(), dictionary.words());
+                new SelectedDictionary(dictionaryProvider.details().name(),
+                                       dictionary.details(), dictionary.words());
         return Either.rightOf(selectedDictionary);
     }
 

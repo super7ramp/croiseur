@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 
 import java.util.Locale;
@@ -23,12 +23,12 @@ final class DictionaryConverter {
     }
 
     /**
-     * Converts a {@link ProvidedDictionaryDescription} into a {@link DictionaryViewModel}.
+     * Converts a {@link ProvidedDictionaryDetails} into a {@link DictionaryViewModel}.
      *
-     * @param providedDictionary a {@link ProvidedDictionaryDescription}
+     * @param providedDictionary a {@link ProvidedDictionaryDetails}
      * @return a {@link DictionaryViewModel}
      */
-    static DictionaryViewModel toViewModelType(final ProvidedDictionaryDescription providedDictionary) {
+    static DictionaryViewModel toViewModelType(final ProvidedDictionaryDetails providedDictionary) {
         final String providerName = providedDictionary.providerName();
         final Locale locale = providedDictionary.dictionary().locale();
         final String dictionaryName = providedDictionary.dictionary().name();

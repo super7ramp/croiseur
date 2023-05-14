@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
@@ -25,8 +25,8 @@ import static java.util.stream.Collectors.toCollection;
  */
 final class HunspellDictionary implements Dictionary {
 
-    /** The dictionary description, lazily read. */
-    private final Lazy<DictionaryDescription> description;
+    /** Details about the dictionary, lazily read. */
+    private final Lazy<DictionaryDetails> details;
 
     /** The dictionary words, lazily read. */
     private final Lazy<Set<String>> words;
@@ -39,7 +39,7 @@ final class HunspellDictionary implements Dictionary {
      */
     public HunspellDictionary(final URL aDicURL) {
         final HunspellDictionaryReader dictionary = new HunspellDictionaryReader(aDicURL);
-        description = Lazy.of(dictionary::description);
+        details = Lazy.of(dictionary::details);
         words = Lazy.of(() -> dictionary.stream()
                                         .filter(StringFilters.notEmpty())
                                         .map(StringTransformers.toAcceptableCrosswordEntry())
@@ -47,8 +47,8 @@ final class HunspellDictionary implements Dictionary {
     }
 
     @Override
-    public DictionaryDescription description() {
-        return description.get();
+    public DictionaryDetails details() {
+        return details.get();
     }
 
     @Override

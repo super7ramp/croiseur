@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.util.Either;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
@@ -44,11 +44,11 @@ final class ListDictionaryEntriesUsecase {
      */
     private static DictionaryContent readContent(
             final DictionarySelector.SelectedDictionary selectedDictionary) {
-        final ProvidedDictionaryDescription description =
-                new ProvidedDictionaryDescription(selectedDictionary.providerName(),
-                        selectedDictionary.description());
+        final ProvidedDictionaryDetails details =
+                new ProvidedDictionaryDetails(selectedDictionary.providerName(),
+                                              selectedDictionary.details());
         final Set<String> words = selectedDictionary.words();
-        return new DictionaryContent(description, words);
+        return new DictionaryContent(details, words);
     }
 
     /**

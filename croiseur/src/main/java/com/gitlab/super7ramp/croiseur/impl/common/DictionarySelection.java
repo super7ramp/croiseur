@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.impl.common;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
@@ -47,8 +47,8 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
         }
 
         @Override
-        public DictionaryProviderDescription description() {
-            return actual.description();
+        public DictionaryProviderDetails details() {
+            return actual.details();
         }
 
         @Override
@@ -83,7 +83,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * given name
      */
     public static DictionarySelection byName(final String desiredDictionaryName) {
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.description().name()
+        return new DictionarySelection(satisfied(), dictionary -> dictionary.details().name()
                                                                             .equals(desiredDictionaryName));
     }
 
@@ -111,7 +111,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
         if (desiredDictionaryLocale.getCountry().isEmpty()) {
             return byLanguage(desiredDictionaryLocale.getLanguage());
         }
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.description().locale()
+        return new DictionarySelection(satisfied(), dictionary -> dictionary.details().locale()
                                                                             .equals(desiredDictionaryLocale));
     }
 
@@ -125,7 +125,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      */
     public static DictionarySelection byLanguage(final String desiredDictionaryLanguage) {
         return new DictionarySelection(satisfied(),
-                dictionary -> dictionary.description()
+                dictionary -> dictionary.details()
                                         .locale()
                                         .getLanguage()
                                         .equals(desiredDictionaryLanguage));
@@ -173,7 +173,7 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * matches the given provider name
      */
     public static DictionarySelection byProvider(final String desiredProviderName) {
-        return new DictionarySelection(provider -> provider.description().name()
+        return new DictionarySelection(provider -> provider.details().name()
                                                            .equals(desiredProviderName),
                 satisfied());
     }

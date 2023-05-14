@@ -10,8 +10,8 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.en.Then;
@@ -105,13 +105,13 @@ public final class DictionarySteps {
     }
 
     @Then("the application presents the following dictionaries:")
-    public void thenPresentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+    public void thenPresentDictionaries(final List<ProvidedDictionaryDetails> dictionaries) {
         verify(presenterMock).presentDictionaries(eq(dictionaries));
     }
 
     @Then("the application presents the following dictionary providers:")
     public void thenPresentDictionaryProviders(
-            final List<DictionaryProviderDescription> dictionaryProviders) {
+            final List<DictionaryProviderDetails> dictionaryProviders) {
         verify(presenterMock).presentDictionaryProviders(eq(dictionaryProviders));
     }
 

@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +21,7 @@ public interface DictionaryPresenter {
      *
      * @param providers the dictionary providers
      */
-    void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers);
+    void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers);
 
     /**
      * Presents the dictionaries.
@@ -30,7 +30,7 @@ public interface DictionaryPresenter {
      *
      * @param dictionaries the dictionaries
      */
-    void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries);
+    void presentDictionaries(final List<ProvidedDictionaryDetails> dictionaries);
 
     /**
      * Presents the content of a dictionary.
@@ -56,7 +56,7 @@ public interface DictionaryPresenter {
      *
      * @param preferredDictionary the preferred dictionary, if any; {@code null} otherwise
      */
-    void presentPreferredDictionary(final ProvidedDictionaryDescription preferredDictionary);
+    void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary);
 
     /**
      * Presents an error related to dictionary service.

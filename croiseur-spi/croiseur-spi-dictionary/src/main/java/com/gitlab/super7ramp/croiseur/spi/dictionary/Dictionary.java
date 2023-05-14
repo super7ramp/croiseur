@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 
 import java.util.Set;
 
@@ -15,11 +15,11 @@ import java.util.Set;
 public interface Dictionary {
 
     /**
-     * Returns a description of this dictionary.
+     * Returns details about this dictionary.
      *
-     * @return a description of this dictionary
+     * @return details about this dictionary
      */
-    DictionaryDescription description();
+    DictionaryDetails details();
 
     /**
      * Returns the dictionary words.

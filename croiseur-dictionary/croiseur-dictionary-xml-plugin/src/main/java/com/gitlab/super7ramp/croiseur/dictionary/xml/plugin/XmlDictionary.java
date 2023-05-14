@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.xml.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
@@ -35,8 +35,8 @@ final class XmlDictionary implements Dictionary {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(XmlDictionary.class.getName());
 
-    /** The dictionary description, lazily read. */
-    private final Lazy<DictionaryDescription> description;
+    /** Details about the dictionary, lazily read. */
+    private final Lazy<DictionaryDetails> details;
 
     /** The dictionary words, lazily read. */
     private final Lazy<Set<String>> words;
@@ -48,7 +48,7 @@ final class XmlDictionary implements Dictionary {
      */
     XmlDictionary(final File file) {
         final DictionaryReader reader = new DictionaryReader(() -> new FileInputStream(file));
-        description = Lazy.of(() -> readDescription(reader));
+        details = Lazy.of(() -> readDetails(reader));
         words = Lazy.of(() -> readWords(reader));
     }
 
@@ -67,18 +67,18 @@ final class XmlDictionary implements Dictionary {
     }
 
     /**
-     * Reads the dictionary description.
+     * Reads the dictionary details.
      *
      * @param reader the reader
-     * @return the dictionary description
+     * @return the dictionary details
      */
-    private static DictionaryDescription readDescription(final DictionaryReader reader) {
+    private static DictionaryDetails readDetails(final DictionaryReader reader) {
         try {
             final DictionaryHeader header = reader.readHeader();
-            return new DictionaryDescription(extractName(header), header.locale());
+            return new DictionaryDetails(extractName(header), header.locale());
         } catch (final DictionaryReadException e) {
-            LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary description");
-            return DictionaryDescription.unknown();
+            LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary details");
+            return DictionaryDetails.unknown();
         }
     }
 
@@ -101,8 +101,8 @@ final class XmlDictionary implements Dictionary {
     }
 
     @Override
-    public DictionaryDescription description() {
-        return description.get();
+    public DictionaryDetails details() {
+        return details.get();
     }
 
     @Override

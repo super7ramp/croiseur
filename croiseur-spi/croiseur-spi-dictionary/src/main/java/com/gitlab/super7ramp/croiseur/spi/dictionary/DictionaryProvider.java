@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public interface DictionaryProvider {
 
     /**
-     * Returns a description of this dictionary provider.
+     * Returns details about this dictionary provider.
      *
      * @return a description of this dictionary provider
      */
-    DictionaryProviderDescription description();
+    DictionaryProviderDetails details();
 
     /**
      * Retrieves the available dictionaries.

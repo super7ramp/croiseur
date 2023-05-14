@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.txt.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
@@ -35,8 +35,8 @@ final class TxtDictionary implements Dictionary {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(TxtDictionary.class.getName());
 
-    /** The dictionary description, lazily read. */
-    private final Lazy<DictionaryDescription> description;
+    /** Details about the dictionary, lazily read. */
+    private final Lazy<DictionaryDetails> details;
 
     /** The dictionary words, lazily read. */
     private final Lazy<Set<String>> words;
@@ -47,7 +47,7 @@ final class TxtDictionary implements Dictionary {
      * @param file the text file
      */
     TxtDictionary(final File file) {
-        description = Lazy.of(() -> readDescription(file));
+        details = Lazy.of(() -> readDetails(file));
         words = Lazy.of(() -> readWords(file));
     }
 
@@ -70,34 +70,34 @@ final class TxtDictionary implements Dictionary {
     }
 
     /**
-     * Reads the dictionary description.
+     * Reads the dictionary details.
      * <p>
-     * Description is stored in a companion properties file, so that dictionary remains a simple
+     * Details are stored in a companion properties file, so that dictionary remains a simple
      * list of words.
      * <p>
      * Name of the companion properties file is the name of the dictionary file suffixed with
-     * {@code .properties}, e.g. if dictionary is {@code example.txt}, then description is stored in
+     * {@code .properties}, e.g. if dictionary is {@code example.txt}, then details are stored in
      * {@code example.txt.properties}.
      *
-     * @return the dictionary description
+     * @return the dictionary details
      */
-    private static DictionaryDescription readDescription(final File file) {
+    private static DictionaryDetails readDetails(final File file) {
         final String propertiesPath = file.getPath() + ".properties";
         final Properties properties = new Properties();
         try (final InputStream fis = new FileInputStream(propertiesPath)) {
             properties.load(fis);
             final Locale locale = Locale.forLanguageTag(properties.getProperty("locale", "en"));
             final String name = properties.getProperty("name");
-            return new DictionaryDescription(name, locale);
+            return new DictionaryDetails(name, locale);
         } catch (final IOException e) {
-            LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary description");
-            return DictionaryDescription.unknown();
+            LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary details");
+            return DictionaryDetails.unknown();
         }
     }
 
     @Override
-    public DictionaryDescription description() {
-        return description.get();
+    public DictionaryDetails details() {
+        return details.get();
     }
 
     @Override

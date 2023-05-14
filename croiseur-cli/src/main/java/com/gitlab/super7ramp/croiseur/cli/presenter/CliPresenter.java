@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
@@ -63,12 +63,12 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers) {
         cliDictionaryPresenter.presentDictionaryProviders(providers);
     }
 
     @Override
-    public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+    public void presentDictionaries(final List<ProvidedDictionaryDetails> dictionaries) {
         cliDictionaryPresenter.presentDictionaries(dictionaries);
     }
 
@@ -84,7 +84,7 @@ public final class CliPresenter implements Presenter {
 
     @Override
     public void presentPreferredDictionary(
-            final ProvidedDictionaryDescription preferredDictionary) {
+            final ProvidedDictionaryDetails preferredDictionary) {
         cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 

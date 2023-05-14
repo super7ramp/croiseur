@@ -6,9 +6,9 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
@@ -49,7 +49,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryProviders(
-            final Collection<DictionaryProviderDescription> providers) {
+            final Collection<DictionaryProviderDetails> providers) {
         final String providerHeader = $("provider");
         final String descriptionHeader = $("description");
 
@@ -62,7 +62,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaries(final List<ProvidedDictionaryDescription> dictionaries) {
+    public void presentDictionaries(final List<ProvidedDictionaryDetails> dictionaries) {
         final String providerHeader = $("provider");
         final String nameHeader = $("name");
         final String localeHeader = $("locale");
@@ -71,9 +71,9 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()), lineOf(nameHeader.length()),
                 lineOf(localeHeader.length()));
 
-        for (final ProvidedDictionaryDescription providedDictionary : dictionaries) {
+        for (final ProvidedDictionaryDetails providedDictionary : dictionaries) {
             final String providerName = providedDictionary.providerName();
-            final DictionaryDescription dictionary = providedDictionary.dictionary();
+            final DictionaryDetails dictionary = providedDictionary.dictionary();
             System.out.printf(LIST_FORMAT, providerName, dictionary.name(),
                     dictionary.locale().getDisplayName());
         }
@@ -91,9 +91,9 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentPreferredDictionary(
-            final ProvidedDictionaryDescription preferredDictionary) {
+            final ProvidedDictionaryDetails preferredDictionary) {
         final String providerName = preferredDictionary.providerName();
-        final DictionaryDescription dictionary = preferredDictionary.dictionary();
+        final DictionaryDetails dictionary = preferredDictionary.dictionary();
         System.out.printf($("preferred.format"), dictionary.name(),
                 dictionary.locale().getDisplayName(), providerName);
     }

@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.example.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
@@ -33,8 +33,8 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
         }
 
         @Override
-        public DictionaryDescription description() {
-            return new DictionaryDescription("Example Dictionary", Locale.ENGLISH);
+        public DictionaryDetails details() {
+            return new DictionaryDetails("Example Dictionary", Locale.ENGLISH);
         }
 
         @Override
@@ -68,8 +68,8 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public DictionaryProviderDescription description() {
-        return new DictionaryProviderDescription("Example", "An example dictionary provider");
+    public DictionaryProviderDetails details() {
+        return new DictionaryProviderDetails("Example", "An example dictionary provider");
     }
 
     @Override

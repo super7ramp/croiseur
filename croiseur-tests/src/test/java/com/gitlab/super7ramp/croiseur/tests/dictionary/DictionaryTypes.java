@@ -5,9 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.tests.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 
@@ -32,18 +32,18 @@ public final class DictionaryTypes {
     }
 
     @DataTableType
-    public DictionaryProviderDescription dictionaryProviderDescription(
+    public DictionaryProviderDetails dictionaryProviderDetails(
             final Map<String, String> entry) {
-        return new DictionaryProviderDescription(entry.get("Provider"), entry.get("Description"));
+        return new DictionaryProviderDetails(entry.get("Provider"), entry.get("Description"));
     }
 
     @DataTableType
-    public ProvidedDictionaryDescription providedDictionaryDescription(
+    public ProvidedDictionaryDetails providedDictionaryDetails(
             final Map<String, String> entry) {
         final String providerName = entry.get("Provider");
-        final DictionaryDescription dictionaryDescription =
-                new DictionaryDescription(entry.get("Name"),
-                        Locale.forLanguageTag(entry.get("Locale")));
-        return new ProvidedDictionaryDescription(providerName, dictionaryDescription);
+        final DictionaryDetails dictionaryDetails =
+                new DictionaryDetails(entry.get("Name"),
+                                      Locale.forLanguageTag(entry.get("Locale")));
+        return new ProvidedDictionaryDetails(providerName, dictionaryDetails);
     }
 }

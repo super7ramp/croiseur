@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.xml.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.DictionaryPath;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
@@ -20,8 +20,8 @@ import java.util.stream.Stream;
  */
 public final class XmlDictionaryProvider implements DictionaryProvider {
 
-    /** The provider description. */
-    private final DictionaryProviderDescription description;
+    /** Details about the dictionary provider. */
+    private final DictionaryProviderDetails details;
 
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
@@ -30,8 +30,8 @@ public final class XmlDictionaryProvider implements DictionaryProvider {
      * Constructs an instance.
      */
     public XmlDictionaryProvider() {
-        description = new DictionaryProviderDescription("Local XML Provider",
-                "Provides access to local dictionaries in an XML format.");
+        details = new DictionaryProviderDetails("Local XML Provider",
+                                                "Provides access to local dictionaries in an XML format.");
         dictionaries = Lazy.of(() -> dictionaryFiles().<Dictionary>map(XmlDictionary::new)
                                                       .toList());
     }
@@ -49,8 +49,8 @@ public final class XmlDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public DictionaryProviderDescription description() {
-        return description;
+    public DictionaryProviderDetails details() {
+        return details;
     }
 
     @Override

@@ -45,7 +45,7 @@ final class XmlDictionaryProviderTest {
 
         assertEquals(1, dictionaries.size());
         final Dictionary dictionary = dictionaries.iterator().next();
-        assertEquals("Dictionary example", dictionary.description().name());
+        assertEquals("Dictionary example", dictionary.details().name());
         assertEquals(Set.of("HELLO", "WORLD"), dictionary.words());
     }
 

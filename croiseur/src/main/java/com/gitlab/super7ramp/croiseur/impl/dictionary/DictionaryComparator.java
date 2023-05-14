@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -28,7 +28,7 @@ import java.util.Locale;
  *     unique.)</li>
  * </ul>
  */
-final class DictionaryComparator implements Comparator<ProvidedDictionaryDescription> {
+final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails> {
 
     /**
      * Comparator for dictionary locales.
@@ -118,8 +118,8 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDescrip
     }
 
     @Override
-    public int compare(final ProvidedDictionaryDescription left,
-                       final ProvidedDictionaryDescription right) {
+    public int compare(final ProvidedDictionaryDetails left,
+                       final ProvidedDictionaryDetails right) {
 
         final int localeComparison =
                 localeComparator.compare(left.dictionary().locale(), right.dictionary().locale());

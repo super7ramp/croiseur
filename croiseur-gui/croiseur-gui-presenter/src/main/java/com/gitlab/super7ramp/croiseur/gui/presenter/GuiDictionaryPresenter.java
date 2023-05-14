@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -35,12 +35,12 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaryProviders(final Collection<DictionaryProviderDescription> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    public void presentDictionaries(final List<ProvidedDictionaryDescription> providedDictionaries) {
+    public void presentDictionaries(final List<ProvidedDictionaryDetails> providedDictionaries) {
         final List<DictionaryViewModel> presentedDictionaries =
                 providedDictionaries.stream().map(DictionaryConverter::toViewModelType).toList();
         // The first dictionary is the default one, automatically select it
@@ -53,7 +53,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
-        Platform.runLater(() -> dictionariesViewModel.addWords(content.description()
+        Platform.runLater(() -> dictionariesViewModel.addWords(content.details()
                 .toDictionaryKey(), content.words()));
     }
 
@@ -64,7 +64,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentPreferredDictionary(
-            final ProvidedDictionaryDescription preferredDictionary) {
+            final ProvidedDictionaryDetails preferredDictionary) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

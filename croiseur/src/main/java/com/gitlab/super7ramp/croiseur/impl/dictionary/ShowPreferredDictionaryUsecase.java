@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 final class ShowPreferredDictionaryUsecase {
 
     /** The criteria used to compare dictionaries. */
-    private static final Comparator<ProvidedDictionaryDescription> DICTIONARY_COMPARATOR =
+    private static final Comparator<ProvidedDictionaryDetails> DICTIONARY_COMPARATOR =
             new DictionaryComparator();
 
     /** The dictionary providers. */
@@ -45,17 +45,17 @@ final class ShowPreferredDictionaryUsecase {
 
     /**
      * Streams given dictionary provider collection and map item to
-     * {@link ProvidedDictionaryDescription}.
+     * {@link ProvidedDictionaryDetails}.
      *
      * @param provider the dictionary provider
-     * @return a stream of {@link ProvidedDictionaryDescription}s
+     * @return a stream of {@link ProvidedDictionaryDetails}s
      */
-    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(
+    private static Stream<ProvidedDictionaryDetails> toDictionaryDetailsStream(
             final DictionaryProvider provider) {
         return provider.get()
                        .stream()
-                       .map(dictionary -> new ProvidedDictionaryDescription(
-                               provider.description().name(), dictionary.description()));
+                       .map(dictionary -> new ProvidedDictionaryDetails(
+                               provider.details().name(), dictionary.details()));
     }
 
     void process() {
@@ -66,9 +66,9 @@ final class ShowPreferredDictionaryUsecase {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
         } else {
 
-            final Optional<ProvidedDictionaryDescription> optPreferredDictionary =
+            final Optional<ProvidedDictionaryDetails> optPreferredDictionary =
                     dictionaryProviders.stream()
-                                       .flatMap(provider -> toDictionaryDescriptionStream(provider))
+                                       .flatMap(provider -> toDictionaryDetailsStream(provider))
                                        .min(DICTIONARY_COMPARATOR);
 
             if (optPreferredDictionary.isEmpty()) {

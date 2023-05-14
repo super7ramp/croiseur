@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.SegmentableUrl;
 import com.gitlab.super7ramp.croiseur.dictionary.common.io.BomInputStream;
 import com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec.model.aff.Aff;
@@ -76,12 +76,12 @@ public final class HunspellDictionaryReader {
     }
 
     /**
-     * Returns a description of this dictionary.
+     * Returns details about this dictionary.
      *
-     * @return a description of this dictionary
+     * @return details about this dictionary
      */
-    public DictionaryDescription description() {
-        return new DictionaryDescription("Hunspell Dictionary " + name(), locale());
+    public DictionaryDetails details() {
+        return new DictionaryDetails("Hunspell Dictionary " + name(), locale());
     }
 
     /**

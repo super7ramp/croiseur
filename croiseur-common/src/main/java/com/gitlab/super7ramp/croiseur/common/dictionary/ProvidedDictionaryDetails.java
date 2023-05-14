@@ -11,7 +11,7 @@ package com.gitlab.super7ramp.croiseur.common.dictionary;
  * @param providerName provider name
  * @param dictionary   dictionary description
  */
-public record ProvidedDictionaryDescription(String providerName, DictionaryDescription dictionary) {
+public record ProvidedDictionaryDetails(String providerName, DictionaryDetails dictionary) {
 
     /**
      * Returns the {@link DictionaryKey} from this description.

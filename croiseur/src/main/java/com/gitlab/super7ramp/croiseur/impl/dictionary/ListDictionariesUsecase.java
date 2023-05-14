@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 final class ListDictionariesUsecase {
 
     /** The criteria used to compare dictionaries. */
-    private static final Comparator<ProvidedDictionaryDescription> DICTIONARY_COMPARATOR =
+    private static final Comparator<ProvidedDictionaryDetails> DICTIONARY_COMPARATOR =
             new DictionaryComparator();
 
     /** The dictionary providers. */
@@ -45,17 +45,17 @@ final class ListDictionariesUsecase {
 
     /**
      * Streams given dictionary provider collection and map item to
-     * {@link ProvidedDictionaryDescription}.
+     * {@link ProvidedDictionaryDetails}.
      *
      * @param provider the dictionary provider
-     * @return a stream of {@link ProvidedDictionaryDescription}s
+     * @return a stream of {@link ProvidedDictionaryDetails}s
      */
-    private static Stream<ProvidedDictionaryDescription> toDictionaryDescriptionStream(
+    private static Stream<ProvidedDictionaryDetails> toDictionaryDetailsStream(
             final DictionaryProvider provider) {
         return provider.get()
                        .stream()
-                       .map(dictionary -> new ProvidedDictionaryDescription(
-                               provider.description().name(), dictionary.description()));
+                       .map(dictionary -> new ProvidedDictionaryDetails(
+                               provider.details().name(), dictionary.details()));
     }
 
     /**
@@ -66,10 +66,10 @@ final class ListDictionariesUsecase {
      * @return a list of the given selected dictionary providers ordered by
      * {@link #DICTIONARY_COMPARATOR}
      */
-    private static List<ProvidedDictionaryDescription> orderDictionaries(
+    private static List<ProvidedDictionaryDetails> orderDictionaries(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {
         return selectedDictionaryProviders.stream()
-                                          .flatMap(provider -> toDictionaryDescriptionStream(
+                                          .flatMap(provider -> toDictionaryDetailsStream(
                                                   provider))
                                           .sorted(DICTIONARY_COMPARATOR)
                                           .toList();
@@ -87,7 +87,7 @@ final class ListDictionariesUsecase {
         if (selectedDictionaryProviders.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            final List<ProvidedDictionaryDescription> dictionaries =
+            final List<ProvidedDictionaryDetails> dictionaries =
                     orderDictionaries(selectedDictionaryProviders);
             presenter.presentDictionaries(dictionaries);
         }

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
@@ -42,9 +42,9 @@ final class ListDictionaryProvidersUsecase {
         if (dictionaryProviders.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            final List<DictionaryProviderDescription> presentableProviders =
+            final List<DictionaryProviderDetails> presentableProviders =
                     dictionaryProviders.stream()
-                                       .map(DictionaryProvider::description)
+                                       .map(DictionaryProvider::details)
                                        .toList();
             presenter.presentDictionaryProviders(presentableProviders);
         }

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.txt.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDescription;
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.dictionary.common.DictionaryPath;
 import com.gitlab.super7ramp.croiseur.dictionary.common.util.Lazy;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
@@ -22,8 +22,8 @@ import java.util.stream.Stream;
  */
 public final class TxtDictionaryProvider implements DictionaryProvider {
 
-    /** Provider description. */
-    private final DictionaryProviderDescription description;
+    /** Details about the dictionary provider. */
+    private final DictionaryProviderDetails details;
 
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
@@ -32,8 +32,8 @@ public final class TxtDictionaryProvider implements DictionaryProvider {
      * Constructs an instance.
      */
     public TxtDictionaryProvider() {
-        description = new DictionaryProviderDescription("Local Text Provider",
-                "Provides access to local dictionaries in a simple text format.");
+        details = new DictionaryProviderDetails("Local Text Provider",
+                                                "Provides access to local dictionaries in a simple text format.");
         dictionaries = Lazy.of(() -> dictionaryFiles().<Dictionary>map(TxtDictionary::new)
                                                       .toList());
     }
@@ -52,8 +52,8 @@ public final class TxtDictionaryProvider implements DictionaryProvider {
     }
 
     @Override
-    public DictionaryProviderDescription description() {
-        return description;
+    public DictionaryProviderDetails details() {
+        return details;
     }
 
     @Override
