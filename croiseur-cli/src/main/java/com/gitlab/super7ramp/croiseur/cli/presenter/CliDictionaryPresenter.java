@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -55,10 +54,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
         System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
         System.out.printf(PROVIDERS_FORMAT, lineOf(providerHeader.length()),
-                lineOf(descriptionHeader.length()));
+                          lineOf(descriptionHeader.length()));
 
         providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
-                provider.description()));
+                                                        provider.description()));
     }
 
     @Override
@@ -69,13 +68,12 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
         System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
         System.out.printf(LIST_FORMAT, lineOf(providerHeader.length()), lineOf(nameHeader.length()),
-                lineOf(localeHeader.length()));
+                          lineOf(localeHeader.length()));
 
         for (final ProvidedDictionaryDetails providedDictionary : dictionaries) {
-            final String providerName = providedDictionary.providerName();
-            final DictionaryDetails dictionary = providedDictionary.dictionary();
-            System.out.printf(LIST_FORMAT, providerName, dictionary.name(),
-                    dictionary.locale().getDisplayName());
+            System.out.printf(LIST_FORMAT, providedDictionary.providerName(),
+                              providedDictionary.dictionaryName(),
+                              providedDictionary.dictionaryLocale().getDisplayName());
         }
     }
 
@@ -90,12 +88,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(
-            final ProvidedDictionaryDetails preferredDictionary) {
-        final String providerName = preferredDictionary.providerName();
-        final DictionaryDetails dictionary = preferredDictionary.dictionary();
-        System.out.printf($("preferred.format"), dictionary.name(),
-                dictionary.locale().getDisplayName(), providerName);
+    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
+        System.out.printf($("preferred.format"), preferredDictionary.dictionaryName(),
+                          preferredDictionary.dictionaryLocale().getDisplayName(),
+                          preferredDictionary.providerName());
     }
 
     @Override

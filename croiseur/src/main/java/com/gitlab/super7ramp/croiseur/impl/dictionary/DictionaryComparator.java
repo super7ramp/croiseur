@@ -122,7 +122,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
                        final ProvidedDictionaryDetails right) {
 
         final int localeComparison =
-                localeComparator.compare(left.dictionary().locale(), right.dictionary().locale());
+                localeComparator.compare(left.dictionaryLocale(), right.dictionaryLocale());
         if (localeComparison != 0) {
             return localeComparison;
         }
@@ -133,6 +133,6 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
             return providerComparison;
         }
 
-        return left.dictionary().name().compareTo(right.dictionary().name());
+        return left.dictionaryName().compareTo(right.dictionaryName());
     }
 }

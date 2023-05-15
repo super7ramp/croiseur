@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.common.dictionary;
 
+import java.util.Locale;
+
 /**
  * Gathers provider and dictionary information.
  *
@@ -14,9 +16,42 @@ package com.gitlab.super7ramp.croiseur.common.dictionary;
 public record ProvidedDictionaryDetails(String providerName, DictionaryDetails dictionary) {
 
     /**
-     * Returns the {@link DictionaryKey} from this description.
+     * Returns the dictionary name.
+     * <p>
+     * Shortcut for {@code dictionary().name()}.
      *
-     * @return the {@link DictionaryKey} from this description
+     * @return the dictionary name
+     */
+    public String dictionaryName() {
+        return dictionary.name();
+    }
+
+    /**
+     * Returns the dictionary locale.
+     * <p>
+     * Shortcut for {@code dictionary().locale()}.
+     *
+     * @return the dictionary locale
+     */
+    public Locale dictionaryLocale() {
+        return dictionary.locale();
+    }
+
+    /**
+     * Returns the dictionary description.
+     * <p>
+     * Shortcut for {@code dictionary().description()}.
+     *
+     * @return the dictionary description
+     */
+    public String dictionaryDescription() {
+        return dictionary.description();
+    }
+
+    /**
+     * Returns the {@link DictionaryKey} from these details.
+     *
+     * @return the {@link DictionaryKey} from these details
      */
     public DictionaryKey toDictionaryKey() {
         return new DictionaryKey(providerName, dictionary.name(), dictionary.locale());

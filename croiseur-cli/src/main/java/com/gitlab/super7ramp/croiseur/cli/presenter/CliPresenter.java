@@ -43,7 +43,8 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(
+            final SolverInitialisationState solverInitialisationState) {
         cliSolverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 
@@ -83,8 +84,7 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(
-            final ProvidedDictionaryDetails preferredDictionary) {
+    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
         cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
     }
 

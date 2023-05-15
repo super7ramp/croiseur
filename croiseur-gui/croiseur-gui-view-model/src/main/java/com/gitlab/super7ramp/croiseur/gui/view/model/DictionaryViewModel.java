@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryKey;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import javafx.beans.property.BooleanProperty;
@@ -41,10 +40,9 @@ public final class DictionaryViewModel {
     public DictionaryViewModel(final ProvidedDictionaryDetails providedDictionaryDetails) {
         selected = new SimpleBooleanProperty(this, "selected", false);
         provider = providedDictionaryDetails.providerName();
-        final DictionaryDetails dictionaryDetails = providedDictionaryDetails.dictionary();
-        locale = dictionaryDetails.locale();
-        name = dictionaryDetails.name();
-        description = dictionaryDetails.description();
+        locale = providedDictionaryDetails.dictionaryLocale();
+        name = providedDictionaryDetails.dictionaryName();
+        description = providedDictionaryDetails.dictionaryDescription();
     }
 
     /**

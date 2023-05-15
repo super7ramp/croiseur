@@ -64,8 +64,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(
-            final ProvidedDictionaryDetails preferredDictionary) {
+    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
