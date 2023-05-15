@@ -42,19 +42,20 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDetails> providedDictionaries) {
         final List<DictionaryViewModel> presentedDictionaries =
-                providedDictionaries.stream().map(DictionaryConverter::toViewModelType).toList();
+                providedDictionaries.stream().map(DictionaryViewModel::new).toList();
         // The first dictionary is the default one, automatically select it
         if (!presentedDictionaries.isEmpty()) {
             presentedDictionaries.get(0).setSelected(true);
         }
         Platform.runLater(() -> dictionariesViewModel.dictionariesProperty()
-                .setAll(presentedDictionaries));
+                                                     .setAll(presentedDictionaries));
     }
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
         Platform.runLater(() -> dictionariesViewModel.addWords(content.details()
-                .toDictionaryKey(), content.words()));
+                                                                      .toDictionaryKey(),
+                                                               content.words()));
     }
 
     @Override

@@ -5,7 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryKey;
+import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -34,18 +36,15 @@ public final class DictionaryViewModel {
     /**
      * Constructs an instance.
      *
-     * @param localeArg      the dictionary locale
-     * @param providerArg    the dictionary provider
-     * @param nameArg        the dictionary name
-     * @param descriptionArg the dictionary description
+     * @param providedDictionaryDetails details about the dictionary and its provider
      */
-    public DictionaryViewModel(final Locale localeArg, final String providerArg,
-                               final String nameArg, final String descriptionArg) {
+    public DictionaryViewModel(final ProvidedDictionaryDetails providedDictionaryDetails) {
         selected = new SimpleBooleanProperty(this, "selected", false);
-        locale = localeArg;
-        provider = providerArg;
-        name = nameArg;
-        description = descriptionArg;
+        provider = providedDictionaryDetails.providerName();
+        final DictionaryDetails dictionaryDetails = providedDictionaryDetails.dictionary();
+        locale = dictionaryDetails.locale();
+        name = dictionaryDetails.name();
+        description = dictionaryDetails.description();
     }
 
     /**
