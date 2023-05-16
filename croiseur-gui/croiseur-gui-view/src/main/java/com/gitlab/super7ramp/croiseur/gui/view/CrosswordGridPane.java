@@ -40,7 +40,7 @@ import static java.util.function.Predicate.not;
  * <p>
  * It is basically a {@link StackPane} encapsulating a {@link GridPane} with some bindings defined
  * with code to constrain the grid pane so that it always presents nice square cells. See
- * {@link #defineGridConstraints()} to see how these constraints are built.
+ * {@link #initializeGridConstraints()} to see how these constraints are built.
  */
 public final class CrosswordGridPane extends StackPane {
 
@@ -73,11 +73,13 @@ public final class CrosswordGridPane extends StackPane {
                 };
                 final Node nextNode = boxNodes.get(nextCoordinate);
                 if (nextNode != null) {
+                    nextNode.requestFocus();
+                } else {
                     /*
                      * Node may not exist, when trying to go outside the grid (e.g. up on first
-                     * row) or if grid is not fully filled (i.e. incomplete row or column).
+                     * row) or if grid is not fully filled (i.e. incomplete row or column). Don't
+                     * move focus in this case.
                      */
-                    nextNode.requestFocus();
                 }
                 event.consume();
             }
@@ -278,7 +280,7 @@ public final class CrosswordGridPane extends StackPane {
      */
     @FXML
     private void initialize() {
-        defineGridConstraints();
+        initializeGridConstraints();
         boxModels.addListener(this::onModelUpdate);
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
         placeholder.visibleProperty().bind(boxModels.emptyProperty());
@@ -314,32 +316,73 @@ public final class CrosswordGridPane extends StackPane {
      * @param removedCoordinate the removed coordinate
      */
     private void onBoxRemoved(final GridPosition removedCoordinate) {
-        final Node removedNode = boxNodes.remove(removedCoordinate);
-        grid.getChildren().remove(removedNode);
+        removeBoxNode(removedCoordinate);
 
         /*
          * Remove column/row constraint if last box of column/row removed. Note that if a row or
          * a column has been removed in the middle, then the row/column won't be removed from
          * the grid.
          */
-        if (boxNodes.keySet()
-                    .stream()
-                    .noneMatch(coordinate -> coordinate.x() >= removedCoordinate.x())) {
-            grid.getColumnConstraints().remove(removedCoordinate.x());
+        maybeRemoveColumnConstraint(removedCoordinate);
+        maybeRemoveRowConstraint(removedCoordinate);
+
+        // Remove all leftover columns/rows if all boxes have been removed
+        // FIXME why is that necessary?
+        maybeClearRowConstraints();
+        maybeClearColumnConstraints();
+    }
+
+    /**
+     * Removes all leftover rows if all boxes have been removed.
+     */
+    private void maybeClearRowConstraints() {
+        if (boxModels.isEmpty() && !grid.getRowConstraints().isEmpty()) {
+            grid.getRowConstraints().clear();
         }
+    }
+
+    /**
+     * Removes all leftover columns if all boxes have been removed.
+     */
+    private void maybeClearColumnConstraints() {
+        if (boxModels.isEmpty() && !grid.getRowConstraints().isEmpty()) {
+            grid.getRowConstraints().clear();
+        }
+    }
+
+    /**
+     * Removes box node at given coordinate.
+     *
+     * @param coordinate coordinate of the box to remove
+     */
+    private void removeBoxNode(final GridPosition coordinate) {
+        final Node removedNode = boxNodes.remove(coordinate);
+        grid.getChildren().remove(removedNode);
+    }
+
+    /**
+     * Removes a row constraint, if given removed coordinate was the last on the row.
+     *
+     * @param removedCoordinate coordinate of the removed box
+     */
+    private void maybeRemoveRowConstraint(final GridPosition removedCoordinate) {
         if (boxNodes.keySet()
                     .stream()
                     .noneMatch(coordinate -> coordinate.y() >= removedCoordinate.y())) {
             grid.getRowConstraints().remove(removedCoordinate.y());
         }
+    }
 
-        // Remove all leftover columns/rows if all boxes have been removed
-        final boolean emptyModel = boxModels.isEmpty();
-        if (emptyModel && !grid.getRowConstraints().isEmpty()) {
-            grid.getRowConstraints().clear();
-        }
-        if (emptyModel && !grid.getColumnConstraints().isEmpty()) {
-            grid.getColumnConstraints().clear();
+    /**
+     * Removes a column constraint, if given removed coordinate was the last on the column.
+     *
+     * @param removedCoordinate coordinate of the removed box
+     */
+    private void maybeRemoveColumnConstraint(final GridPosition removedCoordinate) {
+        if (boxNodes.keySet()
+                    .stream()
+                    .noneMatch(coordinate -> coordinate.x() >= removedCoordinate.x())) {
+            grid.getColumnConstraints().remove(removedCoordinate.x());
         }
     }
 
@@ -350,24 +393,46 @@ public final class CrosswordGridPane extends StackPane {
      * @param boxModel   what the box contains
      */
     private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
-        // Create a new node
+        addBoxNode(coordinate, boxModel);
+        maybeAddColumnConstraint(coordinate);
+        maybeAddRowConstraint(coordinate);
+    }
+
+    /**
+     * Adds a new box node to the grid corresponding to the given new box model.
+     *
+     * @param coordinate where the box is added
+     * @param boxModel   what the box contains
+     */
+    private void addBoxNode(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
         final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
         grid.add(textField, coordinate.x(), coordinate.y());
-
+        boxNodes.put(coordinate, textField);
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
+    }
 
-        // Cache the nodes per coordinates
-        boxNodes.put(coordinate, textField);
-
-        // Add column constraints
-        final int oldColumnCount = getColumnCount();
-        for (int column = oldColumnCount; column <= coordinate.x(); column++) {
-            addColumnConstraint();
-        }
+    /**
+     * Adds a row constraint for the given coordinate, if first box added of a row.
+     *
+     * @param coordinate where a box has just been added
+     */
+    private void maybeAddRowConstraint(final GridPosition coordinate) {
         final int oldRowCount = getRowCount();
         for (int row = oldRowCount; row <= coordinate.y(); row++) {
             addRowConstraint();
+        }
+    }
+
+    /**
+     * Adds a column constraint for the given coordinate, if box added of a column.
+     *
+     * @param coordinate where a box has just been added
+     */
+    private void maybeAddColumnConstraint(final GridPosition coordinate) {
+        final int oldColumnCount = getColumnCount();
+        for (int column = oldColumnCount; column <= coordinate.x(); column++) {
+            addColumnConstraint();
         }
     }
 
@@ -393,7 +458,7 @@ public final class CrosswordGridPane extends StackPane {
      * Binds grid pane dimensions to this enclosing stack pane dimensions in a way which ensures
      * that grid cells remain visible squares.
      */
-    private void defineGridConstraints() {
+    private void initializeGridConstraints() {
         final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
         final DoubleBinding columnPerRowRatio =
                 Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints()
