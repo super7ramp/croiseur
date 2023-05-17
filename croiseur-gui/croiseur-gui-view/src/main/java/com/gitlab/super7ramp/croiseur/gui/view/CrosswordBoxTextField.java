@@ -39,6 +39,9 @@ public final class CrosswordBoxTextField extends TextField {
     /** The CSS pseudo-class for unsolvable state. */
     private static final PseudoClass UNSOLVABLE = PseudoClass.getPseudoClass("unsolvable");
 
+    /** The key to toggle shading of the box. */
+    private static final String SHADE_KEY = " ";
+
     /** Filters input so that text field contains only the last character typed, in upper case. */
     private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE =
             change -> {
@@ -46,7 +49,7 @@ public final class CrosswordBoxTextField extends TextField {
                 final int newTextLength = newText.length();
                 if (newTextLength > 1) {
                     final String lastCharacter = newText.substring(newTextLength - 1,
-                            newTextLength);
+                                                                   newTextLength);
                     change.setText(lastCharacter);
                     change.setRange(0, 1);
                 }
@@ -91,7 +94,8 @@ public final class CrosswordBoxTextField extends TextField {
         // TODO compute only once for all the boxes since they share the same class (do it in grid?)
         final DoubleBinding desiredFontSize = Bindings.min(1000.0, heightProperty().divide(2.2));
         final StringExpression desiredFontSizeCss = Bindings.concat("-fx-font-size: ",
-                desiredFontSize.asString(), "px;");
+                                                                    desiredFontSize.asString(),
+                                                                    "px;");
         styleProperty().bind(desiredFontSizeCss);
 
         /*
@@ -105,8 +109,8 @@ public final class CrosswordBoxTextField extends TextField {
 
         // Listen to user inputs
         setOnContextMenuRequested(event -> toggleShading());
-        addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getText().equals(" ")) {
+        addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (event.getCharacter().equals(SHADE_KEY)) {
                 toggleShading();
                 event.consume();
             }
@@ -127,8 +131,8 @@ public final class CrosswordBoxTextField extends TextField {
     /**
      * Shades the box.
      * <p>
-     * Note that this method removes the content of the field: The character will not re-appear
-     * on a subsequent call to {@link #reveal()}.
+     * Note that this method removes the content of the field: The character will not re-appear on a
+     * subsequent call to {@link #reveal()}.
      */
     private void shade() {
         clear();
