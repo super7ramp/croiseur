@@ -29,7 +29,7 @@ public final class CrosswordSolverViewModel {
      * Constructs an instance.
      */
     public CrosswordSolverViewModel() {
-        crosswordGridViewModel = new CrosswordGridViewModel();
+        crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverRunning = new SimpleBooleanProperty(this, "solverRunning", false);

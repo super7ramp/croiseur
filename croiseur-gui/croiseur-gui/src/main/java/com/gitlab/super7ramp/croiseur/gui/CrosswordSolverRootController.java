@@ -59,9 +59,9 @@ public final class CrosswordSolverRootController {
                                          final CrosswordSolverViewModel crosswordSolverViewModelArg,
                                          final Executor executor) {
         solverController = new SolverController(crosswordSolverViewModelArg,
-                crosswordService.solverService(), executor);
+                                                crosswordService.solverService(), executor);
         dictionaryController = new DictionaryController(crosswordService.dictionaryService(),
-                executor);
+                                                        executor);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
     }
 
@@ -73,6 +73,10 @@ public final class CrosswordSolverRootController {
         final MapProperty<GridPosition, CrosswordBoxViewModel> boxes =
                 crosswordGridViewModel.boxes();
         view.gridBoxesProperty().setValue(boxes);
+        view.gridCurrentBoxProperty()
+            .bindBidirectional(crosswordGridViewModel.currentBoxPositionProperty());
+        view.gridIsCurrentSlotOrientationVerticalProperty()
+            .bindBidirectional(crosswordGridViewModel.isCurrentSlotVerticalProperty());
 
         // The dictionary pane shall display the dictionary model and allow to modify the
         // dictionary selection.
@@ -103,8 +107,8 @@ public final class CrosswordSolverRootController {
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
             .bind(new When(solverRunning)
-                    .then(resources.getString("stop-solving-button"))
-                    .otherwise(resources.getString("start-solving-button")));
+                          .then(resources.getString("stop-solving-button"))
+                          .otherwise(resources.getString("start-solving-button")));
 
         // Solver button action shall allow control the start and stop of the solver
         view.onSolveButtonActionProperty().set(event -> onSolveButtonAction());

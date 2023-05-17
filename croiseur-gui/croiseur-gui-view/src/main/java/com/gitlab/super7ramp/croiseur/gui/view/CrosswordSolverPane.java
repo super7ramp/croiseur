@@ -69,8 +69,8 @@ public final class CrosswordSolverPane extends BorderPane {
     public CrosswordSolverPane() {
         final Class<CrosswordSolverPane> clazz = CrosswordSolverPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
-                                                    "Failed to locate " + fxmlName);
+        final URL location =
+                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -192,6 +192,24 @@ public final class CrosswordSolverPane extends BorderPane {
      */
     public MapProperty<GridPosition, CrosswordBoxViewModel> gridBoxesProperty() {
         return grid.boxes();
+    }
+
+    /**
+     * Returns the crossword grid current box position property.
+     *
+     * @return the crossword grid current box position property
+     */
+    public ObjectProperty<GridPosition> gridCurrentBoxProperty() {
+        return grid.currentBoxPosition();
+    }
+
+    /**
+     * Returns the crossword grid current slot orientation property.
+     *
+     * @return the crossword grid current slot orientation property
+     */
+    public BooleanProperty gridIsCurrentSlotOrientationVerticalProperty() {
+        return grid.isCurrentSlotVertical();
     }
 
     /**

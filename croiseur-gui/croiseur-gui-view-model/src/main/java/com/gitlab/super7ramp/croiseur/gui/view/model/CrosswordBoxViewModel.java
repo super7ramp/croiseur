@@ -21,6 +21,9 @@ public final class CrosswordBoxViewModel {
     /** Whether the box is unsolvable or not. */
     private final BooleanProperty unsolvable;
 
+    /** Whether the box is highlighted or not. */
+    private final BooleanProperty highlighted;
+
     /** The content of the box. */
     private final StringProperty content;
 
@@ -30,6 +33,7 @@ public final class CrosswordBoxViewModel {
     public CrosswordBoxViewModel() {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
         unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
+        highlighted = new SimpleBooleanProperty(this, "highlighted", false);
         content = new SimpleStringProperty(this, "content", "");
     }
 
@@ -88,11 +92,45 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Returns the box is highlighted.
+     * <p>
+     * This is an alternative to the built-in focused state, e.g. to highlight boxes that are part
+     * of the same slot.
+     *
+     * @return the box is highlighted
+     */
+    public BooleanProperty highlightedProperty() {
+        return highlighted;
+    }
+
+    /**
+     * Returns the value of the highlighted property.
+     * <p>
+     * This is an alternative to the built-in focused state, e.g. to highlight boxes that are part
+     * of the same slot.
+     *
+     * @return the value of the highlighted property
+     */
+    public boolean isHighlighted() {
+        return highlighted.get();
+    }
+
+    /**
+     * Sets the value of the highlighted property.
+     *
+     * @param highlightedValue the value to set
+     */
+    public void setHighlighted(final boolean highlightedValue) {
+        highlighted.set(highlightedValue);
+    }
+
+    /**
      * Resets the content of this box model to its defaults.
      */
     public void reset() {
         shaded.set(false);
         unsolvable.set(false);
+        highlighted.set(false);
         content.set("");
     }
 }

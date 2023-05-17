@@ -20,7 +20,17 @@
     -fx-max-width: Infinity;
 }
 
-/* A shaded cell. */
+/* A highlighted cell. */
+.crossword-box-text:highlighted {
+    -fx-background-color: -color-accent-subtle;
+}
+
+/* A focused cell - takes precedence over highlighted state. */
+.crossword-box-text:focused {
+    -fx-background-color: -color-accent-muted;
+}
+
+/* A shaded cell - takes precedence over focused state. */
 .crossword-box-text:shaded {
     -fx-background-color: -color-fg-default;
 }

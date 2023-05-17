@@ -10,14 +10,19 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -101,17 +106,17 @@ public final class CrosswordGridPane extends StackPane {
     /** The maximum number of rows or columns. */
     private static final int MAX_ROW_COLUMN_COUNT = 20;
 
-    /**
-     * Boxes indexed by coordinate (because GridPane doesn't offer anything good to retrieve a node
-     * from a position).
-     */
+    /** The boxes of the view. */
     private final MapProperty<GridPosition, CrosswordBoxViewModel> boxModels;
 
-    /**
-     * Box nodes indexed by coordinate. Same rationale as {@link #boxModels}. Not a property, only
-     * used internally.
-     */
+    /** Box nodes indexed by coordinate. Not a property, just a cache used internally. */
     private final Map<GridPosition, Node> boxNodes;
+
+    /** The position of the focused box. */
+    private final ObjectProperty<GridPosition> currentBoxPosition;
+
+    /** The orientation of the current slot, i.e. the slot the current box belongs to. */
+    private final BooleanProperty isCurrentSlotVertical;
 
     /** The grid. */
     @FXML
@@ -127,11 +132,13 @@ public final class CrosswordGridPane extends StackPane {
     public CrosswordGridPane() {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
+        currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition", null);
+        isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical", false);
 
         final Class<CrosswordGridPane> clazz = CrosswordGridPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
-                                                    "Failed to locate " + fxmlName);
+        final URL location =
+                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -184,6 +191,24 @@ public final class CrosswordGridPane extends StackPane {
      */
     public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
         return boxModels;
+    }
+
+    /**
+     * Returns the position of the currently selected box position.
+     *
+     * @return the position of the currently selected box position
+     */
+    public ObjectProperty<GridPosition> currentBoxPosition() {
+        return currentBoxPosition;
+    }
+
+    /**
+     * Returns the orientation of the current slot.
+     *
+     * @return the orientation of the current slot
+     */
+    public BooleanProperty isCurrentSlotVertical() {
+        return isCurrentSlotVertical;
     }
 
     /**
@@ -405,11 +430,28 @@ public final class CrosswordGridPane extends StackPane {
      * @param boxModel   what the box contains
      */
     private void addBoxNode(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
-        final CrosswordBoxTextField textField = new CrosswordBoxTextField(boxModel);
-        grid.add(textField, coordinate.x(), coordinate.y());
-        boxNodes.put(coordinate, textField);
+        final CrosswordBoxTextField node = new CrosswordBoxTextField(boxModel);
+        grid.add(node, coordinate.x(), coordinate.y());
+        boxNodes.put(coordinate, node);
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
+        // Add listeners to update the working area
+        boxModel.shadedProperty().addListener(
+                (observable, wasShaded, isShaded) -> currentBoxPosition.set(
+                        isShaded ? null : coordinate));
+        node.focusedProperty().addListener((observable, wasFocused, nowFocused) -> {
+            if (nowFocused) {
+                currentBoxPosition.set(boxModel.isShaded() ? null : coordinate);
+            } else {
+                // Do nothing, keep last focused box/slot highlighted
+            }
+        });
+        node.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER && currentBoxPosition.get() != null) {
+                isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -461,8 +503,8 @@ public final class CrosswordGridPane extends StackPane {
     private void initializeGridConstraints() {
         final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
         final DoubleBinding columnPerRowRatio =
-                Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints()
-                        , grid.getRowConstraints());
+                Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints(),
+                                             grid.getRowConstraints());
         grid.maxHeightProperty()
             .bind(Bindings.min(smallerSideSize, smallerSideSize.divide(columnPerRowRatio)));
         grid.maxWidthProperty()

@@ -39,6 +39,12 @@ public final class CrosswordBoxTextField extends TextField {
     /** The CSS pseudo-class for unsolvable state. */
     private static final PseudoClass UNSOLVABLE = PseudoClass.getPseudoClass("unsolvable");
 
+    /**
+     * The CSS pseudo-class for highlighted state. An alternative to the built-in focused state,
+     * e.g. to highlight boxes that are part of the same slot.
+     */
+    private static final PseudoClass HIGHLIGHTED = PseudoClass.getPseudoClass("highlighted");
+
     /** The key to toggle shading of the box. */
     private static final String SHADE_KEY = " ";
 
@@ -79,10 +85,13 @@ public final class CrosswordBoxTextField extends TextField {
         getStyleClass().add(CSS_CLASS);
         pseudoClassStateChanged(SHADED, model.isShaded());
         pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable());
+        pseudoClassStateChanged(HIGHLIGHTED, model.isHighlighted());
         model.shadedProperty()
              .addListener(e -> pseudoClassStateChanged(SHADED, model.isShaded()));
         model.unsolvableProperty()
              .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable()));
+        model.highlightedProperty()
+             .addListener(e -> pseudoClassStateChanged(HIGHLIGHTED, model.isHighlighted()));
         editableProperty().bind(model.shadedProperty().not());
 
         // Configure text content
