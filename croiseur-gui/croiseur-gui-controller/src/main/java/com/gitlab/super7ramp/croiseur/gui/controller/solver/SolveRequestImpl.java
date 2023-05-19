@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-import static java.util.Comparator.comparingInt;
-
 /**
  * Implementation of {@link SolveRequest}, adapting {@link CrosswordGridViewModel}.
  */
@@ -63,20 +61,15 @@ final class SolveRequestImpl implements SolveRequest {
             }
         }
 
-        boxes.keySet()
-             .stream()
-             .max(comparingInt(GridPosition::x).thenComparing(GridPosition::y))
-             .ifPresent(maxCoordinate -> {
-                 pdb.width(maxCoordinate.x() + 1);
-                 pdb.height(maxCoordinate.y() + 1);
-             });
+        pdb.width(crosswordGridViewModel.columnCount().get());
+        pdb.height(crosswordGridViewModel.rowCount().get());
 
         puzzle = pdb.build();
         dictionaries =
                 dictionariesViewModel.selectedDictionariesProperty()
                                      .stream()
                                      .map(entry -> new DictionaryIdentifier(entry.provider(),
-                                             entry.name()))
+                                                                            entry.name()))
                                      .toList();
 
         selectedSolver = solverSelectionViewModel.getSelectedSolver();

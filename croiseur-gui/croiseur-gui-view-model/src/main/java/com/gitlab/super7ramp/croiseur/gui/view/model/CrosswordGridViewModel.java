@@ -6,25 +6,29 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import javafx.beans.binding.Bindings;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableMap;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import static java.util.Comparator.comparingInt;
 
 /**
  * The crossword view model.
@@ -64,6 +68,8 @@ public final class CrosswordGridViewModel {
             currentBoxPosition.addListener(this::onCurrentBoxChange);
             currentSlotPositions.addListener(this::onSlotChange);
             isCurrentSlotVertical.addListener(observable -> recomputeSlotPositions());
+            columnCount.addListener(observable -> recomputeSlotPositions());
+            rowCount.addListener(observable -> recomputeSlotPositions());
         }
 
         /**
@@ -81,11 +87,7 @@ public final class CrosswordGridViewModel {
             } else if (!currentSlotPositions.contains(newBoxPosition)) {
                 recomputeSlotPositions();
             } else {
-                /*
-                 * Current box has moved to a box of the same slot, make sure the old current
-                 * position is correctly repainted.
-                 */
-                boxes.get(oldBoxPosition).setHighlighted(true);
+                // Current box has moved to a box of the same slot, nothing to do.
             }
         }
 
@@ -100,20 +102,25 @@ public final class CrosswordGridViewModel {
             }
         }
 
+        /**
+         * Recomputes the positions of current when it is horizontal.
+         */
         private void recomputeHorizontalSlotPositions() {
             final GridPosition current = currentBoxPosition.get();
-            final Set<GridPosition> slotBoxes = new HashSet<>();
+            final List<GridPosition> slotBoxes = new ArrayList<>();
             slotBoxes.add(current);
             for (int column = current.x() - 1; column >= 0; column--) {
                 final GridPosition position = new GridPosition(column, current.y());
-                if (boxes.get(position).isShaded()) {
+                final CrosswordBoxViewModel box = boxes.get(position);
+                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
             }
             for (int column = current.x() + 1; column < columnCount.get(); column++) {
                 final GridPosition position = new GridPosition(column, current.y());
-                if (boxes.get(position).isShaded()) {
+                final CrosswordBoxViewModel box = boxes.get(position);
+                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -121,20 +128,25 @@ public final class CrosswordGridViewModel {
             currentSlotPositions.setAll(slotBoxes);
         }
 
+        /**
+         * Recomputes the positions of the current slot when it is vertical.
+         */
         private void recomputeVerticalSlotPositions() {
             final GridPosition current = currentBoxPosition.get();
-            final Set<GridPosition> slotBoxes = new HashSet<>();
+            final List<GridPosition> slotBoxes = new ArrayList<>();
             slotBoxes.add(current);
             for (int row = current.y() - 1; row >= 0; row--) {
                 final GridPosition position = new GridPosition(current.x(), row);
-                if (boxes.get(position).isShaded()) {
+                final CrosswordBoxViewModel box = boxes.get(position);
+                if (box == null /* TODO explain why or remove. */  || box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
             }
             for (int row = current.y() + 1; row < rowCount.get(); row++) {
                 final GridPosition position = new GridPosition(current.x(), row);
-                if (boxes.get(position).isShaded()) {
+                final CrosswordBoxViewModel box = boxes.get(position);
+                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -149,25 +161,33 @@ public final class CrosswordGridViewModel {
          */
         private void onSlotChange(final ListChangeListener.Change<? extends GridPosition> change) {
             while (change.next()) {
-                change.getList().stream()
-                      .map(boxes::get)
-                      .forEach(boxModel -> boxModel.setHighlighted(true));
                 change.getRemoved().stream()
                       .map(boxes::get)
-                      .filter(Objects::nonNull)
+                      .filter(Objects::nonNull) // TODO explain why or remove
                       .forEach(boxModel -> boxModel.setHighlighted(false));
+                change.getAddedSubList().stream()
+                      .map(boxes::get)
+                      .filter(Objects::nonNull) // TODO explain why or remove
+                      .forEach(boxModel -> boxModel.setHighlighted(true));
             }
         }
     }
+
+    /** A comparator to sort the boxes. */
+    private static final Comparator<GridPosition> COMPARING_BY_LINE_THEN_BY_ROW =
+            comparingInt(GridPosition::x).thenComparing(GridPosition::y);
+
+    /** The sorted map backing {@link #boxes}. */
+    private final SortedMap<GridPosition, CrosswordBoxViewModel> sortedBoxes;
 
     /** The boxes of the view. */
     private final MapProperty<GridPosition, CrosswordBoxViewModel> boxes;
 
     /** The number of columns. */
-    private final IntegerProperty columnCount;
+    private final ReadOnlyIntegerWrapper columnCount;
 
     /** The number of rows. */
-    private final IntegerProperty rowCount;
+    private final ReadOnlyIntegerWrapper rowCount;
 
     /** The working area. */
     private final WorkingArea workingArea;
@@ -177,16 +197,14 @@ public final class CrosswordGridViewModel {
      *
      * @param boxesArg the initial grid
      */
-    private CrosswordGridViewModel(
-            final ObservableMap<GridPosition, CrosswordBoxViewModel> boxesArg) {
-        boxes = new SimpleMapProperty<>(this, "boxes", boxesArg);
-        columnCount = new SimpleIntegerProperty(this, "width");
-        columnCount.bind(Bindings.createIntegerBinding(
-                () -> boxes.keySet().stream().mapToInt(pos -> pos.x() + 1).max().orElse(0), boxes));
-        rowCount = new SimpleIntegerProperty(this, "height");
-        rowCount.bind(Bindings.createIntegerBinding(
-                () -> boxes.keySet().stream().mapToInt(pos -> pos.y() + 1).max().orElse(0), boxes));
+    private CrosswordGridViewModel(final SortedMap<GridPosition, CrosswordBoxViewModel> boxesArg) {
+        sortedBoxes = boxesArg;
+        boxes = new SimpleMapProperty<>(this, "boxes", FXCollections.observableMap(boxesArg));
+        columnCount = new ReadOnlyIntegerWrapper(this, "width");
+        rowCount = new ReadOnlyIntegerWrapper(this, "height");
+        reevaluateDimensions();
         workingArea = new WorkingArea();
+        boxes.addListener((InvalidationListener) observable -> reevaluateDimensions());
     }
 
     /**
@@ -195,8 +213,8 @@ public final class CrosswordGridViewModel {
      * @return a grid view model representing a 6x7 grid
      */
     public static CrosswordGridViewModel welcomeGrid() {
-        final ObservableMap<GridPosition, CrosswordBoxViewModel> welcomeBoxes =
-                FXCollections.observableHashMap();
+        final SortedMap<GridPosition, CrosswordBoxViewModel> welcomeBoxes =
+                new TreeMap<>(COMPARING_BY_LINE_THEN_BY_ROW);
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 welcomeBoxes.put(new GridPosition(i, j), new CrosswordBoxViewModel());
@@ -212,6 +230,24 @@ public final class CrosswordGridViewModel {
      */
     public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
         return boxes;
+    }
+
+    /**
+     * Returns the column count.
+     *
+     * @return the column count
+     */
+    public ReadOnlyIntegerProperty columnCount() {
+        return columnCount;
+    }
+
+    /**
+     * Returns the row count.
+     *
+     * @return the row count
+     */
+    public ReadOnlyIntegerProperty rowCount() {
+        return rowCount;
     }
 
     /**
@@ -241,5 +277,38 @@ public final class CrosswordGridViewModel {
      */
     public BooleanProperty isCurrentSlotVerticalProperty() {
         return workingArea.isCurrentSlotVertical;
+    }
+
+    /**
+     * Reevaluates column and row counts.
+     */
+    private void reevaluateDimensions() {
+        if (isGridConsistent()) {
+            if (sortedBoxes.isEmpty()) {
+                columnCount.set(0);
+                rowCount.set(0);
+            } else {
+                final GridPosition lastPosition = sortedBoxes.lastKey();
+                columnCount.set(lastPosition.x() + 1);
+                rowCount.set(lastPosition.y() + 1);
+            }
+        }
+    }
+
+    /**
+     * Whether the grid can be considered consistent, i.e. not in the middle of adding a row or a
+     * column.
+     *
+     * @return {@code true} if the grid can be considered consistent
+     */
+    private boolean isGridConsistent() {
+        final boolean consistent;
+        if (sortedBoxes.isEmpty()) {
+            consistent = true;
+        } else {
+            final GridPosition lastPosition = sortedBoxes.lastKey();
+            consistent = (lastPosition.x() + 1) * (lastPosition.y() + 1) == sortedBoxes.size();
+        }
+        return consistent;
     }
 }

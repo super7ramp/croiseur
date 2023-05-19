@@ -24,6 +24,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -446,10 +448,15 @@ public final class CrosswordGridPane extends StackPane {
                 // Do nothing, keep last focused box/slot highlighted
             }
         });
-        node.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+        node.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && currentBoxPosition.get() != null) {
                 isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
-                event.consume();
+            }
+        });
+        node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                currentBoxPosition.get() != null) {
+                isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
             }
         });
     }
