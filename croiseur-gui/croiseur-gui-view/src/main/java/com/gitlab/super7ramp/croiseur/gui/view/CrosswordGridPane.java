@@ -438,6 +438,7 @@ public final class CrosswordGridPane extends StackPane {
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
         // Add listeners to update the working area
+        // TODO mutation to shaded should be managed by view model
         boxModel.shadedProperty().addListener(
                 (observable, wasShaded, isShaded) -> currentBoxPosition.set(
                         isShaded ? null : coordinate));

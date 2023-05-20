@@ -68,8 +68,8 @@ public final class CrosswordGridViewModel {
             currentBoxPosition.addListener(this::onCurrentBoxChange);
             currentSlotPositions.addListener(this::onSlotChange);
             isCurrentSlotVertical.addListener(observable -> recomputeSlotPositions());
-            columnCount.addListener(observable -> recomputeSlotPositions());
-            rowCount.addListener(observable -> recomputeSlotPositions());
+            columnCount.addListener(this::onDimensionChange);
+            rowCount.addListener(this::onDimensionChange);
         }
 
         /**
@@ -90,10 +90,28 @@ public final class CrosswordGridViewModel {
         }
 
         /**
+         * Processes a column or row count change.
+         *
+         * @param observable   the observable
+         * @param newDimension the new value
+         * @param oldDimension the old value
+         */
+        private void onDimensionChange(final ObservableValue<? extends Number> observable,
+                                       final Number oldDimension, final Number newDimension) {
+            final GridPosition current = currentBoxPosition.get();
+            if (current != null && !boxes.containsKey(current)) {
+                currentBoxPosition.set(null);
+            } else {
+                recomputeSlotPositions();
+            }
+        }
+
+        /**
          * Recomputes the {@link #currentSlotPositions}.
          */
         private void recomputeSlotPositions() {
-            if (currentBoxPosition.get() == null) {
+            final GridPosition current = currentBoxPosition.get();
+            if (current == null || boxes.get(current).isShaded()) {
                 if (!currentSlotPositions.isEmpty()) {
                     currentSlotPositions.clear();
                 }
@@ -114,7 +132,7 @@ public final class CrosswordGridViewModel {
             for (int column = current.x() - 1; column >= 0; column--) {
                 final GridPosition position = new GridPosition(column, current.y());
                 final CrosswordBoxViewModel box = boxes.get(position);
-                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
+                if (box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -122,7 +140,7 @@ public final class CrosswordGridViewModel {
             for (int column = current.x() + 1; column < columnCount.get(); column++) {
                 final GridPosition position = new GridPosition(column, current.y());
                 final CrosswordBoxViewModel box = boxes.get(position);
-                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
+                if (box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -140,7 +158,7 @@ public final class CrosswordGridViewModel {
             for (int row = current.y() - 1; row >= 0; row--) {
                 final GridPosition position = new GridPosition(current.x(), row);
                 final CrosswordBoxViewModel box = boxes.get(position);
-                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
+                if (box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -148,7 +166,7 @@ public final class CrosswordGridViewModel {
             for (int row = current.y() + 1; row < rowCount.get(); row++) {
                 final GridPosition position = new GridPosition(current.x(), row);
                 final CrosswordBoxViewModel box = boxes.get(position);
-                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
+                if (box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -165,11 +183,10 @@ public final class CrosswordGridViewModel {
             while (change.next()) {
                 change.getRemoved().stream()
                       .map(boxes::get)
-                      .filter(Objects::nonNull) // TODO explain why or remove
+                      .filter(Objects::nonNull) // Box may have been removed from grid
                       .forEach(boxModel -> boxModel.setHighlighted(false));
                 change.getAddedSubList().stream()
                       .map(boxes::get)
-                      .filter(Objects::nonNull) // TODO explain why or remove
                       .forEach(boxModel -> boxModel.setHighlighted(true));
             }
         }
