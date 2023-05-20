@@ -82,9 +82,7 @@ public final class CrosswordGridViewModel {
         private void onCurrentBoxChange(final ObservableValue<? extends GridPosition> observable,
                                         final GridPosition oldBoxPosition,
                                         final GridPosition newBoxPosition) {
-            if (newBoxPosition == null) {
-                currentSlotPositions.clear();
-            } else if (!currentSlotPositions.contains(newBoxPosition)) {
+            if (!currentSlotPositions.contains(newBoxPosition)) {
                 recomputeSlotPositions();
             } else {
                 // Current box has moved to a box of the same slot, nothing to do.
@@ -95,7 +93,11 @@ public final class CrosswordGridViewModel {
          * Recomputes the {@link #currentSlotPositions}.
          */
         private void recomputeSlotPositions() {
-            if (isCurrentSlotVertical.get()) {
+            if (currentBoxPosition.get() == null) {
+                if (!currentSlotPositions.isEmpty()) {
+                    currentSlotPositions.clear();
+                }
+            } else if (isCurrentSlotVertical.get()) {
                 recomputeVerticalSlotPositions();
             } else {
                 recomputeHorizontalSlotPositions();
@@ -138,7 +140,7 @@ public final class CrosswordGridViewModel {
             for (int row = current.y() - 1; row >= 0; row--) {
                 final GridPosition position = new GridPosition(current.x(), row);
                 final CrosswordBoxViewModel box = boxes.get(position);
-                if (box == null /* TODO explain why or remove. */  || box.isShaded()) {
+                if (box == null /* TODO explain why or remove. */ || box.isShaded()) {
                     break;
                 }
                 slotBoxes.add(position);
@@ -205,6 +207,17 @@ public final class CrosswordGridViewModel {
         reevaluateDimensions();
         workingArea = new WorkingArea();
         boxes.addListener((InvalidationListener) observable -> reevaluateDimensions());
+    }
+
+    /**
+     * Creates a new grid view model without any boxes.
+     *
+     * @return a new grid view model without any boxes
+     */
+    public static CrosswordGridViewModel newGrid() {
+        final SortedMap<GridPosition, CrosswordBoxViewModel> map =
+                new TreeMap<>(COMPARING_BY_LINE_THEN_BY_ROW);
+        return new CrosswordGridViewModel(map);
     }
 
     /**
