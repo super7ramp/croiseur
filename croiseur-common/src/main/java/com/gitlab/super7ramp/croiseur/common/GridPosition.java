@@ -31,6 +31,27 @@ public record GridPosition(int x, int y) {
     }
 
     /**
+     * Convenience factory method.
+     * <pre>
+     * {@code
+     * import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
+     *
+     * ...
+     *
+     * final GridPosition myPosition = at(0,0);
+     * }
+     * </pre>
+     *
+     *
+     * @param x the column number, i.e. the horizontal index, starting at 0
+     * @param y the row number, i.e. the vertical index, starting at 0
+     * @return a new GridPosition
+     */
+    public static GridPosition at(final int x, final int y) {
+        return new GridPosition(x, y);
+    }
+
+    /**
      * Returns a new {@link GridPosition} corresponding to the position below this one.
      *
      * @return a new {@link GridPosition} corresponding to the position below this one.
