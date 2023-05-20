@@ -47,7 +47,7 @@ final class SolveRequestImpl implements SolveRequest {
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
 
-        final Map<GridPosition, CrosswordBoxViewModel> boxes = crosswordGridViewModel.boxes();
+        final Map<GridPosition, CrosswordBoxViewModel> boxes = crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
             final GridPosition position = box.getKey();
             final CrosswordBoxViewModel content = box.getValue();
@@ -61,8 +61,8 @@ final class SolveRequestImpl implements SolveRequest {
             }
         }
 
-        pdb.width(crosswordGridViewModel.columnCount().get());
-        pdb.height(crosswordGridViewModel.rowCount().get());
+        pdb.width(crosswordGridViewModel.columnCount());
+        pdb.height(crosswordGridViewModel.rowCount());
 
         puzzle = pdb.build();
         dictionaries =

@@ -99,7 +99,7 @@ public final class CrosswordGridPane extends StackPane {
      * Children are sorted using this comparator in order to maintain a consistent navigation with
      * tab key. Otherwise, navigation follows node insertion order, which may be erratic - nodes can
      * be added in columns using {@link #addColumn()}, in rows using {@link #addRow()} or in a
-     * completely custom order using {@link #boxes()}).
+     * completely custom order using {@link #boxesProperty()}).
      */
     private static final Comparator<Node> BOX_COMPARATOR =
             Comparator.comparingInt(GridPane::getRowIndex)
@@ -191,7 +191,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
-    public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
+    public MapProperty<GridPosition, CrosswordBoxViewModel> boxesProperty() {
         return boxModels;
     }
 
@@ -200,7 +200,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return the position of the currently selected box position
      */
-    public ObjectProperty<GridPosition> currentBoxPosition() {
+    public ObjectProperty<GridPosition> currentBoxPositionProperty() {
         return currentBoxPosition;
     }
 
@@ -209,7 +209,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return the orientation of the current slot
      */
-    public BooleanProperty isCurrentSlotVertical() {
+    public BooleanProperty isCurrentSlotVerticalProperty() {
         return isCurrentSlotVertical;
     }
 

@@ -71,7 +71,7 @@ public final class CrosswordSolverRootController {
         final CrosswordGridViewModel crosswordGridViewModel =
                 crosswordSolverViewModel.crosswordGridViewModel();
         final MapProperty<GridPosition, CrosswordBoxViewModel> boxes =
-                crosswordGridViewModel.boxes();
+                crosswordGridViewModel.boxesProperty();
         view.gridBoxesProperty().setValue(boxes);
         view.gridCurrentBoxProperty()
             .bindBidirectional(crosswordGridViewModel.currentBoxPositionProperty());

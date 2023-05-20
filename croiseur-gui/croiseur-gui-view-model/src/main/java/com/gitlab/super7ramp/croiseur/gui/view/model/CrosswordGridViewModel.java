@@ -43,7 +43,7 @@ public final class CrosswordGridViewModel {
 
         /**
          * The position of the box being worked on. The value it contains is {@code null} if no box
-         * is focused.
+         * has been focused or the last focused box has been deleted.
          */
         private final ObjectProperty<GridPosition> currentBoxPosition;
 
@@ -237,35 +237,61 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * Returns the boxes.
+     * Returns the boxes property.
      *
-     * @return the boxes
+     * @return the boxes property
      */
-    public MapProperty<GridPosition, CrosswordBoxViewModel> boxes() {
+    public MapProperty<GridPosition, CrosswordBoxViewModel> boxesProperty() {
         return boxes;
     }
 
     /**
-     * Returns the column count.
+     * Returns the column count property.
+     * <p>
+     * Incomplete columns are not counted.
      *
-     * @return the column count
+     * @return the column count property
      */
-    public ReadOnlyIntegerProperty columnCount() {
+    public ReadOnlyIntegerProperty columnCountProperty() {
         return columnCount;
     }
 
     /**
-     * Returns the row count.
+     * Returns the column count.
+     * <p>
+     * Incomplete columns are not counted.
      *
-     * @return the row count
+     * @return the column count
      */
-    public ReadOnlyIntegerProperty rowCount() {
+    public int columnCount() {
+        return columnCount.get();
+    }
+
+    /**
+     * Returns the row count property.
+     * <p>
+     * Incomplete rows are not counted.
+     *
+     * @return the row count property
+     */
+    public ReadOnlyIntegerProperty rowCountProperty() {
         return rowCount;
     }
 
     /**
-     * The position of the box being worked on. The value it contains is {@code null} if no box is
-     * focused.
+     * Returns the row count.
+     * <p>
+     * Incomplete rows are not counted.
+     *
+     * @return the row count
+     */
+    public int rowCount() {
+        return rowCount.get();
+    }
+
+    /**
+     * The current box position property. The value it contains is {@code null} if no box has been
+     * focused or the last focused box has been deleted.
      *
      * @return the current box
      */
@@ -274,8 +300,8 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The current slot, described by the positions of the boxes it contains. The list value is
-     * empty if no slot is focused.
+     * The current slot property, described by the positions of the boxes it contains. The list
+     * value is empty if no slot is focused.
      *
      * @return the current slot
      */
@@ -284,12 +310,22 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The orientation of the current slot (or the previous slot if current slot is empty).
+     * The orientation property of the current slot (or the previous slot if current slot is
+     * empty).
      *
      * @return the orientation of the current slot
      */
     public BooleanProperty isCurrentSlotVerticalProperty() {
         return workingArea.isCurrentSlotVertical;
+    }
+
+    /**
+     * The orientation of the current slot (or the previous slot if current slot is empty).
+     *
+     * @return the orientation of the current slot
+     */
+    public boolean isCurrentSlotVertical() {
+        return workingArea.isCurrentSlotVertical.get();
     }
 
     /**

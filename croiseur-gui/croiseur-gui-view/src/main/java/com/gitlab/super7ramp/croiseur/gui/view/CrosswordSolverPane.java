@@ -188,10 +188,10 @@ public final class CrosswordSolverPane extends BorderPane {
      * Returns the crossword grid map property.
      *
      * @return the crossword grid map property
-     * @see CrosswordGridPane#boxes()
+     * @see CrosswordGridPane#boxesProperty()
      */
     public MapProperty<GridPosition, CrosswordBoxViewModel> gridBoxesProperty() {
-        return grid.boxes();
+        return grid.boxesProperty();
     }
 
     /**
@@ -200,7 +200,7 @@ public final class CrosswordSolverPane extends BorderPane {
      * @return the crossword grid current box position property
      */
     public ObjectProperty<GridPosition> gridCurrentBoxProperty() {
-        return grid.currentBoxPosition();
+        return grid.currentBoxPositionProperty();
     }
 
     /**
@@ -209,7 +209,7 @@ public final class CrosswordSolverPane extends BorderPane {
      * @return the crossword grid current slot orientation property
      */
     public BooleanProperty gridIsCurrentSlotOrientationVerticalProperty() {
-        return grid.isCurrentSlotVertical();
+        return grid.isCurrentSlotVerticalProperty();
     }
 
     /**

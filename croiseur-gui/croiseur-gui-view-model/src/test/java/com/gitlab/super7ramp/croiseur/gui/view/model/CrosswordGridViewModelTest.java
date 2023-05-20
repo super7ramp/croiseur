@@ -30,44 +30,44 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void dimensions_Empty() {
-        assertEquals(0, crosswordGridViewModel.columnCount().get());
-        assertEquals(0, crosswordGridViewModel.rowCount().get());
+        assertEquals(0, crosswordGridViewModel.columnCount());
+        assertEquals(0, crosswordGridViewModel.rowCount());
     }
 
     @Test
     void dimensions_1x1() {
-        crosswordGridViewModel.boxes().put(at(0, 0), blank());
+        crosswordGridViewModel.boxesProperty().put(at(0, 0), blank());
 
-        assertEquals(1, crosswordGridViewModel.columnCount().get());
-        assertEquals(1, crosswordGridViewModel.rowCount().get());
+        assertEquals(1, crosswordGridViewModel.columnCount());
+        assertEquals(1, crosswordGridViewModel.rowCount());
     }
 
     @Test
     void dimensions_2x3() {
-        crosswordGridViewModel.boxes()
+        crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
                                              at(0, 1), blank(), at(1, 1), blank(),
                                              at(0, 2), blank(), at(1, 2), blank()));
 
-        assertEquals(2, crosswordGridViewModel.columnCount().get());
-        assertEquals(3, crosswordGridViewModel.rowCount().get());
+        assertEquals(2, crosswordGridViewModel.columnCount());
+        assertEquals(3, crosswordGridViewModel.rowCount());
     }
 
     @Test
     void dimensions_inconsistent() {
-        crosswordGridViewModel.boxes()
+        crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
                                              at(0, 1), blank(), at(1, 1), blank(),
                                              at(0, 2), blank() /* missing (1, 2) */));
 
         /* Only complete columns are taken into account */
-        assertEquals(2, crosswordGridViewModel.columnCount().get());
-        assertEquals(2, crosswordGridViewModel.rowCount().get());
+        assertEquals(2, crosswordGridViewModel.columnCount());
+        assertEquals(2, crosswordGridViewModel.rowCount());
     }
 
     @Test
     void selectedSlot_none() {
-        crosswordGridViewModel.boxes()
+        crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
                                              at(0, 1), blank(), at(1, 1), shaded(),
                                              at(0, 2), blank(), at(1, 2), blank()));
@@ -77,7 +77,7 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_newHorizontalSelection() {
-        crosswordGridViewModel.boxes()
+        crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
                                              at(0, 1), blank(), at(1, 1), shaded(),
                                              at(0, 2), blank(), at(1, 2), blank()));
@@ -91,7 +91,7 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_newVerticalSelection() {
-        crosswordGridViewModel.boxes()
+        crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
                                              at(0, 1), blank(), at(1, 1), shaded(),
                                              at(0, 2), blank(), at(1, 2), blank()));

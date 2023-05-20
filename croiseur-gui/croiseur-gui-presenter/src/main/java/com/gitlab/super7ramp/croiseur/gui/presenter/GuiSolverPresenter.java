@@ -97,7 +97,7 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     private void updateBoxSolvableState(final SolverResult result) {
         final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
-                crosswordGridViewModel.boxes();
+                crosswordGridViewModel.boxesProperty();
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
                 viewModelBoxes.entrySet()) {
@@ -117,7 +117,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     private void updateBoxContent(final SolverResult result) {
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
         final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
-                crosswordGridViewModel.boxes();
+                crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = viewModelBoxes.get(position);
