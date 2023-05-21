@@ -125,12 +125,12 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
-     * Resets the content of this box model to its defaults.
+     * Resets the content/unsolvable status/shade status of this box model to its defaults. Keeps
+     * highlight status as is.
      */
-    public void reset() {
-        shaded.set(false);
+    public void resetExceptHighlight() {
         unsolvable.set(false);
-        highlighted.set(false);
+        shaded.set(false);
         content.set("");
     }
 }

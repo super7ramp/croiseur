@@ -324,16 +324,11 @@ public final class CrosswordGridPane extends StackPane {
             extends CrosswordBoxViewModel> change) {
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
-                // TODO replaced case
-                throw new UnsupportedOperationException("Not implemented yet");
-            } else {
-                onBoxAdded(change.getKey(), change.getValueAdded());
+                throw new UnsupportedOperationException("Replacing box models is not supported");
             }
-        } else if (change.wasRemoved()) {
-            onBoxRemoved(change.getKey());
+            onBoxAdded(change.getKey(), change.getValueAdded());
         } else {
-            // TODO confirm that
-            throw new IllegalStateException("Change must be either an addition or a deletion");
+            onBoxRemoved(change.getKey());
         }
     }
 
@@ -435,16 +430,15 @@ public final class CrosswordGridPane extends StackPane {
         final CrosswordBoxTextField node = new CrosswordBoxTextField(boxModel);
         grid.add(node, coordinate.x(), coordinate.y());
         boxNodes.put(coordinate, node);
+
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
+
         // Add listeners to update the working area
-        // TODO mutation to shaded should be managed by view model
-        boxModel.shadedProperty().addListener(
-                (observable, wasShaded, isShaded) -> currentBoxPosition.set(
-                        isShaded ? null : coordinate));
+        // TODO remove listeners when node is deleted to avoid memory leak
         node.focusedProperty().addListener((observable, wasFocused, nowFocused) -> {
             if (nowFocused) {
-                currentBoxPosition.set(boxModel.isShaded() ? null : coordinate);
+                currentBoxPosition.set(coordinate);
             } else {
                 // Do nothing, keep last focused box/slot highlighted
             }
@@ -540,10 +534,10 @@ public final class CrosswordGridPane extends StackPane {
      * Resets the boxes matching the given predicate.
      *
      * @param predicate filters the boxes to be reset
-     * @see CrosswordBoxViewModel#reset()
+     * @see CrosswordBoxViewModel#resetExceptHighlight()
      */
     private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
-        boxModels.values().stream().filter(predicate).forEach(CrosswordBoxViewModel::reset);
+        boxModels.values().stream().filter(predicate).forEach(CrosswordBoxViewModel::resetExceptHighlight);
     }
 
     /**

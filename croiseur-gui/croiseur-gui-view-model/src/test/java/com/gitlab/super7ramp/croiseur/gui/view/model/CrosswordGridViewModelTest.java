@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -62,9 +61,94 @@ final class CrosswordGridViewModelTest {
                                              at(0, 1), blank(), at(1, 1), blank(),
                                              at(0, 2), blank() /* missing (1, 2) */));
 
-        /* Only complete columns are taken into account */
+        /* Only complete rows are taken into account */
         assertEquals(2, crosswordGridViewModel.columnCount());
         assertEquals(2, crosswordGridViewModel.rowCount());
+    }
+
+    @Test
+    void selectedSlot_newHorizontalSelection() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
+                                             at(0, 1), blank(), at(1, 1), shaded(),
+                                             at(0, 2), blank(), at(1, 2), blank()));
+
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+
+        assertEquals(2, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(List.of(at(0, 0), at(1, 0))));
+    }
+
+    @Test
+    void selectedSlot_newHorizontalSelectionBetweenShaded() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), shaded(),
+                                             at(2, 0), blank(), at(3, 0), blank(),
+                                             at(4, 0), shaded(), at(5, 0), blank()));
+
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(2, 0));
+
+        assertEquals(2, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(List.of(at(2, 0), at(3, 0))));
+    }
+
+    @Test
+    void selectedSlot_horizontalSelectionGrows() {
+        selectedSlot_newHorizontalSelectionBetweenShaded();
+
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).shadedProperty().set(false);
+        crosswordGridViewModel.boxesProperty().get(at(4, 0)).shadedProperty().set(false);
+
+        assertEquals(6, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(
+                                                 List.of(at(0, 0), at(1, 0), at(2, 0), at(3, 0),
+                                                         at(4, 0), at(5, 0))));
+    }
+
+    @Test
+    void selectedSlot_newVerticalSelection() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
+                                             at(0, 1), blank(), at(1, 1), shaded(),
+                                             at(0, 2), blank(), at(1, 2), blank()));
+
+        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+
+        assertEquals(3, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(List.of(at(0, 0), at(0, 1), at(0, 2))));
+    }
+
+    @Test
+    void selectedSlot_newVerticalSelectionBetweenShaded() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(0, 1), shaded(),
+                                             at(0, 2), blank(), at(0, 3), blank(),
+                                             at(0, 4), shaded(), at(0, 5), blank()));
+        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 2));
+
+        assertEquals(2, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(List.of(at(0, 2), at(0, 3))));
+    }
+
+    @Test
+    void selectedSlot_verticalSelectionGrows() {
+        selectedSlot_newVerticalSelectionBetweenShaded();
+
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shadedProperty().set(false);
+        crosswordGridViewModel.boxesProperty().get(at(0, 4)).shadedProperty().set(false);
+
+        assertEquals(6, crosswordGridViewModel.currentSlotPositionsProperty().size());
+        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
+                                         .containsAll(
+                                                 List.of(at(0, 1), at(0, 2), at(0, 3), at(0, 4),
+                                                         at(0, 5))));
     }
 
     @Test
@@ -149,7 +233,6 @@ final class CrosswordGridViewModelTest {
     }
 
     @Test
-    @Disabled("TODO move mutation to shaded management from view to view model")
     void selectedSlot_currentBoxMutatedFromBlankToShaded() {
         crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
@@ -161,11 +244,11 @@ final class CrosswordGridViewModelTest {
                                          .containsAll(List.of(at(0, 0), at(1, 0))));
 
         crosswordGridViewModel.boxesProperty().get(at(0, 0)).shadedProperty().set(true);
+
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
-    @Disabled("TODO move mutation to shaded management from view to view model")
     void selectedSlot_currentBoxMutatedFromShadedToBlank() {
         crosswordGridViewModel.boxesProperty()
                               .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
@@ -174,40 +257,13 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 1));
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shadedProperty().set(true);
-        assertEquals(2, crosswordGridViewModel.currentSlotPositionsProperty().size());
-        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
-                                         .containsAll(List.of(at(0, 0), at(1, 0))));
-    }
-
-    @Test
-    void selectedSlot_newHorizontalSelection() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), shaded(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shadedProperty().set(false);
 
         assertEquals(2, crosswordGridViewModel.currentSlotPositionsProperty().size());
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
-                                         .containsAll(List.of(at(0, 0), at(1, 0))));
+                                         .containsAll(List.of(at(0, 1), at(1, 1))));
     }
 
-    @Test
-    void selectedSlot_newVerticalSelection() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), shaded(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-
-        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
-
-        assertEquals(3, crosswordGridViewModel.currentSlotPositionsProperty().size());
-        assertTrue(crosswordGridViewModel.currentSlotPositionsProperty()
-                                         .containsAll(List.of(at(0, 0), at(0, 1), at(0, 2))));
-    }
 
     private static CrosswordBoxViewModel blank() {
         return new CrosswordBoxViewModel();

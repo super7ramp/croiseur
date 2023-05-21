@@ -17,13 +17,17 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -42,6 +46,37 @@ public final class CrosswordGridViewModel {
     private final class WorkingArea {
 
         /**
+         * A listener attached to each box model shading property. Allows to trigger slot
+         * re-computation when shading change.
+         */
+        private final class ShadingChangeListener implements ChangeListener<Boolean> {
+
+            /** The coordinate of the listened box. */
+            private final GridPosition listenedBoxCoordinate;
+
+            /**
+             * Constructs an instance.
+             *
+             * @param listenedBoxCoordinateArg the listened box coordinate
+             */
+            ShadingChangeListener(final GridPosition listenedBoxCoordinateArg) {
+                listenedBoxCoordinate = listenedBoxCoordinateArg;
+            }
+
+            @Override
+            public void changed(final ObservableValue<? extends Boolean> observable,
+                                final Boolean wasShaded,
+                                final Boolean isShaded) {
+                final GridPosition current = currentBoxPosition.get();
+                if (current != null &&
+                    ((isCurrentSlotVertical.get() && current.x() == listenedBoxCoordinate.x()) ||
+                     (!isCurrentSlotVertical.get() && current.y() == listenedBoxCoordinate.y()))) {
+                    recomputeSlotPositions();
+                }
+            }
+        }
+
+        /**
          * The position of the box being worked on. The value it contains is {@code null} if no box
          * has been focused or the last focused box has been deleted.
          */
@@ -56,6 +91,9 @@ public final class CrosswordGridViewModel {
         /** The orientation of the current slot (or the previous slot if current slot is empty). */
         private final BooleanProperty isCurrentSlotVertical;
 
+        /** A cache of listeners on the shading property of boxes. */
+        private final Map<GridPosition, ChangeListener<Boolean>> boxShadingListeners;
+
         /**
          * Constructs an instance.
          */
@@ -64,12 +102,37 @@ public final class CrosswordGridViewModel {
             currentSlotPositions = new ReadOnlyListWrapper<>(this, "currentSlotPositions",
                                                              FXCollections.observableArrayList());
             isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
+            boxShadingListeners = new HashMap<>();
 
             currentBoxPosition.addListener(this::onCurrentBoxChange);
             currentSlotPositions.addListener(this::onSlotChange);
             isCurrentSlotVertical.addListener(observable -> recomputeSlotPositions());
             columnCount.addListener(this::onDimensionChange);
             rowCount.addListener(this::onDimensionChange);
+            for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
+                final ChangeListener<Boolean> listener = new ShadingChangeListener(box.getKey());
+                boxShadingListeners.put(box.getKey(), listener);
+                box.getValue().shadedProperty().addListener(listener);
+            }
+            boxes.addListener(this::onGridChange);
+        }
+
+        private void onGridChange(
+                final MapChangeListener.Change<? extends GridPosition, ? extends CrosswordBoxViewModel> change) {
+            if (change.wasAdded()) {
+                if (change.getValueRemoved() != null) {
+                    throw new UnsupportedOperationException(
+                            "Replacing box models is not supported");
+                }
+                final GridPosition coordinate = change.getKey();
+                final ChangeListener<Boolean> listener = new ShadingChangeListener(coordinate);
+                boxShadingListeners.put(coordinate, listener);
+                change.getValueAdded().shadedProperty().addListener(listener);
+            } else {
+                final ChangeListener<Boolean> listener =
+                        boxShadingListeners.remove(change.getKey());
+                change.getValueRemoved().shadedProperty().removeListener(listener);
+            }
         }
 
         /**
