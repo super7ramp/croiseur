@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +15,7 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -46,7 +48,7 @@ public final class CrosswordGridViewModel {
     private final class WorkingArea {
 
         /**
-         * A listener attached to each box model shading property. Allows to trigger slot
+         * A listener attached to each box model shading property. Allows to trigger slot position
          * re-computation when shading change.
          */
         private final class ShadingChangeListener implements ChangeListener<Boolean> {
@@ -77,6 +79,32 @@ public final class CrosswordGridViewModel {
         }
 
         /**
+         * A listener attached to each box model content property. Allows to trigger slot content
+         * re-computation when content change.
+         */
+        private final class ContentChangeListener implements InvalidationListener {
+
+            /** The coordinate of the listened box. */
+            private final GridPosition listenedBoxCoordinate;
+
+            /**
+             * Constructs an instance.
+             *
+             * @param listenedBoxCoordinateArg the listened box coordinate
+             */
+            ContentChangeListener(final GridPosition listenedBoxCoordinateArg) {
+                listenedBoxCoordinate = listenedBoxCoordinateArg;
+            }
+
+            @Override
+            public void invalidated(final Observable observable) {
+                if (currentSlotPositions.contains(listenedBoxCoordinate)) {
+                    recomputeSlotContent();
+                }
+            }
+        }
+
+        /**
          * The position of the box being worked on. The value it contains is {@code null} if no box
          * has been focused or the last focused box has been deleted.
          */
@@ -88,11 +116,20 @@ public final class CrosswordGridViewModel {
          */
         private final ReadOnlyListWrapper<GridPosition> currentSlotPositions;
 
+        /**
+         * The current slot as a pattern. Empty boxes are replaced by dots ('.'). An empty string if
+         * {@link #currentSlotPositions} is empty.
+         */
+        private final ReadOnlyStringWrapper currentSlotContent;
+
         /** The orientation of the current slot (or the previous slot if current slot is empty). */
         private final BooleanProperty isCurrentSlotVertical;
 
         /** A cache of listeners on the shading property of boxes. */
         private final Map<GridPosition, ChangeListener<Boolean>> boxShadingListeners;
+
+        /** A cache of listeners on the shading property of boxes. */
+        private final Map<GridPosition, InvalidationListener> boxContentListeners;
 
         /**
          * Constructs an instance.
@@ -101,22 +138,25 @@ public final class CrosswordGridViewModel {
             currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition");
             currentSlotPositions = new ReadOnlyListWrapper<>(this, "currentSlotPositions",
                                                              FXCollections.observableArrayList());
+            currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
             isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
             boxShadingListeners = new HashMap<>();
+            boxContentListeners = new HashMap<>();
 
+            currentSlotPositions.addListener(this::onSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);
-            currentSlotPositions.addListener(this::onSlotChange);
             isCurrentSlotVertical.addListener(observable -> recomputeSlotPositions());
             columnCount.addListener(this::onDimensionChange);
             rowCount.addListener(this::onDimensionChange);
-            for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
-                final ChangeListener<Boolean> listener = new ShadingChangeListener(box.getKey());
-                boxShadingListeners.put(box.getKey(), listener);
-                box.getValue().shadedProperty().addListener(listener);
-            }
+            boxes.forEach(this::onBoxAdded);
             boxes.addListener(this::onGridChange);
         }
 
+        /**
+         * Processes a grid change (i.e. a box is added or removed).
+         *
+         * @param change the grid change
+         */
         private void onGridChange(
                 final MapChangeListener.Change<? extends GridPosition, ? extends CrosswordBoxViewModel> change) {
             if (change.wasAdded()) {
@@ -124,15 +164,40 @@ public final class CrosswordGridViewModel {
                     throw new UnsupportedOperationException(
                             "Replacing box models is not supported");
                 }
-                final GridPosition coordinate = change.getKey();
-                final ChangeListener<Boolean> listener = new ShadingChangeListener(coordinate);
-                boxShadingListeners.put(coordinate, listener);
-                change.getValueAdded().shadedProperty().addListener(listener);
+                onBoxAdded(change.getKey(), change.getValueAdded());
             } else {
-                final ChangeListener<Boolean> listener =
-                        boxShadingListeners.remove(change.getKey());
-                change.getValueRemoved().shadedProperty().removeListener(listener);
+                onBoxRemoved(change.getKey(), change.getValueRemoved());
             }
+        }
+
+        /**
+         * Registers box listeners.
+         *
+         * @param coordinate the coordinate of the added box
+         * @param box        the added box
+         */
+        private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel box) {
+            final var shadingChangeListener = new ShadingChangeListener(coordinate);
+            boxShadingListeners.put(coordinate, shadingChangeListener);
+            box.shadedProperty().addListener(shadingChangeListener);
+
+            final var contentChangeListener = new ContentChangeListener(coordinate);
+            boxContentListeners.put(coordinate, contentChangeListener);
+            box.contentProperty().addListener(contentChangeListener);
+        }
+
+        /**
+         * Unregisters box listeners.
+         *
+         * @param coordinate the removed box coordinate
+         * @param box        the removed box
+         */
+        private void onBoxRemoved(final GridPosition coordinate, final CrosswordBoxViewModel box) {
+            final var shadingChangeListener = boxShadingListeners.remove(coordinate);
+            box.shadedProperty().removeListener(shadingChangeListener);
+
+            final var contentChangeListener = boxContentListeners.remove(coordinate);
+            box.contentProperty().removeListener(contentChangeListener);
         }
 
         /**
@@ -240,11 +305,25 @@ public final class CrosswordGridViewModel {
         }
 
         /**
-         * Updates the box models on slot change, effectively updating display.
+         * Recomputes {@link #currentSlotContent} based on {@link #currentSlotPositions} and
+         * {@link #boxes}.
+         */
+        private void recomputeSlotContent() {
+            final StringBuilder contentBuilder = new StringBuilder(currentSlotPositions.size());
+            for (final GridPosition position : currentSlotPositions) {
+                final String letter = boxes.get(position).getContent();
+                contentBuilder.append(letter.isEmpty() ? "." : letter);
+            }
+            currentSlotContent.set(contentBuilder.toString());
+        }
+
+        /**
+         * Updates the box models on slot positions change, effectively updating display.
          *
          * @param change the slot change
          */
-        private void onSlotChange(final ListChangeListener.Change<? extends GridPosition> change) {
+        private void onSlotPositionsChange(
+                final ListChangeListener.Change<? extends GridPosition> change) {
             while (change.next()) {
                 change.getRemoved().stream()
                       .map(boxes::get)
@@ -253,6 +332,7 @@ public final class CrosswordGridViewModel {
                 change.getAddedSubList().stream()
                       .map(boxes::get)
                       .forEach(boxModel -> boxModel.setHighlighted(true));
+                recomputeSlotContent();
             }
         }
     }
@@ -382,13 +462,24 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The current slot property, described by the positions of the boxes it contains. The list
-     * value is empty if no slot is focused.
+     * The current slot positions property. The list value is empty if no slot is selected.
      *
-     * @return the current slot
+     * @return the current slot positions
      */
     public ReadOnlyListProperty<GridPosition> currentSlotPositionsProperty() {
         return workingArea.currentSlotPositions;
+    }
+
+    /**
+     * The current slot content.
+     * <p>
+     * The String value is empty if no slot is selected. Any non-filled box content is replaced by a
+     * dot ('.').
+     *
+     * @return the current slot content
+     */
+    public String currentSlotContent() {
+        return workingArea.currentSlotContent.get();
     }
 
     /**

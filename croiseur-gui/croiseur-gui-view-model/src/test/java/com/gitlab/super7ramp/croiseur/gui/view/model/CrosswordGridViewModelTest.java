@@ -251,6 +251,65 @@ final class CrosswordGridViewModelTest {
                      crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
+    @Test
+    void selectedSlotContent_filled() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), letter('A'), at(1, 0), letter('B'), at(2, 0),
+                                             letter('C')));
+
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+
+        assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
+    }
+
+    @Test
+    void selectedSlotContent_partiallyFilled() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), letter('A'), at(1, 0), blank(), at(2, 0),
+                                             letter('C')));
+
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+
+        assertEquals("A.C", crosswordGridViewModel.currentSlotContent());
+    }
+
+    @Test
+    void selectedSlotContent_onlyBlanks() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(), at(2, 0),
+                                             blank()));
+
+        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+
+        assertEquals("...", crosswordGridViewModel.currentSlotContent());
+    }
+
+    @Test
+    void selectedSlotContent_noSelection() {
+        crosswordGridViewModel.boxesProperty()
+                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(), at(2, 0),
+                                             blank()));
+
+        assertTrue(crosswordGridViewModel.currentSlotContent().isEmpty());
+    }
+
+    @Test
+    void selectedSlotContent_contentChange() {
+        selectedSlotContent_partiallyFilled();
+
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).contentProperty().setValue("B");
+
+        assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
+    }
+
+    @Test
+    void selectedSlotContent_contentGrows() {
+        selectedSlotContent_filled();
+
+        crosswordGridViewModel.boxesProperty().put(at(3, 0), blank());
+
+        assertEquals("ABC.", crosswordGridViewModel.currentSlotContent());
+    }
 
     private static CrosswordBoxViewModel blank() {
         return new CrosswordBoxViewModel();
@@ -259,6 +318,12 @@ final class CrosswordGridViewModelTest {
     private static CrosswordBoxViewModel shaded() {
         final var boxViewModel = new CrosswordBoxViewModel();
         boxViewModel.shadedProperty().set(true);
+        return boxViewModel;
+    }
+
+    private static CrosswordBoxViewModel letter(final char letter) {
+        final var boxViewModel = new CrosswordBoxViewModel();
+        boxViewModel.contentProperty().setValue(String.valueOf(letter));
         return boxViewModel;
     }
 }
