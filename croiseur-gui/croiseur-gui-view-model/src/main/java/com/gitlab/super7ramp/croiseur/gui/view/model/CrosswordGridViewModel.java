@@ -208,6 +208,7 @@ public final class CrosswordGridViewModel {
                 }
                 slotBoxes.add(position);
             }
+            slotBoxes.sort(COMPARING_BY_LINE_THEN_BY_ROW);
             currentSlotPositions.setAll(slotBoxes);
         }
 
@@ -234,6 +235,7 @@ public final class CrosswordGridViewModel {
                 }
                 slotBoxes.add(position);
             }
+            slotBoxes.sort(COMPARING_BY_LINE_THEN_BY_ROW);
             currentSlotPositions.setAll(slotBoxes);
         }
 
