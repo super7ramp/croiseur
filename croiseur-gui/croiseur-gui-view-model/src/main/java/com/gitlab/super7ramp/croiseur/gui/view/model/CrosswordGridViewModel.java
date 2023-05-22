@@ -415,7 +415,7 @@ public final class CrosswordGridViewModel {
      * @return the column count property
      */
     public ReadOnlyIntegerProperty columnCountProperty() {
-        return columnCount;
+        return columnCount.getReadOnlyProperty();
     }
 
     /**
@@ -437,7 +437,7 @@ public final class CrosswordGridViewModel {
      * @return the row count property
      */
     public ReadOnlyIntegerProperty rowCountProperty() {
-        return rowCount;
+        return rowCount.getReadOnlyProperty();
     }
 
     /**
@@ -467,7 +467,7 @@ public final class CrosswordGridViewModel {
      * @return the current slot positions
      */
     public ReadOnlyListProperty<GridPosition> currentSlotPositionsProperty() {
-        return workingArea.currentSlotPositions;
+        return workingArea.currentSlotPositions.getReadOnlyProperty();
     }
 
     /**
