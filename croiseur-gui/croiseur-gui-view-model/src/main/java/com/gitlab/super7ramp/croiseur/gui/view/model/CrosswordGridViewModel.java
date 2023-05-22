@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import static java.util.Comparator.comparingInt;
@@ -106,6 +104,10 @@ public final class CrosswordGridViewModel {
                 }
             }
         }
+
+        /** A comparator to sort the boxes. */
+        private static final Comparator<GridPosition> COMPARING_BY_LINE_THEN_BY_ROW =
+                comparingInt(GridPosition::x).thenComparing(GridPosition::y);
 
         /**
          * The position of the box being worked on. The value it contains is {@code null} if no box
@@ -340,16 +342,8 @@ public final class CrosswordGridViewModel {
         }
     }
 
-    /** A comparator to sort the boxes. */
-    private static final Comparator<GridPosition> COMPARING_BY_LINE_THEN_BY_ROW =
-            comparingInt(GridPosition::x).thenComparing(GridPosition::y);
-
     /** The maximum number of rows or columns. */
     private static final int MAX_ROW_COLUMN_COUNT = 20;
-
-    /** The sorted map backing {@link #boxes}. */
-    // TODO create ObservableSortedMap to be able to remove this reference to the backing SortedMap
-    private final SortedMap<GridPosition, CrosswordBoxViewModel> backingSortedBoxes;
 
     /** The boxes of the view. */
     private final ObservableMap<GridPosition, CrosswordBoxViewModel> boxes;
@@ -371,16 +365,14 @@ public final class CrosswordGridViewModel {
      *
      * @param boxesArg the initial grid
      */
-    private CrosswordGridViewModel(final SortedMap<GridPosition, CrosswordBoxViewModel> boxesArg) {
-        backingSortedBoxes = boxesArg;
+    private CrosswordGridViewModel(final Map<GridPosition, CrosswordBoxViewModel> boxesArg,
+                                   final int columnCountArg, final int rowCountArg) {
         boxes = FXCollections.observableMap(boxesArg);
         boxesProperty = new ReadOnlyMapWrapper<>(this, "boxes",
                                                  FXCollections.unmodifiableObservableMap(boxes));
-        columnCount = new ReadOnlyIntegerWrapper(this, "width");
-        rowCount = new ReadOnlyIntegerWrapper(this, "height");
-        reevaluateDimensions();
+        columnCount = new ReadOnlyIntegerWrapper(this, "columnCount", columnCountArg);
+        rowCount = new ReadOnlyIntegerWrapper(this, "rowCount", rowCountArg);
         workingArea = new WorkingArea();
-        boxes.addListener((InvalidationListener) observable -> reevaluateDimensions());
     }
 
     /**
@@ -389,9 +381,7 @@ public final class CrosswordGridViewModel {
      * @return a new grid view model without any boxes
      */
     public static CrosswordGridViewModel newGrid() {
-        final SortedMap<GridPosition, CrosswordBoxViewModel> map =
-                new TreeMap<>(COMPARING_BY_LINE_THEN_BY_ROW);
-        return new CrosswordGridViewModel(map);
+        return new CrosswordGridViewModel(new HashMap<>(), 0, 0);
     }
 
     /**
@@ -400,14 +390,13 @@ public final class CrosswordGridViewModel {
      * @return a grid view model representing a 6x7 grid
      */
     public static CrosswordGridViewModel welcomeGrid() {
-        final SortedMap<GridPosition, CrosswordBoxViewModel> welcomeBoxes =
-                new TreeMap<>(COMPARING_BY_LINE_THEN_BY_ROW);
+        final Map<GridPosition, CrosswordBoxViewModel> welcomeBoxes = new HashMap<>();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 welcomeBoxes.put(new GridPosition(i, j), new CrosswordBoxViewModel());
             }
         }
-        return new CrosswordGridViewModel(welcomeBoxes);
+        return new CrosswordGridViewModel(welcomeBoxes, 6, 7);
     }
 
     /**
@@ -541,9 +530,15 @@ public final class CrosswordGridViewModel {
         if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        for (int row = 0; (row < rowCount.get()) || (row == 0); row++) {
+        final int currentRowCount = rowCount.get();
+        for (int row = 0; (row < currentRowCount) || (row == 0); row++) {
             final GridPosition coordinate = new GridPosition(newColumnIndex, row);
             boxes.put(coordinate, new CrosswordBoxViewModel());
+        }
+        columnCount.set(columnCount.get() + 1);
+        if (currentRowCount == 0) {
+            // Adding first column implicitly adds first row
+            rowCount.set(1);
         }
     }
 
@@ -555,9 +550,15 @@ public final class CrosswordGridViewModel {
         if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
             return;
         }
-        for (int column = 0; (column < columnCount.get()) || (column == 0); column++) {
+        final int currentColumnCount = columnCount.get();
+        for (int column = 0; (column < currentColumnCount) || (column == 0); column++) {
             final GridPosition coordinate = new GridPosition(column, newRowIndex);
             boxes.put(coordinate, new CrosswordBoxViewModel());
+        }
+        rowCount.set(rowCount.get() + 1);
+        if (currentColumnCount == 0) {
+            // Adding first row implicitly adds first column
+            columnCount.set(1);
         }
     }
 
@@ -570,9 +571,16 @@ public final class CrosswordGridViewModel {
             return;
         }
         final int deletedRowIndex = oldRowCount - 1;
-        for (int column = 0; column < columnCount.get(); column++) {
+        final int currentColumnCount = columnCount.get();
+        for (int column = 0; column < currentColumnCount; column++) {
             final GridPosition coordinate = new GridPosition(column, deletedRowIndex);
             boxes.remove(coordinate);
+        }
+        if (oldRowCount == 1) {
+            // Deleting very last row implicitly deletes all columns
+            clear();
+        } else {
+            rowCount.set(oldRowCount - 1);
         }
     }
 
@@ -585,9 +593,16 @@ public final class CrosswordGridViewModel {
             return;
         }
         final int deletedColumnIndex = oldColumnCount - 1;
-        for (int row = 0; row < rowCount.get(); row++) {
+        final int currentRowCount = rowCount.get();
+        for (int row = 0; row < currentRowCount; row++) {
             final GridPosition coordinate = new GridPosition(deletedColumnIndex, row);
             boxes.remove(coordinate);
+        }
+        if (oldColumnCount == 1) {
+            // Deleting very last column implicitly deletes all rows
+            clear();
+        } else {
+            columnCount.set(oldColumnCount - 1);
         }
     }
 
@@ -596,6 +611,8 @@ public final class CrosswordGridViewModel {
      */
     public void clear() {
         boxes.clear();
+        columnCount.set(0);
+        rowCount.set(0);
     }
 
     /**
@@ -614,40 +631,6 @@ public final class CrosswordGridViewModel {
      */
     public void resetContentLettersOnly() {
         resetContent(not(CrosswordBoxViewModel::isShaded));
-    }
-
-    /**
-     * Reevaluates column and row counts.
-     */
-    private void reevaluateDimensions() {
-        if (isGridConsistent()) {
-            if (backingSortedBoxes.isEmpty()) {
-                columnCount.set(0);
-                rowCount.set(0);
-            } else {
-                final GridPosition lastPosition = backingSortedBoxes.lastKey();
-                columnCount.set(lastPosition.x() + 1);
-                rowCount.set(lastPosition.y() + 1);
-            }
-        }
-    }
-
-    /**
-     * Whether the grid can be considered consistent, i.e. not in the middle of adding a row or a
-     * column.
-     *
-     * @return {@code true} if the grid can be considered consistent
-     */
-    private boolean isGridConsistent() {
-        final boolean consistent;
-        if (backingSortedBoxes.isEmpty()) {
-            consistent = true;
-        } else {
-            final GridPosition lastPosition = backingSortedBoxes.lastKey();
-            consistent =
-                    (lastPosition.x() + 1) * (lastPosition.y() + 1) == backingSortedBoxes.size();
-        }
-        return consistent;
     }
 
     /**

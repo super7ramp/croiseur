@@ -57,6 +57,34 @@ final class CrosswordGridViewModelTest {
     }
 
     @Test
+    void deleteLastColumn_noMoreColumn() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+
+        crosswordGridViewModel.deleteLastColumn();
+
+        assertEquals(0, crosswordGridViewModel.columnCount());
+        // Deleting very last column implicitly delete rows
+        assertEquals(0, crosswordGridViewModel.rowCount());
+        assertTrue(crosswordGridViewModel.boxesProperty().isEmpty());
+    }
+
+    @Test
+    void deleteLastRow_noMoreRow() {
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+
+        crosswordGridViewModel.deleteLastRow();
+
+        assertEquals(0, crosswordGridViewModel.rowCount());
+        // Deleting very last row implicitly delete columns
+        assertEquals(0, crosswordGridViewModel.columnCount());
+        assertTrue(crosswordGridViewModel.boxesProperty().isEmpty());
+    }
+
+    @Test
     void boxes_unmodifiable() {
         assertThrows(UnsupportedOperationException.class,
                      () -> crosswordGridViewModel.boxesProperty()
