@@ -50,12 +50,12 @@ final class SolveRequestImpl implements SolveRequest {
         final Map<GridPosition, CrosswordBoxViewModel> boxes = crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
             final GridPosition position = box.getKey();
-            final CrosswordBoxViewModel content = box.getValue();
-            final boolean shaded = content.isShaded();
+            final CrosswordBoxViewModel boxModel = box.getValue();
+            final boolean shaded = boxModel.isShaded();
             if (shaded) {
                 pdb.shade(position);
-            } else if (!content.getContent().isEmpty()) {
-                pdb.fill(position, content.getContent().charAt(0));
+            } else if (!boxModel.content().isEmpty()) {
+                pdb.fill(position, boxModel.content().charAt(0));
             } else {
                 // Empty, not needed by solver
             }

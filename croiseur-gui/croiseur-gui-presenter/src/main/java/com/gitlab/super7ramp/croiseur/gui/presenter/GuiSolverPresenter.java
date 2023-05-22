@@ -16,7 +16,6 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 import javafx.application.Platform;
-import javafx.beans.property.MapProperty;
 
 import java.util.List;
 import java.util.Map;
@@ -54,14 +53,16 @@ final class GuiSolverPresenter implements SolverPresenter {
         final List<SolverItemViewModel> solverNames =
                 solverDescriptions.stream()
                                   .map(s -> new SolverItemViewModel(s.name(),
-                                          s.description()))
+                                                                    s.description()))
                                   .toList();
         Platform.runLater(() ->
-                solverSelectionViewModel.availableSolversProperty().addAll(solverNames));
+                                  solverSelectionViewModel.availableSolversProperty()
+                                                          .addAll(solverNames));
     }
 
     @Override
-    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(
+            final SolverInitialisationState solverInitialisationState) {
         // TODO really implement
         LOGGER.info(() -> "Solver initialisation: " + solverInitialisationState);
     }
@@ -96,7 +97,7 @@ final class GuiSolverPresenter implements SolverPresenter {
      * @param result the solver result
      */
     private void updateBoxSolvableState(final SolverResult result) {
-        final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
+        final Map<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxesProperty();
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
@@ -116,7 +117,7 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     private void updateBoxContent(final SolverResult result) {
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
-        final MapProperty<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
+        final Map<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();

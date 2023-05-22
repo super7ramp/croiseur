@@ -9,11 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -37,7 +37,8 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void dimensions_1x1() {
-        crosswordGridViewModel.boxesProperty().put(at(0, 0), blank());
+        // First row implicitly adds a first column and vice-versa
+        crosswordGridViewModel.addRow();
 
         assertEquals(1, crosswordGridViewModel.columnCount());
         assertEquals(1, crosswordGridViewModel.rowCount());
@@ -45,35 +46,31 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void dimensions_2x3() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
+        // First column implicitly adds a first row and vice-versa
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
 
         assertEquals(2, crosswordGridViewModel.columnCount());
         assertEquals(3, crosswordGridViewModel.rowCount());
     }
 
     @Test
-    void dimensions_inconsistent() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), blank(),
-                                             at(0, 2), blank() /* missing (1, 2) */));
-
-        /* Only complete rows are taken into account */
-        assertEquals(2, crosswordGridViewModel.columnCount());
-        assertEquals(2, crosswordGridViewModel.rowCount());
+    void boxes_unmodifiable() {
+        assertThrows(UnsupportedOperationException.class,
+                     () -> crosswordGridViewModel.boxesProperty()
+                                                 .put(at(0, 0), new CrosswordBoxViewModel()));
     }
 
     @Test
     void selectedSlot_newHorizontalSelection() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), shaded(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -81,12 +78,13 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_newHorizontalSelectionBetweenShaded() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), shaded(),
-                                             at(2, 0), blank(), at(3, 0), blank(),
-                                             at(4, 0), shaded(), at(5, 0), blank()));
+        for (int i = 0; i < 6; i++) {
+            crosswordGridViewModel.addColumn();
+        }
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).shade();
+        crosswordGridViewModel.boxesProperty().get(at(4, 0)).shade();
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(2, 0));
+        crosswordGridViewModel.currentBoxPosition(at(2, 0));
 
         assertEquals(List.of(at(2, 0), at(3, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -96,8 +94,8 @@ final class CrosswordGridViewModelTest {
     void selectedSlot_horizontalSelectionGrows() {
         selectedSlot_newHorizontalSelectionBetweenShaded();
 
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).shadedProperty().set(false);
-        crosswordGridViewModel.boxesProperty().get(at(4, 0)).shadedProperty().set(false);
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).unshade();
+        crosswordGridViewModel.boxesProperty().get(at(4, 0)).unshade();
 
         assertEquals(List.of(at(0, 0), at(1, 0), at(2, 0), at(3, 0),
                              at(4, 0), at(5, 0)),
@@ -106,13 +104,13 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_newVerticalSelection() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), shaded(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.currentSlotVertical();
 
-        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
         assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -120,13 +118,14 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_newVerticalSelectionBetweenShaded() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(0, 1), shaded(),
-                                             at(0, 2), blank(), at(0, 3), blank(),
-                                             at(0, 4), shaded(), at(0, 5), blank()));
-        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
+        for (int i = 0; i < 6; i++) {
+            crosswordGridViewModel.addRow();
+        }
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
+        crosswordGridViewModel.boxesProperty().get(at(0, 4)).shade();
+        crosswordGridViewModel.currentSlotVertical();
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 2));
+        crosswordGridViewModel.currentBoxPosition(at(0, 2));
 
         assertEquals(List.of(at(0, 2), at(0, 3)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -136,8 +135,8 @@ final class CrosswordGridViewModelTest {
     void selectedSlot_verticalSelectionGrows() {
         selectedSlot_newVerticalSelectionBetweenShaded();
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shadedProperty().set(false);
-        crosswordGridViewModel.boxesProperty().get(at(0, 4)).shadedProperty().set(false);
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).unshade();
+        crosswordGridViewModel.boxesProperty().get(at(0, 4)).unshade();
 
         assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2), at(0, 3), at(0, 4), at(0, 5)),
                      crosswordGridViewModel.currentSlotPositionsProperty().get());
@@ -145,10 +144,10 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlot_noCurrentBox() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), blank(), at(1, 1), shaded(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
 
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
@@ -156,96 +155,97 @@ final class CrosswordGridViewModelTest {
     @Test
     void selectedSlot_currentBoxDeleted_horizontal() {
         // Set last line as current slot of a 2x3 grid
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 2));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.currentBoxPosition(at(0, 2));
         assertEquals(List.of(at(0, 2), at(1, 2)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
 
         // Remove last line
-        crosswordGridViewModel.boxesProperty().remove(at(1, 2));
-        crosswordGridViewModel.boxesProperty().remove(at(0, 2));
+        crosswordGridViewModel.deleteLastRow();
 
         // No more current slot nor current box
-        assertNull(crosswordGridViewModel.currentBoxPositionProperty().get());
+        assertNull(crosswordGridViewModel.currentBoxPosition());
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
     void selectedSlot_currentBoxDeleted_vertical() {
         // Set last column as current slot of a 2x3 grid
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-        crosswordGridViewModel.isCurrentSlotVerticalProperty().set(true);
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(1, 0));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.currentSlotVertical();
+        crosswordGridViewModel.currentBoxPosition(at(1, 0));
         assertEquals(List.of(at(1, 0), at(1, 1), at(1, 2)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
 
         // Remove last column
-        crosswordGridViewModel.boxesProperty().remove(at(1, 0));
-        crosswordGridViewModel.boxesProperty().remove(at(1, 1));
-        crosswordGridViewModel.boxesProperty().remove(at(1, 2));
+        crosswordGridViewModel.deleteLastColumn();
 
         // No more current slot nor current box
-        assertNull(crosswordGridViewModel.currentBoxPositionProperty().get());
+        assertNull(crosswordGridViewModel.currentBoxPosition());
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
     void selectedSlot_currentBoxInitializedWithShaded() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 1));
+        crosswordGridViewModel.currentBoxPosition(at(0, 1));
 
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
     void selectedSlot_currentBoxChangedWithShaded() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 1));
+        crosswordGridViewModel.currentBoxPosition(at(0, 1));
+
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
     void selectedSlot_currentBoxMutatedFromBlankToShaded() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).shadedProperty().set(true);
+        crosswordGridViewModel.boxesProperty().get(at(0, 0)).shade();
 
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
 
     @Test
     void selectedSlot_currentBoxMutatedFromShadedToBlank() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(),
-                                             at(0, 1), shaded(), at(1, 1), blank(),
-                                             at(0, 2), blank(), at(1, 2), blank()));
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 1));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
+        crosswordGridViewModel.currentBoxPosition(at(0, 1));
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shadedProperty().set(false);
+        crosswordGridViewModel.boxesProperty().get(at(0, 1)).unshade();
 
         assertEquals(List.of(at(0, 1), at(1, 1)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -253,31 +253,36 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlotContent_filled() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), letter('A'), at(1, 0), letter('B'), at(2, 0),
-                                             letter('C')));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.boxesProperty().get(at(0, 0)).content("A");
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).content("B");
+        crosswordGridViewModel.boxesProperty().get(at(2, 0)).content("C");
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
         assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
     }
 
     @Test
     void selectedSlotContent_partiallyFilled() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), letter('A'), at(1, 0), blank(), at(2, 0),
-                                             letter('C')));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.boxesProperty().get(at(0, 0)).content("A");
+        crosswordGridViewModel.boxesProperty().get(at(2, 0)).content("C");
 
-        crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
         assertEquals("A.C", crosswordGridViewModel.currentSlotContent());
     }
 
     @Test
     void selectedSlotContent_onlyBlanks() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(), at(2, 0),
-                                             blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
 
         crosswordGridViewModel.currentBoxPositionProperty().set(at(0, 0));
 
@@ -286,9 +291,9 @@ final class CrosswordGridViewModelTest {
 
     @Test
     void selectedSlotContent_noSelection() {
-        crosswordGridViewModel.boxesProperty()
-                              .putAll(Map.of(at(0, 0), blank(), at(1, 0), blank(), at(2, 0),
-                                             blank()));
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
 
         assertTrue(crosswordGridViewModel.currentSlotContent().isEmpty());
     }
@@ -297,7 +302,7 @@ final class CrosswordGridViewModelTest {
     void selectedSlotContent_contentChange() {
         selectedSlotContent_partiallyFilled();
 
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).contentProperty().setValue("B");
+        crosswordGridViewModel.boxesProperty().get(at(1, 0)).content("B");
 
         assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
     }
@@ -306,24 +311,9 @@ final class CrosswordGridViewModelTest {
     void selectedSlotContent_contentGrows() {
         selectedSlotContent_filled();
 
-        crosswordGridViewModel.boxesProperty().put(at(3, 0), blank());
+        crosswordGridViewModel.addColumn();
 
         assertEquals("ABC.", crosswordGridViewModel.currentSlotContent());
     }
 
-    private static CrosswordBoxViewModel blank() {
-        return new CrosswordBoxViewModel();
-    }
-
-    private static CrosswordBoxViewModel shaded() {
-        final var boxViewModel = new CrosswordBoxViewModel();
-        boxViewModel.shadedProperty().set(true);
-        return boxViewModel;
-    }
-
-    private static CrosswordBoxViewModel letter(final char letter) {
-        final var boxViewModel = new CrosswordBoxViewModel();
-        boxViewModel.contentProperty().setValue(String.valueOf(letter));
-        return boxViewModel;
-    }
 }

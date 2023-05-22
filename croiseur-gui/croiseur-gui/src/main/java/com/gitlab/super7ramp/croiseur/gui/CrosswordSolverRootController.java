@@ -19,7 +19,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
+import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
@@ -149,7 +149,7 @@ public final class CrosswordSolverRootController {
         // and grid is not empty
         final ListProperty<DictionaryViewModel> dictionaries =
                 crosswordSolverViewModel.dictionaryViewModel().dictionariesProperty();
-        final MapProperty<GridPosition, CrosswordBoxViewModel> grid =
+        final ReadOnlyMapProperty<GridPosition, CrosswordBoxViewModel> grid =
                 crosswordSolverViewModel.crosswordGridViewModel().boxesProperty();
         view.solveButtonDisableProperty()
             .bind(solverRunning.not().and(dictionaries.emptyProperty().or(grid.emptyProperty())));

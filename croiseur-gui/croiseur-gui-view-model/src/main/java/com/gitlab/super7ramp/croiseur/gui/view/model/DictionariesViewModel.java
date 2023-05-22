@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.util.ObservableAggregateLis
 import javafx.beans.Observable;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -30,10 +31,10 @@ public final class DictionariesViewModel {
     private final ListProperty<DictionaryViewModel> dictionaries;
 
     /** The selected dictionaries. */
-    private final ListProperty<DictionaryViewModel> selectedDictionaries;
+    private final ReadOnlyListWrapper<DictionaryViewModel> selectedDictionaries;
 
     /** The words of the selected dictionaries. */
-    private final ListProperty<String> selectedDictionariesWords;
+    private final ReadOnlyListWrapper<String> selectedDictionariesWords;
 
     /**
      * Associates a selected dictionary with the identifier of its word list inside
@@ -49,12 +50,14 @@ public final class DictionariesViewModel {
      */
     public DictionariesViewModel() {
         dictionaries = new SimpleListProperty<>(this, "dictionaries",
-                FXCollections.observableArrayList(entry -> new Observable[]{entry.selectedProperty()}));
-        selectedDictionaries = new SimpleListProperty<>(this, "selected dictionaries",
-                new FilteredList<>(dictionaries, DictionaryViewModel::isSelected));
+                                                FXCollections.observableArrayList(
+                                                        entry -> new Observable[]{entry.selectedProperty()}));
+        selectedDictionaries = new ReadOnlyListWrapper<>(this, "selected dictionaries",
+                                                         new FilteredList<>(dictionaries,
+                                                                            DictionaryViewModel::isSelected));
         backingAggregateWordList = MoreFXCollections.observableAggregateList();
-        selectedDictionariesWords = new SimpleListProperty<>(this, "selected dictionary entries",
-                backingAggregateWordList);
+        selectedDictionariesWords = new ReadOnlyListWrapper<>(this, "selected dictionary entries",
+                                                              backingAggregateWordList);
         dictionaryToWordAggregateIndex = new HashMap<>();
         selectedDictionaries.addListener(this::onSelectedDictionaryChange);
     }
@@ -75,8 +78,8 @@ public final class DictionariesViewModel {
      *
      * @return the selected dictionaries
      */
-    public ListProperty<DictionaryViewModel> selectedDictionariesProperty() {
-        return selectedDictionaries;
+    public ReadOnlyListProperty<DictionaryViewModel> selectedDictionariesProperty() {
+        return selectedDictionaries.getReadOnlyProperty();
     }
 
     /**
@@ -85,7 +88,7 @@ public final class DictionariesViewModel {
      * @return the words of the selected dictionaries
      */
     public ReadOnlyListProperty<String> wordsProperty() {
-        return selectedDictionariesWords;
+        return selectedDictionariesWords.getReadOnlyProperty();
     }
 
     /**

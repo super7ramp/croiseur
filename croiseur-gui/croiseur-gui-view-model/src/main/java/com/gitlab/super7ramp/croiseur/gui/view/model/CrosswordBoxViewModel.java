@@ -47,6 +47,18 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Sets the shaded property value to {@code true}.
+     */
+    public void shade() {
+        shaded.set(true);
+    }
+
+    /** Sets the shaded property value to {@code false}. */
+    public void unshade() {
+        shaded.set(false);
+    }
+
+    /**
      * Returns whether the box is shaded.
      *
      * @return whether the box is shaded
@@ -83,11 +95,20 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Sets the value of the content property.
+     *
+     * @param value the new content value
+     */
+    public void content(final String value) {
+        content.set(value);
+    }
+
+    /**
      * Returns the value of the content property.
      *
      * @return the value of the content property
      */
-    public String getContent() {
+    public String content() {
         return content.get();
     }
 
