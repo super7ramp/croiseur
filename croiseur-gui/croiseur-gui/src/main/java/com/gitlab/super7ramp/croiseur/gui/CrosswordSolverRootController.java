@@ -58,76 +58,101 @@ public final class CrosswordSolverRootController {
     public CrosswordSolverRootController(final CrosswordService crosswordService,
                                          final CrosswordSolverViewModel crosswordSolverViewModelArg,
                                          final Executor executor) {
-        solverController = new SolverController(crosswordSolverViewModelArg,
-                                                crosswordService.solverService(), executor);
-        dictionaryController = new DictionaryController(crosswordService.dictionaryService(),
-                                                        executor);
+        solverController =
+                new SolverController(crosswordSolverViewModelArg, crosswordService.solverService(),
+                                     executor);
+        dictionaryController =
+                new DictionaryController(crosswordService.dictionaryService(), executor);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
     }
 
     @FXML
     private void initialize() {
-        // The grid view shall display and allow edition of the crossword grid model
-        final CrosswordGridViewModel crosswordGridViewModel =
-                crosswordSolverViewModel.crosswordGridViewModel();
-        final MapProperty<GridPosition, CrosswordBoxViewModel> boxes =
-                crosswordGridViewModel.boxesProperty();
-        view.gridBoxesProperty().setValue(boxes);
-        view.gridCurrentBoxProperty()
-            .bindBidirectional(crosswordGridViewModel.currentBoxPositionProperty());
+        initializeCrosswordGridBindings();
+        initializeDictionaryBindings();
+        initializeSolverSelectionBindings();
+        initializeOtherSolverBindings();
+        populateServiceLists();
+    }
+
+    /**
+     * Initializes bindings between the grid view and the crossword grid view model.
+     */
+    private void initializeCrosswordGridBindings() {
+        final CrosswordGridViewModel viewModel = crosswordSolverViewModel.crosswordGridViewModel();
+        view.gridBoxesProperty().setValue(viewModel.boxesProperty());
+        view.gridCurrentBoxProperty().bindBidirectional(viewModel.currentBoxPositionProperty());
         view.gridIsCurrentSlotOrientationVerticalProperty()
-            .bindBidirectional(crosswordGridViewModel.isCurrentSlotVerticalProperty());
-        view.onAddRowActionButtonProperty().set(event -> crosswordGridViewModel.addRow());
-        view.onAddColumnActionButtonProperty().set(event -> crosswordGridViewModel.addColumn());
-        view.onDeleteColumnActionButtonProperty()
-            .set(event -> crosswordGridViewModel.deleteLastColumn());
-        view.onDeleteRowActionButtonProperty().set(event -> crosswordGridViewModel.deleteLastRow());
-        view.onClearGridLettersMenuItemActionProperty()
-            .set(event -> crosswordGridViewModel.resetContentLettersOnly());
-        view.onClearGridContentMenuItemActionProperty()
-            .set(event -> crosswordGridViewModel.resetContentAll());
-        view.onDeleteGridActionProperty().set(event -> crosswordGridViewModel.clear());
+            .bindBidirectional(viewModel.isCurrentSlotVerticalProperty());
+        view.onAddRowActionButtonProperty().set(event -> viewModel.addRow());
+        view.onAddColumnActionButtonProperty().set(event -> viewModel.addColumn());
+        view.onDeleteColumnActionButtonProperty().set(event -> viewModel.deleteLastColumn());
+        view.onDeleteRowActionButtonProperty().set(event -> viewModel.deleteLastRow());
+        view.onClearGridLettersMenuItemActionProperty().set(event -> viewModel.resetContentLettersOnly());
+        view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
+        view.onDeleteGridActionProperty().set(event -> viewModel.clear());
+    }
 
-        // The dictionary pane shall display the dictionary model and allow to modify the
-        // dictionary selection.
-        final DictionariesViewModel dictionariesViewModel =
-                crosswordSolverViewModel.dictionaryViewModel();
-        view.dictionariesProperty().setValue(dictionariesViewModel.dictionariesProperty());
-        view.wordsProperty().setValue(dictionariesViewModel.wordsProperty());
-        final ListProperty<DictionaryViewModel> selectedDictionary =
-                dictionariesViewModel.selectedDictionariesProperty();
-        selectedDictionary.addListener(this::onSelectedDictionaryChange);
+    /**
+     * Initializes bindings between dictionary view and dictionary view model.
+     */
+    private void initializeDictionaryBindings() {
+        final DictionariesViewModel viewModel = crosswordSolverViewModel.dictionaryViewModel();
+        view.dictionariesProperty().setValue(viewModel.dictionariesProperty());
+        view.wordsProperty().setValue(viewModel.wordsProperty());
+        viewModel.selectedDictionariesProperty().addListener(this::onSelectedDictionaryChange);
+    }
 
+    /**
+     * Performs the dictionary selection change action.
+     *
+     * @param change the dictionary selection change
+     */
+    private void onSelectedDictionaryChange(
+            final ListChangeListener.Change<? extends DictionaryViewModel> change) {
+        // TODO Dictionary words retrieval should be performed lazily when dictionary pane is
+        //  displayed for the first time
+        while (change.next()) {
+            if (change.wasAdded()) {
+                change.getAddedSubList().forEach(dictionaryController::listDictionaryEntries);
+            }
+        }
+    }
+
+    /**
+     * Initializes bindings between the solver selection view and the solver selection view model.
+     */
+    private void initializeSolverSelectionBindings() {
+        final SolverSelectionViewModel viewModel =
+                crosswordSolverViewModel.solverSelectionViewModel();
+        view.solversProperty().set(viewModel.availableSolversProperty());
+        viewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
+    }
+
+    /**
+     * Initializes transverse bindings between views and view models.
+     */
+    private void initializeOtherSolverBindings() {
         // Grid edition buttons and grid pane shall be disabled when solver is running
         final BooleanProperty solverRunning = crosswordSolverViewModel.solverRunning();
         view.gridEditionDisableProperty().bind(solverRunning);
 
-        // Solver button menu context shall contain the available solvers from the view model
-        final SolverSelectionViewModel solverSelectionViewModel =
-                crosswordSolverViewModel.solverSelectionViewModel();
-        view.solversProperty().set(solverSelectionViewModel.availableSolversProperty());
-        solverSelectionViewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
-
-        // Solver button shall be disabled if solver is not running and no dictionary is selected
-        // and grid is not empty
-        view.solveButtonDisableProperty()
-            .bind(solverRunning.not()
-                               .and(selectedDictionary.emptyProperty().or(boxes.emptyProperty())));
-
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
-            .bind(new When(solverRunning)
-                          .then(resources.getString("stop-solving-button"))
-                          .otherwise(resources.getString("start-solving-button")));
+            .bind(new When(solverRunning).then(resources.getString("stop-solving-button"))
+                                         .otherwise(resources.getString("start-solving-button")));
 
         // Solver button action shall allow control the start and stop of the solver
         view.onSolveButtonActionProperty().set(event -> onSolveButtonAction());
 
-        // Solver list shall be populated on startup
-        solverController.listSolvers();
-
-        // Dictionary pane shall be populated on startup
-        dictionaryController.listDictionaries();
+        // Solver button shall be disabled if solver is not running and no dictionary is selected
+        // and grid is not empty
+        final ListProperty<DictionaryViewModel> dictionaries =
+                crosswordSolverViewModel.dictionaryViewModel().dictionariesProperty();
+        final MapProperty<GridPosition, CrosswordBoxViewModel> grid =
+                crosswordSolverViewModel.crosswordGridViewModel().boxesProperty();
+        view.solveButtonDisableProperty()
+            .bind(solverRunning.not().and(dictionaries.emptyProperty().or(grid.emptyProperty())));
     }
 
     /**
@@ -142,18 +167,10 @@ public final class CrosswordSolverRootController {
     }
 
     /**
-     * Performs the dictionary selection change action.
-     *
-     * @param change the dictionary selection change
+     * Populates solver and dictionary lists.
      */
-    private void onSelectedDictionaryChange(final ListChangeListener.Change<?
-            extends DictionaryViewModel> change) {
-        // TODO Dictionary words retrieval should be performed lazily when dictionary pane is
-        //  displayed for the first time
-        while (change.next()) {
-            if (change.wasAdded()) {
-                change.getAddedSubList().forEach(dictionaryController::listDictionaryEntries);
-            }
-        }
+    private void populateServiceLists() {
+        solverController.listSolvers();
+        dictionaryController.listDictionaries();
     }
 }
