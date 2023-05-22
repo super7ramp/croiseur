@@ -33,8 +33,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 import static java.util.Comparator.comparingInt;
+import static java.util.function.Predicate.not;
 
 /**
  * The crossword view model.
@@ -341,6 +343,9 @@ public final class CrosswordGridViewModel {
     private static final Comparator<GridPosition> COMPARING_BY_LINE_THEN_BY_ROW =
             comparingInt(GridPosition::x).thenComparing(GridPosition::y);
 
+    /** The maximum number of rows or columns. */
+    private static final int MAX_ROW_COLUMN_COUNT = 20;
+
     /** The sorted map backing {@link #boxes}. */
     private final SortedMap<GridPosition, CrosswordBoxViewModel> sortedBoxes;
 
@@ -502,6 +507,89 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * Creates an empty column at the right of the grid.
+     */
+    public void addColumn() {
+        final int newColumnIndex = columnCount.get();
+        if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
+            return;
+        }
+        for (int row = 0; (row < rowCount.get()) || (row == 0); row++) {
+            final GridPosition coordinate = new GridPosition(newColumnIndex, row);
+            boxes.put(coordinate, new CrosswordBoxViewModel());
+        }
+    }
+
+    /**
+     * Creates an empty row at the bottom of the grid.
+     */
+    public void addRow() {
+        final int newRowIndex = rowCount.get();
+        if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
+            return;
+        }
+        for (int column = 0; (column < columnCount.get()) || (column == 0); column++) {
+            final GridPosition coordinate = new GridPosition(column, newRowIndex);
+            boxes.put(coordinate, new CrosswordBoxViewModel());
+        }
+    }
+
+    /**
+     * Deletes the last row (reading top to bottom, so the row at the bottom of the grid).
+     */
+    public void deleteLastRow() {
+        final int oldRowCount = rowCount.get();
+        if (oldRowCount == 0) {
+            return;
+        }
+        final int deletedRowIndex = oldRowCount - 1;
+        for (int column = 0; column < columnCount.get(); column++) {
+            final GridPosition coordinate = new GridPosition(column, deletedRowIndex);
+            boxes.remove(coordinate);
+        }
+    }
+
+    /**
+     * Deletes the last column (reading left to right, so the column on the right of the grid).
+     */
+    public void deleteLastColumn() {
+        final int oldColumnCount = columnCount.get();
+        if (oldColumnCount == 0) {
+            return;
+        }
+        final int deletedColumnIndex = oldColumnCount - 1;
+        for (int row = 0; row < rowCount.get(); row++) {
+            final GridPosition coordinate = new GridPosition(deletedColumnIndex, row);
+            boxes.remove(coordinate);
+        }
+    }
+
+    /**
+     * Clears the entire grid, including its structure, i.e. box nodes are removed from the grid.
+     */
+    public void clear() {
+        boxes.clear();
+    }
+
+    /**
+     * Resets the grid content (both shaded and non-shaded boxes).
+     * <p>
+     * This method preserves the structure of the grid, box nodes are not removed.
+     */
+    public void resetContentAll() {
+        resetContent(box -> true);
+    }
+
+    /**
+     * Resets the grid content (only non-shaded boxes).
+     * <p>
+     * This method preserves the structure of the grid, box nodes are not removed.
+     */
+    public void resetContentLettersOnly() {
+        resetContent(not(CrosswordBoxViewModel::isShaded));
+    }
+
+    /**
      * Reevaluates column and row counts.
      */
     private void reevaluateDimensions() {
@@ -533,4 +621,16 @@ public final class CrosswordGridViewModel {
         }
         return consistent;
     }
+
+    /**
+     * Resets the boxes matching the given predicate.
+     *
+     * @param predicate filters the boxes to be reset
+     * @see CrosswordBoxViewModel#resetExceptHighlight()
+     */
+    private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
+        boxes.values().stream().filter(predicate)
+             .forEach(CrosswordBoxViewModel::resetExceptHighlight);
+    }
+
 }

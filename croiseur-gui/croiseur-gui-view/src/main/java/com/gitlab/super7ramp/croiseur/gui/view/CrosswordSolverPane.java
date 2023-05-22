@@ -94,14 +94,6 @@ public final class CrosswordSolverPane extends BorderPane {
      * Binds the grid pane properties to toolbar ones.
      */
     private void initializeToolbarGridPaneBindings() {
-        toolbar.onAddColumnActionButtonProperty().set(event -> grid.addColumn());
-        toolbar.onAddRowActionButtonProperty().set(event -> grid.addRow());
-        toolbar.onDeleteColumnActionButtonProperty().set(event -> grid.deleteLastColumn());
-        toolbar.onDeleteRowActionButtonProperty().set(event -> grid.deleteLastRow());
-        toolbar.onClearGridLettersMenuItemActionProperty()
-               .set(event -> grid.resetContentLettersOnly());
-        toolbar.onClearGridContentMenuItemActionProperty().set(event -> grid.resetContentAll());
-        toolbar.onDeleteGridActionProperty().set(event -> grid.clear());
         grid.disableProperty().bind(toolbar.gridEditionButtonsDisableProperty());
     }
 
@@ -143,6 +135,69 @@ public final class CrosswordSolverPane extends BorderPane {
             // Node may not be created yet
             Platform.runLater(() -> updateSplitPane(dictionariesPaneVisible));
         }
+    }
+
+    /**
+     * Returns the on add column button action property.
+     *
+     * @return the on add column button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onAddColumnActionButtonProperty() {
+        return toolbar.onAddColumnActionButtonProperty();
+    }
+
+    /**
+     * Returns the on delete column button action property.
+     *
+     * @return the on delete column button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteColumnActionButtonProperty() {
+        return toolbar.onDeleteColumnActionButtonProperty();
+    }
+
+    /**
+     * Returns the on add row button action property.
+     *
+     * @return the on add row button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onAddRowActionButtonProperty() {
+        return toolbar.onAddRowActionButtonProperty();
+    }
+
+    /**
+     * Returns the on delete row button action property.
+     *
+     * @return the on delete row button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteRowActionButtonProperty() {
+        return toolbar.onDeleteRowActionButtonProperty();
+    }
+
+    /**
+     * Returns the on clear grid letters menu item action property.
+     *
+     * @return the on clear grid letters menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersMenuItemActionProperty() {
+        return toolbar.onClearGridLettersMenuItemActionProperty();
+    }
+
+    /**
+     * Returns the on clear grid content menu item action property.
+     *
+     * @return the on clear grid content menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridContentMenuItemActionProperty() {
+        return toolbar.onClearGridContentMenuItemActionProperty();
+    }
+
+    /**
+     * Returns the on delete grid action property.
+     *
+     * @return the on delete grid action property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteGridActionProperty() {
+        return toolbar.onDeleteGridActionProperty();
     }
 
     /**

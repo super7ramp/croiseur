@@ -77,6 +77,16 @@ public final class CrosswordSolverRootController {
             .bindBidirectional(crosswordGridViewModel.currentBoxPositionProperty());
         view.gridIsCurrentSlotOrientationVerticalProperty()
             .bindBidirectional(crosswordGridViewModel.isCurrentSlotVerticalProperty());
+        view.onAddRowActionButtonProperty().set(event -> crosswordGridViewModel.addRow());
+        view.onAddColumnActionButtonProperty().set(event -> crosswordGridViewModel.addColumn());
+        view.onDeleteColumnActionButtonProperty()
+            .set(event -> crosswordGridViewModel.deleteLastColumn());
+        view.onDeleteRowActionButtonProperty().set(event -> crosswordGridViewModel.deleteLastRow());
+        view.onClearGridLettersMenuItemActionProperty()
+            .set(event -> crosswordGridViewModel.resetContentLettersOnly());
+        view.onClearGridContentMenuItemActionProperty()
+            .set(event -> crosswordGridViewModel.resetContentAll());
+        view.onDeleteGridActionProperty().set(event -> crosswordGridViewModel.clear());
 
         // The dictionary pane shall display the dictionary model and allow to modify the
         // dictionary selection.

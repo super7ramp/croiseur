@@ -38,9 +38,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
-
-import static java.util.function.Predicate.not;
 
 /**
  * A standalone crossword grid control.
@@ -97,16 +94,11 @@ public final class CrosswordGridPane extends StackPane {
      * A comparator for the grid child boxes.
      * <p>
      * Children are sorted using this comparator in order to maintain a consistent navigation with
-     * tab key. Otherwise, navigation follows node insertion order, which may be erratic - nodes can
-     * be added in columns using {@link #addColumn()}, in rows using {@link #addRow()} or in a
-     * completely custom order using {@link #boxesProperty()}).
+     * tab key. Otherwise, navigation follows node insertion order, which may be erratic.
      */
     private static final Comparator<Node> BOX_COMPARATOR =
             Comparator.comparingInt(GridPane::getRowIndex)
                       .thenComparingInt(GridPane::getColumnIndex);
-
-    /** The maximum number of rows or columns. */
-    private static final int MAX_ROW_COLUMN_COUNT = 20;
 
     /** The boxes of the view. */
     private final MapProperty<GridPosition, CrosswordBoxViewModel> boxModels;
@@ -168,8 +160,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * <h4>Adding new boxes</h4>
      * <p>
-     * Just add entries to the map. Entries with default {@link CrosswordBoxViewModel}s can also be
-     * added via {@link #addColumn()} and {@link #addRow()}.
+     * Just add entries to the map.
      *
      * <h4>Modifying boxes</h4>
      * <p>
@@ -186,8 +177,6 @@ public final class CrosswordGridPane extends StackPane {
      * Just remove entries from the map. As mentioned above, only null-ing the values should have
      * the same effect from the view perspective but this practice can only be discouraged as no
      * obvious intent can be associated to it.
-     * <p>
-     * Boxes can be also removed using {@link #deleteLastRow()} or {@link #deleteLastColumn()}.
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
@@ -211,95 +200,6 @@ public final class CrosswordGridPane extends StackPane {
      */
     public BooleanProperty isCurrentSlotVerticalProperty() {
         return isCurrentSlotVertical;
-    }
-
-    /**
-     * Creates an empty row at the bottom of the grid.
-     */
-    public void addRow() {
-        final int newRowIndex = getRowCount();
-        if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
-            return;
-        }
-        final int columnCount = getColumnCount();
-        for (int column = 0; (column < columnCount) || (column == 0); column++) {
-            final GridPosition coordinate = new GridPosition(column, newRowIndex);
-            // Just add the box to the model: Model update listener will synchronize the view.
-            boxModels.put(coordinate, new CrosswordBoxViewModel());
-        }
-    }
-
-    /**
-     * Creates an empty column at the right of the grid.
-     */
-    public void addColumn() {
-        final int newColumnIndex = getColumnCount();
-        if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
-            return;
-        }
-        final int rowCount = getRowCount();
-        for (int row = 0; (row < rowCount) || (row == 0); row++) {
-            final GridPosition coordinate = new GridPosition(newColumnIndex, row);
-            // Just add the box to the model: Model update listener will synchronize the view.
-            boxModels.put(coordinate, new CrosswordBoxViewModel());
-        }
-    }
-
-    /**
-     * Deletes the last row (reading top to bottom, so the row at the bottom of the grid).
-     */
-    public void deleteLastRow() {
-        final int oldRowCount = getRowCount();
-        if (oldRowCount == 0) {
-            return;
-        }
-        final int deletedRowIndex = oldRowCount - 1;
-        for (int column = 0; column < getColumnCount(); column++) {
-            final GridPosition coordinate = new GridPosition(column, deletedRowIndex);
-            // Just remove the box from the model: Model update listener will synchronize the view.
-            boxModels.remove(coordinate);
-        }
-    }
-
-    /**
-     * Deletes the last column (reading left to right, so the column on the right of the grid).
-     */
-    public void deleteLastColumn() {
-        final int oldColumnCount = getColumnCount();
-        if (oldColumnCount == 0) {
-            return;
-        }
-        final int deletedColumnIndex = oldColumnCount - 1;
-        for (int row = 0; row < getRowCount(); row++) {
-            final GridPosition coordinate = new GridPosition(deletedColumnIndex, row);
-            // Just remove the box from the model: Model update listener will synchronize the view.
-            boxModels.remove(coordinate);
-        }
-    }
-
-    /**
-     * Clears the entire grid, including its structure, i.e. box nodes are removed from the grid.
-     */
-    public void clear() {
-        boxModels.clear();
-    }
-
-    /**
-     * Resets the grid content (both shaded and non-shaded boxes).
-     * <p>
-     * This method preserves the structure of the grid, box nodes are not removed.
-     */
-    public void resetContentAll() {
-        resetContent(box -> true);
-    }
-
-    /**
-     * Resets the grid content (only non-shaded boxes).
-     * <p>
-     * This method preserves the structure of the grid, box nodes are not removed.
-     */
-    public void resetContentLettersOnly() {
-        resetContent(not(CrosswordBoxViewModel::isShaded));
     }
 
     /**
@@ -530,15 +430,6 @@ public final class CrosswordGridPane extends StackPane {
         return ratio;
     }
 
-    /**
-     * Resets the boxes matching the given predicate.
-     *
-     * @param predicate filters the boxes to be reset
-     * @see CrosswordBoxViewModel#resetExceptHighlight()
-     */
-    private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
-        boxModels.values().stream().filter(predicate).forEach(CrosswordBoxViewModel::resetExceptHighlight);
-    }
 
     /**
      * Gets the grid row count.
