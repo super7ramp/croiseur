@@ -21,8 +21,8 @@ public final class CrosswordBoxViewModel {
     /** Whether the box is unsolvable or not. */
     private final BooleanProperty unsolvable;
 
-    /** Whether the box is highlighted or not. */
-    private final BooleanProperty highlighted;
+    /** Whether the box is selected or not. */
+    private final BooleanProperty selected;
 
     /** The content of the box. */
     private final StringProperty content;
@@ -33,7 +33,7 @@ public final class CrosswordBoxViewModel {
     public CrosswordBoxViewModel() {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
         unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
-        highlighted = new SimpleBooleanProperty(this, "highlighted", false);
+        selected = new SimpleBooleanProperty(this, "selected", false);
         content = new SimpleStringProperty(this, "content", "");
     }
 
@@ -54,7 +54,7 @@ public final class CrosswordBoxViewModel {
     }
 
     /** Sets the shaded property value to {@code false}. */
-    public void unshade() {
+    public void lighten() {
         shaded.set(false);
     }
 
@@ -74,6 +74,13 @@ public final class CrosswordBoxViewModel {
      */
     public BooleanProperty unsolvableProperty() {
         return unsolvable;
+    }
+
+    /**
+     * Sets the value of the unsolvable property to {@code false}.
+     */
+    public void solvable() {
+        unsolvable.set(false);
     }
 
     /**
@@ -113,43 +120,42 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
-     * Returns the box is highlighted.
-     * <p>
-     * This is an alternative to the built-in focused state, e.g. to highlight boxes that are part
-     * of the same slot.
+     * Returns the box is selected.
      *
-     * @return the box is highlighted
+     * @return the box is selected
      */
-    public BooleanProperty highlightedProperty() {
-        return highlighted;
+    public BooleanProperty selectedProperty() {
+        return selected;
     }
 
     /**
-     * Returns the value of the highlighted property.
-     * <p>
-     * This is an alternative to the built-in focused state, e.g. to highlight boxes that are part
-     * of the same slot.
+     * Returns the value of the selected property.
      *
-     * @return the value of the highlighted property
+     * @return the value of the selected property
      */
-    public boolean isHighlighted() {
-        return highlighted.get();
+    public boolean isSelected() {
+        return selected.get();
     }
 
     /**
-     * Sets the value of the highlighted property.
-     *
-     * @param highlightedValue the value to set
+     * Sets the value of the selected property to {@code true}.
      */
-    public void setHighlighted(final boolean highlightedValue) {
-        highlighted.set(highlightedValue);
+    public void select() {
+        selected.set(true);
+    }
+
+    /**
+     * Sets the value of the selected property to {@code false}.
+     */
+    public void deselect() {
+        selected.set(false);
     }
 
     /**
      * Resets the content/unsolvable status/shade status of this box model to its defaults. Keeps
-     * highlight status as is.
+     * selected status as is.
      */
-    public void resetExceptHighlight() {
+    public void reset() {
         unsolvable.set(false);
         shaded.set(false);
         content.set("");

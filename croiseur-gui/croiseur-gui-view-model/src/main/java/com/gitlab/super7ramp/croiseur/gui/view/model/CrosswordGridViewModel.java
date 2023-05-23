@@ -309,10 +309,10 @@ public final class CrosswordGridViewModel {
                 change.getRemoved().stream()
                       .map(boxes::get)
                       .filter(Objects::nonNull) // Box may have been removed from grid
-                      .forEach(boxModel -> boxModel.setHighlighted(false));
+                      .forEach(CrosswordBoxViewModel::deselect);
                 change.getAddedSubList().stream()
                       .map(boxes::get)
-                      .forEach(boxModel -> boxModel.setHighlighted(true));
+                      .forEach(CrosswordBoxViewModel::select);
                 recomputeCurrentSlotContent();
             }
         }
@@ -622,11 +622,11 @@ public final class CrosswordGridViewModel {
      * Resets the boxes matching the given predicate.
      *
      * @param predicate filters the boxes to be reset
-     * @see CrosswordBoxViewModel#resetExceptHighlight()
+     * @see CrosswordBoxViewModel#reset()
      */
     private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
         boxes.values().stream().filter(predicate)
-             .forEach(CrosswordBoxViewModel::resetExceptHighlight);
+             .forEach(CrosswordBoxViewModel::reset);
     }
 
 }

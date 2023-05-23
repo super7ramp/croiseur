@@ -24,6 +24,7 @@ import java.util.function.UnaryOperator;
  *     <li>Binding to {@link CrosswordBoxViewModel} model</li>
  *     <li>Formatting that limits the input to a single character</li>
  *     <li>A shaded version, which can be toggled using right-click or the space key</li>
+ *     <li>Additional selected and unsolvable states</li>
  *     <li>Font auto-sizing</li>
  *     <li>A customizable appearance the {@value #CSS_CLASS} CSS class</li>
  * </ul>
@@ -39,11 +40,8 @@ public final class CrosswordBoxTextField extends TextField {
     /** The CSS pseudo-class for unsolvable state. */
     private static final PseudoClass UNSOLVABLE = PseudoClass.getPseudoClass("unsolvable");
 
-    /**
-     * The CSS pseudo-class for highlighted state. An alternative to the built-in focused state,
-     * e.g. to highlight boxes that are part of the same slot.
-     */
-    private static final PseudoClass HIGHLIGHTED = PseudoClass.getPseudoClass("highlighted");
+    /** The CSS pseudo-class for selected state. */
+    private static final PseudoClass SELECTED = PseudoClass.getPseudoClass("selected");
 
     /** The key to toggle shading of the box. */
     private static final String SHADE_KEY = " ";
@@ -85,13 +83,13 @@ public final class CrosswordBoxTextField extends TextField {
         getStyleClass().add(CSS_CLASS);
         pseudoClassStateChanged(SHADED, model.isShaded());
         pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable());
-        pseudoClassStateChanged(HIGHLIGHTED, model.isHighlighted());
+        pseudoClassStateChanged(SELECTED, model.isSelected());
         model.shadedProperty()
              .addListener(e -> pseudoClassStateChanged(SHADED, model.isShaded()));
         model.unsolvableProperty()
              .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable()));
-        model.highlightedProperty()
-             .addListener(e -> pseudoClassStateChanged(HIGHLIGHTED, model.isHighlighted()));
+        model.selectedProperty()
+             .addListener(e -> pseudoClassStateChanged(SELECTED, model.isSelected()));
         editableProperty().bind(model.shadedProperty().not());
 
         // Configure text content
@@ -133,7 +131,7 @@ public final class CrosswordBoxTextField extends TextField {
         if (!model.isShaded()) {
             shade();
         } else {
-            reveal();
+            lighten();
         }
     }
 
@@ -141,18 +139,18 @@ public final class CrosswordBoxTextField extends TextField {
      * Shades the box.
      * <p>
      * Note that this method removes the content of the field: The character will not re-appear on a
-     * subsequent call to {@link #reveal()}.
+     * subsequent call to {@link #lighten()}.
      */
     private void shade() {
         clear();
-        model.unsolvableProperty().set(false);
-        model.shadedProperty().set(true);
+        model.solvable();
+        model.shade();
     }
 
     /**
      * Removes the shading of the box.
      */
-    private void reveal() {
-        model.shadedProperty().set(false);
+    private void lighten() {
+        model.lighten();
     }
 }
