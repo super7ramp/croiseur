@@ -69,8 +69,7 @@ public final class CrosswordGridViewModel {
 
             @Override
             public void changed(final ObservableValue<? extends Boolean> observable,
-                                final Boolean wasShaded,
-                                final Boolean isShaded) {
+                                final Boolean wasShaded, final Boolean isShaded) {
                 final GridPosition current = currentBoxPosition.get();
                 if (current != null &&
                     ((isCurrentSlotVertical.get() && current.x() == listenedBoxCoordinate.x()) ||
@@ -131,12 +130,6 @@ public final class CrosswordGridViewModel {
         /** The orientation of the current slot (or the previous slot if current slot is empty). */
         private final BooleanProperty isCurrentSlotVertical;
 
-        /** A cache of listeners on the shading property of boxes. */
-        private final Map<GridPosition, ChangeListener<Boolean>> boxShadingListeners;
-
-        /** A cache of listeners on the shading property of boxes. */
-        private final Map<GridPosition, InvalidationListener> boxContentListeners;
-
         /**
          * Constructs an instance.
          */
@@ -146,8 +139,6 @@ public final class CrosswordGridViewModel {
                                                              FXCollections.observableArrayList());
             currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
             isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
-            boxShadingListeners = new HashMap<>();
-            boxContentListeners = new HashMap<>();
 
             currentSlotPositions.addListener(this::onCurrentSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);
@@ -172,7 +163,10 @@ public final class CrosswordGridViewModel {
                 }
                 onBoxAdded(change.getKey(), change.getValueAdded());
             } else {
-                onBoxRemoved(change.getKey(), change.getValueRemoved());
+                /*
+                 * Nothing to do: Boxes are not reachable any more and box change listeners will be
+                 * garbage-collected.
+                 */
             }
         }
 
@@ -183,27 +177,8 @@ public final class CrosswordGridViewModel {
          * @param box        the added box
          */
         private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel box) {
-            final var shadingChangeListener = new ShadingChangeListener(coordinate);
-            boxShadingListeners.put(coordinate, shadingChangeListener);
-            box.shadedProperty().addListener(shadingChangeListener);
-
-            final var contentChangeListener = new ContentChangeListener(coordinate);
-            boxContentListeners.put(coordinate, contentChangeListener);
-            box.contentProperty().addListener(contentChangeListener);
-        }
-
-        /**
-         * Unregisters box listeners.
-         *
-         * @param coordinate the removed box coordinate
-         * @param box        the removed box
-         */
-        private void onBoxRemoved(final GridPosition coordinate, final CrosswordBoxViewModel box) {
-            final var shadingChangeListener = boxShadingListeners.remove(coordinate);
-            box.shadedProperty().removeListener(shadingChangeListener);
-
-            final var contentChangeListener = boxContentListeners.remove(coordinate);
-            box.contentProperty().removeListener(contentChangeListener);
+            box.shadedProperty().addListener(new ShadingChangeListener(coordinate));
+            box.contentProperty().addListener(new ContentChangeListener(coordinate));
         }
 
         /**
