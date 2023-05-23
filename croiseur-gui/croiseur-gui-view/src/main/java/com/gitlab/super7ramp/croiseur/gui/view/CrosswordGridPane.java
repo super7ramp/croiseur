@@ -148,35 +148,13 @@ public final class CrosswordGridPane extends StackPane {
     /**
      * Returns an observable map of boxes, i.e. the crossword grid view model.
      * <p>
-     * It is meant to be the principal mean of communication with the application view model.
-     * <p>
      * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel})
      * entry if and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
-     * Note that a map containing a given {@link GridPosition} key without any value (i.e. a
-     * {@code null} value) is equivalent to a map not containing the given coordinates, i.e. in both
-     * cases no text field is visible on the view.
-     *
-     * <h4>Adding new boxes</h4>
-     * <p>
-     * Just add entries to the map.
-     *
-     * <h4>Modifying boxes</h4>
-     * <p>
-     * The straightforward way to modify existing {@link CrosswordBoxViewModel}es is to simply set
-     * their properties to new values, either via the view or the application model.
-     * <p>
-     * Replacing a {@link CrosswordBoxViewModel} object by a new instance will have the same effect
-     * though. It is deemed to be the desired behaviour. Implementation may try to avoid
-     * instantiating a new {@link CrosswordBoxTextField} in this situation but unlink the old model
-     * and reuse the existing text field with the new model object.
-     *
-     * <h4>Deleting boxes</h4>
-     * <p>
-     * Just remove entries from the map. As mentioned above, only null-ing the values should have
-     * the same effect from the view perspective but this practice can only be discouraged as no
-     * obvious intent can be associated to it.
+     * Writer is responsible for ensuring data consistency, i.e. ensuring that rows and columns are
+     * added incrementally (i.e. no missing row or column) and that inconsistent states (incomplete
+     * rows and columns) are only transient. Otherwise, display may be chaotic.
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
