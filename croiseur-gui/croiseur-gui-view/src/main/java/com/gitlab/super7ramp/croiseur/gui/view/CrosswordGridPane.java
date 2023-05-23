@@ -307,7 +307,6 @@ public final class CrosswordGridPane extends StackPane {
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
 
         // Add listeners to update the working area
-        // TODO remove listeners when node is deleted to avoid memory leak
         node.focusedProperty().addListener((observable, wasFocused, nowFocused) -> {
             if (nowFocused) {
                 currentBoxPosition.set(coordinate);
@@ -316,13 +315,12 @@ public final class CrosswordGridPane extends StackPane {
             }
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER && currentBoxPosition.get() != null) {
+            if (event.getCode() == KeyCode.ENTER) {
                 isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-                currentBoxPosition.get() != null) {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                 isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
             }
         });
@@ -341,7 +339,7 @@ public final class CrosswordGridPane extends StackPane {
     }
 
     /**
-     * Adds a column constraint for the given coordinate, if box added of a column.
+     * Adds a column constraint for the given coordinate, if first box added of a column.
      *
      * @param coordinate where a box has just been added
      */
@@ -401,7 +399,6 @@ public final class CrosswordGridPane extends StackPane {
         }
         return ratio;
     }
-
 
     /**
      * Gets the grid row count.
