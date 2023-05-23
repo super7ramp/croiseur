@@ -16,6 +16,7 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.beans.property.ReadOnlyMapWrapper;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -38,7 +39,7 @@ import static java.util.Comparator.comparingInt;
 import static java.util.function.Predicate.not;
 
 /**
- * The crossword view model.
+ * The crossword grid view model.
  */
 public final class CrosswordGridViewModel {
 
@@ -74,7 +75,7 @@ public final class CrosswordGridViewModel {
                 if (current != null &&
                     ((isCurrentSlotVertical.get() && current.x() == listenedBoxCoordinate.x()) ||
                      (!isCurrentSlotVertical.get() && current.y() == listenedBoxCoordinate.y()))) {
-                    recomputeSlotPositions();
+                    recomputeCurrentSlotPositions();
                 }
             }
         }
@@ -100,7 +101,7 @@ public final class CrosswordGridViewModel {
             @Override
             public void invalidated(final Observable observable) {
                 if (currentSlotPositions.contains(listenedBoxCoordinate)) {
-                    recomputeSlotContent();
+                    recomputeCurrentSlotContent();
                 }
             }
         }
@@ -148,9 +149,9 @@ public final class CrosswordGridViewModel {
             boxShadingListeners = new HashMap<>();
             boxContentListeners = new HashMap<>();
 
-            currentSlotPositions.addListener(this::onSlotPositionsChange);
+            currentSlotPositions.addListener(this::onCurrentSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);
-            isCurrentSlotVertical.addListener(observable -> recomputeSlotPositions());
+            isCurrentSlotVertical.addListener(observable -> recomputeCurrentSlotPositions());
             columnCount.addListener(this::onDimensionChange);
             rowCount.addListener(this::onDimensionChange);
             boxes.forEach(this::onBoxAdded);
@@ -216,7 +217,7 @@ public final class CrosswordGridViewModel {
                                         final GridPosition oldBoxPosition,
                                         final GridPosition newBoxPosition) {
             if (!currentSlotPositions.contains(newBoxPosition)) {
-                recomputeSlotPositions();
+                recomputeCurrentSlotPositions();
             } else {
                 // Current box has moved to a box of the same slot, nothing to do.
             }
@@ -235,30 +236,30 @@ public final class CrosswordGridViewModel {
             if (current != null && !boxes.containsKey(current)) {
                 currentBoxPosition.set(null);
             } else {
-                recomputeSlotPositions();
+                recomputeCurrentSlotPositions();
             }
         }
 
         /**
          * Recomputes the {@link #currentSlotPositions}.
          */
-        private void recomputeSlotPositions() {
+        private void recomputeCurrentSlotPositions() {
             final GridPosition current = currentBoxPosition.get();
             if (current == null || boxes.get(current).isShaded()) {
                 if (!currentSlotPositions.isEmpty()) {
                     currentSlotPositions.clear();
                 }
             } else if (isCurrentSlotVertical.get()) {
-                recomputeVerticalSlotPositions();
+                recomputeVerticalCurrentSlotPositions();
             } else {
-                recomputeHorizontalSlotPositions();
+                recomputeCurrentHorizontalSlotPositions();
             }
         }
 
         /**
          * Recomputes the positions of current when it is horizontal.
          */
-        private void recomputeHorizontalSlotPositions() {
+        private void recomputeCurrentHorizontalSlotPositions() {
             final GridPosition current = currentBoxPosition.get();
             final List<GridPosition> slotBoxes = new ArrayList<>();
             slotBoxes.add(current);
@@ -285,7 +286,7 @@ public final class CrosswordGridViewModel {
         /**
          * Recomputes the positions of the current slot when it is vertical.
          */
-        private void recomputeVerticalSlotPositions() {
+        private void recomputeVerticalCurrentSlotPositions() {
             final GridPosition current = currentBoxPosition.get();
             final List<GridPosition> slotBoxes = new ArrayList<>();
             slotBoxes.add(current);
@@ -313,7 +314,7 @@ public final class CrosswordGridViewModel {
          * Recomputes {@link #currentSlotContent} based on {@link #currentSlotPositions} and
          * {@link #boxes}.
          */
-        private void recomputeSlotContent() {
+        private void recomputeCurrentSlotContent() {
             final StringBuilder contentBuilder = new StringBuilder(currentSlotPositions.size());
             for (final GridPosition position : currentSlotPositions) {
                 final String letter = boxes.get(position).content();
@@ -323,11 +324,11 @@ public final class CrosswordGridViewModel {
         }
 
         /**
-         * Updates the box models on slot positions change, effectively updating display.
+         * Updates the box models on current slot positions change, effectively updating display.
          *
-         * @param change the slot change
+         * @param change the current slot positions change
          */
-        private void onSlotPositionsChange(
+        private void onCurrentSlotPositionsChange(
                 final ListChangeListener.Change<? extends GridPosition> change) {
             while (change.next()) {
                 change.getRemoved().stream()
@@ -337,7 +338,7 @@ public final class CrosswordGridViewModel {
                 change.getAddedSubList().stream()
                       .map(boxes::get)
                       .forEach(boxModel -> boxModel.setHighlighted(true));
-                recomputeSlotContent();
+                recomputeCurrentSlotContent();
             }
         }
     }
@@ -494,10 +495,19 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The current slot content.
+     * The current slot content property.
      * <p>
-     * The String value is empty if no slot is selected. Any non-filled box content is replaced by a
-     * dot ('.').
+     * The String value is empty if no slot is selected. Any non-filled box content of the current
+     * slot is replaced by a dot ('.').
+     *
+     * @return the current slot content property
+     */
+    public ReadOnlyStringProperty currentSlotContentProperty() {
+        return workingArea.currentSlotContent.getReadOnlyProperty();
+    }
+
+    /**
+     * The value of the current slot content property.
      *
      * @return the current slot content
      */
