@@ -153,8 +153,8 @@ public final class CrosswordGridPane extends StackPane {
      * grid coordinates with the corresponding content.</strong>
      * <p>
      * Writer is responsible for ensuring data consistency, i.e. ensuring that rows and columns are
-     * added incrementally (i.e. no missing row or column) and that inconsistent states (incomplete
-     * rows and columns) are only transient. Otherwise, display may be chaotic.
+     * added or removed incrementally (i.e. no missing row or column) and that inconsistent states
+     * (incomplete rows and columns) are only transient. Otherwise, display may be chaotic.
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
@@ -220,34 +220,18 @@ public final class CrosswordGridPane extends StackPane {
 
         /*
          * Remove column/row constraint if last box of column/row removed. Note that if a row or
-         * a column has been removed in the middle, then the row/column won't be removed from
-         * the grid.
+         * a column has been removed in the middle (i.e. a row/column still exists below/at its
+         * right), then the row/column won't be removed from the grid. View model writer is
+         * responsible to ensure that it doesn't happen.
          */
         maybeRemoveColumnConstraint(removedCoordinate);
         maybeRemoveRowConstraint(removedCoordinate);
 
-        // Remove all leftover columns/rows if all boxes have been removed
-        // FIXME why is that necessary?
-        maybeClearRowConstraints();
-        maybeClearColumnConstraints();
-    }
-
-    /**
-     * Removes all leftover rows if all boxes have been removed.
-     */
-    private void maybeClearRowConstraints() {
-        if (boxModels.isEmpty() && !grid.getRowConstraints().isEmpty()) {
-            grid.getRowConstraints().clear();
-        }
-    }
-
-    /**
-     * Removes all leftover columns if all boxes have been removed.
-     */
-    private void maybeClearColumnConstraints() {
-        if (boxModels.isEmpty() && !grid.getRowConstraints().isEmpty()) {
-            grid.getRowConstraints().clear();
-        }
+        /*
+         * Remove leftover row/column constraint if grid is completely cleared (deleting very last
+         * row implicitly deletes all columns, and vice-versa).
+         */
+        maybeClearConstraints();
     }
 
     /**
@@ -266,9 +250,7 @@ public final class CrosswordGridPane extends StackPane {
      * @param removedCoordinate coordinate of the removed box
      */
     private void maybeRemoveRowConstraint(final GridPosition removedCoordinate) {
-        if (boxNodes.keySet()
-                    .stream()
-                    .noneMatch(coordinate -> coordinate.y() >= removedCoordinate.y())) {
+        if (boxNodes.keySet().stream().noneMatch(coord -> coord.y() >= removedCoordinate.y())) {
             grid.getRowConstraints().remove(removedCoordinate.y());
         }
     }
@@ -279,10 +261,22 @@ public final class CrosswordGridPane extends StackPane {
      * @param removedCoordinate coordinate of the removed box
      */
     private void maybeRemoveColumnConstraint(final GridPosition removedCoordinate) {
-        if (boxNodes.keySet()
-                    .stream()
-                    .noneMatch(coordinate -> coordinate.x() >= removedCoordinate.x())) {
+        if (boxNodes.keySet().stream().noneMatch(coord -> coord.x() >= removedCoordinate.x())) {
             grid.getColumnConstraints().remove(removedCoordinate.x());
+        }
+    }
+
+    /**
+     * Removes leftover constraints if all boxes have been removed.
+     */
+    private void maybeClearConstraints() {
+        if (boxNodes.isEmpty()) {
+            if (!grid.getRowConstraints().isEmpty()) {
+                grid.getRowConstraints().clear();
+            }
+            if (!grid.getColumnConstraints().isEmpty()) {
+                grid.getColumnConstraints().clear();
+            }
         }
     }
 
