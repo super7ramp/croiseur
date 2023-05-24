@@ -29,11 +29,9 @@ Build on Linux:
     - reuse lint
     - gradle --parallel --build-cache assemble -x distZip
     - gradle --parallel --build-cache check
-  variables:
-    # Use master cache for first build on branch
-    CACHE_FALLBACK_KEY: master-cache-linux
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
+    fallback_keys: [ master-cache-linux ] # Use master cache for first build on branch
     paths:
       # Gradle caches
       - .gradle
