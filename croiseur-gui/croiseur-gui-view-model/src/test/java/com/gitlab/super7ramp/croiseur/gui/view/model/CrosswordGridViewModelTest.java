@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -623,6 +624,31 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
 
         assertEquals("ABC.", crosswordGridViewModel.currentSlotContent());
+    }
+
+    /**
+     * Verifies that when slot is unselected, the unsolvable status of its boxes is cleared (because
+     * only current slot unsolvable status is tracked).
+     */
+    @Test
+    void unsolvableState_orientationChange() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
+        crosswordGridViewModel.currentSlotUnsolvable();
+        // boxes of selected horizontal slot are unsolvable
+        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,0)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.boxesProperty().get(at(1,0)).isUnsolvable());
+
+        crosswordGridViewModel.currentSlotVertical();
+
+        // newly selected boxes are unsolvable (unsolvable slot status hasn't been cleared)
+        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,0)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,1)).isUnsolvable());
+        // previously selected boxes not part of new current vertical slot is cleared
+        assertFalse(crosswordGridViewModel.boxesProperty().get(at(1,0)).isUnsolvable());
     }
 
 }

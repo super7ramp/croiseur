@@ -44,8 +44,8 @@ import static java.util.function.Predicate.not;
 public final class CrosswordGridViewModel {
 
     /**
-     * The area under work, which consists of the currently focused box and the slot (either
-     * horizontal or vertical) it belongs to.
+     * The area under work, which consists of the last focused box and the slot (either horizontal
+     * or vertical) it belongs to.
      */
     private final class WorkingArea {
 
@@ -130,6 +130,9 @@ public final class CrosswordGridViewModel {
         /** The orientation of the current slot (or the previous slot if current slot is empty). */
         private final BooleanProperty isCurrentSlotVertical;
 
+        /** Whether the current slot is unsolvable. */
+        private final BooleanProperty isCurrentSlotUnsolvable;
+
         /**
          * Constructs an instance.
          */
@@ -139,6 +142,7 @@ public final class CrosswordGridViewModel {
                                                              FXCollections.observableArrayList());
             currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
             isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
+            isCurrentSlotUnsolvable = new SimpleBooleanProperty(this, "isCurrentSlotUnsolvable");
 
             currentSlotPositions.addListener(this::onCurrentSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);
@@ -309,10 +313,22 @@ public final class CrosswordGridViewModel {
                 change.getRemoved().stream()
                       .map(boxes::get)
                       .filter(Objects::nonNull) // Box may have been removed from grid
-                      .forEach(CrosswordBoxViewModel::deselect);
+                      .forEach(box -> {
+                          box.deselect();
+                          box.unsolvableProperty().unbind();
+                          /*
+                           * Clear the unsolvable status to avoid the information to become obsolete
+                           * when crossing slots are modified: There is nothing to update the status
+                           * of a non-selected slot.
+                           */
+                          box.solvable();
+                      });
                 change.getAddedSubList().stream()
                       .map(boxes::get)
-                      .forEach(CrosswordBoxViewModel::select);
+                      .forEach(box -> {
+                          box.select();
+                          box.unsolvableProperty().bind(isCurrentSlotUnsolvable);
+                      });
                 recomputeCurrentSlotContent();
             }
         }
@@ -508,6 +524,22 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * The unsolvable current slot property.
+     *
+     * @return the unsolvable current slot property.
+     */
+    public BooleanProperty isCurrentSlotUnsolvableProperty() {
+        return workingArea.isCurrentSlotUnsolvable;
+    }
+
+    /**
+     * Sets the value of the unsolvable current slot property to {@code true}.
+     */
+    public void currentSlotUnsolvable() {
+        workingArea.isCurrentSlotUnsolvable.set(true);
+    }
+
+    /**
      * Creates an empty column at the right of the grid.
      */
     public void addColumn() {
@@ -622,11 +654,25 @@ public final class CrosswordGridViewModel {
      * Resets the boxes matching the given predicate.
      *
      * @param predicate filters the boxes to be reset
-     * @see CrosswordBoxViewModel#reset()
      */
     private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
-        boxes.values().stream().filter(predicate)
-             .forEach(CrosswordBoxViewModel::reset);
+        boxes.values().stream()
+             .filter(predicate)
+             .forEach(this::resetBox);
     }
 
+    /**
+     * Resets the given box.
+     *
+     * @param box the box to reset
+     */
+    private void resetBox(final CrosswordBoxViewModel box) {
+        box.content("");
+        box.lighten();
+        if (!box.isSelected()) {
+            box.solvable();
+        } else {
+            // Solvable status is bound to solvable status of selected slot.
+        }
+    }
 }

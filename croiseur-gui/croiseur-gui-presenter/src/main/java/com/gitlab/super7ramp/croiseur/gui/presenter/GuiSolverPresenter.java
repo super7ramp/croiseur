@@ -102,9 +102,16 @@ final class GuiSolverPresenter implements SolverPresenter {
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
                 viewModelBoxes.entrySet()) {
-            final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = entry.getValue();
-            box.unsolvableProperty().set(unsolvableBoxes.contains(position));
+            if (!box.isSelected()) {
+                final GridPosition position = entry.getKey();
+                box.unsolvableProperty().set(unsolvableBoxes.contains(position));
+            } else {
+                /*
+                 * Box is part of user-selected slot and its unsolvable status is bound to the
+                 * number of suggestions and thus cannot be written.
+                 */
+            }
         }
     }
 
@@ -122,7 +129,7 @@ final class GuiSolverPresenter implements SolverPresenter {
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = viewModelBoxes.get(position);
-            box.contentProperty().set(entry.getValue().toString());
+            box.content(entry.getValue().toString());
         }
     }
 }

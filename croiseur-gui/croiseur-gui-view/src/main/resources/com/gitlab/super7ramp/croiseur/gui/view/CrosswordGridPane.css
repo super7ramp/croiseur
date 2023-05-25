@@ -25,18 +25,23 @@
     -fx-background-color: -color-accent-subtle;
 }
 
-/* A focused cell - takes precedence over selected state. */
-.crossword-box-text:focused:selected, .crossword-box-text:focused {
-    -fx-background-color: -color-accent-muted;
+/* A focused cell. */
+.crossword-box-text:focused {
+    -fx-border-width: 3px;
 }
 
-/* A shaded cell - takes precedence over focused state. */
-.crossword-box-text:shaded:focused, .crossword-box-text:shaded {
+/* A shaded cell. */
+.crossword-box-text:shaded {
     -fx-background-color: -color-fg-default;
 }
 
-/* An unsolvable cell. */
-.crossword-box-text:unsolvable {
+.crossword-box-text:shaded:focused {
+    /* Because don't see that a shaded cell is focused if content has same color as border. */
+    -fx-border-color: -color-bg-default;
+}
+
+/* An unsolvable cell - takes precedence over selected states. */
+.crossword-box-text:unsolvable, .crossword-box-text:selected:unsolvable {
     -fx-background-color: -color-danger-muted;
 }
 

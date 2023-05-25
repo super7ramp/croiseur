@@ -143,7 +143,6 @@ public final class CrosswordBoxTextField extends TextField {
      */
     private void shade() {
         clear();
-        model.solvable();
         model.shade();
     }
 

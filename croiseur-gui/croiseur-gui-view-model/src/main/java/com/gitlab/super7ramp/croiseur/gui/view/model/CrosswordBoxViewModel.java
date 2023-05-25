@@ -150,14 +150,4 @@ public final class CrosswordBoxViewModel {
     public void deselect() {
         selected.set(false);
     }
-
-    /**
-     * Resets the content/unsolvable status/shade status of this box model to its defaults. Keeps
-     * selected status as is.
-     */
-    public void reset() {
-        unsolvable.set(false);
-        shaded.set(false);
-        content.set("");
-    }
 }
