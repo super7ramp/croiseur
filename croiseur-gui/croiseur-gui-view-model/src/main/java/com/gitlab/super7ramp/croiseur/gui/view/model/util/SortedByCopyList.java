@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.gui.view.util;
+package com.gitlab.super7ramp.croiseur.gui.view.model.util;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ModifiableObservableListBase;

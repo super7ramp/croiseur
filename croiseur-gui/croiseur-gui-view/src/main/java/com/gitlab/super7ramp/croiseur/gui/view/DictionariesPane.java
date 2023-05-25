@@ -6,14 +6,12 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.util.SortedByCopyList;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +24,6 @@ import javafx.scene.control.TitledPane;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -131,16 +128,11 @@ public final class DictionariesPane extends Accordion {
      * Initialises words list: Binds to property, adds filter from search box.
      */
     private void initializeWordsList() {
-        // TODO uniq
-        // TODO move sort in view model in order not to do a second sort for suggestions
-        final ObservableList<String> sortedWords = new SortedByCopyList<>(words,
-                                                                          Comparator.naturalOrder());
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
         final ObservableValue<Predicate<String>> searchPredicate =
-                Bindings.createObjectBinding(() -> matchesSearch,
-                                             searchTextField.textProperty(),
+                Bindings.createObjectBinding(() -> matchesSearch, searchTextField.textProperty(),
                                              dictionariesListView.itemsProperty());
-        final FilteredList<String> searchedWords = new FilteredList<>(sortedWords);
+        final FilteredList<String> searchedWords = new FilteredList<>(words);
         searchedWords.predicateProperty().bind(searchPredicate);
         wordsListView.setItems(searchedWords);
     }

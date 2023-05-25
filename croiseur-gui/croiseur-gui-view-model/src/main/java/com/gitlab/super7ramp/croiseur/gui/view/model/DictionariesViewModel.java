@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui.view.model;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryKey;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.MoreFXCollections;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.ObservableAggregateList;
+import com.gitlab.super7ramp.croiseur.gui.view.model.util.SortedByCopyList;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
@@ -20,7 +21,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -70,23 +70,25 @@ public final class DictionariesViewModel {
                                                          new FilteredList<>(dictionaries,
                                                                             DictionaryViewModel::isSelected));
         backingAggregateWordList = MoreFXCollections.observableAggregateList();
-        selectedDictionariesWords = new ReadOnlyListWrapper<>(this, "selected dictionary entries",
-                                                              backingAggregateWordList);
-        suggestionFilter = new SimpleStringProperty(this, "selected slot pattern", "");
-        suggestions = new ReadOnlyListWrapper<>(this, "suggestions");
 
-        final FilteredList<String> suggestionsFilteredList =
-                new FilteredList<>(backingAggregateWordList);
+        // TODO uniq
+        final SortedByCopyList<String> sortedWords =
+                new SortedByCopyList<>(backingAggregateWordList, Comparator.naturalOrder());
+        selectedDictionariesWords =
+                new ReadOnlyListWrapper<>(this, "selected dictionary entries", sortedWords);
+
+        suggestionFilter = new SimpleStringProperty(this, "suggestion filter", "");
+
+        final FilteredList<String> filteredSuggestions =
+                new FilteredList<>(selectedDictionariesWords);
         final ObservableValue<Predicate<String>> suggestionPredicate =
                 Bindings.createObjectBinding(() -> {
                     final String regex = suggestionFilter.get();
                     final Pattern pattern = Pattern.compile(regex);
                     return word -> pattern.matcher(word).matches();
                 }, suggestionFilter);
-        suggestionsFilteredList.predicateProperty().bind(suggestionPredicate);
-        final SortedList<String> suggestionSortedList =
-                new SortedList<>(suggestionsFilteredList, Comparator.naturalOrder());
-        suggestions.set(suggestionSortedList);
+        filteredSuggestions.predicateProperty().bind(suggestionPredicate);
+        suggestions = new ReadOnlyListWrapper<>(this, "suggestions", filteredSuggestions);
 
         dictionaryToWordAggregateIndex = new HashMap<>();
         selectedDictionaries.addListener(this::onSelectedDictionaryChange);

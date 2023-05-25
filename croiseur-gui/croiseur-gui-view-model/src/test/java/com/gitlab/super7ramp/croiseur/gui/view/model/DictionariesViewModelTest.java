@@ -44,10 +44,10 @@ final class DictionariesViewModelTest {
     }
 
     /**
-     * Verifies that removing dictionary removes the words from the words property.
+     * Verifies that deselecting dictionary removes the words from the words property.
      */
     @Test
-    void unselectDictionary() {
+    void deselectDictionary() {
         dictionary.setSelected(true);
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
 
@@ -58,10 +58,10 @@ final class DictionariesViewModelTest {
     }
 
     /**
-     * Verifies that unselecting dictionary with no words does not fail.
+     * Verifies that deselecting dictionary with no words does not fail.
      */
     @Test
-    void unselectDictionary_NoWords() {
+    void deselectDictionary_noWords() {
         dictionary.setSelected(true);
 
         dictionary.setSelected(false);
@@ -81,11 +81,21 @@ final class DictionariesViewModelTest {
     }
 
     /**
+     * Verifies that added dictionary words are sorted.
+     */
+    @Test
+    void addWords_sorted() {
+        dictionary.setSelected(true);
+        dictionaries.addWords(dictionary.key(), List.of("WORLD", "HELLO"));
+        assertEquals(List.of("HELLO", "WORLD"), dictionaries.wordsProperty());
+    }
+
+    /**
      * Verifies that words for unselected dictionaries are not added to the selected dictionaries
      * word list.
      */
     @Test
-    void addWords_DiscardWordsForUnselectedDictionary() {
+    void addWords_discardWordsForUnselectedDictionary() {
         dictionary.setSelected(false);
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
         assertTrue(dictionaries.wordsProperty().isEmpty());
