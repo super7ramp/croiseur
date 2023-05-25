@@ -9,18 +9,26 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryKey;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.MoreFXCollections;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.ObservableAggregateList;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * The dictionary view model.
@@ -35,6 +43,12 @@ public final class DictionariesViewModel {
 
     /** The words of the selected dictionaries. */
     private final ReadOnlyListWrapper<String> selectedDictionariesWords;
+
+    /** The regular expression filtering the {@link #suggestions}. */
+    private final StringProperty suggestionFilter;
+
+    /** The words of the selected dictionaries matching {@link #suggestionFilter}. */
+    private final ReadOnlyListWrapper<String> suggestions;
 
     /**
      * Associates a selected dictionary with the identifier of its word list inside
@@ -58,6 +72,22 @@ public final class DictionariesViewModel {
         backingAggregateWordList = MoreFXCollections.observableAggregateList();
         selectedDictionariesWords = new ReadOnlyListWrapper<>(this, "selected dictionary entries",
                                                               backingAggregateWordList);
+        suggestionFilter = new SimpleStringProperty(this, "selected slot pattern", "");
+        suggestions = new ReadOnlyListWrapper<>(this, "suggestions");
+
+        final FilteredList<String> suggestionsFilteredList =
+                new FilteredList<>(backingAggregateWordList);
+        final ObservableValue<Predicate<String>> suggestionPredicate =
+                Bindings.createObjectBinding(() -> {
+                    final String regex = suggestionFilter.get();
+                    final Pattern pattern = Pattern.compile(regex);
+                    return word -> pattern.matcher(word).matches();
+                }, suggestionFilter);
+        suggestionsFilteredList.predicateProperty().bind(suggestionPredicate);
+        final SortedList<String> suggestionSortedList =
+                new SortedList<>(suggestionsFilteredList, Comparator.naturalOrder());
+        suggestions.set(suggestionSortedList);
+
         dictionaryToWordAggregateIndex = new HashMap<>();
         selectedDictionaries.addListener(this::onSelectedDictionaryChange);
     }
@@ -89,6 +119,25 @@ public final class DictionariesViewModel {
      */
     public ReadOnlyListProperty<String> wordsProperty() {
         return selectedDictionariesWords.getReadOnlyProperty();
+    }
+
+    /**
+     * Returns the suggestion filter (a regex).
+     *
+     * @return the suggestion filter
+     */
+    public StringProperty suggestionFilterProperty() {
+        return suggestionFilter;
+    }
+
+    /**
+     * Returns the suggestions of the selected dictionaries, i.e. the words matching the
+     * {@link #suggestionFilterProperty()}.
+     *
+     * @return the suggestions of the selected dictionaries
+     */
+    public ReadOnlyListProperty<String> suggestionsProperty() {
+        return suggestions.getReadOnlyProperty();
     }
 
     /**

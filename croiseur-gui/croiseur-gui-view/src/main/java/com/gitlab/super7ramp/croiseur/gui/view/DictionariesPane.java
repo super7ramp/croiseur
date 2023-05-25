@@ -39,20 +39,26 @@ public final class DictionariesPane extends Accordion {
     /** The dictionaries. */
     private final ListProperty<DictionaryViewModel> dictionaries;
 
-    /** The known words. */
+    /** All the words, optionally filtered manually by users. */
     private final ListProperty<String> words;
+
+    /** All the words, filtered by a pattern. */
+    private final ListProperty<String> suggestions;
 
     /** The dictionaries list view. */
     @FXML
     private ListView<DictionaryViewModel> dictionariesListView;
 
+    /** The search text field. */
+    @FXML
+    private TextField searchTextField;
+
     /** The words list view. */
     @FXML
     private ListView<String> wordsListView;
 
-    /** The search text field. */
     @FXML
-    private TextField searchTextField;
+    private ListView<String> suggestionsListView;
 
     /**
      * Constructs an instance.
@@ -61,6 +67,8 @@ public final class DictionariesPane extends Accordion {
         dictionaries = new SimpleListProperty<>(this, "dictionaries",
                                                 FXCollections.observableArrayList());
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
+        suggestions =
+                new SimpleListProperty<>(this, "suggestions", FXCollections.observableArrayList());
 
         final Class<DictionariesPane> clazz = DictionariesPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
@@ -83,6 +91,7 @@ public final class DictionariesPane extends Accordion {
         initializeDictionariesList();
         initializeSearchBox();
         initializeWordsList();
+        initializeSuggestionsListView();
     }
 
     /**
@@ -123,6 +132,7 @@ public final class DictionariesPane extends Accordion {
      */
     private void initializeWordsList() {
         // TODO uniq
+        // TODO move sort in view model in order not to do a second sort for suggestions
         final ObservableList<String> sortedWords = new SortedByCopyList<>(words,
                                                                           Comparator.naturalOrder());
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
@@ -133,6 +143,13 @@ public final class DictionariesPane extends Accordion {
         final FilteredList<String> searchedWords = new FilteredList<>(sortedWords);
         searchedWords.predicateProperty().bind(searchPredicate);
         wordsListView.setItems(searchedWords);
+    }
+
+    /**
+     * Initializes the suggestions list view.
+     */
+    private void initializeSuggestionsListView() {
+        suggestionsListView.setItems(suggestions);
     }
 
     /**
@@ -155,5 +172,14 @@ public final class DictionariesPane extends Accordion {
      */
     public ListProperty<DictionaryViewModel> dictionariesProperty() {
         return dictionaries;
+    }
+
+    /**
+     * Returns the suggestions.
+     *
+     * @return the suggestions
+     */
+    public ListProperty<String> suggestionsProperty() {
+        return suggestions;
     }
 }

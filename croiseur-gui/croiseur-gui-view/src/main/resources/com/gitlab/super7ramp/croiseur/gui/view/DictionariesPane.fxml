@@ -12,10 +12,10 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" type="Accordion" xmlns="http://javafx.com/javafx/17"
-         stylesheets="@DictionariesPane.css">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DictionariesPane.css" type="Accordion"
+         xmlns="http://javafx.com/javafx/17">
     <panes>
-        <TitledPane animated="false" text="%dictionaries-label" styleClass="dense">
+        <TitledPane animated="false" styleClass="dense" text="%dictionaries-label">
             <ListView fx:id="dictionariesListView" styleClass="dense">
                 <placeholder>
                     <VBox alignment="CENTER">
@@ -25,15 +25,22 @@
                 </placeholder>
             </ListView>
         </TitledPane>
-        <TitledPane animated="false" text="%words-label" styleClass="dense">
+        <TitledPane animated="false" styleClass="dense" text="%words-label">
             <VBox id="words-vbox">
                 <TextField fx:id="searchTextField" promptText="%search-text-field"/>
-                <ListView fx:id="wordsListView" VBox.vgrow="ALWAYS" styleClass="dense">
+                <ListView fx:id="wordsListView" styleClass="dense" VBox.vgrow="ALWAYS">
                     <placeholder>
                         <Label text="%words-placeholder-label"/>
                     </placeholder>
                 </ListView>
             </VBox>
+        </TitledPane>
+        <TitledPane animated="false" styleClass="dense" text="%suggestions-label">
+            <ListView fx:id="suggestionsListView" styleClass="dense">
+                <placeholder>
+                    <Label text="%suggestions-placeholder-label"/>
+                </placeholder>
+            </ListView>
         </TitledPane>
     </panes>
 </fx:root>

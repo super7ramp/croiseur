@@ -277,6 +277,15 @@ public final class CrosswordSolverPane extends BorderPane {
     }
 
     /**
+     * Returns the suggestions.
+     *
+     * @return the suggestions
+     */
+    public ListProperty<String> suggestionsProperty() {
+        return dictionariesPane.suggestionsProperty();
+    }
+
+    /**
      * Returns the displayed solvers.
      *
      * @return the displayed solvers

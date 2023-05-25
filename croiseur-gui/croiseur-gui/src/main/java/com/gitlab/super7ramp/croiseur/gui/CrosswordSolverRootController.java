@@ -88,7 +88,8 @@ public final class CrosswordSolverRootController {
         view.onAddColumnActionButtonProperty().set(event -> viewModel.addColumn());
         view.onDeleteColumnActionButtonProperty().set(event -> viewModel.deleteLastColumn());
         view.onDeleteRowActionButtonProperty().set(event -> viewModel.deleteLastRow());
-        view.onClearGridLettersMenuItemActionProperty().set(event -> viewModel.resetContentLettersOnly());
+        view.onClearGridLettersMenuItemActionProperty()
+            .set(event -> viewModel.resetContentLettersOnly());
         view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
         view.onDeleteGridActionProperty().set(event -> viewModel.clear());
     }
@@ -100,7 +101,12 @@ public final class CrosswordSolverRootController {
         final DictionariesViewModel viewModel = crosswordSolverViewModel.dictionaryViewModel();
         view.dictionariesProperty().setValue(viewModel.dictionariesProperty());
         view.wordsProperty().setValue(viewModel.wordsProperty());
+        view.suggestionsProperty().setValue(viewModel.suggestionsProperty());
         viewModel.selectedDictionariesProperty().addListener(this::onSelectedDictionaryChange);
+
+        final CrosswordGridViewModel gridViewModel =
+                crosswordSolverViewModel.crosswordGridViewModel();
+        viewModel.suggestionFilterProperty().bind(gridViewModel.currentSlotContentProperty());
     }
 
     /**

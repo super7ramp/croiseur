@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetail
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -88,5 +89,35 @@ final class DictionariesViewModelTest {
         dictionary.setSelected(false);
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
         assertTrue(dictionaries.wordsProperty().isEmpty());
+    }
+
+    @Test
+    void suggestionFilter_none() {
+        dictionary.setSelected(true);
+        dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
+
+        dictionaries.suggestionFilterProperty().set("");
+
+        assertEquals(Collections.emptyList(), dictionaries.suggestionsProperty());
+    }
+
+    @Test
+    void suggestionFilter_all() {
+        dictionary.setSelected(true);
+        dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
+
+        dictionaries.suggestionFilterProperty().set(".....");
+
+        assertEquals(List.of("HELLO", "WORLD"), dictionaries.suggestionsProperty());
+    }
+
+    @Test
+    void suggestionFilter_some() {
+        dictionary.setSelected(true);
+        dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
+
+        dictionaries.suggestionFilterProperty().set(".O...");
+
+        assertEquals(List.of("WORLD"), dictionaries.suggestionsProperty());
     }
 }
