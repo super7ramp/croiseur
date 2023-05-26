@@ -4,6 +4,7 @@
  */
 
 .split-pane > .split-pane-divider {
-    /* Hide the decoration, make it looks like a non-resizable border. */
+    /* Hide the decoration, make it look like a non-resizable border. */
     -fx-opacity: 0;
+    -fx-padding: 0;
 }

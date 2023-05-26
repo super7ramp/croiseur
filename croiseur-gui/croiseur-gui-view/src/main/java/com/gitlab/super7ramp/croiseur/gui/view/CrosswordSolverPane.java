@@ -128,6 +128,7 @@ public final class CrosswordSolverPane extends BorderPane {
         final Node divider = centerSplitPane.lookup(DIVIDER_SELECTOR);
         if (divider != null) {
             divider.setVisible(dictionariesPaneVisible);
+            divider.setManaged(dictionariesPaneVisible);
             centerSplitPane.setDividerPosition(DIVIDER,
                                                dictionariesPaneVisible ? DIVIDER_POSITION_IDEAL :
                                                        DIVIDER_POSITION_RIGHT_COLLAPSED);
