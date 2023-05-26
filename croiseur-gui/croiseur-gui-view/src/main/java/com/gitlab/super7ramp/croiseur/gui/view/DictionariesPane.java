@@ -54,6 +54,7 @@ public final class DictionariesPane extends Accordion {
     @FXML
     private ListView<String> wordsListView;
 
+    /** The suggestions list view. */
     @FXML
     private ListView<String> suggestionsListView;
 
@@ -85,9 +86,9 @@ public final class DictionariesPane extends Accordion {
     @FXML
     private void initialize() {
         initializeTitledPanes();
-        initializeDictionariesList();
-        initializeSearchBox();
-        initializeWordsList();
+        initializeDictionariesListView();
+        initializeSearchTextField();
+        initializeWordsListView();
         initializeSuggestionsListView();
     }
 
@@ -105,10 +106,10 @@ public final class DictionariesPane extends Accordion {
     }
 
     /**
-     * Initialises dictionaries list: Sets custom cell factory (adds checkboxes and customises
+     * Initializes dictionaries list: Sets custom cell factory (adds checkboxes and customises
      * string representation).
      */
-    private void initializeDictionariesList() {
+    private void initializeDictionariesListView() {
         dictionariesListView.setCellFactory(list -> new DictionaryListCell());
         dictionariesListView.setItems(dictionaries);
     }
@@ -117,7 +118,7 @@ public final class DictionariesPane extends Accordion {
      * Initializes search box: Adds a text formatter to search box so that text field contains only
      * upper case characters.
      */
-    private void initializeSearchBox() {
+    private void initializeSearchTextField() {
         searchTextField.setTextFormatter(new TextFormatter<>(change -> {
             change.setText(change.getText().toUpperCase());
             return change;
@@ -125,9 +126,9 @@ public final class DictionariesPane extends Accordion {
     }
 
     /**
-     * Initialises words list: Binds to property, adds filter from search box.
+     * Initializes words list: Binds to property, adds filter from search box.
      */
-    private void initializeWordsList() {
+    private void initializeWordsListView() {
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
         final ObservableValue<Predicate<String>> searchPredicate =
                 Bindings.createObjectBinding(() -> matchesSearch, searchTextField.textProperty(),

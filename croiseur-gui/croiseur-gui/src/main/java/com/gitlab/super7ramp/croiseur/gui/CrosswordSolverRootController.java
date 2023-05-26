@@ -81,7 +81,7 @@ public final class CrosswordSolverRootController {
      */
     private void initializeCrosswordGridBindings() {
         final CrosswordGridViewModel viewModel = crosswordSolverViewModel.crosswordGridViewModel();
-        view.gridBoxesProperty().setValue(viewModel.boxesProperty());
+        view.gridBoxesProperty().set(viewModel.boxesProperty());
         view.gridCurrentBoxProperty().bindBidirectional(viewModel.currentBoxPositionProperty());
         view.gridIsCurrentSlotOrientationVerticalProperty()
             .bindBidirectional(viewModel.isCurrentSlotVerticalProperty());
@@ -100,9 +100,9 @@ public final class CrosswordSolverRootController {
      */
     private void initializeDictionaryBindings() {
         final DictionariesViewModel viewModel = crosswordSolverViewModel.dictionaryViewModel();
-        view.dictionariesProperty().setValue(viewModel.dictionariesProperty());
-        view.wordsProperty().setValue(viewModel.wordsProperty());
-        view.suggestionsProperty().setValue(viewModel.suggestionsProperty());
+        view.dictionariesProperty().set(viewModel.dictionariesProperty());
+        view.wordsProperty().set(viewModel.wordsProperty());
+        view.suggestionsProperty().set(viewModel.suggestionsProperty());
         viewModel.selectedDictionariesProperty().addListener(this::onSelectedDictionaryChange);
     }
 

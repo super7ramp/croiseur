@@ -42,7 +42,7 @@ public final class DictionariesViewModel {
     private final ReadOnlyListWrapper<DictionaryViewModel> selectedDictionaries;
 
     /** The words of the selected dictionaries. */
-    private final ReadOnlyListWrapper<String> selectedDictionariesWords;
+    private final ReadOnlyListWrapper<String> words;
 
     /** The regular expression filtering the {@link #suggestions}. */
     private final StringProperty suggestionFilter;
@@ -56,7 +56,7 @@ public final class DictionariesViewModel {
      */
     private final Map<DictionaryKey, Integer> dictionaryToWordAggregateIndex;
 
-    /** An {@link ObservableAggregateList} backing {@link #selectedDictionariesWords}. */
+    /** An {@link ObservableAggregateList} backing {@link #words}. */
     private final ObservableAggregateList<String> backingAggregateWordList;
 
     /**
@@ -66,27 +66,23 @@ public final class DictionariesViewModel {
         dictionaries = new SimpleListProperty<>(this, "dictionaries",
                                                 FXCollections.observableArrayList(
                                                         entry -> new Observable[]{entry.selectedProperty()}));
-        selectedDictionaries = new ReadOnlyListWrapper<>(this, "selected dictionaries",
+
+        selectedDictionaries = new ReadOnlyListWrapper<>(this, "selectedDictionaries",
                                                          new FilteredList<>(dictionaries,
                                                                             DictionaryViewModel::isSelected));
+
         backingAggregateWordList = MoreFXCollections.observableAggregateList();
 
         // TODO uniq
-        final SortedByCopyList<String> sortedWords =
-                new SortedByCopyList<>(backingAggregateWordList, Comparator.naturalOrder());
-        selectedDictionariesWords =
-                new ReadOnlyListWrapper<>(this, "selected dictionary entries", sortedWords);
+        words = new ReadOnlyListWrapper<>(this, "words",
+                                          new SortedByCopyList<>(backingAggregateWordList,
+                                                                 Comparator.naturalOrder()));
 
-        suggestionFilter = new SimpleStringProperty(this, "suggestion filter", "");
+        suggestionFilter = new SimpleStringProperty(this, "suggestionFilter", "");
 
-        final FilteredList<String> filteredSuggestions =
-                new FilteredList<>(selectedDictionariesWords);
         final ObservableValue<Predicate<String>> suggestionPredicate =
-                Bindings.createObjectBinding(() -> {
-                    final String regex = suggestionFilter.get();
-                    final Pattern pattern = Pattern.compile(regex);
-                    return word -> pattern.matcher(word).matches();
-                }, suggestionFilter);
+                Bindings.createObjectBinding(this::onSuggestionFilterChange, suggestionFilter);
+        final FilteredList<String> filteredSuggestions = new FilteredList<>(words);
         filteredSuggestions.predicateProperty().bind(suggestionPredicate);
         suggestions = new ReadOnlyListWrapper<>(this, "suggestions", filteredSuggestions);
 
@@ -120,7 +116,7 @@ public final class DictionariesViewModel {
      * @return the words of the selected dictionaries
      */
     public ReadOnlyListProperty<String> wordsProperty() {
-        return selectedDictionariesWords.getReadOnlyProperty();
+        return words.getReadOnlyProperty();
     }
 
     /**
@@ -147,13 +143,13 @@ public final class DictionariesViewModel {
      * <p>
      * If the dictionary is not selected, given words are ignored.
      *
-     * @param key   the dictionary key
-     * @param words the words
+     * @param key        the dictionary key
+     * @param addedWords the words
      */
-    public void addWords(final DictionaryKey key, final Collection<String> words) {
+    public void addWords(final DictionaryKey key, final Collection<String> addedWords) {
         if (selectedDictionaries.stream().anyMatch(dictionary -> dictionary.key().equals(key))) {
             final int aggregateNumber = backingAggregateWordList.aggregateCount();
-            backingAggregateWordList.aggregate(words);
+            backingAggregateWordList.aggregate(addedWords);
             dictionaryToWordAggregateIndex.put(key, aggregateNumber);
         } else {
             /*
@@ -165,14 +161,25 @@ public final class DictionariesViewModel {
     }
 
     /**
+     * Creates a new predicate when {@link #suggestionFilter} changes.
+     *
+     * @return a new predicate when {@link #suggestionFilter} changes
+     */
+    private Predicate<String> onSuggestionFilterChange() {
+        final String regex = suggestionFilter.get();
+        final Pattern pattern = Pattern.compile(regex);
+        return word -> pattern.matcher(word).matches();
+    }
+
+    /**
      * Processes dictionary selection change.
      * <p>
      * It removes words when dictionary is un-selected.
      *
      * @param change the dictionary selection change
      */
-    private void onSelectedDictionaryChange(final ListChangeListener.Change<?
-            extends DictionaryViewModel> change) {
+    private void onSelectedDictionaryChange(
+            final ListChangeListener.Change<? extends DictionaryViewModel> change) {
         while (change.next()) {
             if (change.wasRemoved()) {
                 final List<? extends DictionaryViewModel> removedDictionaries = change.getRemoved();
