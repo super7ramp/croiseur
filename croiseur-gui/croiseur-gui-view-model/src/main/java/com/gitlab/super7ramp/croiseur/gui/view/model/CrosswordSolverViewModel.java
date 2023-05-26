@@ -33,6 +33,12 @@ public final class CrosswordSolverViewModel {
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverRunning = new SimpleBooleanProperty(this, "solverRunning", false);
+
+        // Initializes special bindings between dictionary and grid view models.
+        dictionariesViewModel.suggestionFilterProperty()
+                           .bind(crosswordGridViewModel.currentSlotContentProperty());
+        crosswordGridViewModel.isCurrentSlotUnsolvableProperty()
+                     .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
     }
 
     /**

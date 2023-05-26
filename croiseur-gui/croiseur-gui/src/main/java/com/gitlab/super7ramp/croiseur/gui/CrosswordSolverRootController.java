@@ -70,7 +70,6 @@ public final class CrosswordSolverRootController {
     private void initialize() {
         initializeCrosswordGridBindings();
         initializeDictionaryBindings();
-        initializeGridDictionaryBindings();
         initializeSolverSelectionBindings();
         initializeOtherSolverBindings();
         populateServiceLists();
@@ -104,20 +103,6 @@ public final class CrosswordSolverRootController {
         view.wordsProperty().set(viewModel.wordsProperty());
         view.suggestionsProperty().set(viewModel.suggestionsProperty());
         viewModel.selectedDictionariesProperty().addListener(this::onSelectedDictionaryChange);
-    }
-
-    /**
-     * Initializes special bindings between dictionary and grid view models.
-     */
-    private void initializeGridDictionaryBindings() {
-        final CrosswordGridViewModel gridViewModel =
-                crosswordSolverViewModel.crosswordGridViewModel();
-        final DictionariesViewModel dictionaryViewModel =
-                crosswordSolverViewModel.dictionaryViewModel();
-        dictionaryViewModel.suggestionFilterProperty()
-                           .bind(gridViewModel.currentSlotContentProperty());
-        gridViewModel.isCurrentSlotUnsolvableProperty()
-                     .bind(dictionaryViewModel.suggestionsProperty().emptyProperty());
     }
 
     /**
