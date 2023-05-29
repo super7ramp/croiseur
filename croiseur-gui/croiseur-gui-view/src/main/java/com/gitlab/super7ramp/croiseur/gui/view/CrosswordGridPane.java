@@ -373,14 +373,28 @@ public final class CrosswordGridPane extends StackPane {
      * that grid cells remain visible squares.
      */
     private void initializeGridConstraints() {
-        final NumberBinding smallerSideSize = Bindings.min(widthProperty(), heightProperty());
+
+        final DoubleBinding paddingWidth =
+                Bindings.createDoubleBinding(() -> getPadding().getLeft() + getPadding().getRight(),
+                                             paddingProperty());
+        final DoubleBinding paddingHeight =
+                Bindings.createDoubleBinding(() -> getPadding().getTop() + getPadding().getBottom(),
+                                             paddingProperty());
+
+        final NumberBinding smallerSideContentSize =
+                Bindings.min(widthProperty().subtract(paddingWidth),
+                             heightProperty().subtract(paddingHeight));
+
         final DoubleBinding columnPerRowRatio =
                 Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints(),
                                              grid.getRowConstraints());
+
         grid.maxHeightProperty()
-            .bind(Bindings.min(smallerSideSize, smallerSideSize.divide(columnPerRowRatio)));
+            .bind(Bindings.min(smallerSideContentSize,
+                               smallerSideContentSize.divide(columnPerRowRatio)));
         grid.maxWidthProperty()
-            .bind(Bindings.min(smallerSideSize, smallerSideSize.multiply(columnPerRowRatio)));
+            .bind(Bindings.min(smallerSideContentSize,
+                               smallerSideContentSize.multiply(columnPerRowRatio)));
     }
 
     /**
