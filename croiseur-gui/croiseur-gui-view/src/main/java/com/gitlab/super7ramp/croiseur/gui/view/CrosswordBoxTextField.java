@@ -46,6 +46,9 @@ public final class CrosswordBoxTextField extends TextField {
     /** The key to toggle shading of the box. */
     private static final String SHADE_KEY = " ";
 
+    /** The box min size. */
+    private static final int MIN_SIZE = 40;
+
     /** Filters input so that text field contains only the last character typed, in upper case. */
     private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE =
             change -> {
@@ -95,6 +98,12 @@ public final class CrosswordBoxTextField extends TextField {
         // Configure text content
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
         textProperty().bindBidirectional(model.contentProperty());
+
+        /*
+         * Make sure box is not too small, otherwise text starts to go out of the box borders and
+         * grid is deformed.
+         */
+        setMinSize(MIN_SIZE, MIN_SIZE);
 
         // Enable auto-sized font
         // TODO use a better computation of the font size
