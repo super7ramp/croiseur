@@ -42,9 +42,9 @@ import java.util.Objects;
 /**
  * A standalone crossword grid control.
  * <p>
- * It is basically a {@link StackPane} encapsulating a {@link GridPane} with some bindings defined
- * with code to constrain the grid pane so that it always presents nice square cells. See
- * {@link #initializeGridConstraints()} to see how these constraints are built.
+ * It is basically a {@link StackPane} encapsulating a {@link GridPane} and a placeholder with some
+ * bindings defined with code to constrain the grid pane so that it always presents nice square
+ * cells. See {@link #initializeGridConstraints()} to see how these constraints are built.
  */
 public final class CrosswordGridPane extends StackPane {
 

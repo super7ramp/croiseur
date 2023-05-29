@@ -20,3 +20,8 @@
     /* Same rationale as for .progress-indicator, too small by default. */
     -fx-font-size: 1.5em;
 }
+
+#grid-enclosing-zone {
+    /* Leaves some space around the crossword grid. */
+    -fx-padding: 20;
+}
