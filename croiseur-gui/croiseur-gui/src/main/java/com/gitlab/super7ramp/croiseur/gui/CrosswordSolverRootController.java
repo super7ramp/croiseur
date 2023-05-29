@@ -15,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
@@ -71,6 +72,7 @@ public final class CrosswordSolverRootController {
         initializeCrosswordGridBindings();
         initializeDictionaryBindings();
         initializeSolverSelectionBindings();
+        initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         populateServiceLists();
     }
@@ -129,6 +131,18 @@ public final class CrosswordSolverRootController {
                 crosswordSolverViewModel.solverSelectionViewModel();
         view.solversProperty().set(viewModel.availableSolversProperty());
         viewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
+    }
+
+    /**
+     * Initializes bindings between the solver progress view and the solver progress view models.
+     */
+    private void initializeSolverProgressBindings() {
+        final SolverProgressViewModel solverProgressViewModel =
+                crosswordSolverViewModel.solverProgressViewModel();
+        view.solverProgressIndicatorVisibleProperty()
+            .bind(solverProgressViewModel.solverRunningProperty());
+        view.solverProgressIndicatorValueProperty()
+            .bind(solverProgressViewModel.solverProgressProperty());
     }
 
     /**

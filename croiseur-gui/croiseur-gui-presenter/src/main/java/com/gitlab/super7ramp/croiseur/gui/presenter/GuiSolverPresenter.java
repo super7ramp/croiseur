@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
@@ -36,6 +37,9 @@ final class GuiSolverPresenter implements SolverPresenter {
     /** The solver selection view model. */
     private final SolverSelectionViewModel solverSelectionViewModel;
 
+    /** The solver progress view mode. */
+    private final SolverProgressViewModel solverProgressViewModel;
+
     /**
      * Constructs an instance.
      *
@@ -43,9 +47,11 @@ final class GuiSolverPresenter implements SolverPresenter {
      * @param solverSelectionViewModelArg the solver selection view model
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
-                       final SolverSelectionViewModel solverSelectionViewModelArg) {
+                       final SolverSelectionViewModel solverSelectionViewModelArg,
+                       final SolverProgressViewModel solverProgressViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
         solverSelectionViewModel = solverSelectionViewModelArg;
+        solverProgressViewModel = solverProgressViewModelArg;
     }
 
     @Override
@@ -69,8 +75,9 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentProgress(final SolverProgress solverProgress) {
-        // TODO really implement
-        LOGGER.info(() -> "Completion: " + solverProgress.completionPercentage() + " %");
+        final double normalizedSolverProgress =
+                ((double) solverProgress.completionPercentage()) / 100.0;
+        Platform.runLater(() -> solverProgressViewModel.solverProgress(normalizedSolverProgress));
     }
 
     @Override
@@ -116,7 +123,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     /**
-     * Update box content.
+     * Updates box content.
      * <p>
      * Only boxes that have been filled by solver will be updated.
      *

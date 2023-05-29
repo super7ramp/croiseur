@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * Access to the application view models.
@@ -22,8 +21,8 @@ public final class CrosswordSolverViewModel {
     /** The view model of the solver selection. */
     private final SolverSelectionViewModel solverSelectionViewModel;
 
-    /** Whether the solver is running. */
-    private final BooleanProperty solverRunning;
+    /** The view model of the solver progress. */
+    private final SolverProgressViewModel solverProgressViewModel;
 
     /**
      * Constructs an instance.
@@ -32,7 +31,7 @@ public final class CrosswordSolverViewModel {
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
-        solverRunning = new SimpleBooleanProperty(this, "solverRunning", false);
+        solverProgressViewModel = new SolverProgressViewModel();
 
         // Initializes special bindings between dictionary and grid view models.
         dictionariesViewModel.suggestionFilterProperty()
@@ -69,12 +68,23 @@ public final class CrosswordSolverViewModel {
     }
 
     /**
+     * Returns the view model of the solver progress.
+     *
+     * @return the view model of the solver progress
+     */
+    public SolverProgressViewModel solverProgressViewModel() {
+        return solverProgressViewModel;
+    }
+
+    /**
      * Returns whether the solver is running.
+     * <p>
+     * Shortcut for {@code solverProgressViewModel().solverRunningProperty()}.
      *
      * @return whether the solver is running
      */
     public BooleanProperty solverRunning() {
-        return solverRunning;
+        return solverProgressViewModel.solverRunningProperty();
     }
 
 }

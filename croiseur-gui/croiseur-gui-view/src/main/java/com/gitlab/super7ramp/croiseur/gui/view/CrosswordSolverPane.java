@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -22,6 +23,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 
@@ -58,6 +60,10 @@ public final class CrosswordSolverPane extends BorderPane {
     /** The grid. */
     @FXML
     private CrosswordGridPane grid;
+
+    /** The solver progress indicator. */
+    @FXML
+    private ProgressIndicator solverProgressIndicator;
 
     /** The dictionaries pane. */
     @FXML
@@ -238,6 +244,24 @@ public final class CrosswordSolverPane extends BorderPane {
      */
     public StringProperty solveButtonTextProperty() {
         return toolbar.solveButtonTextProperty();
+    }
+
+    /**
+     * Returns the solver progress indicator value property.
+     *
+     * @return the solver progress indicator value property
+     */
+    public DoubleProperty solverProgressIndicatorValueProperty() {
+        return solverProgressIndicator.progressProperty();
+    }
+
+    /**
+     * Returns the solver progress indicator visible property.
+     *
+     * @return the solver progress indicator visible property
+     */
+    public BooleanProperty solverProgressIndicatorVisibleProperty() {
+        return solverProgressIndicator.visibleProperty();
     }
 
     /**

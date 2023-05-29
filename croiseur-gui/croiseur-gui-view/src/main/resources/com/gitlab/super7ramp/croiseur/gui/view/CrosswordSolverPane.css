@@ -8,3 +8,15 @@
     -fx-opacity: 0;
     -fx-padding: 0;
 }
+
+.progress-indicator {
+    /* Progress indicator is a bit small by default. AtlantaFx size classes don't seem to apply
+     * for progress indicator, so enlarge it manually. */
+    -fx-min-height: 120px;
+    -fx-min-width: 120px;
+}
+
+.progress-indicator > .determinate-indicator > .percentage {
+    /* Same rationale as for .progress-indicator, too small by default. */
+    -fx-font-size: 1.5em;
+}

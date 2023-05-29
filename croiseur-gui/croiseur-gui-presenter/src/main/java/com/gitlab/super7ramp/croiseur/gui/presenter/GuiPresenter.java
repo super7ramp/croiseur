@@ -40,7 +40,8 @@ public final class GuiPresenter implements Presenter {
                 new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
         solverPresenter =
                 new GuiSolverPresenter(crosswordSolverViewModel.crosswordGridViewModel(),
-                        crosswordSolverViewModel.solverSelectionViewModel());
+                                       crosswordSolverViewModel.solverSelectionViewModel(),
+                                       crosswordSolverViewModel.solverProgressViewModel());
     }
 
     @Override
@@ -49,7 +50,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(
+            final SolverInitialisationState solverInitialisationState) {
         solverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 
