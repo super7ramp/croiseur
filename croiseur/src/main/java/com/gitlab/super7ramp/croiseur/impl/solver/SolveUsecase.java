@@ -99,7 +99,7 @@ final class SolveUsecase {
     }
 
     /**
-     * Runs the solver, handling potential {@link InterruptedException}.
+     * Runs the solver, handling potential exceptions.
      *
      * @param solver           the solver to run
      * @param puzzle           the puzzle to solve
@@ -112,8 +112,14 @@ final class SolveUsecase {
             final SolverResult result = solver.solve(puzzle, dictionary, progressListener);
             presenter.presentResult(result);
         } catch (final InterruptedException e) {
-            presenter.presentSolverError(e.getMessage());
+            // Do not present an error as interruption is likely to have been triggered by user
             Thread.currentThread().interrupt();
+        } catch (final Exception e) {
+            /*
+             * Present exception message, even for runtime exceptions: Exception comes from only one
+             * solver plugin, it should not stop the whole application.
+             */
+            presenter.presentSolverError(e.getMessage());
         }
     }
 

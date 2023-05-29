@@ -37,11 +37,13 @@ public final class GuiPresenter implements Presenter {
      */
     public GuiPresenter(final CrosswordSolverViewModel crosswordSolverViewModel) {
         dictionaryPresenter =
-                new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel());
+                new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel(),
+                                           crosswordSolverViewModel.errorsViewModel());
         solverPresenter =
                 new GuiSolverPresenter(crosswordSolverViewModel.crosswordGridViewModel(),
                                        crosswordSolverViewModel.solverSelectionViewModel(),
-                                       crosswordSolverViewModel.solverProgressViewModel());
+                                       crosswordSolverViewModel.solverProgressViewModel(),
+                                       crosswordSolverViewModel.errorsViewModel());
     }
 
     @Override

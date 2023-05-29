@@ -13,6 +13,4 @@ module com.gitlab.super7ramp.croiseur.solver.paulgb.plugin {
     requires com.gitlab.super7ramp.croiseur.solver.paulgb;
     requires com.gitlab.super7ramp.croiseur.spi.solver;
     provides CrosswordSolver with CrosswordComposerSolver;
-
-    requires java.logging;
 }

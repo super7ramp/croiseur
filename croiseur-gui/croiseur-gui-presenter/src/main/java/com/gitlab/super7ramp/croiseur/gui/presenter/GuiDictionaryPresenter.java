@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetail
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
@@ -25,13 +26,19 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     /** The view model. */
     private final DictionariesViewModel dictionariesViewModel;
 
+    /** The errors view model. */
+    private final ErrorsViewModel errorsViewModel;
+
     /**
      * Constructs an instance.
      *
      * @param dictionariesViewModelArg the dictionaries view model
+     * @param errorsViewModelArg       the errors view model
      */
-    GuiDictionaryPresenter(final DictionariesViewModel dictionariesViewModelArg) {
+    GuiDictionaryPresenter(final DictionariesViewModel dictionariesViewModelArg,
+                           final ErrorsViewModel errorsViewModelArg) {
         dictionariesViewModel = dictionariesViewModelArg;
+        errorsViewModel = errorsViewModelArg;
     }
 
     @Override
@@ -70,6 +77,6 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Platform.runLater(() -> errorsViewModel.addError(error));
     }
 }

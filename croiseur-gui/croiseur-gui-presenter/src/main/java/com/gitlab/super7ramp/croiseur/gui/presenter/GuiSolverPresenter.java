@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
@@ -40,6 +41,8 @@ final class GuiSolverPresenter implements SolverPresenter {
     /** The solver progress view mode. */
     private final SolverProgressViewModel solverProgressViewModel;
 
+    private final ErrorsViewModel errorsViewModel;
+
     /**
      * Constructs an instance.
      *
@@ -48,10 +51,12 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
                        final SolverSelectionViewModel solverSelectionViewModelArg,
-                       final SolverProgressViewModel solverProgressViewModelArg) {
+                       final SolverProgressViewModel solverProgressViewModelArg,
+                       final ErrorsViewModel errorsViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
         solverSelectionViewModel = solverSelectionViewModelArg;
         solverProgressViewModel = solverProgressViewModelArg;
+        errorsViewModel = errorsViewModelArg;
     }
 
     @Override
@@ -91,8 +96,7 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentSolverError(final String error) {
-        // TODO really implement
-        LOGGER.warning(error);
+        Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
     /**

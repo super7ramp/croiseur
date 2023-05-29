@@ -15,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.binding.When;
@@ -23,6 +24,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
@@ -40,6 +42,9 @@ public final class CrosswordSolverRootController {
 
     /** The view model. */
     private final CrosswordSolverViewModel crosswordSolverViewModel;
+
+    /** The special error alert view. */
+    private final Alert errorAlert;
 
     /** The view. */
     @FXML
@@ -65,6 +70,7 @@ public final class CrosswordSolverRootController {
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
+        errorAlert = new Alert(Alert.AlertType.ERROR);
     }
 
     @FXML
@@ -74,6 +80,7 @@ public final class CrosswordSolverRootController {
         initializeSolverSelectionBindings();
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
+        initializeErrorsBindings();
         populateServiceLists();
     }
 
@@ -143,6 +150,20 @@ public final class CrosswordSolverRootController {
             .bind(solverProgressViewModel.solverRunningProperty());
         view.solverProgressIndicatorValueProperty()
             .bind(solverProgressViewModel.solverProgressProperty());
+    }
+
+    /**
+     * Initializes binding between error view model and error view.
+     */
+    private void initializeErrorsBindings() {
+        final ErrorsViewModel errorsViewModel = crosswordSolverViewModel.errorsViewModel();
+        errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
+            if (newError != null) {
+                errorAlert.setContentText(newError);
+                errorAlert.showAndWait();
+                errorsViewModel.acknowledgeError();
+            }
+        });
     }
 
     /**

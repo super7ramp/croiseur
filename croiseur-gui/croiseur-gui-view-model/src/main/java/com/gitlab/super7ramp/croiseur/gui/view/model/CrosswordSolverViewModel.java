@@ -24,6 +24,9 @@ public final class CrosswordSolverViewModel {
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
 
+    private final ErrorsViewModel errorsViewModel;
+
+
     /**
      * Constructs an instance.
      */
@@ -32,6 +35,7 @@ public final class CrosswordSolverViewModel {
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverProgressViewModel = new SolverProgressViewModel();
+        errorsViewModel = new ErrorsViewModel();
 
         // Initializes special bindings between dictionary and grid view models.
         dictionariesViewModel.suggestionFilterProperty()
@@ -87,4 +91,7 @@ public final class CrosswordSolverViewModel {
         return solverProgressViewModel.solverRunningProperty();
     }
 
+    public ErrorsViewModel errorsViewModel() {
+        return errorsViewModel;
+    }
 }

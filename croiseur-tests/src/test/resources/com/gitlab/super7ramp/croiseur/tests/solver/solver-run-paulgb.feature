@@ -44,23 +44,19 @@ Feature: Run Solver - Crossword Composer (paulgb)
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Prefilled Cell
 
-  Crossword Composer solver does not support pre-filled grids.
-
     When user requests to solve the following grid with "Crossword Composer" solver:
       | A |  |  |
       | C |  |  |
       | T |  |  |
-    Then the application presents the grid as impossible to solve
+    Then the application presents the solver error "Crossword Composer solver does not support pre-filled grids"
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Prefilled and Shaded Cells
-
-  Crossword Composer solver does not support pre-filled grids.
 
     When user requests to solve the following grid with "Crossword Composer" solver:
       | A |   |   |
       | C | # |   |
       | T |   | # |
-    Then the application presents the grid as impossible to solve
+    Then the application presents the solver error "Crossword Composer solver does not support pre-filled grids"
 
   Scenario: Run Solver - Crossword Composer (paulgb) - With Randomness
 

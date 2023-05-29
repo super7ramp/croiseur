@@ -13,6 +13,4 @@ module com.gitlab.super7ramp.croiseur.solver.szunami.plugin {
     requires com.gitlab.super7ramp.croiseur.solver.szunami;
     requires com.gitlab.super7ramp.croiseur.spi.solver;
     provides CrosswordSolver with SzunamiSolver;
-
-    requires java.logging;
 }
