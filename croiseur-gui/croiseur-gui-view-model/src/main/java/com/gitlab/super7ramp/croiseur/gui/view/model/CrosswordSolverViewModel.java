@@ -24,8 +24,8 @@ public final class CrosswordSolverViewModel {
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
 
+    /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
-
 
     /**
      * Constructs an instance.
@@ -91,6 +91,11 @@ public final class CrosswordSolverViewModel {
         return solverProgressViewModel.solverRunningProperty();
     }
 
+    /**
+     * Returns the errors view model.
+     *
+     * @return the errors view model
+     */
     public ErrorsViewModel errorsViewModel() {
         return errorsViewModel;
     }
