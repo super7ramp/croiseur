@@ -32,7 +32,7 @@ import java.util.concurrent.Executor;
 /**
  * The main controller.
  */
-public final class CrosswordSolverRootController {
+public final class CroiseurRootController {
 
     /** The controller dedicated to the solver use-cases. */
     private final SolverController solverController;
@@ -58,9 +58,9 @@ public final class CrosswordSolverRootController {
      * @param crosswordSolverViewModelArg the view model
      * @param executor                    the executor allowing to run background tasks
      */
-    public CrosswordSolverRootController(final CrosswordService crosswordService,
-                                         final CrosswordSolverViewModel crosswordSolverViewModelArg,
-                                         final Executor executor) {
+    public CroiseurRootController(final CrosswordService crosswordService,
+                                  final CrosswordSolverViewModel crosswordSolverViewModelArg,
+                                  final Executor executor) {
         solverController =
                 new SolverController(crosswordSolverViewModelArg, crosswordService.solverService(),
                                      executor);

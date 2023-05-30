@@ -16,33 +16,34 @@ import java.util.ResourceBundle;
 /**
  * A utility class to load the application views.
  */
-final class CrosswordSolverViewLoader {
+final class CroiseurRootViewLoader {
 
     /** The path to the fxml file. */
-    private static final String FXML_LOCATION = "CrosswordSolverRoot.fxml";
+    private static final String FXML_LOCATION = "CroiseurRootView.fxml";
 
     /**
      * Private constructor to prevent instantiation.
      */
-    private CrosswordSolverViewLoader() {
+    private CroiseurRootViewLoader() {
         // Nothing to do.
     }
 
     /**
      * Loads the application views.
      *
+     * @param rootController the root controller
      * @return the loaded object hierarchy
      * @throws IOException if an error occurs during loading
      */
-    static Parent load(final CrosswordSolverRootController crosswordSolverController) throws IOException {
+    static Parent load(final CroiseurRootController rootController) throws IOException {
         final FXMLLoader loader = new FXMLLoader();
-        final URL fxmlLocation = Objects.requireNonNull(CrosswordGuiApplication.class.getResource(
-                FXML_LOCATION));
+        final URL fxmlLocation =
+                Objects.requireNonNull(CroiseurRootViewLoader.class.getResource(FXML_LOCATION));
         loader.setLocation(fxmlLocation);
         final ResourceBundle resourceBundle =
-                ResourceBundle.getBundle(CrosswordSolverRootController.class.getName());
+                ResourceBundle.getBundle(CroiseurRootController.class.getName());
         loader.setResources(resourceBundle);
-        loader.setControllerFactory(unusedClassParam -> crosswordSolverController);
+        loader.setControllerFactory(unusedClassParam -> rootController);
         return loader.load();
     }
 }

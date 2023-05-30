@@ -25,9 +25,9 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * The crossword GUI application.
+ * The Croiseur GUI application.
  */
-public final class CrosswordGuiApplication extends Application {
+public final class CroiseurGuiApplication extends Application {
 
     /** The stage's title. */
     public static final String STAGE_TITLE = "Croiseur";
@@ -56,7 +56,7 @@ public final class CrosswordGuiApplication extends Application {
     /**
      * Constructor.
      */
-    public CrosswordGuiApplication() {
+    public CroiseurGuiApplication() {
         resources = new ArrayList<>();
     }
 
@@ -73,18 +73,18 @@ public final class CrosswordGuiApplication extends Application {
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
         final InputStream iconLocation =
-                CrosswordGuiApplication.class.getResourceAsStream(ICON_NAME);
+                CroiseurGuiApplication.class.getResourceAsStream(ICON_NAME);
         Objects.requireNonNull(iconLocation, "Application icon not found");
         stage.getIcons().add(new Image(iconLocation));
     }
 
     @Override
     public void start(final Stage stage) throws IOException {
-        final URL themeUrl = CrosswordGuiApplication.class.getResource(STYLESHEET);
+        final URL themeUrl = CroiseurGuiApplication.class.getResource(STYLESHEET);
         Objects.requireNonNull(themeUrl, "Application stylesheet not found");
         Application.setUserAgentStylesheet(themeUrl.toString());
-        final CrosswordSolverRootController controller = loadController();
-        final Parent view = CrosswordSolverViewLoader.load(controller);
+        final CroiseurRootController controller = loadController();
+        final Parent view = CroiseurRootViewLoader.load(controller);
         configureStage(stage, view);
         stage.show();
     }
@@ -101,7 +101,7 @@ public final class CrosswordGuiApplication extends Application {
      *
      * @return the loaded controller
      */
-    private CrosswordSolverRootController loadController() {
+    private CroiseurRootController loadController() {
         // Dependencies for construction: view model <- presenter <- use-cases <- controller
         final CrosswordSolverViewModel crosswordSolverViewModel = new CrosswordSolverViewModel();
         final Presenter presenter = new GuiPresenter(crosswordSolverViewModel);
@@ -112,8 +112,7 @@ public final class CrosswordGuiApplication extends Application {
                 AutoCloseableExecutors.newFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
 
-        return new CrosswordSolverRootController(crosswordService, crosswordSolverViewModel,
-                                                 executor);
+        return new CroiseurRootController(crosswordService, crosswordSolverViewModel, executor);
     }
 
 }

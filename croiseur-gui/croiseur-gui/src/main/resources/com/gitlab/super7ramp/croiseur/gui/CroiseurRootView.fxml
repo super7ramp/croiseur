@@ -8,6 +8,6 @@
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordSolverPane?>
 <CrosswordSolverPane xmlns:fx="http://javafx.com/fxml"
                      xmlns="http://javafx.com/javafx"
-                     fx:controller="com.gitlab.super7ramp.croiseur.gui.CrosswordSolverRootController"
+                     fx:controller="com.gitlab.super7ramp.croiseur.gui.CroiseurRootController"
                      prefHeight="600.0" prefWidth="750.0" fx:id="view">
 </CrosswordSolverPane>
