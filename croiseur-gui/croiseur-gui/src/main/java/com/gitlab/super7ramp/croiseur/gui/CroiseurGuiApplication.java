@@ -75,6 +75,7 @@ public final class CroiseurGuiApplication extends Application {
             resource.close();
         }
     }
+
     /**
      * Configures the stage.
      *
@@ -105,7 +106,7 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads application stylesheet and set it as user agent stylesheet.
+     * Loads application stylesheet and sets it as user agent stylesheet.
      *
      * @throws NullPointerException if stylesheet is not found
      */
