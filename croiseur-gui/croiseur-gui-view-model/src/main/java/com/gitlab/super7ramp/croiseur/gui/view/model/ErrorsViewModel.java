@@ -63,7 +63,7 @@ public final class ErrorsViewModel {
      * Acknowledges the current error.
      * <p>
      * The {@link #currentErrorProperty()} value will be set to {@code null} unless a queued error
-     * exist, in which case the queued error will be removed from queue and set as value of
+     * exists, in which case the queued error will be removed from queue and set as value of
      * {@link #currentErrorProperty()}.
      * <p>
      * If current error is {@code null}, the method has no effect.

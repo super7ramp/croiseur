@@ -33,15 +33,19 @@ final class CrosswordServiceLoader {
      * @return the {@link CrosswordService}
      */
     static CrosswordService load(final Presenter presenter) {
-        final Collection<DictionaryProvider> dictionaryProviders =
-                ServiceLoader.load(DictionaryProvider.class).stream()
-                             .map(Supplier::get)
-                             .toList();
-        final Collection<CrosswordSolver> solvers =
-                ServiceLoader.load(CrosswordSolver.class)
-                             .stream()
-                             .map(Supplier::get)
-                             .toList();
+        final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
         return CrosswordService.create(dictionaryProviders, solvers, presenter);
+    }
+
+    /**
+     * Loads all the implementations of the given service class.
+     *
+     * @param clazz the service provider class
+     * @param <T>   the type of the service
+     * @return all the implementations of the given service class
+     */
+    private static <T> Collection<T> load(final Class<T> clazz) {
+        return ServiceLoader.load(clazz).stream().map(Supplier::get).toList();
     }
 }

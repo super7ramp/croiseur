@@ -24,7 +24,7 @@ public final class Main {
      *
      * @param args the start arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Application.launch(CrosswordGuiApplication.class, args);
     }
 

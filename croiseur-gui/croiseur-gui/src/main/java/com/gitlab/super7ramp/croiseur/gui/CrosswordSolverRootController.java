@@ -117,8 +117,6 @@ public final class CrosswordSolverRootController {
      */
     private void onSelectedDictionaryChange(
             final ListChangeListener.Change<? extends DictionaryViewModel> change) {
-        // TODO Dictionary words retrieval should be performed lazily when dictionary pane is
-        //  displayed for the first time
         while (change.next()) {
             if (change.wasAdded()) {
                 change.getAddedSubList().forEach(dictionaryController::listDictionaryEntries);
