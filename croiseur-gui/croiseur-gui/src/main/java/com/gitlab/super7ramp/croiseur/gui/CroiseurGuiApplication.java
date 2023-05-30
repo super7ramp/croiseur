@@ -60,6 +60,21 @@ public final class CroiseurGuiApplication extends Application {
         resources = new ArrayList<>();
     }
 
+    @Override
+    public void start(final Stage stage) throws IOException {
+        final CroiseurRootController controller = loadController();
+        final Parent view = CroiseurRootViewLoader.load(controller);
+        configureStage(stage, view);
+        configureStyleSheet();
+        stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        for (final AutoCloseable resource : resources) {
+            resource.close();
+        }
+    }
     /**
      * Configures the stage.
      *
@@ -72,28 +87,32 @@ public final class CroiseurGuiApplication extends Application {
         stage.setTitle(STAGE_TITLE);
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
+        final Image icon = loadIcon();
+        stage.getIcons().add(icon);
+    }
+
+    /**
+     * Loads the application icon.
+     *
+     * @return the application icon
+     * @throws NullPointerException if icon is not found
+     */
+    private static Image loadIcon() {
         final InputStream iconLocation =
                 CroiseurGuiApplication.class.getResourceAsStream(ICON_NAME);
         Objects.requireNonNull(iconLocation, "Application icon not found");
-        stage.getIcons().add(new Image(iconLocation));
+        return new Image(iconLocation);
     }
 
-    @Override
-    public void start(final Stage stage) throws IOException {
+    /**
+     * Loads application stylesheet and set it as user agent stylesheet.
+     *
+     * @throws NullPointerException if stylesheet is not found
+     */
+    private static void configureStyleSheet() {
         final URL themeUrl = CroiseurGuiApplication.class.getResource(STYLESHEET);
         Objects.requireNonNull(themeUrl, "Application stylesheet not found");
         Application.setUserAgentStylesheet(themeUrl.toString());
-        final CroiseurRootController controller = loadController();
-        final Parent view = CroiseurRootViewLoader.load(controller);
-        configureStage(stage, view);
-        stage.show();
-    }
-
-    @Override
-    public void stop() throws Exception {
-        for (final AutoCloseable resource : resources) {
-            resource.close();
-        }
     }
 
     /**
