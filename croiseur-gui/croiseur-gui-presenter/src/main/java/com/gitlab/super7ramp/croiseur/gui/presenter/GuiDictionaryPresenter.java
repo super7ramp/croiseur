@@ -17,11 +17,15 @@ import javafx.application.Platform;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * GUI implementation of {@link DictionaryPresenter}.
  */
 final class GuiDictionaryPresenter implements DictionaryPresenter {
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(GuiDictionaryPresenter.class.getName());
 
     /** The view model. */
     private final DictionariesViewModel dictionariesViewModel;
@@ -43,11 +47,12 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new UnsupportedOperationException("Not used");
     }
 
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDetails> providedDictionaries) {
+        LOGGER.info(() -> "Received dictionaries: " + providedDictionaries);
         final List<DictionaryViewModel> presentedDictionaries =
                 providedDictionaries.stream().map(DictionaryViewModel::new).toList();
         // The first dictionary is the default one, automatically select it
@@ -60,6 +65,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
+        LOGGER.info(() -> "Received entries of dictionary " + content.details() + ": " +
+                          content.words().size() + " words");
         Platform.runLater(() -> dictionariesViewModel.addWords(content.details()
                                                                       .toDictionaryKey(),
                                                                content.words()));
@@ -67,16 +74,17 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDictionarySearchResult(final DictionarySearchResult searchResult) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new UnsupportedOperationException("Not used");
     }
 
     @Override
     public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new UnsupportedOperationException("Not used");
     }
 
     @Override
     public void presentDictionaryError(final String error) {
+        LOGGER.warning(() -> "Received dictionary error: " + error);
         Platform.runLater(() -> errorsViewModel.addError(error));
     }
 }

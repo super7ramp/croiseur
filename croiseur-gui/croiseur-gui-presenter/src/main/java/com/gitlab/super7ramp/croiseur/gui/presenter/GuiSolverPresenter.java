@@ -41,6 +41,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     /** The solver progress view mode. */
     private final SolverProgressViewModel solverProgressViewModel;
 
+    /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
     /**
@@ -48,6 +49,7 @@ final class GuiSolverPresenter implements SolverPresenter {
      *
      * @param crosswordGridViewModelArg   the grid view model
      * @param solverSelectionViewModelArg the solver selection view model
+     * @param errorsViewModelArg          the errors view model
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
                        final SolverSelectionViewModel solverSelectionViewModelArg,
@@ -61,6 +63,7 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
+        LOGGER.info(() -> "Received solver descriptions: " + solverDescriptions);
         final List<SolverItemViewModel> solverNames =
                 solverDescriptions.stream()
                                   .map(s -> new SolverItemViewModel(s.name(),
@@ -74,12 +77,13 @@ final class GuiSolverPresenter implements SolverPresenter {
     @Override
     public void presentSolverInitialisationState(
             final SolverInitialisationState solverInitialisationState) {
-        // TODO really implement
-        LOGGER.info(() -> "Solver initialisation: " + solverInitialisationState);
+        LOGGER.info(() -> "Received solver initialisation state: " + solverInitialisationState);
+        // No specific presentation for initialisation progress
     }
 
     @Override
     public void presentProgress(final SolverProgress solverProgress) {
+        LOGGER.info(() -> "Received solver progress: " + solverProgress);
         final double normalizedSolverProgress =
                 ((double) solverProgress.completionPercentage()) / 100.0;
         Platform.runLater(() -> solverProgressViewModel.solverProgress(normalizedSolverProgress));
@@ -87,7 +91,7 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentResult(final SolverResult result) {
-        LOGGER.info(() -> "Received result: " + result);
+        LOGGER.info(() -> "Received solver result: " + result);
         Platform.runLater(() -> {
             updateBoxContent(result);
             updateBoxSolvableState(result);
@@ -96,6 +100,7 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     @Override
     public void presentSolverError(final String error) {
+        LOGGER.warning(() -> "Received solver error: " + error);
         Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
