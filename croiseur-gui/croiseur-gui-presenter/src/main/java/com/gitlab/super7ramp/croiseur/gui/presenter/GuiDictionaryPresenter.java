@@ -57,7 +57,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
                 providedDictionaries.stream().map(DictionaryViewModel::new).toList();
         // The first dictionary is the default one, automatically select it
         if (!presentedDictionaries.isEmpty()) {
-            presentedDictionaries.get(0).setSelected(true);
+            presentedDictionaries.get(0).select();
         }
         Platform.runLater(() -> dictionariesViewModel.dictionariesProperty()
                                                      .setAll(presentedDictionaries));

@@ -48,10 +48,10 @@ final class DictionariesViewModelTest {
      */
     @Test
     void deselectDictionary() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
 
-        dictionary.setSelected(false);
+        dictionary.deselect();
 
         assertTrue(dictionaries.selectedDictionariesProperty().isEmpty());
         assertTrue(dictionaries.wordsProperty().isEmpty());
@@ -62,9 +62,9 @@ final class DictionariesViewModelTest {
      */
     @Test
     void deselectDictionary_noWords() {
-        dictionary.setSelected(true);
+        dictionary.select();
 
-        dictionary.setSelected(false);
+        dictionary.deselect();
 
         assertTrue(dictionaries.selectedDictionariesProperty().isEmpty());
         assertTrue(dictionaries.wordsProperty().isEmpty());
@@ -75,7 +75,7 @@ final class DictionariesViewModelTest {
      */
     @Test
     void addWords() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
         assertEquals(List.of("HELLO", "WORLD"), dictionaries.wordsProperty());
     }
@@ -85,7 +85,7 @@ final class DictionariesViewModelTest {
      */
     @Test
     void addWords_sorted() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("WORLD", "HELLO"));
         assertEquals(List.of("HELLO", "WORLD"), dictionaries.wordsProperty());
     }
@@ -96,14 +96,14 @@ final class DictionariesViewModelTest {
      */
     @Test
     void addWords_discardWordsForUnselectedDictionary() {
-        dictionary.setSelected(false);
+        dictionary.deselect();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
         assertTrue(dictionaries.wordsProperty().isEmpty());
     }
 
     @Test
     void suggestionFilter_none() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
 
         dictionaries.suggestionFilterProperty().set("");
@@ -113,7 +113,7 @@ final class DictionariesViewModelTest {
 
     @Test
     void suggestionFilter_all() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
 
         dictionaries.suggestionFilterProperty().set(".....");
@@ -123,7 +123,7 @@ final class DictionariesViewModelTest {
 
     @Test
     void suggestionFilter_some() {
-        dictionary.setSelected(true);
+        dictionary.select();
         dictionaries.addWords(dictionary.key(), List.of("HELLO", "WORLD"));
 
         dictionaries.suggestionFilterProperty().set(".O...");

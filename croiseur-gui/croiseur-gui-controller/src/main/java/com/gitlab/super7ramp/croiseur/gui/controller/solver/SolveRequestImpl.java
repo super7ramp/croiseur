@@ -72,7 +72,7 @@ final class SolveRequestImpl implements SolveRequest {
                                                                             entry.name()))
                                      .toList();
 
-        selectedSolver = solverSelectionViewModel.getSelectedSolver();
+        selectedSolver = solverSelectionViewModel.selectedSolver();
     }
 
     @Override

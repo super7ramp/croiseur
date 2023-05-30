@@ -81,7 +81,7 @@ public final class DictionariesViewModel {
         suggestionFilter = new SimpleStringProperty(this, "suggestionFilter", "");
 
         final ObservableValue<Predicate<String>> suggestionPredicate =
-                Bindings.createObjectBinding(this::onSuggestionFilterChange, suggestionFilter);
+                Bindings.createObjectBinding(this::createSuggestionPredicate, suggestionFilter);
         final FilteredList<String> filteredSuggestions = new FilteredList<>(words);
         filteredSuggestions.predicateProperty().bind(suggestionPredicate);
         suggestions = new ReadOnlyListWrapper<>(this, "suggestions", filteredSuggestions);
@@ -165,7 +165,7 @@ public final class DictionariesViewModel {
      *
      * @return a new predicate when {@link #suggestionFilter} changes
      */
-    private Predicate<String> onSuggestionFilterChange() {
+    private Predicate<String> createSuggestionPredicate() {
         final String regex = suggestionFilter.get();
         final Pattern pattern = Pattern.compile(regex);
         return word -> pattern.matcher(word).matches();

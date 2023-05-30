@@ -71,8 +71,8 @@ public final class CrosswordGridViewModel {
                                 final Boolean wasShaded, final Boolean isShaded) {
                 final GridPosition current = currentBoxPosition.get();
                 if (current != null &&
-                    ((isCurrentSlotVertical.get() && current.x() == listenedBoxCoordinate.x()) ||
-                     (!isCurrentSlotVertical.get() && current.y() == listenedBoxCoordinate.y()))) {
+                    ((currentSlotVertical.get() && current.x() == listenedBoxCoordinate.x()) ||
+                     (!currentSlotVertical.get() && current.y() == listenedBoxCoordinate.y()))) {
                     recomputeCurrentSlotPositions();
                 }
             }
@@ -127,10 +127,10 @@ public final class CrosswordGridViewModel {
         private final ReadOnlyStringWrapper currentSlotContent;
 
         /** The orientation of the current slot (or the previous slot if current slot is empty). */
-        private final BooleanProperty isCurrentSlotVertical;
+        private final BooleanProperty currentSlotVertical;
 
         /** Whether the current slot is unsolvable. */
-        private final BooleanProperty isCurrentSlotUnsolvable;
+        private final BooleanProperty currentSlotUnsolvable;
 
         /**
          * Constructs an instance.
@@ -140,12 +140,12 @@ public final class CrosswordGridViewModel {
             currentSlotPositions = new ReadOnlyListWrapper<>(this, "currentSlotPositions",
                                                              FXCollections.observableArrayList());
             currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
-            isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
-            isCurrentSlotUnsolvable = new SimpleBooleanProperty(this, "isCurrentSlotUnsolvable");
+            currentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
+            currentSlotUnsolvable = new SimpleBooleanProperty(this, "isCurrentSlotUnsolvable");
 
             currentSlotPositions.addListener(this::onCurrentSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);
-            isCurrentSlotVertical.addListener(observable -> recomputeCurrentSlotPositions());
+            currentSlotVertical.addListener(observable -> recomputeCurrentSlotPositions());
             columnCount.addListener(this::onDimensionChange);
             rowCount.addListener(this::onDimensionChange);
             boxes.forEach(this::onBoxAdded);
@@ -227,7 +227,7 @@ public final class CrosswordGridViewModel {
                 if (!currentSlotPositions.isEmpty()) {
                     currentSlotPositions.clear();
                 }
-            } else if (isCurrentSlotVertical.get()) {
+            } else if (currentSlotVertical.get()) {
                 recomputeVerticalCurrentSlotPositions();
             } else {
                 recomputeCurrentHorizontalSlotPositions();
@@ -326,7 +326,7 @@ public final class CrosswordGridViewModel {
                       .map(boxes::get)
                       .forEach(box -> {
                           box.select();
-                          box.unsolvableProperty().bind(isCurrentSlotUnsolvable);
+                          box.unsolvableProperty().bind(currentSlotUnsolvable);
                       });
                 recomputeCurrentSlotContent();
             }
@@ -489,15 +489,15 @@ public final class CrosswordGridViewModel {
      *
      * @return the orientation of the current slot
      */
-    public BooleanProperty isCurrentSlotVerticalProperty() {
-        return workingArea.isCurrentSlotVertical;
+    public BooleanProperty currentSlotVerticalProperty() {
+        return workingArea.currentSlotVertical;
     }
 
     /**
      * Sets the orientation property of the current slot to vertical.
      */
     public void currentSlotVertical() {
-        workingArea.isCurrentSlotVertical.set(true);
+        workingArea.currentSlotVertical.set(true);
     }
 
     /**
@@ -505,15 +505,15 @@ public final class CrosswordGridViewModel {
      *
      * @return the unsolvable current slot property.
      */
-    public BooleanProperty isCurrentSlotUnsolvableProperty() {
-        return workingArea.isCurrentSlotUnsolvable;
+    public BooleanProperty currentSlotUnsolvableProperty() {
+        return workingArea.currentSlotUnsolvable;
     }
 
     /**
      * Sets the value of the unsolvable current slot property to {@code true}.
      */
     public void currentSlotUnsolvable() {
-        workingArea.isCurrentSlotUnsolvable.set(true);
+        workingArea.currentSlotUnsolvable.set(true);
     }
 
     /**

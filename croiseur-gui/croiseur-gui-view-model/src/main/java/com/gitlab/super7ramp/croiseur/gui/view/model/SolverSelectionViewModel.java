@@ -47,7 +47,7 @@ public final class SolverSelectionViewModel {
      *
      * @return the value of the selected solver property
      */
-    public String getSelectedSolver() {
+    public String selectedSolver() {
         return selectedSolverName.get();
     }
 

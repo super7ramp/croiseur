@@ -40,7 +40,7 @@ public final class CrosswordSolverViewModel {
         // Initializes special bindings between dictionary and grid view models.
         dictionariesViewModel.suggestionFilterProperty()
                            .bind(crosswordGridViewModel.currentSlotContentProperty());
-        crosswordGridViewModel.isCurrentSlotUnsolvableProperty()
+        crosswordGridViewModel.currentSlotUnsolvableProperty()
                      .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
     }
 

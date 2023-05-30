@@ -64,12 +64,17 @@ public final class DictionaryViewModel {
     }
 
     /**
-     * Sets the value of the selected property.
-     *
-     * @param selectedValue the value to set
+     * Sets the value of the selected property to {@code true}.
      */
-    public void setSelected(final boolean selectedValue) {
-        selected.set(selectedValue);
+    public void select() {
+        selected.set(true);
+    }
+
+    /**
+     * Sets the value of the selected property to {@code false}.
+     */
+    public void deselect() {
+        selected.set(false);
     }
 
     /**

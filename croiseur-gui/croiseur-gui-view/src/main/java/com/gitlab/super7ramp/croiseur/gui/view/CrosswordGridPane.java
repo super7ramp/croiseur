@@ -110,7 +110,7 @@ public final class CrosswordGridPane extends StackPane {
     private final ObjectProperty<GridPosition> currentBoxPosition;
 
     /** The orientation of the current slot, i.e. the slot the current box belongs to. */
-    private final BooleanProperty isCurrentSlotVertical;
+    private final BooleanProperty currentSlotVertical;
 
     /** The grid. */
     @FXML
@@ -127,7 +127,7 @@ public final class CrosswordGridPane extends StackPane {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
         currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition", null);
-        isCurrentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical", false);
+        currentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical", false);
 
         final Class<CrosswordGridPane> clazz = CrosswordGridPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
@@ -176,8 +176,8 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return the orientation of the current slot
      */
-    public BooleanProperty isCurrentSlotVerticalProperty() {
-        return isCurrentSlotVertical;
+    public BooleanProperty currentSlotVerticalProperty() {
+        return currentSlotVertical;
     }
 
     /**
@@ -316,12 +316,12 @@ public final class CrosswordGridPane extends StackPane {
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
+                currentSlotVertical.set(!currentSlotVertical.get());
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                isCurrentSlotVertical.set(!isCurrentSlotVertical.get());
+                currentSlotVertical.set(!currentSlotVertical.get());
             }
         });
     }

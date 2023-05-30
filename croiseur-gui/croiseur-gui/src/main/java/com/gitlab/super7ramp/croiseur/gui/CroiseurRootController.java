@@ -87,8 +87,8 @@ public final class CroiseurRootController {
         final CrosswordGridViewModel viewModel = crosswordSolverViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().set(viewModel.boxesProperty());
         view.gridCurrentBoxProperty().bindBidirectional(viewModel.currentBoxPositionProperty());
-        view.gridIsCurrentSlotOrientationVerticalProperty()
-            .bindBidirectional(viewModel.isCurrentSlotVerticalProperty());
+        view.gridCurrentSlotOrientationVerticalProperty()
+            .bindBidirectional(viewModel.currentSlotVerticalProperty());
         view.onAddRowActionButtonProperty().set(event -> viewModel.addRow());
         view.onAddColumnActionButtonProperty().set(event -> viewModel.addColumn());
         view.onDeleteColumnActionButtonProperty().set(event -> viewModel.deleteLastColumn());

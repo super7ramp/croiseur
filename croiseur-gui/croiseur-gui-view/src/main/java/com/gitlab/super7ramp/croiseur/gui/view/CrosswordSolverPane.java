@@ -288,8 +288,8 @@ public final class CrosswordSolverPane extends BorderPane {
      *
      * @return the crossword grid current slot orientation property
      */
-    public BooleanProperty gridIsCurrentSlotOrientationVerticalProperty() {
-        return grid.isCurrentSlotVerticalProperty();
+    public BooleanProperty gridCurrentSlotOrientationVerticalProperty() {
+        return grid.currentSlotVerticalProperty();
     }
 
     /**
