@@ -10,7 +10,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -405,17 +404,6 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * Returns the column count property.
-     * <p>
-     * Incomplete columns are not counted.
-     *
-     * @return the column count property
-     */
-    public ReadOnlyIntegerProperty columnCountProperty() {
-        return columnCount.getReadOnlyProperty();
-    }
-
-    /**
      * Returns the column count.
      * <p>
      * Incomplete columns are not counted.
@@ -424,17 +412,6 @@ public final class CrosswordGridViewModel {
      */
     public int columnCount() {
         return columnCount.get();
-    }
-
-    /**
-     * Returns the row count property.
-     * <p>
-     * Incomplete rows are not counted.
-     *
-     * @return the row count property
-     */
-    public ReadOnlyIntegerProperty rowCountProperty() {
-        return rowCount.getReadOnlyProperty();
     }
 
     /**

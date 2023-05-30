@@ -69,13 +69,6 @@ public final class CrosswordBoxTextField extends TextField {
 
     /**
      * Constructs an instance.
-     */
-    CrosswordBoxTextField() {
-        this(new CrosswordBoxViewModel());
-    }
-
-    /**
-     * Constructs an instance.
      *
      * @param modelArg the model
      */

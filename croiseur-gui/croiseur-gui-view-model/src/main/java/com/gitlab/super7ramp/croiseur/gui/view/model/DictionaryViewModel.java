@@ -73,15 +73,6 @@ public final class DictionaryViewModel {
     }
 
     /**
-     * Returns the dictionary locale.
-     *
-     * @return the dictionary locale
-     */
-    public String locale() {
-        return locale.getDisplayName();
-    }
-
-    /**
      * Returns the dictionary provider.
      *
      * @return the dictionary provider
