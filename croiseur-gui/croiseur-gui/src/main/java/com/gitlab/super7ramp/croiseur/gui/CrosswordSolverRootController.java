@@ -43,9 +43,6 @@ public final class CrosswordSolverRootController {
     /** The view model. */
     private final CrosswordSolverViewModel crosswordSolverViewModel;
 
-    /** The special error alert view. */
-    private final Alert errorAlert;
-
     /** The view. */
     @FXML
     private CrosswordSolverPane view;
@@ -70,7 +67,6 @@ public final class CrosswordSolverRootController {
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
-        errorAlert = new Alert(Alert.AlertType.ERROR);
     }
 
     @FXML
@@ -159,7 +155,8 @@ public final class CrosswordSolverRootController {
         final ErrorsViewModel errorsViewModel = crosswordSolverViewModel.errorsViewModel();
         errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
             if (newError != null) {
-                errorAlert.setContentText(newError);
+                final Alert errorAlert = new Alert(Alert.AlertType.ERROR, newError);
+                errorAlert.initOwner(view.getScene().getWindow());
                 errorAlert.showAndWait();
                 errorsViewModel.acknowledgeError();
             }
