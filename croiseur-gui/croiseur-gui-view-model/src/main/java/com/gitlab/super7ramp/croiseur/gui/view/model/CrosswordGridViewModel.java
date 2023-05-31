@@ -140,8 +140,8 @@ public final class CrosswordGridViewModel {
             currentSlotPositions = new ReadOnlyListWrapper<>(this, "currentSlotPositions",
                                                              FXCollections.observableArrayList());
             currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
-            currentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical");
-            currentSlotUnsolvable = new SimpleBooleanProperty(this, "isCurrentSlotUnsolvable");
+            currentSlotVertical = new SimpleBooleanProperty(this, "currentSlotVertical");
+            currentSlotUnsolvable = new SimpleBooleanProperty(this, "currentSlotUnsolvable");
 
             currentSlotPositions.addListener(this::onCurrentSlotPositionsChange);
             currentBoxPosition.addListener(this::onCurrentBoxChange);

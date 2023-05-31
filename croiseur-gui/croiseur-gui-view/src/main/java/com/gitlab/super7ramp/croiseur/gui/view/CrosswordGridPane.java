@@ -127,7 +127,7 @@ public final class CrosswordGridPane extends StackPane {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
         currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition", null);
-        currentSlotVertical = new SimpleBooleanProperty(this, "isCurrentSlotVertical", false);
+        currentSlotVertical = new SimpleBooleanProperty(this, "currentSlotVertical", false);
 
         final Class<CrosswordGridPane> clazz = CrosswordGridPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
