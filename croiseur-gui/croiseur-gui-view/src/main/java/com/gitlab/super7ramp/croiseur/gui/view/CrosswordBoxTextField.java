@@ -26,7 +26,7 @@ import java.util.function.UnaryOperator;
  *     <li>A shaded version, which can be toggled using right-click or the space key</li>
  *     <li>Additional selected and unsolvable states</li>
  *     <li>Font auto-sizing</li>
- *     <li>A customizable appearance the {@value #CSS_CLASS} CSS class</li>
+ *     <li>A customizable appearance using the {@value #CSS_CLASS} CSS class</li>
  * </ul>
  */
 public final class CrosswordBoxTextField extends TextField {
@@ -45,9 +45,6 @@ public final class CrosswordBoxTextField extends TextField {
 
     /** The key to toggle shading of the box. */
     private static final String SHADE_KEY = " ";
-
-    /** The box min size. */
-    private static final int MIN_SIZE = 40;
 
     /** Filters input so that text field contains only the last character typed, in upper case. */
     private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE =
@@ -92,29 +89,11 @@ public final class CrosswordBoxTextField extends TextField {
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
         textProperty().bindBidirectional(model.contentProperty());
 
-        /*
-         * Make sure box is not too small, otherwise text starts to go out of the box borders and
-         * grid is deformed.
-         */
-        setMinSize(MIN_SIZE, MIN_SIZE);
-
-        // Enable auto-sized font
-        // TODO use a better computation of the font size
-        // TODO compute only once for all the boxes since they share the same class (do it in grid?)
-        final DoubleBinding desiredFontSize = Bindings.min(1000.0, heightProperty().divide(2.2));
-        final StringExpression desiredFontSizeCss = Bindings.concat("-fx-font-size: ",
-                                                                    desiredFontSize.asString(),
-                                                                    "px;");
-        styleProperty().bind(desiredFontSizeCss);
-
-        /*
-        // Alternative implementation; Should be faster but:
-        // * Somehow text is half the size of the cursor
-        // * Does not CSS style (node is not styled yet)
-        final ObjectBinding<Font> font = Bindings.createObjectBinding(() -> Font.font("Serif",
-                desiredFontSize.getValue()), desiredFontSize);
-        fontProperty().bind(font);
-         */
+        // Auto-scale font
+        final DoubleBinding scaledFontSize = heightProperty().divide(2.2 /* empirical value. */);
+        final StringExpression scaledFontSizeCss =
+                Bindings.concat("-fx-font-size: ", scaledFontSize.asString());
+        styleProperty().bind(scaledFontSizeCss);
 
         // Listen to user inputs
         setOnContextMenuRequested(event -> toggleShading());
@@ -127,31 +106,14 @@ public final class CrosswordBoxTextField extends TextField {
     }
 
     /**
-     * Toggle shading of the box.
+     * Toggles shading of the box.
      */
     private void toggleShading() {
         if (!model.isShaded()) {
-            shade();
+            clear();
+            model.shade();
         } else {
-            lighten();
+            model.lighten();
         }
-    }
-
-    /**
-     * Shades the box.
-     * <p>
-     * Note that this method removes the content of the field: The character will not re-appear on a
-     * subsequent call to {@link #lighten()}.
-     */
-    private void shade() {
-        clear();
-        model.shade();
-    }
-
-    /**
-     * Removes the shading of the box.
-     */
-    private void lighten() {
-        model.lighten();
     }
 }

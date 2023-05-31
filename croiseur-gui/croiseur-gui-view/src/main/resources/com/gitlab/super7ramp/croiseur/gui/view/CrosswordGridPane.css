@@ -18,6 +18,10 @@
     /* Taking all the space. */
     -fx-max-height: Infinity;
     -fx-max-width: Infinity;
+
+    /* Not too small to avoid grid deformation. */
+    -fx-min-height: 40px;
+    -fx-min-width: 40px;
 }
 
 /* A selected cell. */
