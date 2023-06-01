@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -120,7 +121,14 @@ public final class DictionariesViewModel {
     }
 
     /**
-     * Returns the suggestion filter (a regex).
+     * Returns the suggestion filter property.
+     * <p>
+     * Value is a primitive regular expression:
+     * <ul>
+     *     <li>Wildcard character is represented by a '.'</li>
+     *     <li>No cardinality accepted, i.e. for filtering 5-character long words starting with the
+     *     letter 'A', don't write "A.{4}" but write "A...."</li>
+     * </ul>
      *
      * @return the suggestion filter
      */
@@ -167,8 +175,21 @@ public final class DictionariesViewModel {
      */
     private Predicate<String> createSuggestionPredicate() {
         final String regex = suggestionFilter.get();
-        final Pattern pattern = Pattern.compile(regex);
-        return word -> pattern.matcher(word).matches();
+        final Predicate<String> predicate;
+        if (regex.isEmpty()) {
+            // Typically, a shaded box, predicate shall never match
+            predicate = word -> false;
+        } else {
+            /*
+             * Predicate is applied on every dictionary word, so for good performances, avoid:
+             * - Pattern compilation: Do it only once
+             * - Matcher creation: Do it only once too
+             * - Matcher reset: Check if word obviously doesn't match first
+             */
+            final Matcher matcher = Pattern.compile(regex).matcher("");
+            predicate = word -> word.length() == regex.length() && matcher.reset(word).matches();
+        }
+        return predicate;
     }
 
     /**
