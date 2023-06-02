@@ -8,9 +8,8 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -36,10 +35,10 @@ import java.util.ResourceBundle;
 public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /** The available solvers. */
-    private final ListProperty<SolverItemViewModel> availableSolversProperty;
+    private final ListProperty<SolverItemViewModel> availableSolvers;
 
     /** The available solvers. */
-    private final StringProperty selectedSolverProperty;
+    private final ReadOnlyStringWrapper selectedSolver;
 
     /** The toggle group. */
     private final ToggleGroup toggleGroup;
@@ -48,16 +47,16 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
      * Constructs an instance.
      */
     public SolveSplitMenuButton() {
-        availableSolversProperty = new SimpleListProperty<>(this, "availableSolversProperty",
-                FXCollections.observableArrayList());
-        selectedSolverProperty = new SimpleStringProperty(this, "selectedSolverProperty", null);
+        availableSolvers = new SimpleListProperty<>(this, "availableSolvers",
+                                                    FXCollections.observableArrayList());
+        selectedSolver = new ReadOnlyStringWrapper(this, "selectedSolver");
         toggleGroup = new ToggleGroup();
 
-        final String fxmlName = SolveSplitMenuButton.class.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(getClass().getResource(fxmlName), "Failed to "
-                + "locate " + fxmlName);
-        final ResourceBundle resourceBundle =
-                ResourceBundle.getBundle(SolveSplitMenuButton.class.getName());
+        final Class<SolveSplitMenuButton> clazz = SolveSplitMenuButton.class;
+        final String fxmlName = clazz.getSimpleName() + ".fxml";
+        final URL location =
+                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
+        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -89,7 +88,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
 
     @FXML
     private void initialize() {
-        availableSolversProperty.addListener((ListChangeListener<SolverItemViewModel>) c -> {
+        availableSolvers.addListener((ListChangeListener<SolverItemViewModel>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
                     c.getAddedSubList().forEach(this::addMenuItem);
@@ -113,7 +112,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
     private void addMenuItem(final SolverItemViewModel solver) {
         final RadioMenuItem item = createMenuItem(solver);
         item.setToggleGroup(toggleGroup);
-        item.setOnAction(event -> selectedSolverProperty.set(solver.name()));
+        item.setOnAction(event -> selectedSolver.set(solver.name()));
         final List<MenuItem> items = getItems();
         if (items.isEmpty()) {
             item.setSelected(true);
@@ -132,7 +131,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
      * @return the selected solver property
      */
     public ReadOnlyProperty<String> selectedSolverProperty() {
-        return selectedSolverProperty;
+        return selectedSolver.getReadOnlyProperty();
     }
 
     /**
@@ -141,7 +140,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
      * @return the available solvers property
      */
     public ListProperty<SolverItemViewModel> availableSolversProperty() {
-        return availableSolversProperty;
+        return availableSolvers;
     }
 
 }
