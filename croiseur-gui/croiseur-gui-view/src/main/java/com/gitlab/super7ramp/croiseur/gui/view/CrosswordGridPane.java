@@ -22,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -87,6 +88,71 @@ public final class CrosswordGridPane extends StackPane {
                 }
                 event.consume();
             }
+        }
+    }
+
+    /**
+     * Processes events triggering slot orientation change.
+     */
+    private final class SlotOrientationChanger implements EventHandler<InputEvent> {
+
+        /**
+         * Constructs an instance.
+         */
+        SlotOrientationChanger() {
+            // Nothing to do.
+        }
+
+        @Override
+        public void handle(final InputEvent event) {
+            if (enterKeyPressed(event) || doublePrimaryClick(event) ||
+                arrowKeyPressedOrthogonalToSlotOrientation(event)) {
+                currentSlotVertical.set(!currentSlotVertical.get());
+            }
+        }
+
+        /**
+         * Returns {@code true} if given event is the enter key being pressed.
+         *
+         * @param event the event
+         * @return {@code true} if given event is the enter key being pressed
+         */
+        private static boolean enterKeyPressed(final InputEvent event) {
+            return event.getEventType() == KeyEvent.KEY_PRESSED &&
+                   ((KeyEvent) event).getCode() == KeyCode.ENTER;
+        }
+
+        /**
+         * Returns {@code true} if given event is a double click from primary mouse button.
+         *
+         * @param event the event
+         * @return {@code true} {@code true} if given event is a double click from primary mouse
+         * button
+         */
+        private static boolean doublePrimaryClick(final InputEvent event) {
+            return event.getEventType() == MouseEvent.MOUSE_CLICKED &&
+                   ((MouseEvent) event).getButton() == MouseButton.PRIMARY &&
+                   ((MouseEvent) event).getClickCount() == 2;
+        }
+
+        /**
+         * Returns {@code true} if given event is an arrow key pressed whose orientation is
+         * orthogonal to the current slot orientation.
+         * <p>
+         * E.g. for key UP or DOWN, method returns {@code true} if and only if current slot
+         * orientation is horizontal.
+         *
+         * @param event the event
+         * @return {@code true} if given event is an arrow key pressed whose orientation is
+         * orthogonal to the current slot orientation
+         */
+        private boolean arrowKeyPressedOrthogonalToSlotOrientation(final InputEvent event) {
+            return event.getEventType() == KeyEvent.KEY_PRESSED &&
+                   switch (((KeyEvent) event).getCode()) {
+                       case UP, DOWN -> !currentSlotVertical.get();
+                       case LEFT, RIGHT -> currentSlotVertical.get();
+                       default -> false;
+                   };
         }
     }
 
@@ -187,6 +253,7 @@ public final class CrosswordGridPane extends StackPane {
     private void initialize() {
         initializeGridConstraints();
         boxModels.addListener(this::onModelUpdate);
+        grid.addEventFilter(InputEvent.ANY, new SlotOrientationChanger());
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
         placeholder.visibleProperty().bind(boxModels.emptyProperty());
         placeholder.managedProperty().bind(boxModels.emptyProperty());
@@ -306,22 +373,12 @@ public final class CrosswordGridPane extends StackPane {
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
         FXCollections.sort(grid.getChildren(), BOX_COMPARATOR);
 
-        // Add listeners to update the working area
+        // Add listener to update the working area
         node.focusedProperty().addListener((observable, wasFocused, nowFocused) -> {
             if (nowFocused) {
                 currentBoxPosition.set(coordinate);
             } else {
                 // Do nothing, keep last focused box/slot highlighted
-            }
-        });
-        node.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                currentSlotVertical.set(!currentSlotVertical.get());
-            }
-        });
-        node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                currentSlotVertical.set(!currentSlotVertical.get());
             }
         });
     }
