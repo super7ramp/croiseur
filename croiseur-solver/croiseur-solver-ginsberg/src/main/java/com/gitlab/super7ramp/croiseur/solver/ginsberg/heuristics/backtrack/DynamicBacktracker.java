@@ -124,17 +124,14 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
             LOGGER.info("No direct backtracking solves the problem, trying to backjump");
             // Accumulate eliminations until a combination works
             eliminatedSlots = new ArrayList<>();
-            final Iterator<SlotIdentifier> candidatesLeft =
-                    new LinkedHashSet<>(candidates).iterator();
+            final Iterator<SlotIdentifier> candidatesLeft = candidates.iterator();
             if (candidatesLeft.hasNext()) {
                 // The first candidate has been already tested
                 eliminatedSlots.add(candidatesLeft.next());
-                candidatesLeft.remove();
             }
             boolean solutionFound = false;
             while (candidatesLeft.hasNext() && !solutionFound) {
                 eliminatedSlots.add(candidatesLeft.next());
-                candidatesLeft.remove();
                 final List<Unassignment> unassignments =
                         eliminatedSlots.stream().map(Unassignment::of).toList();
                 LOGGER.info(() -> "Trying the following combined unassignments " + unassignments);
@@ -149,7 +146,6 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
         }
         return eliminatedSlots;
     }
-
 
     /**
      * Builds the eliminations corresponding to the given eliminated slots.
