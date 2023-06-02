@@ -133,6 +133,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
             }
             boolean solutionFound = false;
             while (candidatesLeft.hasNext() && !solutionFound) {
+                eliminatedSlots.add(candidatesLeft.next());
+                candidatesLeft.remove();
                 final List<Unassignment> unassignments =
                         eliminatedSlots.stream().map(Unassignment::of).toList();
                 LOGGER.info(() -> "Trying the following combined unassignments " + unassignments);

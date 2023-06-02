@@ -19,7 +19,17 @@ public interface Unassignment {
      * @return the {@link Unassignment}
      */
     static Unassignment of(final SlotIdentifier aSlotUid) {
-        return () -> aSlotUid;
+        return new Unassignment() {
+            @Override
+            public SlotIdentifier slotUid() {
+                return aSlotUid;
+            }
+
+            @Override
+            public String toString() {
+                return aSlotUid.toString();
+            }
+        };
     }
 
     /**
