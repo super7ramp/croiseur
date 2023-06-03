@@ -31,8 +31,8 @@ dependencies {
     // as XML dictionaries
 }
 
-tasks.named<JavaExec>("run") {
-    jvmArgs = listOf(
+application {
+    applicationDefaultJvmArgs = listOf(
         // Memory tuning
         "-Xms256M",                     // initial heap size
         "-Xmx512M",                     // maximum heap size
@@ -45,7 +45,7 @@ tasks.named<JavaExec>("run") {
         //"-Dprism.order=sw",           // force sw rendering
         //"-Dprism.verbose=true",       // print rendering pipeline info on startup
         //"-Dprism.showdirty=true",     // show dirty regions
-        //"-Djavafx.pulseLogger=true"   // display pulse event information (buggy, JDK-8149490)
+        //"-Djavafx.pulseLogger=true",  // display pulse event information (buggy, JDK-8149490)
         //"-Dsun.awt.disablegrab=true"  // allow breakpoints on JavaFx application thread
     )
 }

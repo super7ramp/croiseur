@@ -53,7 +53,9 @@ tasks.named<CreateStartScripts>("startScripts") {
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
     val appHome = "APP_HOME_PLACEHOLDER"
     val sep = File.separator
-    defaultJvmOpts = listOf("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}")
+    val byConventionArgs = listOf("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}")
+    val appSpecificArgs = application.applicationDefaultJvmArgs
+    defaultJvmOpts = appSpecificArgs + byConventionArgs
 
     doLast {
         unixScript.writeText(unixScript.readText().replace(appHome, "'\$APP_HOME'"))
