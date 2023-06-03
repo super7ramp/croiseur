@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-dictionary:0.2")
+    api("com.gitlab.super7ramp:croiseur-spi-dictionary:0.3")
 }
 ```
 
@@ -95,7 +95,7 @@ dependencies {
 }
 ```
 
-Finally, declare the subproject by adding the following line in root's `settings.gradle`:
+Finally, declare the subproject by adding the following line in root's `settings.gradle.kts`:
 
 ```gradle
 include("croiseur-dictionary:croiseur-dictionary-<new_dictionary_provider_name>-plugin")
