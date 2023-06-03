@@ -46,22 +46,25 @@ public interface CrosswordService {
      * @throws IllegalStateException if some required services cannot be found
      */
     static CrosswordService create() {
-        final Collection<DictionaryProvider> dictionaryProviders =
-                ServiceLoader.load(DictionaryProvider.class).stream()
-                             .map(Supplier::get)
-                             .toList();
-        final Collection<CrosswordSolver> solvers =
-                ServiceLoader.load(CrosswordSolver.class)
-                             .stream()
-                             .map(Supplier::get)
-                             .toList();
-        final Presenter presenter =
-                ServiceLoader.load(Presenter.class)
-                             .findFirst()
-                             .orElseThrow(() -> new IllegalStateException(
-                                     "Failed to instantiate crosswords service: No presenter " +
-                                             "found"));
-        return create(dictionaryProviders, solvers, presenter);
+        final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
+        final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<Presenter> presenters = load(Presenter.class);
+        if (presenters.isEmpty()) {
+            throw new IllegalStateException(
+                    "Failed to instantiate crossword service: No presenter found");
+        }
+        return create(dictionaryProviders, solvers, Presenter.broadcastingTo(presenters));
+    }
+
+    /**
+     * Loads all the implementations of the given service class.
+     *
+     * @param clazz the service provider class
+     * @param <T>   the type of the service
+     * @return all the implementations of the given service class
+     */
+    private static <T> Collection<T> load(final Class<T> clazz) {
+        return ServiceLoader.load(clazz).stream().map(Supplier::get).toList();
     }
 
     /**
