@@ -27,10 +27,10 @@ You can develop a presenter plugin either:
 2. Inside `croiseur` source tree
 
 The first way is simpler to set up but requires a distribution of `croiseur` and manual
-manipulations to test the integration of the solver plugin inside `croiseur`.
+manipulations to test the integration of the presenter plugin inside `croiseur`.
 
-The second way is heavier to set up but allows to more comfortably test and debug the solver plugin
-when run by `croiseur`.
+The second way is heavier to set up but allows to more comfortably test and debug the presenter
+plugin when run by `croiseur`.
 
 > A presenter is a module which presents the output of the `croiseur` service to the user. It is
 > not necessarily bound to a specific controller - i.e. it can be an independent visualizer of the
@@ -46,7 +46,7 @@ when run by `croiseur`.
 
 `croiseur-presenter-spi` jar is published
 in [a Maven repository](https://gitlab.com/super7ramp/croiseur/-/packages). It can be retrieved with
-a build tool such as Maven or Gradle to develop a new solver plugin without having to download
+a build tool such as Maven or Gradle to develop a new presenter plugin without having to download
 and rebuild all `croiseur` sources.
 
 Assuming a Gradle project, add the following lines to your project's `build.gradle.kts`:
@@ -93,7 +93,7 @@ mkdir croiseur-presenter-<new_presenter_name>-plugin
 ```
 
 Add a `build.gradle.kts` (since `croiseur` uses Gradle as build system) in
-`croiseur-presenter-<new_solver_name>-plugin`:
+`croiseur-presenter-<new_presenter_name>-plugin`:
 
 ```gradle
 plugins {
@@ -123,11 +123,11 @@ As an example, you may look
 at [`croiseur-cli`'s presenter](../../croiseur-cli/src/main/java/com/gitlab/super7ramp/croiseur/cli/presenter/CliPresenter.java),
 which just formats the received results and writes it to standard output.
 
-#### 3. Declare the solver plugin
+#### 3. Declare the presenter plugin
 
 In order for `croiseur` to use the plugin at run-time, the implementation needs either:
 
-* to advertise itself as a solver plugin, so that `croiseur` can find it, or
+* to advertise itself as a presenter plugin, so that `croiseur` can find it, or
 * to be explicitly passed to `croiseur` when instantiating its `CrosswordService`, using one of the
   alternative factory methods.
 
@@ -146,7 +146,7 @@ There are two ways to do that:
 The first way should be preferred since the `croiseur` project is fully modularised.
 
 For compatibility with custom non-modular deployments (like in `croiseur-tests`), it is advised
-to declare the solver plugin using the second method in addition to the first method.
+to declare the presenter plugin using the second method in addition to the first method.
 
 ##### 3.1. Using the module `provides` directive
 
