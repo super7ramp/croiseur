@@ -41,7 +41,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 2 s to solve at 1 GHz.
+     * This takes < 1 s to solve at 1 GHz.
      */
     @Test
     void shaded5x5() throws InterruptedException {
@@ -65,7 +65,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 2 s to solve at 1 GHz. No backtrack necessary.
+     * This takes < 1 s to solve at 1 GHz. No backtrack necessary.
      */
     @Test
     void shaded9x9() throws InterruptedException {
@@ -97,7 +97,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 2s to solve at 1 GHz.
+     * This takes < 1s to solve at 1 GHz.
      */
     @Test
     void shaded13x13WithLongWords() throws InterruptedException {
@@ -137,7 +137,7 @@ final class CrosswordSolverSymmetricGridTest {
     }
 
     /*
-     * This takes < 2s to solve at 1 GHz.
+     * This takes < 1s to solve at 1 GHz.
      */
     @Test
     void shaded13x13() throws InterruptedException {
@@ -178,7 +178,7 @@ final class CrosswordSolverSymmetricGridTest {
 
 
     /*
-     * This takes < 3 s to solve at 1 GHz - which is a bit long.
+     * This takes < 1.5s s to solve at 1 GHz - which is a bit long.
      */
     @Test
     void shaded15x15() throws InterruptedException {
