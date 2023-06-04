@@ -9,11 +9,9 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Elimination;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.history.History;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Unassignment;
 
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
     private final History history;
 
     /** Lookahead utils. */
-    private final Prober prober;
+    private final ProbePuzzle probePuzzle;
 
     /**
      * Constructs an instance.
@@ -56,9 +54,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * @param dictionaryArg the dictionary
      * @param historyArg    the history
      */
-    DynamicBacktracker(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                       final EliminationSpace elsArg, final History historyArg) {
-        prober = new Prober(puzzleArg, dictionaryArg, elsArg);
+    DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg, final History historyArg) {
+        probePuzzle = probePuzzleArg;
         puzzle = puzzleArg;
         history = historyArg;
     }
@@ -115,7 +112,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
                                 final Slot unassignable) {
         final Optional<SlotIdentifier> eliminated =
                 candidates.stream()
-                          .filter(candidate -> prober.hasSolutionAfter(Unassignment.of(candidate)
+                          .filter(candidate -> probePuzzle.hasSolutionAfter(Unassignment.of(candidate)
                                   , unassignable))
                           .findFirst();
 
@@ -135,7 +132,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
                 final List<Unassignment> unassignments =
                         eliminatedSlots.stream().map(Unassignment::of).toList();
                 LOGGER.info(() -> "Trying the following combined unassignments " + unassignments);
-                solutionFound = prober.hasSolutionAfter(unassignments, unassignable);
+                solutionFound = probePuzzle.hasSolutionAfter(unassignments, unassignable);
             }
             if (!solutionFound) {
                 // definitely no solution

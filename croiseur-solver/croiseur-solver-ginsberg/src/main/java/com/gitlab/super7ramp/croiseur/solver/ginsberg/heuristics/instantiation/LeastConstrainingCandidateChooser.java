@@ -8,10 +8,8 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
 import java.math.BigInteger;
 import java.util.Comparator;
@@ -21,11 +19,11 @@ import java.util.function.Predicate;
 /**
  * Implementation of {@link CandidateChooser}.
  * <p>
- * This implementation is guided by the number of solutions left after assignment of the
- * candidate value: The candidate which leaves the bigger number of solutions wins.
+ * This implementation is guided by the number of solutions left after assignment of the candidate
+ * value: The candidate which leaves the bigger number of solutions wins.
  * <p>
- * In other words, the selected value is the value which brings as little constraints on the grid
- * as possible.
+ * In other words, the selected value is the value which brings as little constraints on the grid as
+ * possible.
  */
 final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, String> {
 
@@ -40,8 +38,8 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
     private static final long MAX_NUMBER_OF_CANDIDATES_TO_COMPARE = 10;
 
     /**
-     * Compare candidates by their estimated number of puzzle solutions.<p>
-     * The secondary comparator by lexicographic order on candidate is for reproducibility.
+     * Compare candidates by their estimated number of puzzle solutions.<p> The secondary comparator
+     * by lexicographic order on candidate is for reproducibility.
      */
     private static final Comparator<NumberOfSolutionsPerCandidate> BY_NUMBER_OF_SOLUTIONS =
             Comparator.comparing(NumberOfSolutionsPerCandidate::numberOfSolutions)
@@ -55,19 +53,18 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
     private final CachedDictionary dictionary;
 
     /** Lookahead util. */
-    private final Prober prober;
+    private final ProbePuzzle probePuzzle;
 
     /**
      * Constructor.
      *
-     * @param puzzleArg     the puzzle to solve
-     * @param dictionaryArg the dictionary to pick candidates from
-     * @param elsArg        the elimination space
+     * @param probePuzzleArg the puzzle to solve
+     * @param dictionaryArg   the dictionary to pick candidates from
      */
-    LeastConstrainingCandidateChooser(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                                      final EliminationSpace elsArg) {
+    LeastConstrainingCandidateChooser(final ProbePuzzle probePuzzleArg,
+                                      final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
-        prober = new Prober(puzzleArg, dictionaryArg, elsArg);
+        probePuzzle = probePuzzleArg;
     }
 
     @Override
@@ -91,8 +88,8 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      */
     private NumberOfSolutionsPerCandidate probe(final Slot wordVariable, final String candidate) {
         final BigInteger numberOfSolutions =
-                prober.computeNumberOfLocalSolutionsAfter(Assignment.of(wordVariable.uid(),
-                        candidate));
+                probePuzzle.computeNumberOfLocalSolutionsAfter(Assignment.of(wordVariable.uid(),
+                                                                             candidate));
         return new NumberOfSolutionsPerCandidate(candidate, numberOfSolutions);
     }
 

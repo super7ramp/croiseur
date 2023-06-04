@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionar
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpaceWriter;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Grid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.history.HistoryWriter;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
 import java.util.Collection;
 
@@ -22,6 +23,9 @@ public final class Crossword {
 
     /** The grid (the variables). */
     private final Grid grid;
+
+    /** A copy of the grid that can be used for look-ahead. */
+    private final ProbePuzzle probe;
 
     /** The candidates (potential values). */
     private final CachedDictionaryWriter dictionary;
@@ -35,18 +39,19 @@ public final class Crossword {
     /**
      * Constructor.
      *
-     * @param aGrid              a grid
-     * @param aDictionary        a dictionary
-     * @param anEliminationSpace an elimination space
-     * @param aHistory           a history
+     * @param gridArg              a grid
+     * @param dictionaryArg        a dictionary
+     * @param eliminationSpaceArg an elimination space
+     * @param historyArg           a history
      */
-    private Crossword(final Grid aGrid, final CachedDictionaryWriter aDictionary,
-                      final EliminationSpaceWriter anEliminationSpace,
-                      final HistoryWriter aHistory) {
-        grid = aGrid;
-        dictionary = aDictionary;
-        eliminationSpace = anEliminationSpace;
-        history = aHistory;
+    private Crossword(final Grid gridArg, final CachedDictionaryWriter dictionaryArg,
+                      final EliminationSpaceWriter eliminationSpaceArg,
+                      final HistoryWriter historyArg) {
+        grid = gridArg;
+        probe = new ProbePuzzle(gridArg.puzzle(), dictionaryArg, eliminationSpaceArg);
+        dictionary = dictionaryArg;
+        eliminationSpace = eliminationSpaceArg;
+        history = historyArg;
     }
 
     /**
@@ -76,6 +81,13 @@ public final class Crossword {
      */
     public Grid grid() {
         return grid;
+    }
+
+    /**
+     * @return the copy of the puzzle used for look-ahead
+     */
+    public ProbePuzzle probePuzzle() {
+        return probe;
     }
 
     /**

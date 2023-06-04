@@ -59,6 +59,7 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
     @Override
     public void assign(final Slot variable, final String value) {
         variable.assign(value);
+        crossword.probePuzzle().slot(variable.uid()).assign(value);
         crossword.history().addAssignmentRecord(variable);
         crossword.dictionary().invalidateCacheCount(variable);
         listeners.forEach(listener -> listener.onAssignment(variable, value));
@@ -68,6 +69,7 @@ public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String,
     public void unassign(final Elimination<Slot, SlotIdentifier> elimination) {
         final Slot variable = elimination.eliminated();
         final String oldValue = variable.unassign();
+        crossword.probePuzzle().slot(variable.uid()).unassign();
         crossword.history().removeAssignmentRecord(variable);
         crossword.eliminationSpace().eliminate(variable.uid(), elimination.reasons(), oldValue);
         crossword.dictionary().invalidateCacheCount(variable);

@@ -8,16 +8,14 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg.heuristics.instantiation;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionary;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpace;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Assignment;
-import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.Prober;
+import com.gitlab.super7ramp.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
 import java.util.Optional;
 
 /**
- * An {@link CandidateChooser} which selects the first value resulting in a viable grid (i.e. a
- * grid with all its slots having a least one candidate).
+ * An {@link CandidateChooser} which selects the first value resulting in a viable grid (i.e. a grid
+ * with all its slots having a least one candidate).
  */
 final class FirstViableCandidateChooser implements CandidateChooser<Slot, String> {
 
@@ -25,19 +23,18 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
     private final CachedDictionary dictionary;
 
     /** Lookahead util. */
-    private final Prober prober;
+    private final ProbePuzzle probePuzzle;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzleArg     the puzzle to solve
-     * @param dictionaryArg the dictionary to pick candidates from
-     * @param elsArg        the elimination space
+     * @param probePuzzleArg the puzzle copy to use when evaluating candidates
+     * @param dictionaryArg   the dictionary to pick candidates from
      */
-    FirstViableCandidateChooser(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                                final EliminationSpace elsArg) {
+    FirstViableCandidateChooser(final ProbePuzzle probePuzzleArg,
+                                final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
-        prober = new Prober(puzzleArg, dictionaryArg, elsArg);
+        probePuzzle = probePuzzleArg;
     }
 
     @Override
@@ -48,15 +45,15 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
     }
 
     /**
-     * Assesses whether the grid would be viable after assigning the given candidate value to
-     * given slot, i.e. a grid with all its slots having at least one candidate.
+     * Assesses whether the grid would be viable after assigning the given candidate value to given
+     * slot, i.e. a grid with all its slots having at least one candidate.
      *
      * @param wordVariable the slot to test
      * @param candidate    the candidate to test
-     * @return {@code true} iff the grid would be viable after assigning the given candidate
-     * value to given slot.
+     * @return {@code true} iff the grid would be viable after assigning the given candidate value
+     * to given slot.
      */
     private boolean isViable(final Slot wordVariable, final String candidate) {
-        return prober.hasSolutionAfter(Assignment.of(wordVariable.uid(), candidate));
+        return probePuzzle.hasSolutionAfter(Assignment.of(wordVariable.uid(), candidate));
     }
 }

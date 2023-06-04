@@ -63,11 +63,10 @@ public final class GinsbergCrosswordSolver {
         // Instantiates heuristics
         final SlotIteratorImpl slotChooser = new SlotIteratorImpl(slots, problem.dictionary());
         final CandidateChooser<Slot, String> candidateChooser =
-                CandidateChoosers.byDefault(problem.grid().puzzle(), problem.dictionary(),
-                        problem.eliminationSpace());
+                CandidateChoosers.byDefault(problem.probePuzzle(), problem.dictionary());
         final Backtracker<Slot, SlotIdentifier> backtracker =
-                Backtrackers.byDefault(problem.grid().puzzle(), problem.dictionary(),
-                        problem.eliminationSpace(), problem.history());
+                Backtrackers.byDefault(problem.grid().puzzle(), problem.probePuzzle(),
+                                       problem.history());
 
         // A listener to advertise progress to library user
         final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
@@ -78,7 +77,7 @@ public final class GinsbergCrosswordSolver {
         // The internal state updater
         final CrosswordUpdater crosswordUpdater =
                 new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder,
-                        fineProgressPrinter);
+                                                            fineProgressPrinter);
 
         // Finally, instantiate the solver
         return Solver.create(crosswordUpdater, slotChooser, candidateChooser, backtracker);
@@ -97,8 +96,10 @@ public final class GinsbergCrosswordSolver {
                      .map(s -> BigInteger.valueOf(dictionary.cachedCandidatesCount(s)))
                      .reduce(BigInteger.ONE, BigInteger::multiply);
         final NumberFormat formatter = new DecimalFormat("0.######E0",
-                DecimalFormatSymbols.getInstance(Locale.ROOT));
-        LOGGER.info(() -> "Total branches (slot variables, pre-pruned): " + formatter.format(branches));
+                                                         DecimalFormatSymbols.getInstance(
+                                                                 Locale.ROOT));
+        LOGGER.info(
+                () -> "Total branches (slot variables, pre-pruned): " + formatter.format(branches));
     }
 
     /**
@@ -136,7 +137,8 @@ public final class GinsbergCrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary) throws InterruptedException {
+    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary)
+            throws InterruptedException {
         return solve(puzzle, dictionary, ProgressListener.DUMMY_LISTENER);
     }
 

@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.solver.ginsberg.elimination.EliminationSpa
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.grid.Puzzle;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,11 +24,14 @@ import java.util.Set;
 import static java.util.function.Predicate.not;
 
 /**
- * Provides some common lookahead functions.
+ * A {@link Puzzle} with additional lookahead functions.
+ * <p>
+ * This class is <em>not</em> thread-safe: It works on a single copy of the {@link Puzzle} passed at
+ * construction time, without any locking.
  */
-public final class Prober {
+public final class ProbePuzzle implements Puzzle {
 
-    /** The puzzle to probe. */
+    /** The probe puzzle. */
     private final Puzzle puzzle;
 
     /** The dictionary. */
@@ -43,11 +47,26 @@ public final class Prober {
      * @param dictionaryArg a dictionary
      * @param elsArg        an elimination space
      */
-    public Prober(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                  final EliminationSpace elsArg) {
-        puzzle = puzzleArg;
+    public ProbePuzzle(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
+                       final EliminationSpace elsArg) {
+        puzzle = puzzleArg.copy();
         dictionary = dictionaryArg;
         els = elsArg;
+    }
+
+    @Override
+    public Collection<Slot> slots() {
+        return puzzle.slots();
+    }
+
+    @Override
+    public Slot slot(final SlotIdentifier slotIdentifier) {
+        return puzzle.slot(slotIdentifier);
+    }
+
+    @Override
+    public ProbePuzzle copy() {
+        return new ProbePuzzle(puzzle, dictionary, els);
     }
 
     /**
@@ -61,9 +80,9 @@ public final class Prober {
     }
 
     /**
-     * Compute <em>an estimation</em> of the number of solutions for the grid zone impacted by
-     * the given assignment if it were applied. It corresponds to the product of the estimated
-     * number of candidates left for each connected variable.
+     * Compute <em>an estimation</em> of the number of solutions for the grid zone impacted by the
+     * given assignment if it were applied. It corresponds to the product of the estimated number of
+     * candidates left for each connected variable.
      * <p>
      * Note that the estimation may return a value > 0 despite the grid not having an actual
      * solution.
@@ -73,28 +92,21 @@ public final class Prober {
      * estimation can be very large computation is made using {@link BigInteger}
      */
     public BigInteger computeNumberOfLocalSolutionsAfter(final Assignment assignment) {
-        final Slot probedSlot = probeSlot(assignment);
-        // @formatter:off
-        return probedSlot.connectedSlots()
-                         .reduce(BigInteger.ONE, // default value if no connected slot
-                                 (previous, slot) ->
-                                     previous.signum() == 0 ? previous : // already 0, don't probe
-                                     previous.multiply(BigInteger.valueOf(dictionary.candidates(slot).count())),
-                                 BigInteger::multiply);
-        // @formatter:on
-    }
-
-    /**
-     * Probes the puzzle against the given assignment.
-     *
-     * @param assignment the assignment
-     * @return a slot deep copy as it the assignment were applied
-     */
-    private Slot probeSlot(final Assignment assignment) {
-        final Puzzle probePuzzle = puzzle.copy();
-        final Slot probedSlot = probePuzzle.slot(assignment.slotUid());
+        final Slot probedSlot = puzzle.slot(assignment.slotUid());
         probedSlot.assign(assignment.word());
-        return probedSlot;
+        // @formatter:off
+        final BigInteger numberOfSolutions = probedSlot
+                .connectedSlots()
+                .reduce(
+                        BigInteger.ONE, // default value if no connected slot
+                        (previous, slot) ->
+                                previous.signum() == 0 ? previous : // already 0, don't probe
+                                previous.multiply(BigInteger.valueOf(dictionary.candidates(slot).count())),
+                        BigInteger::multiply
+                );
+        // @formatter:on
+        probedSlot.unassign();
+        return numberOfSolutions;
     }
 
     /**
@@ -114,17 +126,51 @@ public final class Prober {
      * Returns whether after performing the given unassignment the given unassignable slot would
      * become assignable again.
      *
-     * @param unassignment the unassignment to test
-     * @param unassignable the unassignable variable
+     * @param unassignments the unassignments to test
+     * @param unassignable  the unassignable variable
      * @return whether after performing the given unassignment the given unassignable slot would
      * become assignable again
      */
-    public boolean hasSolutionAfter(final Collection<Unassignment> unassignment,
+    public boolean hasSolutionAfter(final List<Unassignment> unassignments,
                                     final Slot unassignable) {
-        final Slot probedSlot = probeSlot(unassignment, unassignable);
-        final Set<String> probedEliminations = probeEliminationSpace(unassignment, unassignable);
-        return dictionary.reevaluatedCandidates(probedSlot)
-                         .anyMatch(not(probedEliminations::contains));
+        final List<String> unassignedValues = unassign(unassignments);
+        final Set<String> probedEliminations = probeEliminationSpace(unassignments, unassignable);
+
+        final Slot probedSlot = puzzle.slot(unassignable.uid());
+        final boolean hasSolution =
+                dictionary.reevaluatedCandidates(probedSlot)
+                          .anyMatch(not(probedEliminations::contains));
+
+        reassign(unassignedValues, unassignments);
+        return hasSolution;
+    }
+
+    /**
+     * Applies the given unassignements to this probe puzzle.
+     *
+     * @param unassignments the unassignments to apply
+     * @return the unassigned values
+     */
+    private List<String> unassign(final List<Unassignment> unassignments) {
+        final List<String> unassignedValues = new ArrayList<>(unassignments.size());
+        for (final Unassignment unassignment : unassignments) {
+            final String unassignedValue = puzzle.slot(unassignment.slotUid()).unassign();
+            unassignedValues.add(unassignedValue);
+        }
+        return unassignedValues;
+    }
+
+    /**
+     * Reassign the given unassigned values.
+     *
+     * @param unassignedValues the unassigned values
+     * @param unassignments the unassignments (in same order as unassigned values)
+     */
+    private void reassign(final List<String> unassignedValues,
+                          final List<Unassignment> unassignments) {
+        for (int i = 0; i < unassignments.size(); i++) {
+            puzzle.slot(unassignments.get(i).slotUid()).assign(unassignedValues.get(i));
+        }
     }
 
     /**
@@ -137,13 +183,12 @@ public final class Prober {
     private Set<String> probeEliminationSpace(final Collection<Unassignment> unassignments,
                                               final Slot unassignable) {
         // TODO that would be simpler if elimination space provided a deep copy method like puzzle
-        final List<SlotIdentifier> modifiedVariables = unassignments.stream()
-                                                                    .map(Unassignment::slotUid)
-                                                                    .toList();
+        final List<SlotIdentifier> modifiedVariables =
+                unassignments.stream().map(Unassignment::slotUid).toList();
         final Map<String, Set<SlotIdentifier>> refreshedEliminations =
                 new HashMap<>(els.eliminations(unassignable.uid()));
-        final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = refreshedEliminations.entrySet()
-                                                                                         .iterator();
+        final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it =
+                refreshedEliminations.entrySet().iterator();
         while (it.hasNext()) {
             final Map.Entry<String, Set<SlotIdentifier>> elimination = it.next();
             final Set<SlotIdentifier> reasons = elimination.getValue();
@@ -154,20 +199,4 @@ public final class Prober {
         return refreshedEliminations.keySet();
     }
 
-    /**
-     * Probes the given unassignable variable against the given unassignments.
-     *
-     * @param unassignments the unassignments to apply
-     * @param unassignable  the unassignment variable to probe
-     * @return a deep copy of the given unassignable variable with the effects of the
-     * unassignment applied
-     */
-    private Slot probeSlot(final Collection<Unassignment> unassignments,
-                           final Slot unassignable) {
-        final Puzzle probedPuzzle = puzzle.copy();
-        for (final Unassignment unassignment : unassignments) {
-            probedPuzzle.slot(unassignment.slotUid()).unassign();
-        }
-        return probedPuzzle.slot(unassignable.uid());
-    }
 }
