@@ -73,7 +73,8 @@
     <MenuButton fx:id="clearGridMenuButton" managed="${! resizeGridButton.selected}"
                 text="%clear-grid-button" visible="${! resizeGridButton.selected}">
         <items>
-            <MenuItem fx:id="clearGridLettersMenuItem" text="%clear-grid-letters-menu-item"/>
+            <MenuItem fx:id="clearGridLettersFilledBySolverMenuItem" text="%clear-grid-letters-filled-by-solver-menu-item"/>
+            <MenuItem fx:id="clearGridAllLettersMenuItem" text="%clear-grid-all-letters-menu-item"/>
             <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
         </items>
         <graphic>

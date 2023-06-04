@@ -33,29 +33,34 @@ final class SolveRequestImpl implements SolveRequest {
     /** The selected solver. */
     private final String selectedSolver;
 
+    /** The source of randomness. */
+    private final Random random;
+
     /**
      * Constructs an instance.
      *
      * @param crosswordGridViewModel   the crossword model
      * @param dictionariesViewModel    the dictionary model
      * @param solverSelectionViewModel the solver selection model
+     * @param randomArg                the randomness source
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
                      final DictionariesViewModel dictionariesViewModel,
-                     final SolverSelectionViewModel solverSelectionViewModel) {
+                     final SolverSelectionViewModel solverSelectionViewModel,
+                     final Random randomArg) {
 
         final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
                 new PuzzleDefinition.PuzzleDefinitionBuilder();
 
-        final Map<GridPosition, CrosswordBoxViewModel> boxes = crosswordGridViewModel.boxesProperty();
+        final Map<GridPosition, CrosswordBoxViewModel> boxes =
+                crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
             final GridPosition position = box.getKey();
             final CrosswordBoxViewModel boxModel = box.getValue();
-            final boolean shaded = boxModel.isShaded();
-            if (shaded) {
+            if (boxModel.isShaded()) {
                 pdb.shade(position);
-            } else if (!boxModel.content().isEmpty()) {
-                pdb.fill(position, boxModel.content().charAt(0));
+            } else if (!boxModel.userContent().isEmpty()) {
+                pdb.fill(position, boxModel.userContent().charAt(0));
             } else {
                 // Empty, not needed by solver
             }
@@ -65,14 +70,13 @@ final class SolveRequestImpl implements SolveRequest {
         pdb.height(crosswordGridViewModel.rowCount());
 
         puzzle = pdb.build();
-        dictionaries =
-                dictionariesViewModel.selectedDictionariesProperty()
-                                     .stream()
-                                     .map(entry -> new DictionaryIdentifier(entry.provider(),
-                                                                            entry.name()))
-                                     .toList();
+        dictionaries = dictionariesViewModel.selectedDictionariesProperty().stream()
+                                            .map(entry -> new DictionaryIdentifier(entry.provider(),
+                                                                                   entry.name()))
+                                            .toList();
 
         selectedSolver = solverSelectionViewModel.selectedSolver();
+        random = randomArg;
     }
 
     @Override
@@ -87,7 +91,7 @@ final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public Optional<Random> dictionariesShuffle() {
-        return Optional.empty();
+        return Optional.of(random);
     }
 
     @Override

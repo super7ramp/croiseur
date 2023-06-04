@@ -181,12 +181,21 @@ public final class CrosswordSolverPane extends BorderPane {
     }
 
     /**
-     * Returns the on clear grid letters menu item action property.
+     * Returns the on 'clear letters filled by solver' menu item action property.
      *
-     * @return the on clear grid letters menu item action property
+     * @return the on 'clear letters filled by solver' menu item action property
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersMenuItemActionProperty() {
-        return toolbar.onClearGridLettersMenuItemActionProperty();
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersFilledBySolverMenuItemActionProperty() {
+        return toolbar.onClearGridLettersFilledBySolverMenuItemActionProperty();
+    }
+
+    /**
+     * Returns the on 'clear all grid letters' menu item action property.
+     *
+     * @return the on 'clear all grid letters' menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridAllLettersMenuItemActionProperty() {
+        return toolbar.onClearGridAllLettersMenuItemActionProperty();
     }
 
     /**

@@ -24,8 +24,11 @@ public final class CrosswordBoxViewModel {
     /** Whether the box is selected or not. */
     private final BooleanProperty selected;
 
-    /** The content of the box. */
-    private final StringProperty content;
+    /** The content of the box filled by the user. */
+    private final StringProperty userContent;
+
+    /** The content of the box filled by the solver. */
+    private final StringProperty solverContent;
 
     /**
      * Constructs an instance.
@@ -34,7 +37,8 @@ public final class CrosswordBoxViewModel {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
         unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
         selected = new SimpleBooleanProperty(this, "selected", false);
-        content = new SimpleStringProperty(this, "content", "");
+        userContent = new SimpleStringProperty(this, "userContent", "");
+        solverContent = new SimpleStringProperty(this, "solverContent", "");
     }
 
     /**
@@ -93,36 +97,54 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
-     * Returns the content as string property.
+     * Returns the content filled by user as string property.
      *
-     * @return the content as string property
+     * @return the content filled by user as string property
      */
-    public StringProperty contentProperty() {
-        return content;
+    public StringProperty userContentProperty() {
+        return userContent;
     }
 
     /**
-     * Sets the value of the content property.
+     * Sets the value of the user content property.
      *
-     * @param value the new content value
+     * @param value the new user content value
      */
-    public void content(final String value) {
-        content.set(value);
+    public void userContent(final String value) {
+        userContent.set(value);
     }
 
     /**
-     * Returns the value of the content property.
+     * Returns the value of the user content property.
      *
-     * @return the value of the content property
+     * @return the value of the user content property
      */
-    public String content() {
-        return content.get();
+    public String userContent() {
+        return userContent.get();
     }
 
     /**
-     * Returns the box is selected.
+     * Returns the content filled by solver as string property.
      *
-     * @return the box is selected
+     * @return the content filled by solver as string property
+     */
+    public StringProperty solverContentProperty() {
+        return solverContent;
+    }
+
+    /**
+     * Sets the value of the solver content property.
+     *
+     * @param value the value to set
+     */
+    public void solverContent(final String value) {
+        solverContent.set(value);
+    }
+
+    /**
+     * Returns the selected property.
+     *
+     * @return the selected property
      */
     public BooleanProperty selectedProperty() {
         return selected;

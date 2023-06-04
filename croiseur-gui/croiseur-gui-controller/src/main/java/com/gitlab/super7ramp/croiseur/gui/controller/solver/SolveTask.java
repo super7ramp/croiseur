@@ -12,6 +12,8 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.concurrent.Task;
 
+import java.util.Random;
+
 /**
  * Solve task.
  */
@@ -29,13 +31,14 @@ final class SolveTask extends Task<Void> {
      * @param crosswordGridViewModelArg the crossword model
      * @param dictionariesViewModelArg  the dictionary model
      * @param solverServiceArg          the "solve crossword" usecase
+     * @param randomArg                 the randomness source
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionariesViewModel dictionariesViewModelArg,
               final SolverSelectionViewModel solverSelectionViewModelArg,
-              final SolverService solverServiceArg) {
+              final SolverService solverServiceArg, final Random randomArg) {
         solveRequest = new SolveRequestImpl(crosswordGridViewModelArg, dictionariesViewModelArg,
-                solverSelectionViewModelArg);
+                                            solverSelectionViewModelArg, randomArg);
         solverService = solverServiceArg;
     }
 

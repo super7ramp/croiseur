@@ -75,9 +75,13 @@ public final class CrosswordEditionToolbar extends ToolBar {
     @FXML
     private MenuButton clearGridMenuButton;
 
-    /** The 'clear grid letters' menu item. */
+    /** The 'clear letters found by solver' menu item. */
     @FXML
-    private MenuItem clearGridLettersMenuItem;
+    private MenuItem clearGridLettersFilledBySolverMenuItem;
+
+    /** The 'clear all letters' menu item. */
+    @FXML
+    private MenuItem clearGridAllLettersMenuItem;
 
     /** The 'clear grid content' menu item. */
     @FXML
@@ -161,12 +165,21 @@ public final class CrosswordEditionToolbar extends ToolBar {
     }
 
     /**
-     * Returns the on clear grid letters menu item action property.
+     * Returns the on 'clear grid letters filled by solver' menu item action property.
      *
-     * @return the on clear grid letters menu item action property
+     * @return the on 'clear grid letters filled by solver' menu item action property
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersMenuItemActionProperty() {
-        return clearGridLettersMenuItem.onActionProperty();
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridLettersFilledBySolverMenuItemActionProperty() {
+        return clearGridLettersFilledBySolverMenuItem.onActionProperty();
+    }
+
+    /**
+     * Returns the on 'clear all grid letters' menu item action property.
+     *
+     * @return the on 'clear all grid letters' menu item action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onClearGridAllLettersMenuItemActionProperty() {
+        return clearGridAllLettersMenuItem.onActionProperty();
     }
 
     /**

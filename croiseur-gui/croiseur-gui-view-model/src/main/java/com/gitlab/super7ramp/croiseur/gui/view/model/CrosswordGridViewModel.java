@@ -181,7 +181,7 @@ public final class CrosswordGridViewModel {
          */
         private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel box) {
             box.shadedProperty().addListener(new ShadingChangeListener(coordinate));
-            box.contentProperty().addListener(new ContentChangeListener(coordinate));
+            box.userContentProperty().addListener(new ContentChangeListener(coordinate));
         }
 
         /**
@@ -295,7 +295,7 @@ public final class CrosswordGridViewModel {
         private void recomputeCurrentSlotContent() {
             final StringBuilder contentBuilder = new StringBuilder(currentSlotPositions.size());
             for (final GridPosition position : currentSlotPositions) {
-                final String letter = boxes.get(position).content();
+                final String letter = boxes.get(position).userContent();
                 contentBuilder.append(letter.isEmpty() ? "." : letter);
             }
             currentSlotContent.set(contentBuilder.toString());
@@ -639,12 +639,22 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * Resets the grid content (only content filled by solver).
+     * <p>
+     * This method preserves the structure of the grid, box nodes are not removed.
+     */
+    public void resetContentLettersFilledBySolverOnly() {
+        boxes.values().forEach(box -> box.solverContent(""));
+    }
+
+    /**
      * Resets the given box.
      *
      * @param box the box to reset
      */
     private void resetBox(final CrosswordBoxViewModel box) {
-        box.content("");
+        box.userContent("");
+        box.solverContent("");
         box.lighten();
         if (!box.isSelected()) {
             box.solvable();

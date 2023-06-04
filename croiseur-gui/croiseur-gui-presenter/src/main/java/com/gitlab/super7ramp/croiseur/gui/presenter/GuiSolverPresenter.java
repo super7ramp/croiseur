@@ -145,7 +145,7 @@ final class GuiSolverPresenter implements SolverPresenter {
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = viewModelBoxes.get(position);
-            box.content(entry.getValue().toString());
+            box.solverContent(entry.getValue().toString());
         }
     }
 }

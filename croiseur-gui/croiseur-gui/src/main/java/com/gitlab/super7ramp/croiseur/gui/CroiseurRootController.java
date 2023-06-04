@@ -93,8 +93,10 @@ public final class CroiseurRootController {
         view.onAddColumnActionButtonProperty().set(event -> viewModel.addColumn());
         view.onDeleteColumnActionButtonProperty().set(event -> viewModel.deleteLastColumn());
         view.onDeleteRowActionButtonProperty().set(event -> viewModel.deleteLastRow());
-        view.onClearGridLettersMenuItemActionProperty()
+        view.onClearGridAllLettersMenuItemActionProperty()
             .set(event -> viewModel.resetContentLettersOnly());
+        view.onClearGridLettersFilledBySolverMenuItemActionProperty()
+            .set(event -> viewModel.resetContentLettersFilledBySolverOnly());
         view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
         view.onDeleteGridActionProperty().set(event -> viewModel.clear());
     }

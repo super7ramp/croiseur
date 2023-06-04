@@ -87,7 +87,8 @@ public final class CrosswordBoxTextField extends TextField {
 
         // Configure text content
         setTextFormatter(new TextFormatter<>(LAST_CHARACTER_TO_UPPER_CASE));
-        textProperty().bindBidirectional(model.contentProperty());
+        textProperty().bindBidirectional(model.userContentProperty());
+        promptTextProperty().bind(model.solverContentProperty());
 
         // Auto-scale font
         final DoubleBinding scaledFontSize = heightProperty().divide(2.2 /* empirical value. */);
@@ -109,11 +110,12 @@ public final class CrosswordBoxTextField extends TextField {
      * Toggles shading of the box.
      */
     private void toggleShading() {
-        if (!model.isShaded()) {
-            clear();
-            model.shade();
-        } else {
+        if (model.isShaded()) {
             model.lighten();
+        } else {
+            clear();
+            model.solverContent("");
+            model.shade();
         }
     }
 }
