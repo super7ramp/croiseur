@@ -142,6 +142,15 @@ public final class CrosswordBoxViewModel {
     }
 
     /**
+     * Returns the value of the solver content property.
+     *
+     * @return the value of the solver content property
+     */
+    public String solverContent() {
+        return solverContent.get();
+    }
+
+    /**
      * Returns the selected property.
      *
      * @return the selected property

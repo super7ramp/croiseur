@@ -177,8 +177,8 @@ final class CrosswordGridViewModelTest {
         for (int i = 0; i < 6; i++) {
             crosswordGridViewModel.addColumn();
         }
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).shade();
-        crosswordGridViewModel.boxesProperty().get(at(4, 0)).shade();
+        crosswordGridViewModel.box(at(1, 0)).shade();
+        crosswordGridViewModel.box(at(4, 0)).shade();
 
         crosswordGridViewModel.currentBoxPosition(at(2, 0));
 
@@ -203,8 +203,8 @@ final class CrosswordGridViewModelTest {
     void selectedSlot_horizontalSelectionGrows() {
         selectedSlot_newHorizontalSelectionBetweenShaded();
 
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).lighten();
-        crosswordGridViewModel.boxesProperty().get(at(4, 0)).lighten();
+        crosswordGridViewModel.box(at(1, 0)).lighten();
+        crosswordGridViewModel.box(at(4, 0)).lighten();
 
         assertEquals(List.of(at(0, 0), at(1, 0), at(2, 0), at(3, 0),
                              at(4, 0), at(5, 0)),
@@ -253,8 +253,8 @@ final class CrosswordGridViewModelTest {
         for (int i = 0; i < 6; i++) {
             crosswordGridViewModel.addRow();
         }
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
-        crosswordGridViewModel.boxesProperty().get(at(0, 4)).shade();
+        crosswordGridViewModel.box(at(0, 1)).shade();
+        crosswordGridViewModel.box(at(0, 4)).shade();
         crosswordGridViewModel.currentSlotVertical();
 
         crosswordGridViewModel.currentBoxPosition(at(0, 2));
@@ -290,8 +290,8 @@ final class CrosswordGridViewModelTest {
     void selectedSlot_verticalSelectionGrows() {
         selectedSlot_newVerticalSelectionBetweenShaded();
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).lighten();
-        crosswordGridViewModel.boxesProperty().get(at(0, 4)).lighten();
+        crosswordGridViewModel.box(at(0, 1)).lighten();
+        crosswordGridViewModel.box(at(0, 4)).lighten();
 
         assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2), at(0, 3), at(0, 4), at(0, 5)),
                      crosswordGridViewModel.currentSlotPositionsProperty().get());
@@ -398,7 +398,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.addRow();
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
+        crosswordGridViewModel.box(at(0, 1)).shade();
 
         crosswordGridViewModel.currentBoxPosition(at(0, 1));
 
@@ -406,8 +406,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that selected slot is correctly cleared when current box moves from a non-shaded
-     * box to a shaded box.
+     * Checks that selected slot is correctly cleared when current box moves from a non-shaded box
+     * to a shaded box.
      * <p>
      * Grid schema (before):
      * <pre>
@@ -428,7 +428,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.addRow();
-        crosswordGridViewModel.boxesProperty().get(at(0, 1)).shade();
+        crosswordGridViewModel.box(at(0, 1)).shade();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -464,7 +464,7 @@ final class CrosswordGridViewModelTest {
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).shade();
+        crosswordGridViewModel.box(at(0, 0)).shade();
 
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
     }
@@ -491,11 +491,11 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.addRow();
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).shade();
+        crosswordGridViewModel.box(at(0, 0)).shade();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
         assertTrue(crosswordGridViewModel.currentSlotPositionsProperty().isEmpty());
 
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).lighten();
+        crosswordGridViewModel.box(at(0, 0)).lighten();
 
         assertEquals(List.of(at(0, 0), at(1, 0)),
                      crosswordGridViewModel.currentSlotPositionsProperty());
@@ -515,9 +515,9 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).userContent("A");
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).userContent("B");
-        crosswordGridViewModel.boxesProperty().get(at(2, 0)).userContent("C");
+        crosswordGridViewModel.box(at(0, 0)).userContent("A");
+        crosswordGridViewModel.box(at(1, 0)).userContent("B");
+        crosswordGridViewModel.box(at(2, 0)).userContent("C");
 
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
@@ -538,8 +538,8 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
-        crosswordGridViewModel.boxesProperty().get(at(0, 0)).userContent("A");
-        crosswordGridViewModel.boxesProperty().get(at(2, 0)).userContent("C");
+        crosswordGridViewModel.box(at(0, 0)).userContent("A");
+        crosswordGridViewModel.box(at(2, 0)).userContent("C");
 
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
@@ -597,13 +597,14 @@ final class CrosswordGridViewModelTest {
     void selectedSlotContent_contentChange() {
         selectedSlotContent_partiallyFilled();
 
-        crosswordGridViewModel.boxesProperty().get(at(1, 0)).userContent("B");
+        crosswordGridViewModel.box(at(1, 0)).userContent("B");
 
         assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
     }
 
     /**
-     * Checks that slot content is updated when grid structure is modified - here a column is added.
+     * Checks that slot content is updated when grid structure is modified - here a column is
+     * added.
      * <p>
      * Grid schema (before):
      * <pre>
@@ -639,16 +640,114 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
         crosswordGridViewModel.currentSlotUnsolvable();
         // boxes of selected horizontal slot are unsolvable
-        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,0)).isUnsolvable());
-        assertTrue(crosswordGridViewModel.boxesProperty().get(at(1,0)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.box(at(0, 0)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.box(at(1, 0)).isUnsolvable());
 
         crosswordGridViewModel.currentSlotVertical();
 
         // newly selected boxes are unsolvable (unsolvable slot status hasn't been cleared)
-        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,0)).isUnsolvable());
-        assertTrue(crosswordGridViewModel.boxesProperty().get(at(0,1)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.box(at(0, 0)).isUnsolvable());
+        assertTrue(crosswordGridViewModel.box(at(0, 1)).isUnsolvable());
         // previously selected boxes not part of new current vertical slot is cleared
-        assertFalse(crosswordGridViewModel.boxesProperty().get(at(1,0)).isUnsolvable());
+        assertFalse(crosswordGridViewModel.box(at(1, 0)).isUnsolvable());
     }
 
+    /**
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersFilledBySolverOnly()} deletes
+     * only solver content.
+     * <p>
+     * Grid schema (before):
+     * <pre>
+     *     | A  | B  | #  |
+     *       ^    ^
+     *       |    `- solver content
+     *       `- user content
+     * </pre>
+     * Grid schema (after):
+     * <pre>
+     *     | A  |    | #  |
+     *       ^
+     *       |
+     *       `- user content
+     * </pre>
+     */
+    @Test
+    void resetContentLettersFilledBySolver() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.box(at(0, 0)).userContent("A");
+        crosswordGridViewModel.box(at(1, 0)).solverContent("B");
+        crosswordGridViewModel.box(at(2, 0)).shade();
+
+        crosswordGridViewModel.resetContentLettersFilledBySolverOnly();
+
+        assertEquals("A", crosswordGridViewModel.box(at(0, 0)).userContent());
+        assertTrue(crosswordGridViewModel.box(at(1, 0)).solverContent().isEmpty());
+        assertTrue(crosswordGridViewModel.box(at(2, 0)).isShaded());
+    }
+
+    /**
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears only letters
+     * (both user- and solver-filled).
+     * <p>
+     * Grid schema (before):
+     * <pre>
+     *     | A  | B  | #  |
+     *       ^    ^
+     *       |    `- solver content
+     *       `- user content
+     * </pre>
+     * Grid schema (after):
+     * <pre>
+     *     |    |    | #  |
+     * </pre>
+     */
+    @Test
+    void resetContentLettersOnly() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.box(at(0, 0)).userContent("A");
+        crosswordGridViewModel.box(at(1, 0)).solverContent("B");
+        crosswordGridViewModel.box(at(2, 0)).shade();
+
+        crosswordGridViewModel.resetContentLettersOnly();
+
+        assertTrue(crosswordGridViewModel.box(at(0, 0)).userContent().isEmpty());
+        assertTrue(crosswordGridViewModel.box(at(1, 0)).solverContent().isEmpty());
+        assertTrue(crosswordGridViewModel.box(at(2, 0)).isShaded());
+    }
+
+    /**
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears both letters
+     * and shaded boxes.
+     * <p>
+     * Grid schema (before):
+     * <pre>
+     *     | A  | B  | #  |
+     *       ^    ^
+     *       |    `- solver content
+     *       `- user content
+     * </pre>
+     * Grid schema (after):
+     * <pre>
+     *     |    |    |    |
+     * </pre>
+     */
+    @Test
+    void resetContentAll() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.box(at(0, 0)).userContent("A");
+        crosswordGridViewModel.box(at(1, 0)).solverContent("B");
+        crosswordGridViewModel.box(at(2, 0)).shade();
+
+        crosswordGridViewModel.resetContentAll();
+
+        assertTrue(crosswordGridViewModel.box(at(0, 0)).userContent().isEmpty());
+        assertTrue(crosswordGridViewModel.box(at(1, 0)).solverContent().isEmpty());
+        assertFalse(crosswordGridViewModel.box(at(2, 0)).isShaded());
+    }
 }

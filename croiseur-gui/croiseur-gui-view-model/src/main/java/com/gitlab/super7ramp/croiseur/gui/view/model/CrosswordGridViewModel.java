@@ -404,6 +404,16 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * Returns the value of the boxes map property at given position.
+     *
+     * @param position the position of the box
+     * @return the box at given position
+     */
+    public CrosswordBoxViewModel box(final GridPosition position) {
+        return boxesProperty.get(position);
+    }
+
+    /**
      * Returns the column count.
      * <p>
      * Incomplete columns are not counted.
