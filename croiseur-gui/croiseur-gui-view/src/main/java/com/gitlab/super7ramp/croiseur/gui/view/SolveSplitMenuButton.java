@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -130,7 +130,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
      *
      * @return the selected solver property
      */
-    public ReadOnlyProperty<String> selectedSolverProperty() {
+    public ReadOnlyStringProperty selectedSolverProperty() {
         return selectedSolver.getReadOnlyProperty();
     }
 

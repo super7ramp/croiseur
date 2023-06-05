@@ -31,7 +31,7 @@ final class SolveTask extends Task<Void> {
      * @param crosswordGridViewModelArg the crossword model
      * @param dictionariesViewModelArg  the dictionary model
      * @param solverServiceArg          the "solve crossword" usecase
-     * @param randomArg                 the randomness source
+     * @param randomArg                 the source of randomness
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionariesViewModel dictionariesViewModelArg,

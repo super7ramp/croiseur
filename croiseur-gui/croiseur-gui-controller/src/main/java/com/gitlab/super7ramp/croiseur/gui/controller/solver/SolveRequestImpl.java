@@ -7,15 +7,12 @@ package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -42,30 +39,22 @@ final class SolveRequestImpl implements SolveRequest {
      * @param crosswordGridViewModel   the crossword model
      * @param dictionariesViewModel    the dictionary model
      * @param solverSelectionViewModel the solver selection model
-     * @param randomArg                the randomness source
+     * @param randomArg                the source of randomness
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
                      final DictionariesViewModel dictionariesViewModel,
                      final SolverSelectionViewModel solverSelectionViewModel,
                      final Random randomArg) {
 
-        final PuzzleDefinition.PuzzleDefinitionBuilder pdb =
-                new PuzzleDefinition.PuzzleDefinitionBuilder();
-
-        final Map<GridPosition, CrosswordBoxViewModel> boxes =
-                crosswordGridViewModel.boxesProperty();
-        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> box : boxes.entrySet()) {
-            final GridPosition position = box.getKey();
-            final CrosswordBoxViewModel boxModel = box.getValue();
-            if (boxModel.isShaded()) {
+        final var pdb = new PuzzleDefinition.PuzzleDefinitionBuilder();
+        final var boxes = crosswordGridViewModel.boxesProperty();
+        boxes.forEach((position, box) -> {
+            if (box.isShaded()) {
                 pdb.shade(position);
-            } else if (!boxModel.userContent().isEmpty()) {
-                pdb.fill(position, boxModel.userContent().charAt(0));
-            } else {
-                // Empty, not needed by solver
-            }
-        }
-
+            } else if (!box.userContent().isEmpty()) {
+                pdb.fill(position, box.userContent().charAt(0));
+            } // Else box empty, not needed by solver
+        });
         pdb.width(crosswordGridViewModel.columnCount());
         pdb.height(crosswordGridViewModel.rowCount());
 
@@ -104,4 +93,3 @@ final class SolveRequestImpl implements SolveRequest {
         return SolverProgressNotificationMethod.PERIODICAL;
     }
 }
-
