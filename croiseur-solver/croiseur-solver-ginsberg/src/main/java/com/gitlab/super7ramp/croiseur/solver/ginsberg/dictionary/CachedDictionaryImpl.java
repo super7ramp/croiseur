@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Implementation of {@link CachedDictionary}.
@@ -30,8 +31,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     private final Map<SlotIdentifier, Trie> initialCandidates;
 
     /**
-     * Associations between patterns and dictionary words satisfying these patterns. Avoids
-     * repeated traversals of {@link #initialCandidates}.
+     * Associations between patterns and dictionary words satisfying these patterns. Avoids repeated
+     * traversals of {@link #initialCandidates}.
      */
     private final Map<String, List<String>> wordsByPattern;
 
@@ -50,17 +51,39 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
                          final EliminationSpace eliminationSpace) {
         els = eliminationSpace;
-        initialCandidates = new HashMap<>();
+        initialCandidates = createInitialCandidates(dictionary, slots);
         wordsByPattern = new SizedMap<>(slots.size() * CACHED_PATTERNS_PER_SLOT);
         currentCandidatesCount = new HashMap<>();
-        slots.forEach(slot -> initialCandidates.put(slot.uid(), new Trie()));
-        for (final String word : dictionary.words()) {
-            for (final Slot slot : slots) {
-                if (slot.isCompatibleWith(word)) {
-                    initialCandidates.get(slot.uid()).add(word);
+    }
+
+    /**
+     * Creates the initial candidates tries.
+     *
+     * @param dictionary the external dictionary
+     * @param slots the slots
+     * @return the initial candidates tries
+     */
+    private static Map<SlotIdentifier, Trie> createInitialCandidates(final Dictionary dictionary,
+                                                                     final Collection<Slot> slots) {
+
+        // Group slot per patterns: Each group of slots will have the same initial candidates.
+        final Collection<List<Slot>> slotGroups =
+                slots.stream().collect(groupingBy(Slot::asPattern)).values();
+
+        final Map<SlotIdentifier, Trie> tries = new HashMap<>();
+        for (final List<Slot> slotGroup : slotGroups) {
+            final Trie trie = new Trie();
+            final Slot referenceSlot = slotGroup.get(0);
+            for (final String word : dictionary.words()) {
+                if (referenceSlot.isCompatibleWith(word)) {
+                    trie.add(word);
                 }
             }
+            for (final Slot slot : slotGroup) {
+                tries.put(slot.uid(), trie);
+            }
         }
+        return tries;
     }
 
     @Override
@@ -72,7 +95,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     @Override
     public long cachedCandidatesCount(final Slot slot) {
         return currentCandidatesCount.computeIfAbsent(slot.uid(),
-                k -> candidates(slot).count());
+                                                      k -> candidates(slot).count());
     }
 
     @Override
@@ -99,6 +122,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     private List<String> wordsFromPattern(final Slot slot) {
         final String slotPattern = slot.asPattern();
         return wordsByPattern.computeIfAbsent(slotPattern,
-                k -> initialCandidates.get(slot.uid()).streamMatching(slotPattern).toList());
+                                              k -> initialCandidates.get(slot.uid())
+                                                                    .streamMatching(slotPattern)
+                                                                    .toList());
     }
 }
