@@ -123,11 +123,8 @@ module path.
 
 ##### 4.1. For a new application
 
-In order for `croiseur` to find the presenter plugin, this one needs to be present in `croiseur`'s
-module path.
-
-In this case, it suffices to add the following line to the `dependencies` block of the new
-applications' `build.gradle.kts`:
+It suffices to add the following line to the `dependencies` block of the new
+application's `build.gradle.kts`:
 
 ```gradle
 runtimeOnly(project(":croiseur-presenter:croiseur-presenter-<your_presenter_name>-plugin"))
