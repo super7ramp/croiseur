@@ -71,10 +71,11 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
                 slots.stream().collect(groupingBy(Slot::asPattern)).values();
 
         final Map<SlotIdentifier, Trie> tries = new HashMap<>();
+        final Iterable<String> words = dictionary.words();
         for (final List<Slot> slotGroup : slotGroups) {
             final Trie trie = new Trie();
             final Slot referenceSlot = slotGroup.get(0);
-            for (final String word : dictionary.words()) {
+            for (final String word : words) {
                 if (referenceSlot.isCompatibleWith(word)) {
                     trie.add(word);
                 }

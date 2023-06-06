@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -18,22 +18,27 @@ import static java.util.stream.Collectors.toCollection;
  */
 final class CompositeSolverDictionary implements Dictionary {
 
-    /** The dictionaries. */
-    private final Collection<Dictionary> dictionaries;
+    /** The words of the dictionary. */
+    private final Collection<String> words;
 
     /**
      * Constructs an instance.
      *
-     * @param dictionariesArg the dictionaries
+     * @param dictionaries the dictionaries
      */
-    CompositeSolverDictionary(final Collection<Dictionary> dictionariesArg) {
-        dictionaries = dictionariesArg;
+    CompositeSolverDictionary(final List<Dictionary> dictionaries) {
+        if (dictionaries.size() == 1) {
+            // Avoid creating a new collection when only one dictionary wrapped
+            words = dictionaries.get(0).words();
+        } else {
+            words = dictionaries.stream()
+                                .flatMap(dictionary -> dictionary.words().stream())
+                                .collect(toCollection(LinkedHashSet::new));
+        }
     }
 
     @Override
-    public Set<String> words() {
-        return dictionaries.stream()
-                           .flatMap(dictionary -> dictionary.words().stream())
-                           .collect(toCollection(LinkedHashSet::new));
+    public Collection<String> words() {
+        return words;
     }
 }

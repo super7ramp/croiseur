@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -51,7 +52,7 @@ final class DictionaryLoader {
         }
 
         // Retrieve all selected dictionaries
-        final Collection<Dictionary> selectedDictionaries =
+        final List<Dictionary> selectedDictionaries =
                 selection.apply(dictionaryProviders)
                          .stream()
                          .flatMap(dictionaryProvider -> dictionaryProvider.get()
