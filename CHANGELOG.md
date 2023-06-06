@@ -3,6 +3,21 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.4 – GUI Improvements – 2023/06/06
+
+- gui:
+    - Use AtlantaFx theme (#65, !37)
+    - Reworked dictionaries pane appearance (#68, !38)
+    - Highlight selected slot (#67, !40)
+    - Added a "Suggestions" pane indicating feasible words for the selected slot (!42)
+    - Changed appearance of the selected box (#72, !42)
+    - Allowed to "iterate" over fills found by solver (!54)
+    - Present solver progress (#14, !44)
+    - Present errors in alert popups (#15, !45)
+    - Present dictionary descriptions in tooltips (!39)
+- Reduced memory usage (#59, !48, !52, !55)
+- Updated and improved documentation (!53)
+
 ## Version 0.3 – Dictionary Improvements – 2023/05/11
 
 - Added a function to search words by pattern in core, usable via CLI (!26)
