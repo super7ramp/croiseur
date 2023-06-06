@@ -46,10 +46,6 @@ graalvmNative {
             verbose.set(true)
             // Sometimes native image creation fails without this option
             buildArgs.add("--report-unsupported-elements-at-runtime")
-            // Uses GraalVM matching language version defined in Java conventions
-            javaLauncher.set(javaToolchains.launcherFor {
-                languageVersion.set(java.toolchain.languageVersion)
-            })
         }
     }
 }

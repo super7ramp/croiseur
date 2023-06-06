@@ -59,9 +59,12 @@ gradle run --args=help
 Native build requires a specific JVM called [GraalVM](https://www.graalvm.org/). Any version will do
 as long as it supports Java 17.
 
-If you encounter issues with Gradle not detecting GraalVM, check
-out [this section](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html#_installing_graalvm_native_image_tool)
-of the GraalVM Gradle plugin documentation for troubleshooting.
+Once GraalVM is installed in a standard location, Gradle should be able to automatically detect and
+use it when running the native compilation task.
+
+> Note: Gradle's automatic toolchain detection is currently broken for GraalVM
+> ([gh#gradle/gradle#24162](https://github.com/gradle/gradle/issues/24162)). For the time being, set
+> the `GRAALVM_HOME` environment variable as explained in the [GraalVM Gradle plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html#_installing_graalvm_native_image_tool).
 
 ##### Procedure
 
