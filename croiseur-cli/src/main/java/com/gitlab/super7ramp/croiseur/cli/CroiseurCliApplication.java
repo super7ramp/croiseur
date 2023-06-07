@@ -31,7 +31,7 @@ import java.util.logging.LogManager;
 /**
  * The CLI Application.
  */
-final class CrosswordCliApplication {
+final class CroiseurCliApplication {
 
     /** The command line interpreter. */
     private final CommandLine command;
@@ -39,7 +39,7 @@ final class CrosswordCliApplication {
     /**
      * Constructor.
      */
-    CrosswordCliApplication() {
+    CroiseurCliApplication() {
         loadLoggingConfiguration();
 
         command = new CommandLine(new TopLevelCommand());
@@ -67,8 +67,8 @@ final class CrosswordCliApplication {
      * Load the logging configuration.
      */
     private static void loadLoggingConfiguration() {
-        try (final InputStream is = CrosswordCliApplication.class.getClassLoader()
-                                                                 .getResourceAsStream(
+        try (final InputStream is = CroiseurCliApplication.class.getClassLoader()
+                                                                .getResourceAsStream(
                                                                          "logging.properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {

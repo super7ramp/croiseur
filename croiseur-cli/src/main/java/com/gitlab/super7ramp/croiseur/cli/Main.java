@@ -23,7 +23,7 @@ public final class Main {
      * @param args command-line arguments
      */
     public static void main(final String[] args) {
-        final CrosswordCliApplication app = new CrosswordCliApplication();
+        final CroiseurCliApplication app = new CroiseurCliApplication();
         final int exitCode = app.run(args);
         System.exit(exitCode);
     }
