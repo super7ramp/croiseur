@@ -42,21 +42,20 @@ final class CrosswordCliApplication {
     CrosswordCliApplication() {
         loadLoggingConfiguration();
 
-        command = new CommandLine(TopLevelCommand.class);
+        command = new CommandLine(new TopLevelCommand());
 
         final CrosswordService crosswordService = CrosswordService.create();
 
-        command.addSubcommand(HelpCommand.class)
-               .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
-                                      .addSubcommand(new SolverRunCommand(
-                                              crosswordService.solverService())))
+        command.addSubcommand(new HelpCommand())
+               .addSubcommand(new CommandLine(
+                       new SolverCommand(crosswordService.solverService())).addSubcommand(
+                       new SolverRunCommand(crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
                .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,
                                   TypeConverter.wrap(DictionaryIdentifierParser::parse))
-               .registerConverter(GridPosition.class,
-                                  TypeConverter.wrap(GridPositionParser::parse))
+               .registerConverter(GridPosition.class, TypeConverter.wrap(GridPositionParser::parse))
                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
@@ -69,8 +68,8 @@ final class CrosswordCliApplication {
      */
     private static void loadLoggingConfiguration() {
         try (final InputStream is = CrosswordCliApplication.class.getClassLoader()
-                                                                 .getResourceAsStream("logging" +
-                                                                                      ".properties")) {
+                                                                 .getResourceAsStream(
+                                                                         "logging.properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {
             System.err.println("Failed to load logging parameters: " + e.getMessage());
