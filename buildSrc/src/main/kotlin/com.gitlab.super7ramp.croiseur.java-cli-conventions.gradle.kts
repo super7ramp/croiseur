@@ -44,8 +44,6 @@ graalvmNative {
         named("main") {
             // Verbose so that we can see what options are passed to native-image
             verbose.set(true)
-            // Sometimes native image creation fails without this option
-            buildArgs.add("--report-unsupported-elements-at-runtime")
         }
     }
 }
