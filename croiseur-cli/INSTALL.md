@@ -23,7 +23,7 @@ In order to build `croiseur-cli` from sources, you need:
 Note that Rust is only needed for
 the [Crossword Composer](../croiseur-solver/croiseur-solver-paulgb)
 and [xwords-rs](../croiseur-solver/croiseur-solver-szunami) solvers. You may disable them by
-commenting the following lines in `croiseur-cli`'s `build.gradle`:
+commenting the following lines in `croiseur-cli`'s `build.gradle.kts`:
 
 ```gradle
 runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))

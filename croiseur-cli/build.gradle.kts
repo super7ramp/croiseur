@@ -24,6 +24,21 @@ dependencies {
 /**
  * Native build specifics.
  * <p>
+ * Things that cannot be configured via picocli-codegen, e.g. JNI.
+ */
+graalvmNative {
+    binaries {
+        named("main") {
+            val projectId = "${project.group}.${project.name}".replace('-', '.')
+            val jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
+            buildArgs.add("-H:JNIConfigurationFiles=${jniConfPath}")
+        }
+    }
+}
+
+/**
+ * Native build specifics.
+ * <p>
  * This is used by picocli-codegen to generates the GraalVM configuration under
  * META-INF/native-image/picocli-generated.
  */
@@ -36,17 +51,9 @@ tasks.named<JavaCompile>("compileJava") {
     options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
 }
 
-/**
- * Other native build specifics.
- * <p>
- * Things that cannot be configured via picocli-codegen, e.g. JNI.
- */
-graalvmNative {
-    binaries {
-        named("main") {
-            val projectId = "${project.group}.${project.name}".replace('-', '.')
-            val jniConfPath = "${project.buildDir}/resources/main/META-INF/native-image/manual/${projectId}/jni-config.json"
-            buildArgs.add("-H:JNIConfigurationFiles=${jniConfPath}")
-        }
-    }
+tasks.named<Test>("test") {
+    systemProperty(
+        "com.gitlab.super7ramp.croiseur.dictionary.path",
+        configurations.named("dictionaryPath").get().asPath
+    )
 }
