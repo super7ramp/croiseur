@@ -3,34 +3,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.dictionary;
+package com.gitlab.super7ramp.croiseur.impl.dictionary.selection;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.util.Either;
-import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.error.DictionaryErrorMessages;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
 
 /**
- * The dictionary selection logic shared by use-cases performing actions on a unique dictionary.
+ * Select dictionaries.
  */
-final class DictionarySelector {
-
-    /**
-     * The dictionary selection logic result.
-     *
-     * @param providerName the name of the provider of the selected dictionary
-     * @param details      details about the selected dictionary
-     * @param words        the selected dictionary words
-     */
-    record SelectedDictionary(String providerName, DictionaryDetails details, Set<String> words) {
-        // Nothing to add.
-    }
+public final class DictionarySelector {
 
     /** The dictionary providers. */
     private final Collection<DictionaryProvider> dictionaryProviders;
@@ -40,7 +31,7 @@ final class DictionarySelector {
      *
      * @param dictionaryProvidersArg the dictionary providers
      */
-    DictionarySelector(final Collection<DictionaryProvider> dictionaryProvidersArg) {
+    public DictionarySelector(final Collection<DictionaryProvider> dictionaryProvidersArg) {
         dictionaryProviders = dictionaryProvidersArg;
     }
 
@@ -76,9 +67,19 @@ final class DictionarySelector {
     private static Either<String, SelectedDictionary> success(
             final DictionaryProvider dictionaryProvider, final Dictionary dictionary) {
         final var selectedDictionary =
-                new SelectedDictionary(dictionaryProvider.details().name(),
-                                       dictionary.details(), dictionary.words());
+                SelectedDictionary.of(dictionaryProvider.details().name(), dictionary);
         return Either.rightOf(selectedDictionary);
+    }
+
+    /**
+     * Extracts the dictionaries of given dictionary provider into a stream of
+     * {@link SelectedDictionary}.
+     *
+     * @param p the dictionary provider
+     * @return the dictionaries
+     */
+    private static Stream<SelectedDictionary> dictionariesOf(final DictionaryProvider p) {
+        return p.get().stream().map(d -> SelectedDictionary.of(p.details().name(), d));
     }
 
     /**
@@ -87,10 +88,11 @@ final class DictionarySelector {
      * @param dictionaryIdentifier the dictionary identifier
      * @return either a unique matching dictionary or an error message
      */
-    Either<String, SelectedDictionary> select(final DictionaryIdentifier dictionaryIdentifier) {
+    public Either<String, SelectedDictionary> select(
+            final DictionaryIdentifier dictionaryIdentifier) {
 
         final Collection<DictionaryProvider> selectedDictionaryProviders =
-                DictionarySelection.byId(dictionaryIdentifier).apply(dictionaryProviders);
+                DictionaryProviderFilter.byId(dictionaryIdentifier).apply(dictionaryProviders);
 
         final Either<String, SelectedDictionary> result;
         if (selectedDictionaryProviders.isEmpty()) {
@@ -109,5 +111,34 @@ final class DictionarySelector {
         }
 
         return result;
+    }
+
+    /**
+     * Selects dictionaries with given IDs.
+     *
+     * @param ids the dictionary IDs
+     * @return dictionaries with given IDs
+     */
+    public List<SelectedDictionary> select(final Collection<DictionaryIdentifier> ids) {
+        final DictionaryProviderFilter selection =
+                ids.stream()
+                   .map(DictionaryProviderFilter::byId)
+                   .reduce(DictionaryProviderFilter.none(), DictionaryProviderFilter::or);
+        final Collection<DictionaryProvider> selectedDictionaryProviders =
+                selection.apply(dictionaryProviders);
+        return selectedDictionaryProviders.stream().flatMap(DictionarySelector::dictionariesOf)
+                                          .toList();
+    }
+
+    /**
+     * Selects the default dictionary according to {@link DictionaryComparator}.
+     *
+     * @return the first dictionary
+     */
+    public Optional<SelectedDictionary> selectDefault() {
+        return dictionaryProviders.stream()
+                                  .flatMap(DictionarySelector::dictionariesOf)
+                                  .min(comparing(SelectedDictionary::details,
+                                                 new DictionaryComparator()));
     }
 }

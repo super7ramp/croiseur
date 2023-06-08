@@ -84,8 +84,8 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
-        cliDictionaryPresenter.presentPreferredDictionary(preferredDictionary);
+    public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
+        cliDictionaryPresenter.presentDefaultDictionary(defaultDictionary);
     }
 
     @Override

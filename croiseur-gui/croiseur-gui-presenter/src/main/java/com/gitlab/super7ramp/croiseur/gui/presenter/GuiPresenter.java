@@ -93,8 +93,8 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
-        dictionaryPresenter.presentPreferredDictionary(preferredDictionary);
+    public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
+        dictionaryPresenter.presentDefaultDictionary(defaultDictionary);
     }
 
     @Override

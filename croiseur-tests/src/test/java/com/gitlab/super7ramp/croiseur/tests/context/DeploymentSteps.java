@@ -10,8 +10,8 @@ import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 
 import java.util.Collection;
@@ -26,6 +26,9 @@ import static org.mockito.Mockito.mock;
  * Technical steps related to deploying the test environment.
  */
 public final class DeploymentSteps {
+
+    /** Locale before deployment. */
+    private static final Locale ORIGIN_LOCALE = Locale.getDefault();
 
     /** The test context. */
     private final TestContext testContext;
@@ -43,23 +46,14 @@ public final class DeploymentSteps {
      * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
      * system's locale.
      */
-    @BeforeAll
-    public static void setEnglishLocale() {
+    @Before
+    public void setEnglishLocale() {
         Locale.setDefault(Locale.ENGLISH);
     }
 
-    /**
-     * Loads all the implementations of the given service class.
-     *
-     * @param clazz the service provider class
-     * @param <T>   the type of the service
-     * @return all the implementations of the given service class
-     */
-    private static <T> Collection<T> load(final Class<T> clazz) {
-        return ServiceLoader.load(clazz)
-                            .stream()
-                            .map(Supplier::get)
-                            .toList();
+    @Given("system locale is {locale}")
+    public void givenSystemLocale(final Locale locale) {
+        Locale.setDefault(locale);
     }
 
     /**
@@ -94,6 +88,27 @@ public final class DeploymentSteps {
     }
 
     /**
+     * Loads all the implementations of the given service class.
+     *
+     * @param clazz the service provider class
+     * @param <T>   the type of the service
+     * @return all the implementations of the given service class
+     */
+    private static <T> Collection<T> load(final Class<T> clazz) {
+        return ServiceLoader.load(clazz)
+                            .stream()
+                            .map(Supplier::get)
+                            .toList();
+    }
+
+    private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
+                        final Collection<CrosswordSolver> solvers, final Presenter presenter) {
+        final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
+                                                                          solvers, presenter);
+        testContext.deploy(crosswordService, presenter);
+    }
+
+    /**
      * Cleans reference to the croiseur library once scenario has tested it.
      */
     @After
@@ -101,12 +116,11 @@ public final class DeploymentSteps {
         testContext.undeploy();
     }
 
-    private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
-                        final Collection<CrosswordSolver> solvers, final Presenter presenter) {
-        final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                solvers, presenter);
-        testContext.deploy(crosswordService, presenter);
+    /**
+     * Restores origin locale.
+     */
+    @AfterAll
+    public static void afterAll() {
+        Locale.setDefault(ORIGIN_LOCALE);
     }
-
-
 }

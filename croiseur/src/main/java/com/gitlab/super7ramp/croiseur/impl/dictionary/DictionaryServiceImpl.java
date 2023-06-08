@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionarySelector;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 
@@ -32,7 +33,7 @@ public final class DictionaryServiceImpl implements DictionaryService {
     private final SearchDictionaryEntriesUsecase searchDictionaryEntries;
 
     /** The 'show preferred dictionary' usecase. */
-    private final ShowPreferredDictionaryUsecase showPreferredDictionaryUsecase;
+    private final GetDefaultDictionaryUsecase getDefaultDictionaryUsecase;
 
     /**
      * Constructs an instance.
@@ -49,8 +50,8 @@ public final class DictionaryServiceImpl implements DictionaryService {
         listDictionaryEntries = new ListDictionaryEntriesUsecase(dictionarySelector, presenterArg);
         searchDictionaryEntries =
                 new SearchDictionaryEntriesUsecase(dictionarySelector, presenterArg);
-        showPreferredDictionaryUsecase =
-                new ShowPreferredDictionaryUsecase(dictionaryProvidersArg, presenterArg);
+        getDefaultDictionaryUsecase =
+                new GetDefaultDictionaryUsecase(dictionarySelector, presenterArg);
     }
 
     @Override
@@ -74,7 +75,7 @@ public final class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    public void showPreferredDictionary() {
-        showPreferredDictionaryUsecase.process();
+    public void getDefaultDictionary() {
+        getDefaultDictionaryUsecase.process();
     }
 }

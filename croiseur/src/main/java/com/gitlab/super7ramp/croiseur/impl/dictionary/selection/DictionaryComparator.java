@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.dictionary;
+package com.gitlab.super7ramp.croiseur.impl.dictionary.selection;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
@@ -21,34 +21,40 @@ import java.util.Locale;
  *     one which doesn't;</li>
  *     <li>Language: Dictionary matching system's language is preferred over one which doesn't;
  *     </li>
- *     <li>Type: Dictionary of type "internal" is preferred over one of another type;</li>
+ *     <li>Fallback language: Dictionary matching English language is preferred over one which
+ *     doesn't;</li>
+ *     <li>Provider: Dictionary of provider "Local XML Provider" is preferred over one of another
+ *     type;</li>
  *     <li>Name: Dictionary whose dictionary identifier string representation is smaller (in
  *     lexicographical sense) is preferred. (This is not a relevant criterion, it is used to
  *     guarantee the dictionary list can be completely sorted, assuming that identifiers are
  *     unique.)</li>
  * </ul>
+ * Concerning locale criterion: The system locale at construction time is used. It means that this comparator
+ * shouldn't be cached if changing locale support is a requirement.
  */
-final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails> {
+public final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails> {
 
     /**
      * Comparator for dictionary locales.
      */
     private static final class LocaleComparator implements Comparator<Locale> {
 
-        /** The default system locale at instance construction time. */
+        /** The English language. */
+        private static final String ENGLISH_LANGUAGE = Locale.ENGLISH.getLanguage();
+
+        /** The default system locale. */
         private final Locale defaultSystemLocale;
 
-        /** The default system language at instance construction time. */
-        private final Locale defaultSystemLocaleLanguageOnly;
+        /** The default system language. */
+        private final String defaultSystemLanguage;
 
         /**
          * Constructs an instance.
          */
         LocaleComparator() {
             defaultSystemLocale = Locale.getDefault();
-            // Try to match at least on language if not on language + country
-            defaultSystemLocaleLanguageOnly =
-                    Locale.forLanguageTag(defaultSystemLocale.getLanguage());
+            defaultSystemLanguage = defaultSystemLocale.getLanguage();
         }
 
         @Override
@@ -60,17 +66,25 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
                 return 1;
             }
             // At this point: Both locales are not default system locale.
-            if (left.equals(defaultSystemLocaleLanguageOnly) && !right.equals(
-                    defaultSystemLocaleLanguageOnly)) {
+            if (left.getLanguage().equals(defaultSystemLanguage) &&
+                !right.getLanguage().equals(defaultSystemLanguage)) {
                 return -1;
             }
-            if (!left.equals(defaultSystemLocaleLanguageOnly) && right.equals(
-                    defaultSystemLocaleLanguageOnly)) {
+            if (!left.getLanguage().equals(defaultSystemLanguage) &&
+                right.getLanguage().equals(defaultSystemLanguage)) {
                 return 1;
             }
-            // At this point: Both locales are not default system languages.
-            // Use a default criterion.
-            return left.toLanguageTag().compareTo(right.toLanguageTag());
+            // At this point: Both languages are not default system language.
+            if (left.getLanguage().equals(ENGLISH_LANGUAGE) &&
+                !right.getLanguage().equals(ENGLISH_LANGUAGE)) {
+                return -1;
+            }
+            if (!left.getLanguage().equals(ENGLISH_LANGUAGE) &&
+                right.getLanguage().equals(ENGLISH_LANGUAGE)) {
+                return 1;
+            }
+            // Use a default criterion
+            return left.getLanguage().compareTo(right.getLanguage());
         }
     }
 
@@ -81,7 +95,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
 
         /** The name of the preferred dictionary. */
         // TODO to be passed by configuration
-        private static final String PREFERRED_PROVIDER = "xml";
+        private static final String PREFERRED_PROVIDER = "Local XML Provider";
 
         /**
          * Constructs an instance.
@@ -98,8 +112,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
             if (!leftName.equals(PREFERRED_PROVIDER) && rightName.equals(PREFERRED_PROVIDER)) {
                 return 1;
             }
-            // At this point: None of the providers are the preferred one.
-            return leftName.compareTo(rightName);
+            return 0;
         }
     }
 
@@ -112,7 +125,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
     /**
      * Constructs an instance.
      */
-    DictionaryComparator() {
+    public DictionaryComparator() {
         localeComparator = new LocaleComparator();
         providerNameComparator = new ProviderNameComparator();
     }
@@ -133,6 +146,7 @@ final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails
             return providerComparison;
         }
 
-        return left.dictionaryName().compareTo(right.dictionaryName());
+        return (left.providerName() + left.dictionaryName()).compareTo(
+                right.providerName() + right.dictionaryName());
     }
 }

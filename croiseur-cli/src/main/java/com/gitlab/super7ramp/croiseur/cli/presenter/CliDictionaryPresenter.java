@@ -88,10 +88,10 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
-        System.out.printf($("preferred.format"), preferredDictionary.dictionaryName(),
-                          preferredDictionary.dictionaryLocale().getDisplayName(),
-                          preferredDictionary.providerName());
+    public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
+        System.out.printf($("preferred.format"), defaultDictionary.dictionaryName(),
+                          defaultDictionary.dictionaryLocale().getDisplayName(),
+                          defaultDictionary.providerName());
     }
 
     @Override

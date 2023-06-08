@@ -78,7 +78,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
+    public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
         throw new UnsupportedOperationException("Not used");
     }
 

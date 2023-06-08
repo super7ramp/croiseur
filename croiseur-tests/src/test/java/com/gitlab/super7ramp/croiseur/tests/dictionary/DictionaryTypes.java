@@ -32,14 +32,12 @@ public final class DictionaryTypes {
     }
 
     @DataTableType
-    public DictionaryProviderDetails dictionaryProviderDetails(
-            final Map<String, String> entry) {
+    public DictionaryProviderDetails dictionaryProviderDetails(final Map<String, String> entry) {
         return new DictionaryProviderDetails(entry.get("Provider"), entry.get("Description"));
     }
 
     @DataTableType
-    public ProvidedDictionaryDetails providedDictionaryDetails(
-            final Map<String, String> entry) {
+    public ProvidedDictionaryDetails providedDictionaryDetails(final Map<String, String> entry) {
         final String providerName = entry.get("Provider");
         final DictionaryDetails dictionaryDetails =
                 new DictionaryDetails(entry.get("Name"),

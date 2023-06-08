@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.common;
+package com.gitlab.super7ramp.croiseur.impl.dictionary.selection;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
@@ -18,9 +18,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
- * Selection of dictionaries among several dictionary providers.
+ * Filters dictionary providers using conditions on both the provider details and its dictionaries.
  */
-public final class DictionarySelection implements UnaryOperator<Collection<DictionaryProvider>> {
+public final class DictionaryProviderFilter implements UnaryOperator<Collection<DictionaryProvider>> {
 
     /**
      * A decorator of {@link DictionaryProvider dictionary provider} filtering the dictionaries
@@ -69,8 +69,8 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * @param providerFilterArg   the filter on dictionary provider
      * @param dictionaryFilterArg the filter on dictionary
      */
-    private DictionarySelection(final Predicate<DictionaryProvider> providerFilterArg,
-                                final Predicate<Dictionary> dictionaryFilterArg) {
+    private DictionaryProviderFilter(final Predicate<DictionaryProvider> providerFilterArg,
+                                     final Predicate<Dictionary> dictionaryFilterArg) {
         providerFilter = providerFilterArg;
         dictionaryFilter = dictionaryFilterArg;
     }
@@ -79,24 +79,12 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * Creates a search by dictionary name.
      *
      * @param desiredDictionaryName the desired dictionary name
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose name matches the
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose name matches the
      * given name
      */
-    public static DictionarySelection byName(final String desiredDictionaryName) {
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.details().name()
-                                                                            .equals(desiredDictionaryName));
-    }
-
-    /**
-     * Creates a search by optional dictionary name.
-     *
-     * @param desiredDictionaryName the desired dictionary name, if any
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose name matches the
-     * given name, or any name if given name is {@link Optional#empty()}
-     */
-    public static DictionarySelection byOptionalName(final Optional<String> desiredDictionaryName) {
-        return desiredDictionaryName.map(DictionarySelection::byName)
-                                    .orElseGet(DictionarySelection::any);
+    public static DictionaryProviderFilter byName(final String desiredDictionaryName) {
+        return new DictionaryProviderFilter(satisfied(), dictionary -> dictionary.details().name()
+                                                                                 .equals(desiredDictionaryName));
     }
 
     /**
@@ -104,15 +92,15 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      * information is present in given locale.
      *
      * @param desiredDictionaryLocale the desired dictionary locale
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
      * the given locale
      */
-    public static DictionarySelection byLocale(final Locale desiredDictionaryLocale) {
+    public static DictionaryProviderFilter byLocale(final Locale desiredDictionaryLocale) {
         if (desiredDictionaryLocale.getCountry().isEmpty()) {
             return byLanguage(desiredDictionaryLocale.getLanguage());
         }
-        return new DictionarySelection(satisfied(), dictionary -> dictionary.details().locale()
-                                                                            .equals(desiredDictionaryLocale));
+        return new DictionaryProviderFilter(satisfied(), dictionary -> dictionary.details().locale()
+                                                                                 .equals(desiredDictionaryLocale));
     }
 
     /**
@@ -120,11 +108,11 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      *
      * @param desiredDictionaryLanguage the desired dictionary language, as returned by
      *                                  {@link Locale#getLanguage()}
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
      * the given language
      */
-    public static DictionarySelection byLanguage(final String desiredDictionaryLanguage) {
-        return new DictionarySelection(satisfied(),
+    public static DictionaryProviderFilter byLanguage(final String desiredDictionaryLanguage) {
+        return new DictionaryProviderFilter(satisfied(),
                 dictionary -> dictionary.details()
                                         .locale()
                                         .getLanguage()
@@ -132,59 +120,49 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
     }
 
     /**
-     * Creates a search by system's locale.
-     *
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
-     * the system locale
-     */
-    public static DictionarySelection bySystemLocale() {
-        return byLocale(Locale.getDefault());
-    }
-
-    /**
      * Creates a search by optional dictionary locale.
      *
      * @param desiredDictionaryLocale the desired dictionary locale, if any
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose locale matches
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
      * the given locale, or any locale if given locale is {@link Optional#empty()}
      */
-    public static DictionarySelection byOptionalLocale(final Optional<Locale> desiredDictionaryLocale) {
-        return desiredDictionaryLocale.map(DictionarySelection::byLocale)
-                                      .orElseGet(DictionarySelection::any);
+    public static DictionaryProviderFilter byOptionalLocale(final Optional<Locale> desiredDictionaryLocale) {
+        return desiredDictionaryLocale.map(DictionaryProviderFilter::byLocale)
+                                      .orElseGet(DictionaryProviderFilter::any);
     }
 
     /**
      * Creates a search by optional dictionary provider.
      *
      * @param desiredProviderName the required provider name, if any
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose provider name
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name
      * matches the given provider name, or any if given provider name is {@link Optional#empty()}
      */
-    public static DictionarySelection byOptionalProvider(final Optional<String> desiredProviderName) {
-        return desiredProviderName.map(DictionarySelection::byProvider)
-                                  .orElseGet(DictionarySelection::any);
+    public static DictionaryProviderFilter byOptionalProvider(final Optional<String> desiredProviderName) {
+        return desiredProviderName.map(DictionaryProviderFilter::byProvider)
+                                  .orElseGet(DictionaryProviderFilter::any);
     }
 
     /**
      * Creates a search by dictionary provider.
      *
      * @param desiredProviderName the required provider name
-     * @return a {@link DictionarySelection} matching any {@link Dictionary} whose provider name
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name
      * matches the given provider name
      */
-    public static DictionarySelection byProvider(final String desiredProviderName) {
-        return new DictionarySelection(provider -> provider.details().name()
-                                                           .equals(desiredProviderName),
-                satisfied());
+    public static DictionaryProviderFilter byProvider(final String desiredProviderName) {
+        return new DictionaryProviderFilter(provider -> provider.details().name()
+                                                                .equals(desiredProviderName),
+                                            satisfied());
     }
 
     /**
      * Creates a search by {@link DictionaryIdentifier}.
      *
      * @param id the identifier
-     * @return the corresponding {@link DictionarySelection}
+     * @return the corresponding {@link DictionaryProviderFilter}
      */
-    public static DictionarySelection byId(final DictionaryIdentifier id) {
+    public static DictionaryProviderFilter byId(final DictionaryIdentifier id) {
         return byProvider(id.providerName()).and(byName(id.dictionaryName()));
     }
 
@@ -193,18 +171,8 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      *
      * @return the default dictionary selection.
      */
-    public static DictionarySelection byDefault() {
-        // TODO default/preferred dictionary management to be improved
-        return byProvider("Local XML Provider").and(bySystemLocale());
-    }
-
-    /**
-     * Returns the default dictionary selection.
-     *
-     * @return the default dictionary selection.
-     */
-    public static DictionarySelection none() {
-        return new DictionarySelection(Predicate.not(satisfied()), Predicate.not(satisfied()));
+    public static DictionaryProviderFilter none() {
+        return new DictionaryProviderFilter(Predicate.not(satisfied()), Predicate.not(satisfied()));
     }
 
     /**
@@ -212,8 +180,8 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
      *
      * @return a {@link Predicate} that will match with any input
      */
-    public static DictionarySelection any() {
-        return new DictionarySelection(satisfied(), satisfied());
+    public static DictionaryProviderFilter any() {
+        return new DictionaryProviderFilter(satisfied(), satisfied());
     }
 
     /**
@@ -227,25 +195,25 @@ public final class DictionarySelection implements UnaryOperator<Collection<Dicti
     }
 
     /**
-     * Returns the logical "and" between this {@link DictionarySelection} and the given one.
+     * Returns the logical "and" between this {@link DictionaryProviderFilter} and the given one.
      *
-     * @param other the other {@link DictionarySelection} operand
-     * @return the logical "and" between this {@link DictionarySelection} and the given one
+     * @param other the other {@link DictionaryProviderFilter} operand
+     * @return the logical "and" between this {@link DictionaryProviderFilter} and the given one
      */
-    public DictionarySelection and(final DictionarySelection other) {
-        return new DictionarySelection(providerFilter.and(other.providerFilter),
-                dictionaryFilter.and(other.dictionaryFilter));
+    public DictionaryProviderFilter and(final DictionaryProviderFilter other) {
+        return new DictionaryProviderFilter(providerFilter.and(other.providerFilter),
+                                            dictionaryFilter.and(other.dictionaryFilter));
     }
 
     /**
-     * Returns the logical "or" between this {@link DictionarySelection} and the given one.
+     * Returns the logical "or" between this {@link DictionaryProviderFilter} and the given one.
      *
-     * @param other the other {@link DictionarySelection} operand
-     * @return the logical "or" between this {@link DictionarySelection} and the given one
+     * @param other the other {@link DictionaryProviderFilter} operand
+     * @return the logical "or" between this {@link DictionaryProviderFilter} and the given one
      */
-    public DictionarySelection or(final DictionarySelection other) {
-        return new DictionarySelection(providerFilter.or(other.providerFilter),
-                dictionaryFilter.or(other.dictionaryFilter));
+    public DictionaryProviderFilter or(final DictionaryProviderFilter other) {
+        return new DictionaryProviderFilter(providerFilter.or(other.providerFilter),
+                                            dictionaryFilter.or(other.dictionaryFilter));
     }
 
     @Override

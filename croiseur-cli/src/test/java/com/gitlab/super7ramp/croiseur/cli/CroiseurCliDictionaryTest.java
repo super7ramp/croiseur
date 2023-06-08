@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.cli;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static java.util.stream.Collectors.joining;
@@ -81,13 +80,13 @@ final class CroiseurCliDictionaryTest extends CroiseurCliTestRuntime {
     }
 
     @Test
-    @Disabled("To fix")
     void dictionaryGetDefault() {
         final int exitCode = cli("dictionary", "get-default");
 
         assertEquals(SUCCESS, exitCode);
-        assertEquals("General English dictionary, English, provided by Local XML Provider",
-                     out()); // FIXME German is returned
+        assertEquals(
+                "General British English dictionary, English (United Kingdom), provided by Local XML Provider\n",
+                out());
         assertEquals("", err());
     }
 
@@ -114,9 +113,9 @@ final class CroiseurCliDictionaryTest extends CroiseurCliTestRuntime {
         assertEquals("""
                      Provider        \tName                                            	Locale         \s
                      --------        \t----                                            	------         \s
-                     Local XML Provider\tGeneral German dictionary                       	German (Germany)
-                     Local Text Provider\tThe UK Advanced Cryptics Dictionary             	English (United Kingdom)
                      Local XML Provider\tGeneral British English dictionary              	English (United Kingdom)
+                     Local Text Provider\tThe UK Advanced Cryptics Dictionary             	English (United Kingdom)
+                     Local XML Provider\tGeneral German dictionary                       	German (Germany)
                      Local XML Provider\tGeneral Spanish dictionary                      	Spanish (Spain)\s
                      Local XML Provider\tGeneral French dictionary                       	French (France)\s
                      Local XML Provider\tGeneral Italian Dictionary                      	Italian (Italy)\s

@@ -6,11 +6,13 @@
 package com.gitlab.super7ramp.croiseur.impl.solver;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionarySelector;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.SelectedDictionary;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ import java.util.Optional;
 final class DictionaryLoader {
 
     /** The actual dictionary providers. */
-    private final Collection<DictionaryProvider> dictionaryProviders;
+    private final DictionarySelector selector;
 
     /**
      * Constructs an instance.
@@ -28,7 +30,7 @@ final class DictionaryLoader {
      * @param dictionaryProvidersArg the actual dictionary providers
      */
     DictionaryLoader(final Collection<DictionaryProvider> dictionaryProvidersArg) {
-        dictionaryProviders = dictionaryProvidersArg;
+        selector = new DictionarySelector(dictionaryProvidersArg);
     }
 
     /**
@@ -40,43 +42,34 @@ final class DictionaryLoader {
      */
     Optional<Dictionary> load(final Collection<DictionaryIdentifier> dictionaries) {
 
-        // Create a DictionarySelection from the received event
-        final DictionarySelection selection;
+        final List<SelectedDictionary> selectedDictionaries;
         if (dictionaries.isEmpty()) {
             // As per SolveRequest spec, no given dictionary means default dictionary
-            selection = DictionarySelection.byDefault();
+            selectedDictionaries = selector.selectDefault()
+                                           .map(Collections::singletonList)
+                                           .orElseGet(Collections::emptyList);
         } else {
-            selection = dictionaries.stream()
-                                    .map(DictionarySelection::byId)
-                                    .reduce(DictionarySelection.none(), DictionarySelection::or);
+            selectedDictionaries = selector.select(dictionaries);
         }
-
-        // Retrieve all selected dictionaries
-        final List<Dictionary> selectedDictionaries =
-                selection.apply(dictionaryProviders)
-                         .stream()
-                         .flatMap(dictionaryProvider -> dictionaryProvider.get()
-                                                                          .stream())
-                         .map(this::toSolverDictionary)
-                         .toList();
 
         // At least one dictionary is necessary for solving
         if (selectedDictionaries.isEmpty()) {
             return Optional.empty();
         }
 
-        // Return a composite of all selected dictionaries
-        return Optional.of(new CompositeSolverDictionary(selectedDictionaries));
+        final List<Dictionary> selectedSolverDictionaries =
+                selectedDictionaries.stream().map(this::toSolverDictionary).toList();
 
+        return Optional.of(new CompositeSolverDictionary(selectedSolverDictionaries));
     }
 
     /**
-     * Converts a dictionary from dictionary SPI to dictionary of solver SPI.
+     * Converts a {@link SelectedDictionary} to dictionary of solver SPI.
      *
-     * @param dictionary the dictionary from dictionary SPI
+     * @param dictionary the selected dictionary
      * @return the dictionary of solver SPI
      */
-    private Dictionary toSolverDictionary(final com.gitlab.super7ramp.croiseur.spi.dictionary.Dictionary dictionary) {
+    private Dictionary toSolverDictionary(final SelectedDictionary dictionary) {
         return dictionary::words;
     }
 }

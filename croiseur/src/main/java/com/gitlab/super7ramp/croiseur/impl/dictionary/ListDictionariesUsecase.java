@@ -7,12 +7,13 @@ package com.gitlab.super7ramp.croiseur.impl.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
-import com.gitlab.super7ramp.croiseur.impl.common.DictionarySelection;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.error.DictionaryErrorMessages;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionaryComparator;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionaryProviderFilter;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,10 +21,6 @@ import java.util.stream.Stream;
  * The 'list dictionaries' use case.
  */
 final class ListDictionariesUsecase {
-
-    /** The criteria used to compare dictionaries. */
-    private static final Comparator<ProvidedDictionaryDetails> DICTIONARY_COMPARATOR =
-            new DictionaryComparator();
 
     /** The dictionary providers. */
     private final Collection<DictionaryProvider> dictionaryProviders;
@@ -60,18 +57,18 @@ final class ListDictionariesUsecase {
 
     /**
      * Returns a list of the given selected dictionary providers ordered by
-     * {@link #DICTIONARY_COMPARATOR}.
+     * {@link DictionaryComparator}.
      *
      * @param selectedDictionaryProviders the selected dictionary providers
      * @return a list of the given selected dictionary providers ordered by
-     * {@link #DICTIONARY_COMPARATOR}
+     * {@link DictionaryComparator}
      */
     private static List<ProvidedDictionaryDetails> orderDictionaries(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {
         return selectedDictionaryProviders.stream()
-                                          .flatMap(provider -> toDictionaryDetailsStream(
-                                                  provider))
-                                          .sorted(DICTIONARY_COMPARATOR)
+                                          .flatMap(
+                                                  ListDictionariesUsecase::toDictionaryDetailsStream)
+                                          .sorted(new DictionaryComparator())
                                           .toList();
     }
 
@@ -101,8 +98,9 @@ final class ListDictionariesUsecase {
      */
     private Collection<DictionaryProvider> selectDictionaryProviders(
             final ListDictionariesRequest request) {
-        return DictionarySelection.byOptionalProvider(request.provider())
-                                  .and(DictionarySelection.byOptionalLocale(request.locale()))
-                                  .apply(dictionaryProviders);
+        return DictionaryProviderFilter.byOptionalProvider(request.provider())
+                                       .and(DictionaryProviderFilter.byOptionalLocale(
+                                               request.locale()))
+                                       .apply(dictionaryProviders);
     }
 }

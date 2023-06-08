@@ -26,11 +26,6 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
     /** The solver name. */
     private static final String NAME = "Crossword Composer";
 
-    /** The solver description. */
-    private static final String DESCRIPTION = ResourceBundle
-            .getBundle("com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
-            .getString("description");
-
     /** The adapted solver. */
     private final Solver solver;
 
@@ -70,7 +65,9 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return DESCRIPTION;
+        return ResourceBundle
+                .getBundle("com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
+                .getString("description");
     }
 
     @Override

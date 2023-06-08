@@ -8,6 +8,8 @@ package com.gitlab.super7ramp.croiseur.impl.dictionary;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.util.Either;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionarySelector;
+import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.SelectedDictionary;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
@@ -42,12 +44,9 @@ final class ListDictionaryEntriesUsecase {
      * @param selectedDictionary the selected dictionary
      * @return the presentable content of the given dictionary
      */
-    private static DictionaryContent readContent(
-            final DictionarySelector.SelectedDictionary selectedDictionary) {
-        final ProvidedDictionaryDetails details =
-                new ProvidedDictionaryDetails(selectedDictionary.providerName(),
-                                              selectedDictionary.details());
-        final Set<String> words = selectedDictionary.words();
+    private static DictionaryContent readContent(final SelectedDictionary selectedDictionary) {
+        final ProvidedDictionaryDetails details = selectedDictionary.details();
+        final Set<String> words = selectedDictionary.words(); // actually read content here
         return new DictionaryContent(details, words);
     }
 
@@ -57,16 +56,14 @@ final class ListDictionaryEntriesUsecase {
      * @param request the {@link ListDictionaryEntriesRequest}
      */
     void process(final ListDictionaryEntriesRequest request) {
-
-        final Either<String, DictionarySelector.SelectedDictionary> dictionarySelection =
+        final Either<String, SelectedDictionary> dictionarySelection =
                 dictionarySelector.select(request.dictionaryIdentifier());
-
-        if (dictionarySelection.isLeft()) {
-            presenter.presentDictionaryError(dictionarySelection.left());
-        } else {
-            final DictionaryContent dictionaryContent = readContent(dictionarySelection.right());
+        if (dictionarySelection.isRight()) {
+            final DictionaryContent dictionaryContent =
+                    readContent(dictionarySelection.right());
             presenter.presentDictionaryEntries(dictionaryContent);
+        } else {
+            presenter.presentDictionaryError(dictionarySelection.left());
         }
     }
-
 }

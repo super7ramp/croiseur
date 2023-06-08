@@ -24,11 +24,6 @@ public final class SzunamiSolver implements CrosswordSolver {
     /** The solver name. */
     private static final String NAME = "XWords RS";
 
-    /** The solver description. */
-    private static final String DESCRIPTION = ResourceBundle
-            .getBundle("com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages")
-            .getString("description");
-
     /** The adapted solver. */
     private final Filler filler;
 
@@ -46,7 +41,9 @@ public final class SzunamiSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return DESCRIPTION;
+        return ResourceBundle
+                .getBundle("com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages")
+                .getString("description");
     }
 
     @Override

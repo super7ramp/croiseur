@@ -80,6 +80,11 @@ public final class DictionarySteps {
         dictionaryService.listDictionaries(listDictionariesRequest);
     }
 
+    @When("user requests to show the default dictionary")
+    public void whenShowDefaultDictionary() {
+        dictionaryService.getDefaultDictionary();
+    }
+
     @Then("the application presents {int} dictionary entries, the first ones being:")
     public void thenPresentDictionaryEntries(final int totalNumberOfEntries,
                                              final List<String> firstEntries) {
@@ -120,4 +125,8 @@ public final class DictionarySteps {
         verify(presenterMock).presentDictionaryError(eq(error));
     }
 
+    @Then("application presents the following default dictionary:")
+    public void thenPresentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
+        verify(presenterMock).presentDefaultDictionary(eq(defaultDictionary));
+    }
 }

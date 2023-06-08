@@ -59,8 +59,8 @@ final class BroadcastingPresenter implements Presenter {
     }
 
     @Override
-    public void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary) {
-        presenters.forEach(p -> p.presentPreferredDictionary(preferredDictionary));
+    public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
+        presenters.forEach(p -> p.presentDefaultDictionary(defaultDictionary));
     }
 
     @Override

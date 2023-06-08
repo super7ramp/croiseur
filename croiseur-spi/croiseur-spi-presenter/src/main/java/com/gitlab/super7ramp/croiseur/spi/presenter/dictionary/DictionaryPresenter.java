@@ -50,13 +50,13 @@ public interface DictionaryPresenter {
     void presentDictionarySearchResult(final DictionarySearchResult searchResult);
 
     /**
-     * Presents the preferred dictionary.
+     * Presents the default dictionary.
      * <p>
      * Typically, this is the first dictionary returned by {@link #presentDictionaries(List)}.
      *
-     * @param preferredDictionary the preferred dictionary, if any; {@code null} otherwise
+     * @param defaultDictionary the default dictionary, if any; {@code null} otherwise
      */
-    void presentPreferredDictionary(final ProvidedDictionaryDetails preferredDictionary);
+    void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary);
 
     /**
      * Presents an error related to dictionary service.

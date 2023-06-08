@@ -51,7 +51,7 @@ public final class DictionaryCommand {
      */
     @Command(name = "get-default")
     void getDefault() {
-        dictionaryService.showPreferredDictionary();
+        dictionaryService.getDefaultDictionary();
     }
 
     /**

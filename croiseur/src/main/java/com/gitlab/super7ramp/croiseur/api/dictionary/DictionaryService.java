@@ -50,7 +50,7 @@ public interface DictionaryService {
     void searchEntries(final SearchDictionaryEntriesRequest request);
 
     /**
-     * Shows the preferred dictionary.
+     * Gets the default dictionary.
      * <p>
      * The criteria used to compare dictionaries are, by order of preference:
      * <ul>
@@ -58,15 +58,18 @@ public interface DictionaryService {
      *     one which doesn't;</li>
      *     <li>Language: Dictionary matching system's language is preferred over one which doesn't;
      *     </li>
-     *     <li>Type: Dictionary of type "internal" is preferred over one of another type;</li>
+     *     <li>Fallback language: Dictionary matching English language is preferred over one which
+     *     doesn't;</li>
+     *     <li>Provider: Dictionary provided by "Local XML Provider" is preferred over one of an
+     *     other provider;</li>
      *     <li>Name: Dictionary whose dictionary identifier string representation is smaller (in
      *     lexicographical sense) is preferred. (This is not a relevant criterion, it is used to
      *     guarantee the dictionary list can be completely sorted, assuming that identifiers are
      *     unique.)</li>
      * </ul>
      *
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentPreferredDictionary
-     * DictionaryPresenter#presentPreferredDictionary
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDefaultDictionary
+     * DictionaryPresenter#presentDefaultDictionary
      */
-    void showPreferredDictionary();
+    void getDefaultDictionary();
 }

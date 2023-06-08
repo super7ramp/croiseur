@@ -98,11 +98,6 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     /** This solver's name. */
     private static final String NAME = "Ginsberg";
 
-    /** This solver's description. */
-    private static final String DESCRIPTION = ResourceBundle
-            .getBundle("com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages")
-            .getString("description");
-
     /** The adapted solver. */
     private final com.gitlab.super7ramp.croiseur.solver.ginsberg.GinsbergCrosswordSolver adapted;
 
@@ -120,7 +115,9 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return DESCRIPTION;
+        return ResourceBundle
+                .getBundle("com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages")
+                .getString("description");
     }
 
     @Override

@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.dictionary;
+package com.gitlab.super7ramp.croiseur.impl.dictionary.error;
 
 /**
  * Some dictionary error messages.
  */
-final class DictionaryErrorMessages {
+public final class DictionaryErrorMessages {
 
     /** Error message to publish when no dictionary matching the request is found. */
-    static final String NO_DICTIONARY_ERROR_MESSAGE = "No dictionary found";
+    public static final String NO_DICTIONARY_ERROR_MESSAGE = "No dictionary found";
 
     /** Error message to publish when an ambiguous request is received. */
-    static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE = "Ambiguous request: Found " +
+    public static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE = "Ambiguous request: Found " +
             "matching dictionaries for several providers";
 
     /**
