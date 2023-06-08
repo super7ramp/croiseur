@@ -81,20 +81,26 @@ abstract class CroiseurCliTestRuntime {
 
     /**
      * Returns the text written to output stream up to the moment of the call.
+     * <p>
+     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
+     * ({@code "\n"}).
      *
      * @return the text written to output stream up to the moment of the call
      */
     protected final String out() {
-        return out.toString();
+        return out.toString().replace(System.lineSeparator(), "\n");
     }
 
     /**
      * Returns the text written to error output stream up to the moment of the call.
+     * <p>
+     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
+     * ({@code "\n"}).
      *
      * @return the text written to error output stream up to the moment of the call
      */
     protected final String err() {
-        return err.toString();
+        return err.toString().replace(System.lineSeparator(), "\n");
     }
 
 }
