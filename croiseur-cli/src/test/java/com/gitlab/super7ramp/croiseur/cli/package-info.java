@@ -15,7 +15,7 @@
  * <ul>
  *     <li>{@link com.gitlab.super7ramp.croiseur.cli.Main Main} calls
  * {@link java.lang.System#exit(int)}
- *     <lI>The only way to capture the call is to set up a custom {@code SecurityManager}
+ *     <li>The only way to capture the call is to set up a custom {@code SecurityManager}
  *     <li>{@code SecurityManager} has been deprecated and marked for removal
  *     (<a href="https://bugs.openjdk.org/browse/JDK-8199704">JDK-8199704</a>).
  * </ul>
