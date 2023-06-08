@@ -66,10 +66,9 @@ Build on Windows:
     - $env:CARGO_HOME=(Get-Location).Path + "\.cargo"
     - $env:GRADLE_USER_HOME=(Get-Location).Path + "\.gradle"
   script:
-    - gradle --parallel --build-cache assemble -x distZip
-    - gradle --parallel --build-cache check
-    # Gradle daemon seems to prevent the script to be considered as terminated on Windows, shut it down
-    - gradle --stop
+    # Disable Gradle daemon: It prevents the script to be considered as terminated on Windows
+    - gradle --no-daemon --parallel --build-cache assemble -x distZip
+    - gradle --no-daemon --parallel --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}-windows"
     paths:
