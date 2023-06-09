@@ -7,78 +7,76 @@ package com.gitlab.super7ramp.croiseur.cli;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Tests on 'croiseur-cli help *' commands.
  */
-final class CroiseurCliHelpTest extends CroiseurCliTestRuntime {
+final class CroiseurCliHelpTest extends CroiseurCliFluentTestHelper {
 
     @Test
     void help() {
-        final int exitCode = cli("help");
+        whenOneRunsCli("help");
+        thenCli().writesToStdOut(
+                         """
+                         Usage: croiseur-cli COMMAND
 
-        assertEquals(SUCCESS, exitCode);
-        assertEquals("""
-                     Usage: croiseur-cli COMMAND
-                                          
-                     Commands:
-                       help        Display help information about the specified command
-                       solver      Solve crosswords and list available solvers
-                       dictionary  List and print available dictionaries
-                     """, out());
-        assertEquals("", err());
+                         Commands:
+                           help        Display help information about the specified command
+                           solver      Solve crosswords and list available solvers
+                           dictionary  List and print available dictionaries
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpUnknown() {
-        final int exitCode = cli("help", "unknown");
+        whenOneRunsCli("help", "unknown");
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr(
+                         """
+                         Unknown subcommand 'unknown'.
+                         Usage: croiseur-cli COMMAND
 
-        assertEquals(INPUT_ERROR, exitCode);
-        assertEquals("", out());
-        assertEquals("""
-                     Unknown subcommand 'unknown'.
-                     Usage: croiseur-cli COMMAND
-
-                     Commands:
-                       help        Display help information about the specified command
-                       solver      Solve crosswords and list available solvers
-                       dictionary  List and print available dictionaries
-                     """, err());
+                         Commands:
+                           help        Display help information about the specified command
+                           solver      Solve crosswords and list available solvers
+                           dictionary  List and print available dictionaries
+                         """)
+                 .and().exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void helpDictionary() {
-        final int exitCode = cli("help", "dictionary");
+        whenOneRunsCli("help", "dictionary");
+        thenCli().writesToStdOut(
+                         """
+                         Usage: croiseur-cli dictionary COMMAND
+                         List and print available dictionaries
 
-        assertEquals(SUCCESS, exitCode);
-        assertEquals("""
-                     Usage: croiseur-cli dictionary COMMAND
-                     List and print available dictionaries
-
-                     Commands:
-                       cat             Display dictionary entries
-                       get-default     Return the default dictionary
-                       grep, search    Display dictionary entries which match a given pattern
-                       list, ls        List available dictionaries
-                       list-providers  List available dictionary providers
-                     """, out());
-        assertEquals("", err());
+                         Commands:
+                           cat             Display dictionary entries
+                           get-default     Return the default dictionary
+                           grep, search    Display dictionary entries which match a given pattern
+                           list, ls        List available dictionaries
+                           list-providers  List available dictionary providers
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpSolver() {
-        final int exitCode = cli("help", "solver");
+        whenOneRunsCli("help", "solver");
+        thenCli().writesToStdOut(
+                         """
+                         Usage: croiseur-cli solver COMMAND
+                         Solve crosswords and list available solvers
 
-        assertEquals(SUCCESS, exitCode);
-        assertEquals("""
-                     Usage: croiseur-cli solver COMMAND
-                     Solve crosswords and list available solvers
-
-                     Commands:
-                       list, ls    List available solvers
-                       run, solve  Solve a crossword puzzle
-                     """, out());
-        assertEquals("", err());
+                         Commands:
+                           list, ls    List available solvers
+                           run, solve  Solve a crossword puzzle
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
     }
 }

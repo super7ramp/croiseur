@@ -14,7 +14,19 @@ import java.io.PrintStream;
 import java.util.Locale;
 
 /**
- * A helper class managing application runtime during tests. To be extended by actual test classes.
+ * A simple helper test class managing application runtime during tests.
+ * <p>
+ * To be extended by actual test classes, e.g.:
+ * <pre>{@code
+ * final class MyCliTest extends CroiseurCliTestRuntime {
+ *     @Test
+ *     void myTest() {
+ *         cli("some", "arguments");
+ *         assertEquals("Received arguments: 'some', 'arguments'", out());
+ *         assertEquals("", err());
+ *         assertEquals(SUCCESS, exitCode());
+ *     }
+ * }}</pre>
  *
  * @see <a href=https://picocli.info/#_diy_output_capturing>DIY Output Capturing</a> in Picocli
  * documentation
@@ -39,6 +51,9 @@ abstract class CroiseurCliTestRuntime {
     /** The application under test. */
     private CroiseurCliApplication app;
 
+    /** The application exit code. */
+    private Integer exitCode;
+
     /**
      * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
      * system's locale.
@@ -58,6 +73,7 @@ abstract class CroiseurCliTestRuntime {
         System.setOut(new PrintStream(out));
         System.setErr(new PrintStream(err));
         app = new CroiseurCliApplication();
+        exitCode = null;
     }
 
     /**
@@ -73,10 +89,9 @@ abstract class CroiseurCliTestRuntime {
      * Executes the croiseur-cli command with given arguments.
      *
      * @param args the arguments
-     * @return the error code
      */
-    protected final int cli(final String... args) {
-        return app.run(args);
+    protected final void cli(final String... args) {
+        exitCode = app.run(args);
     }
 
     /**
@@ -103,4 +118,14 @@ abstract class CroiseurCliTestRuntime {
         return err.toString().replace(System.lineSeparator(), "\n");
     }
 
+    /**
+     * Returns the last exit code or {@code null} if application hasn't exited at the moment of the
+     * call.
+     *
+     * @return the last exit code  or {@code null} if application hasn't exited at the moment of the
+     * call
+     */
+    protected final Integer exitCode() {
+        return exitCode;
+    }
 }
