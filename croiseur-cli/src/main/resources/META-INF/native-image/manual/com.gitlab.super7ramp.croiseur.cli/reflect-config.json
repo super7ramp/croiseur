@@ -1,0 +1,7 @@
+[
+  {
+    "name": "picocli.CommandLine$HelpCommand",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true
+  }
+]
