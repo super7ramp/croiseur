@@ -161,4 +161,36 @@ final class CroiseurCliSolverTest extends CroiseurCliTestRuntime {
                      """, out());
         assertEquals("", err());
     }
+
+    @Test
+    void solverRunXWordsRsSize3x3() {
+        final int exitCode = cli("solver", "run", "XWords RS", "--size", "3x3");
+
+        assertEquals(SUCCESS, exitCode);
+        assertEquals("""
+                     Result: SUCCESS
+
+                     |Z|U|Z|
+                     |U|T|U|
+                     |Z|U|G|
+
+                     """, out());
+        assertEquals("", err());
+    }
+
+    @Test
+    void solverRunCrosswordComposerSize3x3() {
+        final int exitCode = cli("solver", "run", "Crossword Composer", "--size", "3x3");
+
+        assertEquals(SUCCESS, exitCode);
+        assertEquals("""
+                     Result: SUCCESS
+
+                     |G|A|D|
+                     |L|B|J|
+                     |C|M|D|
+
+                     """, out());
+        assertEquals("", err());
+    }
 }
