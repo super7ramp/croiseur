@@ -42,6 +42,12 @@ abstract class TestRuntime {
     /** Application rejected malformed or incomplete command. */
     protected static final int INPUT_ERROR = 2;
 
+    /**
+     * The host locale, assumed constant for JVM lifetime. Locale is overridden during test
+     * execution for reproducibility and restored afterwards.
+     */
+    private static final Locale ORIGIN_LOCALE = Locale.getDefault();
+
     /** Emulated output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -59,7 +65,7 @@ abstract class TestRuntime {
      * system's locale.
      */
     @BeforeAll
-    public static void setEnglishLocale() {
+    static void setEnglishLocale() {
         Locale.setDefault(Locale.ENGLISH);
     }
 
@@ -77,12 +83,13 @@ abstract class TestRuntime {
     }
 
     /**
-     * Restores standard system output streams once tests have finished.
+     * Restores standard system output streams and default locale once tests have finished.
      */
     @AfterAll
     static void tearDown() {
         System.setOut(System.out);
         System.setErr(System.err);
+        Locale.setDefault(ORIGIN_LOCALE);
     }
 
     /**
