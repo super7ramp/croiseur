@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import org.mockito.Mockito;
 
 import java.util.Objects;
 
@@ -23,6 +24,9 @@ public final class TestContext {
     /** The mocked presenter. */
     private Presenter presenterMock;
 
+    /** The spied puzzle repository. */
+    private PuzzleRepositorySpy puzzleRepositorySpy;
+
     /**
      * Returns the dictionary service.
      *
@@ -31,7 +35,7 @@ public final class TestContext {
      */
     public DictionaryService dictionaryService() {
         Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                "called a deployment step?");
+                                                 "called a deployment step?");
         return crosswordService.dictionaryService();
     }
 
@@ -43,7 +47,7 @@ public final class TestContext {
      */
     public SolverService solverService() {
         Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                "called a deployment step?");
+                                                 "called a deployment step?");
         return crosswordService.solverService();
     }
 
@@ -55,24 +59,51 @@ public final class TestContext {
      */
     public Presenter presenterMock() {
         Objects.requireNonNull(presenterMock, "Presenter mock not initialized, have you called a " +
-                "deployment step?");
+                                              "deployment step?");
         return presenterMock;
+    }
+
+    /**
+     * Returns the puzzle repository.
+     *
+     * @return the puzzle repository
+     * @throws NullPointerException if test context is not initialised
+     */
+    public PuzzleRepositorySpy puzzleRepositorySpy() {
+        Objects.requireNonNull(presenterMock,
+                               "Puzzle repository not initialized, have you called a " +
+                               "deployment step?");
+        return puzzleRepositorySpy;
     }
 
     /**
      * Initialises the test context with the given information.
      *
-     * @param crosswordServiceArg the crossword service
-     * @param presenterMockArg    the mocked presenter
+     * @param crosswordServiceArg    the crossword service
+     * @param puzzleRepositorySpyArg the spied puzzle repository
+     * @param presenterMockArg       the mocked presenter
      * @throws IllegalStateException if test context is already initialised
      */
-    void deploy(final CrosswordService crosswordServiceArg, final Presenter presenterMockArg) {
-        if (crosswordService != null || presenterMock != null) {
+    void deploy(final CrosswordService crosswordServiceArg,
+                final PuzzleRepositorySpy puzzleRepositorySpyArg,
+                final Presenter presenterMockArg) {
+        if (crosswordService != null || puzzleRepositorySpy != null || presenterMock != null) {
             throw new IllegalStateException("Already deployed, did you try to instantiate " +
-                    "application twice in the same test?");
+                                            "application twice in the same test?");
         }
         crosswordService = crosswordServiceArg;
+        puzzleRepositorySpy = puzzleRepositorySpyArg;
         presenterMock = presenterMockArg;
+    }
+
+    /**
+     * Checks that all interactions have been verified.
+     *
+     * @throws NullPointerException if context not deployed
+     */
+    void verifyNoMoreInteractions() {
+        Mockito.verifyNoMoreInteractions(presenterMock);
+        puzzleRepositorySpy.verifyNoMoreInteractions();
     }
 
     /**
@@ -80,6 +111,7 @@ public final class TestContext {
      */
     void undeploy() {
         crosswordService = null;
+        puzzleRepositorySpy = null;
         presenterMock = null;
     }
 }

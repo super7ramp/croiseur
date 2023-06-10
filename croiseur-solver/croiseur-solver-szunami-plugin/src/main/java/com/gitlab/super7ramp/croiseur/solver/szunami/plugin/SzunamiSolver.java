@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Crossword;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Filler;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Result;
@@ -47,7 +47,7 @@ public final class SzunamiSolver implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) throws InterruptedException {
         final com.gitlab.super7ramp.croiseur.solver.szunami.Dictionary adaptedDictionary =
                 DictionaryAdapter.adapt(dictionary);

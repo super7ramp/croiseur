@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
+import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;

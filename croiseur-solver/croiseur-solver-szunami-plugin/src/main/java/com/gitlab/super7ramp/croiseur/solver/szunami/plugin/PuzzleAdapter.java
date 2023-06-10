@@ -5,15 +5,15 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Crossword;
 
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Adapts {@link PuzzleDefinition} into xwords-rs' {@link Crossword}.
+ * Adapts {@link PuzzleGrid} into xwords-rs' {@link Crossword}.
  */
 final class PuzzleAdapter {
 
@@ -23,17 +23,17 @@ final class PuzzleAdapter {
     }
 
     /**
-     * Adapts {@link PuzzleDefinition} into xwords-rs' {@link Crossword}.
+     * Adapts {@link PuzzleGrid} into xwords-rs' {@link Crossword}.
      *
-     * @param puzzleDefinition a {@link PuzzleDefinition}
+     * @param puzzleGrid a {@link PuzzleGrid}
      * @return xwords-rs' {@link Crossword}
      */
-    static Crossword adapt(final PuzzleDefinition puzzleDefinition) {
+    static Crossword adapt(final PuzzleGrid puzzleGrid) {
 
-        final int width = puzzleDefinition.width();
-        final int height = puzzleDefinition.height();
-        final Set<GridPosition> shaded = puzzleDefinition.shaded();
-        final Map<GridPosition, Character> filled = puzzleDefinition.filled();
+        final int width = puzzleGrid.width();
+        final int height = puzzleGrid.height();
+        final Set<GridPosition> shaded = puzzleGrid.shaded();
+        final Map<GridPosition, Character> filled = puzzleGrid.filled();
 
         final StringBuilder contentsBuilder = new StringBuilder();
         for (int row = 0; row < height; row++) {

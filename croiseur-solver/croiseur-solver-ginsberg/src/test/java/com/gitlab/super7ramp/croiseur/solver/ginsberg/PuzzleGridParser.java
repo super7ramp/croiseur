@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * Parser for textual representation of puzzle definition.
  */
-public final class PuzzleDefinitionParser {
+public final class PuzzleGridParser {
 
     private static final Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");
 
@@ -26,7 +26,7 @@ public final class PuzzleDefinitionParser {
     /**
      * Constructor.
      */
-    private PuzzleDefinitionParser() {
+    private PuzzleGridParser() {
         // Nothing to do.
     }
 
@@ -42,9 +42,9 @@ public final class PuzzleDefinitionParser {
      * of a file with Windows or Unix line endings.
      *
      * @param puzzle the string representation
-     * @return the {@link PuzzleDefinition}
+     * @return the {@link PuzzleGrid}
      */
-    public static PuzzleDefinition parsePuzzle(final String puzzle) {
+    public static PuzzleGrid parse(final String puzzle) {
         final Set<GridPosition> shaded = new HashSet<>();
         final Map<GridPosition, Character> prefilled = new HashMap<>();
         final String[] lines = splitLines(puzzle);
@@ -70,7 +70,7 @@ public final class PuzzleDefinitionParser {
             }
         }
 
-        return new PuzzleDefinition(width, height, shaded, prefilled);
+        return new PuzzleGrid(width, height, shaded, prefilled);
     }
 
     /**

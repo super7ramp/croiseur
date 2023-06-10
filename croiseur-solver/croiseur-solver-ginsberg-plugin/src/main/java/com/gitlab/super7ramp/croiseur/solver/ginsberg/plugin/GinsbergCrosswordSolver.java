@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
@@ -121,7 +121,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) throws InterruptedException {
         final com.gitlab.super7ramp.croiseur.solver.ginsberg.Dictionary adaptedDictionary =
                 dictionary::words;

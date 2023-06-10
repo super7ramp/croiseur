@@ -93,4 +93,9 @@ final class BroadcastingPresenter implements Presenter {
     public void presentSolverError(final String error) {
         presenters.forEach(p -> p.presentSolverError(error));
     }
+
+    @Override
+    public void presentPuzzleRepositoryError(final String error) {
+        presenters.forEach(p -> presentPuzzleRepositoryError(error));
+    }
 }

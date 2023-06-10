@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.sap.Backtracker;
@@ -105,19 +105,19 @@ public final class GinsbergCrosswordSolver {
     /**
      * Solve the given puzzle, using the given dictionary.
      *
-     * @param puzzleDefinition   the puzzle to solve
+     * @param puzzleGrid   the puzzle to solve
      * @param externalDictionary the dictionary to use
      * @param progressListener   the progress listener
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    public SolverResult solve(final PuzzleDefinition puzzleDefinition,
+    public SolverResult solve(final PuzzleGrid puzzleGrid,
                               final Dictionary externalDictionary,
                               final ProgressListener progressListener) throws InterruptedException {
 
         progressListener.onInitialisationStart();
 
-        final Crossword crossword = Crossword.create(puzzleDefinition, externalDictionary);
+        final Crossword crossword = Crossword.create(puzzleGrid, externalDictionary);
         final StatisticsRecorder stats = new StatisticsRecorder();
         final Solver solver = newSolver(crossword, progressListener, stats);
         printPuzzleInsights(crossword);
@@ -137,7 +137,7 @@ public final class GinsbergCrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary)
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary)
             throws InterruptedException {
         return solve(puzzle, dictionary, ProgressListener.DUMMY_LISTENER);
     }

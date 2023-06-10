@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -41,7 +41,7 @@ final class CrosswordSolverAsymmetricGridTest {
 
     @Test
     void shaded6x4() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | | |#| |
                 | | |#| | | |
                 | | |#| | | |
@@ -61,7 +61,7 @@ final class CrosswordSolverAsymmetricGridTest {
     @Test
     @Disabled("Solver not performant enough for now / no solution with dictionary?")
     void shaded12x10() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | | | | | | | | | | |
                 | | | | |#| | | | | | | |
                 | | | | | | | | | | |#| |

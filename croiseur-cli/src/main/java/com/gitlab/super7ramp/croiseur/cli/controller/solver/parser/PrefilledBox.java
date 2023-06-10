@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.solver.parser;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

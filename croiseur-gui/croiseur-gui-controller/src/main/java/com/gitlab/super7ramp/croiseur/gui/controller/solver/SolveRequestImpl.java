@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
@@ -22,7 +22,7 @@ import java.util.Random;
 final class SolveRequestImpl implements SolveRequest {
 
     /** The puzzle definition. */
-    private final PuzzleDefinition puzzle;
+    private final PuzzleGrid puzzle;
 
     /** Selected dictionaries. */
     private final Collection<DictionaryIdentifier> dictionaries;
@@ -46,7 +46,7 @@ final class SolveRequestImpl implements SolveRequest {
                      final SolverSelectionViewModel solverSelectionViewModel,
                      final Random randomArg) {
 
-        final var pdb = new PuzzleDefinition.PuzzleDefinitionBuilder();
+        final var pdb = new PuzzleGrid.Builder();
         final var boxes = crosswordGridViewModel.boxesProperty();
         boxes.forEach((position, box) -> {
             if (box.isShaded()) {
@@ -69,8 +69,13 @@ final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public PuzzleDefinition puzzle() {
+    public PuzzleGrid grid() {
         return puzzle;
+    }
+
+    @Override
+    public boolean savePuzzle() {
+        return false;
     }
 
     @Override

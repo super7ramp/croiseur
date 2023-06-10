@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.state;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.Dictionary;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.dictionary.CachedDictionaryWriter;
@@ -57,14 +57,14 @@ public final class Crossword {
     /**
      * Creates new {@link Crossword} from API.
      *
-     * @param puzzleDefinition   the puzzle definition
+     * @param puzzleGrid   the puzzle definition
      * @param externalDictionary the external dictionary service
      * @return a new {@link Crossword}
      */
-    public static Crossword create(final PuzzleDefinition puzzleDefinition,
+    public static Crossword create(final PuzzleGrid puzzleGrid,
                                    final Dictionary externalDictionary) {
 
-        final Grid grid = Grid.create(puzzleDefinition);
+        final Grid grid = Grid.create(puzzleGrid);
         final Collection<Slot> slots = grid.puzzle().slots();
 
         final EliminationSpaceWriter eliminationSpace = EliminationSpaceWriter.create();

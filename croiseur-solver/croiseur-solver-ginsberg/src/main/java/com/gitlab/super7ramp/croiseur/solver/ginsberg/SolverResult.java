@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 
 import java.util.Map;
 import java.util.Set;

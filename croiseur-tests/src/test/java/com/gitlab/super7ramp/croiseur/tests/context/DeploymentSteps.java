@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.tests.context;
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
@@ -57,23 +58,25 @@ public final class DeploymentSteps {
     }
 
     /**
-     * Instantiates croiseur, simulating the deployment of an application using the library,
-     * without dictionary provider.
+     * Instantiates croiseur, simulating the deployment of an application using the library, without
+     * dictionary provider.
      */
     @Given("an application deployed without dictionary provider")
     public void givenDeployedWithoutDictionaryProvider() {
         final Collection<DictionaryProvider> dictionaryProviders = Collections.emptyList();
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
     }
 
     @Given("an application deployed without solver")
     public void givenDeployedWithoutSolver() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = Collections.emptyList();
+        final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -83,8 +86,9 @@ public final class DeploymentSteps {
     public void deploy() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -101,18 +105,35 @@ public final class DeploymentSteps {
                             .toList();
     }
 
+    /**
+     * Loads the puzzle repository spy.
+     *
+     * @return the puzzle repository spy
+     */
+    private static PuzzleRepositorySpy loadRepositorySpy() {
+        final PuzzleRepository puzzleRepository =
+                load(PuzzleRepository.class).stream().findFirst().orElseThrow(
+                        () -> new IllegalStateException(
+                                "No puzzle repository implementation found, check your tests setup"));
+        return new PuzzleRepositorySpy(puzzleRepository);
+    }
+
     private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
-                        final Collection<CrosswordSolver> solvers, final Presenter presenter) {
+                        final Collection<CrosswordSolver> solvers,
+                        final PuzzleRepositorySpy puzzleRepository, final Presenter presenter) {
         final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                                                                          solvers, presenter);
-        testContext.deploy(crosswordService, presenter);
+                                                                          solvers, puzzleRepository,
+                                                                          presenter);
+        testContext.deploy(crosswordService, puzzleRepository, presenter);
     }
 
     /**
-     * Cleans reference to the croiseur library once scenario has tested it.
+     * Verifies that all interactions have been verified and cleans reference to the croiseur
+     * library.
      */
     @After
-    public void undeploy() {
+    public void after() {
+        testContext.verifyNoMoreInteractions();
         testContext.undeploy();
     }
 

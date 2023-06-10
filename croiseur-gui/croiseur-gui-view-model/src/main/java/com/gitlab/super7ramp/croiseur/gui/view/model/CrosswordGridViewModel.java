@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;

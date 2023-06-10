@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -20,7 +20,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void partiallyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | |
                 | | | |
                 | | |#|
@@ -43,7 +43,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void entirelyShadedGrid() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |#|#|#|
                 |#|#|#|
                 |#|#|#|

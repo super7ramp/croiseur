@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 import picocli.CommandLine;
 

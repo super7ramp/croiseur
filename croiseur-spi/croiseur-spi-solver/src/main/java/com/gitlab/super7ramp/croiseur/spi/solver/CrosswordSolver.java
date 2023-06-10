@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.solver;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * A crossword solver.
@@ -37,7 +37,7 @@ public interface CrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    default SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary) throws InterruptedException {
+    default SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary) throws InterruptedException {
         return solve(puzzle, dictionary, ProgressListener.DUMMY_LISTENER);
     }
 
@@ -50,7 +50,7 @@ public interface CrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
+    SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
                        final ProgressListener progressListener) throws InterruptedException;
 
 }

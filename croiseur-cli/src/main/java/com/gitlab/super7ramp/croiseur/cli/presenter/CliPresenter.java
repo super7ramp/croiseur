@@ -92,4 +92,9 @@ public final class CliPresenter implements Presenter {
     public void presentDictionaryError(final String error) {
         cliDictionaryPresenter.presentDictionaryError(error);
     }
+
+    @Override
+    public void presentPuzzleRepositoryError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

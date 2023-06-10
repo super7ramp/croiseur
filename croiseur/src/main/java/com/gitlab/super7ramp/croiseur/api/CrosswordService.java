@@ -10,6 +10,8 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.impl.CrosswordServiceImpl;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.DummyPuzzleRepository;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 import java.util.Collection;
@@ -27,14 +29,17 @@ public interface CrosswordService {
      * Required services are explicitly passed as arguments.
      *
      * @param dictionaryProviders the dictionary providers
-     * @param solvers             the solver
+     * @param solvers             the solvers
+     * @param puzzleRepository    the puzzle repository; If puzzle repository service is not going
+     *                            to be used, then {@link DummyPuzzleRepository} can be passed here
      * @param presenter           the presenter
      * @return a new instance of {@link CrosswordService}
      */
     static CrosswordService create(final Collection<DictionaryProvider> dictionaryProviders,
                                    final Collection<CrosswordSolver> solvers,
+                                   final PuzzleRepository puzzleRepository,
                                    final Presenter presenter) {
-        return new CrosswordServiceImpl(solvers, dictionaryProviders, presenter);
+        return new CrosswordServiceImpl(solvers, dictionaryProviders, puzzleRepository, presenter);
     }
 
     /**
@@ -48,12 +53,16 @@ public interface CrosswordService {
     static CrosswordService create() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final PuzzleRepository puzzleRepository =
+                load(PuzzleRepository.class).stream().findFirst().orElseGet(
+                        DummyPuzzleRepository::new);
         final Collection<Presenter> presenters = load(Presenter.class);
         if (presenters.isEmpty()) {
             throw new IllegalStateException(
                     "Failed to instantiate crossword service: No presenter found");
         }
-        return create(dictionaryProviders, solvers, Presenter.broadcastingTo(presenters));
+        return create(dictionaryProviders, solvers, puzzleRepository,
+                      Presenter.broadcastingTo(presenters));
     }
 
     /**

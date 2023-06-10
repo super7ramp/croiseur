@@ -21,6 +21,7 @@ module com.gitlab.super7ramp.croiseur {
      * visible from client API.
      */
     requires transitive com.gitlab.super7ramp.croiseur.spi.dictionary;
+    requires transitive com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
     requires transitive com.gitlab.super7ramp.croiseur.spi.solver;
     requires transitive com.gitlab.super7ramp.croiseur.spi.presenter;
 

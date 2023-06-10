@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.api.solver;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ import java.util.Random;
 public interface SolveRequest {
 
     /** Defines how progress should be notified to application for presentation. */
-    // TODO expand possibilities of notification, e.g. allows to define a certain timeout; will
+    // TODO expand possibilities of notification, e.g. allows to define a certain refresh frequency; will
     //  impact solver SPI
     enum SolverProgressNotificationMethod {
         /** Progress is never notified for presentation. */
@@ -29,11 +29,18 @@ public interface SolveRequest {
     }
 
     /**
-     * The puzzle to solve.
+     * The grid to solve.
      *
-     * @return the puzzle to solve
+     * @return the grid to solve
      */
-    PuzzleDefinition puzzle();
+    PuzzleGrid grid();
+
+    /**
+     * Whether the given {@link #grid()} shall be saved to puzzle repository.
+     *
+     * @return {@code true} if given {@link #grid()} shall be saved to puzzle repository
+     */
+    boolean savePuzzle();
 
     /**
      * The dictionaries to use.

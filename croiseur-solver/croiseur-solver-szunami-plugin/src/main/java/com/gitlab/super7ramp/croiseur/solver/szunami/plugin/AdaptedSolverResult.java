@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Result;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
@@ -36,7 +36,7 @@ final class AdaptedSolverResult implements SolverResult {
      * @param result   the result returned by xwords-rs
      * @param original the original puzzle
      */
-    AdaptedSolverResult(final Result result, final PuzzleDefinition original) {
+    AdaptedSolverResult(final Result result, final PuzzleGrid original) {
         if (result.isOk()) {
             kind = Kind.SUCCESS;
             filledBoxes = new HashMap<>();

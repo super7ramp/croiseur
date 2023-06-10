@@ -5,14 +5,14 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Test;
 
 final class CrosswordSolverPrefilledGridTest {
 
     @Test
     void partiallyFilled() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |A| | |
                 |B| | |
                 |C| | |
@@ -30,7 +30,7 @@ final class CrosswordSolverPrefilledGridTest {
 
     @Test
     void entirelyFilled() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |A|A|A|
                 |B|B|B|
                 |C|D|E|

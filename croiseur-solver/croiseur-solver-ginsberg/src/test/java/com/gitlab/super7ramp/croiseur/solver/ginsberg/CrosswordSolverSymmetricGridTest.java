@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
+import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleGridParser.parse;
 
 /**
  * Tests on classic Anglo-Saxon symmetric grids.
@@ -45,7 +45,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded5x5() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleGrid puzzle = parse("""
                 |#|#| | | |
                 |#| | | | |
                 | | | | | |
@@ -69,7 +69,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded9x9() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleGrid puzzle = parse("""
                 |#|#|#| | | |#|#|#|
                 |#|#| | | | | |#|#|
                 |#| | | | | | | |#|
@@ -101,7 +101,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded13x13WithLongWords() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleGrid puzzle = parse("""
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
@@ -141,7 +141,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded13x13() throws InterruptedException {
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleGrid puzzle = parse("""
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
                 | | | | |#| | | |#| | | | |
@@ -183,7 +183,7 @@ final class CrosswordSolverSymmetricGridTest {
     @Test
     void shaded15x15() throws InterruptedException {
 
-        final PuzzleDefinition puzzle = parsePuzzle("""
+        final PuzzleGrid puzzle = parse("""
                 | | | | |#| | | | | |#| | | | |
                 | | | | |#| | | | | |#| | | | |
                 | | | | |#| | | | | |#| | | | |

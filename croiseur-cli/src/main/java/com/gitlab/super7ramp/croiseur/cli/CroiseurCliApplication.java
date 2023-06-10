@@ -18,7 +18,7 @@ import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.RandomParser;
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
 

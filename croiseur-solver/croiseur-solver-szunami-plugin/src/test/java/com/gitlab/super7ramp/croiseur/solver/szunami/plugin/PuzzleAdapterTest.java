@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Crossword;
 import org.junit.jupiter.api.Test;
 
@@ -19,15 +19,15 @@ final class PuzzleAdapterTest {
 
     @Test
     void adapt() {
-        final PuzzleDefinition puzzleDefinition =
-                new PuzzleDefinition.PuzzleDefinitionBuilder()
+        final PuzzleGrid puzzleGrid =
+                new PuzzleGrid.Builder()
                         .height(4)
                         .width(3)
                         .shade(new GridPosition(1, 2))
                         .fill(new GridPosition(2, 1), 'A')
                         .build();
 
-        final Crossword crossword = PuzzleAdapter.adapt(puzzleDefinition);
+        final Crossword crossword = PuzzleAdapter.adapt(puzzleGrid);
 
         assertEquals(4, crossword.height());
         assertEquals(3, crossword.width());

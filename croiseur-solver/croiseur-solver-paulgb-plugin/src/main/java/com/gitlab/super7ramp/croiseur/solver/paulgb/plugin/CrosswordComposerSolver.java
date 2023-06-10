@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Puzzle;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Solution;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Solver;
@@ -71,7 +71,7 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) throws InterruptedException {
 
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);

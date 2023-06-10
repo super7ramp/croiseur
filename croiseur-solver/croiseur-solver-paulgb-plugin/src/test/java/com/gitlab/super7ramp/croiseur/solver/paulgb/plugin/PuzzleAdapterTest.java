@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Puzzle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -27,8 +27,8 @@ final class PuzzleAdapterTest {
      */
     @Test
     void symmetric() {
-        final PuzzleDefinition puzzle = new PuzzleDefinition(4, 4, Collections.emptySet(),
-                Collections.emptyMap());
+        final PuzzleGrid puzzle = new PuzzleGrid(4, 4, Collections.emptySet(),
+                                                 Collections.emptyMap());
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
@@ -54,8 +54,8 @@ final class PuzzleAdapterTest {
      */
     @Test
     void asymmetric() {
-        final PuzzleDefinition puzzle = new PuzzleDefinition(3, 5, Collections.emptySet(),
-                Collections.emptyMap());
+        final PuzzleGrid puzzle = new PuzzleGrid(3, 5, Collections.emptySet(),
+                                                 Collections.emptyMap());
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
@@ -88,12 +88,12 @@ final class PuzzleAdapterTest {
     @Test
     void shaded() {
 
-        final PuzzleDefinition puzzle =
-                new PuzzleDefinition.PuzzleDefinitionBuilder().width(4)
-                                                              .height(4)
-                                                              .shade(new GridPosition(0, 0))
-                                                              .shade(new GridPosition(2, 2))
-                                                              .build();
+        final PuzzleGrid puzzle =
+                new PuzzleGrid.Builder().width(4)
+                                        .height(4)
+                                        .shade(new GridPosition(0, 0))
+                                        .shade(new GridPosition(2, 2))
+                                        .build();
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
         final Puzzle emptyGrid = PuzzleAdapter.adapt(numberedPuzzle);
@@ -120,8 +120,8 @@ final class PuzzleAdapterTest {
      */
     @Test
     void prefilled() {
-        final PuzzleDefinition puzzle = new PuzzleDefinition(4, 4, Collections.emptySet(),
-                Collections.singletonMap(new GridPosition(0, 0), 'A'));
+        final PuzzleGrid puzzle = new PuzzleGrid(4, 4, Collections.emptySet(),
+                                                 Collections.singletonMap(new GridPosition(0, 0), 'A'));
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
 
         final Executable call = () -> PuzzleAdapter.adapt(numberedPuzzle);

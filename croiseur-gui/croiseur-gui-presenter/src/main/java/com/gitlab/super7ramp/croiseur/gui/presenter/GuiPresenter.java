@@ -101,4 +101,9 @@ public final class GuiPresenter implements Presenter {
     public void presentDictionaryError(final String error) {
         dictionaryPresenter.presentDictionaryError(error);
     }
+
+    @Override
+    public void presentPuzzleRepositoryError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.result;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.SolverResult;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.listener.StatisticsRecorder;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.state.Crossword;

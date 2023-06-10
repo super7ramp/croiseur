@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ final class CrosswordSolverBasicsTest {
     @Test
     @Disabled("Assess whether preventing values to be re-used actually is worth it")
     void empty3x3() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | |
                 | | | |
                 | | | |
@@ -43,7 +43,7 @@ final class CrosswordSolverBasicsTest {
 
     @Test
     void empty3x4() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | |
                 | | | |
                 | | | |

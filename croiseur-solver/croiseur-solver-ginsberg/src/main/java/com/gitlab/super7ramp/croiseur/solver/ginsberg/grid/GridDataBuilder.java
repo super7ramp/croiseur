@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 import java.util.HashMap;
@@ -73,12 +73,12 @@ public final class GridDataBuilder {
     }
 
     /**
-     * Use a {@link PuzzleDefinition} to build the grid.
+     * Use a {@link PuzzleGrid} to build the grid.
      *
-     * @param puzzle the {@link PuzzleDefinition}
+     * @param puzzle the {@link PuzzleGrid}
      * @return this {@link GridDataBuilder}
      */
-    public GridDataBuilder from(final PuzzleDefinition puzzle) {
+    public GridDataBuilder from(final PuzzleGrid puzzle) {
         width = puzzle.width();
         height = puzzle.height();
         shaded.addAll(puzzle.shaded());

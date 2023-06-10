@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.solver;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +22,16 @@ public interface SolverResult {
         /** The grid has been successfully solved. */
         SUCCESS,
         /** No solution exists. */
-        IMPOSSIBLE
+        IMPOSSIBLE;
+
+        /**
+         * Return {@code true} if result is a success
+         *
+         * @return {@code true} if result is a success
+         */
+        public boolean isSuccess() {
+            return this == SUCCESS;
+        }
     }
 
     /**
@@ -33,13 +42,12 @@ public interface SolverResult {
     /**
      * The filled boxes.
      * <p>
-     * Contains the entire grid filled if {@link #kind()} is
-     * {@link Kind#SUCCESS}.
+     * Contains the entire grid filled if {@link #kind()} is {@link Kind#SUCCESS}.
      * <p>
      * When {@link #kind()} is {@link Kind#IMPOSSIBLE}, the returned map contains only the boxes
      * that have been successfully filled, either by the solver or pre-filled. A special situation
-     * is when a pre-filled box is not in the dictionary: In this case, the box will be here as
-     * well as in {@link #unsolvableBoxes()}.
+     * is when a pre-filled box is not in the dictionary: In this case, the box will be here as well
+     * as in {@link #unsolvableBoxes()}.
      *
      * @return the filled boxes
      */

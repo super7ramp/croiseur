@@ -6,15 +6,16 @@
 package com.gitlab.super7ramp.croiseur.spi.presenter;
 
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 
 /**
  * Required presentation services.
  * <p>
- * A marker interface: Relevant methods to implement are in {@link DictionaryPresenter} and
- * {@link SolverPresenter}.
+ * A marker interface: Relevant methods to implement are in {@link DictionaryPresenter},
+ * {@link PuzzlePresenter} and {@link SolverPresenter}.
  */
-public interface Presenter extends DictionaryPresenter, SolverPresenter {
+public interface Presenter extends DictionaryPresenter, PuzzlePresenter, SolverPresenter {
 
     /**
      * Convenience method to construct a presenter aggregating several presenters.

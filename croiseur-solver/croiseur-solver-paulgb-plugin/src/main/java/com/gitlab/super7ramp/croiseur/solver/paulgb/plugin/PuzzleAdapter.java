@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Puzzle;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Adapts {@link PuzzleDefinition} into Crossword Composer's {@link Puzzle}.
+ * Adapts {@link PuzzleGrid} into Crossword Composer's {@link Puzzle}.
  */
 // TODO simplify (just like GridDataBuilder in ginsberg solver, code is too convoluted)
 final class PuzzleAdapter {
@@ -27,9 +27,9 @@ final class PuzzleAdapter {
     }
 
     /**
-     * Adapts {@link PuzzleDefinition} into Crossword Composer's {@link Puzzle}.
+     * Adapts {@link PuzzleGrid} into Crossword Composer's {@link Puzzle}.
      *
-     * @param puzzleDefinition a {@link PuzzleDefinition}
+     * @param puzzleDefinition a {@link PuzzleGrid}
      * @return Crossword Composer's {@link Puzzle}
      * @throws UnsupportedOperationException if the grid contains pre-filled cells: It is not
      *                                       supported by Crossword Composer

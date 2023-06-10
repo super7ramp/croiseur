@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.szunami.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Crossword;
 import com.gitlab.super7ramp.croiseur.solver.szunami.Result;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
@@ -26,7 +26,7 @@ final class AdaptedSolverResultTest {
     @Test
     void success() {
 
-        final PuzzleDefinition originalPuzzle = new PuzzleDefinition.PuzzleDefinitionBuilder()
+        final PuzzleGrid originalPuzzle = new PuzzleGrid.Builder()
                 .height(3)
                 .width(2)
                 .shade(new GridPosition(1, 2))
@@ -53,7 +53,7 @@ final class AdaptedSolverResultTest {
     @Test
     void impossible() {
 
-        final PuzzleDefinition originalPuzzle = new PuzzleDefinition.PuzzleDefinitionBuilder()
+        final PuzzleGrid originalPuzzle = new PuzzleGrid.Builder()
                 .height(3)
                 .width(2)
                 .shade(new GridPosition(1, 2))

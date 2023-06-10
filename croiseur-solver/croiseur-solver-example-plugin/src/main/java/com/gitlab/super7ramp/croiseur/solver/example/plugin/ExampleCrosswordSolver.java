@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.example.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
@@ -43,7 +43,7 @@ public final class ExampleCrosswordSolver implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleDefinition puzzle, final Dictionary dictionary,
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
                               final ProgressListener progressListener) {
 
         /*

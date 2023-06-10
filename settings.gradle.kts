@@ -14,6 +14,7 @@ include("croiseur-common")
 // The application core library plugin definitions
 include("croiseur-spi:croiseur-spi-dictionary")
 include("croiseur-spi:croiseur-spi-solver")
+include("croiseur-spi:croiseur-spi-puzzle-repository")
 include("croiseur-spi:croiseur-spi-presenter")
 
 // Dictionary codecs/data/plugins/tools
@@ -39,6 +40,9 @@ include("croiseur-solver:croiseur-solver-paulgb-plugin")
 include("croiseur-solver:croiseur-solver-szunami")
 include("croiseur-solver:croiseur-solver-szunami:xwords-rs-jni")
 include("croiseur-solver:croiseur-solver-szunami-plugin")
+
+// Puzzles codecs/data/providers
+include("croiseur-puzzle:croiseur-puzzle-repository-memory-plugin")
 
 // CLI frontend
 include("croiseur-cli")

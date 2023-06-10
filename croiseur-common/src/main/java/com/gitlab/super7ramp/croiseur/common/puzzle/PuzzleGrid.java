@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.common;
+package com.gitlab.super7ramp.croiseur.common.puzzle;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,14 +14,20 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Definition of a crossword puzzle.
+ * Definition of the grid of a crossword puzzle.
+ *
+ * @param width  width of the grid
+ * @param height height of the grid
+ * @param shaded coordinates of the shaded boxes
+ * @param filled prefilled boxes
  */
-public final class PuzzleDefinition {
+public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
+                         Map<GridPosition, Character> filled) {
 
     /**
-     * A {@link PuzzleDefinition} builder.
+     * A {@link PuzzleGrid} builder.
      */
-    public static final class PuzzleDefinitionBuilder {
+    public static final class Builder {
 
         /** Shaded boxes. */
         private final Set<GridPosition> shaded;
@@ -38,7 +44,7 @@ public final class PuzzleDefinition {
         /**
          * Constructor.
          */
-        public PuzzleDefinitionBuilder() {
+        public Builder() {
             shaded = new HashSet<>();
             filled = new HashMap<>();
         }
@@ -51,7 +57,7 @@ public final class PuzzleDefinition {
          * @param position the position to shade
          * @return this builder
          */
-        public PuzzleDefinitionBuilder shade(final GridPosition position) {
+        public Builder shade(final GridPosition position) {
             filled.remove(position);
             shaded.add(position);
             return this;
@@ -66,8 +72,7 @@ public final class PuzzleDefinition {
          * @param character the character to set
          * @return this builder
          */
-        public PuzzleDefinitionBuilder fill(final GridPosition position,
-                                            final Character character) {
+        public Builder fill(final GridPosition position, final Character character) {
             shaded.remove(position);
             filled.put(position, character);
             return this;
@@ -79,7 +84,7 @@ public final class PuzzleDefinition {
          * @param widthArg the new width
          * @return this builder
          */
-        public PuzzleDefinitionBuilder width(final int widthArg) {
+        public Builder width(final int widthArg) {
             width = widthArg;
             return this;
         }
@@ -90,71 +95,39 @@ public final class PuzzleDefinition {
          * @param heightArg the new height
          * @return this builder
          */
-        public PuzzleDefinitionBuilder height(final int heightArg) {
+        public Builder height(final int heightArg) {
             height = heightArg;
             return this;
         }
 
         /**
-         * Builds the {@link PuzzleDefinition} from this builder.
+         * Builds the {@link PuzzleGrid} from this builder.
          *
-         * @return a new {@link PuzzleDefinition}
+         * @return a new {@link PuzzleGrid}
          */
-        public PuzzleDefinition build() {
-            return new PuzzleDefinition(width, height, shaded, filled);
+        public PuzzleGrid build() {
+            return new PuzzleGrid(width, height, shaded, filled);
         }
     }
 
-    /** Width of the grid. */
-    private final int width;
-
-    /** Height of the grid. */
-    private final int height;
-
-    /** Shaded boxes. */
-    private final Set<GridPosition> shaded;
-
-    /** Filled boxes. */
-    private final Map<GridPosition, Character> filled;
-
     /**
-     * Constructor.
+     * Validates grid.
      *
-     * @param aWidth        width of the grid
-     * @param aHeight       height of the grid
-     * @param someShaded    coordinates of the shaded boxes
-     * @param somePrefilled prefilled boxes
+     * @param width  width of the grid
+     * @param height height of the grid
+     * @param shaded coordinates of the shaded boxes
+     * @param filled prefilled boxes
      */
-    public PuzzleDefinition(final int aWidth, final int aHeight, final Set<GridPosition> someShaded,
-                            final Map<GridPosition, Character> somePrefilled) {
-        validate(aWidth, aHeight, someShaded, somePrefilled);
-
-        width = aWidth;
-        height = aHeight;
-        shaded = new HashSet<>(someShaded);
-        filled = new HashMap<>(somePrefilled);
-    }
-
-    /**
-     * Validate inputs.
-     *
-     * @param aWidth        width of the grid
-     * @param aHeight       height of the grid
-     * @param someShaded    coordinates of the shaded boxes
-     * @param somePrefilled prefilled boxes
-     */
-    private static void validate(final int aWidth, final int aHeight,
-                                 final Set<GridPosition> someShaded,
-                                 final Map<GridPosition, Character> somePrefilled) {
-        if (aWidth <= 0 || aHeight <= 0) {
+    public PuzzleGrid {
+        if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Invalid grid dimensions");
         }
-        Objects.requireNonNull(someShaded);
-        someShaded.forEach(validateCoordinates(aWidth, aHeight));
+        Objects.requireNonNull(shaded);
+        shaded.forEach(validateCoordinates(width, height));
 
-        Objects.requireNonNull(somePrefilled);
-        somePrefilled.keySet().forEach(validateCoordinates(aWidth, aHeight));
-        somePrefilled.values().forEach(Objects::requireNonNull);
+        Objects.requireNonNull(filled);
+        filled.keySet().forEach(validateCoordinates(width, height));
+        filled.values().forEach(Objects::requireNonNull);
     }
 
     /**
@@ -170,24 +143,6 @@ public final class PuzzleDefinition {
                 throw new IllegalArgumentException("Coordinates outside grid: " + coordinate);
             }
         };
-    }
-
-    /**
-     * Returns the width of the grid (i.e. the number of columns).
-     *
-     * @return the width of the grid (i.e. the number of columns)
-     */
-    public int width() {
-        return width;
-    }
-
-    /**
-     * Returns the height of the grid (i.e. the number of rows).
-     *
-     * @return the height of the grid (i.e. the number of rows)
-     */
-    public int height() {
-        return height;
     }
 
     /**
@@ -207,4 +162,5 @@ public final class PuzzleDefinition {
     public Map<GridPosition, Character> filled() {
         return Collections.unmodifiableMap(filled);
     }
+
 }

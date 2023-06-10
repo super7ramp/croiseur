@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg.grid;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.solver.ginsberg.core.Slot;
 
 import java.util.Map;
@@ -18,14 +18,14 @@ import java.util.Set;
 public interface Grid {
 
     /**
-     * Create a new grid from {@link PuzzleDefinition}.
+     * Create a new grid from {@link PuzzleGrid}.
      *
-     * @param puzzleDefinition the puzzle definition
+     * @param puzzleGrid the puzzle definition
      * @return the new grid
      */
-    static Grid create(final PuzzleDefinition puzzleDefinition) {
+    static Grid create(final PuzzleGrid puzzleGrid) {
         final GridDataBuilder gridBuilder = new GridDataBuilder();
-        gridBuilder.from(puzzleDefinition);
+        gridBuilder.from(puzzleGrid);
         return new GridImpl(gridBuilder.build());
     }
 

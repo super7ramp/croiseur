@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.croiseur.gui.view.CrosswordSolverPane;

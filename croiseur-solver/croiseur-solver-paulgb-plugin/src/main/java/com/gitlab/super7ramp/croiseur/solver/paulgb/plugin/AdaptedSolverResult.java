@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.solver.paulgb.Solution;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 

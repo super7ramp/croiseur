@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.controller.solver.adapter;
 
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 
 import java.util.HashMap;
 import java.util.Map;

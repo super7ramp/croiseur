@@ -13,4 +13,5 @@ module com.gitlab.super7ramp.croiseur.spi.presenter {
     exports com.gitlab.super7ramp.croiseur.spi.presenter;
     exports com.gitlab.super7ramp.croiseur.spi.presenter.solver;
     exports com.gitlab.super7ramp.croiseur.spi.presenter.dictionary;
+    exports com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
 }

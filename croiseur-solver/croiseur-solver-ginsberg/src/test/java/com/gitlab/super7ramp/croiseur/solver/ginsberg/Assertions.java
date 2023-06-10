@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleDefinitionParser.parsePuzzle;
+import static com.gitlab.super7ramp.croiseur.solver.ginsberg.PuzzleGridParser.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,7 +29,7 @@ final class Assertions {
      */
     static void assertSuccess(final String expected, final SolverResult result) {
         assertEquals(SolverResult.Kind.SUCCESS, result.kind());
-        assertEquals(parsePuzzle(expected).filled(), result.filledBoxes());
+        assertEquals(parse(expected).filled(), result.filledBoxes());
         assertTrue(result.unsolvableBoxes().isEmpty());
         // statistics ignored
     }

@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
+import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -26,7 +26,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void allSlotsImpossible() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle(
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
                 """
                 | | | |
                 | | | |
@@ -42,7 +42,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void oneSlotImpossible() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle(
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
                 """
                 |X| | |
                 |Y| | |
@@ -60,7 +60,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void twoSlotsImpossible() throws InterruptedException {
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle(
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
                 """
                 |X| | |
                 |Y| | |
@@ -84,7 +84,7 @@ final class CrosswordSolverImpossibleGridTest {
                                                                                            ".dic"));
         final Path dicPath = Path.of(dicUrl.toURI());
         final DictionaryMock dictionary = new DictionaryMock(dicPath);
-        final PuzzleDefinition puzzle = PuzzleDefinitionParser.parsePuzzle(
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
                 """
                 |O|S|C|I|L|L|A|T|I|O|N|
                 |B|O|A|#| |I| | | | | |

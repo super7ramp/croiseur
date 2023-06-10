@@ -10,8 +10,8 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -82,10 +82,15 @@ public final class SolveRequestImpl implements SolveRequest {
     }
 
     @Override
-    public PuzzleDefinition puzzle() {
-        return new PuzzleDefinition(size.width(), size.height(),
-                                    Arrays.stream(shadedBoxes).collect(toSet()),
-                                    mergePrefilledBoxes());
+    public PuzzleGrid grid() {
+        return new PuzzleGrid(size.width(), size.height(),
+                              Arrays.stream(shadedBoxes).collect(toSet()),
+                              mergePrefilledBoxes());
+    }
+
+    @Override
+    public boolean savePuzzle() {
+        return false;
     }
 
     @Override

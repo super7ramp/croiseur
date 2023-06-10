@@ -12,7 +12,7 @@ import com.gitlab.super7ramp.croiseur.cli.controller.solver.adapter.SolveRequest
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;

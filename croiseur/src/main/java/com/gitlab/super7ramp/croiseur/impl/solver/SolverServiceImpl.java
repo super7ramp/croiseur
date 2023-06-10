@@ -8,7 +8,8 @@ package com.gitlab.super7ramp.croiseur.impl.solver;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 import java.util.Collection;
@@ -29,14 +30,17 @@ public final class SolverServiceImpl implements SolverService {
      *
      * @param solversArg             the solvers
      * @param dictionaryProvidersArg the dictionary providers
+     * @param puzzleRepository       the puzzle repository
      * @param presenterArg           the solver presenter
      * @throws IllegalArgumentException if solver collection is empty
      */
     public SolverServiceImpl(final Collection<CrosswordSolver> solversArg,
                              final Collection<DictionaryProvider> dictionaryProvidersArg,
-                             final SolverPresenter presenterArg) {
+                             final PuzzleRepository puzzleRepository,
+                             final Presenter presenterArg) {
         listSolversUsecase = new ListSolversUsecase(solversArg, presenterArg);
-        solveUsecase = new SolveUsecase(solversArg, dictionaryProvidersArg, presenterArg);
+        solveUsecase = new SolveUsecase(solversArg, dictionaryProvidersArg, puzzleRepository,
+                                        presenterArg);
     }
 
     @Override

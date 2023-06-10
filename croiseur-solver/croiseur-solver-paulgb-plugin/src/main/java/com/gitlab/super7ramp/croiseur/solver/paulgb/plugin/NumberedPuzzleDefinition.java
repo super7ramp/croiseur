@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.solver.paulgb.plugin;
 
-import com.gitlab.super7ramp.croiseur.common.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.PuzzleDefinition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A wrapper of {@link PuzzleDefinition} adding to each cell a unique integer identifier.
+ * A wrapper of {@link PuzzleGrid} adding to each cell a unique integer identifier.
  */
 final class NumberedPuzzleDefinition {
 
     /** The original puzzle definition. */
-    private final PuzzleDefinition puzzleDefinition;
+    private final PuzzleGrid puzzleGrid;
 
     /** A map associating position to a unique integer identifier. */
     private final Map<GridPosition, Integer> positionToId;
@@ -30,13 +30,13 @@ final class NumberedPuzzleDefinition {
     /**
      * Constructs an instance.
      *
-     * @param puzzleDefinitionArg the original definition
+     * @param puzzleGridArg the original definition
      */
-    NumberedPuzzleDefinition(final PuzzleDefinition puzzleDefinitionArg) {
-        puzzleDefinition = puzzleDefinitionArg;
-        positionToId = createPositionToIdMap(puzzleDefinitionArg.width(),
-                puzzleDefinitionArg.height(),
-                puzzleDefinitionArg.shaded());
+    NumberedPuzzleDefinition(final PuzzleGrid puzzleGridArg) {
+        puzzleGrid = puzzleGridArg;
+        positionToId = createPositionToIdMap(puzzleGridArg.width(),
+                                             puzzleGridArg.height(),
+                                             puzzleGridArg.shaded());
         idToPosition = createIdToPositionMap(positionToId);
     }
 
@@ -69,7 +69,7 @@ final class NumberedPuzzleDefinition {
      * @return the width of the grid (i.e. the number of columns)
      */
     int width() {
-        return puzzleDefinition.width();
+        return puzzleGrid.width();
     }
 
     /**
@@ -78,7 +78,7 @@ final class NumberedPuzzleDefinition {
      * @return the height of the grid (i.e. the number of rows)
      */
     int height() {
-        return puzzleDefinition.height();
+        return puzzleGrid.height();
     }
 
     /**
@@ -87,7 +87,7 @@ final class NumberedPuzzleDefinition {
      * @return the filled boxes
      */
     Map<GridPosition, Character> filled() {
-        return puzzleDefinition.filled();
+        return puzzleGrid.filled();
     }
 
     /**
@@ -96,7 +96,7 @@ final class NumberedPuzzleDefinition {
      * @return the shaded boxes
      */
     Set<GridPosition> shaded() {
-        return puzzleDefinition.shaded();
+        return puzzleGrid.shaded();
     }
 
     /**

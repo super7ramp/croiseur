@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.common;
+package com.gitlab.super7ramp.croiseur.common.puzzle;
 
 /**
  * Coordinates on the grid.
@@ -34,7 +34,7 @@ public record GridPosition(int x, int y) {
      * Convenience factory method.
      * <pre>
      * {@code
-     * import static com.gitlab.super7ramp.croiseur.common.GridPosition.at;
+     * import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
      *
      * ...
      *
