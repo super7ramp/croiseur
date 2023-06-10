@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests on 'croiseur-cli dictionary *' commands.
  */
-final class CroiseurCliDictionaryTest extends CroiseurCliFluentTestHelper {
+final class CroiseurCliDictionaryTest extends FluentTestHelper {
 
     @Test
     void dictionary() {

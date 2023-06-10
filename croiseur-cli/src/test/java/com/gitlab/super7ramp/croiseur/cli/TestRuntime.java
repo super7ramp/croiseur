@@ -18,7 +18,7 @@ import java.util.Locale;
  * <p>
  * To be extended by actual test classes, e.g.:
  * <pre>{@code
- * final class MyCliTest extends CroiseurCliTestRuntime {
+ * final class MyCliTest extends TestRuntime {
  *     @Test
  *     void myTest() {
  *         cli("some", "arguments");
@@ -31,7 +31,7 @@ import java.util.Locale;
  * @see <a href=https://picocli.info/#_diy_output_capturing>DIY Output Capturing</a> in Picocli
  * documentation
  */
-abstract class CroiseurCliTestRuntime {
+abstract class TestRuntime {
 
     /** Application exited without error. */
     protected static final int SUCCESS = 0;

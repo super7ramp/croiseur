@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * A helper test class providing a fluent API over {@link CroiseurCliTestRuntime} for writing simple
+ * A helper test class providing a fluent API over {@link TestRuntime} for writing simple
  * BDD-like tests.
  * <p>
  * To be extended by actual test classes, e.g.:
  * <pre>{@code
- * final class MyFluentCliTest extends CroiseurCliFluentTestHelper {
+ * final class MyFluentCliTest extends FluentTestHelper {
  *     @Test
  *     void myFluentCliTest {
  *         whenOneRunsCli("some", "arguments")
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * }
  * }</pre>
  */
-abstract class CroiseurCliFluentTestHelper extends CroiseurCliTestRuntime {
+abstract class FluentTestHelper extends TestRuntime {
 
     /**
      * A complex assertion on the content of an output stream.
@@ -263,7 +263,7 @@ abstract class CroiseurCliFluentTestHelper extends CroiseurCliTestRuntime {
      * @param arguments the arguments
      * @return this object, for chaining
      */
-    protected final CroiseurCliFluentTestHelper whenOneRunsCli(final String... arguments) {
+    protected final FluentTestHelper whenOneRunsCli(final String... arguments) {
         cli(arguments);
         return this;
     }

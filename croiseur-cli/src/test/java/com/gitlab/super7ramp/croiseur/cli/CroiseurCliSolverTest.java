@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests on 'croiseur-cli solver *' commands.
  */
-final class CroiseurCliSolverTest extends CroiseurCliFluentTestHelper {
+final class CroiseurCliSolverTest extends FluentTestHelper {
 
     @Test
     void solver() {
