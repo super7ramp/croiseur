@@ -43,6 +43,7 @@ include("croiseur-solver:croiseur-solver-szunami-plugin")
 
 // Puzzles codecs/data/providers
 include("croiseur-puzzle:croiseur-puzzle-repository-memory-plugin")
+include("croiseur-puzzle:croiseur-puzzle-xd-codec")
 
 // CLI frontend
 include("croiseur-cli")
