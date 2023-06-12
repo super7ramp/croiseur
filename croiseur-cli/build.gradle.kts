@@ -21,6 +21,18 @@ dependencies {
     // as XML dictionaries
 }
 
+application {
+    applicationDefaultJvmArgs = listOf(
+        // Memory tuning
+        "-Xms64M",                      // initial heap size
+        "-Xmx384M",                     // maximum heap size
+
+        // Useful Java debug options
+        //"-XX:+PrintCommandLineFlags",
+        //"-Xlog:gc",                   // print garbage collection events
+    )
+}
+
 /**
  * Native build specifics.
  * <p>
