@@ -11,43 +11,39 @@ This page describes the software components of the Croiseur project.
 
 Here are the software components of Croiseur:
 
-- [`croiseur`][]: Application core library.
-- [`croiseur-cli`][]: Command-line frontend to `croiseur`.
-- [`croiseur-common`][]: Common types used as building blocks by all other modules.
-- [`croiseur-dictionary-common`][]: Collection of utility classes useful for implementing dictionary
-  providers.
-- [`croiseur-dictionary-hunspell-codec`][]: Library which allows to read Hunspell dictionaries and
-  generate all word forms from them.
-- [`croiseur-dictionary-hunspell-plugin`][]: Dictionary provider of local word lists written as
-  Hunspell dictionaries.
-- [`croiseur-dictionary-txt-plugin`][]: Dictionary provider of local word lists written as text
-  files.
-- [`croiseur-dictionary-xml-codec`][]: Library which allows to read and write dictionaries in a
-  custom XML format.
-- [`croiseur-dictionary-xml-plugin`][]: Dictionary provider of local word lists written in XML.
-- [`croiseur-gui`][]: Desktop application, frontend to `croiseur`.
-- [`croiseur-gui-controller`][]: Controller submodule of `croiseur-gui` (calls `croiseur` service
-  upon `croiseur-gui-view` events).
-- [`croiseur-gui-presenter`][]: Presenter submodule of `croiseur-gui` (presents `croiseur` outputs
-  by updating `croiseur-gui-view-model`).
-- [`croiseur-gui-view`][]: View submodule of `croiseur-gui` (widgets of `croiseur-gui`).
-- [`croiseur-gui-view-model`][]: View-model submodule of `croiseur-gui` (a model representing the
-  state of the views, observed and displayed by `croiseur-gui-view`).
-- [`croiseur-solver-ginsberg`][]: Crossword solver library based on Matt Ginsberg's papers.
-- [`croiseur-solver-ginsberg-plugin`][]: Solver provider adapting `croiseur-solver-ginsberg`.
-- [`croiseur-solver-paulgb`][]: Crossword solver library based on paulgb's Crossword Composer.
-- [`croiseur-solver-paulgb-plugin`][]: Solver provider adapting `croiseur-solver-paulgb`.
-- [`croiseur-solver-szunami`][]: Crossword solver library based on szunami's xwords-rs.
-- [`croiseur-solver-szunami-plugin`][]: Solver provider adapting `croiseur-solver-szunami`.
-- [`croiseur-spi-dictionary`][]: Interface definition for dictionary providers.
-- [`croiseur-spi-presenter`][]: Interface definition for presenters.
-- [`croiseur-spi-solver`][]: Interface definition for solvers.
+| Name                                      | Description                                                                                                                         |
+|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| [`croiseur`][]                            | Application core library                                                                                                            |
+| [`croiseur-cli`][]                        | Command-line frontend to `croiseur`                                                                                                 |
+| [`croiseur-common`][]                     | Common types used as building blocks by all other modules                                                                           |
+| [`croiseur-dictionary-common`][]          | Collection of utility classes useful for implementing dictionary providers                                                          |
+| [`croiseur-dictionary-hunspell-codec`][]  | Library which allows to read Hunspell dictionaries and generate all word forms from them                                            |
+| [`croiseur-dictionary-hunspell-plugin`][] | Dictionary provider of local word lists written as Hunspell dictionaries                                                            |
+| [`croiseur-dictionary-txt-plugin`][]      | Dictionary provider of local word lists written as text files                                                                       | 
+| [`croiseur-dictionary-xml-codec`][]       | Library which allows to read and write dictionaries in a custom XML format                                                          |                                                                               
+| [`croiseur-dictionary-xml-plugin`][]      | Dictionary provider of local word lists written in XML                                                                              |
+| [`croiseur-gui`][]                        | Desktop application, frontend to `croiseur`                                                                                         |
+| [`croiseur-gui-controller`][]             | Controller submodule of `croiseur-gui` (calls `croiseur` service upon `croiseur-gui-view` events)                                   |
+| [`croiseur-gui-presenter`][]              | Presenter submodule of `croiseur-gui` (presents `croiseur` outputs by updating `croiseur-gui-view-model`)                           |
+| [`croiseur-gui-view`][]                   | View submodule of `croiseur-gui` (widgets of `croiseur-gui`)                                                                        |
+| [`croiseur-gui-view-model`][]             | View-model submodule of `croiseur-gui` (a model representing the state of the views, observed and displayed by `croiseur-gui-view`) |
+| [`croiseur-solver-ginsberg`][]            | Crossword solver library based on Matt Ginsberg's papers                                                                            |
+| [`croiseur-solver-ginsberg-plugin`][]     | Solver provider adapting `croiseur-solver-ginsberg`                                                                                 |
+| [`croiseur-solver-paulgb`][]              | Crossword solver library based on paulgb's Crossword Composer                                                                       |
+| [`croiseur-solver-paulgb-plugin`][]       | Solver provider adapting `croiseur-solver-paulgb`                                                                                   |
+| [`croiseur-solver-szunami`][]             | Crossword solver library based on szunami's xwords-rs                                                                               |
+| [`croiseur-solver-szunami-plugin`][]      | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
+| [`croiseur-spi-dictionary`][]             | Interface definition for dictionary providers                                                                                       |
+| [`croiseur-spi-presenter`][]              | Interface definition for presenters                                                                                                 |
+| [`croiseur-spi-solver`][]                 | Interface definition for solvers                                                                                                    |
 
 In addition to these components, the following external components are used:
 
-- `javafx`: Framework for creating graphical user interface.
-- `java`: The Java platform.
-- `picocli`: Framework for creating command-line user interface.
+| Name      | Description                                        |
+|-----------|----------------------------------------------------|
+| `java`    | The Java platform                                  |
+| `javafx`  | Framework for creating graphical user interface    |
+| `picocli` | Framework for creating command-line user interface |
 
 ### Dependencies
 
