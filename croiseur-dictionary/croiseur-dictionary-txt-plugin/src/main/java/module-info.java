@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.dictionary.txt.plugin.TxtDictionaryProvide
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
- * {@link DictionaryProvider} for simple text file dictionaries.
+ * Dictionary provider of local word lists written as text files.
  */
 module com.gitlab.super7ramp.croiseur.dictionary.txt.plugin {
     requires com.gitlab.super7ramp.croiseur.dictionary.common;

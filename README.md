@@ -3,11 +3,11 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## croiseur
+## Croiseur
 
 ![Logo](croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/application-icon.png)
 
-**croiseur**[^1] is a software for creating crossword puzzles. It has the following features:
+**Croiseur**[^1] is a software for creating crossword puzzles. It has the following features:
 
 * It embeds [dictionaries][] for multiple languages;
 * It provides several crossword [solvers][] capable of finding various grid fillings;
@@ -16,17 +16,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * It is designed to be [extensible][]: Solvers, dictionaries and even user interfaces can be plugged
   to a core component.
 
-### Getting Started
+### Getting Started 🚀
 
 As a crossword enthusiast, you may be interested in creating your crossword puzzle right away with
-**[croiseur-gui][]**, a desktop application based on **croiseur**.
+**[croiseur-gui][]**, a desktop application based on Croiseur.
 
 As a command-line fan, you may be interested in **[croiseur-cli][]**, a command-line interface to
-**croiseur**.
+Croiseur.
 
 Need more? Check the [project documentation][]!
 
-### Licence
+### Licence ⚖️
 
 This work is a free software licenced under multiple licences:
 

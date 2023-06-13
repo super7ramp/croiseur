@@ -4,8 +4,7 @@
  */
 
 /**
- * common is a library providing base data types related to the crosswords domain and used by the
- * other modules to build their own objects.
+ * Common types used as building blocks by all other modules.
  */
 module com.gitlab.super7ramp.croiseur.common {
     exports com.gitlab.super7ramp.croiseur.common;

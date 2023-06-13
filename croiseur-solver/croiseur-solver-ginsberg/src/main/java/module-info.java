@@ -4,7 +4,7 @@
  */
 
 /**
- * Solver module.
+ * Crossword solver library based on Matt Ginsberg's papers.
  */
 module com.gitlab.super7ramp.croiseur.solver.ginsberg {
     requires java.logging;

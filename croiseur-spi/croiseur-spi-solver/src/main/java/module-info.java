@@ -4,7 +4,7 @@
  */
 
 /**
- * Solver SPI definition.
+ * Interface definition for solvers.
  */
 module com.gitlab.super7ramp.croiseur.spi.solver {
     requires transitive com.gitlab.super7ramp.croiseur.common;

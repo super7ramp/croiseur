@@ -4,7 +4,9 @@
  */
 
 /**
- * The views and some controls.
+ * View submodule of croiseur-gui.
+ * <p>
+ * Widgets of croiseur-gui.
  */
 module com.gitlab.super7ramp.croiseur.gui.view {
     requires transitive com.gitlab.super7ramp.croiseur.common;

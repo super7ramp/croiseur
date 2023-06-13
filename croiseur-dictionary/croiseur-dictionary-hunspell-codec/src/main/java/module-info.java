@@ -4,7 +4,7 @@
  */
 
 /**
- * Library to generate all word forms from Hunspell dictionaries.
+ * Library which allows to read Hunspell dictionaries and generate all word forms from them.
  */
 module com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec {
     requires transitive com.gitlab.super7ramp.croiseur.common;

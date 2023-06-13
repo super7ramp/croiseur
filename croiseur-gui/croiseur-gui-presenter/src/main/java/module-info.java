@@ -4,7 +4,9 @@
  */
 
 /**
- * Implementation of the Presenter SPI.
+ * Presenter submodule of croiseur-gui.
+ * <p>
+ * Presents croiseur outputs by updating croiseur-gui-view-model.
  */
 module com.gitlab.super7ramp.croiseur.gui.presenter {
     requires transitive com.gitlab.super7ramp.croiseur.common;

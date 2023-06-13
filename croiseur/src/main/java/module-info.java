@@ -8,7 +8,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 /**
- * Croiseur application logic.
+ * Application core library.
  * <p>
  * This module is a library providing several high-level crossword puzzle use-cases.
  */

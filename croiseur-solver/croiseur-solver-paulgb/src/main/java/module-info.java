@@ -4,7 +4,7 @@
  */
 
 /**
- * A Java wrapper of paulgb's crossword-composer.
+ * Crossword solver library based on paulgb's Crossword Composer.
  */
 module com.gitlab.super7ramp.croiseur.solver.paulgb {
     exports com.gitlab.super7ramp.croiseur.solver.paulgb;

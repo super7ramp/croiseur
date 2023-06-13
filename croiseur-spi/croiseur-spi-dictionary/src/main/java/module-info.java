@@ -4,7 +4,7 @@
  */
 
 /**
- * Dictionary SPI definition.
+ * Interface definition for dictionary providers.
  */
 module com.gitlab.super7ramp.croiseur.spi.dictionary {
     requires transitive com.gitlab.super7ramp.croiseur.common;

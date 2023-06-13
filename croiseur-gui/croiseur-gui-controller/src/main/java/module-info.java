@@ -4,7 +4,9 @@
  */
 
 /**
- * GUI controller: Basically transforms events from the view into events for the croiseur library.
+ * Controller submodule of croiseur-gui.
+ * <p>
+ * Calls croiseur service upon croiseur-gui-view events.
  */
 module com.gitlab.super7ramp.croiseur.gui.controller {
     requires transitive com.gitlab.super7ramp.croiseur;

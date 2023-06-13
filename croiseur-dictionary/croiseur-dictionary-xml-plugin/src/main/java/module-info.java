@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.dictionary.xml.plugin.XmlDictionaryProvide
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
- * {@link DictionaryProvider} for XML dictionaries.
+ * Dictionary provider of local word lists written in XML.
  */
 module com.gitlab.super7ramp.croiseur.dictionary.xml.plugin {
     requires com.gitlab.super7ramp.croiseur.dictionary.common;

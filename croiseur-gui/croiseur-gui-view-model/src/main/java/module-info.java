@@ -4,7 +4,9 @@
  */
 
 /**
- * The GUI view models.
+ * View-model submodule of croiseur-gui.
+ * <p>
+ * A model representing the state of the views, observed and displayed by croiseur-gui-view.
  */
 module com.gitlab.super7ramp.croiseur.gui.view.model {
     requires transitive com.gitlab.super7ramp.croiseur.common;

@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin.HunspellDiction
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
- * {@link DictionaryProvider} for Hunspell dictionaries.
+ * Dictionary provider of local word lists written as Hunspell dictionaries.
  */
 module com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin {
     requires com.gitlab.super7ramp.croiseur.dictionary.common;

@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.CrosswordComposerSolv
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 /**
- * Solver plugin module.
+ * Solver provider adapting croiseur-solver-paulgb.
  */
 module com.gitlab.super7ramp.croiseur.solver.paulgb.plugin {
     requires com.gitlab.super7ramp.croiseur.solver.paulgb;

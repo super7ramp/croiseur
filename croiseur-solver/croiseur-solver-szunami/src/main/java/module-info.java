@@ -4,7 +4,7 @@
  */
 
 /**
- * A Java wrapper of szunami's xwords-rs.
+ * Crossword solver library based on szunami's xwords-rs.
  */
 module com.gitlab.super7ramp.croiseur.solver.szunami {
     exports com.gitlab.super7ramp.croiseur.solver.szunami;

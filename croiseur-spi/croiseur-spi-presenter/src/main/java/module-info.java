@@ -4,7 +4,7 @@
  */
 
 /**
- * Presenter SPI definition.
+ * Interface definition for presenters.
  */
 module com.gitlab.super7ramp.croiseur.spi.presenter {
     requires transitive com.gitlab.super7ramp.croiseur.common;

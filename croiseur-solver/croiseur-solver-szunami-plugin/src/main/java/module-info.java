@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.solver.szunami.plugin.SzunamiSolver;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 /**
- * Solver plugin module.
+ * Solver provider adapting croiseur-solver-szunami.
  */
 module com.gitlab.super7ramp.croiseur.solver.szunami.plugin {
     requires com.gitlab.super7ramp.croiseur.solver.szunami;

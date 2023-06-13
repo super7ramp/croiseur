@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.cli.presenter.CliPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 
 /**
- * CLI for crossword solving.
+ * Command-line frontend to croiseur.
  */
 module com.gitlab.super7ramp.croiseur.cli {
 
