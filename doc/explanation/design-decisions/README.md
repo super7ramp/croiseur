@@ -5,4 +5,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Design Decisions
 
-TODO
+1. [Record architecture decisions](0001-record-architecture-decisions.md)
