@@ -98,7 +98,8 @@ public final class CrosswordGridViewModel {
 
             @Override
             public void invalidated(final Observable observable) {
-                if (currentSlotPositions.contains(listenedBoxCoordinate)) {
+                if (!inhibitContentChangeEvents &&
+                    currentSlotPositions.contains(listenedBoxCoordinate)) {
                     recomputeCurrentSlotContent();
                 }
             }
@@ -351,6 +352,9 @@ public final class CrosswordGridViewModel {
     /** The working area. */
     private final WorkingArea workingArea;
 
+    /** A boolean to inhibit content change events when grid is being modified word by word. */
+    private boolean inhibitContentChangeEvents;
+
     /**
      * Constructs an instance.
      *
@@ -491,6 +495,34 @@ public final class CrosswordGridViewModel {
      */
     public String currentSlotContent() {
         return workingArea.currentSlotContent.get();
+    }
+
+    /**
+     * Sets the value of the current slot content property.
+     * <p>
+     * Note that the current slot property is a read-only property, as it is internally computed
+     * from the grid content. This method indirectly sets the current slot property by modifying
+     * the grid box contents. Thus, this method will generate several change events on the grid.
+     * <p>
+     * This method will not generate more than one change event for the current slot property
+     * though, as a special care is made to avoid that.
+     *
+     * @param value the new value
+     * @throws NullPointerException     if given value is {@code null}
+     * @throws IllegalArgumentException if given value is not of the length of the current slot
+     */
+    public void currentSlotContent(final String value) {
+        Objects.requireNonNull(value);
+        if (value.length() != workingArea.currentSlotContent.length().get()) {
+            throw new IllegalArgumentException("Given value does not match current slot size");
+        }
+        inhibitContentChangeEvents = true;
+        for (int i = 0; i < value.length(); i++) {
+            boxes.get(workingArea.currentSlotPositions.get(i))
+                 .userContent(value.substring(i, i + 1));
+        }
+        inhibitContentChangeEvents = false;
+        workingArea.recomputeCurrentSlotContent();
     }
 
     /**

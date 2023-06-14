@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +35,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * </ul>
  */
 final class CrosswordGridViewModelTest {
+
+    /**
+     * A util for counting change events.
+     */
+    private static final class ChangeEventCounter<T> implements ChangeListener<T> {
+
+        /** The number of times this listener has received a change event. */
+        private int count;
+
+        @Override
+        public void changed(final ObservableValue<? extends T> observable, final T oldValue,
+                            final T newValue) {
+            count++;
+        }
+    }
 
     /** The grid view model under test. */
     private CrosswordGridViewModel crosswordGridViewModel;
@@ -749,5 +766,48 @@ final class CrosswordGridViewModelTest {
         assertTrue(crosswordGridViewModel.box(at(0, 0)).userContent().isEmpty());
         assertTrue(crosswordGridViewModel.box(at(1, 0)).solverContent().isEmpty());
         assertFalse(crosswordGridViewModel.box(at(2, 0)).isShaded());
+    }
+
+    /**
+     * Verifies that filling the current slot does not generate an event for each box modified.
+     */
+    @Test
+    void setCurrentSlot() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
+        final ChangeEventCounter<String> changeEventCounter = new ChangeEventCounter<>();
+        crosswordGridViewModel.currentSlotContentProperty().addListener(changeEventCounter);
+
+        crosswordGridViewModel.currentSlotContent("ABC");
+
+        assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
+        assertEquals(1, changeEventCounter.count);
+    }
+
+    /**
+     * Verifies that a {@link NullPointerException} is raised when a {@code null} value is passed to
+     * {@link CrosswordGridViewModel#currentSlotContent(String)}.
+     */
+    @Test
+    void setCurrentSlot_null() {
+        assertThrows(NullPointerException.class,
+                     () -> crosswordGridViewModel.currentSlotContent(null));
+    }
+
+    /**
+     * Verifies that an {@link IllegalArgumentException} is raised when a string not matching
+     * current slot length is passed to {@link CrosswordGridViewModel#currentSlotContent(String)}.
+     */
+    @Test
+    void setCurrentSlot_invalidLength() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.currentBoxPosition(at(0, 0));
+
+        assertThrows(IllegalArgumentException.class,
+                     () -> crosswordGridViewModel.currentSlotContent("ABCD"));
     }
 }

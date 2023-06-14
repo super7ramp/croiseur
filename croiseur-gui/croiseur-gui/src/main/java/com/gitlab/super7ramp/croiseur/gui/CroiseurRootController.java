@@ -99,6 +99,7 @@ public final class CroiseurRootController {
             .set(event -> viewModel.resetContentLettersFilledBySolverOnly());
         view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
         view.onDeleteGridActionProperty().set(event -> viewModel.clear());
+        view.onSuggestionSelected().set(viewModel::currentSlotContent);
     }
 
     /**

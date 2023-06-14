@@ -9,7 +9,9 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -20,12 +22,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -41,6 +45,9 @@ public final class DictionariesPane extends Accordion {
 
     /** All the words, filtered by a pattern. */
     private final ListProperty<String> suggestions;
+
+    /** The consumer to call when a suggested word is selected by mouse click. */
+    private final ObjectProperty<Consumer<String>> onSuggestionSelected;
 
     /** The dictionaries list view. */
     @FXML
@@ -67,6 +74,7 @@ public final class DictionariesPane extends Accordion {
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
         suggestions =
                 new SimpleListProperty<>(this, "suggestions", FXCollections.observableArrayList());
+        onSuggestionSelected = new SimpleObjectProperty<>(this, "onSuggestionSelected");
 
         final Class<DictionariesPane> clazz = DictionariesPane.class;
         final String fxmlName = clazz.getSimpleName() + ".fxml";
@@ -143,6 +151,15 @@ public final class DictionariesPane extends Accordion {
      */
     private void initializeSuggestionsListView() {
         suggestionsListView.setItems(suggestions);
+        suggestionsListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && onSuggestionSelected.get() != null) {
+                final String selectedSuggestion =
+                        suggestionsListView.getSelectionModel().getSelectedItem();
+                if (selectedSuggestion != null) {
+                    onSuggestionSelected.get().accept(selectedSuggestion);
+                }
+            }
+        });
     }
 
     /**
@@ -175,4 +192,16 @@ public final class DictionariesPane extends Accordion {
     public ListProperty<String> suggestionsProperty() {
         return suggestions;
     }
+
+    /**
+     * Returns the "on suggestion selected" property.
+     * <p>
+     * The consumer will be given the selected suggested word, for every selection.
+     *
+     * @return the "on suggestion selected" property
+     */
+    public ObjectProperty<Consumer<String>> onSuggestionSelected() {
+        return onSuggestionSelected;
+    }
+
 }

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * An entire crossword solver view, based on {@link BorderPane}.
@@ -317,6 +318,17 @@ public final class CrosswordSolverPane extends BorderPane {
      */
     public ListProperty<String> suggestionsProperty() {
         return dictionariesPane.suggestionsProperty();
+    }
+
+    /**
+     * Returns the "on suggestion selected" property.
+     * <p>
+     * The consumer will be given the selected suggested word, for every selection.
+     *
+     * @return the "on suggestion selected" property
+     */
+    public ObjectProperty<Consumer<String>> onSuggestionSelected() {
+        return dictionariesPane.onSuggestionSelected();
     }
 
     /**
