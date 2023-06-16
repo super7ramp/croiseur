@@ -14,6 +14,8 @@ Feature: Load Puzzle
       | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
     When user requests to load puzzle with id 1
     Then the application presents the following loaded puzzle:
+      | Id          | 1           |
+      | Revision    | 1           |
       | Title       |             |
       | Author      | Jane Doe    |
       | Editor      |             |
@@ -23,4 +25,4 @@ Feature: Load Puzzle
 
   Scenario: Load Puzzle - Puzzle does not exist
     When user requests to load puzzle with id 404
-    Then the application presents the puzzle repository error "Cannot display requested puzzle: No such puzzle exist"
+    Then the application presents the puzzle repository error "Cannot load requested puzzle: No such puzzle exist"

@@ -6,12 +6,14 @@
 package com.gitlab.super7ramp.croiseur.impl.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.repository.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +43,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
 
     @Override
     public void list() {
-        final List<Puzzle> puzzles = repository.list().stream().map(SavedPuzzle::data).toList();
+        final List<SavedPuzzle> puzzles = new ArrayList<>(repository.list());
         presenter.presentAvailablePuzzles(puzzles);
     }
 
@@ -53,9 +55,20 @@ public final class PuzzleServiceImpl implements PuzzleService {
     @Override
     public void load(final int puzzleId) {
         repository.query(puzzleId)
-                  .map(SavedPuzzle::data)
                   .ifPresentOrElse(presenter::presentLoadedPuzzle,
                                    () -> presenter.presentPuzzleRepositoryError(
                                            "Cannot load requested puzzle: No such puzzle exist"));
+    }
+
+    @Override
+    public void save(final Puzzle puzzle) {
+        repository.create(puzzle).ifPresent(presenter::presentSavedPuzzle);
+        // Or else: Do nothing, error case is handle by SafePuzzleRepository
+    }
+
+    @Override
+    public void save(final ChangedPuzzle puzzle) {
+        repository.update(puzzle).ifPresent(presenter::presentSavedPuzzle);
+        // Or else: Do nothing, error case is handle by SafePuzzleRepository
     }
 }

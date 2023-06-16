@@ -5,10 +5,10 @@
 
 package com.gitlab.super7ramp.croiseur.tests.context;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
 import java.util.ArrayList;
@@ -35,10 +35,10 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
     private final List<SavedPuzzle> updates;
 
     /** The list of unverified deletions. */
-    private final List<Integer> deletions;
+    private final List<Long> deletions;
 
     /** The list of created puzzle ids. */
-    private final List<Integer> createdIds;
+    private final List<Long> createdIds;
 
     /**
      * Constructs an instance.
@@ -69,13 +69,13 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
     }
 
     @Override
-    public void delete(final int puzzleId) throws WriteException {
+    public void delete(final long puzzleId) throws WriteException {
         spied.delete(puzzleId);
         deletions.add(puzzleId);
     }
 
     @Override
-    public Optional<SavedPuzzle> query(final int id) {
+    public Optional<SavedPuzzle> query(final long id) {
         return spied.query(id);
     }
 
@@ -92,7 +92,9 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyCreation(final SavedPuzzle expected) {
         final boolean removed = creations.remove(expected);
-        assertTrue(removed, "No creation of " + expected + " recorded");
+        assertTrue(removed,
+                   () -> "No creation of " + expected + " recorded. Recorded creations are: " +
+                         creations);
     }
 
     /**
@@ -103,9 +105,9 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyUpdate(final SavedPuzzle expected) {
         final boolean removed = updates.remove(expected);
-        assertTrue(removed, "No update of " + expected + " recorded");
+        assertTrue(removed, () -> "No update of " + expected + " recorded. Recorded updates are: " +
+                                  updates);
     }
-
 
     /**
      * Verifies that the puzzle with given id has been deleted.
@@ -113,9 +115,11 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      * @param expected the expected updated puzzle
      * @throws AssertionError if verification fails
      */
-    public void verifyDeletion(final int expected) {
-        final boolean removed = deletions.remove((Integer) expected);
-        assertTrue(removed, "No update of " + expected + " recorded");
+    public void verifyDeletion(final long expected) {
+        final boolean removed = deletions.remove(expected);
+        assertTrue(removed,
+                   () -> "No update of " + expected + " recorded. Recorded deletions are: " +
+                         deletions);
     }
 
     /**
@@ -125,11 +129,11 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyNoMoreInteractions() {
         assertAll(() -> assertTrue(creations.isEmpty(),
-                                   "Unverified puzzle repository creation(s): " + creations),
+                                   () -> "Unverified puzzle repository creation(s): " + creations),
                   () -> assertTrue(updates.isEmpty(),
-                                   "Unverified puzzle repository update(s): " + updates),
+                                   () -> "Unverified puzzle repository update(s): " + updates),
                   () -> assertTrue(deletions.isEmpty(),
-                                   "Unverified puzzle repository deletion(s): " + deletions));
+                                   () -> "Unverified puzzle repository deletion(s): " + deletions));
     }
 
     /**
@@ -139,8 +143,8 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      *                      second, and so on)
      * @return the captured id variable value, if any
      */
-    public Optional<Integer> idVariableValue(final int idVariableKey) {
-        final Optional<Integer> value;
+    public Optional<Long> idVariableValue(final int idVariableKey) {
+        final Optional<Long> value;
         if (idVariableKey >= 0 && idVariableKey < createdIds.size()) {
             value = Optional.of(createdIds.get(idVariableKey));
         } else {

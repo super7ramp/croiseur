@@ -5,11 +5,11 @@
 
 package com.gitlab.super7ramp.croiseur.impl.puzzle.repository;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
 import java.util.Collection;

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 import com.gitlab.super7ramp.croiseur.tests.context.PuzzleRepositorySpy;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
@@ -51,7 +51,7 @@ public final class PuzzleRepositorySteps {
     }
 
     @Then("the application deletes the puzzle with id {puzzleId} from repository")
-    public void thenDelete(final int puzzleId) {
+    public void thenDelete(final long puzzleId) {
         puzzleRepositorySpy.verifyDeletion(puzzleId);
     }
 }

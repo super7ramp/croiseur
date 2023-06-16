@@ -5,11 +5,12 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.tests.context.PuzzleRepositorySpy;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.datatable.DataTable;
@@ -65,9 +66,9 @@ public final class PuzzleTypes {
      * then it will assume a raw id value is given and return its parsed integer value
      */
     @ParameterType(".+")
-    public int puzzleId(final String idOrIdVariable) {
+    public long puzzleId(final String idOrIdVariable) {
         final Matcher idVariableMatcher = ID_VARIABLE_PATTERN.matcher(idOrIdVariable);
-        final int id;
+        final long id;
         if (idVariableMatcher.matches()) {
             final int variableNumber =
                     idVariableMatcher.groupCount() > 1 ?
@@ -80,8 +81,20 @@ public final class PuzzleTypes {
     }
 
     @DataTableType
+    public ChangedPuzzle changedPuzzle(final Map<String, String> table) {
+        final long id = puzzleId(table.get("Id"));
+        final Puzzle puzzle = puzzle(table);
+        /*
+         * Have to fake a SavedPuzzle to bypass the small protection put on ChangedPuzzle
+         * (package-private constructor only accessible from SavedPuzzle).
+         */
+        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(id, puzzle, 1);
+        return fakeSavedPuzzle.modifiedWith(puzzle);
+    }
+
+    @DataTableType
     public SavedPuzzle savedPuzzle(final Map<String, String> table) {
-        final int id = puzzleId(table.get("Id"));
+        final long id = puzzleId(table.get("Id"));
         final int revision = Integer.parseInt(table.get("Revision"));
         final Puzzle puzzle = puzzle(table);
         return new SavedPuzzle(id, puzzle, revision);

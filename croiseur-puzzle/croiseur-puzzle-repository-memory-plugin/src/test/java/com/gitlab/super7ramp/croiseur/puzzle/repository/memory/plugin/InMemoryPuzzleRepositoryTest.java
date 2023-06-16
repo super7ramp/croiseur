@@ -5,11 +5,11 @@
 
 package com.gitlab.super7ramp.croiseur.puzzle.repository.memory.plugin;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ final class InMemoryPuzzleRepositoryTest {
     }
 
     @Test
-    void update() {
+    void update() throws WriteException {
         final Puzzle firstPuzzle = puzzleOfSize(4, 3);
         final SavedPuzzle initialSavedPuzzle = repo.create(firstPuzzle);
         final Puzzle secondPuzzle = puzzleOfSize(5, 4);
@@ -71,7 +71,7 @@ final class InMemoryPuzzleRepositoryTest {
     }
 
     @Test
-    void update_noChange() {
+    void update_noChange() throws WriteException {
         final Puzzle firstPuzzle = puzzleOfSize(4, 3);
         final SavedPuzzle initialSavedPuzzle = repo.create(firstPuzzle);
         final ChangedPuzzle notReallyChangedPuzzle =
@@ -81,6 +81,14 @@ final class InMemoryPuzzleRepositoryTest {
 
         // Absence of change is detected, revision number is not incremented
         assertEquals(initialSavedPuzzle, updatedSavedPuzzle);
+    }
+
+    @Test
+    void update_missing() {
+        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(404, puzzleOfSize(3, 3), 1);
+        final ChangedPuzzle changedPuzzle = fakeSavedPuzzle.modifiedWith(puzzleOfSize(3, 4));
+
+        assertThrows(WriteException.class, () -> repo.update(changedPuzzle));
     }
 
     @Test

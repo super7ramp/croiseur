@@ -5,14 +5,17 @@
 
 package com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
 /**
- * A dummy repository that always rejects writes. Can be used when repository services are not used.
+ * A dummy repository that always rejects writes. Can be used when repository services are not
+ * used.
  */
 public final class DummyPuzzleRepository implements PuzzleRepository {
 
@@ -29,17 +32,18 @@ public final class DummyPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
+    public SavedPuzzle update(final ChangedPuzzle changedPuzzle)
+            throws WriteException {
         throw new WriteException("Cannot update puzzle: No repository defined.");
     }
 
     @Override
-    public void delete(final int id) throws WriteException {
+    public void delete(final long id) throws WriteException {
         throw new WriteException("Cannot delete puzzle: No repository defined.");
     }
 
     @Override
-    public Optional<SavedPuzzle> query(final int id) {
+    public Optional<SavedPuzzle> query(final long id) {
         return Optional.empty();
     }
 

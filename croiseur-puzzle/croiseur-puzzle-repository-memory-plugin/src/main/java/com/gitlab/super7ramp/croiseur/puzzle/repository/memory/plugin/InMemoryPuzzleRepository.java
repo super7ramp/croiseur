@@ -5,10 +5,10 @@
 
 package com.gitlab.super7ramp.croiseur.puzzle.repository.memory.plugin;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
 import java.util.BitSet;
@@ -27,7 +27,7 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     private final BitSet availableIds;
 
     /** The stored puzzles. */
-    private final Map<Integer, SavedPuzzle> puzzles;
+    private final Map<Long, SavedPuzzle> puzzles;
 
     /**
      * Constructs an instance.
@@ -45,9 +45,11 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public SavedPuzzle update(final ChangedPuzzle changedPuzzle) {
-        final int id = changedPuzzle.id();
-        final SavedPuzzle oldSavedPuzzle = savedPuzzleOrThrow(id);
+    public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
+        final long id = changedPuzzle.id();
+        final SavedPuzzle oldSavedPuzzle =
+                query(id).orElseThrow(
+                        () -> new WriteException("Cannot found saved puzzle with id " + id));
         if (oldSavedPuzzle.data().equals(changedPuzzle.data())) {
             // No need to update
             return oldSavedPuzzle;
@@ -59,16 +61,16 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public void delete(final int puzzleId) throws WriteException {
+    public void delete(final long puzzleId) throws WriteException {
         final SavedPuzzle deletedPuzzle = puzzles.remove(puzzleId);
         if (deletedPuzzle == null) {
             throw new WriteException("Cannot delete a non-existing puzzle");
         }
-        availableIds.flip(puzzleId);
+        availableIds.flip((int) puzzleId);
     }
 
     @Override
-    public Optional<SavedPuzzle> query(final int id) {
+    public Optional<SavedPuzzle> query(final long id) {
         return Optional.ofNullable(puzzles.get(id));
     }
 
@@ -78,26 +80,11 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     }
 
     /**
-     * Retrieves the currently saved puzzle with given id.
-     *
-     * @param id the id of the saved puzzle to retrieve
-     * @return the saved puzzle
-     * @throws IllegalArgumentException if no saved puzzle with given id exists
-     */
-    private SavedPuzzle savedPuzzleOrThrow(final int id) {
-        final SavedPuzzle oldSavedPuzzle = puzzles.get(id);
-        if (oldSavedPuzzle == null) {
-            throw new IllegalArgumentException("Illegal attempt to get a non-existing puzzle");
-        }
-        return oldSavedPuzzle;
-    }
-
-    /**
      * Returns the next free id, starting at 1.
      *
      * @return the next free id.
      */
-    private int nextId() {
+    private long nextId() {
         final int nextId = availableIds.nextClearBit(1 /* 0 is unused */);
         availableIds.flip(nextId);
         return nextId;

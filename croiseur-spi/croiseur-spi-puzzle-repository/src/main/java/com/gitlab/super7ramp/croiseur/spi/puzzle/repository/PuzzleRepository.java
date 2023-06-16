@@ -5,7 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -30,7 +32,7 @@ import java.util.Optional;
  * SavedPuzzle savedPuzzle = repository.create(puzzleData);
  *
  * // Update part
- * final Puzzle modifiedPuzzleData = modifiedPuzzle();
+ * final Puzzle modifiedPuzzleData = modifiedPuzzleData();
  * final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(modifiedPuzzleData);
  * savedPuzzle = repository.update(changedPuzzle);
  * }</pre>
@@ -83,7 +85,7 @@ public interface PuzzleRepository {
      * @param id the identifier of the saved puzzle to delete
      * @throws WriteException       if given puzzle cannot be deleted from repository
      */
-    void delete(final int id) throws WriteException;
+    void delete(final long id) throws WriteException;
 
     /**
      * Retrieves the saved puzzle with given ID.
@@ -91,7 +93,7 @@ public interface PuzzleRepository {
      * @param id the id of the saved puzzle to retrieve
      * @return the saved puzzle with given ID, if any, or {@link Optional#empty()}
      */
-    Optional<SavedPuzzle> query(final int id);
+    Optional<SavedPuzzle> query(final long id);
 
     /**
      * Lists all the data present in this repository.

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ public interface PuzzlePresenter {
      *
      * @param puzzles the available puzzles
      */
-    void presentAvailablePuzzles(final List<Puzzle> puzzles);
+    void presentAvailablePuzzles(final List<SavedPuzzle> puzzles);
 
     /**
      * Present the puzzle loaded from repository.
      *
      * @param puzzle the loaded puzzle
      */
-    void presentLoadedPuzzle(final Puzzle puzzle);
+    void presentLoadedPuzzle(final SavedPuzzle puzzle);
 
     /**
      * Presents an error from the repository.
@@ -34,4 +34,11 @@ public interface PuzzlePresenter {
      * @param error the error
      */
     void presentPuzzleRepositoryError(final String error);
+
+    /**
+     * Presents a puzzle that just has been saved.
+     *
+     * @param puzzle the saved puzzle
+     */
+    void presentSavedPuzzle(final SavedPuzzle puzzle);
 }
