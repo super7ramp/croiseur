@@ -22,11 +22,11 @@ public interface PuzzlePresenter {
     void presentAvailablePuzzles(final List<Puzzle> puzzles);
 
     /**
-     * Present the requested puzzle.
+     * Present the puzzle loaded from repository.
      *
-     * @param puzzle the requested puzzle
+     * @param puzzle the loaded puzzle
      */
-    void presentPuzzle(final Puzzle puzzle);
+    void presentLoadedPuzzle(final Puzzle puzzle);
 
     /**
      * Presents an error from the repository.

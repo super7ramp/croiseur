@@ -50,14 +50,14 @@ public class PuzzleSteps {
         puzzleService.list();
     }
 
-    @When("user requests to display puzzle with id {int}")
-    public void whenDisplay(final int puzzleId) {
-        puzzleService.display(puzzleId);
+    @When("user requests to load puzzle with id {int}")
+    public void whenLoad(final int puzzleId) {
+        puzzleService.load(puzzleId);
     }
 
-    @Then("the application presents the following puzzle:")
-    public void thenPresentPuzzle(@Transpose final Puzzle puzzle) {
-        verify(presenterMock).presentPuzzle(eq(puzzle));
+    @Then("the application presents the following loaded puzzle:")
+    public void thenPresentLoadedPuzzle(@Transpose final Puzzle puzzle) {
+        verify(presenterMock).presentLoadedPuzzle(eq(puzzle));
     }
 
     @Then("the application presents an empty list of puzzles")

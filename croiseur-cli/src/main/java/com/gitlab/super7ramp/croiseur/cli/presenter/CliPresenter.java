@@ -100,7 +100,7 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentPuzzle(final Puzzle puzzle) {
+    public void presentLoadedPuzzle(final Puzzle puzzle) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

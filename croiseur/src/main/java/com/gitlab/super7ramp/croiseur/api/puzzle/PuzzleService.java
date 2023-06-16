@@ -28,11 +28,11 @@ public interface PuzzleService {
     void delete(final int puzzleId);
 
     /**
-     * Displays the puzzle with given id.
+     * Loads the puzzle with given id from puzzle repository.
      *
      * @param puzzleId the puzzle id
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentPuzzle }
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentLoadedPuzzle }
      * PuzzlePresenter#presentPuzzle
      */
-    void display(final int puzzleId);
+    void load(final int puzzleId);
 }

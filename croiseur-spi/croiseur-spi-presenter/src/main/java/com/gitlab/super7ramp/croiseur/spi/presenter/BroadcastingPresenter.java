@@ -101,8 +101,8 @@ final class BroadcastingPresenter implements Presenter {
     }
 
     @Override
-    public void presentPuzzle(final Puzzle puzzle) {
-        presenters.forEach(p -> p.presentPuzzle(puzzle));
+    public void presentLoadedPuzzle(final Puzzle puzzle) {
+        presenters.forEach(p -> p.presentLoadedPuzzle(puzzle));
     }
 
     @Override

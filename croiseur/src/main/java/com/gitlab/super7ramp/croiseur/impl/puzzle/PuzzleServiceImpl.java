@@ -51,11 +51,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
     }
 
     @Override
-    public void display(final int puzzleId) {
+    public void load(final int puzzleId) {
         repository.query(puzzleId)
                   .map(SavedPuzzle::data)
-                  .ifPresentOrElse(presenter::presentPuzzle,
+                  .ifPresentOrElse(presenter::presentLoadedPuzzle,
                                    () -> presenter.presentPuzzleRepositoryError(
-                                           "Cannot display requested puzzle: No such puzzle exist"));
+                                           "Cannot load requested puzzle: No such puzzle exist"));
     }
 }
