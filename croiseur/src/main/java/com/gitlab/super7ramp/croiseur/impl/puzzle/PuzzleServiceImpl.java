@@ -49,4 +49,13 @@ public final class PuzzleServiceImpl implements PuzzleService {
     public void delete(final int puzzleId) {
         repository.delete(puzzleId);
     }
+
+    @Override
+    public void display(final int puzzleId) {
+        repository.query(puzzleId)
+                  .map(SavedPuzzle::data)
+                  .ifPresentOrElse(presenter::presentPuzzle,
+                                   () -> presenter.presentPuzzleRepositoryError(
+                                           "Cannot display requested puzzle: No such puzzle exist"));
+    }
 }

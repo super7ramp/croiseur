@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
+import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -49,6 +50,16 @@ public class PuzzleSteps {
         puzzleService.list();
     }
 
+    @When("user requests to display puzzle with id {int}")
+    public void whenDisplay(final int puzzleId) {
+        puzzleService.display(puzzleId);
+    }
+
+    @Then("the application presents the following puzzle:")
+    public void thenPresentPuzzle(@Transpose final Puzzle puzzle) {
+        verify(presenterMock).presentPuzzle(eq(puzzle));
+    }
+
     @Then("the application presents an empty list of puzzles")
     public void thenPresentNoPuzzle() {
         verify(presenterMock).presentAvailablePuzzles(eq(Collections.emptyList()));
@@ -60,7 +71,7 @@ public class PuzzleSteps {
     }
 
     @Then("the application presents the puzzle repository error {string}")
-    public void theApplicationPresentsThePuzzleRepositoryError(final String error) {
+    public void thenPresentPuzzleRepositoryError(final String error) {
         verify(presenterMock).presentPuzzleRepositoryError(eq(error));
     }
 }

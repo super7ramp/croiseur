@@ -109,6 +109,11 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
+    public void presentPuzzle(final Puzzle puzzle) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
     public void presentPuzzleRepositoryError(final String error) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
