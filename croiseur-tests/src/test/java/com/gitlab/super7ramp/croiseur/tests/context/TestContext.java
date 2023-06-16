@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.tests.context;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import org.mockito.Mockito;
@@ -52,6 +53,18 @@ public final class TestContext {
     }
 
     /**
+     * Returns the puzzle service.
+     *
+     * @return the puzzle service
+     * @throws NullPointerException if test context is not initialised
+     */
+    public PuzzleService puzzleService() {
+        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
+                                                 "called a deployment step?");
+        return crosswordService.puzzleService();
+    }
+
+    /**
      * Returns the presenter (a mock)
      *
      * @return the presenter
@@ -70,7 +83,7 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public PuzzleRepositorySpy puzzleRepositorySpy() {
-        Objects.requireNonNull(presenterMock,
+        Objects.requireNonNull(puzzleRepositorySpy,
                                "Puzzle repository not initialized, have you called a " +
                                "deployment step?");
         return puzzleRepositorySpy;

@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.api;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.impl.CrosswordServiceImpl;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
@@ -90,4 +91,10 @@ public interface CrosswordService {
      */
     SolverService solverService();
 
+    /**
+     * Returns the puzzle service.
+     *
+     * @return the puzzle service
+     */
+    PuzzleService puzzleService();
 }

@@ -5,11 +5,16 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 import com.gitlab.super7ramp.croiseur.tests.context.PuzzleRepositorySpy;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.Transpose;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+
+import java.util.List;
 
 /**
  * Steps pertaining to the puzzle repository.
@@ -26,6 +31,14 @@ public final class PuzzleRepositorySteps {
      */
     public PuzzleRepositorySteps(final TestContext testContext) {
         puzzleRepositorySpy = testContext.puzzleRepositorySpy();
+    }
+
+    @Given("the puzzle repository contains:")
+    public void givenContains(final List<Puzzle> puzzles) throws WriteException {
+        for (final Puzzle puzzle : puzzles) {
+            final SavedPuzzle saved = puzzleRepositorySpy.create(puzzle);
+            puzzleRepositorySpy.verifyCreation(saved);
+        }
     }
 
     @Then("the application saves the following puzzle:")

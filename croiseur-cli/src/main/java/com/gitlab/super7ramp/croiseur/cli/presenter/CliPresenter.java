@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
@@ -91,6 +92,11 @@ public final class CliPresenter implements Presenter {
     @Override
     public void presentDictionaryError(final String error) {
         cliDictionaryPresenter.presentDictionaryError(error);
+    }
+
+    @Override
+    public void presentAvailablePuzzles(final List<Puzzle> puzzles) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override

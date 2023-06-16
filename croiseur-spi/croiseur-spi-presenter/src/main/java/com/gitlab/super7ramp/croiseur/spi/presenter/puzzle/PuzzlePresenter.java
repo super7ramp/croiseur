@@ -5,10 +5,21 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+
+import java.util.List;
+
 /**
  * Puzzle-related presentation services.
  */
 public interface PuzzlePresenter {
+
+    /**
+     * Present the available puzzles.
+     *
+     * @param puzzles the available puzzles
+     */
+    void presentAvailablePuzzles(final List<Puzzle> puzzles);
 
     /**
      * Presents an error from the repository.

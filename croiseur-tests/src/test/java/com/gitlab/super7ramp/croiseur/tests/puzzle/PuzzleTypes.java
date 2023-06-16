@@ -80,13 +80,18 @@ public final class PuzzleTypes {
     }
 
     @DataTableType
-    public SavedPuzzle puzzle(final Map<String, String> table) {
+    public SavedPuzzle savedPuzzle(final Map<String, String> table) {
         final int id = puzzleId(table.get("Id"));
+        final int revision = Integer.parseInt(table.get("Revision"));
+        final Puzzle puzzle = puzzle(table);
+        return new SavedPuzzle(id, puzzle, revision);
+    }
+
+    @DataTableType
+    public Puzzle puzzle(final Map<String, String> table) {
         final PuzzleDetails details = puzzleDetails(table);
         final PuzzleGrid grid = puzzleGrid(table.get("Grid (rows)"));
-        final Puzzle puzzle = new Puzzle(details, grid);
-        final int revision = Integer.parseInt(table.get("Revision"));
-        return new SavedPuzzle(id, puzzle, revision);
+        return new Puzzle(details, grid);
     }
 
     @ParameterType(".*")

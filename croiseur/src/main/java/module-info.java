@@ -28,6 +28,7 @@ module com.gitlab.super7ramp.croiseur {
     // Exports only API, keeps implementation hidden.
     exports com.gitlab.super7ramp.croiseur.api;
     exports com.gitlab.super7ramp.croiseur.api.dictionary;
+    exports com.gitlab.super7ramp.croiseur.api.puzzle;
     exports com.gitlab.super7ramp.croiseur.api.solver;
 
     // Uses plugins since plugin implementations can be implicitly loaded in factory.

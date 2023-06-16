@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -100,6 +101,11 @@ public final class GuiPresenter implements Presenter {
     @Override
     public void presentDictionaryError(final String error) {
         dictionaryPresenter.presentDictionaryError(error);
+    }
+
+    @Override
+    public void presentAvailablePuzzles(final List<Puzzle> puzzles) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override

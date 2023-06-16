@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.spi.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
@@ -92,6 +93,11 @@ final class BroadcastingPresenter implements Presenter {
     @Override
     public void presentSolverError(final String error) {
         presenters.forEach(p -> p.presentSolverError(error));
+    }
+
+    @Override
+    public void presentAvailablePuzzles(final List<Puzzle> puzzles) {
+        presenters.forEach(p -> p.presentAvailablePuzzles(puzzles));
     }
 
     @Override
