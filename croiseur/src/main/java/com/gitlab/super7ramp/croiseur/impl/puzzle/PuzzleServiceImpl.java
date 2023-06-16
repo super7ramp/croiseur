@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.impl.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.impl.puzzle.repository.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
@@ -21,7 +22,7 @@ import java.util.List;
 public final class PuzzleServiceImpl implements PuzzleService {
 
     /** The puzzle repository. */
-    private final PuzzleRepository repository;
+    private final SafePuzzleRepository repository;
 
     /** The puzzle presenter. */
     private final PuzzlePresenter presenter;
@@ -34,7 +35,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
      */
     public PuzzleServiceImpl(final PuzzleRepository repositoryArg,
                              final PuzzlePresenter presenterArg) {
-        repository = repositoryArg;
+        repository = new SafePuzzleRepository(repositoryArg, presenterArg);
         presenter = presenterArg;
     }
 
@@ -42,5 +43,10 @@ public final class PuzzleServiceImpl implements PuzzleService {
     public void list() {
         final List<Puzzle> puzzles = repository.list().stream().map(SavedPuzzle::data).toList();
         presenter.presentAvailablePuzzles(puzzles);
+    }
+
+    @Override
+    public void delete(final int puzzleId) {
+        repository.delete(puzzleId);
     }
 }

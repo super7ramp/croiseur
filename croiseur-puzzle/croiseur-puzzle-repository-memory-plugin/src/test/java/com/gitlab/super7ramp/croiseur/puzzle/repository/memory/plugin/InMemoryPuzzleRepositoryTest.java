@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -82,7 +84,7 @@ final class InMemoryPuzzleRepositoryTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws WriteException {
         final Puzzle puzzle = puzzleOfSize(4, 3);
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
 
@@ -91,9 +93,14 @@ final class InMemoryPuzzleRepositoryTest {
         assertEquals(Optional.empty(), repo.query(savedPuzzle.id()));
     }
 
+    @Test
+    void delete_missing() {
+        assertThrows(WriteException.class, () -> repo.delete(404));
+    }
+
     // Note: Test likely to break if ID allocation strategy changes
     @Test
-    void create_reuseIdAfterDelete() {
+    void create_reuseIdAfterDelete() throws WriteException {
         final Puzzle puzzle = puzzleOfSize(4, 3);
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
         repo.delete(savedPuzzle);

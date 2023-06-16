@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 import com.gitlab.super7ramp.croiseur.tests.context.PuzzleRepositorySpy;
@@ -34,10 +33,10 @@ public final class PuzzleRepositorySteps {
     }
 
     @Given("the puzzle repository contains:")
-    public void givenContains(final List<Puzzle> puzzles) throws WriteException {
-        for (final Puzzle puzzle : puzzles) {
-            final SavedPuzzle saved = puzzleRepositorySpy.create(puzzle);
-            puzzleRepositorySpy.verifyCreation(saved);
+    public void givenContains(final List<SavedPuzzle> expectedSavedPuzzles) throws WriteException {
+        for (final SavedPuzzle expectedSavedPuzzle : expectedSavedPuzzles) {
+            puzzleRepositorySpy.create(expectedSavedPuzzle.data());
+            puzzleRepositorySpy.verifyCreation(expectedSavedPuzzle);
         }
     }
 
@@ -49,5 +48,10 @@ public final class PuzzleRepositorySteps {
     @Then("the application updates the saved puzzle:")
     public void thenUpdate(@Transpose final SavedPuzzle savedPuzzle) {
         puzzleRepositorySpy.verifyUpdate(savedPuzzle);
+    }
+
+    @Then("the application deletes the puzzle with id {puzzleId} from repository")
+    public void thenDelete(final int puzzleId) {
+        puzzleRepositorySpy.verifyDeletion(puzzleId);
     }
 }

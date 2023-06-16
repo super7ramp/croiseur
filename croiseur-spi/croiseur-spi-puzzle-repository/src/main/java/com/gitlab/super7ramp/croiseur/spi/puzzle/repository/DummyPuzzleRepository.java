@@ -34,7 +34,7 @@ public final class DummyPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public void delete(final SavedPuzzle puzzle) throws WriteException {
+    public void delete(final int id) throws WriteException {
         throw new WriteException("Cannot delete puzzle: No repository defined.");
     }
 

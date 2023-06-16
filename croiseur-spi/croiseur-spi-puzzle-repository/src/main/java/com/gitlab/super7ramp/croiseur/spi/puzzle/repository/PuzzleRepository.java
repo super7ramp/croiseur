@@ -47,7 +47,7 @@ public interface PuzzleRepository {
      * @throws WriteException       if given puzzle cannot be written to repository for another
      *                              reason
      * @implSpec The returned {@link SavedPuzzle} shall contain a new unique identifier of the
-     * puzzle
+     * puzzle. The revision number shall be 1.
      */
     SavedPuzzle create(final Puzzle puzzle) throws WriteException;
 
@@ -67,19 +67,29 @@ public interface PuzzleRepository {
     SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException;
 
     /**
-     * Deletes the given committed data.
+     * Deletes the given saved puzzle.
      *
-     * @param puzzle the committed data to delete
-     * @throws NullPointerException if given data is {@code null}
+     * @param puzzle the saved puzzle to delete
+     * @throws NullPointerException if given puzzle is {@code null}
      * @throws WriteException       if given puzzle cannot be deleted from repository
      */
-    void delete(final SavedPuzzle puzzle) throws WriteException;
+    default void delete(final SavedPuzzle puzzle) throws WriteException {
+        delete(puzzle.id());
+    }
 
     /**
-     * Retrieves the committed puzzle with given ID.
+     * Deletes the saved puzzle identified by given id.
      *
-     * @param id the id of the committed puzzle to retrieve
-     * @return the committed puzzle with given ID, if any, or {@link Optional#empty()}
+     * @param id the identifier of the saved puzzle to delete
+     * @throws WriteException       if given puzzle cannot be deleted from repository
+     */
+    void delete(final int id) throws WriteException;
+
+    /**
+     * Retrieves the saved puzzle with given ID.
+     *
+     * @param id the id of the saved puzzle to retrieve
+     * @return the saved puzzle with given ID, if any, or {@link Optional#empty()}
      */
     Optional<SavedPuzzle> query(final int id);
 

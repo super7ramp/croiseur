@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
 import java.util.BitSet;
 import java.util.Collection;
@@ -58,12 +59,12 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public void delete(final SavedPuzzle puzzle) {
-        final SavedPuzzle deletedPuzzle = puzzles.remove(puzzle.id());
+    public void delete(final int puzzleId) throws WriteException {
+        final SavedPuzzle deletedPuzzle = puzzles.remove(puzzleId);
         if (deletedPuzzle == null) {
-            throw new IllegalArgumentException("Illegal attempt to delete a non-existing puzzle");
+            throw new WriteException("Cannot delete a non-existing puzzle");
         }
-        availableIds.flip(puzzle.id());
+        availableIds.flip(puzzleId);
     }
 
     @Override

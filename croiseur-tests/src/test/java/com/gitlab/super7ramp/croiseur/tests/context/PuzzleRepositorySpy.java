@@ -34,6 +34,9 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
     /** The list of unverified updates. */
     private final List<SavedPuzzle> updates;
 
+    /** The list of unverified deletions. */
+    private final List<Integer> deletions;
+
     /** The list of created puzzle ids. */
     private final List<Integer> createdIds;
 
@@ -46,6 +49,7 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
         spied = puzzleRepository;
         creations = new LinkedList<>();
         updates = new LinkedList<>();
+        deletions = new LinkedList<>();
         createdIds = new ArrayList<>();
     }
 
@@ -65,8 +69,9 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
     }
 
     @Override
-    public void delete(final SavedPuzzle puzzle) throws WriteException {
-        spied.delete(puzzle);
+    public void delete(final int puzzleId) throws WriteException {
+        spied.delete(puzzleId);
+        deletions.add(puzzleId);
     }
 
     @Override
@@ -101,6 +106,18 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
         assertTrue(removed, "No update of " + expected + " recorded");
     }
 
+
+    /**
+     * Verifies that the puzzle with given id has been deleted.
+     *
+     * @param expected the expected updated puzzle
+     * @throws AssertionError if verification fails
+     */
+    public void verifyDeletion(final int expected) {
+        final boolean removed = deletions.remove((Integer) expected);
+        assertTrue(removed, "No update of " + expected + " recorded");
+    }
+
     /**
      * Verifies that no more interactions have occurred on the repository.
      *
@@ -108,9 +125,11 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyNoMoreInteractions() {
         assertAll(() -> assertTrue(creations.isEmpty(),
-                                   "Unverified puzzle repository creations: " + creations),
+                                   "Unverified puzzle repository creation(s): " + creations),
                   () -> assertTrue(updates.isEmpty(),
-                                   "Unverified puzzle repository updates: " + updates));
+                                   "Unverified puzzle repository update(s): " + updates),
+                  () -> assertTrue(deletions.isEmpty(),
+                                   "Unverified puzzle repository deletion(s): " + deletions));
     }
 
     /**

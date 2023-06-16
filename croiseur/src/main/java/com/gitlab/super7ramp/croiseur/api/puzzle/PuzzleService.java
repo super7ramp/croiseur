@@ -15,8 +15,14 @@ public interface PuzzleService {
     /**
      * Lists the available puzzles.
      *
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentAvailablePuzzles(List)
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentAvailablePuzzles(List) PuzzlePresenter#presentAvailablePuzzles
      */
     void list();
 
+    /**
+     * Deletes the puzzle with given puzzle id.
+     *
+     * @param puzzleId the puzzle id
+     */
+    void delete(final int puzzleId);
 }

@@ -39,6 +39,11 @@ public class PuzzleSteps {
         presenterMock = testContext.presenterMock();
     }
 
+    @When("user requests to delete the puzzle with id {puzzleId}")
+    public void whenDelete(final int puzzleId) {
+        puzzleService.delete(puzzleId);
+    }
+
     @When("user requests to list the available puzzles")
     public void whenList() {
         puzzleService.list();
@@ -52,5 +57,10 @@ public class PuzzleSteps {
     @Then("the application presents the following list of puzzles:")
     public void thenPresentPuzzles(final List<Puzzle> puzzles) {
         verify(presenterMock).presentAvailablePuzzles(eq(puzzles));
+    }
+
+    @Then("the application presents the puzzle repository error {string}")
+    public void theApplicationPresentsThePuzzleRepositoryError(final String error) {
+        verify(presenterMock).presentPuzzleRepositoryError(eq(error));
     }
 }

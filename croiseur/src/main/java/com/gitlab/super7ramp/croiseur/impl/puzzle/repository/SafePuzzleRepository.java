@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -51,7 +52,7 @@ public final class SafePuzzleRepository {
             final SavedPuzzle savedPuzzle = repository.create(puzzle);
             return Optional.of(savedPuzzle);
         } catch (final WriteException e) {
-            presenter.presentPuzzleRepositoryError(e.getMessage());
+            presenter.presentPuzzleRepositoryError("Failed to create puzzle: " + e.getMessage());
             return Optional.empty();
         }
     }
@@ -71,8 +72,40 @@ public final class SafePuzzleRepository {
             final SavedPuzzle savedPuzzle = repository.update(changedPuzzle);
             return Optional.of(savedPuzzle);
         } catch (final WriteException e) {
-            presenter.presentPuzzleRepositoryError(e.getMessage());
+            presenter.presentPuzzleRepositoryError("Failed to update puzzle: " + e.getMessage());
             return Optional.empty();
         }
+    }
+
+    /**
+     * Retrieves the puzzle saved with given ID.
+     *
+     * @param id the id of the saved puzzle to retrieve
+     * @return the saved puzzle with given ID, if any, or {@link Optional#empty()}
+     */
+    public Optional<SavedPuzzle> query(final int id) {
+        return repository.query(id);
+    }
+
+    /**
+     * Deletes the saved puzzle identified with given id.
+     *
+     * @param id the id of the saved puzzle to delete
+     */
+    public void delete(final int id) {
+        try {
+            repository.delete(id);
+        } catch (final WriteException e) {
+            presenter.presentPuzzleRepositoryError("Failed to delete puzzle: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Lists all the data present in this repository.
+     *
+     * @return the puzzles present in this repository
+     */
+    public Collection<SavedPuzzle> list() {
+        return repository.list();
     }
 }
