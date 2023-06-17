@@ -155,6 +155,18 @@ public final class XdMetadata {
         public XdMetadata build() {
             return new XdMetadata(this);
         }
+
+        /**
+         * Resets this builder.
+         */
+        public void reset() {
+            title = null;
+            author = null;
+            editor = null;
+            copyright = null;
+            date = null;
+            otherProperties.clear();
+        }
     }
 
     /** Other properties. */

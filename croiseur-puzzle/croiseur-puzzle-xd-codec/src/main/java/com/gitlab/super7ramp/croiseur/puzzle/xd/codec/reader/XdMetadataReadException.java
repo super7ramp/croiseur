@@ -20,6 +20,11 @@ public final class XdMetadataReadException extends XdReadException {
         super(cause);
     }
 
+    /**
+     * Constructs an instance.
+     *
+     * @param message the detail message
+     */
     XdMetadataReadException(final String message) {
         super("Invalid metadata: " + message);
     }

@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+package com.gitlab.super7ramp.croiseur.puzzle.xd.codec.reader;
+
+/**
+ * {@link XdReadException} relevant to the clues section.
+ */
+public final class XdClueReadException extends XdReadException{
+
+    /**
+     * Constructs an instance.
+     *
+     * @param message the detail message
+     */
+    XdClueReadException(final String message) {
+        super("Invalid clue: " + message);
+    }
+}

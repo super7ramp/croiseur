@@ -48,6 +48,7 @@ public final class XdGrid {
      *                   .nonFilled(at(1,0))
      *                   .filled(at(2,0), "A")
      *                   .space(at(3,0))
+     *                   .build();
      * }</pre>
      * Corresponds to: {@code #.A_}
      */
@@ -92,7 +93,7 @@ public final class XdGrid {
          * @param index the non-filled cell position
          * @return this builder
          */
-        public Builder nonFilled(Index index) {
+        public Builder nonFilled(final Index index) {
             nonFilled.add(index);
             return this;
         }
@@ -103,7 +104,7 @@ public final class XdGrid {
          * @param index the void space position
          * @return this builder
          */
-        public Builder space(Index index) {
+        public Builder space(final Index index) {
             spaces.add(index);
             return this;
         }
@@ -115,7 +116,7 @@ public final class XdGrid {
          * @param character the filled cell value
          * @return this builder
          */
-        public Builder filled(Index index, char character) {
+        public Builder filled(final Index index, final char character) {
             filled.put(index, String.valueOf(character));
             return this;
         }
@@ -130,19 +131,29 @@ public final class XdGrid {
         public XdGrid build() {
             return new XdGrid(this);
         }
+
+        /**
+         * Resets this builder.
+         */
+        public void reset() {
+            blocks.clear();
+            spaces.clear();
+            nonFilled.clear();
+            filled.clear();
+        }
     }
 
     /** The block positions. */
-    private Set<Index> blocks;
+    private final Set<Index> blocks;
 
     /** The space positions. */
-    private Set<Index> spaces;
+    private final Set<Index> spaces;
 
     /** The non-filled positions. */
-    private Set<Index> nonFilled;
+    private final Set<Index> nonFilled;
 
     /** The filled cells. */
-    private Map<Index, String> filled;
+    private final Map<Index, String> filled;
 
     /**
      * Constructs an instance.

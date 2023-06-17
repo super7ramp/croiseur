@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.puzzle.xd.codec.reader;
 
 import com.gitlab.super7ramp.croiseur.puzzle.xd.codec.model.XdMetadata;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -22,12 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class XdMetadataReaderTest {
 
     /** The reader under tests. */
-    private XdMetadataReader reader;
-
-    @BeforeEach
-    void setUp() {
-        reader = new XdMetadataReader();
-    }
+    private final XdMetadataReader reader = new XdMetadataReader();
 
     @Test
     void nominalCase() throws XdReadException {

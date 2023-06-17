@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.puzzle.xd.codec.reader;
 
 import com.gitlab.super7ramp.croiseur.puzzle.xd.codec.model.XdGrid;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -25,12 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 final class XdGridReaderTest {
 
     /** The reader under tests. */
-    private XdGridReader reader;
-
-    @BeforeEach
-    void setUp() {
-        reader = new XdGridReader();
-    }
+    private final XdGridReader reader = new XdGridReader();
 
     @Test
     void readFilled() {

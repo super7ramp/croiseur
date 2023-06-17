@@ -36,11 +36,14 @@ public final class XdMetadataReader {
     /** The separator between key and value ("Key: Value"). */
     private static final String PROPERTY_SEPARATOR = ":";
 
+    /** The metadata model builder. */
+    private final XdMetadata.Builder builder;
+
     /**
      * Constructs an instance.
      */
     XdMetadataReader() {
-        // Nothing to do.
+        builder = new XdMetadata.Builder();
     }
 
     /**
@@ -53,7 +56,7 @@ public final class XdMetadataReader {
      */
     XdMetadata read(final String rawMetadata) throws XdReadException {
         Objects.requireNonNull(rawMetadata);
-        final var builder = new XdMetadata.Builder();
+        builder.reset();
         for (final String line : rawMetadata.split(LINE_SEPARATOR)) {
             final String[] keyValue = splitKeyValues(line);
             final String key = keyValue[0].trim();

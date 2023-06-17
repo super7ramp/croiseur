@@ -20,6 +20,11 @@ abstract class XdReadException extends Exception {
         super(cause);
     }
 
+    /**
+     * Constructs an instance.
+     *
+     * @param message the detail message
+     */
     XdReadException(final String message) {
         super(message);
     }
