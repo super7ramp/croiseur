@@ -10,6 +10,10 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * Parses text to {@link XdCrossword}.
  */
@@ -53,6 +57,22 @@ public final class XdCrosswordReader {
         final XdGrid grid = gridReader.read(sections.grid);
         final XdClues clues = cluesReader.read(sections.clues);
         return new XdCrossword(metadata, grid, clues);
+    }
+
+    /**
+     * Reads the crossword at given path.
+     *
+     * @param crosswordPath the path of the crossword to read
+     * @return the read {@link XdCrossword}
+     * @throws XdReadException if read fails
+     */
+    public XdCrossword read(final Path crosswordPath) throws XdReadException {
+        try {
+            final String rawCrossword = Files.readString(crosswordPath);
+            return read(rawCrossword);
+        } catch (final IOException e) {
+            throw new XdCrosswordReadException(e);
+        }
     }
 
     /**

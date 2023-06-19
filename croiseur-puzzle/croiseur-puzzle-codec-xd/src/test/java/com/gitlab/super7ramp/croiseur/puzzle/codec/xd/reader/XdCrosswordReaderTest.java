@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
 import static java.util.Collections.emptySet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,9 +57,9 @@ final class XdCrosswordReaderTest {
         assertEquals("Croiseur", xdMetadata.editor().orElse(""));
 
         final XdGrid xdGrid = xdCrossword.grid();
-        assertEquals(Map.of(XdGrid.Index.at(0, 0), "A", XdGrid.Index.at(1, 0), "B", XdGrid.Index.at(2, 0), "C",
-                            XdGrid.Index.at(0, 1), "D", XdGrid.Index.at(1, 1), "E", XdGrid.Index.at(2, 1), "F",
-                            XdGrid.Index.at(0, 2), "G", XdGrid.Index.at(1, 2), "H", XdGrid.Index.at(2, 2), "I"),
+        assertEquals(Map.of(at(0, 0), "A", at(1, 0), "B", at(2, 0), "C",
+                            at(0, 1), "D", at(1, 1), "E", at(2, 1), "F",
+                            at(0, 2), "G", at(1, 2), "H", at(2, 2), "I"),
                      xdGrid.filled());
         assertEquals(emptySet(), xdGrid.blocks());
         assertEquals(emptySet(), xdGrid.nonFilled());

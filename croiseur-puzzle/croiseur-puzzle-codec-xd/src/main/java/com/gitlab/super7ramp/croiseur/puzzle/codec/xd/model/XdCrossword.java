@@ -9,7 +9,7 @@ package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model;
  * A crossword.
  *
  * @param metadata the crossword metadata
- * @param grid the crossword metadata
+ * @param grid the crossword grid
  * @param clues the crossword clues
  */
 public record XdCrossword(XdMetadata metadata, XdGrid grid, XdClues clues) {

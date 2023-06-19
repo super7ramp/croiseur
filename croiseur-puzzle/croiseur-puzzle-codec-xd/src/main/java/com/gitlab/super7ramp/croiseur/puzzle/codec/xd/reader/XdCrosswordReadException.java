@@ -13,6 +13,15 @@ public final class XdCrosswordReadException extends XdReadException {
     /**
      * Constructs an instance.
      *
+     * @param cause the cause
+     */
+    XdCrosswordReadException(final Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Constructs an instance.
+     *
      * @param message the detail message
      */
     XdCrosswordReadException(final String message) {
