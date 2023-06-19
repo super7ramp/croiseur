@@ -243,4 +243,32 @@ public final class XdMetadata {
         return Optional.ofNullable(title);
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof final XdMetadata that)) return false;
+        return Objects.equals(otherProperties, that.otherProperties) &&
+               Objects.equals(title, that.title) &&
+               Objects.equals(author, that.author) &&
+               Objects.equals(editor, that.editor) &&
+               Objects.equals(copyright, that.copyright) &&
+               Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(otherProperties, title, author, editor, copyright, date);
+    }
+
+    @Override
+    public String toString() {
+        return "XdMetadata{" +
+               "otherProperties=" + otherProperties +
+               ", title='" + title + '\'' +
+               ", author='" + author + '\'' +
+               ", editor='" + editor + '\'' +
+               ", copyright='" + copyright + '\'' +
+               ", date=" + date +
+               '}';
+    }
 }

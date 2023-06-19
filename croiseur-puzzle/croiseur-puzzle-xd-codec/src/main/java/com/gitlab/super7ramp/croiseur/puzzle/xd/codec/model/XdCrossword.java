@@ -5,18 +5,13 @@
 
 package com.gitlab.super7ramp.croiseur.puzzle.xd.codec.model;
 
-public final class XdCrossword {
-
-    private final XdMetadata metadata;
-
-    private final XdGrid grid;
-
-    private final XdClues clues;
-
-    XdCrossword(final XdMetadata someMetadata, final XdGrid aGrid, final XdClues someClues) {
-        metadata = someMetadata;
-        grid = aGrid;
-        clues = someClues;
-    }
-
+/**
+ * A crossword.
+ *
+ * @param metadata the crossword metadata
+ * @param grid the crossword metadata
+ * @param clues the crossword clues
+ */
+public record XdCrossword(XdMetadata metadata, XdGrid grid, XdClues clues) {
+    // Nothing to add.
 }
