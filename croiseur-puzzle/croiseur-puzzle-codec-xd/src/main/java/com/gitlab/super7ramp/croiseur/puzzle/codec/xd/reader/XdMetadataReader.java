@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * Parses text to {@link XdMetadata}.
  */
-public final class XdMetadataReader {
+final class XdMetadataReader {
 
     /**
      * Standard metadata property keys.

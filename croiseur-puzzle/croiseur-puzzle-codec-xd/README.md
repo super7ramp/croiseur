@@ -44,6 +44,10 @@ D3. Start the card game. ~ CUTANDDEAL
 [...]
 ```
 
+### Limitations
+
+See [TODO.md](TODO.md).
+
 ### References
 
 * [The xd format specification](https://github.com/century-arcade/xd/blob/059c2eca6917cd94c0a61199198b96e8aa80f6db/doc/xd-format.md)

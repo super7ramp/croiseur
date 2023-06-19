@@ -13,7 +13,7 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 /**
  * Parses text to {@link XdCrossword}.
  */
-final class XdCrosswordReader {
+public final class XdCrosswordReader {
 
     /**
      * The crossword sections.
@@ -47,7 +47,7 @@ final class XdCrosswordReader {
      * @return the read {@link XdCrossword}
      * @throws XdReadException if read fails
      */
-    XdCrossword read(final String rawCrossword) throws XdReadException {
+    public XdCrossword read(final String rawCrossword) throws XdReadException {
         final Sections sections = splitSections(rawCrossword);
         final XdMetadata metadata = metadataReader.read(sections.metadata);
         final XdGrid grid = gridReader.read(sections.grid);
@@ -55,6 +55,13 @@ final class XdCrosswordReader {
         return new XdCrossword(metadata, grid, clues);
     }
 
+    /**
+     * Splits given crossword string into {@link Sections}.
+     *
+     * @param rawCrossword the crossword to read
+     * @return the {@link Sections} of the crossword
+     * @throws XdCrosswordReadException if the actual number of sections is not 3 or 4
+     */
     private static Sections splitSections(final String rawCrossword)
             throws XdCrosswordReadException {
         final String[] sections = rawCrossword.split("\n\n\n");

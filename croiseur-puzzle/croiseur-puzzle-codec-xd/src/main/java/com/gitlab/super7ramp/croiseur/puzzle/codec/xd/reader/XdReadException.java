@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader;
 /**
  * Abstract read exception, thrown by xd readers.
  */
-abstract class XdReadException extends Exception {
+public abstract class XdReadException extends Exception {
 
     /**
      * Constructs an instance.

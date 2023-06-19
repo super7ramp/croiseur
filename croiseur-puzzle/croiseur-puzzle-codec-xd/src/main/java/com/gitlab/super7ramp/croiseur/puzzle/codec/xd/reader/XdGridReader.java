@@ -14,7 +14,7 @@ import static com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid.Index.
 /**
  * Parses text to {@link XdGrid}.
  */
-public final class XdGridReader {
+final class XdGridReader {
 
     /** The grid model builder. */
     private final XdGrid.Builder builder;
@@ -22,7 +22,7 @@ public final class XdGridReader {
     /**
      * Constructs an instance.
      */
-    public XdGridReader() {
+    XdGridReader() {
         builder = new XdGrid.Builder();
     }
 
@@ -33,7 +33,7 @@ public final class XdGridReader {
      * @return the parsed grid
      * @throws NullPointerException if given string is {@code null}
      */
-    public XdGrid read(final String rawGrid) {
+    XdGrid read(final String rawGrid) {
         Objects.requireNonNull(rawGrid);
         builder.reset();
         final String[] lines = rawGrid.split("\\R");

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Parses text to {@link XdClues}.
  */
-public final class XdCluesReader {
+final class XdCluesReader {
 
     /** Regex matching a clue. */
     private static final Pattern CLUE_REGEX =

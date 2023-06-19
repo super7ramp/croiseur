@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 ## TODO
 
 - Rebus (multiple letters in a single cell): Not supported by croiseur solvers but shouldn't be too
@@ -8,3 +13,5 @@
   Basic Multilingual Plane or BMP)
 - Format V2 (support for markdown-like headers instead of the 3 new-lines to separate sections)
 - Multi-line clues
+- Notes section
+- Writer
