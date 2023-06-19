@@ -13,6 +13,16 @@ public final class WriteException extends Exception {
     /**
      * Constructs an instance.
      *
+     * @param message the message
+     * @param cause the cause
+     */
+    public WriteException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructs an instance.
+     *
      * @param message the detail message
      */
     public WriteException(final String message) {

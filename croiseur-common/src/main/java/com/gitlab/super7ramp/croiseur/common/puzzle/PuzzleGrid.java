@@ -140,7 +140,8 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
     private static Consumer<GridPosition> validateCoordinates(final int width, final int height) {
         return coordinate -> {
             if (coordinate.x() >= width || coordinate.y() >= height) {
-                throw new IllegalArgumentException("Coordinates outside grid: " + coordinate);
+                throw new IllegalArgumentException(
+                        "Coordinates outside " + width + "x" + height + " grid: " + coordinate);
             }
         };
     }

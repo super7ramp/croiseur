@@ -42,6 +42,7 @@ include("croiseur-solver:croiseur-solver-szunami:xwords-rs-jni")
 include("croiseur-solver:croiseur-solver-szunami-plugin")
 
 // Puzzles codecs/data/providers
+include("croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin")
 include("croiseur-puzzle:croiseur-puzzle-repository-memory-plugin")
 include("croiseur-puzzle:croiseur-puzzle-codec-xd")
 
