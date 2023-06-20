@@ -5,14 +5,11 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter.solver;
 
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
-
 import java.util.List;
 
 /**
  * Solver-related presentation services.
  */
-// TODO create specific types so that Presenter SPI does not depend on Solver SPIs
 public interface SolverPresenter {
 
     /**
@@ -44,7 +41,6 @@ public interface SolverPresenter {
      *
      * @param result the solver result
      */
-    // TODO create specific solver result type so that Presenter SPI does not depend on Solver SPI?
     void presentSolverResult(final SolverResult result);
 
     /**

@@ -10,7 +10,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
+import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 
 import java.util.List;
 

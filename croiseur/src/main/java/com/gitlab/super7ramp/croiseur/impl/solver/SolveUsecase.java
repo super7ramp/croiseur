@@ -87,33 +87,31 @@ final class SolveUsecase {
 
         final Dictionary dictionary = optionallyShuffledDictionary(event, optDictionary.get());
         final ProgressListener progressListener = progressListenerFactory.from(event.progress());
-        final Optional<SolverResult> result =
+        final Optional<SolverResult> optResult =
                 runSolver(optSolver.get(), event.grid(), dictionary, progressListener);
-        result.ifPresent(presenter::presentSolverResult);
 
-        optionallyUpdateSavedPuzzle(savedPuzzle, result);
+        if (optResult.isPresent()) {
+            final SolverResult solverResult = optResult.get();
+            final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult
+                    presentableResult =
+                    SolverResultConverter.toPresentable(solverResult, event.grid());
+            presenter.presentSolverResult(presentableResult);
+            optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult.grid());
+        }
     }
 
     /**
-     * Updates the previously saved puzzle, if result is present and successful.
+     * Updates the previously saved puzzle, if any.
      *
-     * @param savedPuzzleOpt  the previously saved puzzle, if any
-     * @param solverResultOpt the solver run result, if any
+     * @param savedPuzzleOpt the previously saved puzzle, if any
+     * @param solvedGrid     the solved grid
      */
     private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
-                                             final Optional<SolverResult> solverResultOpt) {
-        if (savedPuzzleOpt.isPresent() &&
-            solverResultOpt.filter(result -> result.kind().isSuccess()).isPresent()) {
-
+                                             final PuzzleGrid solvedGrid) {
+        if (savedPuzzleOpt.isPresent()) {
             final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
-            final PuzzleGrid savedPuzzleGrid = savedPuzzle.grid();
-            final SolverResult result = solverResultOpt.get();
-            final PuzzleGrid updatedGrid =
-                    new PuzzleGrid(savedPuzzleGrid.width(), savedPuzzleGrid.height(),
-                                   savedPuzzleGrid.shaded(), result.filledBoxes());
-            final Puzzle updatedPuzzle = new Puzzle(savedPuzzle.details(), updatedGrid);
+            final Puzzle updatedPuzzle = new Puzzle(savedPuzzle.details(), solvedGrid);
             puzzleRepository.update(savedPuzzle.modifiedWith(updatedPuzzle));
-
         } // else no previously saved puzzle, do nothing
 
     }

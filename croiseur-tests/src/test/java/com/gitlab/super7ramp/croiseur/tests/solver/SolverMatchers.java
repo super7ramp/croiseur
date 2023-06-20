@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.solver;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
+import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import org.mockito.ArgumentMatcher;
 
 import java.util.Map;
@@ -28,9 +28,9 @@ final class SolverMatchers {
 
         @Override
         public boolean matches(final SolverResult actual) {
-            return actual.kind() == SolverResult.Kind.SUCCESS &&
-                    actual.unsolvableBoxes().isEmpty() &&
-                    actual.filledBoxes().equals(solution);
+            return actual.isSuccess() &&
+                   actual.unsolvableBoxes().isEmpty() &&
+                   actual.filledBoxes().equals(solution);
         }
     }
 
@@ -55,6 +55,6 @@ final class SolverMatchers {
      * @return {@code null}
      */
     static SolverResult impossible() {
-        return argThat(actual -> actual.kind() == SolverResult.Kind.IMPOSSIBLE);
+        return argThat(actual -> !actual.isSuccess());
     }
 }

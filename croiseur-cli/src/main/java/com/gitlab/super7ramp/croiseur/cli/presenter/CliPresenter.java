@@ -14,7 +14,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchR
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
+import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.List;

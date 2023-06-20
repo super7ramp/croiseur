@@ -8,5 +8,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":croiseur-spi:croiseur-spi-solver"))
+    api(project(":croiseur-common"))
 }

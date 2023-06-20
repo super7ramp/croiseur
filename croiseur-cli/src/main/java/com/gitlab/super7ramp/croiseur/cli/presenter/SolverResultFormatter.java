@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
+import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import picocli.CommandLine;
 
 import java.util.Comparator;
@@ -49,12 +49,12 @@ final class SolverResultFormatter {
      */
     static String format(final SolverResult result) {
 
-        final SolverResult.Kind kind = result.kind();
+        final boolean success = result.isSuccess();
         final Map<GridPosition, Character> filledBoxes = result.filledBoxes();
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
 
         final StringBuilder sb = new StringBuilder();
-        sb.append($("result.header")).append($(toL10nKey(kind)));
+        sb.append($("result.header")).append($(toL10nKey(success)));
         sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
 
         final Set<GridPosition> positions = new HashSet<>(filledBoxes.keySet());
@@ -102,10 +102,7 @@ final class SolverResultFormatter {
                         .orElse(-1) + 1;
     }
 
-    private static String toL10nKey(final SolverResult.Kind kind) {
-        return switch (kind) {
-            case SUCCESS -> "result.success";
-            case IMPOSSIBLE -> "result.impossible";
-        };
+    private static String toL10nKey(final boolean success) {
+        return success ? "result.success" : "result.impossible";
     }
 }
