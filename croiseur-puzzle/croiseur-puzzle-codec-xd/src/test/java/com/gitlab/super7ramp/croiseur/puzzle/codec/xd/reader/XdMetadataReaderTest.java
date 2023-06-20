@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,8 +42,10 @@ final class XdMetadataReaderTest {
         assertEquals("Anthony Morse", xdMetadata.author().get());
         assertTrue(xdMetadata.editor().isPresent());
         assertEquals("Margaret Farrar", xdMetadata.editor().get());
+        assertTrue(xdMetadata.copyright().isEmpty());
         assertTrue(xdMetadata.date().isPresent());
         assertEquals(LocalDate.of(1955, 1, 1), xdMetadata.date().get());
+        assertEquals(Collections.emptyMap(), xdMetadata.otherProperties());
     }
 
     /**
