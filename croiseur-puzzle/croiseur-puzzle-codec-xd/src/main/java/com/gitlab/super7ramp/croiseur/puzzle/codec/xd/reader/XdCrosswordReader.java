@@ -16,6 +16,8 @@ import java.nio.file.Path;
 
 /**
  * Parses text to {@link XdCrossword}.
+ * <p>
+ * Reader is <em>not</em> thread-safe.
  */
 public final class XdCrosswordReader {
 
