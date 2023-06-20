@@ -48,7 +48,7 @@ final class ProgressListenerFactory {
 
         @Override
         public void onSolverProgressUpdate(final short completionPercentage) {
-            presenter.presentProgress(new SolverProgress(completionPercentage));
+            presenter.presentSolverProgress(new SolverProgress(completionPercentage));
         }
 
     }

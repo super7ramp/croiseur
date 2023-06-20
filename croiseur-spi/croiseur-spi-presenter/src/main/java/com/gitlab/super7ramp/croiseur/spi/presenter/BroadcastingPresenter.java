@@ -81,13 +81,13 @@ final class BroadcastingPresenter implements Presenter {
     }
 
     @Override
-    public void presentProgress(final SolverProgress progress) {
-        presenters.forEach(p -> p.presentProgress(progress));
+    public void presentSolverProgress(final SolverProgress progress) {
+        presenters.forEach(p -> p.presentSolverProgress(progress));
     }
 
     @Override
-    public void presentResult(final SolverResult result) {
-        presenters.forEach(p -> p.presentResult(result));
+    public void presentSolverResult(final SolverResult result) {
+        presenters.forEach(p -> p.presentSolverResult(result));
     }
 
     @Override

@@ -50,13 +50,13 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentProgress(final SolverProgress progress) {
-        cliSolverPresenter.presentProgress(progress);
+    public void presentSolverProgress(final SolverProgress progress) {
+        cliSolverPresenter.presentSolverProgress(progress);
     }
 
     @Override
-    public void presentResult(final SolverResult result) {
-        cliSolverPresenter.presentResult(result);
+    public void presentSolverResult(final SolverResult result) {
+        cliSolverPresenter.presentSolverResult(result);
     }
 
     @Override

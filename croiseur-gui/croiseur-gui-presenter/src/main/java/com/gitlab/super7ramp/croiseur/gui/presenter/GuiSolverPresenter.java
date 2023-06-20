@@ -82,7 +82,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentProgress(final SolverProgress solverProgress) {
+    public void presentSolverProgress(final SolverProgress solverProgress) {
         LOGGER.info(() -> "Received solver progress: " + solverProgress);
         final double normalizedSolverProgress =
                 ((double) solverProgress.completionPercentage()) / 100.0;
@@ -90,7 +90,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentResult(final SolverResult result) {
+    public void presentSolverResult(final SolverResult result) {
         LOGGER.info(() -> "Received solver result: " + result);
         Platform.runLater(() -> {
             updateBoxContent(result);

@@ -59,13 +59,13 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentProgress(final SolverProgress solverProgress) {
-        solverPresenter.presentProgress(solverProgress);
+    public void presentSolverProgress(final SolverProgress solverProgress) {
+        solverPresenter.presentSolverProgress(solverProgress);
     }
 
     @Override
-    public void presentResult(final SolverResult result) {
-        solverPresenter.presentResult(result);
+    public void presentSolverResult(final SolverResult result) {
+        solverPresenter.presentSolverResult(result);
     }
 
     @Override

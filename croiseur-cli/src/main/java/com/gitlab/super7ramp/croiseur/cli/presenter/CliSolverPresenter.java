@@ -71,7 +71,7 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentProgress(final SolverProgress solverProgress) {
+    public void presentSolverProgress(final SolverProgress solverProgress) {
         final short completionPercentage = solverProgress.completionPercentage();
         if (completionPercentage > bestCompletionPercentage) {
             bestCompletionPercentage = completionPercentage;
@@ -80,7 +80,7 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentResult(final SolverResult result) {
+    public void presentSolverResult(final SolverResult result) {
         System.out.println(SolverResultFormatter.format(result));
     }
 

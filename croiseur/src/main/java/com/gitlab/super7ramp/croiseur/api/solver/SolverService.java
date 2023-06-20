@@ -27,10 +27,10 @@ public interface SolverService {
      * @param event details about the puzzle to solve
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverInitialisationState
      * SolverPresenter.presentSolverInitialisationState
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentProgress
-     * SolverPresenter.presentProgress
-     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentResult
-     * SolverPresenter.presentResult
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverProgress
+     * SolverPresenter.presentSolverProgress
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverResult
+     * SolverPresenter.presentSolverResult
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter#presentSolverError
      * SolverPresenter.presentSolverError
      */

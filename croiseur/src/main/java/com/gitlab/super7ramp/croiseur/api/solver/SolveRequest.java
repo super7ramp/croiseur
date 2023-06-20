@@ -76,7 +76,7 @@ public interface SolveRequest {
      * Defines how progress should be notified for presentation.
      *
      * @return the definition of how progress should be notified for presentation
-     * @see SolverPresenter#presentProgress
+     * @see SolverPresenter#presentSolverProgress
      * @see SolverPresenter#presentSolverInitialisationState
      */
     SolverProgressNotificationMethod progress();

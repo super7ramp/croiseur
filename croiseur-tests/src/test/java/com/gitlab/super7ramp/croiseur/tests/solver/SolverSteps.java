@@ -153,11 +153,11 @@ public final class SolverSteps {
 
     @Then("the application presents the following successful solver result:")
     public void thenPresentSolverResultSuccess(final PuzzleGrid solution) {
-        verify(presenterMock).presentResult(success(solution.filled()));
+        verify(presenterMock).presentSolverResult(success(solution.filled()));
     }
 
     @Then("the application presents the grid as impossible to solve")
     public void thenPresentSolverResultImpossible() {
-        verify(presenterMock).presentResult(impossible());
+        verify(presenterMock).presentSolverResult(impossible());
     }
 }

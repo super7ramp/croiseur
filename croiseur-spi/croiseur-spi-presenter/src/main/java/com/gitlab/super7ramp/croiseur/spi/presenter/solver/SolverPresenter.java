@@ -37,7 +37,7 @@ public interface SolverPresenter {
      *
      * @param progress the completion percentage of the solving
      */
-    void presentProgress(final SolverProgress progress);
+    void presentSolverProgress(final SolverProgress progress);
 
     /**
      * Presents the result of a crossword solving request.
@@ -45,7 +45,7 @@ public interface SolverPresenter {
      * @param result the solver result
      */
     // TODO create specific solver result type so that Presenter SPI does not depend on Solver SPI?
-    void presentResult(final SolverResult result);
+    void presentSolverResult(final SolverResult result);
 
     /**
      * Presents an error from the solver.

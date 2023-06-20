@@ -89,7 +89,7 @@ final class SolveUsecase {
         final ProgressListener progressListener = progressListenerFactory.from(event.progress());
         final Optional<SolverResult> result =
                 runSolver(optSolver.get(), event.grid(), dictionary, progressListener);
-        result.ifPresent(presenter::presentResult);
+        result.ifPresent(presenter::presentSolverResult);
 
         optionallyUpdateSavedPuzzle(savedPuzzle, result);
     }
