@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.solver;
+package com.gitlab.super7ramp.croiseur.impl.solver.prerun;
 
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 

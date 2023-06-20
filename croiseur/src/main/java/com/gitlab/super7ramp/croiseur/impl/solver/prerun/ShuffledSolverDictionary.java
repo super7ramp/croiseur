@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.solver;
+package com.gitlab.super7ramp.croiseur.impl.solver.prerun;
 
 import com.gitlab.super7ramp.croiseur.spi.solver.Dictionary;
 
@@ -16,7 +16,7 @@ import java.util.Random;
 /**
  * A dictionary shuffled once with given randomness source.
  */
-final class ShuffledSolverDictionary implements Dictionary {
+public final class ShuffledSolverDictionary implements Dictionary {
 
     /** The shuffled words. */
     private final List<String> words;
@@ -27,7 +27,7 @@ final class ShuffledSolverDictionary implements Dictionary {
      * @param dictionary the dictionary to shuffle
      * @param random     the randomness source to use to shuffle
      */
-    ShuffledSolverDictionary(final Dictionary dictionary, final Random random) {
+    public ShuffledSolverDictionary(final Dictionary dictionary, final Random random) {
         words = new ArrayList<>(dictionary.words());
         Collections.shuffle(words, random);
     }

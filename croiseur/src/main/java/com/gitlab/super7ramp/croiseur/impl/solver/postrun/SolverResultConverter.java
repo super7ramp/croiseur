@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.solver;
+package com.gitlab.super7ramp.croiseur.impl.solver.postrun;
 
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
@@ -13,7 +13,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
  * Converts from {@link com.gitlab.super7ramp.croiseur.spi.solver.SolverResult} to
  * {@link com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult}.
  */
-final class SolverResultConverter {
+public final class SolverResultConverter {
 
     /** Private constructor to prevent instantiation, static methods only. */
     private SolverResultConverter() {
@@ -28,7 +28,7 @@ final class SolverResultConverter {
      * @param solverResult the solver result from solver SPI
      * @param originalGrid the original grid, before the solving process started
      */
-    static SolverResult toPresentable(
+    public static SolverResult toPresentable(
             final com.gitlab.super7ramp.croiseur.spi.solver.SolverResult solverResult, final
     PuzzleGrid originalGrid) {
         final PuzzleGrid updatedGrid =

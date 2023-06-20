@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.solver;
+package com.gitlab.super7ramp.croiseur.impl.solver.prerun;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * A {@link ProgressListener} factory.
  */
-final class ProgressListenerFactory {
+public final class ProgressListenerFactory {
 
     /**
      * Implementation of a periodical progress listener.
@@ -61,7 +61,7 @@ final class ProgressListenerFactory {
      *
      * @param solverPresenterArg the solver presenter instance
      */
-    ProgressListenerFactory(final SolverPresenter solverPresenterArg) {
+    public ProgressListenerFactory(final SolverPresenter solverPresenterArg) {
         listeners =
                 new EnumMap<>(SolveRequest.SolverProgressNotificationMethod.class);
         listeners.put(SolveRequest.SolverProgressNotificationMethod.NONE,
@@ -76,7 +76,7 @@ final class ProgressListenerFactory {
      * @param kind the desired notification kind
      * @return a {@link ProgressListener} from given notification kind
      */
-    ProgressListener from(final SolveRequest.SolverProgressNotificationMethod kind) {
+    public ProgressListener from(final SolveRequest.SolverProgressNotificationMethod kind) {
         return listeners.get(kind);
     }
 

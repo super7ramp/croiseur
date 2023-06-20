@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.impl.solver;
+package com.gitlab.super7ramp.croiseur.impl.solver.prerun;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.impl.dictionary.selection.DictionarySelector;
@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Dictionary loader.
  */
-final class DictionaryLoader {
+public final class DictionaryLoader {
 
     /** The actual dictionary providers. */
     private final DictionarySelector selector;
@@ -29,7 +29,7 @@ final class DictionaryLoader {
      *
      * @param dictionaryProvidersArg the actual dictionary providers
      */
-    DictionaryLoader(final Collection<DictionaryProvider> dictionaryProvidersArg) {
+    public DictionaryLoader(final Collection<DictionaryProvider> dictionaryProvidersArg) {
         selector = new DictionarySelector(dictionaryProvidersArg);
     }
 
@@ -40,7 +40,7 @@ final class DictionaryLoader {
      * @param dictionaries the ids of the requested dictionaries
      * @return the dictionary, aggregating all the requested dictionaries, if any found
      */
-    Optional<Dictionary> load(final Collection<DictionaryIdentifier> dictionaries) {
+    public Optional<Dictionary> load(final Collection<DictionaryIdentifier> dictionaries) {
 
         final List<SelectedDictionary> selectedDictionaries;
         if (dictionaries.isEmpty()) {
