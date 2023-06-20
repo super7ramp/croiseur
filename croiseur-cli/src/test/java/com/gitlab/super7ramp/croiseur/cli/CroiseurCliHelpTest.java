@@ -23,6 +23,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            help        Display help information about the specified command
                            solver      Solve crosswords and list available solvers
                            dictionary  List and print available dictionaries
+                           puzzle      Manage saved puzzles
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
@@ -41,6 +42,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            help        Display help information about the specified command
                            solver      Solve crosswords and list available solvers
                            dictionary  List and print available dictionaries
+                           puzzle      Manage saved puzzles
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
     }

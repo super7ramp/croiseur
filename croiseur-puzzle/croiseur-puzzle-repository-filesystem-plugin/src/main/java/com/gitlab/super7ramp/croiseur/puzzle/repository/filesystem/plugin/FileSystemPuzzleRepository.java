@@ -62,8 +62,9 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     public FileSystemPuzzleRepository() {
         final String pathProperty = System.getProperty(PUZZLE_REPOSITORY_PATH_PROPERTY);
         if (pathProperty == null) {
-            throw new IllegalStateException("Failed to instantiate FileSystemPuzzleRepository: " +
-                                            PUZZLE_REPOSITORY_PATH_PROPERTY + " is not set.");
+            throw new IllegalStateException(
+                    "Failed to instantiate FileSystemPuzzleRepository: The system property '" +
+                    PUZZLE_REPOSITORY_PATH_PROPERTY + "' is not set. Check your setup.");
         }
         repositoryPath = Path.of(pathProperty);
         reader = new PuzzleReader();

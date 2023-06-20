@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import java.nio.file.Files;
+
 plugins {
     id("com.gitlab.super7ramp.croiseur.java-cli-conventions")
     id("com.gitlab.super7ramp.croiseur.java-aggregate-coverage-conventions")
@@ -13,6 +15,7 @@ dependencies {
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    runtimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
@@ -49,16 +52,24 @@ tasks.named<JavaCompile>("compileJava") {
     options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
 }
 
-/** Configures tests dictionary path: Application needs it to find dictionaries. */
+/** Configures tests paths. */
 tasks.named<Test>("test") {
     systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath())
+    systemProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path", testRepoPath())
 }
 
-/** Configures native tests dictionary path: Native application needs it to find dictionaries. */
+/** Configures native tests paths. */
 tasks.named<org.graalvm.buildtools.gradle.tasks.NativeRunTask>("nativeTest") {
     runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${resolvedDicPath()}")
+    runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.puzzle.repository.path=${testRepoPath()}")
 }
 
 fun resolvedDicPath(): String {
     return configurations.named("dictionaryPath").get().asPath
+}
+
+fun testRepoPath(): String {
+    val tempDir = Files.createTempDirectory("croiseur_test_repo_").toFile()
+    tempDir.deleteOnExit()
+    return tempDir.path
 }

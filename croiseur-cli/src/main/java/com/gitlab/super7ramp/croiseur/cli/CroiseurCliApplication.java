@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.cli.controller.TopLevelCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.parser.DictionaryIdentifierParser;
+import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.PuzzleCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverRunCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridPositionParser;
@@ -51,6 +52,7 @@ final class CroiseurCliApplication {
                        new SolverCommand(crosswordService.solverService())).addSubcommand(
                        new SolverRunCommand(crosswordService.solverService())))
                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
+               .addSubcommand(new PuzzleCommand(crosswordService.puzzleService()))
                .setResourceBundle(ResourceBundles.messages());
 
         command.registerConverter(DictionaryIdentifier.class,
@@ -69,7 +71,7 @@ final class CroiseurCliApplication {
     private static void loadLoggingConfiguration() {
         try (final InputStream is = CroiseurCliApplication.class.getClassLoader()
                                                                 .getResourceAsStream(
-                                                                         "logging.properties")) {
+                                                                        "logging.properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {
             System.err.println("Failed to load logging parameters: " + e.getMessage());

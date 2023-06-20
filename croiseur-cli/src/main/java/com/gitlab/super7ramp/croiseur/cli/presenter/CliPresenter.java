@@ -30,12 +30,16 @@ public final class CliPresenter implements Presenter {
     /** The {@link CliDictionaryPresenter}. */
     private final CliDictionaryPresenter cliDictionaryPresenter;
 
+    /** The {@link CliPuzzlePresenter}. */
+    private final CliPuzzlePresenter cliPuzzlePresenter;
+
     /**
-     * Constructor.
+     * Constructs an instance.
      */
     public CliPresenter() {
         cliSolverPresenter = new CliSolverPresenter();
         cliDictionaryPresenter = new CliDictionaryPresenter();
+        cliPuzzlePresenter = new CliPuzzlePresenter();
     }
 
     @Override
@@ -96,21 +100,21 @@ public final class CliPresenter implements Presenter {
 
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cliPuzzlePresenter.presentAvailablePuzzles(puzzles);
     }
 
     @Override
     public void presentLoadedPuzzle(final SavedPuzzle puzzle) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cliPuzzlePresenter.presentLoadedPuzzle(puzzle);
     }
 
     @Override
     public void presentPuzzleRepositoryError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cliPuzzlePresenter.presentPuzzleRepositoryError(error);
     }
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cliPuzzlePresenter.presentSavedPuzzle(puzzle);
     }
 }
