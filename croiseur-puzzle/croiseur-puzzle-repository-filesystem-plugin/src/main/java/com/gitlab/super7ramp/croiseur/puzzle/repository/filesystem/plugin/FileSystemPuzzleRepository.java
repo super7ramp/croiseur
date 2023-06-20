@@ -91,7 +91,8 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
 
     @Override
     public Collection<SavedPuzzle> list() {
-        try (final Stream<Path> paths = Files.find(repositoryPath, 1, SUPPORTED_FILES)) {
+        try (final Stream<Path> paths = Files.find(repositoryPath, 1 /* not recursive */,
+                                                   SUPPORTED_FILES)) {
             return paths.map(reader::read).flatMap(Optional::stream).toList();
         } catch (final IOException e) {
             LOGGER.warning(() -> "Failed to read puzzles: " + e.getMessage());

@@ -42,9 +42,7 @@ final class PuzzleReader {
     Optional<SavedPuzzle> read(final Path path) {
         try {
             final XdCrossword persistedCrosswordModel = reader.read(path);
-            // Parse is guarantee to succeed given the filter made on filenames
-            final String fileName = path.getFileName().toString();
-            final int id = Integer.parseInt(fileName.substring(0, fileName.lastIndexOf('.')));
+            final int id = idFrom(path);
             final SavedPuzzle domainCrosswordModel =
                     PuzzleConverter.toDomain(id, persistedCrosswordModel);
             return Optional.of(domainCrosswordModel);
@@ -53,5 +51,17 @@ final class PuzzleReader {
             LOGGER.log(Level.FINE, "", e);
             return Optional.empty();
         }
+    }
+
+    /**
+     * Extracts the id from the filename.
+     *
+     * @param path the full path to file
+     * @return the extracted it
+     */
+    private static int idFrom(final Path path) {
+        final String fileName = path.getFileName().toString();
+        // Parse is guaranteed to succeed given the filter made on filenames by repository.
+        return Integer.parseInt(fileName.substring(0, fileName.lastIndexOf('.')));
     }
 }

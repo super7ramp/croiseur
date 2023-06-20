@@ -59,7 +59,7 @@ final class FileSystemPuzzleRepositoryTest {
         Files.writeString(repositoryPath.resolve("1.xd"), xdPuzzle());
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
-        final Optional<SavedPuzzle> puzzle = repo.query(1);
+        final Optional<SavedPuzzle> puzzle = repo.query(1L);
 
         assertTrue(puzzle.isPresent());
     }
@@ -67,7 +67,7 @@ final class FileSystemPuzzleRepositoryTest {
     @Test
     void query_empty() {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
-        final Optional<SavedPuzzle> puzzle = repo.query(1);
+        final Optional<SavedPuzzle> puzzle = repo.query(1L);
         assertEquals(Optional.empty(), puzzle);
     }
 
@@ -104,8 +104,8 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void list_ignoredFiles() throws IOException {
-        Files.createFile(repositoryPath.resolve("test.xd"));
-        Files.createFile(repositoryPath.resolve("1.xdd"));
+        Files.writeString(repositoryPath.resolve("test.xd"), xdPuzzle());
+        Files.writeString(repositoryPath.resolve("1.xdd"), xdPuzzle());
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Collection<SavedPuzzle> puzzles = repo.list();

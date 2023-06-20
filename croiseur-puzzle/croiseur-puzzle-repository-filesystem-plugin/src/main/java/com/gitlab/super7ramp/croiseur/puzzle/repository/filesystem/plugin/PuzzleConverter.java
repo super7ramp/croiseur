@@ -40,7 +40,7 @@ final class PuzzleConverter {
      * @return the domain crossword model
      * @throws PuzzleConversionException if conversion fails
      */
-    static SavedPuzzle toDomain(final int id, final XdCrossword persistedCrosswordModel)
+    static SavedPuzzle toDomain(final long id, final XdCrossword persistedCrosswordModel)
             throws PuzzleConversionException {
         final int revision = extractRevision(persistedCrosswordModel.metadata());
         final PuzzleDetails details = toDomain(persistedCrosswordModel.metadata());
@@ -57,7 +57,7 @@ final class PuzzleConverter {
      * @throws PuzzleConversionException if revision information does not exist
      */
     private static int extractRevision(final XdMetadata metadata) throws PuzzleConversionException {
-        final String value = metadata.otherProperties().get("x-croiseur-revision");
+        final String value = metadata.otherProperties().get(REVISION_METADATA_KEY);
         try {
             return Integer.parseInt(value);
         } catch (final NumberFormatException e) {
@@ -145,7 +145,7 @@ final class PuzzleConverter {
         return 1 + Stream.of(persistedGrid.blocks(), persistedGrid.filled().keySet(),
                              persistedGrid.nonFilled())
                          .flatMap(Collection::stream)
-                         .map(XdGrid.Index::row)
+                         .map(dimension)
                          .max(Comparator.naturalOrder())
                          .orElseThrow(() -> new PuzzleConversionException("Invalid empty grid"));
     }
