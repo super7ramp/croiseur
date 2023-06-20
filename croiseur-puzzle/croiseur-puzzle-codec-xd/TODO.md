@@ -14,4 +14,3 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - Format V2 (support for markdown-like headers instead of the 3 new-lines to separate sections)
 - Multi-line clues
 - Notes section
-- Writer

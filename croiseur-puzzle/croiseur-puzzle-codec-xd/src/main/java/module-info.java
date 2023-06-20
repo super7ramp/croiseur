@@ -13,4 +13,5 @@
 module com.gitlab.super7ramp.croiseur.puzzle.codec.xd {
     exports com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model;
     exports com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader;
+    exports com.gitlab.super7ramp.croiseur.puzzle.codec.xd.writer;
 }

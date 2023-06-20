@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## croiseur-puzzle-xd-codec
 
-`croiseur-puzzle-xd-codec` is a library which allows to read (and in the future write) puzzles in
+`croiseur-puzzle-xd-codec` is a library which allows to read/write puzzles in
 the [xd](https://github.com/century-arcade/xd) format.
 
 ```
