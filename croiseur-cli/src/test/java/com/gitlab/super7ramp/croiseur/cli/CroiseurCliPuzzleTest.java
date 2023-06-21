@@ -80,7 +80,28 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void delete() {
         givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "delete", "1");
-        thenCli().doesNotWriteToStdOut() // TODO shouldn't a message be displayed
+        thenCli().doesNotWriteToStdOut() // TODO shouldn't a message be displayed?
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void cat() {
+        givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "cat", "1");
+        thenCli().writesToStdOut("""                                                                     
+                                 Id: 1
+                                 Rev: 1
+                                 Title:\s
+                                 Author:\s
+                                 Editor:\s
+                                 Copyright:\s
+                                 Grid:
+                                 | | | |
+                                 |A|B|C|
+                                 |#|D| |
+                                                                           
+                                 """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
