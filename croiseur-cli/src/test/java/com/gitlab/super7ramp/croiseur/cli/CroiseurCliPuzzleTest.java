@@ -76,6 +76,15 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                  .and().exitsWithCode(SUCCESS); // TODO shouldn't it be error?
     }
 
+    @Test
+    void delete() {
+        givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "delete", "1");
+        thenCli().doesNotWriteToStdOut() // TODO shouldn't a message be displayed
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
     private void givenOneHasRunCli(final String... args) {
         cli(args);
         assertFalse(out().isEmpty());

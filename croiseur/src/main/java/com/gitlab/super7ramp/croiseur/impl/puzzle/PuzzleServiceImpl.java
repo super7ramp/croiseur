@@ -53,12 +53,12 @@ public final class PuzzleServiceImpl implements PuzzleService {
     }
 
     @Override
-    public void delete(final int puzzleId) {
+    public void delete(final long puzzleId) {
         repository.delete(puzzleId);
     }
 
     @Override
-    public void load(final int puzzleId) {
+    public void load(final long puzzleId) {
         repository.query(puzzleId)
                   .ifPresentOrElse(presenter::presentLoadedPuzzle,
                                    () -> presenter.presentPuzzleRepositoryError(

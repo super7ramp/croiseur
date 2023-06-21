@@ -28,7 +28,7 @@ public interface PuzzleService {
      *
      * @param puzzleId the puzzle id
      */
-    void delete(final int puzzleId);
+    void delete(final long puzzleId);
 
     /**
      * Loads the puzzle with given id from puzzle repository.
@@ -37,7 +37,7 @@ public interface PuzzleService {
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentLoadedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
      * PuzzlePresenter#presentLoadedPuzzle(SavedPuzzle)
      */
-    void load(final int puzzleId);
+    void load(final long puzzleId);
 
     /**
      * Saves the given puzzle to puzzle repository.

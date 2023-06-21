@@ -92,7 +92,7 @@ public final class SafePuzzleRepository {
      *
      * @param id the id of the saved puzzle to delete
      */
-    public void delete(final int id) {
+    public void delete(final long id) {
         try {
             repository.delete(id);
         } catch (final WriteException e) {

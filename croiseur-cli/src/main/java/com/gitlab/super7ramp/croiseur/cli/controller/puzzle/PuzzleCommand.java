@@ -65,4 +65,10 @@ public final class PuzzleCommand {
                 puzzlePatch = Puzzles.puzzlePatchFrom(id, title, author, editor, copyright, date, gridRows);
         puzzleService.patchAndSave(puzzlePatch);
     }
+
+    /** Deletes a puzzle. */
+    @Command
+    public void delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
+        puzzleService.delete(id);
+    }
 }
