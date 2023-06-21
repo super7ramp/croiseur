@@ -7,11 +7,13 @@ package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import picocli.CommandLine;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -45,13 +47,21 @@ final class PuzzleFormatter {
         // Nothing to do.
     }
 
+    /**
+     * Formats the given saved puzzle.
+     *
+     * @param savedPuzzle the saved puzzle
+     * @return the formatted saved puzzle
+     */
     static String formatSavedPuzzle(final SavedPuzzle savedPuzzle) {
+        final PuzzleDetails details = savedPuzzle.details();
         return "Id: " + savedPuzzle.id() + LINE_SEPARATOR +
                "Rev: " + savedPuzzle.revision() + LINE_SEPARATOR +
-               "Title: " + savedPuzzle.details().title() + LINE_SEPARATOR +
-               "Author: " + savedPuzzle.details().author() + LINE_SEPARATOR +
-               "Editor: " + savedPuzzle.details().editor() + LINE_SEPARATOR +
-               "Copyright: " + savedPuzzle.details().copyright() + LINE_SEPARATOR +
+               "Title: " + details.title() + LINE_SEPARATOR +
+               "Author: " + details.author() + LINE_SEPARATOR +
+               "Editor: " + details.editor() + LINE_SEPARATOR +
+               "Copyright: " + details.copyright() + LINE_SEPARATOR +
+               "Date: " + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
                "Grid:" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid());
     }
 
@@ -59,7 +69,7 @@ final class PuzzleFormatter {
      * Formats the given puzzle grid.
      *
      * @param puzzle the puzzle grid
-     * @return
+     * @return the formatted puzzle grid
      */
     static String formatPuzzleGrid(final PuzzleGrid puzzle) {
         return formatPuzzleGrid(puzzle, Collections.emptySet());
@@ -84,7 +94,7 @@ final class PuzzleFormatter {
         final int height = height(positions);
         final StringBuilder sb = new StringBuilder();
         for (int y = 0; y < height; y++) {
-            sb.append('|');
+            sb.append(COLUMN_SEPARATOR);
             for (int x = 0; x < width; x++) {
                 final GridPosition position = new GridPosition(x, y);
                 final Character value;

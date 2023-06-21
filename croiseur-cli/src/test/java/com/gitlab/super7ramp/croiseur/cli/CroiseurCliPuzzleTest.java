@@ -24,17 +24,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
+    void puzzle() {
+        whenOneRunsCli("puzzle");
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr(
+                         """
+                         Missing required subcommand
+                         Usage: croiseur-cli puzzle COMMAND
+                         Manage saved puzzles
+
+                         Commands:
+                           cat         Display saved puzzle
+                           create      Save a new puzzle
+                           delete, rm  Delete a saved puzzle
+                           list, ls    List saved puzzles
+                           update      Update a saved puzzle
+                         """)
+                 .and().exitsWithCode(INPUT_ERROR);
+    }
+
+    @Test
     void create() {
-        whenOneRunsCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "create",
+                       "--title", "Example Grid",
+                       "--author", "Me",
+                       "--editor", "Nobody",
+                       "--copyright", "CC-0",
+                       "--date", "2023-06-21",
+                       "--rows", "...,ABC,#D.");
         thenCli().writesToStdOut("""
-                                 Successfully saved puzzle.
+                                 Saved puzzle.
                                                                            
                                  Id: 1
                                  Rev: 1
-                                 Title:\s
-                                 Author:\s
-                                 Editor:\s
-                                 Copyright:\s
+                                 Title: Example Grid
+                                 Author: Me
+                                 Editor: Nobody
+                                 Copyright: CC-0
+                                 Date: 2023-06-21
                                  Grid:
                                  | | | |
                                  |A|B|C|
@@ -50,7 +77,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
         thenCli().writesToStdOut("""
-                                 Successfully saved puzzle.
+                                 Saved puzzle.
                                                                            
                                  Id: 1
                                  Rev: 2
@@ -58,6 +85,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  Author:\s
                                  Editor:\s
                                  Copyright:\s
+                                 Date:\s
                                  Grid:
                                  |X|Y|Z|
                                  |A|B|C|
@@ -89,19 +117,21 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void cat() {
         givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "cat", "1");
-        thenCli().writesToStdOut("""                                                                     
-                                 Id: 1
-                                 Rev: 1
-                                 Title:\s
-                                 Author:\s
-                                 Editor:\s
-                                 Copyright:\s
-                                 Grid:
-                                 | | | |
-                                 |A|B|C|
-                                 |#|D| |
-                                                                           
-                                 """)
+        thenCli().writesToStdOut(
+                         """                                                                     
+                         Id: 1
+                         Rev: 1
+                         Title:\s
+                         Author:\s
+                         Editor:\s
+                         Copyright:\s
+                         Date:\s
+                         Grid:
+                         | | | |
+                         |A|B|C|
+                         |#|D| |
+                                                                   
+                         """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
@@ -114,12 +144,29 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     }
 
     @Test
-    void list_empty() {
-        whenOneRunsCli("puzzle", "list")
-                .thenCli().writesToStdOut("No puzzle found.\n")
-                .and().doesNotWriteToStdErr()
-                .and().exitsWithCode(SUCCESS);
+    void list() {
+        givenOneHasRunCli("puzzle", "create",
+                          "--title", "First Example",
+                          "--date", "2023-06-21",
+                          "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "list");
+        thenCli().writesToStdOut("""
+                                 Id  	Rev 	Title           	Date           \s
+                                 --  	--- 	-----           	----           \s
+                                 1   	1   	First Example   	2023-06-21     \s
+                                 """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
     }
+
+    @Test
+    void list_empty() {
+        whenOneRunsCli("puzzle", "list");
+        thenCli().writesToStdOut("No saved puzzle.\n")
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
 
     @AfterEach
     void cleanRepository() throws IOException {

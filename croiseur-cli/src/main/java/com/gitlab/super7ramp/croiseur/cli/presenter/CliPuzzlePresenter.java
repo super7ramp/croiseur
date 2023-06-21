@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
+import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
@@ -28,18 +29,28 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
         // Nothing to do.
     }
 
+    /**
+     * Returns the localised message with given key.
+     *
+     * @param key the message key
+     * @return the localised message
+     */
+    private static String $(final String key) {
+        return ResourceBundles.$("presenter.puzzle." + key);
+    }
+
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
+
         if (puzzles.isEmpty()) {
-            // TODO l10n
-            System.out.println("No puzzle found.");
+            System.out.println($("list.none-found"));
             return;
         }
-        // TODO l10n
-        final String idHeader = "Id";
-        final String revisionHeader = "Rev";
-        final String titleHeader = "Title";
-        final String dateHeader = "Date";
+
+        final String idHeader = $("id");
+        final String revisionHeader = $("rev");
+        final String titleHeader = $("title");
+        final String dateHeader = $("date");
 
         System.out.printf(PUZZLE_LIST_FORMAT, idHeader, revisionHeader, titleHeader,
                           dateHeader);
@@ -66,8 +77,7 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        // TODO l10n
-        final String confirmation = "Successfully saved puzzle.";
+        final String confirmation = $("save.success");
         final String formattedPuzzle = PuzzleFormatter.formatSavedPuzzle(puzzle);
         System.out.println(
                 confirmation + System.lineSeparator() + System.lineSeparator() + formattedPuzzle);

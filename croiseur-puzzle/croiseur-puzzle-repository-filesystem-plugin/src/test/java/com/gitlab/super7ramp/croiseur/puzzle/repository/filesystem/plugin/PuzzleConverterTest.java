@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.puzzle.repository.filesystem.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -62,5 +63,30 @@ final class PuzzleConverterTest {
         assertEquals(Set.of(GridPosition.at(0, 1)), grid.shaded());
         assertEquals(Map.of(GridPosition.at(0, 0), 'A', GridPosition.at(1, 0), 'B',
                             GridPosition.at(2, 0), 'C'), grid.filled());
+    }
+
+    @Test
+    void toPersistence() {
+        final PuzzleDetails details = new PuzzleDetails("Example Grid", "Toto", "Croiseur", "",
+                                                        Optional.of(LocalDate.of(2023, 6, 20)));
+        final PuzzleGrid grid =
+                new PuzzleGrid.Builder().width(3)
+                                        .height(2)
+                                        .fill(GridPosition.at(0, 0), 'A')
+                                        .fill(GridPosition.at(1, 0), 'B')
+                                        .fill(GridPosition.at(2, 0), 'C')
+                                        .shade(GridPosition.at(0, 1)).build();
+        final Puzzle puzzle = new Puzzle(details, grid);
+        final SavedPuzzle domainCrosswordModel = new SavedPuzzle(1L, puzzle, 3);
+
+        final XdCrossword persistenceCrosswordModel =
+                PuzzleConverter.toPersistence(domainCrosswordModel);
+
+        final XdMetadata metadata = persistenceCrosswordModel.metadata();
+        assertEquals("Example Grid", metadata.title().orElse(""));
+        assertEquals("Toto", metadata.author().orElse(""));
+        assertEquals("Croiseur", metadata.editor().orElse(""));
+        assertEquals(Optional.empty(), metadata.copyright());
+        assertEquals(Optional.of(LocalDate.of(2023, 6, 20)), metadata.date());
     }
 }

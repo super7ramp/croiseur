@@ -20,6 +20,7 @@ module com.gitlab.super7ramp.croiseur.cli {
     // Open for reflection to CLI framework
     opens com.gitlab.super7ramp.croiseur.cli to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller.dictionary to info.picocli;
+    opens com.gitlab.super7ramp.croiseur.cli.controller.puzzle to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller.solver to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller to info.picocli;
 

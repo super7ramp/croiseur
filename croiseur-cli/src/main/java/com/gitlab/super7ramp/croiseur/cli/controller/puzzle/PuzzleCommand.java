@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.cli.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
-import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.converter.Puzzles;
+import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter.Puzzles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -43,12 +43,12 @@ public final class PuzzleCommand {
     /**
      * Creates a puzzle.
      *
-     * @param title the puzzle title, if any
-     * @param author the puzzle author, if any
-     * @param editor the puzzle editor, if any
+     * @param title     the puzzle title, if any
+     * @param author    the puzzle author, if any
+     * @param editor    the puzzle editor, if any
      * @param copyright the puzzle copyright, if any
-     * @param date the puzzle date, if any
-     * @param gridRows the puzzle grid rows
+     * @param date      the puzzle date, if any
+     * @param gridRows  the puzzle grid rows
      */
     @Command
     void create(
@@ -102,7 +102,7 @@ public final class PuzzleCommand {
      *
      * @param id the puzzle id
      */
-    @Command
+    @Command(aliases = {"rm"})
     public void delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
         puzzleService.delete(id);
     }

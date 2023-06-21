@@ -81,4 +81,23 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
+
+    @Test
+    void helpPuzzle() {
+        whenOneRunsCli("help", "puzzle");
+        thenCli().writesToStdOut(
+                         """
+                         Usage: croiseur-cli puzzle COMMAND
+                         Manage saved puzzles
+
+                         Commands:
+                           cat         Display saved puzzle
+                           create      Save a new puzzle
+                           delete, rm  Delete a saved puzzle
+                           list, ls    List saved puzzles
+                           update      Update a saved puzzle
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
 }

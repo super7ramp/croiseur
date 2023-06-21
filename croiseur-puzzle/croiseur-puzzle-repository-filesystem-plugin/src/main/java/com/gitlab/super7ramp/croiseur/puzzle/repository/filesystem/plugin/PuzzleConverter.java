@@ -176,9 +176,21 @@ final class PuzzleConverter {
      */
     private static XdMetadata toPersistence(final PuzzleDetails details, final int revision) {
         final XdMetadata.Builder builder = new XdMetadata.Builder();
-        return builder.title(details.title()).author(details.author()).editor(details.editor())
-                      .copyright(details.copyright())
-                      .otherProperty(REVISION_METADATA_KEY, String.valueOf(revision)).build();
+        if (!details.title().isEmpty()) {
+            builder.title(details.title());
+        }
+        if (!details.author().isEmpty()) {
+            builder.author(details.author());
+        }
+        if (!details.editor().isEmpty()) {
+            builder.editor(details.editor());
+        }
+        if (!details.copyright().isEmpty()) {
+            builder.copyright(details.copyright());
+        }
+        details.date().ifPresent(builder::date);
+        builder.otherProperty(REVISION_METADATA_KEY, String.valueOf(revision));
+        return builder.build();
     }
 
     /**

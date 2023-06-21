@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.cli.controller.puzzle.converter;
+package com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
@@ -27,7 +27,7 @@ public final class Puzzles {
     }
 
     /**
-     * Converts puzzle options passed at command line to a {@link Puzzle}.
+     * Converts command-line options to a {@link Puzzle}.
      *
      * @param title     the title option value
      * @param author    the author option value
@@ -47,6 +47,18 @@ public final class Puzzles {
         return new Puzzle(details, grid);
     }
 
+    /**
+     * Converts command-line options to {@link PuzzlePatch}.
+     *
+     * @param id        the id of the puzzle
+     * @param title     the modified title, if any
+     * @param author    the modified author, if any
+     * @param editor    the modified editor, if any
+     * @param copyright the modified copyright, if any
+     * @param date      the modified date, if any
+     * @param gridRows  the modified grid rows, if any
+     * @return the created {@link PuzzlePatch}
+     */
     public static PuzzlePatch puzzlePatchFrom(final long id, final Optional<String> title,
                                               final Optional<String> author,
                                               final Optional<String> editor,
