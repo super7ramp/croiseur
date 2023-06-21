@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClues;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
@@ -18,6 +19,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Converts crossword from/to persistence format (xd).
@@ -33,24 +36,37 @@ final class PuzzleConverter {
     }
 
     /**
-     * Converts the persisted crossword model to the domain crossword model.
+     * Converts the persistence crossword model to the domain crossword model.
      *
-     * @param id                      the id of the crossword
-     * @param persistedCrosswordModel the persisted crossword
+     * @param id                        the id of the crossword
+     * @param persistenceCrosswordModel the persistence crossword model
      * @return the domain crossword model
      * @throws PuzzleConversionException if conversion fails
      */
-    static SavedPuzzle toDomain(final long id, final XdCrossword persistedCrosswordModel)
+    static SavedPuzzle toDomain(final long id, final XdCrossword persistenceCrosswordModel)
             throws PuzzleConversionException {
-        final int revision = extractRevision(persistedCrosswordModel.metadata());
-        final PuzzleDetails details = toDomain(persistedCrosswordModel.metadata());
-        final PuzzleGrid grid = toDomain(persistedCrosswordModel.grid());
+        final int revision = extractRevision(persistenceCrosswordModel.metadata());
+        final PuzzleDetails details = toDomain(persistenceCrosswordModel.metadata());
+        final PuzzleGrid grid = toDomain(persistenceCrosswordModel.grid());
         final Puzzle puzzle = new Puzzle(details, grid);
         return new SavedPuzzle(id, puzzle, revision);
     }
 
     /**
-     * Extracts revision information from xd metadata.
+     * Converts the domain crossword model to the persistence crossword model.
+     *
+     * @param puzzle the domain crossword model
+     * @return the persistence crossword model
+     */
+    static XdCrossword toPersistence(final SavedPuzzle puzzle) {
+        final XdMetadata metadata = toPersistence(puzzle.details(), puzzle.revision());
+        final XdGrid grid = toPersistence(puzzle.grid());
+        final XdClues clues = new XdClues.Builder().build(); // clues are not managed yet
+        return new XdCrossword(metadata, grid, clues);
+    }
+
+    /**
+     * Extracts revision information from {@link XdMetadata}.
      *
      * @param metadata the persisted metadata
      * @return the extracted revision information
@@ -66,69 +82,72 @@ final class PuzzleConverter {
     }
 
     /**
-     * Converts a persisted {@link XdGrid} to a domain {@link PuzzleGrid}.
+     * Converts a persistence grid to a domain grid model
      *
-     * @param persistedGrid the persisted grid
-     * @return the domain {@link PuzzleGrid}
+     * @param persistenceGridModel the persistence grid model
+     * @return the domain grid model
      * @throws PuzzleConversionException if conversion fails
      */
-    private static PuzzleGrid toDomain(final XdGrid persistedGrid)
+    private static PuzzleGrid toDomain(final XdGrid persistenceGridModel)
             throws PuzzleConversionException {
-        if (!persistedGrid.spaces().isEmpty()) {
+        if (!persistenceGridModel.spaces().isEmpty()) {
             throw new PuzzleConversionException(
                     "Cannot convert grid with spaces: This is not supported by Croiseur.");
         }
         final PuzzleGrid.Builder builder = new PuzzleGrid.Builder();
-        persistedGrid.blocks().stream().map(PuzzleConverter::toDomain).forEach(builder::shade);
-        persistedGrid.filled()
-                     .forEach((index, letter) -> builder.fill(toDomain(index), letter.charAt(0)));
-        return builder.width(width(persistedGrid)).height(height(persistedGrid)).build();
+        persistenceGridModel.blocks().stream().map(PuzzleConverter::toDomain)
+                            .forEach(builder::shade);
+        persistenceGridModel.filled()
+                            .forEach((index, letter) -> builder.fill(toDomain(index),
+                                                                     letter.charAt(0)));
+        return builder.width(width(persistenceGridModel)).height(height(persistenceGridModel))
+                      .build();
     }
 
     /**
-     * Converts a persisted {@link XdMetadata} to a domain {@link PuzzleDetails}.
+     * Converts the persistence metadata model to the domain metadata model
      *
-     * @param persistedMetadata the persisted metadata
-     * @return the domain {@link PuzzleGrid}
+     * @param persistenceMetadataModel the persistence metadata model
+     * @return the domain metadata model
      */
-    private static PuzzleDetails toDomain(final XdMetadata persistedMetadata) {
-        return new PuzzleDetails(persistedMetadata.title().orElse(""),
-                                 persistedMetadata.author().orElse(""),
-                                 persistedMetadata.editor().orElse(""),
-                                 persistedMetadata.copyright().orElse(""),
-                                 persistedMetadata.date());
+    private static PuzzleDetails toDomain(final XdMetadata persistenceMetadataModel) {
+        return new PuzzleDetails(persistenceMetadataModel.title().orElse(""),
+                                 persistenceMetadataModel.author().orElse(""),
+                                 persistenceMetadataModel.editor().orElse(""),
+                                 persistenceMetadataModel.copyright().orElse(""),
+                                 persistenceMetadataModel.date());
     }
 
     /**
-     * Converts a persisted {@link XdGrid.Index} to a domain {@link GridPosition}.
+     * Converts a grid position from persistence model to domain model.
      *
-     * @param persistedPosition the persisted position
-     * @return the domain position
+     * @param persistenceGridPosition the grid position from persistence model
+     * @return the grid position in domain model
      */
-    private static GridPosition toDomain(final XdGrid.Index persistedPosition) {
-        return new GridPosition(persistedPosition.column(), persistedPosition.row());
+    private static GridPosition toDomain(final XdGrid.Index persistenceGridPosition) {
+        return new GridPosition(persistenceGridPosition.column(), persistenceGridPosition.row());
     }
 
     /**
-     * Determines the width (i.e. the number of columns) of the persisted grid.
+     * Determines the width (i.e. the number of columns) of the persistence grid model.
      *
-     * @param persistedGrid the persisted grid
-     * @return the width of the persisted grid
+     * @param persistenceGridModel the persistence grid model
+     * @return the width of the grid
      * @throws PuzzleConversionException if grid is empty
      */
-    private static int width(final XdGrid persistedGrid) throws PuzzleConversionException {
-        return maxDimension(persistedGrid, XdGrid.Index::column);
+    private static int width(final XdGrid persistenceGridModel) throws PuzzleConversionException {
+        return maxDimension(persistenceGridModel, XdGrid.Index::column);
     }
 
     /**
-     * Determines the height (i.e. the number of rows) of the persisted grid.
+     * Determines the height (i.e. the number of rows) of the persistence grid model.
      *
-     * @param persistedGrid the persisted grid
-     * @return the rows of the persisted grid
+     * @param persistenceGridModel the persistence grid model
+     * @return the height of the grid
      * @throws PuzzleConversionException if grid is empty
      */
-    private static int height(final XdGrid persistedGrid) throws PuzzleConversionException {
-        return maxDimension(persistedGrid, XdGrid.Index::row);
+    private static int height(final XdGrid persistenceGridModel) throws PuzzleConversionException {
+        return maxDimension(persistenceGridModel, XdGrid.Index::row);
     }
 
     /**
@@ -143,10 +162,45 @@ final class PuzzleConverter {
                                     final Function<XdGrid.Index, Integer> dimension)
             throws PuzzleConversionException {
         return 1 + Stream.of(persistedGrid.blocks(), persistedGrid.filled().keySet(),
-                             persistedGrid.nonFilled())
-                         .flatMap(Collection::stream)
-                         .map(dimension)
+                             persistedGrid.nonFilled()).flatMap(Collection::stream).map(dimension)
                          .max(Comparator.naturalOrder())
                          .orElseThrow(() -> new PuzzleConversionException("Invalid empty grid"));
+    }
+
+    /**
+     * Converts domain metadata model to persistence metadata model.
+     *
+     * @param details  the domain metadata model
+     * @param revision the revision number
+     * @return the persistence metadata model
+     */
+    private static XdMetadata toPersistence(final PuzzleDetails details, final int revision) {
+        final XdMetadata.Builder builder = new XdMetadata.Builder();
+        return builder.title(details.title()).author(details.author()).editor(details.editor())
+                      .copyright(details.copyright())
+                      .otherProperty(REVISION_METADATA_KEY, String.valueOf(revision)).build();
+    }
+
+    /**
+     * Converts a domain grid model to a persistence grid model.
+     *
+     * @param grid the domain grid model
+     * @return the persistence grid model
+     */
+    private static XdGrid toPersistence(final PuzzleGrid grid) {
+        final XdGrid.Builder builder = new XdGrid.Builder();
+        for (int row = 0; row < grid.height(); row++) {
+            for (int column = 0; column < grid.width(); column++) {
+                final Character letter = grid.filled().get(at(column, row));
+                if (letter != null) {
+                    builder.filled(XdGrid.Index.at(column, row), letter);
+                } else if (grid.shaded().contains(at(column, row))) {
+                    builder.block(XdGrid.Index.at(column, row));
+                } else {
+                    builder.nonFilled(XdGrid.Index.at(column, row));
+                }
+            }
+        }
+        return builder.build();
     }
 }

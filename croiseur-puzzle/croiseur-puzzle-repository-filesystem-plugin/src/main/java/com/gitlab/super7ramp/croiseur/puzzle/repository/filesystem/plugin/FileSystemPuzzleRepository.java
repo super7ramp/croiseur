@@ -18,6 +18,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.function.BiPredicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,9 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     /** The puzzle file reader. */
     private final PuzzleReader reader;
 
+    /** The puzzle file writer. */
+    private final PuzzleWriter writer;
+
     /**
      * Constructs an instance.
      */
@@ -63,16 +67,33 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
         }
         repositoryPath = Path.of(pathProperty);
         reader = new PuzzleReader();
+        writer = new PuzzleWriter();
     }
 
     @Override
     public SavedPuzzle create(final Puzzle puzzle) throws WriteException {
-        throw new WriteException("Not implemented yet.");
+        final long id = nextId().orElseThrow(
+                () -> new WriteException("Repository is full, no more id available"));
+        final SavedPuzzle savedPuzzle = new SavedPuzzle(id, puzzle, 1);
+        writer.write(savedPuzzle, pathOf(id));
+        return savedPuzzle;
     }
 
     @Override
     public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
-        throw new WriteException("Not implemented yet.");
+        final long id = changedPuzzle.id();
+
+        final SavedPuzzle original = query(id).orElseThrow(() -> new WriteException(
+                "Cannot updated puzzle with id " + id + ": Puzzle doesn't exist."));
+        if (original.data().equals(changedPuzzle.data())) {
+            // No need to write, no change
+            return original;
+        }
+
+        final SavedPuzzle updated =
+                new SavedPuzzle(id, changedPuzzle.data(), original.revision() + 1);
+        writer.write(updated, pathOf(id));
+        return updated;
     }
 
     @Override
@@ -109,5 +130,19 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
      */
     private Path pathOf(final long id) {
         return repositoryPath.resolve(id + ".xd");
+    }
+
+    /**
+     * Returns the next available id.
+     *
+     * @return the next available id
+     */
+    private OptionalLong nextId() {
+        for (long id = 1; id < Long.MAX_VALUE; id++) {
+            if (!Files.exists(pathOf(id))) {
+                return OptionalLong.of(id);
+            }
+        }
+        return OptionalLong.empty();
     }
 }
