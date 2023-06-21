@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -23,24 +25,62 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
     void create() {
-        whenOneRunsCli("puzzle", "create", "--rows", "...,ABC,#D.")
-                .thenCli().writesToStdOut("""
-                                          Successfully saved puzzle.
-                                                                                    
-                                          Id: 1
-                                          Rev: 1
-                                          Title:\s
-                                          Author:\s
-                                          Editor:\s
-                                          Copyright:\s
-                                          Grid:
-                                          | | | |
-                                          |A|B|C|
-                                          |#|D| |
-                                                                                    
-                                          """)
-                .and().doesNotWriteToStdErr()
-                .and().exitsWithCode(SUCCESS);
+        whenOneRunsCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        thenCli().writesToStdOut("""
+                                 Successfully saved puzzle.
+                                                                           
+                                 Id: 1
+                                 Rev: 1
+                                 Title:\s
+                                 Author:\s
+                                 Editor:\s
+                                 Copyright:\s
+                                 Grid:
+                                 | | | |
+                                 |A|B|C|
+                                 |#|D| |
+                                                                           
+                                 """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void update() {
+        givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
+        thenCli().writesToStdOut("""
+                                 Successfully saved puzzle.
+                                                                           
+                                 Id: 1
+                                 Rev: 2
+                                 Title: Example
+                                 Author:\s
+                                 Editor:\s
+                                 Copyright:\s
+                                 Grid:
+                                 |X|Y|Z|
+                                 |A|B|C|
+                                 |#|D| |
+                                                                           
+                                 """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void update_missing() {
+        whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr("Cannot modify puzzle with id #1: No such puzzle exists.\n")
+                 .and().exitsWithCode(SUCCESS); // TODO shouldn't it be error?
+    }
+
+    private void givenOneHasRunCli(final String... args) {
+        cli(args);
+        assertFalse(out().isEmpty());
+        assertTrue(err().isEmpty());
+        assertEquals(SUCCESS, exitCode());
     }
 
     @Test

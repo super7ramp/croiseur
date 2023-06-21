@@ -5,16 +5,21 @@
 
 package com.gitlab.super7ramp.croiseur.impl.puzzle;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.repository.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link PuzzleService}.
@@ -70,5 +75,34 @@ public final class PuzzleServiceImpl implements PuzzleService {
     public void save(final ChangedPuzzle puzzle) {
         repository.update(puzzle).ifPresent(presenter::presentSavedPuzzle);
         // Or else: Do nothing, error case is handle by SafePuzzleRepository
+    }
+
+    @Override
+    public void patchAndSave(final PuzzlePatch patch) {
+        final Optional<SavedPuzzle> optSavedPuzzle = repository.query(patch.id());
+        if (optSavedPuzzle.isEmpty()) {
+            presenter.presentPuzzleRepositoryError(
+                    "Cannot modify puzzle with id #" + patch.id() + ": No such puzzle exists.");
+            return;
+        }
+        final ChangedPuzzle changedPuzzle = patch(patch, optSavedPuzzle.get());
+        repository.update(changedPuzzle).ifPresent(presenter::presentSavedPuzzle);
+    }
+
+    private static ChangedPuzzle patch(final PuzzlePatch modification,
+                                       final SavedPuzzle savedPuzzle) {
+        final PuzzleDetails details = patch(savedPuzzle.details(), modification);
+        final PuzzleGrid grid = modification.modifiedGrid().orElseGet(savedPuzzle::grid);
+        final Puzzle modifiedPuzzleData = new Puzzle(details, grid);
+        return savedPuzzle.modifiedWith(modifiedPuzzleData);
+    }
+
+    private static PuzzleDetails patch(final PuzzleDetails original, final PuzzlePatch patch) {
+        final String title = patch.modifiedTitle().orElseGet(original::title);
+        final String author = patch.modifiedAuthor().orElseGet(original::author);
+        final String editor = patch.modifiedEditor().orElseGet(original::editor);
+        final String copyright = patch.modifiedCopyright().orElseGet(original::copyright);
+        final Optional<LocalDate> date = patch.modifiedDate().or(original::date);
+        return new PuzzleDetails(title, author, editor, copyright, date);
     }
 }

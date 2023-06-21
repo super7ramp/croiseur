@@ -60,4 +60,16 @@ public interface PuzzleService {
      * presentSavedPuzzle(SavedPuzzle)
      */
     void save(final ChangedPuzzle puzzle);
+
+    /**
+     * Same effect as {@link #save(ChangedPuzzle)}, but parameter contains only the modifications
+     * since last save.
+     * <p>
+     * Method applies the given modifications then save the result.
+     *
+     * @param patch the modificationd to apply
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentSavedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
+     * presentSavedPuzzle(SavedPuzzle)
+     */
+    void patchAndSave(final PuzzlePatch patch);
 }

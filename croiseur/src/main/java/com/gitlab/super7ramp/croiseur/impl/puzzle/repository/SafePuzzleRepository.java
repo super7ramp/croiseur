@@ -83,7 +83,7 @@ public final class SafePuzzleRepository {
      * @param id the id of the saved puzzle to retrieve
      * @return the saved puzzle with given ID, if any, or {@link Optional#empty()}
      */
-    public Optional<SavedPuzzle> query(final int id) {
+    public Optional<SavedPuzzle> query(final long id) {
         return repository.query(id);
     }
 

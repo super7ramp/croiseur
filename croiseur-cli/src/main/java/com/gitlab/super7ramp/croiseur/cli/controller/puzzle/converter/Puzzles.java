@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.puzzle.converter;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
@@ -42,6 +43,56 @@ public final class Puzzles {
         final PuzzleDetails details =
                 new PuzzleDetails(title.orElse(""), author.orElse(""), editor.orElse(""),
                                   copyright.orElse(""), date);
+        final PuzzleGrid grid = puzzleGridFrom(gridRows);
+        return new Puzzle(details, grid);
+    }
+
+    public static PuzzlePatch puzzlePatchFrom(final long id, final Optional<String> title,
+                                              final Optional<String> author,
+                                              final Optional<String> editor,
+                                              final Optional<String> copyright,
+                                              final Optional<LocalDate> date,
+                                              final Optional<String> gridRows) {
+        return new PuzzlePatch() {
+            @Override
+            public long id() {
+                return id;
+            }
+
+            @Override
+            public Optional<String> modifiedTitle() {
+                return title;
+            }
+
+            @Override
+            public Optional<String> modifiedAuthor() {
+                return author;
+            }
+
+            @Override
+            public Optional<String> modifiedEditor() {
+                return editor;
+            }
+
+            @Override
+            public Optional<String> modifiedCopyright() {
+                return copyright;
+            }
+
+            @Override
+            public Optional<LocalDate> modifiedDate() {
+                return date;
+            }
+
+            @Override
+            public Optional<PuzzleGrid> modifiedGrid() {
+                return gridRows.map(Puzzles::puzzleGridFrom);
+            }
+        };
+
+    }
+
+    private static PuzzleGrid puzzleGridFrom(final String gridRows) {
         final PuzzleGrid.Builder gridBuilder = new PuzzleGrid.Builder();
         final String[] rows = gridRows.split(",");
         for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
@@ -56,8 +107,6 @@ public final class Puzzles {
                 } // else cell is empty
             }
         }
-        final PuzzleGrid grid = gridBuilder.width(rows[0].length()).height(rows.length).build();
-        return new Puzzle(details, grid);
+        return gridBuilder.width(rows[0].length()).height(rows.length).build();
     }
-
 }

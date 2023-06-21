@@ -5,11 +5,13 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.puzzle;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.converter.Puzzles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -50,4 +52,17 @@ public final class PuzzleCommand {
         puzzleService.save(puzzle);
     }
 
+    /** Updates a puzzle. */
+    @Command(name = "update")
+    void update(@Parameters(arity = "1", paramLabel = "ID") final long id,
+                @Option(names = {"-t", "--title"}, paramLabel = "TITLE") final Optional<String> title,
+                @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR") final Optional<String> author,
+                @Option(names = {"-e", "--editor"}, paramLabel = "EDITOR") final Optional<String> editor,
+                @Option(names = {"-c", "--copyright"}, paramLabel = "COPYRIGHT") final Optional<String> copyright,
+                @Option(names = {"-d", "--date"}, paramLabel = "DATE") final Optional<LocalDate> date,
+                @Option(names = {"-r", "--rows"}, paramLabel = "ROWS") final Optional<String> gridRows) {
+        final PuzzlePatch
+                puzzlePatch = Puzzles.puzzlePatchFrom(id, title, author, editor, copyright, date, gridRows);
+        puzzleService.patchAndSave(puzzlePatch);
+    }
 }

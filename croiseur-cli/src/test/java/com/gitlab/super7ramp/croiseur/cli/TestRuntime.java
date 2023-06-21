@@ -104,25 +104,33 @@ abstract class TestRuntime {
     /**
      * Returns the text written to output stream up to the moment of the call.
      * <p>
-     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
+     * Note 1: To simplify testing, line endings of returned text are forced to Unix line endings
      * ({@code "\n"}).
+     * <p>
+     * Note2: The stream is reset when the method returns.
      *
      * @return the text written to output stream up to the moment of the call
      */
     protected final String out() {
-        return out.toString().replace(System.lineSeparator(), "\n");
+        final String lines = out.toString().replace(System.lineSeparator(), "\n");
+        out.reset();
+        return lines;
     }
 
     /**
      * Returns the text written to error output stream up to the moment of the call.
      * <p>
-     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
+     * Note 1: To simplify testing, line endings of returned text are forced to Unix line endings
      * ({@code "\n"}).
+     * <p>
+     * Note 2: The stream is reset when the method returns.
      *
      * @return the text written to error output stream up to the moment of the call
      */
     protected final String err() {
-        return err.toString().replace(System.lineSeparator(), "\n");
+        final String lines = err.toString().replace(System.lineSeparator(), "\n");
+        err.reset();
+        return lines;
     }
 
     /**
