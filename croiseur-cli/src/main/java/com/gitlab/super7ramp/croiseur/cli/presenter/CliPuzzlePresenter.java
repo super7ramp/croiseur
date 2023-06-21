@@ -65,6 +65,10 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        // TODO l10n
+        final String confirmation = "Successfully saved puzzle.";
+        final String formattedPuzzle = PuzzleFormatter.formatSavedPuzzle(puzzle);
+        System.out.println(
+                confirmation + System.lineSeparator() + System.lineSeparator() + formattedPuzzle);
     }
 }

@@ -110,8 +110,8 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          """
                          Result: SUCCESS
 
-                         |L| |N|T|
-                         |O|A| |U|
+                         |L|#|N|T|
+                         |O|A|#|U|
                          |L|A|N|E|
                          |A|C|T|S|
 
@@ -147,8 +147,8 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          """
                          Result: SUCCESS
 
-                         |L| |N|T|
-                         |O|A| |U|
+                         |L|#|N|T|
+                         |O|A|#|U|
                          |L|A|N|E|
                          |A|C|T|S|
 
@@ -169,10 +169,10 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          """
                          Result: IMPOSSIBLE
 
-                         |B|
-                         |B|
-                         |B|
-                         |B|
+                         |B|#| |
+                         |B| |#|
+                         |B| | |
+                         |B| | |
 
                          """)
                  .and().doesNotWriteToStdErr()

@@ -22,6 +22,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
+    void create() {
+        whenOneRunsCli("puzzle", "create", "--rows", "...,ABC,#D.")
+                .thenCli().writesToStdOut("""
+                                          Successfully saved puzzle.
+                                                                                    
+                                          Id: 1
+                                          Rev: 1
+                                          Title:\s
+                                          Author:\s
+                                          Editor:\s
+                                          Copyright:\s
+                                          Grid:
+                                          | | | |
+                                          |A|B|C|
+                                          |#|D| |
+                                                                                    
+                                          """)
+                .and().doesNotWriteToStdErr()
+                .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
     void list_empty() {
         whenOneRunsCli("puzzle", "list")
                 .thenCli().writesToStdOut("No puzzle found.\n")

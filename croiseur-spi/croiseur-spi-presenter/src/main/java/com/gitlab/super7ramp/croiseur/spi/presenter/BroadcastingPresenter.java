@@ -107,11 +107,11 @@ final class BroadcastingPresenter implements Presenter {
 
     @Override
     public void presentPuzzleRepositoryError(final String error) {
-        presenters.forEach(p -> presentPuzzleRepositoryError(error));
+        presenters.forEach(p -> p.presentPuzzleRepositoryError(error));
     }
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        presenters.forEach(p -> presentSavedPuzzle(puzzle));
+        presenters.forEach(p -> p.presentSavedPuzzle(puzzle));
     }
 }

@@ -7,20 +7,23 @@ package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
+import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import picocli.CommandLine;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Formats the solver result.
+ * Formats crossword puzzles.
  */
-final class SolverResultFormatter {
+final class PuzzleFormatter {
 
-    /** The format used to display unsolvable boxes. */
+    /** The format used to display unsolvable boxes (red background). */
     private static final String UNSOLVABLE_FORMAT = "bg(red)";
 
     /** The default format used to display boxes. */
@@ -38,34 +41,58 @@ final class SolverResultFormatter {
     /**
      * Private constructor, static utility methods only.
      */
-    private SolverResultFormatter() {
+    private PuzzleFormatter() {
         // Nothing to do.
     }
 
+    static String formatSavedPuzzle(final SavedPuzzle savedPuzzle) {
+        return "Id: " + savedPuzzle.id() + LINE_SEPARATOR +
+               "Rev: " + savedPuzzle.revision() + LINE_SEPARATOR +
+               "Title: " + savedPuzzle.details().title() + LINE_SEPARATOR +
+               "Author: " + savedPuzzle.details().author() + LINE_SEPARATOR +
+               "Editor: " + savedPuzzle.details().editor() + LINE_SEPARATOR +
+               "Copyright: " + savedPuzzle.details().copyright() + LINE_SEPARATOR +
+               "Grid:" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid());
+    }
+
     /**
-     * Formats the solver result.
+     * Formats the given puzzle grid.
      *
-     * @return the formatted solver result
+     * @param puzzle the puzzle grid
+     * @return
      */
-    static String format(final SolverResult result) {
+    static String formatPuzzleGrid(final PuzzleGrid puzzle) {
+        return formatPuzzleGrid(puzzle, Collections.emptySet());
+    }
 
-        final boolean success = result.isSuccess();
-        final Map<GridPosition, Character> filledBoxes = result.filledBoxes();
-        final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append($("result.header")).append($(toL10nKey(success)));
-        sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
-
+    /**
+     * Formats the given puzzle grid.
+     * <p>
+     * Given unsolvable positions will be formatted using {@link #UNSOLVABLE_FORMAT}.
+     *
+     * @param grid            the puzzle grid
+     * @param unsolvableBoxes optionally, the unsolvable boxes
+     * @return the formatted puzzle
+     */
+    static String formatPuzzleGrid(final PuzzleGrid grid, final Set<GridPosition> unsolvableBoxes) {
+        final Map<GridPosition, Character> filledBoxes = grid.filled();
+        final Set<GridPosition> shadedBoxes = grid.shaded();
         final Set<GridPosition> positions = new HashSet<>(filledBoxes.keySet());
         positions.addAll(unsolvableBoxes);
+        positions.addAll(grid.shaded());
         final int width = width(positions);
         final int height = height(positions);
+        final StringBuilder sb = new StringBuilder();
         for (int y = 0; y < height; y++) {
             sb.append('|');
             for (int x = 0; x < width; x++) {
                 final GridPosition position = new GridPosition(x, y);
-                final Character value = filledBoxes.getOrDefault(position, EMPTY);
+                final Character value;
+                if (shadedBoxes.contains(position)) {
+                    value = '#';
+                } else {
+                    value = filledBoxes.getOrDefault(position, EMPTY);
+                }
                 final String format = unsolvableBoxes.contains(position) ? UNSOLVABLE_FORMAT :
                         DEFAULT_FORMAT;
                 final String box =
@@ -76,6 +103,20 @@ final class SolverResultFormatter {
             sb.append(LINE_SEPARATOR);
         }
         return sb.toString();
+    }
+
+    /**
+     * Formats the solver result.
+     *
+     * @return the formatted solver result
+     */
+    static String formatSolverResult(final SolverResult result) {
+        final boolean success = result.isSuccess();
+        final String resultHeaderKey = $("result.header");
+        final String resultHeaderValue = $(toL10nKey(success));
+        final String formattedPuzzle = formatPuzzleGrid(result.grid(), result.unsolvableBoxes());
+        return resultHeaderKey + resultHeaderValue + LINE_SEPARATOR + LINE_SEPARATOR +
+               formattedPuzzle;
     }
 
     /**
