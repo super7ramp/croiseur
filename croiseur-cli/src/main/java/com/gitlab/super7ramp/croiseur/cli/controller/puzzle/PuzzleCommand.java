@@ -93,8 +93,8 @@ public final class PuzzleCommand {
                 final Optional<String> gridRows) {
         final PuzzlePatch
                 puzzlePatch =
-                Puzzles.puzzlePatchFrom(id, title, author, editor, copyright, date, gridRows);
-        puzzleService.patchAndSave(puzzlePatch);
+                Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows);
+        puzzleService.save(id, puzzlePatch);
     }
 
     /**
@@ -105,6 +105,12 @@ public final class PuzzleCommand {
     @Command(aliases = {"rm"})
     public void delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
         puzzleService.delete(id);
+    }
+
+    /** Deletes all puzzle. */
+    @Command(name = "delete-all")
+    public void deleteAll() {
+        puzzleService.deleteAll();
     }
 
     /**

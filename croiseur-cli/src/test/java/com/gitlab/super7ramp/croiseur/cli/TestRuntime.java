@@ -118,6 +118,13 @@ abstract class TestRuntime {
     }
 
     /**
+     * Resets standard output stream;
+     */
+    protected final void drainOut() {
+        out.reset();
+    }
+
+    /**
      * Returns the text written to error output stream up to the moment of the call.
      * <p>
      * Note 1: To simplify testing, line endings of returned text are forced to Unix line endings
@@ -131,6 +138,13 @@ abstract class TestRuntime {
         final String lines = err.toString().replace(System.lineSeparator(), "\n");
         err.reset();
         return lines;
+    }
+
+    /**
+     * Resets standard error output stream;
+     */
+    protected final void drainErr() {
+        err.reset();
     }
 
     /**

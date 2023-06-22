@@ -101,6 +101,17 @@ public final class SafePuzzleRepository {
     }
 
     /**
+     * Deletes all the puzzles.
+     */
+    public void deletetAll() {
+        try {
+            repository.deleteAll();
+        } catch (final WriteException e) {
+            presenter.presentPuzzleRepositoryError("Failed to delete puzzle(s): " + e.getMessage());
+        }
+    }
+
+    /**
      * Lists all the data present in this repository.
      *
      * @return the puzzles present in this repository
@@ -108,4 +119,5 @@ public final class SafePuzzleRepository {
     public Collection<SavedPuzzle> list() {
         return repository.list();
     }
+
 }

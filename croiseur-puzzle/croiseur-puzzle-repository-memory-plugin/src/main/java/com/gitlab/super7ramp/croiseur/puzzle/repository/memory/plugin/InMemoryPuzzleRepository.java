@@ -11,9 +11,9 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -70,13 +70,19 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
+    public void deleteAll() {
+        puzzles.clear();
+        availableIds.clear();
+    }
+
+    @Override
     public Optional<SavedPuzzle> query(final long id) {
         return Optional.ofNullable(puzzles.get(id));
     }
 
     @Override
     public Collection<SavedPuzzle> list() {
-        return Collections.unmodifiableCollection(puzzles.values());
+        return new ArrayList<>(puzzles.values());
     }
 
     /**

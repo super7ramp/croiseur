@@ -94,6 +94,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            cat         Display saved puzzle
                            create      Save a new puzzle
                            delete, rm  Delete a saved puzzle
+                           delete-all  Delete all saved puzzles
                            list, ls    List saved puzzles
                            update      Update a saved puzzle
                          """)

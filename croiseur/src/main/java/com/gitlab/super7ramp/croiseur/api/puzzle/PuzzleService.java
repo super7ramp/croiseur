@@ -31,6 +31,11 @@ public interface PuzzleService {
     void delete(final long puzzleId);
 
     /**
+     * Deletes all puzzles.
+     */
+    void deleteAll();
+
+    /**
      * Loads the puzzle with given id from puzzle repository.
      *
      * @param puzzleId the puzzle id
@@ -62,14 +67,15 @@ public interface PuzzleService {
     void save(final ChangedPuzzle puzzle);
 
     /**
-     * Same effect as {@link #save(ChangedPuzzle)}, but parameter contains only the modifications
-     * since last save.
+     * Same effect as {@link #save(ChangedPuzzle)}, but patch parameter contains only the
+     * modifications since last save.
      * <p>
-     * Method applies the given modifications then save the result.
+     * Method applies the given modifications then saves the result.
      *
-     * @param patch the modificationd to apply
+     * @param puzzleId the identifier of the puzzle to patch and save
+     * @param patch    the modifications to apply
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentSavedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
      * presentSavedPuzzle(SavedPuzzle)
      */
-    void patchAndSave(final PuzzlePatch patch);
+    void save(final long puzzleId, final PuzzlePatch patch);
 }

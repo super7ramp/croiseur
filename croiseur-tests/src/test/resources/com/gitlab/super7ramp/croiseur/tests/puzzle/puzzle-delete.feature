@@ -8,12 +8,21 @@ Feature: Delete Puzzle
 
   The application provides a way to delete any puzzle of this puzzle repository.
 
-  Scenario: Delete Puzzle - Nominal Case
+  Scenario: Delete Puzzle - Delete Single Puzzle
     Given the puzzle repository contains:
       | Id | Revision | Title | Author   | Editor | Copyright | Date       | Grid (rows) |
       | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
     When user requests to delete the puzzle with id 1
     Then the application deletes the puzzle with id 1 from repository
+
+  Scenario: Delete Puzzle - Delete All Puzzles
+    Given the puzzle repository contains:
+      | Id | Revision | Title | Author   | Editor | Copyright | Date       | Grid (rows) |
+      | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
+      | 2  | 1        |       | Jane Doe |        |           | 2023-06-22 | XYZ,DEF,GHI |
+    When user requests to delete all puzzles
+    Then the application deletes the puzzle with id 1 from repository
+    And the application deletes the puzzle with id 2 from repository
 
   Scenario: Delete Puzzle - Puzzle does not exist
     When user requests to delete the puzzle with id 404

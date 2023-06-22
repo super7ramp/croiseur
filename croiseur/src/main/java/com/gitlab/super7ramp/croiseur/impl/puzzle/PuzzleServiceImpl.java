@@ -58,6 +58,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
     }
 
     @Override
+    public void deleteAll() {
+        repository.deletetAll();
+    }
+
+    @Override
     public void load(final long puzzleId) {
         repository.query(puzzleId)
                   .ifPresentOrElse(presenter::presentLoadedPuzzle,
@@ -78,11 +83,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
     }
 
     @Override
-    public void patchAndSave(final PuzzlePatch patch) {
-        final Optional<SavedPuzzle> optSavedPuzzle = repository.query(patch.id());
+    public void save(final long id, final PuzzlePatch patch) {
+        final Optional<SavedPuzzle> optSavedPuzzle = repository.query(id);
         if (optSavedPuzzle.isEmpty()) {
             presenter.presentPuzzleRepositoryError(
-                    "Cannot modify puzzle with id #" + patch.id() + ": No such puzzle exists.");
+                    "Failed to update puzzle: Cannot found saved puzzle with id " + id);
             return;
         }
         final ChangedPuzzle changedPuzzle = patch(patch, optSavedPuzzle.get());

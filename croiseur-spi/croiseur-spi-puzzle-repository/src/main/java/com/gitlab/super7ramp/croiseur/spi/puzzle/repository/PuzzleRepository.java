@@ -69,6 +69,14 @@ public interface PuzzleRepository {
     SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException;
 
     /**
+     * Deletes the saved puzzle identified by given id.
+     *
+     * @param id the identifier of the saved puzzle to delete
+     * @throws WriteException if given puzzle cannot be deleted from repository
+     */
+    void delete(final long id) throws WriteException;
+
+    /**
      * Deletes the given saved puzzle.
      *
      * @param puzzle the saved puzzle to delete
@@ -80,12 +88,17 @@ public interface PuzzleRepository {
     }
 
     /**
-     * Deletes the saved puzzle identified by given id.
+     * Deletes all the saved puzzles.
      *
-     * @param id the identifier of the saved puzzle to delete
-     * @throws WriteException       if given puzzle cannot be deleted from repository
+     * @throws WriteException if at least one puzzle couldn't be deleted
+     * @implNote Default implementation uses {@link #list()} which may be costly; For better
+     * performance, consider overriding this method.
      */
-    void delete(final long id) throws WriteException;
+    default void deleteAll() throws WriteException {
+        for (final SavedPuzzle savedPuzzle : list()) {
+            delete(savedPuzzle);
+        }
+    }
 
     /**
      * Retrieves the saved puzzle with given ID.

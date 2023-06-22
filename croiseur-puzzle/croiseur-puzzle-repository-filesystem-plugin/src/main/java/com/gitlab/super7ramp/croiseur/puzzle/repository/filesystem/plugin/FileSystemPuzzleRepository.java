@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.function.BiPredicate;
@@ -107,20 +108,41 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
+    public void deleteAll() throws WriteException {
+        try (final Stream<Path> paths = puzzlePaths()) {
+            for (final Iterator<Path> it = paths.iterator(); it.hasNext(); ) {
+                final Path path = it.next();
+                Files.delete(path);
+            }
+        } catch (final IOException e) {
+            throw new WriteException("Failed to delete puzzles.", e);
+        }
+    }
+
+    @Override
     public Optional<SavedPuzzle> query(final long id) {
         return reader.read(pathOf(id));
     }
 
     @Override
     public Collection<SavedPuzzle> list() {
-        try (final Stream<Path> paths = Files.find(repositoryPath, 1 /* not recursive */,
-                                                   SUPPORTED_FILES)) {
+        try (final Stream<Path> paths = puzzlePaths()) {
             return paths.map(reader::read).flatMap(Optional::stream).toList();
         } catch (final IOException e) {
             LOGGER.warning(() -> "Failed to read puzzles: " + e.getMessage());
             LOGGER.log(Level.FINE, "", e);
             return Collections.emptyList();
         }
+    }
+
+    /**
+     * Returns a stream of the paths of the puzzles.
+     *
+     * @return a stream of the paths of the puzzles
+     * @throws IOException if repository path cannot be read
+     */
+    private Stream<Path> puzzlePaths() throws IOException {
+        return Files.find(repositoryPath, 1 /* not recursive */, SUPPORTED_FILES);
     }
 
     /**

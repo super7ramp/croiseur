@@ -60,3 +60,27 @@ Feature: Save Puzzle
       | Date        | 2023-06-16  |
       | Grid (rows) | ABC,DEF,XYZ |
     Then the application presents the puzzle repository error "Failed to update puzzle: Cannot found saved puzzle with id 404"
+
+  Scenario: Save Puzzle - Patch
+    Given the puzzle repository contains:
+      | Id | Revision | Title | Author   | Editor | Copyright | Date       | Grid (rows) |
+      | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
+    When user requests to patch and save puzzle with id 1 with:
+      | Title       | Example Grid |
+      | Grid (rows) | ABC,DEF,XYZ  |
+    Then the application updates the saved puzzle:
+      | Id          | $id          |
+      | Revision    | 2            |
+      | Title       | Example Grid |
+      | Author      | Jane Doe     |
+      | Editor      |              |
+      | Copyright   |              |
+      | Date        | 2023-06-16   |
+      | Grid (rows) | ABC,DEF,XYZ  |
+    And the application confirms the puzzle has been saved using identifier $id
+
+  Scenario: Save Puzzle - Patch Error
+    When user requests to patch and save puzzle with id 404 with:
+      | Title       | Example Grid |
+      | Grid (rows) | ABC,DEF,XYZ  |
+    Then the application presents the puzzle repository error "Failed to update puzzle: Cannot found saved puzzle with id 404"

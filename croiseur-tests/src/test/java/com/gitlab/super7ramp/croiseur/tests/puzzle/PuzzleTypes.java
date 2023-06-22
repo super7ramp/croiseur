@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
@@ -139,7 +140,7 @@ public final class PuzzleTypes {
                                                  .map(dateText -> "$today".equals(dateText) ?
                                                          LocalDate.now() :
                                                          LocalDate.parse(dateText));
-        return new PuzzleDetails(author, title, editor, copyright, date);
+        return new PuzzleDetails(title, author, editor, copyright, date);
     }
 
     @DataTableType
@@ -168,5 +169,41 @@ public final class PuzzleTypes {
             }
         }
         return gridBuilder.build();
+    }
+
+    @DataTableType
+    public PuzzlePatch puzzlePatch(final Map<String, String> table) {
+        return new PuzzlePatch() {
+            @Override
+            public Optional<String> modifiedTitle() {
+                return Optional.ofNullable(table.get("Title"));
+            }
+
+            @Override
+            public Optional<String> modifiedAuthor() {
+                return Optional.ofNullable(table.get("Author"));
+            }
+
+            @Override
+            public Optional<String> modifiedEditor() {
+                return Optional.ofNullable(table.get("Editor"));
+            }
+
+            @Override
+            public Optional<String> modifiedCopyright() {
+                return Optional.ofNullable(table.get("Copyright"));
+            }
+
+            @Override
+            public Optional<LocalDate> modifiedDate() {
+                return Optional.ofNullable(table.get("Date")).map(LocalDate::parse);
+            }
+
+            @Override
+            public Optional<PuzzleGrid> modifiedGrid() {
+                return Optional.ofNullable(table.get("Grid (rows)"))
+                               .map(PuzzleTypes.this::puzzleGrid);
+            }
+        };
     }
 }

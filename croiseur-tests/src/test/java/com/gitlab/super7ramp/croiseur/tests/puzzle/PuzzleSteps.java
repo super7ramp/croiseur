@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.tests.puzzle;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
@@ -48,6 +49,11 @@ public class PuzzleSteps {
         puzzleService.delete(puzzleId);
     }
 
+    @When("user requests to delete all puzzles")
+    public void whenDeleteAll() {
+        puzzleService.deleteAll();
+    }
+
     @When("user requests to list the available puzzles")
     public void whenList() {
         puzzleService.list();
@@ -56,6 +62,11 @@ public class PuzzleSteps {
     @When("user requests to load puzzle with id {int}")
     public void whenLoad(final int puzzleId) {
         puzzleService.load(puzzleId);
+    }
+
+    @When("user requests to patch and save puzzle with id {long} with:")
+    public void whenPatchAndSave(final long id, @Transpose final PuzzlePatch patch) {
+        puzzleService.save(id, patch);
     }
 
     @When("user requests to save the following puzzle:")

@@ -148,6 +148,20 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
+    void deleteAll() throws IOException, WriteException {
+        Files.writeString(repositoryPath.resolve("1.xd"), XD_PUZZLE);
+        Files.writeString(repositoryPath.resolve("2.xd"), XD_PUZZLE);
+        Files.writeString(repositoryPath.resolve("3.xd"), XD_PUZZLE);
+        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
+
+        repo.deleteAll();
+
+        assertFalse(Files.exists(repositoryPath.resolve("1.xd")));
+        assertFalse(Files.exists(repositoryPath.resolve("2.xd")));
+        assertFalse(Files.exists(repositoryPath.resolve("3.xd")));
+    }
+
+    @Test
     void query() throws IOException {
         Files.writeString(repositoryPath.resolve("1.xd"), XD_PUZZLE);
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
@@ -223,4 +237,5 @@ final class FileSystemPuzzleRepositoryTest {
         System.clearProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path");
         assertThrows(IllegalStateException.class, FileSystemPuzzleRepository::new);
     }
+
 }

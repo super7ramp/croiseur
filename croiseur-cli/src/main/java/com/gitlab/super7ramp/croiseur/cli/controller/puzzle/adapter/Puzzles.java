@@ -50,7 +50,6 @@ public final class Puzzles {
     /**
      * Converts command-line options to {@link PuzzlePatch}.
      *
-     * @param id        the id of the puzzle
      * @param title     the modified title, if any
      * @param author    the modified author, if any
      * @param editor    the modified editor, if any
@@ -59,18 +58,13 @@ public final class Puzzles {
      * @param gridRows  the modified grid rows, if any
      * @return the created {@link PuzzlePatch}
      */
-    public static PuzzlePatch puzzlePatchFrom(final long id, final Optional<String> title,
+    public static PuzzlePatch puzzlePatchFrom(final Optional<String> title,
                                               final Optional<String> author,
                                               final Optional<String> editor,
                                               final Optional<String> copyright,
                                               final Optional<LocalDate> date,
                                               final Optional<String> gridRows) {
         return new PuzzlePatch() {
-            @Override
-            public long id() {
-                return id;
-            }
-
             @Override
             public Optional<String> modifiedTitle() {
                 return title;
