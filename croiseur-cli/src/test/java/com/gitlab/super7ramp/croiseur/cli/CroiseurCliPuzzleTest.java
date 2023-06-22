@@ -141,19 +141,6 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                  .and().exitsWithCode(SUCCESS);
     }
 
-    /**
-     * Executes the croiseur-cli command with given arguments and verifies it exits with success.
-     * Precondition step.
-     *
-     * @param args the arguments
-     */
-    private void givenOneHasRunCli(final String... args) {
-        cli(args);
-        drainOut();
-        assertEquals("", err());
-        assertEquals(SUCCESS, exitCode());
-    }
-
     @Test
     void list() {
         givenOneHasRunCli("puzzle", "create",
@@ -193,6 +180,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @AfterEach
     void cleanRepository() {
+        drainErr();
         cli("puzzle", "delete-all");
         assertEquals("", err());
         assertEquals(SUCCESS, exitCode());

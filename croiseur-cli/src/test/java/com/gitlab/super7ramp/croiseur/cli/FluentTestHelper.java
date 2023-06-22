@@ -258,6 +258,22 @@ abstract class FluentTestHelper extends TestRuntime {
     }
 
     /**
+     * Executes the croiseur-cli command with given arguments and verifies it exits with success.
+     * A precondition step.
+     *
+     * @param args the arguments
+     * @return this object, for chaining
+     */
+    protected final FluentTestHelper givenOneHasRunCli(final String... args) {
+        cli(args);
+        assertEquals("", err());
+        assertEquals(SUCCESS, exitCode());
+        drainOut();
+        drainErr();
+        return this;
+    }
+
+    /**
      * Executes the croiseur-cli command with given arguments.
      *
      * @param arguments the arguments
