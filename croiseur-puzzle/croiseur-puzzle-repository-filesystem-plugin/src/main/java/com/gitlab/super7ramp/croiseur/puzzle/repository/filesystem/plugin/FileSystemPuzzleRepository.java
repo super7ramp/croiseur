@@ -59,8 +59,14 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
 
     /**
      * Constructs an instance.
+     *
+     * @throws IllegalArgumentException if property {@value PUZZLE_REPOSITORY_PATH_PROPERTY} is not
+     *                                  set
+     * @throws IOException              if directory indicated by the property
+     *                                  {@value PUZZLE_REPOSITORY_PATH_PROPERTY} does not exist and
+     *                                  cannot be created
      */
-    public FileSystemPuzzleRepository() {
+    public FileSystemPuzzleRepository() throws IOException {
         final String pathProperty = System.getProperty(PUZZLE_REPOSITORY_PATH_PROPERTY);
         if (pathProperty == null) {
             throw new IllegalStateException(
@@ -68,6 +74,9 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
                     PUZZLE_REPOSITORY_PATH_PROPERTY + "' is not set. Check your setup.");
         }
         repositoryPath = Path.of(pathProperty);
+        if (Files.notExists(repositoryPath)) {
+            Files.createDirectory(repositoryPath);
+        }
         reader = new PuzzleReader();
         writer = new PuzzleWriter();
     }

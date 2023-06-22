@@ -67,7 +67,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void create() throws WriteException {
+    void create() throws WriteException, IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
@@ -82,7 +82,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void create_consistencyWithQuery() throws WriteException {
+    void create_consistencyWithQuery() throws WriteException, IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
@@ -96,7 +96,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void update() throws WriteException {
+    void update() throws WriteException, IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
@@ -116,7 +116,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void update_noRealChange() throws WriteException {
+    void update_noRealChange() throws WriteException, IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
@@ -142,7 +142,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void delete_missing() {
+    void delete_missing() throws IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         assertThrows(WriteException.class, () -> repo.delete(1L));
     }
@@ -172,7 +172,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void query_empty() {
+    void query_empty() throws IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final Optional<SavedPuzzle> puzzle = repo.query(1L);
         assertEquals(Optional.empty(), puzzle);
@@ -191,7 +191,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void list_empty() {
+    void list_empty() throws IOException {
         final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final Collection<SavedPuzzle> puzzles = repo.list();
         assertEquals(Collections.emptyList(), puzzles);
