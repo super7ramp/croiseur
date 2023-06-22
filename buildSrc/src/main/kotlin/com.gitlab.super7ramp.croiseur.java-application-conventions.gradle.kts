@@ -21,9 +21,12 @@ configurations.register("dictionaryPath") {
 }
 
 /**
- * The installation dictionary directory, relative to destination directory, basically $(datadir)/dictionaries
+ * The installation dictionary directory, relative to destination directory, basically
+ * $(datadir)/dictionaries
  */
 val dictionaryDir = project.property("datadir") as String + File.separator + "dictionaries"
+/** Same thing for puzzle directory. */
+var puzzleDir = project.property("datadir") as String + File.separator + "puzzles"
 
 /**
  * Configures application parameters.
@@ -53,7 +56,10 @@ tasks.named<CreateStartScripts>("startScripts") {
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
     val appHome = "APP_HOME_PLACEHOLDER"
     val sep = File.separator
-    val byConventionArgs = listOf("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}")
+    val byConventionArgs = listOf(
+        "-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}",
+        "-Dcom.gitlab.super7ramp.croiseur.puzzle.repository.path=${appHome}${sep}${puzzleDir}${sep}"
+    )
     val appSpecificArgs = application.applicationDefaultJvmArgs
     defaultJvmOpts = appSpecificArgs + byConventionArgs
 
