@@ -49,7 +49,7 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
         final long id = changedPuzzle.id();
         final SavedPuzzle oldSavedPuzzle =
                 query(id).orElseThrow(
-                        () -> new WriteException("Cannot found saved puzzle with id " + id));
+                        () -> new WriteException("Cannot find saved puzzle with id " + id));
         if (oldSavedPuzzle.data().equals(changedPuzzle.data())) {
             // No need to update
             return oldSavedPuzzle;

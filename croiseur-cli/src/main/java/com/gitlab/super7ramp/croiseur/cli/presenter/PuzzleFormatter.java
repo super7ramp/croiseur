@@ -10,7 +10,6 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import picocli.CommandLine;
 
 import java.time.LocalDate;
@@ -55,14 +54,14 @@ final class PuzzleFormatter {
      */
     static String formatSavedPuzzle(final SavedPuzzle savedPuzzle) {
         final PuzzleDetails details = savedPuzzle.details();
-        return "Id: " + savedPuzzle.id() + LINE_SEPARATOR +
-               "Rev: " + savedPuzzle.revision() + LINE_SEPARATOR +
-               "Title: " + details.title() + LINE_SEPARATOR +
-               "Author: " + details.author() + LINE_SEPARATOR +
-               "Editor: " + details.editor() + LINE_SEPARATOR +
-               "Copyright: " + details.copyright() + LINE_SEPARATOR +
-               "Date: " + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
-               "Grid:" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid());
+        return $("identifier") + ": " + savedPuzzle.id() + LINE_SEPARATOR +
+               $("revision") + ": " + savedPuzzle.revision() + LINE_SEPARATOR +
+               $("title") + ": " + details.title() + LINE_SEPARATOR +
+               $("author") + ": " + details.author() + LINE_SEPARATOR +
+               $("editor") + ": " + details.editor() + LINE_SEPARATOR +
+               $("copyright") + ": " + details.copyright() + LINE_SEPARATOR +
+               $("date") + ": " + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
+               $("grid") + ":" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid());
     }
 
     /**
@@ -116,27 +115,13 @@ final class PuzzleFormatter {
     }
 
     /**
-     * Formats the solver result.
-     *
-     * @return the formatted solver result
-     */
-    static String formatSolverResult(final SolverResult result) {
-        final boolean success = result.isSuccess();
-        final String resultHeaderKey = $("result.header");
-        final String resultHeaderValue = $(toL10nKey(success));
-        final String formattedPuzzle = formatPuzzleGrid(result.grid(), result.unsolvableBoxes());
-        return resultHeaderKey + resultHeaderValue + LINE_SEPARATOR + LINE_SEPARATOR +
-               formattedPuzzle;
-    }
-
-    /**
      * Returns the localised message with given key.
      *
      * @param key the message key
      * @return the localised message
      */
     private static String $(final String key) {
-        return ResourceBundles.$("presenter.solver." + key);
+        return ResourceBundles.$("presenter.puzzle." + key);
     }
 
     private static int width(final Set<GridPosition> positions) {
@@ -153,7 +138,4 @@ final class PuzzleFormatter {
                         .orElse(-1) + 1;
     }
 
-    private static String toL10nKey(final boolean success) {
-        return success ? "result.success" : "result.impossible";
-    }
 }

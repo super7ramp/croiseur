@@ -20,7 +20,7 @@ import static com.gitlab.super7ramp.croiseur.cli.presenter.CliPresenterUtil.line
 final class CliPuzzlePresenter implements PuzzlePresenter {
 
     /** The format to present puzzle list. */
-    private static final String PUZZLE_LIST_FORMAT = "%-4s\t%-4s\t%-16s\t%-16s%n";
+    private static final String PUZZLE_LIST_FORMAT = "%-4s\t%-4s\t%-16s\t%-16s\t%-16s%n";
 
     /**
      * Constructs an instance.
@@ -50,16 +50,18 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
         final String idHeader = $("id");
         final String revisionHeader = $("rev");
         final String titleHeader = $("title");
+        final String authorHeader = $("author");
         final String dateHeader = $("date");
 
-        System.out.printf(PUZZLE_LIST_FORMAT, idHeader, revisionHeader, titleHeader,
+        System.out.printf(PUZZLE_LIST_FORMAT, idHeader, revisionHeader, titleHeader, authorHeader,
                           dateHeader);
         System.out.printf(PUZZLE_LIST_FORMAT, lineOf(idHeader.length()),
                           lineOf(revisionHeader.length()), lineOf(titleHeader.length()),
-                          lineOf(dateHeader.length()));
+                          lineOf(authorHeader.length()), lineOf(dateHeader.length()));
         puzzles.forEach(
                 puzzle -> System.out.printf(PUZZLE_LIST_FORMAT, puzzle.id(), puzzle.revision(),
                                             puzzle.details().title(),
+                                            puzzle.details().author(),
                                             puzzle.details().date().map(
                                                     LocalDate::toString).orElse("")));
     }

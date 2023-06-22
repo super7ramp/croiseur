@@ -59,7 +59,7 @@ Feature: Save Puzzle
       | Copyright   |             |
       | Date        | 2023-06-16  |
       | Grid (rows) | ABC,DEF,XYZ |
-    Then the application presents the puzzle repository error "Failed to update puzzle: Cannot found saved puzzle with id 404"
+    Then the application presents the puzzle repository error "Failed to update puzzle: Cannot find saved puzzle with id 404"
 
   Scenario: Save Puzzle - Patch
     Given the puzzle repository contains:
@@ -83,4 +83,4 @@ Feature: Save Puzzle
     When user requests to patch and save puzzle with id 404 with:
       | Title       | Example Grid |
       | Grid (rows) | ABC,DEF,XYZ  |
-    Then the application presents the puzzle repository error "Failed to update puzzle: Cannot found saved puzzle with id 404"
+    Then the application presents the puzzle repository error "Failed to update puzzle: Cannot find saved puzzle with id 404"

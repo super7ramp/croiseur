@@ -41,8 +41,10 @@ public final class Puzzles {
                                     final Optional<String> editor, final Optional<String> copyright,
                                     final Optional<LocalDate> date, final String gridRows) {
         final PuzzleDetails details =
-                new PuzzleDetails(title.orElse(""), author.orElse(""), editor.orElse(""),
-                                  copyright.orElse(""), date);
+                new PuzzleDetails(title.orElse(""), author.orElse(System.getProperty("user.name")),
+                                  editor.orElse(""),
+                                  copyright.orElse(""),
+                                  date.or(() -> Optional.of(LocalDate.now())));
         final PuzzleGrid grid = puzzleGridFrom(gridRows);
         return new Puzzle(details, grid);
     }

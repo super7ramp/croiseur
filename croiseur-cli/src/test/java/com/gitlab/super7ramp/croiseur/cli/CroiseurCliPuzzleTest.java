@@ -48,8 +48,8 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         thenCli().writesToStdOut("""
                                  Saved puzzle.
                                                                            
-                                 Id: 1
-                                 Rev: 1
+                                 Identifier: 1
+                                 Revision: 1
                                  Title: Example Grid
                                  Author: Me
                                  Editor: Nobody
@@ -67,18 +67,19 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
     void update() {
-        givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows",
+                          "...,ABC,#D.");
         whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
         thenCli().writesToStdOut("""
                                  Saved puzzle.
                                                                            
-                                 Id: 1
-                                 Rev: 2
+                                 Identifier: 1
+                                 Revision: 2
                                  Title: Example
-                                 Author:\s
+                                 Author: Me
                                  Editor:\s
                                  Copyright:\s
-                                 Date:\s
+                                 Date: 2023-06-22
                                  Grid:
                                  |X|Y|Z|
                                  |A|B|C|
@@ -93,7 +94,8 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void update_missing() {
         whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
         thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr("Failed to update puzzle: Cannot found saved puzzle with id 1\n")
+                 .and()
+                 .writesToStdErr("Failed to update puzzle: Cannot find saved puzzle with id 1\n")
                  .and().exitsWithCode(SUCCESS); // TODO shouldn't it be error?
     }
 
@@ -120,17 +122,18 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
     void cat() {
-        givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
+        givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows",
+                          "...,ABC,#D.");
         whenOneRunsCli("puzzle", "cat", "1");
         thenCli().writesToStdOut(
                          """                                                                     
-                         Id: 1
-                         Rev: 1
+                         Identifier: 1
+                         Revision: 1
                          Title:\s
-                         Author:\s
+                         Author: Me
                          Editor:\s
                          Copyright:\s
-                         Date:\s
+                         Date: 2023-06-22
                          Grid:
                          | | | |
                          |A|B|C|
@@ -145,13 +148,14 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void list() {
         givenOneHasRunCli("puzzle", "create",
                           "--title", "First Example",
+                          "--author", "Me",
                           "--date", "2023-06-21",
                           "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "list");
         thenCli().writesToStdOut("""
-                                 Id  	Rev 	Title           	Date           \s
-                                 --  	--- 	-----           	----           \s
-                                 1   	1   	First Example   	2023-06-21     \s
+                                 Id  	Rev 	Title           	Author          	Date           \s
+                                 --  	--- 	-----           	------          	----           \s
+                                 1   	1   	First Example   	Me              	2023-06-21     \s
                                  """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);

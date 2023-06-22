@@ -87,7 +87,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
         final Optional<SavedPuzzle> optSavedPuzzle = repository.query(id);
         if (optSavedPuzzle.isEmpty()) {
             presenter.presentPuzzleRepositoryError(
-                    "Failed to update puzzle: Cannot found saved puzzle with id " + id);
+                    "Failed to update puzzle: Cannot find saved puzzle with id " + id);
             return;
         }
         final ChangedPuzzle changedPuzzle = patch(patch, optSavedPuzzle.get());
