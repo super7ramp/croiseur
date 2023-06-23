@@ -66,7 +66,7 @@ tasks.named<CreateStartScripts>("startScripts") {
     val sep = File.separator
     val byConventionArgs = listOf(
         "-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}",
-        "-Dcom.gitlab.super7ramp.croiseur.puzzle.repository.path=${appHome}${sep}${puzzleDir}${sep}"
+        "-Dcom.gitlab.super7ramp.croiseur.puzzle.path=${appHome}${sep}${puzzleDir}${sep}"
     )
     val appSpecificArgs = application.applicationDefaultJvmArgs
     defaultJvmOpts = appSpecificArgs + byConventionArgs
@@ -93,6 +93,6 @@ afterEvaluate {
         systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", dictionaryPath)
         val tempPuzzlePath = Files.createTempDirectory("croiseur_test_repo_").toFile()
         tempPuzzlePath.deleteOnExit()
-        systemProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path", tempPuzzlePath)
+        systemProperty("com.gitlab.super7ramp.croiseur.puzzle.path", tempPuzzlePath)
     }
 }

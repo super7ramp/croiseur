@@ -55,13 +55,13 @@ tasks.named<JavaCompile>("compileJava") {
 /** Configures tests paths. */
 tasks.named<Test>("test") {
     systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath())
-    systemProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path", testRepoPath())
+    systemProperty("com.gitlab.super7ramp.croiseur.puzzle.path", testRepoPath())
 }
 
 /** Configures native tests paths. */
 tasks.named<org.graalvm.buildtools.gradle.tasks.NativeRunTask>("nativeTest") {
     runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${resolvedDicPath()}")
-    runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.puzzle.repository.path=${testRepoPath()}")
+    runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.puzzle.path=${testRepoPath()}")
 }
 
 fun resolvedDicPath(): String {

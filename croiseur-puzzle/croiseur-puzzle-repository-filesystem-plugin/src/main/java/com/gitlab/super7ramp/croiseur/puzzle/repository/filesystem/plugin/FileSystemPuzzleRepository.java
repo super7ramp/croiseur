@@ -36,8 +36,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
             Logger.getLogger(FileSystemPuzzleRepository.class.getName());
 
     /** The system property defining the repository path. */
-    private static final String PUZZLE_REPOSITORY_PATH_PROPERTY =
-            "com.gitlab.super7ramp.croiseur.puzzle.repository.path";
+    private static final String PUZZLE_PATH_PROPERTY = "com.gitlab.super7ramp.croiseur.puzzle.path";
 
     /** The names that files should have. Example: "42.xd" (42 is the crossword identifier). */
     private static final Pattern SUPPORTED_FILES_PATTERN = Pattern.compile("\\d+.xd");
@@ -60,18 +59,17 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     /**
      * Constructs an instance.
      *
-     * @throws IllegalArgumentException if property {@value PUZZLE_REPOSITORY_PATH_PROPERTY} is not
-     *                                  set
+     * @throws IllegalArgumentException if property {@value PUZZLE_PATH_PROPERTY} is not set
      * @throws IOException              if directory indicated by the property
-     *                                  {@value PUZZLE_REPOSITORY_PATH_PROPERTY} does not exist and
-     *                                  cannot be created
+     *                                  {@value PUZZLE_PATH_PROPERTY} does not exist and cannot be
+     *                                  created
      */
     public FileSystemPuzzleRepository() throws IOException {
-        final String pathProperty = System.getProperty(PUZZLE_REPOSITORY_PATH_PROPERTY);
+        final String pathProperty = System.getProperty(PUZZLE_PATH_PROPERTY);
         if (pathProperty == null) {
             throw new IllegalStateException(
                     "Failed to instantiate FileSystemPuzzleRepository: The system property '" +
-                    PUZZLE_REPOSITORY_PATH_PROPERTY + "' is not set. Check your setup.");
+                    PUZZLE_PATH_PROPERTY + "' is not set. Check your setup.");
         }
         repositoryPath = Path.of(pathProperty);
         if (Files.notExists(repositoryPath)) {

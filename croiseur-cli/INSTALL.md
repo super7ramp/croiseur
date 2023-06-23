@@ -81,13 +81,13 @@ You may then run the executable like this:
 ```
 
 Note that at the moment, on the contrary of [the standard build](#standard-build), no launcher
-script is generated. The consequence is that the executable won't be able to find the
-dictionaries out-of-the-box. You need to indicate the path to the dictionaries (e.g. taken from a
-standard build distribution) via the `com.gitlab.super7ramp.croiseur.dictionary.path` property,
-e.g.:
+script is generated. The consequence is that the executable will not be able to find the
+dictionaries nor the saved puzzles out-of-the-box. You need to indicate the paths to these elements
+(e.g. taken from a standard build distribution) using system properties, like the following:
 
 ```shell
 ./build/native/nativeCompile/croiseur-cli \
   -Dcom.gitlab.super7ramp.croiseur.dictionary.path=<YOUR_DICTIONARY_PATH> \
+  -Dcom.gitlab.super7ramp.croiseur.puzzle.path=<YOUR_PUZZLE_PATH> \
   dictionary ls
 ```

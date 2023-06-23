@@ -62,8 +62,7 @@ final class FileSystemPuzzleRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        System.setProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path",
-                           repositoryPath.toString());
+        System.setProperty("com.gitlab.super7ramp.croiseur.puzzle.path", repositoryPath.toString());
     }
 
     @Test
@@ -90,7 +89,8 @@ final class FileSystemPuzzleRepositoryTest {
         final Puzzle puzzle = new Puzzle(details, grid);
 
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
-        final SavedPuzzle queriedPuzzle = repo.query(savedPuzzle.id()).orElseThrow(AssertionError::new);
+        final SavedPuzzle queriedPuzzle =
+                repo.query(savedPuzzle.id()).orElseThrow(AssertionError::new);
 
         assertEquals(savedPuzzle, queriedPuzzle);
     }
@@ -234,7 +234,7 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void creationFailureNoPath() {
-        System.clearProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path");
+        System.clearProperty("com.gitlab.super7ramp.croiseur.puzzle.path");
         assertThrows(IllegalStateException.class, FileSystemPuzzleRepository::new);
     }
 

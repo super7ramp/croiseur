@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 a [Croiseur puzzle repository](../../croiseur-spi/croiseur-spi-puzzle-repository) whose puzzles are
 stored as files on disk.
 
-The path to the repository is defined by the `com.gitlab.super7ramp.croiseur.puzzle.repository.path`
-system property.
+The path to the repository is defined by the `com.gitlab.super7ramp.croiseur.puzzle.path` system
+property.
 
 Files are written in the [xd format](../croiseur-puzzle-codec-xd).
