@@ -3,6 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import java.nio.file.Files
+
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 /**
  * Conventions for Java applications.
  */
@@ -25,6 +32,7 @@ configurations.register("dictionaryPath") {
  * $(datadir)/dictionaries
  */
 val dictionaryDir = project.property("datadir") as String + File.separator + "dictionaries"
+
 /** Same thing for puzzle directory. */
 var puzzleDir = project.property("datadir") as String + File.separator + "puzzles"
 
@@ -83,5 +91,8 @@ afterEvaluate {
     tasks.named<JavaExec>("run") {
         val dictionaryPath = configurations.getByName("dictionaryPath").asPath
         systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", dictionaryPath)
+        val tempPuzzlePath = Files.createTempDirectory("croiseur_test_repo_").toFile()
+        tempPuzzlePath.deleteOnExit()
+        systemProperty("com.gitlab.super7ramp.croiseur.puzzle.repository.path", tempPuzzlePath)
     }
 }
