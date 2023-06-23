@@ -5,11 +5,6 @@
 
 import java.nio.file.Files
 
-/*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
 /**
  * Conventions for Java applications.
  */

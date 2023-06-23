@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 /**
- * An aggregate of modifications to be applied on a puzzle.
+ * Modifications to be applied on a puzzle.
  */
 public interface PuzzlePatch {
 
