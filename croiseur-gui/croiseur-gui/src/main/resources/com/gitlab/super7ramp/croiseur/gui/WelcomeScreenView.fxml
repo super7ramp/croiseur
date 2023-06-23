@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreen?>
+<WelcomeScreen xmlns:fx="http://javafx.com/fxml"
+               xmlns="http://javafx.com/javafx"
+               fx:controller="com.gitlab.super7ramp.croiseur.gui.WelcomeScreenController"
+               fx:id="view"/>
