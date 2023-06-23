@@ -29,37 +29,37 @@ public final class SolverRunCommand implements Runnable {
     private final SolverService solverService;
 
     /** The name of the solver to use. */
-    @Parameters(arity = "0..1")
+    @Parameters(arity = "0..1", paramLabel = "SOLVER")
     private String solver;
 
     /** The grid dimensions. */
-    @Option(names = {"-s", "--size"}, paramLabel = "<INTEGERxINTEGER>", arity = "1", required =
+    @Option(names = {"-s", "--size"}, paramLabel = "INTEGERxINTEGER", arity = "1", required =
             true)
     private GridSize size;
 
     /** The identifiers of the dictionary to use for solving. */
-    @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "<PROVIDER:DICTIONARY>",
+    @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "PROVIDER:DICTIONARY",
             arity = "1..*")
     private DictionaryIdentifier[] dictionaryIds;
 
     /** The definition of the shaded boxes. */
     @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", paramLabel =
-            "<COORDINATE> ")
+            "COORDINATE ")
     private GridPosition[] shadedBoxes = {};
 
     /** The definition of the pre-filled boxes. */
-    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", paramLabel = "<(COORDINATE," +
-                                                                             "LETTER)> ")
+    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", paramLabel = "(COORDINATE," +
+                                                                             "LETTER)")
     private PrefilledBox[] prefilledBoxes = {};
 
     /** The definition of the pre-filled horizontal slots. */
-    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", paramLabel = "<" +
-                                                                                     "(COORDINATE,WORD)> ")
+    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", paramLabel = "(COORDINATE,WORD)")
+
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
     /** The definition of the pre-filled vertical slots. */
-    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", paramLabel = "<(COORDINATE," +
-                                                                                 "WORD)> ")
+    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", paramLabel = "(COORDINATE," +
+                                                                                 "WORD)")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
     /** The randomness source for shuffling dictionary. */

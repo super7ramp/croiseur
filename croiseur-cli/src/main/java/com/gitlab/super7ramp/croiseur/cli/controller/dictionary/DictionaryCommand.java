@@ -39,9 +39,9 @@ public final class DictionaryCommand {
      *
      * @param dictionaryId the dictionary identifier
      */
-    @Command(name = "cat")
+    @Command
     void cat(
-            @Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId) {
+            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId) {
         final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
         dictionaryService.listEntries(request);
     }
@@ -57,10 +57,10 @@ public final class DictionaryCommand {
     /**
      * Greps the dictionary content.
      */
-    @Command(name = "grep", aliases = {"search"})
+    @Command(aliases = {"search"})
     void grep(
-            @Parameters(index = "0", paramLabel = "<PROVIDER:DICTIONARY>") final DictionaryIdentifier dictionaryId,
-            @Parameters(index = "1", paramLabel = "<PATTERN>") final String pattern) {
+            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId,
+            @Parameters(index = "1", paramLabel = "PATTERN") final String pattern) {
         final SearchDictionaryEntriesRequest request =
                 SearchDictionaryEntriesRequest.of(dictionaryId, pattern);
         dictionaryService.searchEntries(request);
@@ -72,7 +72,7 @@ public final class DictionaryCommand {
      * @param provider filter on the provider
      * @param locale   filter on the locale
      */
-    @Command(name = "list", aliases = {"ls"})
+    @Command(aliases = {"ls"})
     void list(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
               @Option(names = {"-l", "--locale"}, paramLabel = "LOCALE") final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);

@@ -25,4 +25,4 @@ Feature: Load Puzzle
 
   Scenario: Load Puzzle - Puzzle does not exist
     When user requests to load puzzle with id 404
-    Then the application presents the puzzle repository error "Cannot load requested puzzle: No such puzzle exist"
+    Then the application presents the puzzle repository error "Cannot load requested puzzle: Puzzle does not exist"

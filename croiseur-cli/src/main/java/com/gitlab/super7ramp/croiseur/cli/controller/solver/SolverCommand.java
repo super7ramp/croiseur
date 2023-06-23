@@ -27,7 +27,7 @@ public final class SolverCommand {
     }
 
     /** Lists the available solvers. */
-    @Command(name = "list", aliases = {"ls"})
+    @Command(aliases = {"ls"})
     void list() {
         solverService.listSolvers();
     }

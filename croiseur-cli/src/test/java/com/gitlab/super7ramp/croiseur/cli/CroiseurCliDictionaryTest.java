@@ -38,18 +38,18 @@ final class CroiseurCliDictionaryTest extends FluentTestHelper {
         thenCli().doesNotWriteToStdOut()
                  .and().writesToStdErr(
                          """
-                         Missing required parameter: '<PROVIDER:DICTIONARY>'
-                         Usage: croiseur-cli dictionary cat <PROVIDER:DICTIONARY>
+                         Missing required parameter: 'PROVIDER:DICTIONARY'
+                         Usage: croiseur-cli dictionary cat PROVIDER:DICTIONARY
                          Display dictionary entries
-                               <PROVIDER:DICTIONARY>
-                                  The identifier of the dictionary to display
+                               PROVIDER:DICTIONARY   The identifier of the dictionary to display
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void dictionaryCatUkacd() {
-        whenOneRunsCli("dictionary", "cat", "Local Text Provider:The UK Advanced Cryptics Dictionary");
+        whenOneRunsCli("dictionary", "cat",
+                       "Local Text Provider:The UK Advanced Cryptics Dictionary");
         thenCli().writes(toStdOut().aTotalOf(250592).lines().startingWith(
                          """
                          A

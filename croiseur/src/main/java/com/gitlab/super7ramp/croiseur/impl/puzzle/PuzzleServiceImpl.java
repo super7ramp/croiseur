@@ -67,7 +67,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
         repository.query(puzzleId)
                   .ifPresentOrElse(presenter::presentLoadedPuzzle,
                                    () -> presenter.presentPuzzleRepositoryError(
-                                           "Cannot load requested puzzle: No such puzzle exist"));
+                                           "Cannot load requested puzzle: Puzzle does not exist"));
     }
 
     @Override
