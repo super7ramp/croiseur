@@ -4,37 +4,37 @@
  */
 
 #resize-grid-button-image-view {
-    -fx-image: url("lc_tabledesign.png");
+    -fx-image: url("icon/lc_tabledesign.png");
 }
 
 #add-row-button-image-view {
-    -fx-image: url("lc_insertrowsafter.png");
+    -fx-image: url("icon/lc_insertrowsafter.png");
 }
 
 #delete-row-button-image-view {
-    -fx-image: url("lc_deleterows.png");
+    -fx-image: url("icon/lc_deleterows.png");
 }
 
 #add-column-button-image-view {
-    -fx-image: url("lc_insertcolumnsafter.png");
+    -fx-image: url("icon/lc_insertcolumnsafter.png");
 }
 
 #delete-column-button-image-view {
-    -fx-image: url("lc_deletecolumns.png");
+    -fx-image: url("icon/lc_deletecolumns.png");
 }
 
 #delete-grid-button-image-view {
-    -fx-image: url("lc_deletetable.png");
+    -fx-image: url("icon/lc_deletetable.png");
 }
 
 #clear-grid-menu-button-image-view {
-    -fx-image: url("lc_strikeout.png");
+    -fx-image: url("icon/lc_strikeout.png");
 }
 
 #solve-button-image-view {
-    -fx-image: url("lc_runmacro.png");
+    -fx-image: url("icon/lc_runmacro.png");
 }
 
 #show-dictionaries-button-image-view {
-    -fx-image: url("lc_leftpanedraw.png");
+    -fx-image: url("icon/lc_leftpanedraw.png");
 }

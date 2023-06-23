@@ -46,5 +46,5 @@
 
 #dictionary-placeholder {
     /* Placeholder when dictionary is not present, an image-view. */
-    -fx-image: url("lc_errorcellstyles.png");
+    -fx-image: url("icon/lc_errorcellstyles.png");
 }
