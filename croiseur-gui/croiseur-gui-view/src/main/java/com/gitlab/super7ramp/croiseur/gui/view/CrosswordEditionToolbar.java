@@ -15,7 +15,6 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -23,10 +22,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
@@ -102,22 +97,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
         gridEditionButtonsDisableProperty =
                 new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty",
                                           false);
-
-        final Class<CrosswordEditionToolbar> clazz = CrosswordEditionToolbar.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
-                                                    "Failed to locate " + fxmlName);
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
-        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        // Only to help SceneBuilder find other custom controls shipped in the same jar
-        fxmlLoader.setClassLoader(clazz.getClassLoader());
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     @FXML

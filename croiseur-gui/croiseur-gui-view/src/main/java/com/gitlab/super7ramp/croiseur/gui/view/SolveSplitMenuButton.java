@@ -13,7 +13,6 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
@@ -22,11 +21,7 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -51,20 +46,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
                                                     FXCollections.observableArrayList());
         selectedSolver = new ReadOnlyStringWrapper(this, "selectedSolver");
         toggleGroup = new ToggleGroup();
-
-        final Class<SolveSplitMenuButton> clazz = SolveSplitMenuButton.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location =
-                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
-        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     /**

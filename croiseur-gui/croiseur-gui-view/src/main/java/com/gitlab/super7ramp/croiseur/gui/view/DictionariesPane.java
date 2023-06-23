@@ -16,7 +16,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -24,10 +23,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -75,20 +70,7 @@ public final class DictionariesPane extends Accordion {
         suggestions =
                 new SimpleListProperty<>(this, "suggestions", FXCollections.observableArrayList());
         onSuggestionSelected = new SimpleObjectProperty<>(this, "onSuggestionSelected");
-
-        final Class<DictionariesPane> clazz = DictionariesPane.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
-                                                    "Failed to locate " + fxmlName);
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
-        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     @FXML

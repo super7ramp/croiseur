@@ -21,16 +21,11 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -74,20 +69,7 @@ public final class CrosswordSolverPane extends BorderPane {
      * Constructs an instance.
      */
     public CrosswordSolverPane() {
-        final Class<CrosswordSolverPane> clazz = CrosswordSolverPane.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location =
-                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
-        final FXMLLoader fxmlLoader = new FXMLLoader(location);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        // Only to help SceneBuilder find other custom controls shipped in the same jar
-        fxmlLoader.setClassLoader(clazz.getClassLoader());
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this);
     }
 
     @FXML

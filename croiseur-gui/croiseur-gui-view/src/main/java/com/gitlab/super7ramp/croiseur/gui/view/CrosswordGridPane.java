@@ -20,7 +20,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
@@ -32,13 +31,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A standalone crossword grid control.
@@ -194,21 +189,7 @@ public final class CrosswordGridPane extends StackPane {
         boxNodes = new HashMap<>();
         currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition", null);
         currentSlotVertical = new SimpleBooleanProperty(this, "currentSlotVertical", false);
-
-        final Class<CrosswordGridPane> clazz = CrosswordGridPane.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location =
-                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
-        final FXMLLoader fxmlLoader = new FXMLLoader(location);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        // Only to help SceneBuilder find other custom controls shipped in the same jar
-        fxmlLoader.setClassLoader(clazz.getClassLoader());
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this);
     }
 
     /**

@@ -8,14 +8,9 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -43,20 +38,7 @@ public final class CrosswordGridPlaceholder extends VBox {
      */
     public CrosswordGridPlaceholder() {
         wrappingWidth = new SimpleDoubleProperty(this, "wrappingWidth", 0.0);
-
-        final Class<CrosswordGridPlaceholder> clazz = CrosswordGridPlaceholder.class;
-        final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName),
-                                                    "Failed to locate " + fxmlName);
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle(clazz.getName());
-        final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (final IOException exception) {
-            throw new UncheckedIOException(exception);
-        }
+        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     /**
