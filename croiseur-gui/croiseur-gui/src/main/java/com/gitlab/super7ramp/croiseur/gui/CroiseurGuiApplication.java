@@ -62,9 +62,9 @@ public final class CroiseurGuiApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        final CroiseurRootController controller = loadController();
-        final Parent view = CroiseurRootViewLoader.load(controller);
-        configureStage(stage, view);
+        final CrosswordEditorController editorController = loadEditorController();
+        final Parent editorView = ViewLoader.load(editorController);
+        configureStage(stage, editorView);
         configureStyleSheet();
         stage.show();
     }
@@ -117,11 +117,11 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads the controller.
+     * Loads the editor controller.
      *
-     * @return the loaded controller
+     * @return the loaded editor controller
      */
-    private CroiseurRootController loadController() {
+    private CrosswordEditorController loadEditorController() {
         // Dependencies for construction: view model <- presenter <- use-cases <- controller
         final CrosswordSolverViewModel crosswordSolverViewModel = new CrosswordSolverViewModel();
         final Presenter presenter = new GuiPresenter(crosswordSolverViewModel);
@@ -132,7 +132,7 @@ public final class CroiseurGuiApplication extends Application {
                 AutoCloseableExecutors.newFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
 
-        return new CroiseurRootController(crosswordService, crosswordSolverViewModel, executor);
+        return new CrosswordEditorController(crosswordService, crosswordSolverViewModel, executor);
     }
 
 }

@@ -32,7 +32,10 @@ import java.util.concurrent.Executor;
 /**
  * The main controller.
  */
-public final class CroiseurRootController {
+public final class CrosswordEditorController {
+
+    /** The translations. */
+    private final ResourceBundle resources;
 
     /** The controller dedicated to the solver use-cases. */
     private final SolverController solverController;
@@ -47,10 +50,6 @@ public final class CroiseurRootController {
     @FXML
     private CrosswordSolverPane view;
 
-    /** The translations. */
-    @FXML
-    private ResourceBundle resources;
-
     /**
      * Constructs an instance.
      *
@@ -58,15 +57,16 @@ public final class CroiseurRootController {
      * @param crosswordSolverViewModelArg the view model
      * @param executor                    the executor allowing to run background tasks
      */
-    public CroiseurRootController(final CrosswordService crosswordService,
-                                  final CrosswordSolverViewModel crosswordSolverViewModelArg,
-                                  final Executor executor) {
+    public CrosswordEditorController(final CrosswordService crosswordService,
+                                     final CrosswordSolverViewModel crosswordSolverViewModelArg,
+                                     final Executor executor) {
         solverController =
                 new SolverController(crosswordSolverViewModelArg, crosswordService.solverService(),
                                      executor);
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         crosswordSolverViewModel = crosswordSolverViewModelArg;
+        resources = ResourceBundle.getBundle(CrosswordEditorController.class.getName());
     }
 
     @FXML
