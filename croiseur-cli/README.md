@@ -19,6 +19,7 @@ Commands:
   help        Display help information about the specified command.
   solver      Solve crosswords and list available solvers
   dictionary  List and print available dictionaries
+  puzzle      Manage saved puzzles
 ```
 
 ### Installation

@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 This page lists the available [Service Providers][] pluggable to croiseur.
 
-### Dictionaries
+### Dictionary
 
 #### Providers
 
@@ -17,7 +17,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 | [Local XML Dictionary Provider][]      | Provides access to local dictionaries in an XML format.       |                                          |
 | [Local Text Dictionary Provider][]     | Provides access to local dictionaries in a simple text format |                                          |
 
-#### Dictionary List
+#### List
 
 | Provider                       | Name                                | Locale                  | Description                                                        |
 |--------------------------------|-------------------------------------|-------------------------|--------------------------------------------------------------------|
@@ -28,6 +28,23 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 | Local XML Dictionary Provider  | General French dictionary           | French (France)         | Dictionary adapted from [LibreOffice French dictionary][]          |
 | Local XML Dictionary Provider  | General Italian dictionary          | Italian (Italia)        | Dictionary adapted from [LibreOffice Italian dictionary][]         |
 
+### Presenters
+
+| Name    | Description                                             |
+|---------|---------------------------------------------------------|
+| [cli][] | Presents croiseur output in the standard console output |
+| [gui][] | Presents croiseur output in a graphical window          |
+
+### Puzzle
+
+#### Repositories
+
+| Name           | Description                                               |
+|----------------|-----------------------------------------------------------|
+| [dummy][]      | A dummy puzzle repository that always rejects writes.     |
+| [filesystem][] | Stores puzzles as files on disk.                          |
+| [memory][]     | Stores puzzles in memory. No persistence. Used for tests. |
+
 ### Solvers
 
 | Name                            | Description                                                                                     |
@@ -36,16 +53,11 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 | [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Written in Rust. Does not support pre-filled grids. |
 | [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust. Generally the fastest solver.      |
 
-### Presenters
-
-| Name    | Description                                             |
-|---------|---------------------------------------------------------|
-| [cli][] | Presents croiseur output in the standard console output |
-| [gui][] | Presents croiseur output in a graphical window          |
-
 <!-- Reference Links -->
 
 [cli]: ../../croiseur-cli
+
+[dummy]: ../../croiseur-spi/croiseur-spi-puzzle-repository/src/main/java/com/gitlab/super7ramp/croiseur/spi/puzzle/repository/DummyPuzzleRepository.java
 
 [Crossword Composer]: https://github.com/paulgb/crossword-composer
 
@@ -54,6 +66,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 [Ginsberg]: ../../croiseur-solver/croiseur-solver-ginsberg-plugin
 
 [Ginsberg's papers]: https://www.aaai.org/Papers/AAAI/1990/AAAI90-032.pdf
+
+[filesystem]: ../../croiseur-puzzle/croiseur-puzzle-repository-filesystem-plugin
 
 [gui]: ../../croiseur-gui
 
@@ -72,6 +86,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 [Local Text Dictionary Provider]: ../../croiseur-dictionary/croiseur-dictionary-txt-plugin
 
 [Local XML Dictionary Provider]: ../../croiseur-dictionary/croiseur-dictionary-xml-plugin
+
+[memory]: ../../croiseur-puzzle/croiseur-puzzle-repository-memory-plugin
 
 [Service Providers]: ../../croiseur-spi
 
