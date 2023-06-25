@@ -4,8 +4,8 @@
  */
 
 /*
- * This is AtlantaFx 2.0, retrieved from https://github.com/mkpaz/atlantafx, unmodified apart from
- * this comment and the copyright notice above.
+ * This is AtlantaFx 2.0.1 Primer Light theme, retrieved from https://github.com/mkpaz/atlantafx,
+ * unmodified apart from this comment and the copyright notice above.
  */
 
 .root {
@@ -3220,7 +3220,7 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
 }
 
 .modal-pane {
-  -color-modal-pane-overlay: rgba(0, 0, 0, 0.25);
+  -color-modal-pane-overlay: rgba(0, 0, 0, 0.32);
 }
 .modal-pane > .scroll-pane > .viewport > * > .scrollable-content {
   -fx-background-color: -color-modal-pane-overlay;
