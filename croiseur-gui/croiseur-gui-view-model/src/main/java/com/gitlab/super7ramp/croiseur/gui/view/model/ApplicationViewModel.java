@@ -10,7 +10,7 @@ import javafx.beans.property.BooleanProperty;
 /**
  * Access to the application view models.
  */
-public final class CrosswordSolverViewModel {
+public final class ApplicationViewModel {
 
     /** The view model of the crossword grid. */
     private final CrosswordGridViewModel crosswordGridViewModel;
@@ -24,17 +24,21 @@ public final class CrosswordSolverViewModel {
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
 
+    /** THe puzzle selection view model. */
+    private final PuzzleSelectionViewModel puzzleSelectionViewModel;
+
     /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
     /**
      * Constructs an instance.
      */
-    public CrosswordSolverViewModel() {
+    public ApplicationViewModel() {
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverProgressViewModel = new SolverProgressViewModel();
+        puzzleSelectionViewModel = new PuzzleSelectionViewModel();
         errorsViewModel = new ErrorsViewModel();
 
         // Initializes special bindings between dictionary and grid view models.
@@ -89,6 +93,15 @@ public final class CrosswordSolverViewModel {
      */
     public BooleanProperty solverRunning() {
         return solverProgressViewModel.solverRunningProperty();
+    }
+
+    /**
+     * Returns the puzzle selection view model.
+     *
+     * @return the puzzle selection view model
+     */
+    public PuzzleSelectionViewModel puzzleSelectionViewModel() {
+        return puzzleSelectionViewModel;
     }
 
     /**

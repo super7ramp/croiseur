@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
@@ -31,20 +31,25 @@ public final class GuiPresenter implements Presenter {
     /** Solver presenter. */
     private final GuiSolverPresenter solverPresenter;
 
+    /** Puzzle presenter. */
+    private final GuiPuzzlePresenter puzzlePresenter;
+
     /**
      * Constructs an instance.
      *
-     * @param crosswordSolverViewModel the view model
+     * @param applicationViewModel the view model
      */
-    public GuiPresenter(final CrosswordSolverViewModel crosswordSolverViewModel) {
+    public GuiPresenter(final ApplicationViewModel applicationViewModel) {
         dictionaryPresenter =
-                new GuiDictionaryPresenter(crosswordSolverViewModel.dictionaryViewModel(),
-                                           crosswordSolverViewModel.errorsViewModel());
+                new GuiDictionaryPresenter(applicationViewModel.dictionaryViewModel(),
+                                           applicationViewModel.errorsViewModel());
         solverPresenter =
-                new GuiSolverPresenter(crosswordSolverViewModel.crosswordGridViewModel(),
-                                       crosswordSolverViewModel.solverSelectionViewModel(),
-                                       crosswordSolverViewModel.solverProgressViewModel(),
-                                       crosswordSolverViewModel.errorsViewModel());
+                new GuiSolverPresenter(applicationViewModel.crosswordGridViewModel(),
+                                       applicationViewModel.solverSelectionViewModel(),
+                                       applicationViewModel.solverProgressViewModel(),
+                                       applicationViewModel.errorsViewModel());
+        puzzlePresenter = new GuiPuzzlePresenter(applicationViewModel.puzzleSelectionViewModel(),
+                                                 applicationViewModel.errorsViewModel());
     }
 
     @Override
@@ -105,21 +110,21 @@ public final class GuiPresenter implements Presenter {
 
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        puzzlePresenter.presentAvailablePuzzles(puzzles);
     }
 
     @Override
     public void presentLoadedPuzzle(final SavedPuzzle puzzle) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        puzzlePresenter.presentLoadedPuzzle(puzzle);
     }
 
     @Override
     public void presentPuzzleRepositoryError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        puzzlePresenter.presentPuzzleRepositoryError(error);
     }
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        puzzlePresenter.presentSavedPuzzle(puzzle);
     }
 }

@@ -71,6 +71,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
                     "Failed to instantiate FileSystemPuzzleRepository: The system property '" +
                     PUZZLE_PATH_PROPERTY + "' is not set. Check your setup.");
         }
+        LOGGER.info("Initializing FileSystemPuzzleRepository at " + pathProperty);
         repositoryPath = Path.of(pathProperty);
         if (Files.notExists(repositoryPath)) {
             Files.createDirectory(repositoryPath);

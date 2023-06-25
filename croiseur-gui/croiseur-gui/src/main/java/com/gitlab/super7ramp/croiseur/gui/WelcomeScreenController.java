@@ -5,14 +5,30 @@
 
 package com.gitlab.super7ramp.croiseur.gui;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreen;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.util.concurrent.Executor;
 
 /**
  * The welcome screen controller.
  */
-public class WelcomeScreenController {
+public final class WelcomeScreenController {
+
+    /** The puzzle selection view model. */
+    private final PuzzleSelectionViewModel puzzleSelectionViewModel;
+
+    /** The puzzle service controller. */
+    private final PuzzleController puzzleController;
+
+    /** The editor view to switch to when a puzzle is selected. */
+    private final Parent editorView;
 
     /** The welcome screen view. */
     @FXML
@@ -20,23 +36,37 @@ public class WelcomeScreenController {
 
     /**
      * Constructs an instance.
+     *
+     * @param editorViewArg the editor view to switch to when a puzzle is selected
      */
-    public WelcomeScreenController() {
-        // Nothing to do.
+    public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                                   final PuzzleService puzzleService,
+                                   final Executor executor,
+                                   final Parent editorViewArg) {
+        puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        puzzleController = new PuzzleController(puzzleService, executor);
+        editorView = editorViewArg;
     }
 
     @FXML
     private void initialize() {
-        view.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
+        view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
+        view.onNewPuzzleButtonActionProperty().set(e -> switchToEditorView());
         view.onOpenPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        puzzleController.listAvailablePuzzles();
     }
 
-    private void onNewPuzzleButtonAction() {
-        // TODO switch scene
+    /**
+     * Switches to editor view scene.
+     */
+    private void switchToEditorView() {
+        final Stage stage = (Stage) view.getScene().getWindow();
+        final Scene editorScene = new Scene(editorView);
+        stage.setScene(editorScene);
     }
 
     private void onOpenPuzzleButtonAction() {
-        final SavedPuzzle puzzleToOpen = view.selectedPuzzleProperty().getValue();
-        // TODO switch scene, pass the puzzle to open
+        // pass the puzzle to open
+        switchToEditorView();
     }
 }

@@ -4,6 +4,7 @@
  */
 
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 /**
@@ -19,9 +20,10 @@ module com.gitlab.super7ramp.croiseur.gui {
     // Actual dependency to core library
     requires com.gitlab.super7ramp.croiseur;
 
-    // GUI loads dictionary providers and solver itself
+    // GUI loads service providers itself
     uses DictionaryProvider;
     uses CrosswordSolver;
+    uses PuzzleRepository;
 
     // JavaFX stuff
     requires javafx.controls;

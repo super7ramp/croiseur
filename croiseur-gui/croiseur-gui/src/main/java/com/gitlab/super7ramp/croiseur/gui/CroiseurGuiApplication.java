@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutorService;
 import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutors;
 import com.gitlab.super7ramp.croiseur.gui.presenter.GuiPresenter;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 /**
  * The Croiseur GUI application.
@@ -62,9 +63,9 @@ public final class CroiseurGuiApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        final CrosswordEditorController editorController = loadEditorController();
-        final Parent editorView = ViewLoader.load(editorController);
-        configureStage(stage, editorView);
+        final Executor executor = createExecutor();
+        final Parent firstView = loadComponents(executor);
+        configureStage(stage, firstView);
         configureStyleSheet();
         stage.show();
     }
@@ -79,11 +80,11 @@ public final class CroiseurGuiApplication extends Application {
     /**
      * Configures the stage.
      *
-     * @param stage               the stage to configure
-     * @param crosswordSolverView the view to set as scene
+     * @param stage the stage to configure
+     * @param view  the view to set as scene
      */
-    private static void configureStage(final Stage stage, final Parent crosswordSolverView) {
-        final Scene scene = new Scene(crosswordSolverView);
+    private static void configureStage(final Stage stage, final Parent view) {
+        final Scene scene = new Scene(view);
         stage.setScene(scene);
         stage.setTitle(STAGE_TITLE);
         stage.setMinWidth(MIN_WIDTH);
@@ -117,22 +118,69 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads the editor controller.
+     * Loads the application components.
      *
-     * @return the loaded editor controller
+     * @param executor the background task executor
+     * @return the first application view (the welcome screen view)
+     * @throws IOException if loading from FXML files fails
      */
-    private CrosswordEditorController loadEditorController() {
-        // Dependencies for construction: view model <- presenter <- use-cases <- controller
-        final CrosswordSolverViewModel crosswordSolverViewModel = new CrosswordSolverViewModel();
-        final Presenter presenter = new GuiPresenter(crosswordSolverViewModel);
+    private static Parent loadComponents(final Executor executor) throws IOException {
+        // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
+        final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
+        final Presenter presenter = new GuiPresenter(applicationViewModel);
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
+        final Parent editorView =
+                loadCrosswordEditor(applicationViewModel, crosswordService, executor);
+        return loadWelcomeScreen(applicationViewModel, crosswordService, executor, editorView);
+    }
 
-        // Additional dependency: Background executor
+    /**
+     * Loads the crossword editor.
+     *
+     * @param applicationViewModel the application view model
+     * @param crosswordService     the croiseur core library
+     * @param executor             the executor
+     * @return the editor view
+     */
+    private static Parent loadCrosswordEditor(final ApplicationViewModel applicationViewModel,
+                                              final CrosswordService crosswordService,
+                                              final Executor executor) throws IOException {
+        final var editorController =
+                new CrosswordEditorController(crosswordService, applicationViewModel, executor);
+        return ViewLoader.load(editorController);
+    }
+
+    /**
+     * Loads the welcome screen.
+     *
+     * @param applicationViewModel the application view-models
+     * @param crosswordService     the croiseur core library
+     * @param executor             the background task executor
+     * @param editorView           the editor view to which to switch when a puzzle is selected
+     * @return the welcome screen view
+     * @throws IOException if loading from FXML file fails
+     */
+    private static Parent loadWelcomeScreen(final ApplicationViewModel applicationViewModel,
+                                            final CrosswordService crosswordService,
+                                            final Executor executor,
+                                            final Parent editorView) throws IOException {
+        final var welcomeScreenController =
+                new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
+                                            crosswordService.puzzleService(), executor,
+                                            editorView);
+        return ViewLoader.load(welcomeScreenController);
+    }
+
+    /**
+     * Creates an executor to run tasks on the background. The created executor will be added to
+     * this application closeable {@link #resources}.
+     *
+     * @return the executor
+     */
+    private Executor createExecutor() {
         final AutoCloseableExecutorService executor =
                 AutoCloseableExecutors.newFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
-
-        return new CrosswordEditorController(crosswordService, crosswordSolverViewModel, executor);
+        return executor;
     }
-
 }

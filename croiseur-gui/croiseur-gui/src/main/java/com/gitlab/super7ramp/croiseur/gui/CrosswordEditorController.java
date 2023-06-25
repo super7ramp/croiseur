@@ -10,9 +10,9 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.croiseur.gui.view.CrosswordSolverPane;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
 /**
- * The main controller.
+ * The crossword editor controller.
  */
 public final class CrosswordEditorController {
 
@@ -44,7 +44,7 @@ public final class CrosswordEditorController {
     private final DictionaryController dictionaryController;
 
     /** The view model. */
-    private final CrosswordSolverViewModel crosswordSolverViewModel;
+    private final ApplicationViewModel applicationViewModel;
 
     /** The view. */
     @FXML
@@ -53,19 +53,19 @@ public final class CrosswordEditorController {
     /**
      * Constructs an instance.
      *
-     * @param crosswordService            the use-cases
-     * @param crosswordSolverViewModelArg the view model
-     * @param executor                    the executor allowing to run background tasks
+     * @param crosswordService        the use-cases
+     * @param applicationViewModelArg the view model
+     * @param executor                the executor allowing to run background tasks
      */
     public CrosswordEditorController(final CrosswordService crosswordService,
-                                     final CrosswordSolverViewModel crosswordSolverViewModelArg,
+                                     final ApplicationViewModel applicationViewModelArg,
                                      final Executor executor) {
         solverController =
-                new SolverController(crosswordSolverViewModelArg, crosswordService.solverService(),
+                new SolverController(applicationViewModelArg, crosswordService.solverService(),
                                      executor);
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
-        crosswordSolverViewModel = crosswordSolverViewModelArg;
+        applicationViewModel = applicationViewModelArg;
         resources = ResourceBundle.getBundle(CrosswordEditorController.class.getName());
     }
 
@@ -77,14 +77,14 @@ public final class CrosswordEditorController {
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         initializeErrorsBindings();
-        populateServiceLists();
+        //populateServiceLists();
     }
 
     /**
      * Initializes bindings between the grid view and the crossword grid view model.
      */
     private void initializeCrosswordGridBindings() {
-        final CrosswordGridViewModel viewModel = crosswordSolverViewModel.crosswordGridViewModel();
+        final CrosswordGridViewModel viewModel = applicationViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().set(viewModel.boxesProperty());
         view.gridCurrentBoxProperty().bindBidirectional(viewModel.currentBoxPositionProperty());
         view.gridCurrentSlotOrientationVerticalProperty()
@@ -106,7 +106,7 @@ public final class CrosswordEditorController {
      * Initializes bindings between dictionary view and dictionary view model.
      */
     private void initializeDictionaryBindings() {
-        final DictionariesViewModel viewModel = crosswordSolverViewModel.dictionaryViewModel();
+        final DictionariesViewModel viewModel = applicationViewModel.dictionaryViewModel();
         view.dictionariesProperty().set(viewModel.dictionariesProperty());
         view.wordsProperty().set(viewModel.wordsProperty());
         view.suggestionsProperty().set(viewModel.suggestionsProperty());
@@ -132,7 +132,7 @@ public final class CrosswordEditorController {
      */
     private void initializeSolverSelectionBindings() {
         final SolverSelectionViewModel viewModel =
-                crosswordSolverViewModel.solverSelectionViewModel();
+                applicationViewModel.solverSelectionViewModel();
         view.solversProperty().set(viewModel.availableSolversProperty());
         viewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
     }
@@ -142,7 +142,7 @@ public final class CrosswordEditorController {
      */
     private void initializeSolverProgressBindings() {
         final SolverProgressViewModel solverProgressViewModel =
-                crosswordSolverViewModel.solverProgressViewModel();
+                applicationViewModel.solverProgressViewModel();
         view.solverProgressIndicatorVisibleProperty()
             .bind(solverProgressViewModel.solverRunningProperty());
         view.solverProgressIndicatorValueProperty()
@@ -153,7 +153,8 @@ public final class CrosswordEditorController {
      * Initializes binding between error view model and error view.
      */
     private void initializeErrorsBindings() {
-        final ErrorsViewModel errorsViewModel = crosswordSolverViewModel.errorsViewModel();
+        // TODO move to a dedicated controller class
+        final ErrorsViewModel errorsViewModel = applicationViewModel.errorsViewModel();
         errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
             if (newError != null) {
                 final Alert errorAlert = new Alert(Alert.AlertType.ERROR, newError);
@@ -169,7 +170,7 @@ public final class CrosswordEditorController {
      */
     private void initializeOtherSolverBindings() {
         // Grid edition buttons and grid pane shall be disabled when solver is running
-        final BooleanProperty solverRunning = crosswordSolverViewModel.solverRunning();
+        final BooleanProperty solverRunning = applicationViewModel.solverRunning();
         view.gridEditionDisableProperty().bind(solverRunning);
 
         // Solver button text shall be consistent with the solver state
@@ -183,9 +184,9 @@ public final class CrosswordEditorController {
         // Solver button shall be disabled if solver is not running and no dictionary is selected
         // and grid is not empty
         final ReadOnlyListProperty<DictionaryViewModel> selectedDictionaries =
-                crosswordSolverViewModel.dictionaryViewModel().selectedDictionariesProperty();
+                applicationViewModel.dictionaryViewModel().selectedDictionariesProperty();
         final ReadOnlyMapProperty<GridPosition, CrosswordBoxViewModel> grid =
-                crosswordSolverViewModel.crosswordGridViewModel().boxesProperty();
+                applicationViewModel.crosswordGridViewModel().boxesProperty();
         view.solveButtonDisableProperty()
             .bind(solverRunning.not()
                                .and(selectedDictionaries.emptyProperty().or(grid.emptyProperty())));
@@ -195,7 +196,7 @@ public final class CrosswordEditorController {
      * Performs the solve button action.
      */
     private void onSolveButtonAction() {
-        if (!crosswordSolverViewModel.solverRunning().get()) {
+        if (!applicationViewModel.solverRunning().get()) {
             solverController.startSolver();
         } else {
             solverController.stopSolver();
@@ -209,4 +210,5 @@ public final class CrosswordEditorController {
         solverController.listSolvers();
         dictionaryController.listDictionaries();
     }
+
 }

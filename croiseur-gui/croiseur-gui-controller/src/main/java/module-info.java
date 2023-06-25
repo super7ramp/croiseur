@@ -13,6 +13,7 @@ module com.gitlab.super7ramp.croiseur.gui.controller {
     requires transitive com.gitlab.super7ramp.croiseur.gui.view.model;
     exports com.gitlab.super7ramp.croiseur.gui.controller.dictionary;
     exports com.gitlab.super7ramp.croiseur.gui.controller.solver;
+    exports com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
     requires java.logging;
     requires javafx.graphics; // for javafx.concurrent

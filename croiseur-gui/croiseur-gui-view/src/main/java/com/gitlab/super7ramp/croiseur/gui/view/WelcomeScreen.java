@@ -8,8 +8,11 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +28,9 @@ import java.util.ResourceBundle;
  * A welcome screen, allowing to search, open existing or new puzzles.
  */
 public final class WelcomeScreen extends VBox {
+
+    /** The recent puzzles. */
+    private final ListProperty<SavedPuzzle> recentPuzzles;
 
     /** A text field allowing to search the {@link #recentPuzzleListView} */
     @FXML
@@ -46,12 +52,15 @@ public final class WelcomeScreen extends VBox {
      * Constructs an instance.
      */
     public WelcomeScreen() {
+        recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
+                                                 FXCollections.observableArrayList());
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     @FXML
     private void initialize() {
-        //recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
+        recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
+        recentPuzzleListView.setItems(recentPuzzles);
         initializeOpenButton();
         // TODO initialize search text
     }
@@ -73,7 +82,16 @@ public final class WelcomeScreen extends VBox {
      * @return the "new puzzle button action" property
      */
     public ObjectProperty<EventHandler<ActionEvent>> onNewPuzzleButtonActionProperty() {
-        return openPuzzleButton.onActionProperty();
+        return newPuzzleButton.onActionProperty();
+    }
+
+    /**
+     * Returns the "recent puzzles" property.
+     *
+     * @return the recent puzzles property
+     */
+    public ListProperty<SavedPuzzle> recentPuzzles() {
+        return recentPuzzles;
     }
 
     /**
@@ -92,10 +110,10 @@ public final class WelcomeScreen extends VBox {
      */
     private void initializeOpenButton() {
         final SelectionModel<SavedPuzzle> selectionModel = recentPuzzleListView.getSelectionModel();
-        final BooleanBinding onePuzzleSelected =
-                Bindings.createBooleanBinding(() -> selectionModel.getSelectedItem() != null,
+        final BooleanBinding noPuzzleSelected =
+                Bindings.createBooleanBinding(() -> selectionModel.getSelectedItem() == null,
                                               selectionModel.selectedItemProperty());
-        openPuzzleButton.disableProperty().bind(onePuzzleSelected);
+        openPuzzleButton.disableProperty().bind(noPuzzleSelected);
     }
 
 }

@@ -44,7 +44,11 @@
     -fx-spacing: 10px;
 }
 
-#dictionary-placeholder {
+#dictionary-placeholder-vbox {
+    -fx-spacing: 10px;
+}
+
+#dictionary-placeholder-image-view {
     /* Placeholder when dictionary is not present, an image-view. */
-    -fx-image: url("icon/lc_errorcellstyles.png");
+    -fx-image: url("icon/system-search-symbolic.png");
 }

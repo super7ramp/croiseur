@@ -5,8 +5,8 @@
 
 #welcome-vbox {
     -fx-alignment: center;
+    -fx-padding: 40px 40px 40px 40px;
     -fx-spacing: 10px;
-    -fx-padding: 20px 20px 20px 20px
 }
 
 #welcome-image-view {
@@ -18,14 +18,25 @@
 }
 
 #puzzles-vbox {
-    -fx-alignment: center;
+    -fx-alignment: top-center;
+    -fx-min-height: 150px;
     -fx-max-height: 300px;
-    -fx-max-width: 500px;
+    -fx-padding: 0 40px 40px 40px;
     -fx-spacing: 10px;
-    -fx-padding: 0 20px 20px 20px;
+}
+
+#puzzles-vbox > * {
+    -fx-max-width: 500px;
 }
 
 #puzzle-actions-hbox {
     -fx-spacing: 10px;
 }
 
+#puzzle-placeholder-vbox {
+    -fx-spacing: 10px;
+}
+
+#puzzle-placeholder-image-view {
+    -fx-image: url("icon/system-search-symbolic.png");
+}

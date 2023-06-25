@@ -15,7 +15,7 @@
     <graphic>
         <HBox fx:id="container">
             <!-- Unfortunately, fitHeight and fitWidth cannot be set via CSS. -->
-            <ImageView fx:id="thumbnail" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true"
+            <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true"
                        preserveRatio="true">
                 <Image url="@thumbnail.png"/>
             </ImageView>

@@ -37,7 +37,9 @@ final class CrosswordServiceLoader {
     static CrosswordService load(final Presenter presenter) {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
-        final PuzzleRepository puzzleRepository = new DummyPuzzleRepository();
+        final PuzzleRepository puzzleRepository =
+                load(PuzzleRepository.class).stream().findFirst()
+                                            .orElseGet(DummyPuzzleRepository::new);
         return CrosswordService.create(dictionaryProviders, solvers, puzzleRepository, presenter);
     }
 

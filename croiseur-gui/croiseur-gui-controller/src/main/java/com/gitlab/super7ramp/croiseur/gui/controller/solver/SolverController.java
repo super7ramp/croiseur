@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordSolverViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
@@ -46,11 +46,11 @@ public final class SolverController {
     /**
      * Constructs an instance.
      *
-     * @param crosswordSolverViewModel the solver view model
+     * @param applicationViewModel the solver view model
      * @param solverServiceArg         the solver service
      * @param executorArg              the backing executor
      */
-    public SolverController(final CrosswordSolverViewModel crosswordSolverViewModel,
+    public SolverController(final ApplicationViewModel applicationViewModel,
                             final SolverService solverServiceArg, final Executor executorArg) {
 
         executor = executorArg;
@@ -59,9 +59,9 @@ public final class SolverController {
         solver = new Service<>() {
             @Override
             protected Task<Void> createTask() {
-                return new SolveTask(crosswordSolverViewModel.crosswordGridViewModel(),
-                                     crosswordSolverViewModel.dictionaryViewModel(),
-                                     crosswordSolverViewModel.solverSelectionViewModel(),
+                return new SolveTask(applicationViewModel.crosswordGridViewModel(),
+                                     applicationViewModel.dictionaryViewModel(),
+                                     applicationViewModel.solverSelectionViewModel(),
                                      solverService, RANDOM);
             }
         };
@@ -72,7 +72,7 @@ public final class SolverController {
         solver.setOnSucceeded(e -> LOGGER.info("Solver finished"));
         solver.setOnFailed(e -> LOGGER.log(Level.WARNING, "Solver failed",
                                            e.getSource().getException()));
-        crosswordSolverViewModel.solverRunning().bind(solver.runningProperty());
+        applicationViewModel.solverRunning().bind(solver.runningProperty());
     }
 
     /**

@@ -5,7 +5,6 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import com.gitlab.super7ramp.croiseur.gui.view.SavedPuzzleListCell?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -28,11 +27,11 @@
             <Button fx:id="openPuzzleButton" text="Open Puzzle"/>
         </HBox>
         <ListView fx:id="recentPuzzleListView">
-            <SavedPuzzleListCell/>
-            <SavedPuzzleListCell/>
-            <SavedPuzzleListCell/>
             <placeholder>
-                <Text text="%no-recent-puzzle"/>
+                <VBox id="puzzle-placeholder-vbox" alignment="CENTER">
+                    <ImageView id="puzzle-placeholder-image-view"/>
+                    <Text text="%no-puzzle-found"/>
+                </VBox>
             </placeholder>
         </ListView>
     </VBox>

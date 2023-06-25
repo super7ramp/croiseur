@@ -18,8 +18,8 @@
         <TitledPane animated="false" styleClass="dense" text="%dictionaries-label">
             <ListView fx:id="dictionariesListView" styleClass="dense">
                 <placeholder>
-                    <VBox alignment="CENTER">
-                        <ImageView id="dictionary-placeholder"/>
+                    <VBox id="dictionary-placeholder-vbox" alignment="CENTER">
+                        <ImageView id="dictionary-placeholder-image-view"/>
                         <Label text="%dictionaries-placeholder-label"/>
                     </VBox>
                 </placeholder>
