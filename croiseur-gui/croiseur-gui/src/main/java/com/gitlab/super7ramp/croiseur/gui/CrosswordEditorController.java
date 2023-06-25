@@ -77,7 +77,7 @@ public final class CrosswordEditorController {
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         initializeErrorsBindings();
-        //populateServiceLists();
+        populateServiceLists();
     }
 
     /**

@@ -37,14 +37,18 @@ public final class WelcomeScreenController {
     /**
      * Constructs an instance.
      *
-     * @param editorViewArg the editor view to switch to when a puzzle is selected
+     * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param puzzleService               the puzzle service
+     * @param executor                    the background task executor
+     * @param editorViewArg               the editor view to switch to when a puzzle is selected
      */
     public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
                                    final PuzzleService puzzleService,
                                    final Executor executor,
                                    final Parent editorViewArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
-        puzzleController = new PuzzleController(puzzleService, executor);
+        puzzleController =
+                new PuzzleController(puzzleSelectionViewModelArg, puzzleService, executor);
         editorView = editorViewArg;
     }
 
@@ -53,6 +57,7 @@ public final class WelcomeScreenController {
         view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
         view.onNewPuzzleButtonActionProperty().set(e -> switchToEditorView());
         view.onOpenPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
         puzzleController.listAvailablePuzzles();
     }
 
@@ -65,8 +70,11 @@ public final class WelcomeScreenController {
         stage.setScene(editorScene);
     }
 
+    /**
+     * Loads selected puzzle in editor view and switch to editor view.
+     */
     private void onOpenPuzzleButtonAction() {
-        // pass the puzzle to open
+        puzzleController.loadSelectedPuzzle();
         switchToEditorView();
     }
 }

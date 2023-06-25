@@ -501,8 +501,8 @@ public final class CrosswordGridViewModel {
      * Sets the value of the current slot content property.
      * <p>
      * Note that the current slot property is a read-only property, as it is internally computed
-     * from the grid content. This method indirectly sets the current slot property by modifying
-     * the grid box contents. Thus, this method will generate several change events on the grid.
+     * from the grid content. This method indirectly sets the current slot property by modifying the
+     * grid box contents. Thus, this method will generate several change events on the grid.
      * <p>
      * This method will not generate more than one change event for the current slot property
      * though, as a special care is made to avoid that.
@@ -639,6 +639,33 @@ public final class CrosswordGridViewModel {
             clear();
         } else {
             columnCount.set(oldColumnCount - 1);
+        }
+    }
+
+    /**
+     * Resizes the grid model to the given dimensions.
+     *
+     * @param desiredColumnCount the desired number of columns
+     * @param desiredRowCount    the desired number of rows
+     * @throws IllegalArgumentException if any dimension is negative
+     */
+    public void resizeTo(final int desiredColumnCount, final int desiredRowCount) {
+        if (desiredColumnCount < 0 || desiredRowCount < 0) {
+            throw new IllegalArgumentException(
+                    "Invalid negative resize dimension: " + desiredColumnCount + "x" +
+                    desiredRowCount);
+        }
+        while (columnCount.get() < desiredColumnCount) {
+            addColumn();
+        }
+        while (columnCount.get() > desiredColumnCount) {
+            deleteLastColumn();
+        }
+        while (rowCount.get() < desiredRowCount) {
+            addRow();
+        }
+        while (rowCount.get() > desiredRowCount) {
+            deleteLastRow();
         }
     }
 

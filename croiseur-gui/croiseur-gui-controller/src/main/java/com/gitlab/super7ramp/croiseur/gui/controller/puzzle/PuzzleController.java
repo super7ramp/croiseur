@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
 import java.util.concurrent.Executor;
@@ -17,42 +18,30 @@ import java.util.logging.Logger;
  */
 public final class PuzzleController {
 
-    /**
-     * The 'list puzzles' task.
-     */
-    private static final class ListPuzzleTask extends Task<Void> {
-
-        private static final Logger LOGGER = Logger.getLogger(ListPuzzleTask.class.getName());
-
-        private final PuzzleService puzzleService;
-
-        ListPuzzleTask(final PuzzleService puzzleServiceArg) {
-            puzzleService = puzzleServiceArg;
-            setOnFailed(
-                    event -> LOGGER.log(Level.WARNING, "List Puzzle task failed.", getException()));
-        }
-
-        @Override
-        protected Void call() {
-            puzzleService.list();
-            return null;
-        }
-    }
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(PuzzleController.class.getName());
 
     /** The worker executing puzzle tasks. */
     private final Executor executor;
 
-    /** The task to execute for listing puzzles. */
-    private final Task<Void> listPuzzlesTask;
+    /** The puzzle service to call. */
+    private final PuzzleService puzzleService;
+
+    /** The puzzle selection view model. */
+    private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzleServiceArg the puzzle service
-     * @param executorArg      the worker executing the puzzle tasks
+     * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param puzzleServiceArg            the puzzle service
+     * @param executorArg                 the worker executing the puzzle tasks
      */
-    public PuzzleController(final PuzzleService puzzleServiceArg, final Executor executorArg) {
-        listPuzzlesTask = new ListPuzzleTask(puzzleServiceArg);
+    public PuzzleController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                            final PuzzleService puzzleServiceArg,
+                            final Executor executorArg) {
+        puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        puzzleService = puzzleServiceArg;
         executor = executorArg;
     }
 
@@ -60,6 +49,26 @@ public final class PuzzleController {
      * Starts the 'list puzzles' task.
      */
     public void listAvailablePuzzles() {
-        executor.execute(listPuzzlesTask);
+        final var task = new ListPuzzleTask(puzzleService);
+        execute(task);
+    }
+
+    /** Starts the 'load selected puzzle' task. */
+    public void loadSelectedPuzzle() {
+        // Yes, it is artificial because we have all information to load the grid but let's avoid
+        // controller to modify the view model directly.
+        final var task = new LoadSelectedPuzzleTask(puzzleService, puzzleSelectionViewModel);
+        execute(task);
+    }
+
+    /**
+     * Executes the given task.
+     *
+     * @param task the task to execute
+     */
+    private void execute(final Task<Void> task) {
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Dictionary task failed.",
+                                             task.getException()));
+        executor.execute(task);
     }
 }
