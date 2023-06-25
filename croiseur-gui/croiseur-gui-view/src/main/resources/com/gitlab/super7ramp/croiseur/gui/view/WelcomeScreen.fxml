@@ -23,8 +23,8 @@
     <VBox id="puzzles-vbox">
         <HBox id="puzzle-actions-hbox">
             <TextField fx:id="searchTextField" promptText="%search-puzzles-prompt-text" HBox.hgrow="ALWAYS"/>
-            <Button fx:id="newPuzzleButton" text="New Puzzle"/>
-            <Button fx:id="openPuzzleButton" text="Open Puzzle"/>
+            <Button fx:id="newPuzzleButton" text="%new-puzzle"/>
+            <Button fx:id="openPuzzleButton" text="%open-puzzle"/>
         </HBox>
         <ListView fx:id="recentPuzzleListView" styleClass="edge-to-edge">
             <placeholder>
