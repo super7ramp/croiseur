@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -13,6 +14,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +24,10 @@ import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * A welcome screen, allowing to search, open existing or new puzzles.
@@ -59,10 +64,8 @@ public final class WelcomeScreen extends VBox {
 
     @FXML
     private void initialize() {
-        recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
-        recentPuzzleListView.setItems(recentPuzzles);
+        initializeListView();
         initializeOpenButton();
-        // TODO initialize search text
     }
 
     /**
@@ -87,6 +90,10 @@ public final class WelcomeScreen extends VBox {
 
     /**
      * Returns the "recent puzzles" property.
+     * <p>
+     * Note that this list contains all the recent puzzles unfiltered; The puzzles that will be
+     * actually displayed will be the puzzles whose metadata contain the
+     * {@link #searchTextField searched substring}.
      *
      * @return the recent puzzles property
      */
@@ -106,7 +113,38 @@ public final class WelcomeScreen extends VBox {
     }
 
     /**
-     * Makes sure open button is disabled if no puzzle is selected.
+     * Initializes {@link #recentPuzzleListView}.
+     */
+    private void initializeListView() {
+        recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
+
+        final var filteredPuzzles = new FilteredList<>(recentPuzzles);
+        final var searchPredicate = Bindings.createObjectBinding(this::createSearchPredicate,
+                                                                 searchTextField.textProperty());
+        filteredPuzzles.predicateProperty().bind(searchPredicate);
+        recentPuzzleListView.setItems(filteredPuzzles);
+    }
+
+    /**
+     * Returns a new predicate matching puzzles whose metadata contains the current
+     * {@link #searchTextField}'s text.
+     *
+     * @return a new predicate matching puzzles whose metadata contains the current
+     * {@link #searchTextField}'s text
+     */
+    private Predicate<SavedPuzzle> createSearchPredicate() {
+        return puzzle -> {
+            final PuzzleDetails details = puzzle.details();
+            final String searchText = searchTextField.getText();
+            return Stream.of(details.title(), details.author(), details.editor(),
+                             details.copyright(),
+                             details.date().map(LocalDate::toString).orElse(""))
+                         .anyMatch(text -> text.contains(searchText));
+        };
+    }
+
+    /**
+     * Initializes the "Open" button: Make sure open button is disabled if no puzzle is selected.
      */
     private void initializeOpenButton() {
         final SelectionModel<SavedPuzzle> selectionModel = recentPuzzleListView.getSelectionModel();
