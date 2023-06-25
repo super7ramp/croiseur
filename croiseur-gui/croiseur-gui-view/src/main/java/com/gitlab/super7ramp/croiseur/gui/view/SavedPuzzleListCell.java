@@ -62,7 +62,8 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzle> {
         if (empty || item == null) {
             setText(null);
             setGraphic(null);
-            thumbnail.setImage(null);
+            // TODO thumbnail
+            //thumbnail.setImage(null);
             Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));
         } else {
             // TODO thumbnail

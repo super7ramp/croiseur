@@ -3,6 +3,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+.list-cell {
+    /* Use computed size instead of default 24px. */
+    -fx-cell-size: -1;
+}
+
+.container-hbox {
+    -fx-padding: 10px;
+}
+
 .puzzle-details-vbox {
     -fx-alignment: center-left;
     -fx-padding: 0 10px 0 10px;

@@ -11,24 +11,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" type="ListCell" xmlns="http://javafx.com/javafx/17">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleListCell.css"
+         type="ListCell" xmlns="http://javafx.com/javafx/17">
     <graphic>
-        <HBox fx:id="container">
+        <HBox fx:id="container" styleClass="container-hbox">
             <!-- Unfortunately, fitHeight and fitWidth cannot be set via CSS. -->
-            <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" preserveRatio="true">
                 <Image url="@thumbnail.png"/>
             </ImageView>
-            <VBox styleClass="puzzle-details-vbox" stylesheets="@SavedPuzzleListCell.css">
+            <VBox styleClass="puzzle-details-vbox" HBox.hgrow="ALWAYS">
                 <Text fx:id="title" styleClass="puzzle-title" text="An Example Grid"/>
                 <HBox styleClass="puzzle-details-hbox">
-                    <VBox styleClass="puzzle-details-keys-vbox">
+                    <VBox styleClass="puzzle-details-keys-vbox" HBox.hgrow="ALWAYS">
                         <Text text="%author"/>
                         <Text text="%editor"/>
                         <Text text="%copyright"/>
                         <Text text="%date"/>
                     </VBox>
-                    <VBox>
+                    <VBox HBox.hgrow="ALWAYS">
                         <Text fx:id="author" text="Me Myself"/>
                         <Text fx:id="editor" text="Nobody"/>
                         <Text fx:id="copyright" text="CC-0"/>

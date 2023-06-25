@@ -16,7 +16,7 @@
          type="VBox" xmlns="http://javafx.com/javafx/17">
     <VBox id="welcome-vbox">
         <!-- fitHeight and fitWidth are not settable via css. -->
-        <ImageView id="welcome-image-view" fitHeight="200" fitWidth="200" preserveRatio="true"/>
+        <ImageView id="welcome-image-view" fitHeight="196" fitWidth="196" preserveRatio="true"/>
         <Text id="welcome-text" text="%welcome-text"/>
         <Text id="welcome-version" text="%version-text"/>
     </VBox>
@@ -26,7 +26,7 @@
             <Button fx:id="newPuzzleButton" text="New Puzzle"/>
             <Button fx:id="openPuzzleButton" text="Open Puzzle"/>
         </HBox>
-        <ListView fx:id="recentPuzzleListView">
+        <ListView fx:id="recentPuzzleListView" styleClass="edge-to-edge">
             <placeholder>
                 <VBox id="puzzle-placeholder-vbox" alignment="CENTER">
                     <ImageView id="puzzle-placeholder-image-view"/>
