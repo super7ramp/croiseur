@@ -10,10 +10,12 @@ import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutorServic
 import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutors;
 import com.gitlab.super7ramp.croiseur.gui.presenter.GuiPresenter;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -64,7 +66,7 @@ public final class CroiseurGuiApplication extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         final Executor executor = createExecutor();
-        final Parent firstView = loadComponents(executor);
+        final Parent firstView = loadComponents(stage, executor);
         configureStage(stage, firstView);
         configureStyleSheet();
         stage.show();
@@ -124,14 +126,36 @@ public final class CroiseurGuiApplication extends Application {
      * @return the first application view (the welcome screen view)
      * @throws IOException if loading from FXML files fails
      */
-    private static Parent loadComponents(final Executor executor) throws IOException {
+    private static Parent loadComponents(final Stage stage, final Executor executor)
+            throws IOException {
         // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
         final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
+        loadErrorPopup(applicationViewModel, stage);
         final Presenter presenter = new GuiPresenter(applicationViewModel);
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
         final Parent editorView =
                 loadCrosswordEditor(applicationViewModel, crosswordService, executor);
         return loadWelcomeScreen(applicationViewModel, crosswordService, executor, editorView);
+    }
+
+    /**
+     * Loads the special error popup control logic. Popup can happen on all scenes of the given
+     * stage.
+     *
+     * @param applicationViewModel the application view model
+     * @param stage                the application stage
+     */
+    private static void loadErrorPopup(final ApplicationViewModel applicationViewModel,
+                                       final Stage stage) {
+        final ErrorsViewModel errorsViewModel = applicationViewModel.errorsViewModel();
+        errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
+            if (newError != null) {
+                final Alert errorAlert = new Alert(Alert.AlertType.ERROR, newError);
+                errorAlert.initOwner(stage.getScene().getWindow());
+                errorAlert.showAndWait();
+                errorsViewModel.acknowledgeError();
+            }
+        });
     }
 
     /**

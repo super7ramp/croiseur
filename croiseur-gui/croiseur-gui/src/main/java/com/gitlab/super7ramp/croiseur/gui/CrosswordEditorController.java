@@ -15,7 +15,6 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.binding.When;
@@ -24,7 +23,6 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
@@ -76,7 +74,6 @@ public final class CrosswordEditorController {
         initializeSolverSelectionBindings();
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
-        initializeErrorsBindings();
         populateServiceLists();
     }
 
@@ -147,22 +144,6 @@ public final class CrosswordEditorController {
             .bind(solverProgressViewModel.solverRunningProperty());
         view.solverProgressIndicatorValueProperty()
             .bind(solverProgressViewModel.solverProgressProperty());
-    }
-
-    /**
-     * Initializes binding between error view model and error view.
-     */
-    private void initializeErrorsBindings() {
-        // TODO move to a dedicated controller class
-        final ErrorsViewModel errorsViewModel = applicationViewModel.errorsViewModel();
-        errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
-            if (newError != null) {
-                final Alert errorAlert = new Alert(Alert.AlertType.ERROR, newError);
-                errorAlert.initOwner(view.getScene().getWindow());
-                errorAlert.showAndWait();
-                errorsViewModel.acknowledgeError();
-            }
-        });
     }
 
     /**
