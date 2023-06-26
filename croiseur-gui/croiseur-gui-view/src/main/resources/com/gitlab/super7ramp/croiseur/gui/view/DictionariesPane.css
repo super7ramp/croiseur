@@ -52,3 +52,15 @@
     /* Placeholder when dictionary is not present, an image-view. */
     -fx-image: url("icon/system-search-symbolic.png");
 }
+
+#titled-pane-dictionaries-icon-image-view {
+    -fx-image: url("icon/accessories-dictionary-symbolic.png");
+}
+
+#titled-pane-words-icon-image-view {
+    -fx-image: url("icon/sc_text.png");
+}
+
+#titled-pane-suggestions-icon-image-view {
+    -fx-image: url("icon/light.png");
+}

@@ -30,7 +30,7 @@
             <placeholder>
                 <VBox id="puzzle-placeholder-vbox" alignment="CENTER">
                     <ImageView id="puzzle-placeholder-image-view"/>
-                    <Text text="%no-puzzle-found"/>
+                    <Text id="puzzle-placeholder-text" text="%no-puzzle-found"/>
                 </VBox>
             </placeholder>
         </ListView>

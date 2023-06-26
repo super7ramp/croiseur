@@ -12,8 +12,8 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DictionariesPane.css" type="Accordion"
-         xmlns="http://javafx.com/javafx/17">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DictionariesPane.css"
+         type="Accordion" xmlns="http://javafx.com/javafx/17">
     <panes>
         <TitledPane animated="false" styleClass="dense" text="%dictionaries-label">
             <ListView fx:id="dictionariesListView" styleClass="dense">
@@ -24,6 +24,9 @@
                     </VBox>
                 </placeholder>
             </ListView>
+            <graphic>
+                <ImageView id="titled-pane-dictionaries-icon-image-view" preserveRatio="true"/>
+            </graphic>
         </TitledPane>
         <TitledPane animated="false" styleClass="dense" text="%words-label">
             <VBox id="words-vbox">
@@ -34,6 +37,9 @@
                     </placeholder>
                 </ListView>
             </VBox>
+            <graphic>
+                <ImageView id="titled-pane-words-icon-image-view" preserveRatio="true"/>
+            </graphic>
         </TitledPane>
         <TitledPane animated="false" styleClass="dense" text="%suggestions-label">
             <ListView fx:id="suggestionsListView" styleClass="dense">
@@ -41,6 +47,9 @@
                     <Label text="%suggestions-placeholder-label"/>
                 </placeholder>
             </ListView>
+            <graphic>
+                <ImageView id="titled-pane-suggestions-icon-image-view" preserveRatio="true"/>
+            </graphic>
         </TitledPane>
     </panes>
 </fx:root>

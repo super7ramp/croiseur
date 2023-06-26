@@ -40,3 +40,7 @@
 #puzzle-placeholder-image-view {
     -fx-image: url("icon/system-search-symbolic.png");
 }
+
+#puzzle-placeholder-text {
+    -fx-font-size: 1.2em;
+}
