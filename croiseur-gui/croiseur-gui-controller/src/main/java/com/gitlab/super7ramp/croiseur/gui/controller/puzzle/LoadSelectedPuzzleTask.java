@@ -29,7 +29,7 @@ final class LoadSelectedPuzzleTask extends Task<Void> {
     LoadSelectedPuzzleTask(final PuzzleService puzzleServiceArg,
                            final PuzzleSelectionViewModel puzzleSelectionViewModelArg) {
         puzzleService = puzzleServiceArg;
-        selectedPuzzleId = puzzleSelectionViewModelArg.selectedPuzzleProperty().get().id();
+        selectedPuzzleId = puzzleSelectionViewModelArg.selectedPuzzle().id();
     }
 
     @Override

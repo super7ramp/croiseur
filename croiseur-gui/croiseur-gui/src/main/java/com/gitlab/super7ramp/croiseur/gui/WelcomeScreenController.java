@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreenPane;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -38,33 +39,38 @@ public final class WelcomeScreenController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param crosswordGridViewModelArg   the crossword grid view model
      * @param puzzleService               the puzzle service
      * @param executor                    the background task executor
      * @param editorViewArg               the editor view to switch to when a puzzle is selected
      */
     public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                                   final PuzzleService puzzleService,
-                                   final Executor executor,
+                                   final CrosswordGridViewModel crosswordGridViewModelArg,
+                                   final PuzzleService puzzleService, final Executor executor,
                                    final Parent editorViewArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleController =
-                new PuzzleController(puzzleSelectionViewModelArg, puzzleService, executor);
+                new PuzzleController(puzzleSelectionViewModelArg, crosswordGridViewModelArg,
+                                     puzzleService, executor);
         editorView = editorViewArg;
     }
 
     @FXML
     private void initialize() {
         view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
-        view.onNewPuzzleButtonActionProperty().set(e -> switchToEditorView());
-        view.onOpenPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
         puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
+        view.onNewPuzzleButtonActionProperty().set(e -> unbindAndSwitchToEditorView());
+        view.onOpenPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
         puzzleController.listAvailablePuzzles();
     }
 
     /**
-     * Switches to editor view scene.
+     * Unbinds view from view model and switches to editor view scene.
      */
-    private void switchToEditorView() {
+    private void unbindAndSwitchToEditorView() {
+        // Unbind so that the selected puzzle can be updated upon save from the editor view
+        puzzleSelectionViewModel.selectedPuzzleProperty().unbind();
+
         final Stage stage = (Stage) view.getScene().getWindow();
         final Scene editorScene = new Scene(editorView);
         stage.setScene(editorScene);
@@ -75,6 +81,6 @@ public final class WelcomeScreenController {
      */
     private void onOpenPuzzleButtonAction() {
         puzzleController.loadSelectedPuzzle();
-        switchToEditorView();
+        unbindAndSwitchToEditorView();
     }
 }

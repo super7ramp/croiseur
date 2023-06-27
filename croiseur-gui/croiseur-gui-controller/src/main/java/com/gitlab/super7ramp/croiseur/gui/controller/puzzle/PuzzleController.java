@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
@@ -30,17 +31,23 @@ public final class PuzzleController {
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
+    /** The crossword grid view model. */
+    private final CrosswordGridViewModel crosswordGridViewModel;
+
     /**
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param crosswordGridViewModelArg   the crossword grid view model
      * @param puzzleServiceArg            the puzzle service
      * @param executorArg                 the worker executing the puzzle tasks
      */
     public PuzzleController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                            final CrosswordGridViewModel crosswordGridViewModelArg,
                             final PuzzleService puzzleServiceArg,
                             final Executor executorArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        crosswordGridViewModel = crosswordGridViewModelArg;
         puzzleService = puzzleServiceArg;
         executor = executorArg;
     }
@@ -55,9 +62,16 @@ public final class PuzzleController {
 
     /** Starts the 'load selected puzzle' task. */
     public void loadSelectedPuzzle() {
-        // Yes, it is artificial because we have all information to load the grid but let's avoid
-        // controller to modify the view model directly.
+        // It is artificial because we have all information to load the grid now but let's prevent
+        // the controller to modify the view model directly.
         final var task = new LoadSelectedPuzzleTask(puzzleService, puzzleSelectionViewModel);
+        execute(task);
+    }
+
+    /** Starts the 'save puzzle' task. */
+    public void savePuzzle() {
+        final var task =
+                new SavePuzzleTask(puzzleService, puzzleSelectionViewModel, crosswordGridViewModel);
         execute(task);
     }
 
@@ -67,7 +81,7 @@ public final class PuzzleController {
      * @param task the task to execute
      */
     private void execute(final Task<Void> task) {
-        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Dictionary task failed.",
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Puzzle task failed.",
                                              task.getException()));
         executor.execute(task);
     }

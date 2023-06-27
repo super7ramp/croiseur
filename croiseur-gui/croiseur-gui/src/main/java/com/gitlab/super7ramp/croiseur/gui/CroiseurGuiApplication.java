@@ -190,6 +190,7 @@ public final class CroiseurGuiApplication extends Application {
                                             final Parent editorView) throws IOException {
         final var welcomeScreenController =
                 new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
+                                            applicationViewModel.crosswordGridViewModel(),
                                             crosswordService.puzzleService(), executor,
                                             editorView);
         return ViewLoader.load(welcomeScreenController);

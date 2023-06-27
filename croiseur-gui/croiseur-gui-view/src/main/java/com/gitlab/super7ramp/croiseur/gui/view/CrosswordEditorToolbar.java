@@ -86,6 +86,10 @@ public final class CrosswordEditorToolbar extends ToolBar {
     @FXML
     private SolveSplitMenuButton solveButton;
 
+    /** The save button. */
+    @FXML
+    private Button saveButton;
+
     /** The 'dictionaries' toggle button. */
     @FXML
     private ToggleButton dictionariesToggleButton;
@@ -187,6 +191,15 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     public ObjectProperty<EventHandler<ActionEvent>> onSolveButtonActionProperty() {
         return solveButton.onActionProperty();
+    }
+
+    /**
+     * Returns the on save button action property.
+     *
+     * @return the on save button action property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onSaveButtonActionProperty() {
+        return saveButton.onActionProperty();
     }
 
     /**

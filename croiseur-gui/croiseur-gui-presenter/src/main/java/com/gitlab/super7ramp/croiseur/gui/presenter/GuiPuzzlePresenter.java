@@ -62,6 +62,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentLoadedPuzzle(final SavedPuzzle puzzle) {
+        LOGGER.info(() -> "Received loaded puzzle: " + puzzle);
         final PuzzleGrid grid = puzzle.grid();
         Platform.runLater(() -> fillGridViewModelWith(grid));
     }
@@ -74,8 +75,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
-        // TODO presents a kind of confirmation of the saving
-        throw new UnsupportedOperationException("Not implemented yet.");
+        LOGGER.info(() -> "Received saved puzzle: " + puzzle);
+        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(puzzle));
     }
 
     /**
@@ -101,8 +102,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
             crosswordGridViewModel.box(position).shade();
         });
 
-        positionsToUpdate.forEach(position -> {
-            final CrosswordBoxViewModel box = crosswordGridViewModel.box(position);
+        positionsToUpdate.stream().map(crosswordGridViewModel::box).forEach(box -> {
             box.lighten();
             box.userContent("");
         });

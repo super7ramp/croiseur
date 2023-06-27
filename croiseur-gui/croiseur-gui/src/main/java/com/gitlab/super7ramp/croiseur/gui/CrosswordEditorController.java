@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui;
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.controller.dictionary.DictionaryController;
+import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorPane;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
@@ -41,6 +42,9 @@ public final class CrosswordEditorController {
     /** The controller dedicated to the dictionary use-cases. */
     private final DictionaryController dictionaryController;
 
+    /** The controller dedicated to puzzle use-cases. */
+    private final PuzzleController puzzleController;
+
     /** The view model. */
     private final ApplicationViewModel applicationViewModel;
 
@@ -63,6 +67,9 @@ public final class CrosswordEditorController {
                                      executor);
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
+        puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
+                                                applicationViewModelArg.crosswordGridViewModel(),
+                                                crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
         resources = ResourceBundle.getBundle(CrosswordEditorController.class.getName());
     }
@@ -74,7 +81,15 @@ public final class CrosswordEditorController {
         initializeSolverSelectionBindings();
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
+        initializePuzzleBindings();
         populateServiceLists();
+    }
+
+    /**
+     * Initializes bindings between the puzzle save button and the puzzle controller.
+     */
+    private void initializePuzzleBindings() {
+        view.onSaveButtonActionProperty().set(e -> puzzleController.savePuzzle());
     }
 
     /**

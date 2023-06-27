@@ -8,11 +8,11 @@ package com.gitlab.super7ramp.croiseur.common.puzzle;
 import java.util.Objects;
 
 /**
- * A puzzle which has been saved to repository.
+ * A puzzle which has been saved to a repository.
  *
  * @param id       the unique identifier of the puzzle
  * @param data     the puzzle data
- * @param revision the puzzle revision (i.e. the number of repository updates for this identifier)
+ * @param revision the puzzle revision (i.e. the number of updates for this identifier)
  */
 public record SavedPuzzle(long id, Puzzle data, int revision) {
 
@@ -36,7 +36,36 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
      * @return a new {@link ChangedPuzzle}
      */
     public ChangedPuzzle modifiedWith(final Puzzle newData) {
+        Objects.requireNonNull(newData);
         return new ChangedPuzzle(id, newData);
+    }
+
+    /**
+     * Creates a new {@link ChangedPuzzle} from this saved version, using the given new grid.
+     * <p>
+     * Same as {@link #modifiedWith(Puzzle)} but allows to only update the {@link #grid()}, without
+     * touching the {@link #details()}.
+     *
+     * @param newGrid the new grid
+     * @return a new {@link ChangedPuzzle}
+     */
+    public ChangedPuzzle modifiedWith(final PuzzleGrid newGrid) {
+        final Puzzle newData = new Puzzle(details(), newGrid);
+        return modifiedWith(newData);
+    }
+
+    /**
+     * Creates a new {@link ChangedPuzzle} from this saved version, using the given new details.
+     * <p>
+     * Same as {@link #modifiedWith(Puzzle)} but allows to only update the {@link #details()},
+     * without touching the {@link #grid()}.
+     *
+     * @param newDetails the new details
+     * @return a new {@link ChangedPuzzle}
+     */
+    public ChangedPuzzle modifiedWith(final PuzzleDetails newDetails) {
+        final Puzzle newData = new Puzzle(newDetails, grid());
+        return modifiedWith(newData);
     }
 
     /**

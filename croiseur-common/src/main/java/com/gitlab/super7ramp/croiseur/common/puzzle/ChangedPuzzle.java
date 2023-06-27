@@ -51,7 +51,7 @@ public final class ChangedPuzzle {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof ChangedPuzzle that)) return false;
+        if (!(o instanceof final ChangedPuzzle that)) return false;
         return id == that.id && Objects.equals(data, that.data);
     }
 

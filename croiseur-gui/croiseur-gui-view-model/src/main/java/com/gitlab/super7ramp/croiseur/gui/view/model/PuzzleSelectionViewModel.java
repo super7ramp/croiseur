@@ -27,7 +27,8 @@ public final class PuzzleSelectionViewModel {
      * Constructs an instance.
      */
     PuzzleSelectionViewModel() {
-        availablePuzzles = new SimpleListProperty<>(this, "puzzles", FXCollections.observableArrayList());
+        availablePuzzles = new SimpleListProperty<>(this, "availablePuzzles",
+                                                    FXCollections.observableArrayList());
         selectedPuzzle = new SimpleObjectProperty<>(this, "selectedPuzzle");
     }
 
@@ -49,5 +50,23 @@ public final class PuzzleSelectionViewModel {
      */
     public ObjectProperty<SavedPuzzle> selectedPuzzleProperty() {
         return selectedPuzzle;
+    }
+
+    /**
+     * Returns the value of the selected puzzle property.
+     *
+     * @return the value of the selected puzzle property; {@code null} if no puzzle selected/saved
+     */
+    public SavedPuzzle selectedPuzzle() {
+        return selectedPuzzle.get();
+    }
+
+    /**
+     * Sets the value of the selected puzzle property.
+     *
+     * @param savedPuzzle the value to set
+     */
+    public void selectedPuzzle(final SavedPuzzle savedPuzzle) {
+        selectedPuzzle.set(savedPuzzle);
     }
 }

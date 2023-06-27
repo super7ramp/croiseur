@@ -73,7 +73,8 @@
     <MenuButton fx:id="clearGridMenuButton" managed="${! resizeGridButton.selected}"
                 text="%clear-grid-button" visible="${! resizeGridButton.selected}">
         <items>
-            <MenuItem fx:id="clearGridLettersFilledBySolverMenuItem" text="%clear-grid-letters-filled-by-solver-menu-item"/>
+            <MenuItem fx:id="clearGridLettersFilledBySolverMenuItem"
+                      text="%clear-grid-letters-filled-by-solver-menu-item"/>
             <MenuItem fx:id="clearGridAllLettersMenuItem" text="%clear-grid-all-letters-menu-item"/>
             <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
         </items>
@@ -86,6 +87,12 @@
     </MenuButton>
     <SolveSplitMenuButton fx:id="solveButton" managed="${! resizeGridButton.selected}"
                           visible="${! resizeGridButton.selected}"/>
+    <Button fx:id="saveButton" managed="${! resizeGridButton.selected}" text="%save-button"
+            visible="${! resizeGridButton.selected}">
+        <graphic>
+            <ImageView id="save-button-image-view" pickOnBounds="true" preserveRatio="true"/>
+        </graphic>
+    </Button>
     <Pane HBox.hgrow="ALWAYS"/>
     <ToggleButton fx:id="dictionariesToggleButton" managed="${! resizeGridButton.selected}"
                   text="%dictionaries-button" visible="${! resizeGridButton.selected}">

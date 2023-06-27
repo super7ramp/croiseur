@@ -35,6 +35,10 @@
     -fx-image: url("icon/lc_runmacro.png");
 }
 
+#save-button-image-view {
+    -fx-image: url("icon/lc_save.png");
+}
+
 #show-dictionaries-button-image-view {
     -fx-image: url("icon/lc_leftpanedraw.png");
 }

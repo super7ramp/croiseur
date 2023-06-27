@@ -29,7 +29,7 @@ import javafx.scene.layout.BorderPane;
 import java.util.function.Consumer;
 
 /**
- * An entire crossword solver view, based on {@link BorderPane}.
+ * An entire crossword editor view, based on {@link BorderPane}.
  */
 public final class CrosswordEditorPane extends BorderPane {
 
@@ -206,6 +206,15 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public ObjectProperty<EventHandler<ActionEvent>> onSolveButtonActionProperty() {
         return toolbar.onSolveButtonActionProperty();
+    }
+
+    /**
+     * Returns the on save button action property.
+     *
+     * @return the on save button action property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onSaveButtonActionProperty() {
+        return toolbar.onSaveButtonActionProperty();
     }
 
     /**
