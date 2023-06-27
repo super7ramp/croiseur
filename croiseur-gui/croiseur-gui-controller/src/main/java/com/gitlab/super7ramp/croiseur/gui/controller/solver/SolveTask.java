@@ -19,7 +19,7 @@ import java.util.Random;
  */
 final class SolveTask extends Task<Void> {
 
-    /** The "solve crossword" usecase. */
+    /** The solver service */
     private final SolverService solverService;
 
     /** The solve request. */
@@ -28,10 +28,11 @@ final class SolveTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModelArg the crossword model
-     * @param dictionariesViewModelArg  the dictionary model
-     * @param solverServiceArg          the "solve crossword" usecase
-     * @param randomArg                 the source of randomness
+     * @param crosswordGridViewModelArg   the crossword model
+     * @param dictionariesViewModelArg    the dictionary model
+     * @param solverSelectionViewModelArg the solver selection view mode
+     * @param solverServiceArg            the solver service
+     * @param randomArg                   the source of randomness
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionariesViewModel dictionariesViewModelArg,

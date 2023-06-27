@@ -14,7 +14,7 @@ import javafx.concurrent.Task;
  */
 final class ListDictionariesTask extends Task<Void> {
 
-    /** The "dictionary" usecase. */
+    /** The dictionary service. */
     private final DictionaryService dictionaryService;
 
     /** The "list dictionaries" request. */
@@ -23,7 +23,7 @@ final class ListDictionariesTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryServiceArg the dictionary usecase
+     * @param dictionaryServiceArg the dictionary service
      */
     ListDictionariesTask(final DictionaryService dictionaryServiceArg) {
         listDictionariesRequest = new ListDictionaryRequestImpl();

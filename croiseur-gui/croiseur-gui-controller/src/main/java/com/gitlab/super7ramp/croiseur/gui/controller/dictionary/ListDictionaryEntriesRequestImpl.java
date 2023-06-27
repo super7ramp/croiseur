@@ -19,6 +19,8 @@ final class ListDictionaryEntriesRequestImpl implements ListDictionaryEntriesReq
 
     /**
      * Constructs an instance.
+     *
+     * @param dictionaryViewModelArg the dictionary view model
      */
     ListDictionaryEntriesRequestImpl(final DictionaryViewModel dictionaryViewModelArg) {
         dictionaryId = new DictionaryIdentifier(dictionaryViewModelArg.provider(),

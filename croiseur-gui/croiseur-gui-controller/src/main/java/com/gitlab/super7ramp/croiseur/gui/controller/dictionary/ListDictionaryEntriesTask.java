@@ -15,7 +15,7 @@ import javafx.concurrent.Task;
  */
 final class ListDictionaryEntriesTask extends Task<Void> {
 
-    /** The "dictionary" service. */
+    /** The dictionary service. */
     private final DictionaryService dictionaryService;
 
     /** The "list dictionary entries" request. */
@@ -24,7 +24,8 @@ final class ListDictionaryEntriesTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryServiceArg the dictionary service
+     * @param dictionaryViewModelArg the dictionary view model
+     * @param dictionaryServiceArg   the dictionary service
      */
     ListDictionaryEntriesTask(final DictionaryViewModel dictionaryViewModelArg,
                               final DictionaryService dictionaryServiceArg) {

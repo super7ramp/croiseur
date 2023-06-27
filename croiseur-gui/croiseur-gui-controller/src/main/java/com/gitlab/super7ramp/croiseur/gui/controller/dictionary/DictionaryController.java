@@ -14,14 +14,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Controls the dictionary.
+ * Controls calls to the dictionary service.
  */
 public final class DictionaryController {
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(DictionaryController.class.getName());
 
-    /** The dictionary use-cases. */
+    /** The dictionary service. */
     private final DictionaryService dictionaryService;
 
     /** The worker executing the dictionary tasks. */
@@ -30,7 +30,7 @@ public final class DictionaryController {
     /**
      * Constructs an instance.
      *
-     * @param dictionaryServiceArg the "dictionary" use-cases
+     * @param dictionaryServiceArg the dictionary service
      * @param executorArg          the worker executing the dictionary tasks
      */
     public DictionaryController(final DictionaryService dictionaryServiceArg,

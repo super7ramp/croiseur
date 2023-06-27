@@ -22,17 +22,17 @@ public final class PuzzleController {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(PuzzleController.class.getName());
 
-    /** The worker executing puzzle tasks. */
-    private final Executor executor;
-
-    /** The puzzle service to call. */
-    private final PuzzleService puzzleService;
-
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
     /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
+
+    /** The puzzle service to call. */
+    private final PuzzleService puzzleService;
+
+    /** The worker executing puzzle tasks. */
+    private final Executor executor;
 
     /**
      * Constructs an instance.

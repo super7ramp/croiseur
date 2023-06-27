@@ -18,14 +18,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Controls the solver.
+ * Controls calls to the solver service.
  */
 public final class SolverController {
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(SolverController.class.getName());
 
-    /** Source of randomness. Seed is fixed to avoid reproducible sequences. */
+    /** Source of randomness. Seed is fixed to ensure reproducible sequences. */
     private static final Random RANDOM = new Random(0L);
 
     /** The solver service. */
@@ -46,9 +46,9 @@ public final class SolverController {
     /**
      * Constructs an instance.
      *
-     * @param applicationViewModel the solver view model
-     * @param solverServiceArg         the solver service
-     * @param executorArg              the backing executor
+     * @param applicationViewModel the application view model
+     * @param solverServiceArg     the solver service
+     * @param executorArg          the backing executor
      */
     public SolverController(final ApplicationViewModel applicationViewModel,
                             final SolverService solverServiceArg, final Executor executorArg) {
