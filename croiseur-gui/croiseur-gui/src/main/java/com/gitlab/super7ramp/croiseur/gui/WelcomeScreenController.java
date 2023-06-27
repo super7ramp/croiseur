@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
-import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreen;
+import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreenPane;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -32,7 +32,7 @@ public final class WelcomeScreenController {
 
     /** The welcome screen view. */
     @FXML
-    private WelcomeScreen view;
+    private WelcomeScreenPane view;
 
     /**
      * Constructs an instance.
@@ -71,7 +71,7 @@ public final class WelcomeScreenController {
     }
 
     /**
-     * Loads selected puzzle in editor view and switch to editor view.
+     * Loads selected puzzle in editor view and switches to editor view.
      */
     private void onOpenPuzzleButtonAction() {
         puzzleController.loadSelectedPuzzle();

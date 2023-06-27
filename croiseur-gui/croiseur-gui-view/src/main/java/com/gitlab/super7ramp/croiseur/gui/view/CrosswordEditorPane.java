@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 /**
  * An entire crossword solver view, based on {@link BorderPane}.
  */
-public final class CrosswordSolverPane extends BorderPane {
+public final class CrosswordEditorPane extends BorderPane {
 
     /** The selector for the split pane divider node. */
     private static final String DIVIDER_SELECTOR = ".split-pane-divider";
@@ -47,7 +47,7 @@ public final class CrosswordSolverPane extends BorderPane {
 
     /** The toolbar. */
     @FXML
-    private CrosswordEditionToolbar toolbar;
+    private CrosswordEditorToolbar toolbar;
 
     /** The pane splitting the grid and the dictionary pane. */
     @FXML
@@ -68,7 +68,7 @@ public final class CrosswordSolverPane extends BorderPane {
     /**
      * Constructs an instance.
      */
-    public CrosswordSolverPane() {
+    public CrosswordEditorPane() {
         FxmlLoaderHelper.load(this);
     }
 

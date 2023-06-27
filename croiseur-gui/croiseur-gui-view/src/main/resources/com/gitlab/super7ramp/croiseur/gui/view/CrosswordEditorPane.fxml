@@ -5,7 +5,7 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditionToolbar?>
+<?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorToolbar?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordGridPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.DictionariesPane?>
 <?import javafx.scene.control.ProgressIndicator?>
@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-         stylesheets="@CrosswordSolverPane.css" type="BorderPane" xmlns="http://javafx.com/javafx/17">
+         stylesheets="@CrosswordEditorPane.css" type="BorderPane" xmlns="http://javafx.com/javafx/17">
     <center>
         <SplitPane fx:id="centerSplitPane">
             <StackPane id="grid-enclosing-zone">
@@ -24,6 +24,6 @@
         </SplitPane>
     </center>
     <top>
-        <CrosswordEditionToolbar fx:id="toolbar"/>
+        <CrosswordEditorToolbar fx:id="toolbar"/>
     </top>
 </fx:root>

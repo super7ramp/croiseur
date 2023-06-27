@@ -37,7 +37,7 @@ import java.util.stream.Stream;
  *     ones.</li>
  * </ul>
  */
-public final class CrosswordEditionToolbar extends ToolBar {
+public final class CrosswordEditorToolbar extends ToolBar {
 
     /** The grid edition buttons disable property. */
     private final BooleanProperty gridEditionButtonsDisableProperty;
@@ -93,7 +93,7 @@ public final class CrosswordEditionToolbar extends ToolBar {
     /**
      * Constructs an instance.
      */
-    public CrosswordEditionToolbar() {
+    public CrosswordEditorToolbar() {
         gridEditionButtonsDisableProperty =
                 new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty",
                                           false);

@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 /**
  * A welcome screen, allowing to search, open existing or new puzzles.
  */
-public final class WelcomeScreen extends VBox {
+public final class WelcomeScreenPane extends VBox {
 
     /** The recent puzzles. */
     private final ListProperty<SavedPuzzle> recentPuzzles;
@@ -56,7 +56,7 @@ public final class WelcomeScreen extends VBox {
     /**
      * Constructs an instance.
      */
-    public WelcomeScreen() {
+    public WelcomeScreenPane() {
         recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
                                                  FXCollections.observableArrayList());
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));

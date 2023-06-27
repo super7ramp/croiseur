@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" id="root-vbox" stylesheets="@WelcomeScreen.css"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" id="root-vbox" stylesheets="@WelcomeScreenPane.css"
          type="VBox" xmlns="http://javafx.com/javafx/17">
     <VBox id="welcome-vbox">
         <!-- fitHeight and fitWidth are not settable via css. -->

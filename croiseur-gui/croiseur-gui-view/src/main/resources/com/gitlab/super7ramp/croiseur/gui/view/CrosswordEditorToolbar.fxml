@@ -15,7 +15,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditionToolbar.css"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditorToolbar.css"
          type="ToolBar" xmlns="http://javafx.com/javafx/17">
     <ToggleButton fx:id="resizeGridButton" text="%resize-grid-button">
         <graphic>
