@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # 2. Use Java as default language
 
-Date: 2023-06-27
+Date: 2023-06-27 (*a posteriori*)
 
 ## Status
 
