@@ -6,3 +6,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
 ## Design Decisions
 
 1. [Record architecture decisions](0001-record-architecture-decisions.md)
+2. [Use Java as default language](0002-use-java-as-default-language.md)
