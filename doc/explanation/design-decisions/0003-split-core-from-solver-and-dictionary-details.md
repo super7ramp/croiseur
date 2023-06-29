@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# 2. Split core from solver and dictionary details
+# 3. Split core from solver and dictionary details
 
 Date: 2023-06-28 (*a posteriori*)
 

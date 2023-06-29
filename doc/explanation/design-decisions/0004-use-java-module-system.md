@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# 2. Use Java module system
+# 4. Use Java module system
 
 Date: 2023-06-28 (*a posteriori*)
 
@@ -17,7 +17,7 @@ Accepted
 
 Separation of the project in modules require consistent rules to design them.
 
-The Java module system introduce in Java 9 allows to enforce strong encapsulation of modules:
+The Java module system introduced in Java 9 allows to enforce strong encapsulation of modules:
 
 - It allows to clearly declare an API (by defining exported packages).
 - It allows to clearly define dependencies between modules, including runtime-only dependencies.

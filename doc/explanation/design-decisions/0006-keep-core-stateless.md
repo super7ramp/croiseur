@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# 5. Keep core stateless
+# 6. Keep core stateless
 
 Date: 2023-06-28 (*a posteriori*)
 

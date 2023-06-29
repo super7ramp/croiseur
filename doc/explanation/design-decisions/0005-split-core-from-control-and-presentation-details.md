@@ -15,14 +15,14 @@ Accepted
 
 ## Context
 
-It would be nice if the application core was not coupled to a specific framework. This way, it could
+It would be nice if the project core was not coupled to a specific framework. This way, it could
 be reused for several applications, e.g. a command-line interface and a graphical user interface.
 
 ## Decision
 
 Split control/presentation details from core:
 
-- Make the core (`croiseur`) a library which offers service to be called by a real application. It
+- Make the core (`croiseur`) a library which offers services to be called by a real application. It
   can be seen as the "Use Cases" layer coined by
   the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - Define a presentation extension point (`croiseur-spi-presenter`) which can implemented to display
@@ -30,7 +30,7 @@ Split control/presentation details from core:
 - Core API methods do not return results. Even methods looking semantically like queries (e.g. the
   method for listing the available solvers) does not return anything. Core drives the presentation:
   It forwards its results to the presenter SPI. Potentially a single call to core may lead to
-  several call to presenter by core: It depends on the use-case.[^1]
+  several calls to presenter by core: It depends on the use-case.[^1]
 
 ## Consequences
 
