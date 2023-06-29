@@ -3,11 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-.list-cell {
-    /* Use computed size instead of default 24px. */
-    -fx-cell-size: -1;
-}
-
 .container-hbox {
     -fx-padding: 10px;
 }
@@ -22,8 +17,8 @@
     -fx-spacing: 10px;
 }
 
-.puzzle-details-keys-vbox > .text-field {
-    -fx-text-style: italic;
+.puzzle-details-key-text {
+    -fx-font-style: italic;
 }
 
 .puzzle-title {

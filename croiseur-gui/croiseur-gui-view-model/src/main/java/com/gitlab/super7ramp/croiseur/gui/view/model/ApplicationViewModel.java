@@ -24,7 +24,7 @@ public final class ApplicationViewModel {
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
 
-    /** THe puzzle selection view model. */
+    /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
     /** The errors view model. */

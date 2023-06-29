@@ -23,11 +23,11 @@ final class LoadSelectedPuzzleTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param puzzleServiceArg            the puzzle service
      * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param puzzleServiceArg            the puzzle service
      */
-    LoadSelectedPuzzleTask(final PuzzleService puzzleServiceArg,
-                           final PuzzleSelectionViewModel puzzleSelectionViewModelArg) {
+    LoadSelectedPuzzleTask(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                           final PuzzleService puzzleServiceArg) {
         puzzleService = puzzleServiceArg;
         selectedPuzzleId = puzzleSelectionViewModelArg.selectedPuzzle().id();
     }

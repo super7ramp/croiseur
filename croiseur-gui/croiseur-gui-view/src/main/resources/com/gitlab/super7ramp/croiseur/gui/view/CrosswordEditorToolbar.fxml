@@ -90,8 +90,11 @@
     <Button fx:id="saveButton" managed="${! resizeGridButton.selected}" text="%save-button"
             visible="${! resizeGridButton.selected}">
         <graphic>
-            <ImageView id="save-button-image-view" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView id="save-button-image-view"/>
         </graphic>
+        <tooltip>
+            <Tooltip text="%save-tooltip"/>
+        </tooltip>
     </Button>
     <Pane HBox.hgrow="ALWAYS"/>
     <ToggleButton fx:id="dictionariesToggleButton" managed="${! resizeGridButton.selected}"

@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.list-cell {
+    /* Use computed size instead of default 24px. */
+    -fx-cell-size: -1;
+}

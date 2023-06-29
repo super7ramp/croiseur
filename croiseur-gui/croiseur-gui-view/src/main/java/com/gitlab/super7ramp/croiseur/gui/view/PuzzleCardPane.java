@@ -7,22 +7,20 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -31,9 +29,9 @@ import java.util.stream.Stream;
 import static java.lang.Math.min;
 
 /**
- * A specialized {@link ListCell} for displaying saved puzzles.
+ * A puzzle identity card.
  */
-public final class SavedPuzzleListCell extends ListCell<SavedPuzzle> {
+public final class PuzzleCardPane extends HBox {
 
     /**
      * Grid image drawer.
@@ -159,10 +157,6 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzle> {
         }
     }
 
-    /** The root node of puzzle information nodes. */
-    @FXML
-    private Node container;
-
     /** A preview of the puzzle. */
     @FXML
     private ImageView thumbnail;
@@ -190,29 +184,116 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzle> {
     /**
      * Constructs an instance.
      */
-    public SavedPuzzleListCell() {
+    public PuzzleCardPane() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
-    @Override
-    protected void updateItem(final SavedPuzzle item, final boolean empty) {
-        super.updateItem(item, empty);
-        if (empty || item == null) {
-            setText(null);
-            setGraphic(null);
-            thumbnail.setImage(null);
-            Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));
-        } else {
-            final Image gridImage = drawGridImage(item.grid());
-            thumbnail.setImage(gridImage);
-            title.setText(item.details().title());
-            author.setText(item.details().author());
-            editor.setText(item.details().editor());
-            copyright.setText(item.details().copyright());
-            item.details().date().map(LocalDate::toString).ifPresent(date::setText);
-            setGraphic(container);
-            setText(null);
-        }
+    /**
+     * Returns the title property.
+     *
+     * @return the title property
+     */
+    public StringProperty titleProperty() {
+        return title.textProperty();
+    }
+
+    /**
+     * Sets the value of the title property.
+     *
+     * @param value the value to set
+     */
+    public void title(final String value) {
+        title.setText(value);
+    }
+
+    /**
+     * Returns the author property.
+     *
+     * @return the author property
+     */
+    public StringProperty authorProperty() {
+        return author.textProperty();
+    }
+
+    /**
+     * Sets the value of the author property.
+     *
+     * @param value the value to set
+     */
+    public void author(final String value) {
+        author.setText(value);
+    }
+
+    /**
+     * Returns the editor property.
+     *
+     * @return the editor property
+     */
+    public StringProperty editorProperty() {
+        return editor.textProperty();
+    }
+
+    /**
+     * Sets the value of the editor property.
+     *
+     * @param value the value to set
+     */
+    public void editor(final String value) {
+        editor.setText(value);
+    }
+
+    /**
+     * Returns the copyright property.
+     *
+     * @return the copyright property
+     */
+    public StringProperty copyrightProperty() {
+        return copyright.textProperty();
+    }
+
+    /**
+     * Sets the value of the copyright property.
+     *
+     * @param value the value to set
+     */
+    public void copyright(final String value) {
+        copyright.setText(value);
+    }
+
+    /**
+     * Returns the date property.
+     *
+     * @return the date property
+     */
+    public StringProperty dateProperty() {
+        return date.textProperty();
+    }
+
+    /**
+     * Sets the value of the date property.
+     *
+     * @param value the value to set
+     */
+    public void date(final String value) {
+        date.setText(value);
+    }
+
+    /**
+     * Sets the grid.
+     *
+     * @param value the value to set
+     */
+    public void grid(final PuzzleGrid value) {
+        final Image image = drawGridImage(value);
+        thumbnail.setImage(image);
+    }
+
+    /**
+     * Resets all property values to {@code null}.
+     */
+    public void reset() {
+        thumbnail.setImage(null);
+        Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));
     }
 
     /**
@@ -227,4 +308,5 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzle> {
         final GridDrawer gridDrawer = new GridDrawer(imageWidth, imageHeight, grid);
         return gridDrawer.draw();
     }
+
 }

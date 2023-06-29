@@ -60,15 +60,19 @@ public final class PuzzleController {
         execute(task);
     }
 
-    /** Starts the 'load selected puzzle' task. */
+    /**
+     * Starts the 'load selected puzzle' task.
+     */
     public void loadSelectedPuzzle() {
         // It is artificial because we have all information to load the grid now but let's prevent
         // the controller to modify the view model directly.
-        final var task = new LoadSelectedPuzzleTask(puzzleService, puzzleSelectionViewModel);
+        final var task = new LoadSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService);
         execute(task);
     }
 
-    /** Starts the 'save puzzle' task. */
+    /**
+     * Starts the 'save puzzle' task.
+     */
     public void savePuzzle() {
         final var task =
                 new SavePuzzleTask(puzzleService, puzzleSelectionViewModel, crosswordGridViewModel);

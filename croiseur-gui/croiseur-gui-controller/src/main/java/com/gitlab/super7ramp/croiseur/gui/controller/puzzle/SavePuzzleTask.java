@@ -13,6 +13,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleViewModel;
 import javafx.concurrent.Task;
 
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ final class SavePuzzleTask extends Task<Void> {
                    final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
                    final CrosswordGridViewModel crosswordGridViewModelArg) {
         puzzleService = puzzleServiceArg;
-        lastSavedPuzzle = puzzleSelectionViewModelArg.selectedPuzzle();
+        lastSavedPuzzle = convertToSavedPuzzle(puzzleSelectionViewModelArg.selectedPuzzle());
         currentGrid = convertToPuzzleGrid(crosswordGridViewModelArg);
     }
 
@@ -55,6 +56,29 @@ final class SavePuzzleTask extends Task<Void> {
             update();
         }
         return null;
+    }
+
+    /**
+     * Converts puzzle view model to domain puzzle type.
+     *
+     * @param puzzleViewModel the puzzle view model
+     * @return the puzzle converted to domain puzzle type; {@code null} if given view model is
+     * {@code null}
+     */
+    private static SavedPuzzle convertToSavedPuzzle(final PuzzleViewModel puzzleViewModel) {
+        if (puzzleViewModel == null) {
+            return null;
+        }
+        final long id = puzzleViewModel.id();
+        final int revision = puzzleViewModel.revision();
+        final PuzzleDetails details =
+                new PuzzleDetails(puzzleViewModel.title(), puzzleViewModel.author(),
+                                  puzzleViewModel.editor(), puzzleViewModel.copyright(),
+                                  puzzleViewModel.date().isEmpty() ? Optional.empty() :
+                                          Optional.of(LocalDate.parse(puzzleViewModel.date())));
+        final PuzzleGrid grid = puzzleViewModel.grid();
+        final Puzzle data = new Puzzle(details, grid);
+        return new SavedPuzzle(id, data, revision);
     }
 
     /**

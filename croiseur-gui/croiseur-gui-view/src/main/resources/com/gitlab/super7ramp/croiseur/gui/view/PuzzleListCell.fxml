@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import com.gitlab.super7ramp.croiseur.gui.view.PuzzleCardPane?>
+<?import javafx.scene.control.ListCell?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzleListCell.css"
+         type="ListCell" xmlns="http://javafx.com/javafx/17">
+    <graphic>
+        <PuzzleCardPane fx:id="card"/>
+    </graphic>
+</fx:root>

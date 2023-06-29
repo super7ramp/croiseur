@@ -6,15 +6,18 @@
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import javafx.application.Platform;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,8 +59,10 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
         LOGGER.info(() -> "Received available puzzles: " + puzzles);
+        final List<PuzzleViewModel> puzzleViewModels =
+                puzzles.stream().map(GuiPuzzlePresenter::convertToPuzzleViewModel).toList();
         Platform.runLater(
-                () -> puzzleSelectionViewModel.availablePuzzlesProperty().setAll(puzzles));
+                () -> puzzleSelectionViewModel.availablePuzzlesProperty().setAll(puzzleViewModels));
     }
 
     @Override
@@ -76,7 +81,28 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
-        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(puzzle));
+        final PuzzleViewModel puzzleViewModel = convertToPuzzleViewModel(puzzle);
+        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(puzzleViewModel));
+    }
+
+    /**
+     * Converts puzzle from domain type to view-model type.
+     *
+     * @param puzzle the puzzle
+     * @return the converted puzzle
+     */
+    private static PuzzleViewModel convertToPuzzleViewModel(final SavedPuzzle puzzle) {
+        final PuzzleViewModel puzzleViewModel = new PuzzleViewModel();
+        puzzleViewModel.id(puzzle.id());
+        puzzleViewModel.revision(puzzle.revision());
+        final PuzzleDetails details = puzzle.details();
+        puzzleViewModel.title(details.title());
+        puzzleViewModel.author(details.author());
+        puzzleViewModel.editor(details.editor());
+        puzzleViewModel.copyright(details.copyright());
+        puzzleViewModel.date(details.date().map(LocalDate::toString).orElse(""));
+        puzzleViewModel.grid(puzzle.grid());
+        return puzzleViewModel;
     }
 
     /**

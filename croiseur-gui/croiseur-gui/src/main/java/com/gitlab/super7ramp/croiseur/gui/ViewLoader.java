@@ -28,8 +28,6 @@ final class ViewLoader {
      * <p>
      * View is expected to be named like given controller class name, with "Controller" suffix
      * replaced with "View" and the extension ".fxml".
-     * <p>
-     * A resource bundle will also be loaded for the controller.
      *
      * @param controller the controller
      * @param <T>        the loaded object type

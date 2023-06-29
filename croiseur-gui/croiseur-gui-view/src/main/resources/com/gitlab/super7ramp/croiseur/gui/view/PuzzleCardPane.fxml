@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzleCardPane.css"
+         type="HBox" styleClass="container-hbox" xmlns="http://javafx.com/javafx/17">
+    <!-- Unfortunately, fitHeight and fitWidth cannot be set via CSS. -->
+    <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" preserveRatio="true"/>
+    <VBox styleClass="puzzle-details-vbox" HBox.hgrow="ALWAYS">
+        <Text fx:id="title" styleClass="puzzle-title" text="An Example Grid"/>
+        <HBox styleClass="puzzle-details-hbox">
+            <VBox HBox.hgrow="ALWAYS">
+                <Text styleClass="puzzle-details-key-text" text="%author"/>
+                <Text styleClass="puzzle-details-key-text" text="%editor"/>
+                <Text styleClass="puzzle-details-key-text" text="%copyright"/>
+                <Text styleClass="puzzle-details-key-text" text="%date"/>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS">
+                <Text fx:id="author" text="Me Myself"/>
+                <Text fx:id="editor" text="Nobody"/>
+                <Text fx:id="copyright" text="CC-0"/>
+                <Text fx:id="date" text="2023-06-23"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</fx:root>
