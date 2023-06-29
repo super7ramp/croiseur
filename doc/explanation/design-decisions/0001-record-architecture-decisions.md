@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2016 Nat Pryce
+SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 # 1. Record architecture decisions
 
 Date: 2023-06-13
