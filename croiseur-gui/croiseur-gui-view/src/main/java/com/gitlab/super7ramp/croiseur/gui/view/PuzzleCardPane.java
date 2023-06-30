@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -52,8 +53,8 @@ public final class PuzzleCardPane extends HBox {
         private final Set<GridPosition> shadedBoxes;
         private final int numberOfColumns, numberOfRows;
 
-        /** Box drawing sizes. */
-        private final double boxWidth, boxHeight;
+        /** Grid/box drawing sizes. */
+        private final double gridWidth, gridHeight, boxWidth, boxHeight;
 
         /** Offsets to center the drawing. Relevant when the grid is not a square. */
         private final double verticalOffset, horizontalOffset;
@@ -72,8 +73,8 @@ public final class PuzzleCardPane extends HBox {
             numberOfColumns = grid.width();
             numberOfRows = grid.height();
             final double columnPerRowRatio = ((double) numberOfColumns / (double) numberOfRows);
-            final double gridWidth = min(width, width * columnPerRowRatio);
-            final double gridHeight = min(height, height / columnPerRowRatio);
+            gridWidth = min(width, width * columnPerRowRatio);
+            gridHeight = min(height, height / columnPerRowRatio);
             boxWidth = gridWidth / numberOfColumns;
             boxHeight = gridHeight / numberOfRows;
             horizontalOffset = (canvas.getWidth() - gridWidth) / 2;
@@ -86,11 +87,21 @@ public final class PuzzleCardPane extends HBox {
          * @return an image of the grid
          */
         Image draw() {
+            fillBackground();
             drawColumns();
             drawRows();
             drawShadedBoxes();
             drawFilledBoxes();
             return toImage();
+        }
+
+        /** Fills the background of the grid with white. */
+        private void fillBackground() {
+            final GraphicsContext gc = canvas.getGraphicsContext2D();
+            gc.setFill(Color.WHITE);
+            gc.fillRect(x(0), y(0), gridWidth, gridHeight);
+            // Reset fill color to default black for subsequent fills
+            gc.setFill(Color.BLACK);
         }
 
         /** Draws the columns of the grid. */
@@ -132,6 +143,7 @@ public final class PuzzleCardPane extends HBox {
         private Image toImage() {
             final var image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
             final var params = new SnapshotParameters();
+            params.setFill(Color.TRANSPARENT);
             return canvas.snapshot(params, image);
         }
 
