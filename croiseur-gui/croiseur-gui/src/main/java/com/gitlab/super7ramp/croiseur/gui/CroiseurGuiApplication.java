@@ -13,6 +13,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,7 +34,7 @@ import java.util.concurrent.Executor;
 public final class CroiseurGuiApplication extends Application {
 
     /** The stage's title. */
-    public static final String STAGE_TITLE = "Croiseur";
+    private static final String STAGE_TITLE = "Croiseur";
 
     /** The stage's min width. */
     private static final int MIN_WIDTH = 510;
@@ -93,6 +94,8 @@ public final class CroiseurGuiApplication extends Application {
         stage.setMinHeight(MIN_HEIGHT);
         final Image icon = loadIcon();
         stage.getIcons().add(icon);
+        // Make sure to close the application even if some views haven't been shown
+        stage.setOnCloseRequest(event -> Platform.exit());
     }
 
     /**
