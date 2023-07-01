@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-presenter:0.4")
+    api("com.gitlab.super7ramp:croiseur-spi-presenter:0.5")
 }
 ```
 
