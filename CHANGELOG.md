@@ -3,9 +3,22 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.5 – CLI Improvements – 2023/07/01
+
+- CLI:
+    - Fixed help command throwing exception when compiled ahead-of-time (#62, !58)
+    - Added missing command description (#61, !59)
+    - Added end-to-end tests (#9, !60, !62)
+    - Made native tests pass (!61)
+    - Configured memory settings (!63)
+- GUI: Allowed to fill the current with selected suggestion (!65)
+- Documentation:
+    - Added architecture decision records (#73, #74, #75, !79)
+    - Described components (!64)
+
 ## Version 0.4 – GUI Improvements – 2023/06/06
 
-- gui:
+- GUI:
     - Use AtlantaFx theme (#65, !37)
     - Reworked dictionaries pane appearance (#68, !38)
     - Highlight selected slot (#67, !40)
@@ -42,8 +55,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - Added how-to: Plug a solver provider (!6).
     - Added explanations: How do crossword solvers work (!17).
     - Updated solver descriptions (!21).
-- gui: Fixed grid update issues (!14).
-- cli: Fixed native build (!13).
+- GUI: Fixed grid update issues (!14).
+- CLI: Fixed native build (!13).
 
 ## Version 0.1 – A First Experimental Release – 2023/03/13
 
