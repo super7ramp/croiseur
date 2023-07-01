@@ -5,6 +5,7 @@
 
 plugins {
     id("com.gitlab.super7ramp.croiseur.java-cli-conventions")
+    id("com.gitlab.super7ramp.croiseur.java-aggregate-coverage-conventions")
 }
 
 dependencies {

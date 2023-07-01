@@ -52,6 +52,7 @@ include("croiseur-gui:croiseur-gui-view-model")
 
 // Acceptance tests
 include("croiseur-tests")
+include("croiseur-tests-coverage")
 
 // Dependency versions
 dependencyResolutionManagement {

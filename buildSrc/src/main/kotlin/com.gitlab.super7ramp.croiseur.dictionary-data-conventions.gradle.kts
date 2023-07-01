@@ -8,7 +8,7 @@
  */
 
 plugins {
-    id("base")
+    id("com.gitlab.super7ramp.croiseur.base-conventions")
 }
 
 /**

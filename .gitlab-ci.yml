@@ -16,11 +16,12 @@ stages:
 Build on Linux:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: ["**/src/**/*", "**.gradle.kts", "sbom.toml", ".gitlab-ci.yml"] # Build only if code/build scripts have changed
+      changes: [ "**/src/**/*", "**.gradle.kts", "sbom.toml", ".gitlab-ci.yml" ] # Build only if code/build scripts have changed
   # Use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
   image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:20.1
   stage: build
+  coverage: '/Total.*?([0-9]{1,3})%/'
   before_script:
     # Choose wisely cargo and gradle homes so that they can easily be cached later
     - export CARGO_HOME="$(pwd)/.cargo"
@@ -29,6 +30,14 @@ Build on Linux:
     - reuse lint
     - gradle --parallel --build-cache assemble -x distZip
     - gradle --parallel --build-cache check
+    - gradle --parallel --build-cache croiseur-tests-coverage:testCodeCoverageReport
+    # For total coverage: Display html report so that Gitlab can parse it (using the coverage regex defined above).
+    - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
+    # For detailed coverage: Convert xml report to Cobertura format, as Gitlab doesn't support JaCoCo xml format
+    # (gl#gitlab-org/gitlab#227345).
+    - src_dirs=$(find $CI_PROJECT_DIR -type d -path "*/src/main/java")
+    - jacoco_report=croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+    - cover2cover.py $jacoco_report $src_dirs > cobertura.xml
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
     fallback_keys: [ master-cache-linux ] # Use master cache for first build on branch
@@ -41,6 +50,9 @@ Build on Linux:
   artifacts:
     reports:
       junit: "**/TEST-*.xml"
+      coverage_report:
+        coverage_format: cobertura
+        path: "cobertura.xml"
 
 ##
 # Builds croiseur on a Windows machine.
@@ -89,10 +101,13 @@ Publish Linux Distribution:
   rules: [ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ]
   stage: publish
   image: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:20.1
+  coverage: '/Total.*?([0-9]{1,3})%/'
   before_script:
     - export CARGO_HOME="$(pwd)/.cargo"
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
+    - gradle --parallel --build-cache croiseur-tests-coverage:testCodeCoverageReport
+    - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
     - gradle --parallel --build-cache distZip
     - gradle --parallel --build-cache publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
   cache:

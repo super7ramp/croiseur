@@ -8,13 +8,9 @@
  */
 
 plugins {
-    id("java")
-}
-
-group = "com.gitlab.super7ramp"
-
-repositories {
-    mavenCentral()
+    id("com.gitlab.super7ramp.croiseur.base-conventions")
+    java
+    jacoco
 }
 
 // Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
@@ -40,4 +36,9 @@ tasks.withType(Javadoc::class).configureEach {
 
 tasks.withType(Test::class).configureEach {
     useJUnitPlatform()
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    // Do not generate reports for individual projects by default.
+    enabled = false
 }
