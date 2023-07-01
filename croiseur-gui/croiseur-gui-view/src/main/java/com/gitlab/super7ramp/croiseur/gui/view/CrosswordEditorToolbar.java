@@ -15,12 +15,12 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.Pane;
 
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
@@ -41,6 +41,14 @@ public final class CrosswordEditorToolbar extends ToolBar {
 
     /** The grid edition buttons disable property. */
     private final BooleanProperty gridEditionButtonsDisableProperty;
+
+    /** The 'puzzle' button. */
+    @FXML
+    private ToggleButton puzzleToggleButton;
+
+    /** The left blank separator pane. */
+    @FXML
+    private Pane leftSeparator;
 
     /** The 'resize grid' button. When toggled, the toolbar switches to 'resize mode'. */
     @FXML
@@ -90,6 +98,10 @@ public final class CrosswordEditorToolbar extends ToolBar {
     @FXML
     private Button saveButton;
 
+    /** The right blank separator pane. */
+    @FXML
+    private Pane rightSeparator;
+
     /** The 'dictionaries' toggle button. */
     @FXML
     private ToggleButton dictionariesToggleButton;
@@ -99,17 +111,35 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     public CrosswordEditorToolbar() {
         gridEditionButtonsDisableProperty =
-                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty",
-                                          false);
+                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty", false);
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     @FXML
     private void initialize() {
-        Stream.of(resizeGridButton, addColumnButton, addRowButton, deleteColumnButton,
-                  deleteRowButton, deleteGridButton, clearGridMenuButton)
-              .map(Node::disableProperty)
-              .forEach(disableProperty -> disableProperty.bind(gridEditionButtonsDisableProperty));
+        final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
+        Stream.of(puzzleToggleButton, leftSeparator, clearGridMenuButton, solveButton, saveButton,
+                  dictionariesToggleButton, rightSeparator)
+              .forEach(button -> {
+                  button.visibleProperty().bind(resizeMode.not());
+                  button.managedProperty().bind(resizeMode.not());
+              });
+        Stream.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
+                  deleteGridButton).forEach(button -> {
+            button.visibleProperty().bind(resizeMode);
+            button.managedProperty().bind(resizeMode);
+            button.disableProperty().bind(gridEditionButtonsDisableProperty);
+        });
+        resizeGridButton.disableProperty().bind(gridEditionButtonsDisableProperty);
+    }
+
+    /**
+     * Returns the puzzle toggle button selected property.
+     *
+     * @return the puzzle toggle button selected property
+     */
+    public BooleanProperty puzzleToggleButtonSelectedProperty() {
+        return puzzleToggleButton.selectedProperty();
     }
 
     /**

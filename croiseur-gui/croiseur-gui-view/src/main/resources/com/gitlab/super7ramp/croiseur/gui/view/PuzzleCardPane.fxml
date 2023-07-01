@@ -23,10 +23,10 @@
                 <Text styleClass="puzzle-details-key-text" text="%date"/>
             </VBox>
             <VBox HBox.hgrow="ALWAYS">
-                <Text fx:id="author" text="Me Myself"/>
-                <Text fx:id="editor" text="Nobody"/>
-                <Text fx:id="copyright" text="CC-0"/>
-                <Text fx:id="date" text="2023-06-23"/>
+                <Text fx:id="author"/>
+                <Text fx:id="editor"/>
+                <Text fx:id="copyright"/>
+                <Text fx:id="date"/>
             </VBox>
         </HBox>
     </VBox>

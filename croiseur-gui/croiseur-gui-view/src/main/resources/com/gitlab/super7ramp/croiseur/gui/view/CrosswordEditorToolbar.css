@@ -2,6 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+#show-puzzle-button-image-view {
+    -fx-image: url("icon/lc_fillleft.png");
+}
 
 #resize-grid-button-image-view {
     -fx-image: url("icon/lc_tabledesign.png");
@@ -40,5 +43,5 @@
 }
 
 #show-dictionaries-button-image-view {
-    -fx-image: url("icon/lc_leftpanedraw.png");
+    -fx-image: url("icon/lc_fillright.png");
 }

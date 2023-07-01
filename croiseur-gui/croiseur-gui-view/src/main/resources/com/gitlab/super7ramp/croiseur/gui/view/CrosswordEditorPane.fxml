@@ -8,6 +8,7 @@
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorToolbar?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordGridPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.DictionariesPane?>
+<?import com.gitlab.super7ramp.croiseur.gui.view.PuzzlePane?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -16,11 +17,12 @@
          stylesheets="@CrosswordEditorPane.css" type="BorderPane" xmlns="http://javafx.com/javafx/17">
     <center>
         <SplitPane fx:id="centerSplitPane">
+            <PuzzlePane fx:id="puzzlePane" SplitPane.resizableWithParent="false" visible="false"/>
             <StackPane id="grid-enclosing-zone">
                 <CrosswordGridPane fx:id="grid"/>
                 <ProgressIndicator fx:id="solverProgressIndicator" visible="false"/>
             </StackPane>
-            <DictionariesPane fx:id="dictionariesPane" SplitPane.resizableWithParent="false"/>
+            <DictionariesPane fx:id="dictionariesPane" SplitPane.resizableWithParent="false" visible="false"/>
         </SplitPane>
     </center>
     <top>

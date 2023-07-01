@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzlePane.css" type="Accordion"
+         xmlns="http://javafx.com/javafx/17">
+    <panes>
+        <TitledPane animated="false" styleClass="dense" text="%puzzle-details-label">
+            <GridPane id="puzzle-details-grid-pane">
+                <columnConstraints>
+                    <!-- -Infinity = use pref width. Not settable via CSS. -->
+                    <ColumnConstraints minWidth="-Infinity"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                </rowConstraints>
+                <Label text="%author.key" GridPane.rowIndex="1"/>
+                <Label text="%editor.key" GridPane.rowIndex="2"/>
+                <Label text="%copyright.key" GridPane.rowIndex="3"/>
+                <Label text="%date.key" GridPane.rowIndex="4"/>
+                <TextField id="puzzle-title-text-field" promptText="%title.prompt"
+                           GridPane.columnSpan="2"/>
+                <TextField promptText="%author.prompt" GridPane.columnIndex="1"
+                           GridPane.rowIndex="1"/>
+                <TextField promptText="%editor.prompt" GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"/>
+                <TextField promptText="%copyright.prompt" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3"/>
+                <DatePicker promptText="%date.prompt" GridPane.columnIndex="1"
+                            GridPane.rowIndex="4"/>
+            </GridPane>
+            <graphic>
+                <ImageView id="titled-pane-details-icon-image-view" preserveRatio="true"/>
+            </graphic>
+        </TitledPane>
+    </panes>
+</fx:root>
