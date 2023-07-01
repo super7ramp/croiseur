@@ -7,7 +7,6 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
@@ -201,30 +200,12 @@ public final class PuzzleCardPane extends HBox {
     }
 
     /**
-     * Returns the title property.
-     *
-     * @return the title property
-     */
-    public StringProperty titleProperty() {
-        return title.textProperty();
-    }
-
-    /**
      * Sets the value of the title property.
      *
      * @param value the value to set
      */
     public void title(final String value) {
         title.setText(value);
-    }
-
-    /**
-     * Returns the author property.
-     *
-     * @return the author property
-     */
-    public StringProperty authorProperty() {
-        return author.textProperty();
     }
 
     /**
@@ -237,15 +218,6 @@ public final class PuzzleCardPane extends HBox {
     }
 
     /**
-     * Returns the editor property.
-     *
-     * @return the editor property
-     */
-    public StringProperty editorProperty() {
-        return editor.textProperty();
-    }
-
-    /**
      * Sets the value of the editor property.
      *
      * @param value the value to set
@@ -255,30 +227,12 @@ public final class PuzzleCardPane extends HBox {
     }
 
     /**
-     * Returns the copyright property.
-     *
-     * @return the copyright property
-     */
-    public StringProperty copyrightProperty() {
-        return copyright.textProperty();
-    }
-
-    /**
      * Sets the value of the copyright property.
      *
      * @param value the value to set
      */
     public void copyright(final String value) {
         copyright.setText(value);
-    }
-
-    /**
-     * Returns the date property.
-     *
-     * @return the date property
-     */
-    public StringProperty dateProperty() {
-        return date.textProperty();
     }
 
     /**
