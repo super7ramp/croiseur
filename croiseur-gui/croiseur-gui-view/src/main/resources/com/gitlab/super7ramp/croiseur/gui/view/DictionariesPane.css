@@ -48,9 +48,14 @@
     -fx-spacing: 10px;
 }
 
-#dictionary-placeholder-image-view {
-    /* Placeholder when dictionary is not present, an image-view. */
+.placeholder-image-view {
+    /* Placeholder when items are not present, an image-view. */
     -fx-image: url("icon/system-search-symbolic.png");
+}
+
+.placeholder-label {
+    -fx-font-size: 1.2em;
+    -fx-padding: 10px;
 }
 
 #titled-pane-dictionaries-icon-image-view {

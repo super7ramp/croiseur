@@ -18,9 +18,11 @@
         <TitledPane animated="false" styleClass="dense" text="%dictionaries-label">
             <ListView fx:id="dictionariesListView" styleClass="dense">
                 <placeholder>
-                    <VBox id="dictionary-placeholder-vbox" alignment="CENTER">
-                        <ImageView id="dictionary-placeholder-image-view"/>
-                        <Label text="%dictionaries-placeholder-label"/>
+                    <VBox alignment="CENTER">
+                        <ImageView styleClass="placeholder-image-view"/>
+                        <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
+                        <Label minWidth="-Infinity" styleClass="placeholder-label"
+                               text="%dictionaries-placeholder-label"/>
                     </VBox>
                 </placeholder>
             </ListView>
@@ -33,7 +35,12 @@
                 <TextField fx:id="searchTextField" promptText="%search-text-field"/>
                 <ListView fx:id="wordsListView" styleClass="dense" VBox.vgrow="ALWAYS">
                     <placeholder>
-                        <Label text="%words-placeholder-label"/>
+                        <VBox alignment="CENTER">
+                            <ImageView styleClass="placeholder-image-view"/>
+                            <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
+                            <Label minWidth="-Infinity" styleClass="placeholder-label"
+                                   text="%words-placeholder-label"/>
+                        </VBox>
                     </placeholder>
                 </ListView>
             </VBox>
@@ -44,7 +51,12 @@
         <TitledPane animated="false" styleClass="dense" text="%suggestions-label">
             <ListView fx:id="suggestionsListView" styleClass="dense">
                 <placeholder>
-                    <Label text="%suggestions-placeholder-label"/>
+                    <VBox alignment="CENTER">
+                        <ImageView styleClass="placeholder-image-view"/>
+                        <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
+                        <Label minWidth="-Infinity" styleClass="placeholder-label"
+                               text="%suggestions-placeholder-label"/>
+                    </VBox>
                 </placeholder>
             </ListView>
             <graphic>
