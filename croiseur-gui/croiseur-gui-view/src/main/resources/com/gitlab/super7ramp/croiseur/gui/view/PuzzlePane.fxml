@@ -44,7 +44,7 @@
                 <TextField fx:id="copyright" promptText="%copyright.prompt" GridPane.columnIndex="1"
                            GridPane.rowIndex="3"/>
                 <DatePicker fx:id="date" promptText="%date.prompt" GridPane.columnIndex="1"
-                            GridPane.rowIndex="4"/>
+                            GridPane.rowIndex="4" editable="false"/>
             </GridPane>
             <graphic>
                 <ImageView id="titled-pane-details-icon-image-view" preserveRatio="true"/>
