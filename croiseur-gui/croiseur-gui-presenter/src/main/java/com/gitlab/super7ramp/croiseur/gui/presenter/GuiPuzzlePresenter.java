@@ -12,12 +12,14 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import javafx.application.Platform;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,8 +33,14 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(GuiPuzzlePresenter.class.getName());
 
+    /** The date time formatter - assuming locale is constant during application run-time. */
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
+
+    private final PuzzleDetailsViewModel puzzleDetailsViewModel;
 
     /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
@@ -47,11 +55,12 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * @param crosswordGridViewModelArg   the crossword grid view model
      * @param errorsViewModelArg          the errors view model
      */
-    GuiPuzzlePresenter(
-            final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-            final CrosswordGridViewModel crosswordGridViewModelArg,
-            final ErrorsViewModel errorsViewModelArg) {
+    GuiPuzzlePresenter(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                       final PuzzleDetailsViewModel puzzleDetailsViewModelArg,
+                       final CrosswordGridViewModel crosswordGridViewModelArg,
+                       final ErrorsViewModel errorsViewModelArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        puzzleDetailsViewModel = puzzleDetailsViewModelArg;
         crosswordGridViewModel = crosswordGridViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
@@ -59,17 +68,19 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
         LOGGER.info(() -> "Received available puzzles: " + puzzles);
-        final List<PuzzleViewModel> puzzleViewModels =
-                puzzles.stream().map(GuiPuzzlePresenter::convertToPuzzleViewModel).toList();
-        Platform.runLater(
-                () -> puzzleSelectionViewModel.availablePuzzlesProperty().setAll(puzzleViewModels));
+        final List<SavedPuzzleViewModel> savedPuzzleViewModels =
+                puzzles.stream().map(GuiPuzzlePresenter::convertToViewModel).toList();
+        Platform.runLater(() -> puzzleSelectionViewModel.availablePuzzlesProperty()
+                                                        .setAll(savedPuzzleViewModels));
     }
 
     @Override
     public void presentLoadedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received loaded puzzle: " + puzzle);
-        final PuzzleGrid grid = puzzle.grid();
-        Platform.runLater(() -> fillGridViewModelWith(grid));
+        Platform.runLater(() -> {
+            fillDetailsViewModelWith(puzzle.id(), puzzle.revision(), puzzle.details());
+            fillGridViewModelWith(puzzle.grid());
+        });
     }
 
     @Override
@@ -81,8 +92,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
-        final PuzzleViewModel puzzleViewModel = convertToPuzzleViewModel(puzzle);
-        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(puzzleViewModel));
+        final SavedPuzzleViewModel savedPuzzleViewModel = convertToViewModel(puzzle);
+        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(savedPuzzleViewModel));
     }
 
     /**
@@ -91,18 +102,38 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * @param puzzle the puzzle
      * @return the converted puzzle
      */
-    private static PuzzleViewModel convertToPuzzleViewModel(final SavedPuzzle puzzle) {
-        final PuzzleViewModel puzzleViewModel = new PuzzleViewModel();
-        puzzleViewModel.id(puzzle.id());
-        puzzleViewModel.revision(puzzle.revision());
+    private static SavedPuzzleViewModel convertToViewModel(final SavedPuzzle puzzle) {
         final PuzzleDetails details = puzzle.details();
-        puzzleViewModel.title(details.title());
-        puzzleViewModel.author(details.author());
-        puzzleViewModel.editor(details.editor());
-        puzzleViewModel.copyright(details.copyright());
-        puzzleViewModel.date(details.date().map(LocalDate::toString).orElse(""));
-        puzzleViewModel.grid(puzzle.grid());
-        return puzzleViewModel;
+        final var builder =
+                new SavedPuzzleViewModel.Builder().id(puzzle.id()).revision(puzzle.revision())
+                                                  .title(details.title()).author(details.author())
+                                                  .editor(details.editor())
+                                                  .copyright(details.copyright())
+                                                  .date(details.date().map(DATE_FORMATTER::format)
+                                                               .orElse(""))
+                                                  .numberOfColumns(puzzle.grid().width())
+                                                  .numberOfRows(puzzle.grid().height());
+        puzzle.grid().shaded().forEach(builder::shaded);
+        puzzle.grid().filled().forEach(builder::filled);
+        return builder.build();
+    }
+
+    /**
+     * Synchronizes the puzzle details view model with given puzzle details.
+     *
+     * @param id       the puzzle id
+     * @param revision the puzzle revision
+     * @param details  the other puzzle details
+     */
+    private void fillDetailsViewModelWith(final long id, final int revision,
+                                          final PuzzleDetails details) {
+        puzzleDetailsViewModel.id(id);
+        puzzleDetailsViewModel.revision(revision);
+        puzzleDetailsViewModel.title(details.title());
+        puzzleDetailsViewModel.author(details.author());
+        puzzleDetailsViewModel.editor(details.editor());
+        puzzleDetailsViewModel.copyright(details.copyright());
+        details.date().map(DATE_FORMATTER::format).ifPresent(puzzleDetailsViewModel::date);
     }
 
     /**

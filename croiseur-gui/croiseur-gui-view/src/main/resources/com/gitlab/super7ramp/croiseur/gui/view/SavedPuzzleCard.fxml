@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzleCardPane.css"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleCard.css"
          type="HBox" styleClass="container-hbox" xmlns="http://javafx.com/javafx/17">
     <!-- Unfortunately, fitHeight and fitWidth cannot be set via CSS. -->
     <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" preserveRatio="true"/>

@@ -16,6 +16,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.binding.When;
@@ -68,6 +69,7 @@ public final class CrosswordEditorController {
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
+                                                applicationViewModelArg.puzzleDetailsViewModel(),
                                                 applicationViewModelArg.crosswordGridViewModel(),
                                                 crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
@@ -86,9 +88,15 @@ public final class CrosswordEditorController {
     }
 
     /**
-     * Initializes bindings between the puzzle save button and the puzzle controller.
+     * Initializes bindings between the puzzle details view and the puzzle details view model.
      */
     private void initializePuzzleBindings() {
+        final PuzzleDetailsViewModel viewModel = applicationViewModel.puzzleDetailsViewModel();
+        view.puzzleTitleProperty().bindBidirectional(viewModel.titleProperty());
+        view.puzzleAuthorProperty().bindBidirectional(viewModel.authorProperty());
+        view.puzzleEditorProperty().bindBidirectional(viewModel.editorProperty());
+        view.puzzleCopyrightProperty().bindBidirectional(viewModel.copyrightProperty());
+        view.puzzleDateProperty().bindBidirectional(viewModel.dateProperty());
         view.onSaveButtonActionProperty().set(e -> puzzleController.savePuzzle());
     }
 

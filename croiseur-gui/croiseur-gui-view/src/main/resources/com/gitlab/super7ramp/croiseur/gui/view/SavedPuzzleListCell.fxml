@@ -5,11 +5,11 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import com.gitlab.super7ramp.croiseur.gui.view.PuzzleCardPane?>
+<?import com.gitlab.super7ramp.croiseur.gui.view.SavedPuzzleCard?>
 <?import javafx.scene.control.ListCell?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzleListCell.css"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleListCell.css"
          type="ListCell" xmlns="http://javafx.com/javafx/17">
     <graphic>
-        <PuzzleCardPane fx:id="card"/>
+        <SavedPuzzleCard fx:id="card"/>
     </graphic>
 </fx:root>

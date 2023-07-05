@@ -12,15 +12,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 
 /**
- * Puzzle selection view modeL.
+ * Puzzle selection view model.
  */
 public final class PuzzleSelectionViewModel {
 
     /** The available puzzles. */
-    private final ListProperty<PuzzleViewModel> availablePuzzles;
+    private final ListProperty<SavedPuzzleViewModel> availablePuzzles;
 
     /** The selected puzzle. Value is {@code null} if no puzzle is selected. */
-    private final ObjectProperty<PuzzleViewModel> selectedPuzzle;
+    private final ObjectProperty<SavedPuzzleViewModel> selectedPuzzle;
 
     /**
      * Constructs an instance.
@@ -36,7 +36,7 @@ public final class PuzzleSelectionViewModel {
      *
      * @return the available puzzles property
      */
-    public ListProperty<PuzzleViewModel> availablePuzzlesProperty() {
+    public ListProperty<SavedPuzzleViewModel> availablePuzzlesProperty() {
         return availablePuzzles;
     }
 
@@ -47,7 +47,7 @@ public final class PuzzleSelectionViewModel {
      *
      * @return the selected puzzle property
      */
-    public ObjectProperty<PuzzleViewModel> selectedPuzzleProperty() {
+    public ObjectProperty<SavedPuzzleViewModel> selectedPuzzleProperty() {
         return selectedPuzzle;
     }
 
@@ -56,7 +56,7 @@ public final class PuzzleSelectionViewModel {
      *
      * @return the value of the selected puzzle property; {@code null} if no puzzle selected/saved
      */
-    public PuzzleViewModel selectedPuzzle() {
+    public SavedPuzzleViewModel selectedPuzzle() {
         return selectedPuzzle.get();
     }
 
@@ -65,7 +65,7 @@ public final class PuzzleSelectionViewModel {
      *
      * @param savedPuzzle the value to set
      */
-    public void selectedPuzzle(final PuzzleViewModel savedPuzzle) {
+    public void selectedPuzzle(final SavedPuzzleViewModel savedPuzzle) {
         selectedPuzzle.set(savedPuzzle);
     }
 }

@@ -35,15 +35,15 @@
                 <Label text="%editor.key" GridPane.rowIndex="2"/>
                 <Label text="%copyright.key" GridPane.rowIndex="3"/>
                 <Label text="%date.key" GridPane.rowIndex="4"/>
-                <TextField id="puzzle-title-text-field" promptText="%title.prompt"
+                <TextField fx:id="title" id="puzzle-title-text-field" promptText="%title.prompt"
                            GridPane.columnSpan="2"/>
-                <TextField promptText="%author.prompt" GridPane.columnIndex="1"
+                <TextField fx:id="author" promptText="%author.prompt" GridPane.columnIndex="1"
                            GridPane.rowIndex="1"/>
-                <TextField promptText="%editor.prompt" GridPane.columnIndex="1"
+                <TextField fx:id="editor" promptText="%editor.prompt" GridPane.columnIndex="1"
                            GridPane.rowIndex="2"/>
-                <TextField promptText="%copyright.prompt" GridPane.columnIndex="1"
+                <TextField fx:id="copyright" promptText="%copyright.prompt" GridPane.columnIndex="1"
                            GridPane.rowIndex="3"/>
-                <DatePicker promptText="%date.prompt" GridPane.columnIndex="1"
+                <DatePicker fx:id="date" promptText="%date.prompt" GridPane.columnIndex="1"
                             GridPane.rowIndex="4"/>
             </GridPane>
             <graphic>

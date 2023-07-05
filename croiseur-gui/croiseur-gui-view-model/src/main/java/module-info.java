@@ -9,6 +9,7 @@
  * A model representing the state of the views, observed and displayed by croiseur-gui-view.
  */
 module com.gitlab.super7ramp.croiseur.gui.view.model {
+    // TODO make the dependency non-transitive. Mainly GridPosition to adapt.
     requires transitive com.gitlab.super7ramp.croiseur.common;
     exports com.gitlab.super7ramp.croiseur.gui.view.model;
 

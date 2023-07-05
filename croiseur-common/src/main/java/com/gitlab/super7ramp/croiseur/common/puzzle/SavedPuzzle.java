@@ -69,6 +69,15 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
     }
 
     /**
+     * Returns a new {@link ChangedPuzzle} from this saved puzzle.
+     *
+     * @return a new {@link ChangedPuzzle} from this saved puzzle
+     */
+    public ChangedPuzzle asChangedPuzzle() {
+        return new ChangedPuzzle(id, data);
+    }
+
+    /**
      * Returns the puzzle grid inside the {@link #data}.
      * <p>
      * A shortcut for {@code committedPuzzle.data().grid()}.

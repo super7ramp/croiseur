@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
@@ -31,7 +31,7 @@ import static java.lang.Math.min;
 /**
  * A puzzle identity card.
  */
-public final class PuzzleCardPane extends HBox {
+public final class SavedPuzzleCard extends HBox {
 
     /**
      * Grid image drawer.
@@ -47,9 +47,13 @@ public final class PuzzleCardPane extends HBox {
         /** Where the drawing is made. */
         private final Canvas canvas;
 
-        /** Grid structure. */
+        /** The grid filled boxes. */
         private final Map<GridPosition, Character> filledBoxes;
+
+        /** The grid shaded box positions. */
         private final Set<GridPosition> shadedBoxes;
+
+        /** The grid dimensions. */
         private final int numberOfColumns, numberOfRows;
 
         /** Grid/box drawing sizes. */
@@ -63,14 +67,14 @@ public final class PuzzleCardPane extends HBox {
          *
          * @param width  the desired image width
          * @param height the desired image height
-         * @param grid   the grid data
+         * @param grid   the grid model
          */
-        GridDrawer(final double width, final double height, final PuzzleGrid grid) {
+        GridDrawer(final double width, final double height, final SavedPuzzleViewModel grid) {
             canvas = new Canvas(width, height);
-            filledBoxes = grid.filled();
-            shadedBoxes = grid.shaded();
-            numberOfColumns = grid.width();
-            numberOfRows = grid.height();
+            filledBoxes = grid.filledBoxes();
+            shadedBoxes = grid.shadedBoxes();
+            numberOfColumns = grid.columnCount();
+            numberOfRows = grid.rowCount();
             final double columnPerRowRatio = ((double) numberOfColumns / (double) numberOfRows);
             gridWidth = min(width, width * columnPerRowRatio);
             gridHeight = min(height, height / columnPerRowRatio);
@@ -188,74 +192,34 @@ public final class PuzzleCardPane extends HBox {
     @FXML
     private Text copyright;
 
-    /** The date in YYYY-MM-DD format. May be empty. */
+    /** The date. May be empty. */
     @FXML
     private Text date;
 
     /**
      * Constructs an instance.
      */
-    public PuzzleCardPane() {
+    public SavedPuzzleCard() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     /**
-     * Sets the value of the title property.
+     * Sets the content of this card
      *
-     * @param value the value to set
+     * @param model the model to display
      */
-    public void title(final String value) {
-        title.setText(value);
-    }
-
-    /**
-     * Sets the value of the author property.
-     *
-     * @param value the value to set
-     */
-    public void author(final String value) {
-        author.setText(value);
-    }
-
-    /**
-     * Sets the value of the editor property.
-     *
-     * @param value the value to set
-     */
-    public void editor(final String value) {
-        editor.setText(value);
-    }
-
-    /**
-     * Sets the value of the copyright property.
-     *
-     * @param value the value to set
-     */
-    public void copyright(final String value) {
-        copyright.setText(value);
-    }
-
-    /**
-     * Sets the value of the date property.
-     *
-     * @param value the value to set
-     */
-    public void date(final String value) {
-        date.setText(value);
-    }
-
-    /**
-     * Sets the grid.
-     *
-     * @param value the value to set
-     */
-    public void grid(final PuzzleGrid value) {
-        final Image image = drawGridImage(value);
+    public void set(final SavedPuzzleViewModel model) {
+        title.setText(model.title());
+        author.setText(model.author());
+        editor.setText(model.editor());
+        copyright.setText(model.copyright());
+        date.setText(model.date());
+        final Image image = drawGridImage(model);
         thumbnail.setImage(image);
     }
 
     /**
-     * Resets all property values to {@code null}.
+     * Resets all content of this card.
      */
     public void reset() {
         thumbnail.setImage(null);
@@ -265,10 +229,10 @@ public final class PuzzleCardPane extends HBox {
     /**
      * Draws a grid image.
      *
-     * @param grid the grid data
+     * @param grid the grid model
      * @return a grid image
      */
-    private Image drawGridImage(final PuzzleGrid grid) {
+    private Image drawGridImage(final SavedPuzzleViewModel grid) {
         final double imageWidth = thumbnail.getFitWidth();
         final double imageHeight = thumbnail.getFitHeight();
         final GridDrawer gridDrawer = new GridDrawer(imageWidth, imageHeight, grid);

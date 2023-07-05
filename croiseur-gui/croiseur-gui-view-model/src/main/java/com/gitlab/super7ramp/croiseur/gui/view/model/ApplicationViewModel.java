@@ -12,6 +12,9 @@ import javafx.beans.property.BooleanProperty;
  */
 public final class ApplicationViewModel {
 
+    /** The model of a puzzle details edition view. */
+    private final PuzzleDetailsViewModel puzzleDetailsViewModel;
+
     /** The view model of the crossword grid. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
@@ -34,6 +37,7 @@ public final class ApplicationViewModel {
      * Constructs an instance.
      */
     public ApplicationViewModel() {
+        puzzleDetailsViewModel = new PuzzleDetailsViewModel();
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
@@ -43,9 +47,18 @@ public final class ApplicationViewModel {
 
         // Initializes special bindings between dictionary and grid view models.
         dictionariesViewModel.suggestionFilterProperty()
-                           .bind(crosswordGridViewModel.currentSlotContentProperty());
+                             .bind(crosswordGridViewModel.currentSlotContentProperty());
         crosswordGridViewModel.currentSlotUnsolvableProperty()
-                     .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
+                              .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
+    }
+
+    /**
+     * Returns the view model of the puzzle details.
+     *
+     * @return the view model of the puzzle details
+     */
+    public PuzzleDetailsViewModel puzzleDetailsViewModel() {
+        return puzzleDetailsViewModel;
     }
 
     /**

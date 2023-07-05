@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
@@ -25,6 +26,9 @@ public final class PuzzleController {
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
+    /** The puzzle details view model. */
+    private final PuzzleDetailsViewModel puzzleDetailsViewModel;
+
     /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
@@ -38,15 +42,18 @@ public final class PuzzleController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
+     * @param puzzleDetailsViewModelArg   the puzzle details view model
      * @param crosswordGridViewModelArg   the crossword grid view model
      * @param puzzleServiceArg            the puzzle service
      * @param executorArg                 the worker executing the puzzle tasks
      */
     public PuzzleController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                            final PuzzleDetailsViewModel puzzleDetailsViewModelArg,
                             final CrosswordGridViewModel crosswordGridViewModelArg,
                             final PuzzleService puzzleServiceArg,
                             final Executor executorArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        puzzleDetailsViewModel = puzzleDetailsViewModelArg;
         crosswordGridViewModel = crosswordGridViewModelArg;
         puzzleService = puzzleServiceArg;
         executor = executorArg;
@@ -75,7 +82,7 @@ public final class PuzzleController {
      */
     public void savePuzzle() {
         final var task =
-                new SavePuzzleTask(puzzleService, puzzleSelectionViewModel, crosswordGridViewModel);
+                new SavePuzzleTask(puzzleService, puzzleDetailsViewModel, crosswordGridViewModel);
         execute(task);
     }
 

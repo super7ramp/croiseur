@@ -35,6 +35,10 @@ import java.util.function.Consumer;
 
 /**
  * An entire crossword editor view, based on {@link BorderPane}.
+ * <p>
+ * In order to limit complexity, this big control is built as a composition of smaller controls such
+ * as {@link CrosswordGridPane} or {@link DictionariesPane}. The relevant properties of each of
+ * these controls are re-exported here.
  */
 public final class CrosswordEditorPane extends BorderPane {
 
@@ -255,6 +259,51 @@ public final class CrosswordEditorPane extends BorderPane {
             final Bounds boundsInScene = node.localToScene(boundsInLocal);
             return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
         }).findFirst();
+    }
+
+    /**
+     * Returns the puzzle title property.
+     *
+     * @return the puzzle title property
+     */
+    public StringProperty puzzleTitleProperty() {
+        return puzzlePane.titleProperty();
+    }
+
+    /**
+     * Returns the puzzle author property.
+     *
+     * @return the puzzle author property
+     */
+    public StringProperty puzzleAuthorProperty() {
+        return puzzlePane.authorProperty();
+    }
+
+    /**
+     * Returns the puzzle editor property.
+     *
+     * @return the puzzle editor property
+     */
+    public StringProperty puzzleEditorProperty() {
+        return puzzlePane.editorProperty();
+    }
+
+    /**
+     * Returns the puzzle copyright property
+     *
+     * @return the puzzle copyright property
+     */
+    public StringProperty puzzleCopyrightProperty() {
+        return puzzlePane.copyrightProperty();
+    }
+
+    /**
+     * Returns the puzzle date property.
+     *
+     * @return the puzzle date property
+     */
+    public StringProperty puzzleDateProperty() {
+        return puzzlePane.dateProperty();
     }
 
     /**

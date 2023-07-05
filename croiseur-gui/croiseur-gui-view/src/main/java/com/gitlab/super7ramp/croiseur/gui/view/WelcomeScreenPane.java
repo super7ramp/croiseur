@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ListProperty;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 public final class WelcomeScreenPane extends VBox {
 
     /** The recent puzzles. */
-    private final ListProperty<PuzzleViewModel> recentPuzzles;
+    private final ListProperty<SavedPuzzleViewModel> recentPuzzles;
 
     /** A text field allowing to search the {@link #recentPuzzleListView} */
     @FXML
@@ -49,7 +49,7 @@ public final class WelcomeScreenPane extends VBox {
 
     /** A collection of saved puzzles. */
     @FXML
-    private ListView<PuzzleViewModel> recentPuzzleListView;
+    private ListView<SavedPuzzleViewModel> recentPuzzleListView;
 
     /**
      * Constructs an instance.
@@ -95,7 +95,7 @@ public final class WelcomeScreenPane extends VBox {
      *
      * @return the recent puzzles property
      */
-    public ListProperty<PuzzleViewModel> recentPuzzles() {
+    public ListProperty<SavedPuzzleViewModel> recentPuzzles() {
         return recentPuzzles;
     }
 
@@ -106,7 +106,7 @@ public final class WelcomeScreenPane extends VBox {
      *
      * @return the selected puzzle property
      */
-    public ReadOnlyProperty<PuzzleViewModel> selectedPuzzleProperty() {
+    public ReadOnlyProperty<SavedPuzzleViewModel> selectedPuzzleProperty() {
         return recentPuzzleListView.getSelectionModel().selectedItemProperty();
     }
 
@@ -114,7 +114,7 @@ public final class WelcomeScreenPane extends VBox {
      * Initializes {@link #recentPuzzleListView}.
      */
     private void initializeListView() {
-        recentPuzzleListView.setCellFactory(l -> new PuzzleListCell());
+        recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
 
         final var filteredPuzzles = new FilteredList<>(recentPuzzles);
         final var searchPredicate = Bindings.createObjectBinding(this::createSearchPredicate,
@@ -130,7 +130,7 @@ public final class WelcomeScreenPane extends VBox {
      * @return a new predicate matching puzzles whose metadata contains the current
      * {@link #searchTextField}'s text
      */
-    private Predicate<PuzzleViewModel> createSearchPredicate() {
+    private Predicate<SavedPuzzleViewModel> createSearchPredicate() {
         return puzzle -> {
             // Convert everything to lowercase so that search is case-insensitive
             final String searchText = searchTextField.getText().toLowerCase();
@@ -144,7 +144,7 @@ public final class WelcomeScreenPane extends VBox {
      * Initializes the "Open" button: Make sure open button is disabled if no puzzle is selected.
      */
     private void initializeOpenButton() {
-        final SelectionModel<PuzzleViewModel> selectionModel =
+        final SelectionModel<SavedPuzzleViewModel> selectionModel =
                 recentPuzzleListView.getSelectionModel();
         final BooleanBinding noPuzzleSelected =
                 Bindings.createBooleanBinding(() -> selectionModel.getSelectedItem() == null,

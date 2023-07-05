@@ -5,49 +5,31 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * A model for displaying a synthetic view of a crossword puzzle.
+ * View-model for a puzzle details editor view.
  */
-public final class PuzzleViewModel {
+public final class PuzzleDetailsViewModel {
 
-    /** The puzzle id. Value is {@code null} if puzzle hasn't been saved yet. */
+    /** The puzzle id. */
     private final LongProperty id;
 
-    /** The puzzle revision. Value is {@code null} if puzzle hasn't been saved yet. */
+    /** The puzzle revision. */
     private final IntegerProperty revision;
 
-    /** The puzzle title. */
-    private final StringProperty title;
-
-    /** The puzzle author. */
-    private final StringProperty author;
-
-    /** The puzzle editor. */
-    private final StringProperty editor;
-
-    /** The puzzle copyright. */
-    private final StringProperty copyright;
-
-    /** The puzzle creation date. */
-    private final StringProperty date;
-
-    /** The puzzle grid. */
-    private final ObjectProperty<PuzzleGrid> grid;
+    /** The various puzzle fields. */
+    private final StringProperty title, author, editor, copyright, date;
 
     /**
      * Constructs an instance.
      */
-    public PuzzleViewModel() {
+    public PuzzleDetailsViewModel() {
         id = new SimpleLongProperty(this, "id");
         revision = new SimpleIntegerProperty(this, "revision");
         title = new SimpleStringProperty(this, "title");
@@ -55,16 +37,6 @@ public final class PuzzleViewModel {
         editor = new SimpleStringProperty(this, "editor");
         copyright = new SimpleStringProperty(this, "copyright");
         date = new SimpleStringProperty(this, "date");
-        grid = new SimpleObjectProperty<>(this, "grid");
-    }
-
-    /**
-     * Returns the id property.
-     *
-     * @return the id property
-     */
-    public LongProperty idProperty() {
-        return id;
     }
 
     /**
@@ -72,7 +44,7 @@ public final class PuzzleViewModel {
      *
      * @return the value of the id property
      */
-    public Long id() {
+    public long id() {
         return id.get();
     }
 
@@ -86,20 +58,11 @@ public final class PuzzleViewModel {
     }
 
     /**
-     * Returns the revision property.
-     *
-     * @return the revision property
-     */
-    public IntegerProperty revisionProperty() {
-        return revision;
-    }
-
-    /**
      * Returns the value of the revision property.
      *
      * @return the value of the revision property
      */
-    public Integer revision() {
+    public int revision() {
         return revision.get();
     }
 
@@ -122,21 +85,21 @@ public final class PuzzleViewModel {
     }
 
     /**
-     * Sets the value of the title property.
-     *
-     * @param value the value to set
-     */
-    public void title(final String value) {
-        title.setValue(value);
-    }
-
-    /**
      * Returns the value of the title property.
      *
      * @return the value of the title property
      */
     public String title() {
         return title.get();
+    }
+
+    /**
+     * Sets the value of the title property.
+     *
+     * @param value the value to set
+     */
+    public void title(final String value) {
+        title.set(value);
     }
 
     /**
@@ -160,7 +123,7 @@ public final class PuzzleViewModel {
     /**
      * Sets the value of the author property.
      *
-     * @param value the value to set
+     * @param value the value of the author property.
      */
     public void author(final String value) {
         author.set(value);
@@ -211,11 +174,10 @@ public final class PuzzleViewModel {
         return copyright.get();
     }
 
-
     /**
-     * Sets the value of the copyright property.
+     * Sets the value of copyright property.
      *
-     * @param value the value to set
+     * @param value the value of the copyright property
      */
     public void copyright(final String value) {
         copyright.set(value);
@@ -224,7 +186,7 @@ public final class PuzzleViewModel {
     /**
      * Returns the date property.
      *
-     * @return the date property
+     * @return the date property.
      */
     public StringProperty dateProperty() {
         return date;
@@ -248,30 +210,4 @@ public final class PuzzleViewModel {
         date.set(value);
     }
 
-    /**
-     * Returns the grid property.
-     *
-     * @return the grid property
-     */
-    public ObjectProperty<PuzzleGrid> gridProperty() {
-        return grid;
-    }
-
-    /**
-     * Returns the value of the grid property.
-     *
-     * @return the value of the grid property
-     */
-    public PuzzleGrid grid() {
-        return grid.get();
-    }
-
-    /**
-     * Sets the value of the grid property.
-     *
-     * @param value the value to set
-     */
-    public void grid(final PuzzleGrid value) {
-        grid.set(value);
-    }
 }
