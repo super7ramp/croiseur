@@ -12,11 +12,11 @@ import javafx.beans.property.BooleanProperty;
  */
 public final class ApplicationViewModel {
 
-    /** The model of a puzzle details edition view. */
-    private final PuzzleDetailsViewModel puzzleDetailsViewModel;
+    /** The puzzle selection view model. */
+    private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
-    /** The view model of the crossword grid. */
-    private final CrosswordGridViewModel crosswordGridViewModel;
+    /** The puzzle edition view model. */
+    private final PuzzleEditionViewModel puzzleEditionViewModel;
 
     /** The view model of the dictionary. */
     private final DictionariesViewModel dictionariesViewModel;
@@ -27,9 +27,6 @@ public final class ApplicationViewModel {
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
 
-    /** The puzzle selection view model. */
-    private final PuzzleSelectionViewModel puzzleSelectionViewModel;
-
     /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
@@ -37,15 +34,16 @@ public final class ApplicationViewModel {
      * Constructs an instance.
      */
     public ApplicationViewModel() {
-        puzzleDetailsViewModel = new PuzzleDetailsViewModel();
-        crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
+        puzzleSelectionViewModel = new PuzzleSelectionViewModel();
+        puzzleEditionViewModel = new PuzzleEditionViewModel();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverProgressViewModel = new SolverProgressViewModel();
-        puzzleSelectionViewModel = new PuzzleSelectionViewModel();
         errorsViewModel = new ErrorsViewModel();
 
         // Initializes special bindings between dictionary and grid view models.
+        final CrosswordGridViewModel crosswordGridViewModel =
+                puzzleEditionViewModel.crosswordGridViewModel();
         dictionariesViewModel.suggestionFilterProperty()
                              .bind(crosswordGridViewModel.currentSlotContentProperty());
         crosswordGridViewModel.currentSlotUnsolvableProperty()
@@ -53,21 +51,43 @@ public final class ApplicationViewModel {
     }
 
     /**
-     * Returns the view model of the puzzle details.
+     * Returns the puzzle selection view model.
      *
-     * @return the view model of the puzzle details
+     * @return the puzzle selection view model
      */
-    public PuzzleDetailsViewModel puzzleDetailsViewModel() {
-        return puzzleDetailsViewModel;
+    public PuzzleSelectionViewModel puzzleSelectionViewModel() {
+        return puzzleSelectionViewModel;
     }
 
     /**
-     * Returns the view model of the crossword grid.
+     * Returns the puzzle edition view model.
      *
-     * @return the view model of the crossword grid
+     * @return the puzzle edition view model
+     */
+    public PuzzleEditionViewModel puzzleEditionViewModel() {
+        return puzzleEditionViewModel;
+    }
+
+    /**
+     * Returns the view model of edited puzzle details.
+     * <p>
+     * Convenience shortcut for {@code puzzleEditionViewModel().puzzleDetailsViewModel()}.
+     *
+     * @return the view model of edited puzzle details
+     */
+    public PuzzleDetailsViewModel puzzleDetailsViewModel() {
+        return puzzleEditionViewModel.puzzleDetailsViewModel();
+    }
+
+    /**
+     * Returns the view model of the edited crossword grid.
+     * <p>
+     * Convenience shortcut for: {@code puzzleEditionViewModel().crosswordGridViewModel()}.
+     *
+     * @return the view model of the edited crossword grid
      */
     public CrosswordGridViewModel crosswordGridViewModel() {
-        return crosswordGridViewModel;
+        return puzzleEditionViewModel.crosswordGridViewModel();
     }
 
     /**
@@ -106,15 +126,6 @@ public final class ApplicationViewModel {
      */
     public BooleanProperty solverRunning() {
         return solverProgressViewModel.solverRunningProperty();
-    }
-
-    /**
-     * Returns the puzzle selection view model.
-     *
-     * @return the puzzle selection view model
-     */
-    public PuzzleSelectionViewModel puzzleSelectionViewModel() {
-        return puzzleSelectionViewModel;
     }
 
     /**

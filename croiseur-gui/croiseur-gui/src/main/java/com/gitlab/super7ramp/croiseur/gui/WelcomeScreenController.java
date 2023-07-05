@@ -8,8 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreenPane;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -40,21 +39,19 @@ public final class WelcomeScreenController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleDetailsViewModelArg   the puzzle details view model
-     * @param crosswordGridViewModelArg   the crossword grid view model
+     * @param puzzleEditionViewModel      the puzzle edition view model
      * @param puzzleService               the puzzle service
      * @param executor                    the background task executor
      * @param editorViewArg               the editor view to switch to when a puzzle is selected
      */
     public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                                   final PuzzleDetailsViewModel puzzleDetailsViewModelArg,
-                                   final CrosswordGridViewModel crosswordGridViewModelArg,
+                                   final PuzzleEditionViewModel puzzleEditionViewModel,
                                    final PuzzleService puzzleService, final Executor executor,
                                    final Parent editorViewArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleController =
-                new PuzzleController(puzzleSelectionViewModelArg, puzzleDetailsViewModelArg,
-                                     crosswordGridViewModelArg, puzzleService, executor);
+                new PuzzleController(puzzleSelectionViewModelArg, puzzleEditionViewModel,
+                                     puzzleService, executor);
         editorView = editorViewArg;
     }
 

@@ -69,8 +69,7 @@ public final class CrosswordEditorController {
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
-                                                applicationViewModelArg.puzzleDetailsViewModel(),
-                                                applicationViewModelArg.crosswordGridViewModel(),
+                                                applicationViewModelArg.puzzleEditionViewModel(),
                                                 crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
         resources = ResourceBundle.getBundle(CrosswordEditorController.class.getName());

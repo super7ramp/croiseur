@@ -13,6 +13,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
@@ -52,16 +53,15 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param crosswordGridViewModelArg   the crossword grid view model
+     * @param puzzleEditionViewModelArg   the puzzle edition view model
      * @param errorsViewModelArg          the errors view model
      */
     GuiPuzzlePresenter(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                       final PuzzleDetailsViewModel puzzleDetailsViewModelArg,
-                       final CrosswordGridViewModel crosswordGridViewModelArg,
+                       final PuzzleEditionViewModel puzzleEditionViewModelArg,
                        final ErrorsViewModel errorsViewModelArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
-        puzzleDetailsViewModel = puzzleDetailsViewModelArg;
-        crosswordGridViewModel = crosswordGridViewModelArg;
+        puzzleDetailsViewModel = puzzleEditionViewModelArg.puzzleDetailsViewModel();
+        crosswordGridViewModel = puzzleEditionViewModelArg.crosswordGridViewModel();
         errorsViewModel = errorsViewModelArg;
     }
 

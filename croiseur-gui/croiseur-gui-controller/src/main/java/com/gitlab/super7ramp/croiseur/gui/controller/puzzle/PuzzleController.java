@@ -6,8 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
@@ -26,11 +25,8 @@ public final class PuzzleController {
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
-    /** The puzzle details view model. */
-    private final PuzzleDetailsViewModel puzzleDetailsViewModel;
-
-    /** The crossword grid view model. */
-    private final CrosswordGridViewModel crosswordGridViewModel;
+    /** The puzzle edition view model. */
+    private final PuzzleEditionViewModel puzzleEditionViewModel;
 
     /** The puzzle service to call. */
     private final PuzzleService puzzleService;
@@ -42,19 +38,15 @@ public final class PuzzleController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleDetailsViewModelArg   the puzzle details view model
-     * @param crosswordGridViewModelArg   the crossword grid view model
+     * @param puzzleEditionViewModelArg   the puzzle edition view model
      * @param puzzleServiceArg            the puzzle service
      * @param executorArg                 the worker executing the puzzle tasks
      */
     public PuzzleController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                            final PuzzleDetailsViewModel puzzleDetailsViewModelArg,
-                            final CrosswordGridViewModel crosswordGridViewModelArg,
-                            final PuzzleService puzzleServiceArg,
-                            final Executor executorArg) {
+                            final PuzzleEditionViewModel puzzleEditionViewModelArg,
+                            final PuzzleService puzzleServiceArg, final Executor executorArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
-        puzzleDetailsViewModel = puzzleDetailsViewModelArg;
-        crosswordGridViewModel = crosswordGridViewModelArg;
+        puzzleEditionViewModel = puzzleEditionViewModelArg;
         puzzleService = puzzleServiceArg;
         executor = executorArg;
     }
@@ -81,8 +73,7 @@ public final class PuzzleController {
      * Starts the 'save puzzle' task.
      */
     public void savePuzzle() {
-        final var task =
-                new SavePuzzleTask(puzzleService, puzzleDetailsViewModel, crosswordGridViewModel);
+        final var task = new SavePuzzleTask(puzzleEditionViewModel, puzzleService);
         execute(task);
     }
 
