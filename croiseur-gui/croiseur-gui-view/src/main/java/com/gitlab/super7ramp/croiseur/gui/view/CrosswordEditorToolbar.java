@@ -22,8 +22,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 /**
  * A toolbar to edit a crossword grid.
@@ -111,26 +111,52 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     public CrosswordEditorToolbar() {
         gridEditionButtonsDisableProperty =
-                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty", false);
+                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
+    /**
+     * Initializes the control after object hierarchy has been loaded from FXML.
+     */
     @FXML
     private void initialize() {
+        initializeResizeButtons();
+        initializeNonResizeButtons();
+        initializeEditionButtons();
+    }
+
+    /**
+     * Initializes nodes unrelated to resize mode: They shall be masked when resize mode is active.
+     */
+    private void initializeNonResizeButtons() {
         final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
-        Stream.of(puzzleToggleButton, leftSeparator, clearGridMenuButton, solveButton, saveButton,
-                  dictionariesToggleButton, rightSeparator)
-              .forEach(button -> {
-                  button.visibleProperty().bind(resizeMode.not());
-                  button.managedProperty().bind(resizeMode.not());
-              });
-        Stream.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
-                  deleteGridButton).forEach(button -> {
+        List.of(puzzleToggleButton, leftSeparator, clearGridMenuButton, solveButton,
+                saveButton, dictionariesToggleButton, rightSeparator).forEach(button -> {
+            button.visibleProperty().bind(resizeMode.not());
+            button.managedProperty().bind(resizeMode.not());
+        });
+    }
+
+    /**
+     * Initializes nodes related to resize mode: They shall be visible when resize mode is active.
+     */
+    private void initializeResizeButtons() {
+        final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
+        List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
+                deleteGridButton).forEach(button -> {
             button.visibleProperty().bind(resizeMode);
             button.managedProperty().bind(resizeMode);
-            button.disableProperty().bind(gridEditionButtonsDisableProperty);
         });
-        resizeGridButton.disableProperty().bind(gridEditionButtonsDisableProperty);
+    }
+
+    /**
+     * Initializes nodes related to state edition: They shall be disable when
+     * {@link #editionButtonsDisableProperty()} value is {@code true}.
+     */
+    private void initializeEditionButtons() {
+        List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
+                deleteGridButton, saveButton, clearGridMenuButton, resizeGridButton)
+            .forEach(button -> button.disableProperty().bind(gridEditionButtonsDisableProperty));
     }
 
     /**
@@ -252,14 +278,14 @@ public final class CrosswordEditorToolbar extends ToolBar {
     }
 
     /**
-     * Returns the grid edition controls disable property.
+     * Returns the edition controls disable property.
      * <p>
-     * The controls are 'resize grid', 'add column', 'delete column', 'add row','delete row' and
-     * 'clear grid'.
+     * The controls are 'resize grid', 'add column', 'delete column', 'add row','delete row', 'clear
+     * grid' as well as the 'save' button.
      *
      * @return the grid edition controls disable property
      */
-    public BooleanProperty gridEditionButtonsDisableProperty() {
+    public BooleanProperty editionButtonsDisableProperty() {
         return gridEditionButtonsDisableProperty;
     }
 

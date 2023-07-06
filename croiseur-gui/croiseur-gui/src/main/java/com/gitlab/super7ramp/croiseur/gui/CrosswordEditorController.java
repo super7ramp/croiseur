@@ -97,6 +97,8 @@ public final class CrosswordEditorController {
         view.puzzleCopyrightProperty().bindBidirectional(viewModel.copyrightProperty());
         view.puzzleDateProperty().bindBidirectional(viewModel.dateProperty());
         view.onSaveButtonActionProperty().set(e -> puzzleController.savePuzzle());
+        final BooleanProperty puzzleIsBeingSaved = applicationViewModel.puzzleIsBeingSaved();
+        view.puzzleEditionDisableProperty().bind(puzzleIsBeingSaved);
     }
 
     /**
@@ -172,9 +174,10 @@ public final class CrosswordEditorController {
      * Initializes transverse bindings between views and view models.
      */
     private void initializeOtherSolverBindings() {
-        // Grid edition buttons and grid pane shall be disabled when solver is running
+        // Edition shall be disabled when solver is running or when puzzle is being saved
         final BooleanProperty solverRunning = applicationViewModel.solverRunning();
-        view.gridEditionDisableProperty().bind(solverRunning);
+        final BooleanProperty puzzleIsBeingSaved = applicationViewModel.puzzleIsBeingSaved();
+        view.gridEditionDisableProperty().bind(solverRunning.or(puzzleIsBeingSaved));
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()

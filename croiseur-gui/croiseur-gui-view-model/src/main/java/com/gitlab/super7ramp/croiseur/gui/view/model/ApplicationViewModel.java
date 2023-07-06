@@ -91,6 +91,17 @@ public final class ApplicationViewModel {
     }
 
     /**
+     * Returns the property indicating whether the puzzle is being saved.
+     * <p>
+     * Convenience shortcut for {@code puzzleEditionViewModel().savingInProgress()}.
+     *
+     * @return the property indicating whether the puzzle is being saved
+     */
+    public BooleanProperty puzzleIsBeingSaved() {
+        return puzzleEditionViewModel.savingInProgressProperty();
+    }
+
+    /**
      * Returns the view model of the dictionary.
      *
      * @return the view model of the dictionary

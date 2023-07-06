@@ -5,6 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  * Puzzle edition view model.
  */
@@ -16,12 +19,16 @@ public final class PuzzleEditionViewModel {
     /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
+    /** Property following the saving state. */
+    private final BooleanProperty savingInProgress;
+
     /**
      * Constructs an instance.
      */
     PuzzleEditionViewModel() {
         puzzleDetailsViewModel = new PuzzleDetailsViewModel();
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
+        savingInProgress = new SimpleBooleanProperty(this, "savingInProgress");
     }
 
     /**
@@ -40,5 +47,14 @@ public final class PuzzleEditionViewModel {
      */
     public CrosswordGridViewModel crosswordGridViewModel() {
         return crosswordGridViewModel;
+    }
+
+    /**
+     * Returns the property indicating whether the puzzle is being saved.
+     *
+     * @return the property indicating whether the puzzle is being saved
+     */
+    public BooleanProperty savingInProgressProperty() {
+        return savingInProgress;
     }
 }

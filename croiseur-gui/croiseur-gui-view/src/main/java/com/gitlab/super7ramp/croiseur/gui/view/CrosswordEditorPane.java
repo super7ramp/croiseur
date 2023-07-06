@@ -111,7 +111,7 @@ public final class CrosswordEditorPane extends BorderPane {
      * Binds the grid pane properties to toolbar ones.
      */
     private void initializeToolbarGridPaneBindings() {
-        grid.disableProperty().bind(toolbar.gridEditionButtonsDisableProperty());
+        grid.disableProperty().bind(toolbar.editionButtonsDisableProperty());
     }
 
     /**
@@ -307,6 +307,15 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
+     * Returns the puzzle edition disable property.
+     *
+     * @return the puzzle edition disable property
+     */
+    public BooleanProperty puzzleEditionDisableProperty() {
+        return puzzlePane.disableProperty();
+    }
+
+    /**
      * Returns the on add column button action property.
      *
      * @return the on add column button action property
@@ -399,13 +408,13 @@ public final class CrosswordEditorPane extends BorderPane {
     /**
      * Returns the grid edition controls disable property.
      * <p>
-     * The controls are the 'add column', 'delete column', 'add row','delete row' and the crossword
-     * grid pane itself.
+     * The controls are the toolbar 'add column', 'delete column', 'add row','delete row', 'clear'
+     * and 'save' buttons plus the central crossword grid pane.
      *
      * @return the grid edition controls disable property
      */
     public BooleanProperty gridEditionDisableProperty() {
-        return toolbar.gridEditionButtonsDisableProperty();
+        return toolbar.editionButtonsDisableProperty();
     }
 
     /**

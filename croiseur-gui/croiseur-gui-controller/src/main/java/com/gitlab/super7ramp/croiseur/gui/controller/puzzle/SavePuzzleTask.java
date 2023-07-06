@@ -42,6 +42,7 @@ final class SavePuzzleTask extends Task<Void> {
     SavePuzzleTask(final PuzzleEditionViewModel puzzleEditionViewModel,
                    final PuzzleService puzzleService) {
         task = buildTask(puzzleEditionViewModel, puzzleService);
+        puzzleEditionViewModel.savingInProgressProperty().bind(runningProperty());
     }
 
     /**
