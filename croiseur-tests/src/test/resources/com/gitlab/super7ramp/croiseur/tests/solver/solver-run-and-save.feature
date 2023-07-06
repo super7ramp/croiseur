@@ -40,4 +40,4 @@ Feature: Run Solver - Run and Save
       | Copyright   |             |
       | Date        | $today      |
       | Grid (rows) | DCM,EPA,SAY |
-    And the application confirms the puzzle has been saved twice using identifier $id
+    And the application presents the confirmation the puzzle has been saved twice using identifier $id

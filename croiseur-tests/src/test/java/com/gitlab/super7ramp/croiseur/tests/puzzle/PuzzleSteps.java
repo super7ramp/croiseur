@@ -100,12 +100,12 @@ public class PuzzleSteps {
         verify(presenterMock).presentPuzzleRepositoryError(eq(error));
     }
 
-    @Then("the application confirms the puzzle has been saved using identifier {puzzleId}")
+    @Then("the application presents the confirmation the puzzle has been saved using identifier {puzzleId}")
     public void thenPresentSavedPuzzle(final long puzzleId) {
         verify(presenterMock).presentSavedPuzzle(withId(puzzleId));
     }
 
-    @Then("the application confirms the puzzle has been saved twice using identifier {puzzleId}")
+    @Then("the application presents the confirmation the puzzle has been saved twice using identifier {puzzleId}")
     public void thenPresentSavedPuzzleTwice(final long puzzleId) {
         verify(presenterMock, times(2)).presentSavedPuzzle(withId(puzzleId));
     }

@@ -25,7 +25,7 @@ Feature: Save Puzzle
       | Copyright   |             |
       | Date        | 2023-06-16  |
       | Grid (rows) | ABC,DEF,GHI |
-    And the application confirms the puzzle has been saved using identifier $id
+    And the application presents the confirmation the puzzle has been saved using identifier $id
 
   Scenario: Save Puzzle - Update
     Given the puzzle repository contains:
@@ -48,7 +48,7 @@ Feature: Save Puzzle
       | Copyright   |             |
       | Date        | 2023-06-16  |
       | Grid (rows) | ABC,DEF,XYZ |
-    And the application confirms the puzzle has been saved using identifier $id
+    And the application presents the confirmation the puzzle has been saved using identifier $id
 
   Scenario: Save Puzzle - Update Error
     When user requests to save the following revised puzzle:
@@ -77,7 +77,7 @@ Feature: Save Puzzle
       | Copyright   |              |
       | Date        | 2023-06-16   |
       | Grid (rows) | ABC,DEF,XYZ  |
-    And the application confirms the puzzle has been saved using identifier $id
+    And the application presents the confirmation the puzzle has been saved using identifier $id
 
   Scenario: Save Puzzle - Patch Error
     When user requests to patch and save puzzle with id 404 with:
