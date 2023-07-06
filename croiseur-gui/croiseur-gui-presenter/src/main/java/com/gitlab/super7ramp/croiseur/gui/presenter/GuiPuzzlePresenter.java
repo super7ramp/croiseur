@@ -41,9 +41,10 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
+    /** The puzzle details edition view model. */
     private final PuzzleDetailsViewModel puzzleDetailsViewModel;
 
-    /** The crossword grid view model. */
+    /** The crossword grid edition view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
     /** The errors view model. */

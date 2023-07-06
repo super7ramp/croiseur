@@ -56,9 +56,9 @@ final class SavePuzzleTask extends Task<Void> {
                                       final PuzzleService puzzleService) {
         final Runnable task;
         if (puzzleEditionViewModel.puzzleDetailsViewModel().id() != null) {
-            task = updateTaskFrom(puzzleEditionViewModel, puzzleService);
+            task = newUpdateTaskFrom(puzzleEditionViewModel, puzzleService);
         } else {
-            task = createTaskFrom(puzzleEditionViewModel, puzzleService);
+            task = newCreationTaskFrom(puzzleEditionViewModel, puzzleService);
         }
         return task;
     }
@@ -70,8 +70,8 @@ final class SavePuzzleTask extends Task<Void> {
      * @param puzzleService          the puzzle service
      * @return a new task suitable to saves the puzzle for the first time
      */
-    private static Runnable createTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
-                                           final PuzzleService puzzleService) {
+    private static Runnable newCreationTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
+                                                final PuzzleService puzzleService) {
         final PuzzleDetails details =
                 convertToDomain(puzzleEditionViewModel.puzzleDetailsViewModel());
         final PuzzleGrid grid = convertToDomain(puzzleEditionViewModel.crosswordGridViewModel());
@@ -86,8 +86,8 @@ final class SavePuzzleTask extends Task<Void> {
      * @param puzzleService          the puzzle service
      * @return a new task suitable to Updates an already saved puzzle.
      */
-    private static Runnable updateTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
-                                           final PuzzleService puzzleService) {
+    private static Runnable newUpdateTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
+                                              final PuzzleService puzzleService) {
 
         final PuzzleDetailsViewModel puzzleDetailsViewModel =
                 puzzleEditionViewModel.puzzleDetailsViewModel();
