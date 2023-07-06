@@ -19,6 +19,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyListProperty;
@@ -120,7 +121,14 @@ public final class CrosswordEditorController {
             .set(event -> viewModel.resetContentLettersFilledBySolverOnly());
         view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
         view.onDeleteGridActionProperty().set(event -> viewModel.clear());
-        view.onSuggestionSelected().set(viewModel::currentSlotContent);
+        final BooleanBinding editionAllowed =
+                applicationViewModel.puzzleIsBeingSaved().or(applicationViewModel.solverRunning())
+                                    .not();
+        view.onSuggestionSelected().set(suggestion -> {
+            if (editionAllowed.get()) {
+                viewModel.currentSlotContent(suggestion);
+            }
+        });
     }
 
     /**
