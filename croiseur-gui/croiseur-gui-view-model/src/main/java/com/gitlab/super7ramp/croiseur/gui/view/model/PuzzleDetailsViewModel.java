@@ -5,10 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,10 +16,10 @@ import javafx.beans.property.StringProperty;
 public final class PuzzleDetailsViewModel {
 
     /** The puzzle id. */
-    private final LongProperty id;
+    private final Property<Long> id;
 
     /** The puzzle revision. */
-    private final IntegerProperty revision;
+    private final Property<Integer> revision;
 
     /** The various puzzle fields. */
     private final StringProperty title, author, editor, copyright, date;
@@ -30,22 +28,24 @@ public final class PuzzleDetailsViewModel {
      * Constructs an instance.
      */
     public PuzzleDetailsViewModel() {
-        id = new SimpleLongProperty(this, "id");
-        revision = new SimpleIntegerProperty(this, "revision");
-        title = new SimpleStringProperty(this, "title");
-        author = new SimpleStringProperty(this, "author");
-        editor = new SimpleStringProperty(this, "editor");
-        copyright = new SimpleStringProperty(this, "copyright");
-        date = new SimpleStringProperty(this, "date");
+        id = new SimpleObjectProperty<>(this, "id");
+        revision = new SimpleObjectProperty<>(this, "revision");
+        title = new SimpleStringProperty(this, "title", "");
+        author = new SimpleStringProperty(this, "author", "");
+        editor = new SimpleStringProperty(this, "editor", "");
+        copyright = new SimpleStringProperty(this, "copyright", "");
+        date = new SimpleStringProperty(this, "date", "");
     }
 
     /**
      * Returns the value of the id property.
+     * <p>
+     * Can be {@code null} if puzzle hasn't been saved yet.
      *
      * @return the value of the id property
      */
-    public long id() {
-        return id.get();
+    public Long id() {
+        return id.getValue();
     }
 
     /**
@@ -54,16 +54,18 @@ public final class PuzzleDetailsViewModel {
      * @param value the value to set
      */
     public void id(final long value) {
-        id.set(value);
+        id.setValue(value);
     }
 
     /**
      * Returns the value of the revision property.
+     * <p>
+     * Can be {@code null} if puzzle hasn't been saved yet.
      *
      * @return the value of the revision property
      */
-    public int revision() {
-        return revision.get();
+    public Integer revision() {
+        return revision.getValue();
     }
 
     /**
@@ -72,7 +74,7 @@ public final class PuzzleDetailsViewModel {
      * @param value the value to set
      */
     public void revision(final int value) {
-        revision.set(value);
+        revision.setValue(value);
     }
 
     /**

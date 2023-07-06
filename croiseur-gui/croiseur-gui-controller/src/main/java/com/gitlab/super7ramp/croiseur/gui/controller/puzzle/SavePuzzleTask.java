@@ -55,7 +55,7 @@ final class SavePuzzleTask extends Task<Void> {
     private static Runnable buildTask(final PuzzleEditionViewModel puzzleEditionViewModel,
                                       final PuzzleService puzzleService) {
         final Runnable task;
-        if (puzzleEditionViewModel.puzzleDetailsViewModel().id() != 0L) {
+        if (puzzleEditionViewModel.puzzleDetailsViewModel().id() != null) {
             task = updateTaskFrom(puzzleEditionViewModel, puzzleService);
         } else {
             task = createTaskFrom(puzzleEditionViewModel, puzzleService);
