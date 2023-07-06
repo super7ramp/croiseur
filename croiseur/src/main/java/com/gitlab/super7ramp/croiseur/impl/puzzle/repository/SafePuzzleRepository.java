@@ -17,7 +17,8 @@ import java.util.Optional;
 
 /**
  * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into
- * {@link Optional}s - and calls the presentation service to present the errors.
+ * {@link Optional}s - and calls the presentation service to present the errors as well as
+ * creation/update notifications.
  */
 public final class SafePuzzleRepository {
 
@@ -50,6 +51,7 @@ public final class SafePuzzleRepository {
     public Optional<SavedPuzzle> create(final Puzzle puzzle) {
         try {
             final SavedPuzzle savedPuzzle = repository.create(puzzle);
+            presenter.presentSavedPuzzle(savedPuzzle);
             return Optional.of(savedPuzzle);
         } catch (final WriteException e) {
             presenter.presentPuzzleRepositoryError("Failed to create puzzle: " + e.getMessage());
@@ -63,13 +65,11 @@ public final class SafePuzzleRepository {
      * @param changedPuzzle the modified data
      * @return the updated committed puzzle, or {@link Optional#empty()} if write failed
      * @throws NullPointerException if given data is {@code null}
-     * @implSpec Repository shall increment the {@link SavedPuzzle#revision() revision number} when
-     * this method is called if data has actually changed. Repository should not increment it when
-     * data has not actually changed.
      */
     public Optional<SavedPuzzle> update(final ChangedPuzzle changedPuzzle) {
         try {
             final SavedPuzzle savedPuzzle = repository.update(changedPuzzle);
+            presenter.presentSavedPuzzle(savedPuzzle);
             return Optional.of(savedPuzzle);
         } catch (final WriteException e) {
             presenter.presentPuzzleRepositoryError("Failed to update puzzle: " + e.getMessage());

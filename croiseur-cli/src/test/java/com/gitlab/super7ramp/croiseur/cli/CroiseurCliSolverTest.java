@@ -5,7 +5,12 @@
 
 package com.gitlab.super7ramp.croiseur.cli;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests on 'croiseur-cli solver *' commands.
@@ -51,7 +56,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                  .and().writesToStdErr(
                          """
                          Missing required option: '--size=INTEGERxINTEGER'
-                         Usage: croiseur-cli solver run [-p] [-r[=SEED]] -s=INTEGERxINTEGER [-b=
+                         Usage: croiseur-cli solver run [-pS] [-r[=SEED]] -s=INTEGERxINTEGER [-b=
                                                         (COORDINATE,LETTER)...]... [-B=COORDINATE...]...
                                                         [-d=PROVIDER:DICTIONARY...]... [-H=(COORDINATE,
                                                         WORD)...]... [-V=(COORDINATE,WORD)...]...
@@ -73,6 +78,8 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                            -s, --size=INTEGERxINTEGER
                                             Grid dimensions, e.g. '--size 7x15' for a grid of width 7
                                               and height 15
+                           -S, --save       Save the grid. Grid will be saved before solving. Grid will
+                                              then be saved after solving, if solving is successful.
                            -V, --down, --vertical=(COORDINATE,WORD)...
                                             Pre-filled vertical slots, e.g. '--vertical ((0,0),hello)
                                               ((5,0),world)...'
@@ -93,6 +100,49 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |C|R|A|G|
 
                          """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void solverRunAndSaveSize4x4Success() {
+        cli("solver", "run", "--size", "4x4", "--save");
+        thenCli().writesToStdOut(
+                         """
+                         Saved puzzle.
+                         
+                         Identifier: 1
+                         Revision: 1
+                         Title:\s
+                         Author:\s
+                         Editor:\s
+                         Copyright:\s
+                         Date: $TODAY
+                         Grid:
+                         
+                         Result: SUCCESS
+                         
+                         |F|T|P|S|
+                         |L|O|L|A|
+                         |O|U|E|N|
+                         |C|R|A|G|
+                         
+                         Saved puzzle.
+                         
+                         Identifier: 1
+                         Revision: 2
+                         Title:\s
+                         Author:\s
+                         Editor:\s
+                         Copyright:\s
+                         Date: $TODAY
+                         Grid:
+                         |F|T|P|S|
+                         |L|O|L|A|
+                         |O|U|E|N|
+                         |C|R|A|G|
+                                                               
+                         """.replace("$TODAY", LocalDate.now().toString()))
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
@@ -179,6 +229,44 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
     }
 
     @Test
+    void solverRunAndSaveSize4x4NoSolution() {
+        whenOneRunsCli(
+                "solver", "run",
+                "--size", "4x4",
+                "--down", "((0,0),BBBB)", // "BBBB" not in dictionary
+                "--shaded-boxes", "(1,0)", "(2,1)",
+                "--save"
+        );
+        thenCli().writesToStdOut(
+                         """
+                         Saved puzzle.
+
+                         Identifier: 1
+                         Revision: 1
+                         Title:\s
+                         Author:\s
+                         Editor:\s
+                         Copyright:\s
+                         Date: $TODAY
+                         Grid:
+                         |B|#| |
+                         |B| |#|
+                         |B| | |
+                         |B| | |
+
+                         Result: IMPOSSIBLE
+
+                         |B|#| |
+                         |B| |#|
+                         |B| | |
+                         |B| | |
+                         
+                         """.replace("$TODAY", LocalDate.now().toString()))
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS); // TODO not a success exit code?
+    }
+
+    @Test
     void solverRunXWordsRsSize3x3() {
         whenOneRunsCli("solver", "run", "XWords RS", "--size", "3x3");
         thenCli().writesToStdOut(
@@ -208,5 +296,13 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                         """)
                 .and().doesNotWriteToStdErr()
                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @AfterEach
+    void cleanRepository() {
+        drainErr();
+        cli("puzzle", "delete-all");
+        assertEquals("", err());
+        assertEquals(SUCCESS, exitCode());
     }
 }

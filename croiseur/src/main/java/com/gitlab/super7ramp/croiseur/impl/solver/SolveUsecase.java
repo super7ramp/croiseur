@@ -100,21 +100,22 @@ final class SolveUsecase {
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
-            optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult.grid());
+            optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult);
         }
     }
 
     /**
      * Updates the previously saved puzzle, if any.
      *
-     * @param savedPuzzleOpt the previously saved puzzle, if any
-     * @param solvedGrid     the solved grid
+     * @param savedPuzzleOpt    the previously saved puzzle, if any
+     * @param presentableResult the solver presentable result
      */
     private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
-                                             final PuzzleGrid solvedGrid) {
-        if (savedPuzzleOpt.isPresent()) {
+                                             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+        if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
             final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
-            final Puzzle updatedPuzzle = new Puzzle(savedPuzzle.details(), solvedGrid);
+            final Puzzle updatedPuzzle =
+                    new Puzzle(savedPuzzle.details(), presentableResult.grid());
             puzzleRepository.update(savedPuzzle.modifiedWith(updatedPuzzle));
         } // else no previously saved puzzle, do nothing
 

@@ -21,6 +21,7 @@ import java.util.List;
 
 import static com.gitlab.super7ramp.croiseur.tests.puzzle.PuzzleMatchers.withId;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -102,5 +103,10 @@ public class PuzzleSteps {
     @Then("the application confirms the puzzle has been saved using identifier {puzzleId}")
     public void thenPresentSavedPuzzle(final long puzzleId) {
         verify(presenterMock).presentSavedPuzzle(withId(puzzleId));
+    }
+
+    @Then("the application confirms the puzzle has been saved twice using identifier {puzzleId}")
+    public void thenPresentSavedPuzzleTwice(final long puzzleId) {
+        verify(presenterMock, times(2)).presentSavedPuzzle(withId(puzzleId));
     }
 }

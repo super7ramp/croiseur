@@ -72,14 +72,14 @@ public final class PuzzleServiceImpl implements PuzzleService {
 
     @Override
     public void save(final Puzzle puzzle) {
-        repository.create(puzzle).ifPresent(presenter::presentSavedPuzzle);
-        // Or else: Do nothing, error case is handle by SafePuzzleRepository
+        repository.create(puzzle);
+        // SafePuzzleRepository.create() handles presentation for both success and error cases
     }
 
     @Override
     public void save(final ChangedPuzzle puzzle) {
-        repository.update(puzzle).ifPresent(presenter::presentSavedPuzzle);
-        // Or else: Do nothing, error case is handle by SafePuzzleRepository
+        repository.update(puzzle);
+        // SafePuzzleRepository.update() handles presentation for both success and error cases
     }
 
     @Override
@@ -91,7 +91,8 @@ public final class PuzzleServiceImpl implements PuzzleService {
             return;
         }
         final ChangedPuzzle changedPuzzle = patch(patch, optSavedPuzzle.get());
-        repository.update(changedPuzzle).ifPresent(presenter::presentSavedPuzzle);
+        repository.update(changedPuzzle);
+        // SafePuzzleRepository.update() handles presentation for both success and error cases
     }
 
     private static ChangedPuzzle patch(final PuzzlePatch modification,

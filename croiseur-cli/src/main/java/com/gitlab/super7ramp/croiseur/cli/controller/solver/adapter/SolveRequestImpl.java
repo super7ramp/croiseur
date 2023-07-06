@@ -48,6 +48,8 @@ public final class SolveRequestImpl implements SolveRequest {
 
     private final boolean progress;
 
+    private final boolean save;
+
     /**
      * Constructs an instance.
      *
@@ -60,6 +62,7 @@ public final class SolveRequestImpl implements SolveRequest {
      * @param dictionaryIdArg             the dictionary identifiers
      * @param randomArg                   the randomness source to shuffle dictionaries
      * @param progressArg                 whether progress should be notified
+     * @param saveArg                     whether given grid shall be saved
      */
     public SolveRequestImpl(final String solverArg,
                             final GridSize sizeArg,
@@ -69,7 +72,8 @@ public final class SolveRequestImpl implements SolveRequest {
                             final PrefilledSlot[] prefilledVerticalSlotsArg,
                             final DictionaryIdentifier[] dictionaryIdArg,
                             final Random randomArg,
-                            final boolean progressArg) {
+                            final boolean progressArg,
+                            final boolean saveArg) {
         solver = solverArg;
         size = sizeArg;
         shadedBoxes = someShadedBoxesArg;
@@ -79,6 +83,7 @@ public final class SolveRequestImpl implements SolveRequest {
         dictionaryIds = dictionaryIdArg;
         random = randomArg;
         progress = progressArg;
+        save = saveArg;
     }
 
     @Override
@@ -90,7 +95,7 @@ public final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public boolean savePuzzle() {
-        return false;
+        return save;
     }
 
     @Override

@@ -70,6 +70,10 @@ public final class SolverRunCommand implements Runnable {
     @Option(names = {"-p", "--progress"})
     private boolean progress;
 
+    /** Flag to save the grid. */
+    @Option(names = {"-S", "--save"})
+    private boolean save;
+
     /**
      * Constructs an instance.
      *
@@ -84,7 +88,7 @@ public final class SolverRunCommand implements Runnable {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
                                                           prefilledHorizontalSlots,
                                                           prefilledVerticalSlots, dictionaryIds,
-                                                          random, progress);
+                                                          random, progress, save);
         solverService.solve(request);
     }
 
