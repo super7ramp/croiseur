@@ -83,7 +83,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
 
     @Test
     void solverRunSize4x4Success() {
-        cli("solver", "run", "--size", "4x4");
+        whenOneRunsCli("solver", "run", "--size", "4x4");
         thenCli().writesToStdOut(
                          """
                          Result: SUCCESS
@@ -99,7 +99,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
     }
 
     @Test
-    void solverRunSize4x4Prefilled() {
+    void solverRunSize4x4PrefilledSlot() {
         whenOneRunsCli(
                 "solver", "run",
                 "--size", "4x4",
@@ -121,7 +121,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
     }
 
     @Test
-    void solverRunSize4x4PrefilledInconsistent() {
+    void solverRunSize4x4PrefilledSlotInconsistent() {
         whenOneRunsCli(
                 "solver", "run",
                 "--size", "4x4",
@@ -133,6 +133,28 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                  .and().writes(toStdErr().startingWith(
                          "java.lang.IllegalArgumentException: Conflict in prefilled boxes"))
                  .and().exitsWithCode(RUNTIME_ERROR);
+    }
+
+    @Test
+    void solverRunSize4x4PrefilledBoxes() {
+        whenOneRunsCli(
+                "solver", "run",
+                "--size", "4x4",
+                "--boxes", "((0,0),L)", "((0,1),O)", "((0,2),L)", "((0,3),A)",
+                "--shaded-boxes", "(1,0)", "(2,1)"
+        );
+        thenCli().writesToStdOut(
+                         """
+                         Result: SUCCESS
+
+                         |L| |N|T|
+                         |O|A| |U|
+                         |L|A|N|E|
+                         |A|C|T|S|
+
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
     }
 
     @Test
