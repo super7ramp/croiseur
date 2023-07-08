@@ -22,6 +22,7 @@ dependencies {
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    runtimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
@@ -36,6 +37,9 @@ application {
         // Memory tuning
         "-Xms256M",                     // initial heap size
         "-Xmx512M",                     // maximum heap size
+
+        // Useful application debug options
+        //"-Dcom.gitlab.super7ramp.croiseur.puzzle.path=/your/debug/puzzle/path",
 
         // Useful Java debug options
         //"-XX:+PrintCommandLineFlags",
