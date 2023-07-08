@@ -49,21 +49,21 @@ public final class SolverRunCommand implements Runnable {
 
     /** The definition of the pre-filled boxes. */
     @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", paramLabel = "<(COORDINATE," +
-            "LETTER)> ")
+                                                                             "LETTER)> ")
     private PrefilledBox[] prefilledBoxes = {};
 
     /** The definition of the pre-filled horizontal slots. */
     @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", paramLabel = "<" +
-            "(COORDINATE,WORD)> ")
+                                                                                     "(COORDINATE,WORD)> ")
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
     /** The definition of the pre-filled vertical slots. */
     @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", paramLabel = "<(COORDINATE," +
-            "WORD)> ")
+                                                                                 "WORD)> ")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
     /** The randomness source for shuffling dictionary. */
-    @Option(names = { "-r", "--random", "--shuffle" }, arity = "0..1", paramLabel = "SEED")
+    @Option(names = {"-r", "--random", "--shuffle"}, arity = "0..1", paramLabel = "SEED")
     private Random random;
 
     /** Flag to show solver progress. */
@@ -82,7 +82,9 @@ public final class SolverRunCommand implements Runnable {
     @Override
     public void run() {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
-                prefilledHorizontalSlots, prefilledVerticalSlots, dictionaryIds, random, progress);
+                                                          prefilledHorizontalSlots,
+                                                          prefilledVerticalSlots, dictionaryIds,
+                                                          random, progress);
         solverService.solve(request);
     }
 
