@@ -14,6 +14,7 @@ Feature: Delete Puzzle
       | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
     When user requests to delete the puzzle with id 1
     Then the application deletes the puzzle with id 1 from repository
+    And the application presents the confirmation the puzzle with identifier 1 has been deleted
 
   Scenario: Delete Puzzle - Delete All Puzzles
     Given the puzzle repository contains:
@@ -23,6 +24,7 @@ Feature: Delete Puzzle
     When user requests to delete all puzzles
     Then the application deletes the puzzle with id 1 from repository
     And the application deletes the puzzle with id 2 from repository
+    And the application presents the confirmation that all puzzles have been deleted
 
   Scenario: Delete Puzzle - Puzzle does not exist
     When user requests to delete the puzzle with id 404

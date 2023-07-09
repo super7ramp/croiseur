@@ -13,6 +13,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.Transpose;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -46,7 +47,7 @@ public class PuzzleSteps {
     }
 
     @When("user requests to delete the puzzle with id {puzzleId}")
-    public void whenDelete(final int puzzleId) {
+    public void whenDelete(final long puzzleId) {
         puzzleService.delete(puzzleId);
     }
 
@@ -60,8 +61,8 @@ public class PuzzleSteps {
         puzzleService.list();
     }
 
-    @When("user requests to load puzzle with id {int}")
-    public void whenLoad(final int puzzleId) {
+    @When("user requests to load puzzle with id {long}")
+    public void whenLoad(final long puzzleId) {
         puzzleService.load(puzzleId);
     }
 
@@ -108,5 +109,15 @@ public class PuzzleSteps {
     @Then("the application presents the confirmation the puzzle has been saved twice using identifier {puzzleId}")
     public void thenPresentSavedPuzzleTwice(final long puzzleId) {
         verify(presenterMock, times(2)).presentSavedPuzzle(withId(puzzleId));
+    }
+
+    @Then("the application presents the confirmation the puzzle with identifier {puzzleId} has been deleted")
+    public void thenPresentDeletedPuzzle(final long puzzleId) {
+        verify(presenterMock).presentDeletedPuzzle(eq(puzzleId));
+    }
+
+    @And("the application presents the confirmation that all puzzles have been deleted")
+    public void thenPresentDeletedAllPuzzles() {
+        verify(presenterMock).presentDeletedAllPuzzles();
     }
 }
