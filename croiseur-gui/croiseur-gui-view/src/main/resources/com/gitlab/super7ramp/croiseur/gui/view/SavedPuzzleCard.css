@@ -3,18 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-.container-hbox {
-    -fx-padding: 10px;
+.spaced-hvbox {
+    -fx-spacing: 10px;
 }
 
 .puzzle-details-vbox {
     -fx-alignment: center-left;
-    -fx-padding: 0 10px 0 10px;
-    -fx-spacing: 10px;
-}
-
-.puzzle-details-hbox {
-    -fx-spacing: 10px;
 }
 
 .puzzle-details-key-text {

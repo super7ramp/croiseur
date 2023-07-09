@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleCard.css"
-         type="HBox" styleClass="container-hbox" xmlns="http://javafx.com/javafx/17">
-    <!-- Unfortunately, fitHeight and fitWidth cannot be set via CSS. -->
+<fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="spaced-hvbox" stylesheets="@SavedPuzzleCard.css"
+         type="HBox" xmlns="http://javafx.com/javafx/17">
+    <!-- fitHeight and fitWidth cannot be set via CSS. -->
     <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" preserveRatio="true"/>
-    <VBox styleClass="puzzle-details-vbox" HBox.hgrow="ALWAYS">
-        <Text fx:id="title" styleClass="puzzle-title" text="An Example Grid"/>
-        <HBox styleClass="puzzle-details-hbox">
+    <VBox styleClass="puzzle-details-vbox,spaced-hvbox" HBox.hgrow="ALWAYS">
+        <Text fx:id="title" styleClass="puzzle-title"/>
+        <HBox styleClass="puzzle-details-hbox,spaced-hvbox">
             <VBox HBox.hgrow="ALWAYS">
                 <Text styleClass="puzzle-details-key-text" text="%author"/>
                 <Text styleClass="puzzle-details-key-text" text="%editor"/>

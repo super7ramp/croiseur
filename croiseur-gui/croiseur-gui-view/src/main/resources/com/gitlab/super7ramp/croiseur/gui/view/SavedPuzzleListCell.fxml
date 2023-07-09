@@ -6,10 +6,28 @@
   -->
 
 <?import com.gitlab.super7ramp.croiseur.gui.view.SavedPuzzleCard?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListCell?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleListCell.css"
          type="ListCell" xmlns="http://javafx.com/javafx/17">
     <graphic>
-        <SavedPuzzleCard fx:id="card"/>
+        <HBox fx:id="containerHBox" styleClass="card-container-hbox">
+            <SavedPuzzleCard fx:id="card" HBox.hgrow="ALWAYS"/>
+            <VBox styleClass="action-button-vbox" HBox.hgrow="NEVER">
+                <Button styleClass="edit-button">
+                    <tooltip>
+                        <Tooltip text="%edit"/>
+                    </tooltip>
+                </Button>
+                <Button styleClass="delete-button">
+                    <tooltip>
+                        <Tooltip text="%delete"/>
+                    </tooltip>
+                </Button>
+            </VBox>
+        </HBox>
     </graphic>
 </fx:root>
