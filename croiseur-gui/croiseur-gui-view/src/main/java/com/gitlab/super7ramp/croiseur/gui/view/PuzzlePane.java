@@ -22,18 +22,11 @@ import java.util.ResourceBundle;
  */
 public final class PuzzlePane extends Accordion {
 
+    /** The various text fields. No specific validation. */
     @FXML
-    private TextField title;
+    private TextField title, author, editor, copyright;
 
-    @FXML
-    private TextField author;
-
-    @FXML
-    private TextField editor;
-
-    @FXML
-    private TextField copyright;
-
+    /** The (creation) date picker. */
     @FXML
     private DatePicker date;
 
@@ -42,45 +35,6 @@ public final class PuzzlePane extends Accordion {
      */
     public PuzzlePane() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
-    }
-
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
-    @FXML
-    private void initialize() {
-        initializeTitledPanes();
-        initializeDatePicker();
-    }
-
-    /**
-     * Initializes titled panes: Make sure always one titled pane is expanded.
-     */
-    private void initializeTitledPanes() {
-        expandedPaneProperty().addListener((observable, oldValue, newValue) -> {
-            final boolean hasExpanded = getPanes().stream().anyMatch(TitledPane::isExpanded);
-            if (!hasExpanded && oldValue != null) {
-                Platform.runLater(() -> setExpandedPane(oldValue));
-            }
-        });
-        setExpandedPane(getPanes().get(0));
-    }
-
-    /**
-     * Initializes date picker: Since text field is not editable (to avoid the validation it would
-     * require) and picker does not have a button to reset the value, allow to clear the text field
-     * using backspace and delete keys.
-     */
-    private void initializeDatePicker() {
-        date.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            final KeyCode keyCode = e.getCode();
-            if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
-                date.getEditor().clear();
-                // Clear the value as well: DatePicker caches it, picking the same date after having
-                // cleared only the text field would leave the text field unchanged (blank).
-                date.setValue(null);
-            }
-        });
     }
 
     /**
@@ -131,5 +85,44 @@ public final class PuzzlePane extends Accordion {
      */
     public StringProperty dateProperty() {
         return date.getEditor().textProperty();
+    }
+
+    /**
+     * Initializes the control after object hierarchy has been loaded from FXML.
+     */
+    @FXML
+    private void initialize() {
+        initializeTitledPanes();
+        initializeDatePicker();
+    }
+
+    /**
+     * Initializes titled panes: Make sure always one titled pane is expanded.
+     */
+    private void initializeTitledPanes() {
+        expandedPaneProperty().addListener((observable, oldValue, newValue) -> {
+            final boolean hasExpanded = getPanes().stream().anyMatch(TitledPane::isExpanded);
+            if (!hasExpanded && oldValue != null) {
+                Platform.runLater(() -> setExpandedPane(oldValue));
+            }
+        });
+        setExpandedPane(getPanes().get(0));
+    }
+
+    /**
+     * Initializes date picker: Since text field is not editable (to avoid the validation it would
+     * require) and picker does not have a button to reset the value, allow to clear the text field
+     * using backspace and delete keys.
+     */
+    private void initializeDatePicker() {
+        date.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            final KeyCode keyCode = e.getCode();
+            if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
+                date.getEditor().clear();
+                // Clear the value as well: DatePicker caches it, picking the same date after having
+                // cleared only the text field would leave the text field unchanged (blank).
+                date.setValue(null);
+            }
+        });
     }
 }

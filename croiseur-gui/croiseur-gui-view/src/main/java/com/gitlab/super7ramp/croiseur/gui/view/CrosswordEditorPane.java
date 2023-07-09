@@ -87,180 +87,6 @@ public final class CrosswordEditorPane extends BorderPane {
         FxmlLoaderHelper.load(this);
     }
 
-    @FXML
-    private void initialize() {
-        initializeToolbarPuzzlePaneBindings();
-        initializeToolbarGridPaneBindings();
-        initializeToolbarDictionariesPaneBindings();
-        initializePuzzlePaneSplitPaneBindings();
-        initializeDictionariesPaneSplitPaneBindings();
-    }
-
-    /**
-     * Binds the puzzle pane properties to toolbar ones.
-     */
-    private void initializeToolbarPuzzlePaneBindings() {
-        final BooleanBinding puzzleToggleButtonSelectedProperty =
-                toolbar.puzzleToggleButtonSelectedProperty()
-                       .and(toolbar.resizeModeProperty().not());
-        puzzlePane.visibleProperty().bind(puzzleToggleButtonSelectedProperty);
-        puzzlePane.managedProperty().bind(puzzleToggleButtonSelectedProperty);
-    }
-
-    /**
-     * Binds the grid pane properties to toolbar ones.
-     */
-    private void initializeToolbarGridPaneBindings() {
-        grid.disableProperty().bind(toolbar.editionButtonsDisableProperty());
-    }
-
-    /**
-     * Binds the dictionaries pane properties to toolbar ones.
-     */
-    private void initializeToolbarDictionariesPaneBindings() {
-        final BooleanBinding dictionariesToggleButtonSelectedProperty =
-                toolbar.dictionariesToggleButtonSelectedProperty()
-                       .and(toolbar.resizeModeProperty().not());
-        dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
-        dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
-    }
-
-    /**
-     * Binds the split pane properties with puzzle pane ones.
-     */
-    private void initializePuzzlePaneSplitPaneBindings() {
-        updateLeftDividerPosition();
-        final InvalidationListener updateLeftDividerNodeOnFirstShow = new InvalidationListener() {
-            @Override
-            public void invalidated(final Observable observable) {
-                if (getScene() != null) {
-                    Platform.runLater(() -> updateLeftDividerNode());
-                    observable.removeListener(this);
-                }
-            }
-        };
-        sceneProperty().addListener(updateLeftDividerNodeOnFirstShow);
-        puzzlePane.visibleProperty().addListener(observable -> updateLeftDivider());
-    }
-
-    /**
-     * Updates the left divider node visibility and position.
-     */
-    private void updateLeftDivider() {
-        updateLeftDividerNode();
-        updateLeftDividerPosition();
-    }
-
-    /**
-     * Updates the left divider node visibility.
-     * <p>
-     * Left divider is on the window's left border when the left pane (the puzzle pane) is not
-     * visible. But if it is kept visible, user may select it when trying to resize the window,
-     * resulting in the blank left pane being resized instead of the window, which would be very
-     * confusing for user.
-     * <p>
-     * Hence, this method masks the left divider when puzzle pane is not visible. It is meant to be
-     * called every time puzzle pane visibility changes.
-     */
-    private void updateLeftDividerNode() {
-        final boolean puzzlePaneVisible = puzzlePane.isVisible();
-        dividerNodeOf(LEFT_DIVIDER_ID).ifPresent(node -> {
-            node.setVisible(puzzlePaneVisible);
-            node.setManaged(puzzlePaneVisible);
-        });
-    }
-
-    /**
-     * Updates the left divider position.
-     */
-    private void updateLeftDividerPosition() {
-        final boolean puzzlePaneVisible = puzzlePane.isVisible();
-        centerSplitPane.setDividerPosition(LEFT_DIVIDER_ID,
-                                           puzzlePaneVisible ? LEFT_DIVIDER_IDEAL_POSITION :
-                                                   LEFT_DIVIDER_COLLAPSED_POSITION);
-    }
-
-    /**
-     * Binds the split pane properties with dictionaries pane ones.
-     */
-    private void initializeDictionariesPaneSplitPaneBindings() {
-        updateRightDividerPosition();
-        final InvalidationListener updateRightDividerNodeOnFirstShow = new InvalidationListener() {
-            @Override
-            public void invalidated(final Observable observable) {
-                if (getScene() != null) {
-                    Platform.runLater(() -> updateRightDividerNode());
-                    observable.removeListener(this);
-                }
-            }
-        };
-        sceneProperty().addListener(updateRightDividerNodeOnFirstShow);
-        dictionariesPane.visibleProperty().addListener(observable -> updateRightDivider());
-    }
-
-    /**
-     * Updates the right divider node visibility and position.
-     */
-    private void updateRightDivider() {
-        updateRightDividerNode();
-        updateRightDividerPosition();
-    }
-
-    /**
-     * Updates the right divider node visibility.
-     * <p>
-     * Right divider is on the window's right border when the right pane (the dictionaries pane) is
-     * not visible. But if it is kept visible, user may select it when trying to resize the window,
-     * resulting in the blank right pane being resized instead of the window, which would be very
-     * confusing for user.
-     * <p>
-     * Hence, this method masks the right divider when dictionaries pane is not visible. It is meant
-     * to be called every time dictionaries pane visibility changes.
-     */
-    private void updateRightDividerNode() {
-        final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
-        dividerNodeOf(RIGHT_DIVIDER_ID).ifPresent(node -> {
-            node.setVisible(dictionariesPaneVisible);
-            node.setManaged(dictionariesPaneVisible);
-        });
-    }
-
-    /**
-     * Updates the right divider position.
-     */
-    private void updateRightDividerPosition() {
-        final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
-        centerSplitPane.setDividerPosition(RIGHT_DIVIDER_ID,
-                                           dictionariesPaneVisible ? RIGHT_DIVIDER_IDEAL_POSITION :
-                                                   RIGHT_DIVIDER_COLLAPSED_POSITION);
-    }
-
-    /**
-     * Finds the split pane divider node corresponding to given divider id.
-     *
-     * @param dividerId the divider id
-     * @return the split pane divider node corresponding to given divider id, or
-     * {@link Optional#empty()} if no such divider has been found (e.g. if pane hasn't been shown
-     * yet)
-     */
-    private Optional<Node> dividerNodeOf(final int dividerId) {
-        if (getScene() == null) {
-            return Optional.empty();
-        }
-        /*
-         * Select all dividers then filter by position: There is no way to get a specific divider
-         * via a CSS selector.
-         */
-        final Set<Node> dividers = centerSplitPane.lookupAll(DIVIDER_SELECTOR);
-        final double normalizedX = centerSplitPane.getDividerPositions()[dividerId];
-        final double x = getScene().getWidth() * normalizedX;
-        return dividers.stream().filter(node -> {
-            final Bounds boundsInLocal = node.getBoundsInLocal();
-            final Bounds boundsInScene = node.localToScene(boundsInLocal);
-            return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
-        }).findFirst();
-    }
-
     /**
      * Returns the puzzle title property.
      *
@@ -537,5 +363,182 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public ListProperty<String> wordsProperty() {
         return dictionariesPane.wordsProperty();
+    }
+
+    /**
+     * Initializes the control after object hierarchy has been loaded from FXML.
+     */
+    @FXML
+    private void initialize() {
+        initializeToolbarPuzzlePaneBindings();
+        initializeToolbarGridPaneBindings();
+        initializeToolbarDictionariesPaneBindings();
+        initializePuzzlePaneSplitPaneBindings();
+        initializeDictionariesPaneSplitPaneBindings();
+    }
+
+    /**
+     * Binds the puzzle pane properties to toolbar ones.
+     */
+    private void initializeToolbarPuzzlePaneBindings() {
+        final BooleanBinding puzzleToggleButtonSelectedProperty =
+                toolbar.puzzleToggleButtonSelectedProperty()
+                       .and(toolbar.resizeModeProperty().not());
+        puzzlePane.visibleProperty().bind(puzzleToggleButtonSelectedProperty);
+        puzzlePane.managedProperty().bind(puzzleToggleButtonSelectedProperty);
+    }
+
+    /**
+     * Binds the grid pane properties to toolbar ones.
+     */
+    private void initializeToolbarGridPaneBindings() {
+        grid.disableProperty().bind(toolbar.editionButtonsDisableProperty());
+    }
+
+    /**
+     * Binds the dictionaries pane properties to toolbar ones.
+     */
+    private void initializeToolbarDictionariesPaneBindings() {
+        final BooleanBinding dictionariesToggleButtonSelectedProperty =
+                toolbar.dictionariesToggleButtonSelectedProperty()
+                       .and(toolbar.resizeModeProperty().not());
+        dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
+        dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
+    }
+
+    /**
+     * Binds the split pane properties with puzzle pane ones.
+     */
+    private void initializePuzzlePaneSplitPaneBindings() {
+        updateLeftDividerPosition();
+        final InvalidationListener updateLeftDividerNodeOnFirstShow = new InvalidationListener() {
+            @Override
+            public void invalidated(final Observable observable) {
+                if (getScene() != null) {
+                    Platform.runLater(() -> updateLeftDividerNode());
+                    observable.removeListener(this);
+                }
+            }
+        };
+        sceneProperty().addListener(updateLeftDividerNodeOnFirstShow);
+        puzzlePane.visibleProperty().addListener(observable -> updateLeftDivider());
+    }
+
+    /**
+     * Updates the left divider node visibility and position.
+     */
+    private void updateLeftDivider() {
+        updateLeftDividerNode();
+        updateLeftDividerPosition();
+    }
+
+    /**
+     * Updates the left divider node visibility.
+     * <p>
+     * Left divider is on the window's left border when the left pane (the puzzle pane) is not
+     * visible. But if it is kept visible, user may select it when trying to resize the window,
+     * resulting in the blank left pane being resized instead of the window, which would be very
+     * confusing for user.
+     * <p>
+     * Hence, this method masks the left divider when puzzle pane is not visible. It is meant to be
+     * called every time puzzle pane visibility changes.
+     */
+    private void updateLeftDividerNode() {
+        final boolean puzzlePaneVisible = puzzlePane.isVisible();
+        dividerNodeOf(LEFT_DIVIDER_ID).ifPresent(node -> {
+            node.setVisible(puzzlePaneVisible);
+            node.setManaged(puzzlePaneVisible);
+        });
+    }
+
+    /**
+     * Updates the left divider position.
+     */
+    private void updateLeftDividerPosition() {
+        final boolean puzzlePaneVisible = puzzlePane.isVisible();
+        centerSplitPane.setDividerPosition(LEFT_DIVIDER_ID,
+                                           puzzlePaneVisible ? LEFT_DIVIDER_IDEAL_POSITION :
+                                                   LEFT_DIVIDER_COLLAPSED_POSITION);
+    }
+
+    /**
+     * Binds the split pane properties with dictionaries pane ones.
+     */
+    private void initializeDictionariesPaneSplitPaneBindings() {
+        updateRightDividerPosition();
+        final InvalidationListener updateRightDividerNodeOnFirstShow = new InvalidationListener() {
+            @Override
+            public void invalidated(final Observable observable) {
+                if (getScene() != null) {
+                    Platform.runLater(() -> updateRightDividerNode());
+                    observable.removeListener(this);
+                }
+            }
+        };
+        sceneProperty().addListener(updateRightDividerNodeOnFirstShow);
+        dictionariesPane.visibleProperty().addListener(observable -> updateRightDivider());
+    }
+
+    /**
+     * Updates the right divider node visibility and position.
+     */
+    private void updateRightDivider() {
+        updateRightDividerNode();
+        updateRightDividerPosition();
+    }
+
+    /**
+     * Updates the right divider node visibility.
+     * <p>
+     * Right divider is on the window's right border when the right pane (the dictionaries pane) is
+     * not visible. But if it is kept visible, user may select it when trying to resize the window,
+     * resulting in the blank right pane being resized instead of the window, which would be very
+     * confusing for user.
+     * <p>
+     * Hence, this method masks the right divider when dictionaries pane is not visible. It is meant
+     * to be called every time dictionaries pane visibility changes.
+     */
+    private void updateRightDividerNode() {
+        final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
+        dividerNodeOf(RIGHT_DIVIDER_ID).ifPresent(node -> {
+            node.setVisible(dictionariesPaneVisible);
+            node.setManaged(dictionariesPaneVisible);
+        });
+    }
+
+    /**
+     * Updates the right divider position.
+     */
+    private void updateRightDividerPosition() {
+        final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
+        centerSplitPane.setDividerPosition(RIGHT_DIVIDER_ID,
+                                           dictionariesPaneVisible ? RIGHT_DIVIDER_IDEAL_POSITION :
+                                                   RIGHT_DIVIDER_COLLAPSED_POSITION);
+    }
+
+    /**
+     * Finds the split pane divider node corresponding to given divider id.
+     *
+     * @param dividerId the divider id
+     * @return the split pane divider node corresponding to given divider id, or
+     * {@link Optional#empty()} if no such divider has been found (e.g. if pane hasn't been shown
+     * yet)
+     */
+    private Optional<Node> dividerNodeOf(final int dividerId) {
+        if (getScene() == null) {
+            return Optional.empty();
+        }
+        /*
+         * Select all dividers then filter by position: There is no way to get a specific divider
+         * via a CSS selector.
+         */
+        final Set<Node> dividers = centerSplitPane.lookupAll(DIVIDER_SELECTOR);
+        final double normalizedX = centerSplitPane.getDividerPositions()[dividerId];
+        final double x = getScene().getWidth() * normalizedX;
+        return dividers.stream().filter(node -> {
+            final Bounds boundsInLocal = node.getBoundsInLocal();
+            final Bounds boundsInScene = node.localToScene(boundsInLocal);
+            return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
+        }).findFirst();
     }
 }
