@@ -103,7 +103,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void delete() {
         givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "delete", "1");
-        thenCli().doesNotWriteToStdOut() // TODO shouldn't a message be displayed?
+        thenCli().writesToStdOut("Deleted puzzle #1.\n")
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
@@ -115,7 +115,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
         whenOneRunsCli("puzzle", "delete-all");
 
-        thenCli().doesNotWriteToStdOut() // TODO shouldn't a message be displayed?
+        thenCli().writesToStdOut("Deleted all puzzles.\n")
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }

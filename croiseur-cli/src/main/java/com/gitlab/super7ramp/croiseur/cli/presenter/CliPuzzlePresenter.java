@@ -87,11 +87,11 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentDeletedAllPuzzles() {
-        // TODO implement
+        System.out.println($("deleted.all"));
     }
 
     @Override
     public void presentDeletedPuzzle(final long id) {
-        // TODO implement
+        System.out.printf($("deleted.single"), id);
     }
 }
