@@ -59,9 +59,27 @@ public final class WelcomeScreenController {
     private void initialize() {
         view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
         puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
-        view.onNewPuzzleButtonActionProperty().set(e -> unbindAndSwitchToEditorView());
-        view.onOpenPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        view.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
+        view.onEditSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        view.onDeleteSelectedPuzzleButtonActionProperty().set(e -> onDeletePuzzleButtonAction());
         puzzleController.listAvailablePuzzles();
+    }
+
+    /**
+     * Action when 'new puzzle' button is pressed: Just switches to editor view (it is already
+     * loaded with a default crossword).
+     */
+    private void onNewPuzzleButtonAction() {
+        unbindAndSwitchToEditorView();
+    }
+
+    /**
+     * Action when the 'edit selected puzzle' button is pressed: Loads the selected puzzle in editor
+     * view then switches to editor view.
+     */
+    private void onOpenPuzzleButtonAction() {
+        puzzleController.loadSelectedPuzzle();
+        unbindAndSwitchToEditorView();
     }
 
     /**
@@ -77,10 +95,9 @@ public final class WelcomeScreenController {
     }
 
     /**
-     * Loads selected puzzle in editor view and switches to editor view.
+     * Action when delete button is pressed: Deletes the selected puzzle from puzzle repository.
      */
-    private void onOpenPuzzleButtonAction() {
-        puzzleController.loadSelectedPuzzle();
-        unbindAndSwitchToEditorView();
+    private void onDeletePuzzleButtonAction() {
+        puzzleController.deleteSelectedPuzzle();
     }
 }

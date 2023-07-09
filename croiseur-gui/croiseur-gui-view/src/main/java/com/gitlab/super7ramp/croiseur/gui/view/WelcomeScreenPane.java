@@ -7,11 +7,11 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -19,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -35,6 +34,12 @@ public final class WelcomeScreenPane extends VBox {
     /** The recent puzzles. */
     private final ListProperty<SavedPuzzleViewModel> recentPuzzles;
 
+    /** The action to run when the edit button of the selected puzzle cell is pressed. */
+    private final ObjectProperty<EventHandler<ActionEvent>> onEditSelectedPuzzleButtonAction;
+
+    /** The action to run when the delete button of the selected puzzle cell is pressed. */
+    private final ObjectProperty<EventHandler<ActionEvent>> onDeleteSelectedPuzzleButtonAction;
+
     /** A text field allowing to search the {@link #recentPuzzleListView} */
     @FXML
     private TextField searchTextField;
@@ -42,10 +47,6 @@ public final class WelcomeScreenPane extends VBox {
     /** A button to create a puzzle from scratch. */
     @FXML
     private Button newPuzzleButton;
-
-    /** A button to open the selected recent puzzle. Disabled if no puzzle selected. */
-    @FXML
-    private Button openPuzzleButton;
 
     /** A collection of saved puzzles. */
     @FXML
@@ -57,24 +58,11 @@ public final class WelcomeScreenPane extends VBox {
     public WelcomeScreenPane() {
         recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
                                                  FXCollections.observableArrayList());
+        onEditSelectedPuzzleButtonAction =
+                new SimpleObjectProperty<>(this, "onEditSelectedPuzzleButtonAction");
+        onDeleteSelectedPuzzleButtonAction =
+                new SimpleObjectProperty<>(this, "onDeleteSelectedPuzzleButtonAction");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
-    }
-
-    @FXML
-    private void initialize() {
-        initializeListView();
-        initializeOpenButton();
-    }
-
-    /**
-     * Returns the "open puzzle button action" property.
-     * <p>
-     * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
-     *
-     * @return the "open puzzle button action" property
-     */
-    public ObjectProperty<EventHandler<ActionEvent>> onOpenPuzzleButtonActionProperty() {
-        return openPuzzleButton.onActionProperty();
     }
 
     /**
@@ -84,6 +72,28 @@ public final class WelcomeScreenPane extends VBox {
      */
     public ObjectProperty<EventHandler<ActionEvent>> onNewPuzzleButtonActionProperty() {
         return newPuzzleButton.onActionProperty();
+    }
+
+    /**
+     * Returns the "edit selected puzzle button action" property.
+     * <p>
+     * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
+     *
+     * @return the "edit selected puzzle button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onEditSelectedPuzzleButtonActionProperty() {
+        return onEditSelectedPuzzleButtonAction;
+    }
+
+    /**
+     * Returns the "delete selected puzzle button action" property.
+     * <p>
+     * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
+     *
+     * @return the "delete selected puzzle button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteSelectedPuzzleButtonActionProperty() {
+        return onDeleteSelectedPuzzleButtonAction;
     }
 
     /**
@@ -111,11 +121,30 @@ public final class WelcomeScreenPane extends VBox {
     }
 
     /**
-     * Initializes {@link #recentPuzzleListView}.
+     * Initializes the control after object hierarchy has been loaded from FXML.
      */
-    private void initializeListView() {
-        recentPuzzleListView.setCellFactory(l -> new SavedPuzzleListCell());
+    @FXML
+    private void initialize() {
+        initializeListViewCells();
+        initializeListViewSearch();
+    }
 
+    /**
+     * Initializes {@link #recentPuzzleListView} cell factory.
+     */
+    private void initializeListViewCells() {
+        recentPuzzleListView.setCellFactory(l -> {
+            final var listCell = new SavedPuzzleListCell();
+            listCell.onEditButtonActionProperty().bind(onEditSelectedPuzzleButtonAction);
+            listCell.onDeleteButtonActionProperty().bind(onDeleteSelectedPuzzleButtonAction);
+            return listCell;
+        });
+    }
+
+    /**
+     * Initializes {@link #recentPuzzleListView} filter using {@link #searchTextField}.
+     */
+    private void initializeListViewSearch() {
         final var filteredPuzzles = new FilteredList<>(recentPuzzles);
         final var searchPredicate = Bindings.createObjectBinding(this::createSearchPredicate,
                                                                  searchTextField.textProperty());
@@ -139,17 +168,4 @@ public final class WelcomeScreenPane extends VBox {
                          .anyMatch(text -> text.toLowerCase().contains(searchText));
         };
     }
-
-    /**
-     * Initializes the "Open" button: Make sure open button is disabled if no puzzle is selected.
-     */
-    private void initializeOpenButton() {
-        final SelectionModel<SavedPuzzleViewModel> selectionModel =
-                recentPuzzleListView.getSelectionModel();
-        final BooleanBinding noPuzzleSelected =
-                Bindings.createBooleanBinding(() -> selectionModel.getSelectedItem() == null,
-                                              selectionModel.selectedItemProperty());
-        openPuzzleButton.disableProperty().bind(noPuzzleSelected);
-    }
-
 }

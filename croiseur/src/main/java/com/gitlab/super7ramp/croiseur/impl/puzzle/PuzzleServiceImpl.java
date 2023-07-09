@@ -59,7 +59,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
 
     @Override
     public void deleteAll() {
-        repository.deletetAll();
+        repository.deleteAll();
     }
 
     @Override

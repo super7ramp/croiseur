@@ -27,11 +27,16 @@ public interface PuzzleService {
      * Deletes the puzzle with given puzzle id.
      *
      * @param puzzleId the puzzle id
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentDeletedPuzzle(long)
+     * PuzzlePresenter#presentDeletedPuzzle(long)
      */
     void delete(final long puzzleId);
 
     /**
      * Deletes all puzzles.
+     *
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentDeletedAllPuzzles()
+     * PuzzlePresenter#presentDeletedAllPuzzles
      */
     void deleteAll();
 

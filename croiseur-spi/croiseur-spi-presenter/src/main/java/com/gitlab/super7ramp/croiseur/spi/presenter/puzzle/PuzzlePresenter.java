@@ -41,4 +41,16 @@ public interface PuzzlePresenter {
      * @param puzzle the saved puzzle
      */
     void presentSavedPuzzle(final SavedPuzzle puzzle);
+
+    /**
+     * Presents the confirmation that all puzzles have been deleted.
+     */
+    void presentDeletedAllPuzzles();
+
+    /**
+     * Presents the confirmation a puzzle which been deleted.
+     *
+     * @param id the id of the puzzle which has been deleted.
+     */
+    void presentDeletedPuzzle(final long id);
 }

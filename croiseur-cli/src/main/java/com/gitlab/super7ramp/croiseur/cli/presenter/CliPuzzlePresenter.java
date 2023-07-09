@@ -84,4 +84,14 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
         System.out.println(
                 confirmation + System.lineSeparator() + System.lineSeparator() + formattedPuzzle);
     }
+
+    @Override
+    public void presentDeletedAllPuzzles() {
+        // TODO implement
+    }
+
+    @Override
+    public void presentDeletedPuzzle(final long id) {
+        // TODO implement
+    }
 }

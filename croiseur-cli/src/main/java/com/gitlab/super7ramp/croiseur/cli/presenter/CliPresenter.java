@@ -117,4 +117,14 @@ public final class CliPresenter implements Presenter {
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         cliPuzzlePresenter.presentSavedPuzzle(puzzle);
     }
+
+    @Override
+    public void presentDeletedAllPuzzles() {
+        cliPuzzlePresenter.presentDeletedAllPuzzles();
+    }
+
+    @Override
+    public void presentDeletedPuzzle(final long id) {
+        cliPuzzlePresenter.presentDeletedPuzzle(id);
+    }
 }

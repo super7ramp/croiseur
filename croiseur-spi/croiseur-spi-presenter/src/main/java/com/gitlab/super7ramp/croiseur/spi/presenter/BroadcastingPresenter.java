@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetail
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
+import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
@@ -113,5 +114,15 @@ final class BroadcastingPresenter implements Presenter {
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         presenters.forEach(p -> p.presentSavedPuzzle(puzzle));
+    }
+
+    @Override
+    public void presentDeletedAllPuzzles() {
+        presenters.forEach(PuzzlePresenter::presentDeletedAllPuzzles);
+    }
+
+    @Override
+    public void presentDeletedPuzzle(final long id) {
+        presenters.forEach(p -> p.presentDeletedPuzzle(id));
     }
 }

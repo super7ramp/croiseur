@@ -70,6 +70,14 @@ public final class PuzzleController {
     }
 
     /**
+     * Starts the 'delete puzzle' task.
+     */
+    public void deleteSelectedPuzzle() {
+        final var task = new DeleteSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService);
+        execute(task);
+    }
+
+    /**
      * Starts the 'save puzzle' task.
      */
     public void savePuzzle() {

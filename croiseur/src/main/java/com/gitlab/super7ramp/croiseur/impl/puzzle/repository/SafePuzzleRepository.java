@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into
  * {@link Optional}s - and calls the presentation service to present the errors as well as
- * creation/update notifications.
+ * success notifications.
  */
 public final class SafePuzzleRepository {
 
@@ -95,6 +95,7 @@ public final class SafePuzzleRepository {
     public void delete(final long id) {
         try {
             repository.delete(id);
+            presenter.presentDeletedPuzzle(id);
         } catch (final WriteException e) {
             presenter.presentPuzzleRepositoryError("Failed to delete puzzle: " + e.getMessage());
         }
@@ -103,9 +104,10 @@ public final class SafePuzzleRepository {
     /**
      * Deletes all the puzzles.
      */
-    public void deletetAll() {
+    public void deleteAll() {
         try {
             repository.deleteAll();
+            presenter.presentDeletedAllPuzzles();
         } catch (final WriteException e) {
             presenter.presentPuzzleRepositoryError("Failed to delete puzzle(s): " + e.getMessage());
         }

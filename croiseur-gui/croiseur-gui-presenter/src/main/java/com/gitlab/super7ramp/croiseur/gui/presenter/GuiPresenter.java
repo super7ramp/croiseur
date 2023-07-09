@@ -128,4 +128,14 @@ public final class GuiPresenter implements Presenter {
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         puzzlePresenter.presentSavedPuzzle(puzzle);
     }
+
+    @Override
+    public void presentDeletedAllPuzzles() {
+        puzzlePresenter.presentDeletedAllPuzzles();
+    }
+
+    @Override
+    public void presentDeletedPuzzle(final long id) {
+        puzzlePresenter.presentDeletedPuzzle(id);
+    }
 }

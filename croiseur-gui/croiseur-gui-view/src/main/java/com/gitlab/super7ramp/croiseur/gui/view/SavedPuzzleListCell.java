@@ -6,7 +6,11 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 
@@ -25,11 +29,33 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
     @FXML
     private SavedPuzzleCard card;
 
+    /** The action buttons. */
+    @FXML
+    private Button editButton, deleteButton;
+
     /**
      * Constructs an instance.
      */
     public SavedPuzzleListCell() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
+    }
+
+    /**
+     * The edit button's action.
+     *
+     * @return the property to represent the edit button's action
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onEditButtonActionProperty() {
+        return editButton.onActionProperty();
+    }
+
+    /**
+     * The delete button's action.
+     *
+     * @return the property to represent the delete button's action
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onDeleteButtonActionProperty() {
+        return deleteButton.onActionProperty();
     }
 
     @Override

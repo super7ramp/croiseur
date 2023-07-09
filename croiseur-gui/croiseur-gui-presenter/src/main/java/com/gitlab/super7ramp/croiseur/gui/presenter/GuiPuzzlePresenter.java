@@ -97,6 +97,16 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(savedPuzzleViewModel));
     }
 
+    @Override
+    public void presentDeletedAllPuzzles() {
+        Platform.runLater(() -> puzzleSelectionViewModel.availablePuzzlesProperty().clear());
+    }
+
+    @Override
+    public void presentDeletedPuzzle(final long id) {
+        Platform.runLater(() -> removedAvailablePuzzleWithId(id));
+    }
+
     /**
      * Converts puzzle from domain type to view-model type.
      *
@@ -166,4 +176,21 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         });
     }
 
+    /**
+     * Removes the puzzle with given id from the puzzleSelectionViewModel's available puzzles.
+     * <p>
+     * Does nothing if no such puzzle exists.
+     *
+     * @param id the id of the puzzle to delete
+     */
+    private void removedAvailablePuzzleWithId(final long id) {
+        final var puzzleIt = puzzleSelectionViewModel.availablePuzzlesProperty().iterator();
+        while (puzzleIt.hasNext()) {
+            final var puzzle = puzzleIt.next();
+            if (puzzle.id() == id) {
+                puzzleIt.remove();
+                break;
+            }
+        }
+    }
 }
