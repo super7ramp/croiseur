@@ -17,14 +17,14 @@
         <HBox fx:id="containerHBox" styleClass="card-container-hbox">
             <SavedPuzzleCard fx:id="card" HBox.hgrow="ALWAYS"/>
             <VBox styleClass="action-button-vbox" HBox.hgrow="NEVER">
-                <Button fx:id="editButton" styleClass="edit-button">
+                <Button fx:id="editButton" text="%edit.button">
                     <tooltip>
-                        <Tooltip text="%edit"/>
+                        <Tooltip text="%edit.tooltip"/>
                     </tooltip>
                 </Button>
-                <Button fx:id="deleteButton" styleClass="delete-button">
+                <Button fx:id="deleteButton" styleClass="danger" text="%delete.button">
                     <tooltip>
-                        <Tooltip text="%delete"/>
+                        <Tooltip text="%delete.tooltip"/>
                     </tooltip>
                 </Button>
             </VBox>

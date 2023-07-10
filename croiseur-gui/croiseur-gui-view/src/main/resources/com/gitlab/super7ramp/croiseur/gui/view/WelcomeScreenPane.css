@@ -20,7 +20,7 @@
 #puzzles-vbox {
     -fx-alignment: top-center;
     -fx-min-height: 150px;
-    -fx-max-height: 300px;
+    -fx-max-height: 320px;
     -fx-padding: 0 40px 40px 40px;
     -fx-spacing: 15px;
 }

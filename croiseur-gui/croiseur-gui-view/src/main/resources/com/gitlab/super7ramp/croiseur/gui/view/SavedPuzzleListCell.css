@@ -28,37 +28,11 @@
 }
 
 .button {
-    /* Buttons use custom shapes, this is actually the custom shape fill color. */
-    -fx-background-color: -color-fg-default;
-    /* Force shape size: Otherwise, size depends on font size. */
-    -fx-min-height: 20px;
-    -fx-max-height: 20px;
-    -fx-min-width: 20px;
-    -fx-max-width: 20px;
+    -fx-max-width: Infinity;
     visibility: hidden;
 }
 
 .list-cell:selected > .card-container-hbox > .action-button-vbox > .button {
     /* Buttons appear when list cell is selected. */
     visibility: visible;
-}
-
-.edit-button {
-    /* Shape is the one from document-edit-symbolic from GNOME Adwaita theme. Same license as
-     * icon/system-search-symbolic.png. */
-    -fx-shape: "m 12.277344 0.832031 c -0.578125 0.007813 -1.167969 0.230469 -1.691406 0.753907 l -9 9 c -0.375 0.375 -0.585938 0.882812 -0.585938 1.414062 v 3 h 3 c 0.53125 0 1.039062 -0.210938 1.414062 -0.585938 l 9 -9 c 1.789063 -1.789062 0.082032 -4.390624 -1.890624 -4.570312 c -0.082032 -0.011719 -0.164063 -0.011719 -0.246094 -0.011719 z m -1.777344 3.605469 l 1.0625 1.0625 l -7.0625 7.0625 l -1.0625 -1.0625 z m 0 0";
-}
-
-.edit-button:hover {
-    -fx-background-color: -color-accent-fg;
-}
-
-.delete-button {
-     /* Shape is the one from user-trash-symbolic from GNOME Adwaita theme. Same license as
-     * icon/system-search-symbolic.png. */
-    -fx-shape: "M1 3h14c.55 0 1 .45 1 1s-.45 1-1 1H1c-.55 0-1-.45-1-1s.45-1 1-1zm0 0 M4 4V2.5C4 1.113 5.113 0 6.5 0h2.98c1.383 0 2.5 1.113 2.5 2.5V4h-2V2.5c0-.27-.23-.5-.5-.5H6.5c-.27 0-.5.23-.5.5V4zm0 0v9c0 .547.453 1 1 1h6c.547 0 1-.453 1-1V4h2v9c0 1.66-1.34 3-3 3H5c-1.66 0-3-1.34-3-3V4zm0 0 M7 7v5a.499.499 0 1 1-1 0V7a.499.499 0 1 1 1 0zm3 0v5a.499.499 0 1 1-1 0V7a.499.499 0 1 1 1 0zm0 0";
-}
-
-.delete-button:hover {
-    -fx-background-color: -color-danger-fg;
 }
