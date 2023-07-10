@@ -13,7 +13,6 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.Transpose;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -116,7 +115,7 @@ public class PuzzleSteps {
         verify(presenterMock).presentDeletedPuzzle(eq(puzzleId));
     }
 
-    @And("the application presents the confirmation that all puzzles have been deleted")
+    @Then("the application presents the confirmation that all puzzles have been deleted")
     public void thenPresentDeletedAllPuzzles() {
         verify(presenterMock).presentDeletedAllPuzzles();
     }
