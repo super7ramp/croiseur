@@ -810,4 +810,70 @@ final class CrosswordGridViewModelTest {
         assertThrows(IllegalArgumentException.class,
                      () -> crosswordGridViewModel.currentSlotContent("ABCD"));
     }
+
+    /**
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and
+     * rows need to be added.
+     */
+    @Test
+    void resizeTo_addColumnsAddRows() {
+        crosswordGridViewModel.resizeTo(2, 3);
+
+        assertEquals(2, crosswordGridViewModel.columnCount());
+        assertEquals(3, crosswordGridViewModel.rowCount());
+    }
+
+    /**
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and
+     * rows need to be removed.
+     */
+    @Test
+    void resizeTo_removeColumnsRemoveRows() {
+        crosswordGridViewModel.addColumn(); // implicitly adds a row as well
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow(); // size is now 2x2
+        crosswordGridViewModel.resizeTo(1, 1);
+
+        assertEquals(1, crosswordGridViewModel.columnCount());
+        assertEquals(1, crosswordGridViewModel.rowCount());
+    }
+
+    /**
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be
+     * added while rows need to be removed.
+     */
+    @Test
+    void resizeTo_addColumnsRemoveRows() {
+        crosswordGridViewModel.addColumn(); // implicitly adds a row as well
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow(); // size is now 2x2
+        crosswordGridViewModel.resizeTo(3, 1);
+
+        assertEquals(3, crosswordGridViewModel.columnCount());
+        assertEquals(1, crosswordGridViewModel.rowCount());
+    }
+
+    /**
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be
+     * removed while rows need to be added.
+     */
+    @Test
+    void resizeTo_removeColumnsAddRows() {
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addColumn();
+        crosswordGridViewModel.addRow();
+        crosswordGridViewModel.resizeTo(1, 3);
+
+        assertEquals(1, crosswordGridViewModel.columnCount());
+        assertEquals(3, crosswordGridViewModel.rowCount());
+    }
+
+    /**
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which passed dimension is
+     * invalid (negative values).
+     */
+    @Test
+    void resizeTo_invalidNegative() {
+        assertThrows(IllegalArgumentException.class, () -> crosswordGridViewModel.resizeTo(-1, -1));
+    }
 }
