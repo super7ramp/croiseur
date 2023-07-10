@@ -63,12 +63,13 @@ final class XdCluesReader {
                 throw new XdClueReadException("Invalid clue: '" + clue +
                                               "'. Expected down clue but was across clue.");
             }
+            final int number = Integer.parseInt(m.group("number"));
+            final String actualClue = m.group("clue");
+            final String answer = m.group("answer");
             if (isAcross) {
-                builder.across(Integer.parseInt(m.group("number")), m.group("clue"),
-                               m.group("answer"));
+                builder.across(number, actualClue, answer);
             } else {
-                builder.down(Integer.parseInt(m.group("number")), m.group("clue"),
-                               m.group("answer"));
+                builder.down(number, actualClue, answer);
             }
         }
         return builder.build();
