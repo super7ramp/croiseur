@@ -41,6 +41,24 @@ public final class PuzzleSelectionViewModel {
     }
 
     /**
+     * Removes the puzzle with given id from the view model's available puzzles.
+     * <p>
+     * Does nothing if no such puzzle exists.
+     *
+     * @param id the id of the puzzle to delete
+     */
+    public void removeAvailablePuzzleWithId(final long id) {
+        final var puzzleIt = availablePuzzles.iterator();
+        while (puzzleIt.hasNext()) {
+            final var puzzle = puzzleIt.next();
+            if (puzzle.id() == id) {
+                puzzleIt.remove();
+                break;
+            }
+        }
+    }
+
+    /**
      * Returns the selected puzzle property.
      * <p>
      * Value is {@code null} if no puzzle is selected.
