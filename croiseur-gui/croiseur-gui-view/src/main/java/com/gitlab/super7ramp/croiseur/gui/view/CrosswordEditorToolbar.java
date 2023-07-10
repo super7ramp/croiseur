@@ -150,7 +150,7 @@ public final class CrosswordEditorToolbar extends ToolBar {
     }
 
     /**
-     * Initializes nodes related to state edition: They shall be disable when
+     * Initializes nodes related to state edition: They shall be disabled when
      * {@link #editionButtonsDisableProperty()} value is {@code true}.
      */
     private void initializeEditionButtons() {

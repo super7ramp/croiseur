@@ -78,7 +78,7 @@ public final class PuzzlePane extends Accordion {
      * <p>
      * Watch out: Expected date format is {@link DatePicker#converterProperty() DatePicker}'s
      * default one. Supporting a different formatter would require changes in this class (likely
-     * exposing date formatter as a property) as well as calling client classes (likely bind date
+     * exposing date formatter as a property) as well as in client classes (likely bind date
      * formatter property with view model).
      *
      * @return the date property
