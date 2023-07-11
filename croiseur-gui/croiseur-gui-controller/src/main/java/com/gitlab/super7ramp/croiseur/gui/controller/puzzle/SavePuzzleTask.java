@@ -136,15 +136,25 @@ final class SavePuzzleTask extends Task<Void> {
         builder.width(crosswordGridViewModel.columnCount());
         crosswordGridViewModel.boxesProperty().forEach((gridCoord, box) -> {
             if (box.isShaded()) {
-                builder.shade(gridPositionFrom(gridCoord));
+                builder.shade(convertToDomain(gridCoord));
             } else {
                 final String content = box.userContent();
                 if (!content.isEmpty()) {
-                    builder.fill(gridPositionFrom(gridCoord), content.charAt(0));
+                    builder.fill(convertToDomain(gridCoord), content.charAt(0));
                 }
             }
         });
         return builder.build();
+    }
+
+    /**
+     * Converts grid coordinate to domain type.
+     *
+     * @param coord the coordinate view model type
+     * @return the coordinate converted to domain type
+     */
+    private static GridPosition convertToDomain(final GridCoord coord) {
+        return new GridPosition(coord.column(), coord.row());
     }
 
     @Override
@@ -153,7 +163,4 @@ final class SavePuzzleTask extends Task<Void> {
         return null;
     }
 
-    private static GridPosition gridPositionFrom(final GridCoord coord) {
-        return new GridPosition(coord.column(), coord.row());
-    }
 }
