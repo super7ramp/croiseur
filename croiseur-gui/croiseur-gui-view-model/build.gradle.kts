@@ -12,7 +12,3 @@ javafx {
     version = sbom.versions.java.get()
     modules = listOf("javafx.base") // for javafx.beans
 }
-
-dependencies {
-    api(project(":croiseur-common"))
-}

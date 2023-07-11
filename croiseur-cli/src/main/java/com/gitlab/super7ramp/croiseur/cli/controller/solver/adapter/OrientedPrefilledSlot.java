@@ -41,7 +41,7 @@ final class OrientedPrefilledSlot {
      * @param aNonOrientedSlot the non-oriented data
      * @return a new vertical {@link OrientedPrefilledSlot}.
      */
-    static OrientedPrefilledSlot vertical(PrefilledSlot aNonOrientedSlot) {
+    static OrientedPrefilledSlot vertical(final PrefilledSlot aNonOrientedSlot) {
         return new OrientedPrefilledSlot(GridPosition::plusVerticalOffset, aNonOrientedSlot);
     }
 
@@ -51,7 +51,7 @@ final class OrientedPrefilledSlot {
      * @param aNonOrientedSlot the non-oriented data
      * @return a new horizontal {@link OrientedPrefilledSlot}.
      */
-    static OrientedPrefilledSlot horizontal(PrefilledSlot aNonOrientedSlot) {
+    static OrientedPrefilledSlot horizontal(final PrefilledSlot aNonOrientedSlot) {
         return new OrientedPrefilledSlot(GridPosition::plusHorizontalOffset, aNonOrientedSlot);
     }
 

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SavedPuzzleViewModel;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
@@ -48,10 +48,10 @@ public final class SavedPuzzleCard extends HBox {
         private final Canvas canvas;
 
         /** The grid filled boxes. */
-        private final Map<GridPosition, Character> filledBoxes;
+        private final Map<GridCoord, Character> filledBoxes;
 
         /** The grid shaded box positions. */
-        private final Set<GridPosition> shadedBoxes;
+        private final Set<GridCoord> shadedBoxes;
 
         /** The grid dimensions. */
         private final int numberOfColumns, numberOfRows;
@@ -127,7 +127,8 @@ public final class SavedPuzzleCard extends HBox {
         private void drawShadedBoxes() {
             final GraphicsContext gc = canvas.getGraphicsContext2D();
             shadedBoxes.forEach(
-                    position -> gc.fillRect(x(position.x()), y(position.y()), boxWidth, boxHeight));
+                    position -> gc.fillRect(x(position.column()), y(position.row()), boxWidth,
+                                            boxHeight));
         }
 
         /** Draws the filled boxes. Does nothing if no filled box. */
@@ -138,8 +139,8 @@ public final class SavedPuzzleCard extends HBox {
             gc.setFont(Font.font(FONT_FAMILY, boxHeight / FONT_SIZE_MAGIC));
             filledBoxes.forEach((position, letter) ->
                                         gc.fillText(String.valueOf(letter),
-                                                    x(position.x()) + boxWidth / 2,
-                                                    y(position.y()) + boxHeight / 2));
+                                                    x(position.column()) + boxWidth / 2,
+                                                    y(position.row()) + boxHeight / 2));
         }
 
         /** Snapshots the canvas into an image. */

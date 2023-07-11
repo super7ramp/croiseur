@@ -9,7 +9,6 @@
  * Widgets of croiseur-gui.
  */
 module com.gitlab.super7ramp.croiseur.gui.view {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
     requires transitive com.gitlab.super7ramp.croiseur.gui.view.model;
     exports com.gitlab.super7ramp.croiseur.gui.view;
     opens com.gitlab.super7ramp.croiseur.gui.view to javafx.fxml;

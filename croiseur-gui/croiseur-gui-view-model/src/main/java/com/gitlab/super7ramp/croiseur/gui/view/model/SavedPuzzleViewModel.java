@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,10 +21,10 @@ public final class SavedPuzzleViewModel {
     public static final class Builder {
 
         /** The shaded boxes. */
-        private final Set<GridPosition> shaded;
+        private final Set<GridCoord> shaded;
 
         /** The filled boxes. */
-        private final Map<GridPosition, Character> filled;
+        private final Map<GridCoord, Character> filled;
 
         /** The puzzle id. */
         private long id;
@@ -175,7 +173,7 @@ public final class SavedPuzzleViewModel {
          * @param position a position
          * @return this builder for chaining
          */
-        public Builder shaded(final GridPosition position) {
+        public Builder shaded(final GridCoord position) {
             shaded.add(position);
             return this;
         }
@@ -187,7 +185,7 @@ public final class SavedPuzzleViewModel {
          * @param content  the box content
          * @return this builder for chaining
          */
-        public Builder filled(final GridPosition position, final Character content) {
+        public Builder filled(final GridCoord position, final Character content) {
             filled.put(position, content);
             return this;
         }
@@ -323,7 +321,7 @@ public final class SavedPuzzleViewModel {
      *
      * @return the grid shaded box positions.
      */
-    public Set<GridPosition> shadedBoxes() {
+    public Set<GridCoord> shadedBoxes() {
         return grid.shaded();
     }
 
@@ -332,7 +330,7 @@ public final class SavedPuzzleViewModel {
      *
      * @return the grid filled boxes
      */
-    public Map<GridPosition, Character> filledBoxes() {
+    public Map<GridCoord, Character> filledBoxes() {
         return grid.filled();
     }
 }

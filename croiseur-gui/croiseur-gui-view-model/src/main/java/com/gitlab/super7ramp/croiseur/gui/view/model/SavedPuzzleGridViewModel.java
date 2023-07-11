@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,10 +23,10 @@ public final class SavedPuzzleGridViewModel {
     private final int rowCount;
 
     /** The shaded boxes. */
-    private final Set<GridPosition> shaded;
+    private final Set<GridCoord> shaded;
 
     /** The filled boxes. */
-    private final Map<GridPosition, Character> filled;
+    private final Map<GridCoord, Character> filled;
 
     /**
      * Constructs an instance.
@@ -39,8 +37,8 @@ public final class SavedPuzzleGridViewModel {
      * @param filledArg      the filled boxes
      */
     SavedPuzzleGridViewModel(final int columnCountArg, final int rowCountArg,
-                             final Set<GridPosition> shadedArg,
-                             final Map<GridPosition, Character> filledArg) {
+                             final Set<GridCoord> shadedArg,
+                             final Map<GridCoord, Character> filledArg) {
         columnCount = columnCountArg;
         rowCount = rowCountArg;
         shaded = new HashSet<>(shadedArg);
@@ -70,7 +68,7 @@ public final class SavedPuzzleGridViewModel {
      *
      * @return the shaded boxes
      */
-    public Set<GridPosition> shaded() {
+    public Set<GridCoord> shaded() {
         return Collections.unmodifiableSet(shaded);
     }
 
@@ -79,7 +77,7 @@ public final class SavedPuzzleGridViewModel {
      *
      * @return the filled boxes
      */
-    public Map<GridPosition, Character> filled() {
+    public Map<GridCoord, Character> filled() {
         return Collections.unmodifiableMap(filled);
     }
 }

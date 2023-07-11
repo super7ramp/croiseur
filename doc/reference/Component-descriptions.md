@@ -89,8 +89,6 @@ digraph "overview" {
   "croiseur.cli"               -> "croiseur";
   "croiseur.cli"               -> "info.picocli";
   "croiseur.spi.presenter"     -> "croiseur.common";
-  // Shamelessly cheating here, this dependency shouldn't exist
-  // "croiseur.spi.presenter"     -> "croiseur.spi.solver";
   "croiseur.gui"               -> "croiseur";
   "croiseur.gui"               -> "javafx.*";
   "croiseur.spi.dictionary"    -> "croiseur.common";
@@ -177,7 +175,6 @@ digraph "gui" {
   "croiseur.gui.view"          -> "javafx.controls";
   "croiseur.gui.view"          -> "javafx.fxml";
   "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
-  "croiseur.gui.view.model"    -> "croiseur.common";
   "croiseur.gui.view.model"    -> "javafx.base";
   "croiseur.common"            -> "java.base";
   "javafx.graphics"            -> "javafx.base";

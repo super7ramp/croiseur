@@ -48,12 +48,4 @@ public record ProvidedDictionaryDetails(String providerName, DictionaryDetails d
         return dictionary.description();
     }
 
-    /**
-     * Returns the {@link DictionaryKey} from these details.
-     *
-     * @return the {@link DictionaryKey} from these details
-     */
-    public DictionaryKey toDictionaryKey() {
-        return new DictionaryKey(providerName, dictionary.name(), dictionary.locale());
-    }
 }

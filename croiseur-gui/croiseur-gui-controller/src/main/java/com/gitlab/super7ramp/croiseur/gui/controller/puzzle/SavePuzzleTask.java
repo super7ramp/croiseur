@@ -7,11 +7,13 @@ package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import javafx.concurrent.Task;
@@ -132,13 +134,13 @@ final class SavePuzzleTask extends Task<Void> {
         final PuzzleGrid.Builder builder = new PuzzleGrid.Builder();
         builder.height(crosswordGridViewModel.rowCount());
         builder.width(crosswordGridViewModel.columnCount());
-        crosswordGridViewModel.boxesProperty().forEach((position, box) -> {
+        crosswordGridViewModel.boxesProperty().forEach((gridCoord, box) -> {
             if (box.isShaded()) {
-                builder.shade(position);
+                builder.shade(gridPositionFrom(gridCoord));
             } else {
                 final String content = box.userContent();
                 if (!content.isEmpty()) {
-                    builder.fill(position, content.charAt(0));
+                    builder.fill(gridPositionFrom(gridCoord), content.charAt(0));
                 }
             }
         });
@@ -149,5 +151,9 @@ final class SavePuzzleTask extends Task<Void> {
     protected Void call() {
         task.run();
         return null;
+    }
+
+    private static GridPosition gridPositionFrom(final GridCoord coord) {
+        return new GridPosition(coord.column(), coord.row());
     }
 }

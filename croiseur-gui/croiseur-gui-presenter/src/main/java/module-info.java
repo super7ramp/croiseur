@@ -9,7 +9,6 @@
  * Presents croiseur outputs by updating croiseur-gui-view-model.
  */
 module com.gitlab.super7ramp.croiseur.gui.presenter {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
     requires transitive com.gitlab.super7ramp.croiseur.spi.presenter;
     requires transitive com.gitlab.super7ramp.croiseur.gui.view.model;
     exports com.gitlab.super7ramp.croiseur.gui.presenter;

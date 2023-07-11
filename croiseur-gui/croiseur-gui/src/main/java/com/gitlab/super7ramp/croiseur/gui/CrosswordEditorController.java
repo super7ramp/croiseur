@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
@@ -16,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
@@ -199,7 +199,7 @@ public final class CrosswordEditorController {
         // and grid is not empty
         final ReadOnlyListProperty<DictionaryViewModel> selectedDictionaries =
                 applicationViewModel.dictionaryViewModel().selectedDictionariesProperty();
-        final ReadOnlyMapProperty<GridPosition, CrosswordBoxViewModel> grid =
+        final ReadOnlyMapProperty<GridCoord, CrosswordBoxViewModel> grid =
                 applicationViewModel.crosswordGridViewModel().boxesProperty();
         view.solveButtonDisableProperty()
             .bind(solverRunning.not()

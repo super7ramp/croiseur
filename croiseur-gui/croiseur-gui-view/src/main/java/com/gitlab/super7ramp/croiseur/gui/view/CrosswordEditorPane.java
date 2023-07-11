@@ -5,9 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -285,7 +285,7 @@ public final class CrosswordEditorPane extends BorderPane {
      * @return the crossword grid map property
      * @see CrosswordGridPane#boxesProperty()
      */
-    public MapProperty<GridPosition, CrosswordBoxViewModel> gridBoxesProperty() {
+    public MapProperty<GridCoord, CrosswordBoxViewModel> gridBoxesProperty() {
         return grid.boxesProperty();
     }
 
@@ -294,7 +294,7 @@ public final class CrosswordEditorPane extends BorderPane {
      *
      * @return the crossword grid current box position property
      */
-    public ObjectProperty<GridPosition> gridCurrentBoxProperty() {
+    public ObjectProperty<GridCoord> gridCurrentBoxProperty() {
         return grid.currentBoxPositionProperty();
     }
 

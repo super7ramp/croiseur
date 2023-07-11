@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryKey;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -54,7 +55,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     public void presentDictionaries(final List<ProvidedDictionaryDetails> providedDictionaries) {
         LOGGER.info(() -> "Received dictionaries: " + providedDictionaries);
         final List<DictionaryViewModel> presentedDictionaries =
-                providedDictionaries.stream().map(DictionaryViewModel::new).toList();
+                providedDictionaries.stream().map(GuiDictionaryPresenter::dictionaryViewModelFrom)
+                                    .toList();
         // The first dictionary is the default one, automatically select it
         if (!presentedDictionaries.isEmpty()) {
             presentedDictionaries.get(0).select();
@@ -67,8 +69,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     public void presentDictionaryEntries(final DictionaryContent content) {
         LOGGER.info(() -> "Received entries of dictionary " + content.details() + ": " +
                           content.words().size() + " words");
-        Platform.runLater(() -> dictionariesViewModel.addWords(content.details()
-                                                                      .toDictionaryKey(),
+        Platform.runLater(() -> dictionariesViewModel.addWords(dictionaryKeyFrom(content.details()),
                                                                content.words()));
     }
 
@@ -86,5 +87,16 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     public void presentDictionaryError(final String error) {
         LOGGER.warning(() -> "Received dictionary error: " + error);
         Platform.runLater(() -> errorsViewModel.addError(error));
+    }
+
+    private static DictionaryViewModel dictionaryViewModelFrom(
+            final ProvidedDictionaryDetails details) {
+        return new DictionaryViewModel(details.providerName(), details.dictionaryName(),
+                                       details.dictionaryLocale(), details.dictionaryDescription());
+    }
+
+    private static DictionaryKey dictionaryKeyFrom(final ProvidedDictionaryDetails details) {
+        return new DictionaryKey(details.providerName(), details.dictionaryName(),
+                                 details.dictionaryLocale());
     }
 }

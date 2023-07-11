@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
-import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
@@ -63,8 +63,8 @@ public final class CrosswordGridPane extends StackPane {
             if (event.getCode().isArrowKey()) {
                 final int col = GridPane.getColumnIndex(focused);
                 final int row = GridPane.getRowIndex(focused);
-                final GridPosition currentCoordinate = new GridPosition(col, row);
-                final GridPosition nextCoordinate = switch (event.getCode()) {
+                final GridCoord currentCoordinate = new GridCoord(col, row);
+                final GridCoord nextCoordinate = switch (event.getCode()) {
                     case LEFT -> currentCoordinate.left();
                     case RIGHT -> currentCoordinate.right();
                     case UP -> currentCoordinate.up();
@@ -162,13 +162,13 @@ public final class CrosswordGridPane extends StackPane {
                       .thenComparingInt(GridPane::getColumnIndex);
 
     /** The boxes of the view. */
-    private final MapProperty<GridPosition, CrosswordBoxViewModel> boxModels;
+    private final MapProperty<GridCoord, CrosswordBoxViewModel> boxModels;
 
     /** Box nodes indexed by coordinate. Not a property, just a cache used internally. */
-    private final Map<GridPosition, Node> boxNodes;
+    private final Map<GridCoord, Node> boxNodes;
 
     /** The position of the focused box. */
-    private final ObjectProperty<GridPosition> currentBoxPosition;
+    private final ObjectProperty<GridCoord> currentBoxPosition;
 
     /** The orientation of the current slot, i.e. the slot the current box belongs to. */
     private final BooleanProperty currentSlotVertical;
@@ -195,7 +195,7 @@ public final class CrosswordGridPane extends StackPane {
     /**
      * Returns an observable map of boxes, i.e. the crossword grid view model.
      * <p>
-     * <strong>The map contains a given ({@link GridPosition}, {@link CrosswordBoxViewModel})
+     * <strong>The map contains a given ({@link GridCoord}, {@link CrosswordBoxViewModel})
      * entry if and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
      * grid coordinates with the corresponding content.</strong>
      * <p>
@@ -205,7 +205,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
-    public MapProperty<GridPosition, CrosswordBoxViewModel> boxesProperty() {
+    public MapProperty<GridCoord, CrosswordBoxViewModel> boxesProperty() {
         return boxModels;
     }
 
@@ -214,7 +214,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @return the position of the currently selected box position
      */
-    public ObjectProperty<GridPosition> currentBoxPositionProperty() {
+    public ObjectProperty<GridCoord> currentBoxPositionProperty() {
         return currentBoxPosition;
     }
 
@@ -246,7 +246,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param change the model change
      */
-    private void onModelUpdate(final MapChangeListener.Change<? extends GridPosition, ?
+    private void onModelUpdate(final MapChangeListener.Change<? extends GridCoord, ?
             extends CrosswordBoxViewModel> change) {
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
@@ -263,7 +263,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param removedCoordinate the removed coordinate
      */
-    private void onBoxRemoved(final GridPosition removedCoordinate) {
+    private void onBoxRemoved(final GridCoord removedCoordinate) {
         removeBoxNode(removedCoordinate);
 
         /*
@@ -287,7 +287,7 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param coordinate coordinate of the box to remove
      */
-    private void removeBoxNode(final GridPosition coordinate) {
+    private void removeBoxNode(final GridCoord coordinate) {
         final Node removedNode = boxNodes.remove(coordinate);
         grid.getChildren().remove(removedNode);
     }
@@ -297,9 +297,9 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param removedCoordinate coordinate of the removed box
      */
-    private void maybeRemoveRowConstraint(final GridPosition removedCoordinate) {
-        if (boxNodes.keySet().stream().noneMatch(coord -> coord.y() >= removedCoordinate.y())) {
-            grid.getRowConstraints().remove(removedCoordinate.y());
+    private void maybeRemoveRowConstraint(final GridCoord removedCoordinate) {
+        if (boxNodes.keySet().stream().noneMatch(coord -> coord.row() >= removedCoordinate.row())) {
+            grid.getRowConstraints().remove(removedCoordinate.row());
         }
     }
 
@@ -308,9 +308,10 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param removedCoordinate coordinate of the removed box
      */
-    private void maybeRemoveColumnConstraint(final GridPosition removedCoordinate) {
-        if (boxNodes.keySet().stream().noneMatch(coord -> coord.x() >= removedCoordinate.x())) {
-            grid.getColumnConstraints().remove(removedCoordinate.x());
+    private void maybeRemoveColumnConstraint(final GridCoord removedCoordinate) {
+        if (boxNodes.keySet().stream()
+                    .noneMatch(coord -> coord.column() >= removedCoordinate.column())) {
+            grid.getColumnConstraints().remove(removedCoordinate.column());
         }
     }
 
@@ -334,7 +335,7 @@ public final class CrosswordGridPane extends StackPane {
      * @param coordinate where the box is added
      * @param boxModel   what the box contains
      */
-    private void onBoxAdded(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
+    private void onBoxAdded(final GridCoord coordinate, final CrosswordBoxViewModel boxModel) {
         addBoxNode(coordinate, boxModel);
         maybeAddColumnConstraint(coordinate);
         maybeAddRowConstraint(coordinate);
@@ -346,9 +347,9 @@ public final class CrosswordGridPane extends StackPane {
      * @param coordinate where the box is added
      * @param boxModel   what the box contains
      */
-    private void addBoxNode(final GridPosition coordinate, final CrosswordBoxViewModel boxModel) {
+    private void addBoxNode(final GridCoord coordinate, final CrosswordBoxViewModel boxModel) {
         final CrosswordBoxTextField node = new CrosswordBoxTextField(boxModel);
-        grid.add(node, coordinate.x(), coordinate.y());
+        grid.add(node, coordinate.column(), coordinate.row());
         boxNodes.put(coordinate, node);
 
         // Grid child nodes must be sorted for the navigation with tab key to be consistent
@@ -369,9 +370,9 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param coordinate where a box has just been added
      */
-    private void maybeAddRowConstraint(final GridPosition coordinate) {
+    private void maybeAddRowConstraint(final GridCoord coordinate) {
         final int oldRowCount = getRowCount();
-        for (int row = oldRowCount; row <= coordinate.y(); row++) {
+        for (int row = oldRowCount; row <= coordinate.row(); row++) {
             addRowConstraint();
         }
     }
@@ -381,9 +382,9 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param coordinate where a box has just been added
      */
-    private void maybeAddColumnConstraint(final GridPosition coordinate) {
+    private void maybeAddColumnConstraint(final GridCoord coordinate) {
         final int oldColumnCount = getColumnCount();
-        for (int column = oldColumnCount; column <= coordinate.x(); column++) {
+        for (int column = oldColumnCount; column <= coordinate.column(); column++) {
             addColumnConstraint();
         }
     }

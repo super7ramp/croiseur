@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
@@ -124,8 +125,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
                                                                .orElse(""))
                                                   .numberOfColumns(puzzle.grid().width())
                                                   .numberOfRows(puzzle.grid().height());
-        puzzle.grid().shaded().forEach(builder::shaded);
-        puzzle.grid().filled().forEach(builder::filled);
+        puzzle.grid().shaded().forEach(pos -> builder.shaded(gridCoordFrom(pos)));
+        puzzle.grid().filled().forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
         return builder.build();
     }
 
@@ -155,19 +156,19 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     private void fillGridViewModelWith(final PuzzleGrid grid) {
         crosswordGridViewModel.resizeTo(grid.width(), grid.height());
 
-        final Set<GridPosition> positionsToUpdate =
+        final Set<GridCoord> positionsToUpdate =
                 new HashSet<>(crosswordGridViewModel.boxesProperty().keySet());
 
         grid.filled().forEach((position, letter) -> {
-            positionsToUpdate.remove(position);
-            final CrosswordBoxViewModel box = crosswordGridViewModel.box(position);
+            positionsToUpdate.remove(gridCoordFrom(position));
+            final CrosswordBoxViewModel box = crosswordGridViewModel.box(gridCoordFrom(position));
             box.lighten();
             box.userContent(String.valueOf(letter));
         });
 
         grid.shaded().forEach(position -> {
-            positionsToUpdate.remove(position);
-            crosswordGridViewModel.box(position).shade();
+            positionsToUpdate.remove(gridCoordFrom(position));
+            crosswordGridViewModel.box(gridCoordFrom(position)).shade();
         });
 
         positionsToUpdate.stream().map(crosswordGridViewModel::box).forEach(box -> {
@@ -175,4 +176,9 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
             box.userContent("");
         });
     }
+
+    private static GridCoord gridCoordFrom(final GridPosition domainPosition) {
+        return new GridCoord(domainPosition.x(), domainPosition.y());
+    }
+
 }

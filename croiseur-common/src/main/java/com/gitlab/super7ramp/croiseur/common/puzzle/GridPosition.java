@@ -52,46 +52,6 @@ public record GridPosition(int x, int y) {
     }
 
     /**
-     * Returns a new {@link GridPosition} corresponding to the position below this one.
-     *
-     * @return a new {@link GridPosition} corresponding to the position below this one.
-     */
-    public GridPosition down() {
-        return plusVerticalOffset(1);
-    }
-
-    /**
-     * Returns a new {@link GridPosition} corresponding to the position above this one or this
-     * position if this position is on the first y.
-     *
-     * @return a new {@link GridPosition} corresponding to the position above this one  or this
-     * position if this position is on the first y.
-     */
-    public GridPosition up() {
-        return plusVerticalOffset(-1);
-    }
-
-    /**
-     * Returns a new {@link GridPosition} corresponding to the position on the right of this one.
-     *
-     * @return a new {@link GridPosition} corresponding to the position on the right of this one.
-     */
-    public GridPosition right() {
-        return plusHorizontalOffset(1);
-    }
-
-    /**
-     * Returns a new {@link GridPosition} corresponding to the position on the left of this one
-     * or this position if this position is on the first x.
-     *
-     * @return a new {@link GridPosition} corresponding to the position on the left of this one
-     * this position if this position is on the first x
-     */
-    public GridPosition left() {
-        return plusHorizontalOffset(-1);
-    }
-
-    /**
      * Returns a new {@link GridPosition} at specified horizontal offset of this coordinate.
      * <p>
      * If the given offset leads to a negative horizontal coordinate, then the horizontal

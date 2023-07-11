@@ -7,9 +7,11 @@ package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
+import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 
 import java.util.Collection;
@@ -48,11 +50,11 @@ final class SolveRequestImpl implements SolveRequest {
 
         final var pdb = new PuzzleGrid.Builder();
         final var boxes = crosswordGridViewModel.boxesProperty();
-        boxes.forEach((position, box) -> {
+        boxes.forEach((coord, box) -> {
             if (box.isShaded()) {
-                pdb.shade(position);
+                pdb.shade(gridPositionFrom(coord));
             } else if (!box.userContent().isEmpty()) {
-                pdb.fill(position, box.userContent().charAt(0));
+                pdb.fill(gridPositionFrom(coord), box.userContent().charAt(0));
             } // Else box empty, not needed by solver
         });
         pdb.width(crosswordGridViewModel.columnCount());
@@ -96,5 +98,9 @@ final class SolveRequestImpl implements SolveRequest {
     @Override
     public SolverProgressNotificationMethod progress() {
         return SolverProgressNotificationMethod.PERIODICAL;
+    }
+
+    private static GridPosition gridPositionFrom(final GridCoord coord) {
+        return new GridPosition(coord.column(), coord.row());
     }
 }

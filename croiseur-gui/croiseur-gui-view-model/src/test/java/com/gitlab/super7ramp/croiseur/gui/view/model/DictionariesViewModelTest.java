@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryDetails;
-import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +32,10 @@ final class DictionariesViewModelTest {
     void beforeEach() {
         dictionaries = new DictionariesViewModel();
         final String provider = "A Dictionary Provider";
-        final DictionaryDetails dictionaryDetails = new DictionaryDetails("A Dictionary Name",
-                                                                          Locale.ENGLISH,
-                                                                          "A dictionary description");
-        final ProvidedDictionaryDetails providedDictionaryDetails =
-                new ProvidedDictionaryDetails(provider, dictionaryDetails);
-        dictionary = new DictionaryViewModel(providedDictionaryDetails);
+        final String dictionaryName = "A Dictionary Name";
+        final Locale locale = Locale.ENGLISH;
+        final String description = "A dictionary description";
+        dictionary = new DictionaryViewModel(provider, dictionaryName, locale, description);
         dictionaries.dictionariesProperty().add(dictionary);
     }
 

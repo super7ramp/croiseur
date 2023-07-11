@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.common.dictionary;
+package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import java.util.Locale;
 

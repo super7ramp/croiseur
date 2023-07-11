@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryKey;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.MoreFXCollections;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.ObservableAggregateList;
 import com.gitlab.super7ramp.croiseur.gui.view.model.util.SortedByCopyList;

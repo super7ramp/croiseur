@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
@@ -113,14 +114,14 @@ final class GuiSolverPresenter implements SolverPresenter {
      * @param result the solver result
      */
     private void updateBoxSolvableState(final SolverResult result) {
-        final Map<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
+        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxesProperty();
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
-        for (final Map.Entry<GridPosition, CrosswordBoxViewModel> entry :
+        for (final Map.Entry<GridCoord, CrosswordBoxViewModel> entry :
                 viewModelBoxes.entrySet()) {
             final CrosswordBoxViewModel box = entry.getValue();
             if (!box.isSelected()) {
-                final GridPosition position = entry.getKey();
+                final GridPosition position = gridPositionFrom(entry.getKey());
                 box.unsolvableProperty().set(unsolvableBoxes.contains(position));
             } else {
                 /*
@@ -140,12 +141,20 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     private void updateBoxContent(final SolverResult result) {
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
-        final Map<GridPosition, CrosswordBoxViewModel> viewModelBoxes =
+        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes =
                 crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
-            final CrosswordBoxViewModel box = viewModelBoxes.get(position);
+            final CrosswordBoxViewModel box = viewModelBoxes.get(gridCoordFrom(position));
             box.solverContent(entry.getValue().toString());
         }
+    }
+
+    private static GridCoord gridCoordFrom(final GridPosition domainPosition) {
+        return new GridCoord(domainPosition.x(), domainPosition.y());
+    }
+
+    private static GridPosition gridPositionFrom(final GridCoord viewModelPosition) {
+        return new GridPosition(viewModelPosition.column(), viewModelPosition.row());
     }
 }

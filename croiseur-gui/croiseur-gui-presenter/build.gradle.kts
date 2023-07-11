@@ -14,7 +14,6 @@ javafx {
 }
 
 dependencies {
-    api(project(":croiseur-common"))
     api(project(":croiseur-spi:croiseur-spi-presenter"))
     api(project(":croiseur-gui:croiseur-gui-view-model"))
 }
