@@ -17,8 +17,10 @@ import java.util.Optional;
 
 /**
  * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into
- * {@link Optional}s - and calls the presentation service to present the errors as well as
- * success notifications.
+ * {@link Optional}s - and calls the presentation service to present the errors as well as success
+ * notifications.
+ * <p>
+ * It basically allows to share repository-related behaviours across services.
  */
 public final class SafePuzzleRepository {
 
