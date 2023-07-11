@@ -27,9 +27,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A welcome screen, allowing to search, open existing or new puzzles.
+ * A puzzle selector, allowing to search, open existing or new puzzles.
  */
-public final class WelcomeScreenPane extends VBox {
+public final class SavedPuzzleSelector extends VBox {
 
     /** The recent puzzles. */
     private final ListProperty<SavedPuzzleViewModel> recentPuzzles;
@@ -55,7 +55,7 @@ public final class WelcomeScreenPane extends VBox {
     /**
      * Constructs an instance.
      */
-    public WelcomeScreenPane() {
+    public SavedPuzzleSelector() {
         recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
                                                  FXCollections.observableArrayList());
         onEditSelectedPuzzleButtonAction =

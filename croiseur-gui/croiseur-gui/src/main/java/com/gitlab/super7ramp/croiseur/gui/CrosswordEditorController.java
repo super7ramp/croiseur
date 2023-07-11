@@ -35,9 +35,6 @@ import java.util.concurrent.Executor;
  */
 public final class CrosswordEditorController {
 
-    /** The translations. */
-    private final ResourceBundle resources;
-
     /** The controller dedicated to the solver use-cases. */
     private final SolverController solverController;
 
@@ -53,6 +50,10 @@ public final class CrosswordEditorController {
     /** The view. */
     @FXML
     private CrosswordEditorPane view;
+
+    /** The translations. */
+    @FXML
+    private ResourceBundle resources;
 
     /**
      * Constructs an instance.
@@ -73,7 +74,6 @@ public final class CrosswordEditorController {
                                                 applicationViewModelArg.puzzleEditionViewModel(),
                                                 crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
-        resources = ResourceBundle.getBundle(CrosswordEditorController.class.getName());
     }
 
     @FXML

@@ -10,7 +10,7 @@
 }
 
 #welcome-image-view {
-    -fx-image: url("icon/application-icon.png");
+    -fx-image: url("application-icon.png");
 }
 
 #welcome-text {
@@ -27,20 +27,4 @@
 
 #puzzles-vbox > * {
     -fx-max-width: 500px;
-}
-
-#puzzle-actions-hbox {
-    -fx-spacing: 10px;
-}
-
-#puzzle-placeholder-vbox {
-    -fx-spacing: 10px;
-}
-
-#puzzle-placeholder-image-view {
-    -fx-image: url("icon/system-search-symbolic.png");
-}
-
-#puzzle-placeholder-text {
-    -fx-font-size: 1.2em;
 }

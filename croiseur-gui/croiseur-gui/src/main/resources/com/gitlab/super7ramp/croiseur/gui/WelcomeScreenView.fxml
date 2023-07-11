@@ -5,8 +5,19 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import com.gitlab.super7ramp.croiseur.gui.view.WelcomeScreenPane?>
-<WelcomeScreenPane xmlns:fx="http://javafx.com/fxml"
-                   xmlns="http://javafx.com/javafx"
-                   fx:controller="com.gitlab.super7ramp.croiseur.gui.WelcomeScreenController"
-                   fx:id="view"/>
+<?import com.gitlab.super7ramp.croiseur.gui.view.SavedPuzzleSelector?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      stylesheets="@WelcomeScreenView.css"
+      fx:controller="com.gitlab.super7ramp.croiseur.gui.WelcomeScreenController">
+    <VBox id="welcome-vbox">
+        <!-- fitHeight and fitWidth are not settable via css. -->
+        <ImageView id="welcome-image-view" fitHeight="196" fitWidth="196" preserveRatio="true"/>
+        <Text id="welcome-text" text="%welcome-text"/>
+        <Text id="welcome-version" text="%version-text"/>
+    </VBox>
+    <SavedPuzzleSelector fx:id="view" id="puzzles-vbox"/>
+</VBox>
