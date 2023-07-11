@@ -60,7 +60,7 @@ public final class WelcomeScreenController {
         view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
         puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
         view.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
-        view.onEditSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        view.onOpenSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
         view.onDeleteSelectedPuzzleButtonActionProperty().set(e -> onDeletePuzzleButtonAction());
         puzzleController.listAvailablePuzzles();
     }

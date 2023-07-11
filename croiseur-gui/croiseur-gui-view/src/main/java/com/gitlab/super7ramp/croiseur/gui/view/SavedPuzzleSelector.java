@@ -34,8 +34,8 @@ public final class SavedPuzzleSelector extends VBox {
     /** The recent puzzles. */
     private final ListProperty<SavedPuzzleViewModel> recentPuzzles;
 
-    /** The action to run when the edit button of the selected puzzle cell is pressed. */
-    private final ObjectProperty<EventHandler<ActionEvent>> onEditSelectedPuzzleButtonAction;
+    /** The action to run when the open button of the selected puzzle cell is pressed. */
+    private final ObjectProperty<EventHandler<ActionEvent>> onOpenSelectedPuzzleButtonAction;
 
     /** The action to run when the delete button of the selected puzzle cell is pressed. */
     private final ObjectProperty<EventHandler<ActionEvent>> onDeleteSelectedPuzzleButtonAction;
@@ -58,7 +58,7 @@ public final class SavedPuzzleSelector extends VBox {
     public SavedPuzzleSelector() {
         recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
                                                  FXCollections.observableArrayList());
-        onEditSelectedPuzzleButtonAction =
+        onOpenSelectedPuzzleButtonAction =
                 new SimpleObjectProperty<>(this, "onEditSelectedPuzzleButtonAction");
         onDeleteSelectedPuzzleButtonAction =
                 new SimpleObjectProperty<>(this, "onDeleteSelectedPuzzleButtonAction");
@@ -75,14 +75,14 @@ public final class SavedPuzzleSelector extends VBox {
     }
 
     /**
-     * Returns the "edit selected puzzle button action" property.
+     * Returns the "open selected puzzle button action" property.
      * <p>
      * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
      *
-     * @return the "edit selected puzzle button action" property
+     * @return the "open selected puzzle button action" property
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onEditSelectedPuzzleButtonActionProperty() {
-        return onEditSelectedPuzzleButtonAction;
+    public ObjectProperty<EventHandler<ActionEvent>> onOpenSelectedPuzzleButtonActionProperty() {
+        return onOpenSelectedPuzzleButtonAction;
     }
 
     /**
@@ -135,7 +135,7 @@ public final class SavedPuzzleSelector extends VBox {
     private void initializeListViewCells() {
         recentPuzzleListView.setCellFactory(l -> {
             final var listCell = new SavedPuzzleListCell();
-            listCell.onEditButtonActionProperty().bind(onEditSelectedPuzzleButtonAction);
+            listCell.onOpenButtonActionProperty().bind(onOpenSelectedPuzzleButtonAction);
             listCell.onDeleteButtonActionProperty().bind(onDeleteSelectedPuzzleButtonAction);
             return listCell;
         });

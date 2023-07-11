@@ -31,7 +31,7 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
 
     /** The action buttons. */
     @FXML
-    private Button editButton, deleteButton;
+    private Button openButton, deleteButton;
 
     /**
      * Constructs an instance.
@@ -41,12 +41,12 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
     }
 
     /**
-     * The edit button's action.
+     * The open button's action.
      *
-     * @return the property to represent the edit button's action
+     * @return the property to represent the open button's action
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onEditButtonActionProperty() {
-        return editButton.onActionProperty();
+    public ObjectProperty<EventHandler<ActionEvent>> onOpenButtonActionProperty() {
+        return openButton.onActionProperty();
     }
 
     /**

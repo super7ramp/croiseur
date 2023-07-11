@@ -17,9 +17,9 @@
         <HBox fx:id="containerHBox" styleClass="card-container-hbox">
             <SavedPuzzleCard fx:id="card" HBox.hgrow="ALWAYS"/>
             <VBox styleClass="action-button-vbox" HBox.hgrow="NEVER">
-                <Button fx:id="editButton" text="%edit.button">
+                <Button fx:id="openButton" text="%open.button">
                     <tooltip>
-                        <Tooltip text="%edit.tooltip"/>
+                        <Tooltip text="%open.tooltip"/>
                     </tooltip>
                 </Button>
                 <Button fx:id="deleteButton" styleClass="danger" text="%delete.button">
