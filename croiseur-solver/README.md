@@ -17,8 +17,8 @@ These are standalone crossword or constraint solver libraries.
 ### Solver plugins
 
 Solver plugins are libraries implementing the `croiseur` solver provider interface defined in
-`croiseur-solver-spi` and thus usable by the `croiseur` library. Their names are suffixed
+`croiseur-spi-solver` and thus usable by the `croiseur` library. Their names are suffixed
 with `-plugin`.
 
 Typically, plugins contain no logic: They simply adapt the complex standalone solver libraries to
-the interface defined in `croiseur-solver-spi`.
+the interface defined in `croiseur-spi-solver`.

@@ -11,31 +11,35 @@ This page describes the software components of the Croiseur project.
 
 Here are the software components of Croiseur:
 
-| Name                                      | Description                                                                                                                         |
-|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| [`croiseur`][]                            | Application core library                                                                                                            |
-| [`croiseur-cli`][]                        | Command-line frontend to `croiseur`                                                                                                 |
-| [`croiseur-common`][]                     | Common types used as building blocks by all other modules                                                                           |
-| [`croiseur-dictionary-common`][]          | Collection of utility classes useful for implementing dictionary providers                                                          |
-| [`croiseur-dictionary-hunspell-codec`][]  | Library which allows to read Hunspell dictionaries and generate all word forms from them                                            |
-| [`croiseur-dictionary-hunspell-plugin`][] | Dictionary provider of local word lists written as Hunspell dictionaries                                                            |
-| [`croiseur-dictionary-txt-plugin`][]      | Dictionary provider of local word lists written as text files                                                                       | 
-| [`croiseur-dictionary-xml-codec`][]       | Library which allows to read and write dictionaries in a custom XML format                                                          |                                                                               
-| [`croiseur-dictionary-xml-plugin`][]      | Dictionary provider of local word lists written in XML                                                                              |
-| [`croiseur-gui`][]                        | Desktop application, frontend to `croiseur`                                                                                         |
-| [`croiseur-gui-controller`][]             | Controller submodule of `croiseur-gui` (calls `croiseur` service upon `croiseur-gui-view` events)                                   |
-| [`croiseur-gui-presenter`][]              | Presenter submodule of `croiseur-gui` (presents `croiseur` outputs by updating `croiseur-gui-view-model`)                           |
-| [`croiseur-gui-view`][]                   | View submodule of `croiseur-gui` (widgets of `croiseur-gui`)                                                                        |
-| [`croiseur-gui-view-model`][]             | View-model submodule of `croiseur-gui` (a model representing the state of the views, observed and displayed by `croiseur-gui-view`) |
-| [`croiseur-solver-ginsberg`][]            | Crossword solver library based on Matt Ginsberg's papers                                                                            |
-| [`croiseur-solver-ginsberg-plugin`][]     | Solver provider adapting `croiseur-solver-ginsberg`                                                                                 |
-| [`croiseur-solver-paulgb`][]              | Crossword solver library based on paulgb's Crossword Composer                                                                       |
-| [`croiseur-solver-paulgb-plugin`][]       | Solver provider adapting `croiseur-solver-paulgb`                                                                                   |
-| [`croiseur-solver-szunami`][]             | Crossword solver library based on szunami's xwords-rs                                                                               |
-| [`croiseur-solver-szunami-plugin`][]      | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
-| [`croiseur-spi-dictionary`][]             | Interface definition for dictionary providers                                                                                       |
-| [`croiseur-spi-presenter`][]              | Interface definition for presenters                                                                                                 |
-| [`croiseur-spi-solver`][]                 | Interface definition for solvers                                                                                                    |
+| Name                                               | Description                                                                                                                         |
+|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| [`croiseur`][]                                     | Application core library                                                                                                            |
+| [`croiseur-cli`][]                                 | Command-line frontend to `croiseur`                                                                                                 |
+| [`croiseur-common`][]                              | Common types used as building blocks by all other modules                                                                           |
+| [`croiseur-dictionary-common`][]                   | Collection of utility classes useful for implementing dictionary providers                                                          |
+| [`croiseur-dictionary-hunspell-codec`][]           | Library which allows to read Hunspell dictionaries and generate all word forms from them                                            |
+| [`croiseur-dictionary-hunspell-plugin`][]          | Dictionary provider of local word lists written as Hunspell dictionaries                                                            |
+| [`croiseur-dictionary-txt-plugin`][]               | Dictionary provider of local word lists written as text files                                                                       | 
+| [`croiseur-dictionary-xml-codec`][]                | Library which allows to read and write dictionaries in a custom XML format                                                          |                                                                               
+| [`croiseur-dictionary-xml-plugin`][]               | Dictionary provider of local word lists written in XML                                                                              |
+| [`croiseur-gui`][]                                 | Desktop application, frontend to `croiseur`                                                                                         |
+| [`croiseur-gui-controller`][]                      | Controller submodule of `croiseur-gui` (calls `croiseur` service upon `croiseur-gui-view` events)                                   |
+| [`croiseur-gui-presenter`][]                       | Presenter submodule of `croiseur-gui` (presents `croiseur` outputs by updating `croiseur-gui-view-model`)                           |
+| [`croiseur-gui-view`][]                            | View submodule of `croiseur-gui` (widgets of `croiseur-gui`)                                                                        |
+| [`croiseur-gui-view-model`][]                      | View-model submodule of `croiseur-gui` (a model representing the state of the views, observed and displayed by `croiseur-gui-view`) |
+| [`croiseur-puzzle-codec-xd`][]                     | Library which allows to read/write puzzles in the xf format                                                                         |
+| [`croiseur-puzzle-repository-filesystem-plugin`][] | Puzzle repository implementation which stores puzzles as files on disk                                                              |
+| [`croiseur-puzzle-repository-memory-plugin`][]     | Puzzle repository implementation whose storage is purely in memory - only used for tests                                            |                                           
+| [`croiseur-solver-ginsberg`][]                     | Crossword solver library based on Matt Ginsberg's papers                                                                            |
+| [`croiseur-solver-ginsberg-plugin`][]              | Solver provider adapting `croiseur-solver-ginsberg`                                                                                 |
+| [`croiseur-solver-paulgb`][]                       | Crossword solver library based on paulgb's Crossword Composer                                                                       |
+| [`croiseur-solver-paulgb-plugin`][]                | Solver provider adapting `croiseur-solver-paulgb`                                                                                   |
+| [`croiseur-solver-szunami`][]                      | Crossword solver library based on szunami's xwords-rs                                                                               |
+| [`croiseur-solver-szunami-plugin`][]               | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
+| [`croiseur-spi-dictionary`][]                      | Interface definition for dictionary providers                                                                                       |
+| [`croiseur-spi-presenter`][]                       | Interface definition for presenters                                                                                                 |
+| [`croiseur-spi-puzzle-repository`][]               | Interface definition for puzzle repositories                                                                                        |
+| [`croiseur-spi-solver`][]                          | Interface definition for solvers                                                                                                    |
 
 In addition to these components, the following external components are used:
 
@@ -65,6 +69,8 @@ The following conventions apply to all diagrams:
 This diagram represents the main module dependencies, with the following omissions:
 
 - Dictionary SPI implementations (see [dedicated section](#dictionary-spi-implementations) below)
+- Puzzle repository SPI implementations
+  (see [dedicated section](#puzzle-repository-spi-implementations) below)
 - Solver SPI implementations (see [dedicated section](#solver-spi-implementations) below)
 - GUI detailed dependencies (see [dedicated section](#gui-detailed-dependencies) below)
 
@@ -83,6 +89,7 @@ digraph "overview" {
   "croiseur.spi.solver"        -> "croiseur.common";
   "croiseur"                   -> "croiseur.spi.dictionary" [label=uses];
   "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
+  "croiseur"                   -> "croiseur.spi.puzzle.repository" [label=uses];
   "croiseur"                   -> "croiseur.spi.solver" [label=uses];
   "croiseur.common"            -> "java.base";
   "javafx.*"                   -> "java.base";
@@ -92,6 +99,7 @@ digraph "overview" {
   "croiseur.gui"               -> "croiseur";
   "croiseur.gui"               -> "javafx.*";
   "croiseur.spi.dictionary"    -> "croiseur.common";
+  "croiseur.spi.puzzle.repository" -> "croiseur.common"
 }
 @enddot
 ```
@@ -122,6 +130,27 @@ digraph "dictionaries" {
   "croiseur.spi.dictionary"    -> "croiseur.common";
   "croiseur.dictionary.xml.codec" -> "java.base";
   "croiseur.dictionary.xml.codec" -> "java.xml";
+}
+@enddot
+```
+
+#### Puzzle Repository SPI Implementations
+
+```plantuml
+@startdot
+digraph "solvers" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=gray];
+
+  "croiseur.puzzle.repository.memory.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
+  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
+  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.puzzle.codec.xd";
+  "croiseur.spi.puzzle.repository" -> "croiseur.common";
+  "croiseur.common"   -> "java.base";
+  "croiseur.puzzle.codec.xd" -> "java.base"
 }
 @enddot
 ```
@@ -228,6 +257,12 @@ Refer to the generated Javadoc (🚧).
 
 [`croiseur-gui-view-model`]: ../../croiseur-gui/croiseur-gui-view-model
 
+[`croiseur-puzzle-codec-xd`]: ../../croiseur-puzzle/croiseur-puzzle-codec-xd
+
+[`croiseur-puzzle-repository-filesystem-plugin`]: ../../croiseur-puzzle/croiseur-puzzle-repository-filesystem-plugin
+
+[`croiseur-puzzle-repository-memory-plugin`]: ../../croiseur-puzzle/croiseur-puzzle-repository-memory-plugin
+
 [`croiseur-solver-ginsberg`]: ../../croiseur-solver/croiseur-solver-ginsberg
 
 [`croiseur-solver-ginsberg-plugin`]: ../../croiseur-solver/croiseur-solver-ginsberg-plugin
@@ -243,5 +278,7 @@ Refer to the generated Javadoc (🚧).
 [`croiseur-spi-dictionary`]: ../../croiseur-spi/croiseur-spi-dictionary
 
 [`croiseur-spi-presenter`]: ../../croiseur-spi/croiseur-spi-presenter
+
+[`croiseur-spi-puzzle-repository`]: ../../croiseur-spi/croiseur-spi-puzzle-repository
 
 [`croiseur-spi-solver`]: ../../croiseur-spi/croiseur-spi-solver
