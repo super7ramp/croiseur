@@ -57,7 +57,17 @@ public interface PuzzlePresenter {
 
     // TODO move the following into a dedicated PuzzleImportPresenter?
 
+    /**
+     * Presents the available puzzle decoders.
+     *
+     * @param decoders the available puzzle coders
+     */
     void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders);
 
+    /**
+     * Presents an error that occurred during puzzle import
+     *
+     * @param error the error
+     */
     void presentPuzzleImportError(final String error);
 }

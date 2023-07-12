@@ -12,7 +12,10 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import java.util.Collection;
 import java.util.List;
 
-final class ListPuzzleDecoderUsecase {
+/**
+ * The 'list puzzle decoders' usecase.
+ */
+final class ListPuzzleDecodersUsecase {
 
     /** The available puzzle decoders. */
     private final List<PuzzleCodecDetails> decoders;
@@ -26,13 +29,13 @@ final class ListPuzzleDecoderUsecase {
      * @param decodersArg the decoders
      * @param presenterArg the presenter
      */
-    ListPuzzleDecoderUsecase(final Collection<PuzzleDecoder> decodersArg, final PuzzlePresenter presenterArg) {
+    ListPuzzleDecodersUsecase(final Collection<PuzzleDecoder> decodersArg, final PuzzlePresenter presenterArg) {
         decoders = decodersArg.stream().map(PuzzleDecoder::details).toList();
         presenter = presenterArg;
     }
 
     /**
-     * Processes the 'list puzzle decoders'.
+     * Processes the 'list puzzle decoders' event.
      */
     void process() {
         presenter.presentPuzzleDecoders(decoders);

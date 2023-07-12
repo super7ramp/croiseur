@@ -47,12 +47,12 @@ final class ImportPuzzleUsecase {
     /**
      * Processes the 'import puzzle' request.
      *
-     * @param is     the input stream where to read the puzzle to import
+     * @param inputStream     the input stream where to read the puzzle to import
      * @param format the format of the puzzle
      */
-    void process(final InputStream is, final String format) {
+    void process(final InputStream inputStream, final String format) {
 
-        final Optional<PuzzleDecoder> selectedDecoder = selectedDecoder(format);
+        final Optional<PuzzleDecoder> selectedDecoder = selectDecoder(format);
         if (selectedDecoder.isEmpty()) {
             presenter.presentPuzzleImportError(
                     "No suitable decoder found for format '" + format + "'");
@@ -60,7 +60,7 @@ final class ImportPuzzleUsecase {
         }
 
         try {
-            final Puzzle puzzle = selectedDecoder.get().decode(is);
+            final Puzzle puzzle = selectedDecoder.get().decode(inputStream);
             repository.create(puzzle);
         } catch (final PuzzleDecodingException e) {
             presenter.presentPuzzleImportError("Error while importing puzzle: " + e.getMessage());
@@ -73,7 +73,7 @@ final class ImportPuzzleUsecase {
      * @param format the puzzle format
      * @return the first decoder supporting the given, if any; otherwise {@link Optional#empty()}
      */
-    private Optional<PuzzleDecoder> selectedDecoder(final String format) {
+    private Optional<PuzzleDecoder> selectDecoder(final String format) {
         return decoders.stream()
                        .filter(decoder -> decoder.details().supportedFormats().contains(format))
                        .findFirst();

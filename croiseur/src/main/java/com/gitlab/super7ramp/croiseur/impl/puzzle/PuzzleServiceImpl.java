@@ -46,7 +46,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
     private final PatchAndSavePuzzleUsecase patchAndSavePuzzleUsecase;
 
     /** The 'list puzzle decoders' usecase. */
-    private final ListPuzzleDecoderUsecase listPuzzleDecoderUsecase;
+    private final ListPuzzleDecodersUsecase listPuzzleDecodersUsecase;
 
     /** The 'import puzzle' usecase. */
     private final ImportPuzzleUsecase importPuzzleUsecase;
@@ -69,7 +69,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
         saveNewPuzzleUsecase = new SaveNewPuzzleUsecase(repository);
         saveChangedPuzzleUsecase = new SaveChangedPuzzleUsecase(repository);
         patchAndSavePuzzleUsecase = new PatchAndSavePuzzleUsecase(repository, presenterArg);
-        listPuzzleDecoderUsecase = new ListPuzzleDecoderUsecase(decoders, presenterArg);
+        listPuzzleDecodersUsecase = new ListPuzzleDecodersUsecase(decoders, presenterArg);
         importPuzzleUsecase = new ImportPuzzleUsecase(decoders, repository, presenterArg);
     }
 
@@ -110,11 +110,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
 
     @Override
     public void listDecoders() {
-        listPuzzleDecoderUsecase.process();
+        listPuzzleDecodersUsecase.process();
     }
 
     @Override
-    public void importPuzzle(final InputStream is, final String format) {
-        importPuzzleUsecase.process(is, format);
+    public void importPuzzle(final InputStream inputStream, final String format) {
+        importPuzzleUsecase.process(inputStream, format);
     }
 }

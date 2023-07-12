@@ -13,6 +13,9 @@ import java.util.List;
 
 /**
  * Services pertaining to puzzle management.
+ * <p>
+ * Results of the requests are forwarded to the
+ * {@link com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter PuzzlePresenter}
  */
 public interface PuzzleService {
 
@@ -89,6 +92,9 @@ public interface PuzzleService {
 
     /**
      * Lists the available puzzle decoders.
+     *
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentPuzzleDecoders(List)
+     * presentPuzzleDecoders(List)
      */
     void listDecoders();
 
@@ -96,10 +102,13 @@ public interface PuzzleService {
      * Imports a puzzle from an input stream.
      * <p>
      * The given input stream will be read and decoded using available
-     * {@link #listDecoders() decoders}.
+     * {@link #listDecoders() decoders}, then saved to the puzzle repository.
      *
-     * @param is     the input stream from which to decode the puzzle to import
-     * @param format the puzzle format - preferably the mimetype, if any, or the file extension
+     * @param inputStream the input stream from which to decode the puzzle to import
+     * @param format      the puzzle format - preferably the mimetype, if any, or the file
+     *                    extension
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentSavedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
+     * presentSavedPuzzle(SavedPuzzle)
      */
-    void importPuzzle(final InputStream is, final String format);
+    void importPuzzle(final InputStream inputStream, final String format);
 }

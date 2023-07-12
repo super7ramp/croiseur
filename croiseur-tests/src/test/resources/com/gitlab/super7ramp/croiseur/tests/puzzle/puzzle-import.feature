@@ -6,7 +6,7 @@ Feature: Import Puzzle
   Puzzle can be imported to the application puzzle repository from a variety of formats, using
   puzzle decoders.
 
-  Scenario: Import Puzzle - Supported Format
+  Scenario: Import Puzzle - xd Format
     When user requests to import the following puzzle in the '.xd' format:
     """
     Title: Example Grid
@@ -39,7 +39,7 @@ Feature: Import Puzzle
       | Grid (rows) | ABC,DEF,GHI  |
     And the application presents the confirmation the puzzle has been saved using identifier $id
 
-  Scenario: Import Puzzle - Supported Format - Decoding Error
+  Scenario: Import Puzzle - xd Format - Decoding Error
     When user requests to import the following puzzle in the '.xd' format:
     """
     Title - Example Grid
