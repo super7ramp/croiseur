@@ -13,6 +13,8 @@ interfaces – used by the core [`croiseur`](../croiseur/README.md) library. The
 * [`croiseur-spi-solver`](croiseur-spi-solver): The definition of crossword solver.
 * [`croiseur-spi-presenter`](croiseur-spi-presenter): The definition of a _presenter_ – e.g. a
   Graphical User Interface.
+* [`croiseur-spi-puzzle-codec`](croiseur-spi-puzzle-codec): The definition of a puzzle format
+  encoder/decoder.
 * [`croiseur-spi-puzzle-repository`](croiseur-spi-puzzle-repository): The definition of a puzzle
   repository.
 
