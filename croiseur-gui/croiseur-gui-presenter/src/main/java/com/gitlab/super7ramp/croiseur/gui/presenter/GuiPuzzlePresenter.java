@@ -96,7 +96,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
         final SavedPuzzleViewModel savedPuzzleViewModel = convertToViewModel(puzzle);
-        Platform.runLater(() -> puzzleSelectionViewModel.selectedPuzzle(savedPuzzleViewModel));
+        Platform.runLater(
+                () -> puzzleSelectionViewModel.updateAvailablePuzzlesWith(savedPuzzleViewModel));
     }
 
     @Override
@@ -130,15 +131,18 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         final PuzzleDetails details = puzzle.details();
         final var builder =
                 new SavedPuzzleViewModel.Builder().id(puzzle.id()).revision(puzzle.revision())
-                                                  .title(details.title()).author(details.author())
+                                                  .title(details.title())
+                                                  .author(details.author())
                                                   .editor(details.editor())
                                                   .copyright(details.copyright())
-                                                  .date(details.date().map(DATE_FORMATTER::format)
+                                                  .date(details.date()
+                                                               .map(DATE_FORMATTER::format)
                                                                .orElse(""))
                                                   .numberOfColumns(puzzle.grid().width())
                                                   .numberOfRows(puzzle.grid().height());
         puzzle.grid().shaded().forEach(pos -> builder.shaded(gridCoordFrom(pos)));
-        puzzle.grid().filled().forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
+        puzzle.grid().filled()
+              .forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
         return builder.build();
     }
 
@@ -173,7 +177,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
         grid.filled().forEach((position, letter) -> {
             positionsToUpdate.remove(gridCoordFrom(position));
-            final CrosswordBoxViewModel box = crosswordGridViewModel.box(gridCoordFrom(position));
+            final CrosswordBoxViewModel box =
+                    crosswordGridViewModel.box(gridCoordFrom(position));
             box.lighten();
             box.userContent(String.valueOf(letter));
         });

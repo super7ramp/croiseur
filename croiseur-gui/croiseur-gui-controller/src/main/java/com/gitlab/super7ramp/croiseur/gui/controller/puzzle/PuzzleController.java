@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
+import java.io.File;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +83,17 @@ public final class PuzzleController {
      */
     public void savePuzzle() {
         final var task = new SavePuzzleTask(puzzleEditionViewModel, puzzleService);
+        execute(task);
+    }
+
+    /**
+     * Starts the 'import puzzle' task.
+     *
+     * @param selectedFile   the file to import
+     * @param selectedFormat the puzzle format of the file to import
+     */
+    public void importPuzzle(final File selectedFile, final String selectedFormat) {
+        final var task = new ImportPuzzleTask(selectedFile, selectedFormat, puzzleService);
         execute(task);
     }
 

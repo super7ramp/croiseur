@@ -22,6 +22,7 @@ dependencies {
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    runtimeOnly(project(":croiseur-puzzle:croiseur-puzzle-codec-xd-plugin"))
     runtimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))

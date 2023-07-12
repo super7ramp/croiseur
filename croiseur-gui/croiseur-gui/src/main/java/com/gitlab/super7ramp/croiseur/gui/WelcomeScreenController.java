@@ -13,8 +13,11 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -61,6 +64,7 @@ public final class WelcomeScreenController {
         puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
         view.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
         view.onOpenSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
+        view.onImportPuzzleButtonActionProperty().set(e -> onImportPuzzleButtonAction());
         view.onDeleteSelectedPuzzleButtonActionProperty().set(e -> onDeletePuzzleButtonAction());
         puzzleController.listAvailablePuzzles();
     }
@@ -70,7 +74,24 @@ public final class WelcomeScreenController {
      * loaded with a default crossword).
      */
     private void onNewPuzzleButtonAction() {
-        unbindAndSwitchToEditorView();
+        switchToEditorView();
+    }
+
+    /**
+     * Action when 'import puzzle' button is pressed: Selects a file and import it.
+     */
+    private void onImportPuzzleButtonAction() {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import puzzle");
+        // TODO read support formats from view model
+        fileChooser.getExtensionFilters()
+                   .add(new FileChooser.ExtensionFilter("xd files", List.of("*.xd")));
+        final File selectedFile = fileChooser.showOpenDialog(view.getScene().getWindow());
+        if (selectedFile != null) {
+            final String selectedFormat =
+                    fileChooser.getSelectedExtensionFilter().getExtensions().get(0);
+            puzzleController.importPuzzle(selectedFile, selectedFormat);
+        } // else do nothing since no file has been chosen
     }
 
     /**
@@ -79,16 +100,13 @@ public final class WelcomeScreenController {
      */
     private void onOpenPuzzleButtonAction() {
         puzzleController.loadSelectedPuzzle();
-        unbindAndSwitchToEditorView();
+        switchToEditorView();
     }
 
     /**
-     * Unbinds view from view model and switches to editor view scene.
+     * Switches to editor view.
      */
-    private void unbindAndSwitchToEditorView() {
-        // Unbind so that the selected puzzle can be updated upon save from the editor view
-        puzzleSelectionViewModel.selectedPuzzleProperty().unbind();
-
+    private void switchToEditorView() {
         final Stage stage = (Stage) view.getScene().getWindow();
         final Scene editorScene = new Scene(editorView);
         stage.setScene(editorScene);

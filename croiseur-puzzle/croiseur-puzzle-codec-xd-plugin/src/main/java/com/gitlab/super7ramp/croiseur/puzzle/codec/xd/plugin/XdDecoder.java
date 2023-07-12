@@ -33,7 +33,7 @@ public final class XdDecoder implements PuzzleDecoder {
 
     @Override
     public PuzzleCodecDetails details() {
-        return new PuzzleCodecDetails("xd", "xd format decoder", List.of(".xd"));
+        return new PuzzleCodecDetails("xd", "xd format decoder", List.of("*.xd"));
     }
 
     @Override

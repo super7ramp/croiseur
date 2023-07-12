@@ -48,6 +48,10 @@ public final class SavedPuzzleSelector extends VBox {
     @FXML
     private Button newPuzzleButton;
 
+    /** A button to import a puzzle from an external source. */
+    @FXML
+    private Button importPuzzleButton;
+
     /** A collection of saved puzzles. */
     @FXML
     private ListView<SavedPuzzleViewModel> recentPuzzleListView;
@@ -72,6 +76,15 @@ public final class SavedPuzzleSelector extends VBox {
      */
     public ObjectProperty<EventHandler<ActionEvent>> onNewPuzzleButtonActionProperty() {
         return newPuzzleButton.onActionProperty();
+    }
+
+    /**
+     * Returns the "import puzzle button action" property.
+     *
+     * @return the "import puzzle button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onImportPuzzleButtonActionProperty() {
+        return importPuzzleButton.onActionProperty();
     }
 
     /**

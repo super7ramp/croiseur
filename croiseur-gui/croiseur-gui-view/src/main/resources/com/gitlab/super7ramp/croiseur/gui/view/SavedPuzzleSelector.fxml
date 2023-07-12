@@ -23,13 +23,11 @@
                 <Tooltip text="%new-puzzle-tooltip"/>
             </tooltip>
         </Button>
-        <!-- TODO #6 To be used for open puzzle from outside puzzle repository (~ import)
         <Button fx:id="importPuzzleButton" text="%import-puzzle">
             <tooltip>
                 <Tooltip text="%import-puzzle-tooltip"/>
             </tooltip>
         </Button>
-        -->
     </HBox>
     <ListView fx:id="recentPuzzleListView" styleClass="edge-to-edge">
         <placeholder>

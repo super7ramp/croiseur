@@ -23,7 +23,8 @@ public record PuzzleCodecDetails(String name, String description, List<String> s
      *
      * @param name             the codec name
      * @param description      the codec description
-     * @param supportedFormats the file extension supported by the codec
+     * @param supportedFormats the mimetypes or the file extensions (in the format "*.extension")
+     *                         supported by the codec
      */
     public PuzzleCodecDetails {
         Objects.requireNonNull(name);

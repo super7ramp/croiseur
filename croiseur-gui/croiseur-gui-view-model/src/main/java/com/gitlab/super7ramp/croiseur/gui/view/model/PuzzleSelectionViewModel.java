@@ -11,6 +11,8 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 
+import java.util.stream.IntStream;
+
 /**
  * Puzzle selection view model.
  */
@@ -38,6 +40,22 @@ public final class PuzzleSelectionViewModel {
      */
     public ListProperty<SavedPuzzleViewModel> availablePuzzlesProperty() {
         return availablePuzzles;
+    }
+
+    /**
+     * Updates the available puzzles with given puzzle.
+     * <p>
+     * If a puzzle with same id already exists, it will be replaced by given puzzle. Otherwise,
+     * given puzzle will be added to the available puzzles.
+     *
+     * @param puzzle a new or updated puzzle
+     */
+    public void updateAvailablePuzzlesWith(final SavedPuzzleViewModel puzzle) {
+        IntStream.range(0, availablePuzzles.size())
+                 .filter(i -> availablePuzzles.get(i).id() == puzzle.id())
+                 .findFirst()
+                 .ifPresentOrElse(i -> availablePuzzles.set(i, puzzle),
+                                  () -> availablePuzzles.add(puzzle));
     }
 
     /**
