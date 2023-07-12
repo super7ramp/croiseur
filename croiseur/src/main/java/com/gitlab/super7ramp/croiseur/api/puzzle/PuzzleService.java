@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.api.puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -83,4 +84,22 @@ public interface PuzzleService {
      * presentSavedPuzzle(SavedPuzzle)
      */
     void save(final long puzzleId, final PuzzlePatch patch);
+
+    // TODO move the following to a dedicated PuzzleImportService?
+
+    /**
+     * Lists the available puzzle decoders.
+     */
+    void listDecoders();
+
+    /**
+     * Imports a puzzle from an input stream.
+     * <p>
+     * The given input stream will be read and decoded using available
+     * {@link #listDecoders() decoders}.
+     *
+     * @param is     the input stream from which to decode the puzzle to import
+     * @param format the puzzle format - preferably the mimetype, if any, or the file extension
+     */
+    void importPuzzle(final InputStream is, final String format);
 }

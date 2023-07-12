@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.spi.puzzle.codec;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 
 import java.io.InputStream;
 
@@ -15,18 +16,11 @@ import java.io.InputStream;
 public interface PuzzleDecoder {
 
     /**
-     * The decoder name.
+     * Details about the decoder.
      *
-     * @return the decoder name
+     * @return details about the decoder
      */
-    String name();
-
-    /**
-     * The decoder description.
-     *
-     * @return the decoder description
-     */
-    String description();
+    PuzzleCodecDetails details();
 
     /**
      * Decodes an input as a puzzle.

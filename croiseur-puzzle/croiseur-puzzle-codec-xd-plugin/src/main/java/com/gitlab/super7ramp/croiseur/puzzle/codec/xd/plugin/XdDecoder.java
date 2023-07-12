@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader.XdCrosswordReader;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader.XdReadException;
@@ -13,6 +14,7 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * {@link PuzzleDecoder} implementation for the xd format.
@@ -30,13 +32,8 @@ public final class XdDecoder implements PuzzleDecoder {
     }
 
     @Override
-    public String name() {
-        return "xd";
-    }
-
-    @Override
-    public String description() {
-        return "xd format decoder";
+    public PuzzleCodecDetails details() {
+        return new PuzzleCodecDetails("xd", "xd format decoder", List.of(".xd"));
     }
 
     @Override

@@ -13,6 +13,7 @@ dependencies {
     testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))
+    testRuntimeOnly(project(":croiseur-puzzle:croiseur-puzzle-codec-xd-plugin"))
     testRuntimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-memory-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))

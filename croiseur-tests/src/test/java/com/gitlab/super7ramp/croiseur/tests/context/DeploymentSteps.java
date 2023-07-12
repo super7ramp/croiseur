@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.tests.context;
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 import io.cucumber.java.After;
@@ -65,18 +66,20 @@ public final class DeploymentSteps {
     public void givenDeployedWithoutDictionaryProvider() {
         final Collection<DictionaryProvider> dictionaryProviders = Collections.emptyList();
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleRepositorySpy, presenterMock);
     }
 
     @Given("an application deployed without solver")
     public void givenDeployedWithoutSolver() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = Collections.emptyList();
+        final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -86,9 +89,10 @@ public final class DeploymentSteps {
     public void deploy() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, puzzleRepositorySpy, presenterMock);
+        deploy(dictionaryProviders, solvers, puzzleDecoders, puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -120,9 +124,11 @@ public final class DeploymentSteps {
 
     private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
                         final Collection<CrosswordSolver> solvers,
+                        final Collection<PuzzleDecoder> puzzleDecoders,
                         final PuzzleRepositorySpy puzzleRepository, final Presenter presenter) {
         final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                                                                          solvers, puzzleRepository,
+                                                                          solvers, puzzleDecoders,
+                                                                          puzzleRepository,
                                                                           presenter);
         testContext.deploy(crosswordService, puzzleRepository, presenter);
     }

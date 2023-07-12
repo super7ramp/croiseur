@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -106,6 +107,17 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentDeletedPuzzle(final long id) {
         Platform.runLater(() -> puzzleSelectionViewModel.removeAvailablePuzzleWithId(id));
+    }
+
+    @Override
+    public void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders) {
+        // Unused.
+    }
+
+    @Override
+    public void presentPuzzleImportError(final String error) {
+        LOGGER.warning(() -> "Received puzzle import error: " + error);
+        Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
     /**

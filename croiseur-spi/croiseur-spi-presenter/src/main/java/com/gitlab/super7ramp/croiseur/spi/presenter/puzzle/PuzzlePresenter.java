@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
 
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 
 import java.util.List;
@@ -53,4 +54,10 @@ public interface PuzzlePresenter {
      * @param id the id of the puzzle which has been deleted.
      */
     void presentDeletedPuzzle(final long id);
+
+    // TODO move the following into a dedicated PuzzleImportPresenter?
+
+    void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders);
+
+    void presentPuzzleImportError(final String error);
 }

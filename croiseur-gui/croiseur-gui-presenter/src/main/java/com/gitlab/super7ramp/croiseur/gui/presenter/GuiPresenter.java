@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
@@ -137,5 +138,15 @@ public final class GuiPresenter implements Presenter {
     @Override
     public void presentDeletedPuzzle(final long id) {
         puzzlePresenter.presentDeletedPuzzle(id);
+    }
+
+    @Override
+    public void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders) {
+        puzzlePresenter.presentPuzzleDecoders(decoders);
+    }
+
+    @Override
+    public void presentPuzzleImportError(final String error) {
+        puzzlePresenter.presentPuzzleImportError(error);
     }
 }

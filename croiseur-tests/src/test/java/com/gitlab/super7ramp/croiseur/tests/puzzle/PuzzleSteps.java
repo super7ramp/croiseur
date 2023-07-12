@@ -9,13 +9,16 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class PuzzleSteps {
     private final PuzzleService puzzleService;
 
     /** The presenter mock. */
-    private final Presenter presenterMock;
+    private final PuzzlePresenter presenterMock;
 
     /**
      * Constructs an instance.
@@ -80,6 +83,17 @@ public class PuzzleSteps {
         puzzleService.save(puzzle);
     }
 
+    @When("user requests to import the following puzzle in the {string} format:")
+    public void whenImport(final String formatName, final String input) {
+        final InputStream is = new ByteArrayInputStream(input.getBytes());
+        puzzleService.importPuzzle(is, formatName);
+    }
+
+    @When("user requests to list the available puzzle decoders")
+    public void whenListDecoders() {
+        puzzleService.listDecoders();
+    }
+
     @Then("the application presents the following loaded puzzle:")
     public void thenPresentLoadedPuzzle(@Transpose final SavedPuzzle puzzle) {
         verify(presenterMock).presentLoadedPuzzle(eq(puzzle));
@@ -118,5 +132,15 @@ public class PuzzleSteps {
     @Then("the application presents the confirmation that all puzzles have been deleted")
     public void thenPresentDeletedAllPuzzles() {
         verify(presenterMock).presentDeletedAllPuzzles();
+    }
+
+    @Then("the application presents the following puzzle decoders:")
+    public void thenPresentAvailablePuzzleDecoders(final List<PuzzleCodecDetails> codecs) {
+        verify(presenterMock).presentPuzzleDecoders(eq(codecs));
+    }
+
+    @Then("the application presents the following puzzle import error {string}")
+    public void thenPresentImportError(final String error) {
+        verify(presenterMock).presentPuzzleImportError(eq(error));
     }
 }

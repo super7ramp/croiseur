@@ -22,6 +22,7 @@ module com.gitlab.super7ramp.croiseur {
      * visible from client API.
      */
     requires transitive com.gitlab.super7ramp.croiseur.spi.dictionary;
+    requires transitive com.gitlab.super7ramp.croiseur.spi.puzzle.codec;
     requires transitive com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
     requires transitive com.gitlab.super7ramp.croiseur.spi.solver;
     requires transitive com.gitlab.super7ramp.croiseur.spi.presenter;
@@ -32,7 +33,7 @@ module com.gitlab.super7ramp.croiseur {
     exports com.gitlab.super7ramp.croiseur.api.puzzle;
     exports com.gitlab.super7ramp.croiseur.api.solver;
 
-    // Uses plugins since plugin implementations can be implicitly loaded in factory.
+    // Uses plugins since plugins can be implicitly loaded in factory.
     uses DictionaryProvider;
     uses PuzzleRepository;
     uses CrosswordSolver;

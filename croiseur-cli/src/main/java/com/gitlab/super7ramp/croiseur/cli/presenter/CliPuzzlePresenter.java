@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
@@ -93,5 +94,15 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentDeletedPuzzle(final long id) {
         System.out.printf($("deleted.single"), id);
+    }
+
+    @Override
+    public void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void presentPuzzleImportError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
