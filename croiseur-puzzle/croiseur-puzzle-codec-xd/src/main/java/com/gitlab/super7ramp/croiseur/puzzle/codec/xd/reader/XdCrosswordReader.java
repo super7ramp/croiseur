@@ -11,6 +11,8 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -59,6 +61,23 @@ public final class XdCrosswordReader {
         final XdGrid grid = gridReader.read(sections.grid);
         final XdClues clues = cluesReader.read(sections.clues);
         return new XdCrossword(metadata, grid, clues);
+    }
+
+    /**
+     * Reads the crossword from given input stream.
+     *
+     * @param crosswordInputStream the input stream from which to read the crossword
+     * @return the read {@link XdCrossword}
+     * @throws XdReadException if read fails
+     */
+    public XdCrossword read(final InputStream crosswordInputStream) throws XdReadException {
+        try {
+            final byte[] bytes = crosswordInputStream.readAllBytes();
+            final String string = new String(bytes, StandardCharsets.UTF_8);
+            return read(string);
+        } catch (final IOException e) {
+            throw new XdCrosswordReadException(e);
+        }
     }
 
     /**
