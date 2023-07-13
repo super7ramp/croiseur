@@ -84,7 +84,7 @@ public final class CrosswordEditorController {
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         initializePuzzleBindings();
-        populateServiceLists();
+        populateModels();
     }
 
     /**
@@ -218,9 +218,9 @@ public final class CrosswordEditorController {
     }
 
     /**
-     * Populates solver and dictionary lists.
+     * Populates solver and dictionary models.
      */
-    private void populateServiceLists() {
+    private void populateModels() {
         solverController.listSolvers();
         dictionaryController.listDictionaries();
     }

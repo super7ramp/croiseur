@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
 /**
@@ -30,6 +31,9 @@ public final class WelcomeScreenController {
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
 
+    /** The puzzle codecs view model. */
+    private final PuzzleCodecsViewModel puzzleCodecsViewModel;
+
     /** The puzzle service controller. */
     private final PuzzleController puzzleController;
 
@@ -39,9 +43,13 @@ public final class WelcomeScreenController {
     /** The editor view to switch to when a puzzle is selected. */
     private final Parent editorView;
 
-    /** The welcome screen view. */
+    /** The puzzle selector of the welcome screen. */
     @FXML
-    private SavedPuzzleSelector view;
+    private SavedPuzzleSelector selectorView;
+
+    /** The translations. */
+    @FXML
+    private ResourceBundle resources;
 
     /**
      * Constructs an instance.
@@ -55,38 +63,15 @@ public final class WelcomeScreenController {
      */
     public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
                                    final PuzzleEditionViewModel puzzleEditionViewModel,
-                                   final PuzzleCodecsViewModel puzzleCodecsViewModel,
+                                   final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
                                    final PuzzleService puzzleService, final Executor executor,
                                    final Parent editorViewArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
+        puzzleCodecsViewModel = puzzleCodecsViewModelArg;
         puzzleController = new PuzzleController(puzzleSelectionViewModelArg, puzzleEditionViewModel,
                                                 puzzleService, executor);
-        fileChooser = initializeFileChooser(puzzleCodecsViewModel);
-        editorView = editorViewArg;
-    }
-
-    /**
-     * Initializes the {@link #fileChooser}.
-     * <p>
-     * Note: The file chooser is <em>not</em> a JavaFx control and is not injected from FXML. It can
-     * thus be initialized from constructor.
-     *
-     * @param puzzleCodecsViewModel the puzzle codecs view model
-     */
-    private static FileChooser initializeFileChooser(
-            final PuzzleCodecsViewModel puzzleCodecsViewModel) {
-        final FileChooser fileChooser;
         fileChooser = new FileChooser();
-        // TODO l10n
-        fileChooser.setTitle("Import puzzle");
-        puzzleCodecsViewModel.decodersProperty().addListener((InvalidationListener) observable -> {
-            final List<FileChooser.ExtensionFilter> extensionFilters =
-                    puzzleCodecsViewModel.decodersProperty().stream()
-                                         .map(codec -> new FileChooser.ExtensionFilter(
-                                                 codec.name(), codec.extensions())).toList();
-            fileChooser.getExtensionFilters().setAll(extensionFilters);
-        });
-        return fileChooser;
+        editorView = editorViewArg;
     }
 
     /**
@@ -95,6 +80,7 @@ public final class WelcomeScreenController {
     @FXML
     private void initialize() {
         initializeListViewBindings();
+        initializeFileChooserBindings();
         initializeButtonsBindings();
         populateModels();
     }
@@ -103,18 +89,35 @@ public final class WelcomeScreenController {
      * Initializes bindings between the puzzle selection view model and the list view.
      */
     private void initializeListViewBindings() {
-        view.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
-        puzzleSelectionViewModel.selectedPuzzleProperty().bind(view.selectedPuzzleProperty());
+        selectorView.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
+        puzzleSelectionViewModel.selectedPuzzleProperty()
+                                .bind(selectorView.selectedPuzzleProperty());
+    }
+
+    /**
+     * Initializes the bindings related to file chooser.
+     */
+    private void initializeFileChooserBindings() {
+        fileChooser.setTitle(resources.getString("import-filechooser-title"));
+        puzzleCodecsViewModel.decodersProperty().addListener((InvalidationListener) observable -> {
+            final List<FileChooser.ExtensionFilter> extensionFilters =
+                    puzzleCodecsViewModel.decodersProperty().stream()
+                                         .map(codec -> new FileChooser.ExtensionFilter(
+                                                 codec.name(), codec.extensions())).toList();
+            fileChooser.getExtensionFilters().setAll(extensionFilters);
+        });
     }
 
     /**
      * Initializes bindings between the controller and the view buttons.
      */
     private void initializeButtonsBindings() {
-        view.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
-        view.onOpenSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
-        view.onImportPuzzleButtonActionProperty().set(e -> onImportPuzzleButtonAction());
-        view.onDeleteSelectedPuzzleButtonActionProperty().set(e -> onDeletePuzzleButtonAction());
+        selectorView.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
+        selectorView.onOpenSelectedPuzzleButtonActionProperty()
+                    .set(e -> onOpenPuzzleButtonAction());
+        selectorView.onImportPuzzleButtonActionProperty().set(e -> onImportPuzzleButtonAction());
+        selectorView.onDeleteSelectedPuzzleButtonActionProperty()
+                    .set(e -> onDeletePuzzleButtonAction());
     }
 
     /**
@@ -129,7 +132,7 @@ public final class WelcomeScreenController {
      * Action when 'import puzzle' button is pressed: Selects a file and import it.
      */
     private void onImportPuzzleButtonAction() {
-        final File selectedFile = fileChooser.showOpenDialog(view.getScene().getWindow());
+        final File selectedFile = fileChooser.showOpenDialog(selectorView.getScene().getWindow());
         if (selectedFile != null) {
             final List<String> selectedExtensions =
                     fileChooser.getSelectedExtensionFilter().getExtensions();
@@ -152,7 +155,7 @@ public final class WelcomeScreenController {
      * Switches to editor view.
      */
     private void switchToEditorView() {
-        final Stage stage = (Stage) view.getScene().getWindow();
+        final Stage stage = (Stage) selectorView.getScene().getWindow();
         final Scene editorScene = new Scene(editorView);
         stage.setScene(editorScene);
     }
@@ -168,8 +171,8 @@ public final class WelcomeScreenController {
      * Populate view models by calling the {@link #puzzleController}.
      */
     private void populateModels() {
-        puzzleController.listAvailablePuzzles();
-        puzzleController.listAvailablePuzzleDecoders();
+        puzzleController.listPuzzles();
+        puzzleController.listPuzzleDecoders();
     }
 
 }

@@ -19,5 +19,5 @@
         <Text id="welcome-text" text="%welcome-text"/>
         <Text id="welcome-version" text="%version-text"/>
     </VBox>
-    <SavedPuzzleSelector fx:id="view" id="puzzles-vbox"/>
+    <SavedPuzzleSelector fx:id="selectorView" id="puzzles-vbox"/>
 </VBox>
