@@ -7,7 +7,7 @@ Feature: Import Puzzle
   puzzle decoders.
 
   Scenario: Import Puzzle - xd Format
-    When user requests to import the following puzzle in the '.xd' format:
+    When user requests to import the following puzzle in the '*.xd' format:
     """
     Title: Example Grid
     Author: Jane Doe
@@ -40,7 +40,7 @@ Feature: Import Puzzle
     And the application presents the confirmation the puzzle has been saved using identifier $id
 
   Scenario: Import Puzzle - xd Format - Decoding Error
-    When user requests to import the following puzzle in the '.xd' format:
+    When user requests to import the following puzzle in the '*.xd' format:
     """
     Title - Example Grid
     Author - Jane Doe
