@@ -194,6 +194,7 @@ public final class CroiseurGuiApplication extends Application {
         final var welcomeScreenController =
                 new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
                                             applicationViewModel.puzzleEditionViewModel(),
+                                            applicationViewModel.puzzleCodecsViewModel(),
                                             crosswordService.puzzleService(), executor,
                                             editorView);
         return ViewLoader.load(welcomeScreenController);

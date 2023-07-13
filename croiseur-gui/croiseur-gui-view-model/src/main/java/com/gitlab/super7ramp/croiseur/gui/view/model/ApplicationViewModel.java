@@ -18,6 +18,9 @@ public final class ApplicationViewModel {
     /** The puzzle edition view model. */
     private final PuzzleEditionViewModel puzzleEditionViewModel;
 
+    /** The puzzle codecs view model. */
+    private final PuzzleCodecsViewModel puzzleCodecsViewModel;
+
     /** The view model of the dictionary. */
     private final DictionariesViewModel dictionariesViewModel;
 
@@ -36,6 +39,7 @@ public final class ApplicationViewModel {
     public ApplicationViewModel() {
         puzzleSelectionViewModel = new PuzzleSelectionViewModel();
         puzzleEditionViewModel = new PuzzleEditionViewModel();
+        puzzleCodecsViewModel = new PuzzleCodecsViewModel();
         dictionariesViewModel = new DictionariesViewModel();
         solverSelectionViewModel = new SolverSelectionViewModel();
         solverProgressViewModel = new SolverProgressViewModel();
@@ -66,6 +70,15 @@ public final class ApplicationViewModel {
      */
     public PuzzleEditionViewModel puzzleEditionViewModel() {
         return puzzleEditionViewModel;
+    }
+
+    /**
+     * Returns the puzzle codecs view model.
+     *
+     * @return the puzzle codecs view model
+     */
+    public PuzzleCodecsViewModel puzzleCodecsViewModel() {
+        return puzzleCodecsViewModel;
     }
 
     /**

@@ -9,9 +9,9 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import javafx.concurrent.Task;
 
 /**
- * List puzzle task.
+ * List puzzles task.
  */
-final class ListPuzzleTask extends Task<Void> {
+final class ListPuzzlesTask extends Task<Void> {
 
     /** The puzzle service. */
     private final PuzzleService puzzleService;
@@ -21,7 +21,7 @@ final class ListPuzzleTask extends Task<Void> {
      *
      * @param puzzleServiceArg the puzzle service
      */
-    ListPuzzleTask(final PuzzleService puzzleServiceArg) {
+    ListPuzzlesTask(final PuzzleService puzzleServiceArg) {
         puzzleService = puzzleServiceArg;
     }
 

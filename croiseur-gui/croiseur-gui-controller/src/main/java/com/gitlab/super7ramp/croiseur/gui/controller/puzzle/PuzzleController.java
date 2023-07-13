@@ -56,7 +56,15 @@ public final class PuzzleController {
      * Starts the 'list puzzles' task.
      */
     public void listAvailablePuzzles() {
-        final var task = new ListPuzzleTask(puzzleService);
+        final var task = new ListPuzzlesTask(puzzleService);
+        execute(task);
+    }
+
+    /**
+     * Starts the 'list puzzle codecs' task.
+     */
+    public void listAvailablePuzzleDecoders() {
+        final var task = new ListPuzzleDecodersTask(puzzleService);
         execute(task);
     }
 

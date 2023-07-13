@@ -14,6 +14,8 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleCodec;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleCodecsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
@@ -49,6 +51,9 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     /** The crossword grid edition view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
+    /** The puzzle codecs view model. */
+    private final PuzzleCodecsViewModel puzzleCodecsViewModel;
+
     /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
@@ -57,14 +62,17 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
      * @param puzzleEditionViewModelArg   the puzzle edition view model
+     * @param puzzleCodecsViewModelArg    the puzzle codecs view model
      * @param errorsViewModelArg          the errors view model
      */
     GuiPuzzlePresenter(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
                        final PuzzleEditionViewModel puzzleEditionViewModelArg,
+                       final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
                        final ErrorsViewModel errorsViewModelArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleDetailsViewModel = puzzleEditionViewModelArg.puzzleDetailsViewModel();
         crosswordGridViewModel = puzzleEditionViewModelArg.crosswordGridViewModel();
+        puzzleCodecsViewModel = puzzleCodecsViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
 
@@ -112,7 +120,10 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders) {
-        // Unused.
+        LOGGER.info(() -> "Received puzzle decoders: " + decoders);
+        final List<PuzzleCodec> decoderViewModels =
+                decoders.stream().map(GuiPuzzlePresenter::convertToViewModel).toList();
+        Platform.runLater(() -> puzzleCodecsViewModel.decodersProperty().setAll(decoderViewModels));
     }
 
     @Override
@@ -144,6 +155,18 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         puzzle.grid().filled()
               .forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
         return builder.build();
+    }
+
+    /**
+     * Converts puzzle codec details from domain type to view-model type.
+     *
+     * @param codecDetails the domain puzzle codec details
+     * @return the puzzle codec details converted to view model type
+     */
+    private static PuzzleCodec convertToViewModel(final PuzzleCodecDetails codecDetails) {
+        final String joinedFormats = String.join(", ", codecDetails.supportedFormats());
+        final String prettyName = codecDetails.name() + " files (" + joinedFormats + ")";
+        return new PuzzleCodec(prettyName, codecDetails.supportedFormats());
     }
 
     /**
