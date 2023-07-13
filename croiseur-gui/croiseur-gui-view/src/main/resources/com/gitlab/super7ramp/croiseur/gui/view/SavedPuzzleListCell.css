@@ -24,7 +24,7 @@
 
 .list-cell:selected > .card-container-hbox > .action-button-vbox {
     /* Border between content and buttons appears when list cell is selected. */
-    -fx-border-style: solid;
+    -fx-border-color: -color-border-default;
 }
 
 .button {
