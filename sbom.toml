@@ -3,6 +3,7 @@
 
 [versions]
 cargo-plugin = "1.1.0"
+conveyor-plugin = "1.5"
 cucumber = "7.13.0"
 java = "17.0.7"
 javafx-plugin = "0.0.14"
@@ -41,3 +42,5 @@ testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "testfx-
 cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin" }
 # Plugin to pull JavaFx; only used by gui module
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
+# Plugin for conveyor (to create application package)
+conveyor = { id = "dev.hydraulic.conveyor", version.ref = "conveyor-plugin" }

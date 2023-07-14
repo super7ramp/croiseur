@@ -6,6 +6,7 @@
 plugins {
     id("com.gitlab.super7ramp.croiseur.java-application-conventions")
     alias(sbom.plugins.javafx)
+    alias(sbom.plugins.conveyor)
 }
 
 javafx {
