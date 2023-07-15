@@ -35,9 +35,6 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     private static final Logger LOGGER =
             Logger.getLogger(FileSystemPuzzleRepository.class.getName());
 
-    /** The system property defining the repository path. */
-    private static final String PUZZLE_PATH_PROPERTY = "com.gitlab.super7ramp.croiseur.puzzle.path";
-
     /** The names that files should have. Example: "42.xd" (42 is the crossword identifier). */
     private static final Pattern SUPPORTED_FILES_PATTERN = Pattern.compile("\\d+.xd");
 
@@ -59,22 +56,13 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     /**
      * Constructs an instance.
      *
-     * @throws IllegalArgumentException if property {@value PUZZLE_PATH_PROPERTY} is not set
-     * @throws IOException              if directory indicated by the property
-     *                                  {@value PUZZLE_PATH_PROPERTY} does not exist and cannot be
-     *                                  created
+     * @throws IOException if puzzle repository directory does not exist and cannot be created
      */
     public FileSystemPuzzleRepository() throws IOException {
-        final String pathProperty = System.getProperty(PUZZLE_PATH_PROPERTY);
-        if (pathProperty == null) {
-            throw new IllegalStateException(
-                    "Failed to instantiate FileSystemPuzzleRepository: The system property '" +
-                    PUZZLE_PATH_PROPERTY + "' is not set. Check your setup.");
-        }
-        LOGGER.info("Initializing FileSystemPuzzleRepository at " + pathProperty);
-        repositoryPath = Path.of(pathProperty);
+        repositoryPath = PuzzleRepositoryPath.get();
+        LOGGER.info("Initializing FileSystemPuzzleRepository at " + repositoryPath);
         if (Files.notExists(repositoryPath)) {
-            Files.createDirectory(repositoryPath);
+            Files.createDirectories(repositoryPath);
         }
         reader = new PuzzleReader();
         writer = new PuzzleWriter();

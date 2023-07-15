@@ -9,7 +9,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 a [Croiseur puzzle repository](../../croiseur-spi/croiseur-spi-puzzle-repository) whose puzzles are
 stored as files on disk.
 
-The path to the repository is defined by the `com.gitlab.super7ramp.croiseur.puzzle.path` system
-property.
-
 Files are written in the [xd format](../croiseur-puzzle-codec-xd).
+
+The path to the repository is defined by the `com.gitlab.super7ramp.croiseur.puzzle.path` system
+property. If the system property is not defined, the plugin will use `${user.dir}/croiseur/puzzle`
+as fallback.
+
+If the directory pointed by the given (or fallback path) does not exist, the plugin will attempt to
+create it.

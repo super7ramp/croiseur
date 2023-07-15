@@ -60,14 +60,17 @@ final class FileSystemPuzzleRepositoryTest {
     @TempDir
     private Path repositoryPath;
 
+    /** The repository under tests. */
+    private FileSystemPuzzleRepository repo;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         System.setProperty("com.gitlab.super7ramp.croiseur.puzzle.path", repositoryPath.toString());
+        repo = new FileSystemPuzzleRepository();
     }
 
     @Test
     void create() throws WriteException, IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
@@ -82,7 +85,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void create_consistencyWithQuery() throws WriteException, IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
@@ -97,7 +99,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void update() throws WriteException, IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
@@ -117,7 +118,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void update_noRealChange() throws WriteException, IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
@@ -134,7 +134,6 @@ final class FileSystemPuzzleRepositoryTest {
     void delete() throws IOException, WriteException {
         final Path puzzlePath = repositoryPath.resolve("1.xd");
         Files.writeString(puzzlePath, XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         repo.delete(1L);
 
@@ -143,7 +142,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void delete_missing() throws IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         assertThrows(WriteException.class, () -> repo.delete(1L));
     }
 
@@ -152,7 +150,6 @@ final class FileSystemPuzzleRepositoryTest {
         Files.writeString(repositoryPath.resolve("1.xd"), XD_PUZZLE);
         Files.writeString(repositoryPath.resolve("2.xd"), XD_PUZZLE);
         Files.writeString(repositoryPath.resolve("3.xd"), XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         repo.deleteAll();
 
@@ -164,7 +161,6 @@ final class FileSystemPuzzleRepositoryTest {
     @Test
     void query() throws IOException {
         Files.writeString(repositoryPath.resolve("1.xd"), XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Optional<SavedPuzzle> puzzle = repo.query(1L);
 
@@ -173,7 +169,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void query_empty() throws IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final Optional<SavedPuzzle> puzzle = repo.query(1L);
         assertEquals(Optional.empty(), puzzle);
     }
@@ -183,7 +178,6 @@ final class FileSystemPuzzleRepositoryTest {
         Files.writeString(repositoryPath.resolve("1.xd"), XD_PUZZLE);
         Files.writeString(repositoryPath.resolve("2.xd"), XD_PUZZLE);
         Files.writeString(repositoryPath.resolve("3.xd"), XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Collection<SavedPuzzle> puzzles = repo.list();
 
@@ -192,7 +186,6 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void list_empty() throws IOException {
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
         final Collection<SavedPuzzle> puzzles = repo.list();
         assertEquals(Collections.emptyList(), puzzles);
     }
@@ -202,7 +195,6 @@ final class FileSystemPuzzleRepositoryTest {
         Files.createFile(repositoryPath.resolve("1.xd"));
         Files.createFile(repositoryPath.resolve("2.xd"));
         Files.createFile(repositoryPath.resolve("3.xd"));
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Collection<SavedPuzzle> puzzles = repo.list();
 
@@ -213,7 +205,6 @@ final class FileSystemPuzzleRepositoryTest {
     void list_ignoredFiles() throws IOException {
         Files.writeString(repositoryPath.resolve("test.xd"), XD_PUZZLE);
         Files.writeString(repositoryPath.resolve("1.xdd"), XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Collection<SavedPuzzle> puzzles = repo.list();
 
@@ -225,17 +216,10 @@ final class FileSystemPuzzleRepositoryTest {
         final Path subdirPath = repositoryPath.resolve("subdir");
         Files.createDirectory(subdirPath);
         Files.writeString(subdirPath.resolve("1.xd"), XD_PUZZLE);
-        final FileSystemPuzzleRepository repo = new FileSystemPuzzleRepository();
 
         final Collection<SavedPuzzle> puzzles = repo.list();
 
         assertEquals(Collections.emptyList(), puzzles);
-    }
-
-    @Test
-    void creationFailureNoPath() {
-        System.clearProperty("com.gitlab.super7ramp.croiseur.puzzle.path");
-        assertThrows(IllegalStateException.class, FileSystemPuzzleRepository::new);
     }
 
 }
