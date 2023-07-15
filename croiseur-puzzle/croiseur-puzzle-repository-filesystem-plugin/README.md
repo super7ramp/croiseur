@@ -12,7 +12,7 @@ stored as files on disk.
 Files are written in the [xd format](../croiseur-puzzle-codec-xd).
 
 The path to the repository is defined by the `com.gitlab.super7ramp.croiseur.puzzle.path` system
-property. If the system property is not defined, the plugin will use `${user.dir}/croiseur/puzzle`
+property. If the system property is not defined, the plugin will use `${user.home}/croiseur/puzzles`
 as fallback.
 
 If the directory pointed by the given (or fallback path) does not exist, the plugin will attempt to
