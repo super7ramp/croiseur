@@ -26,12 +26,13 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          Manage saved puzzles
 
                          Commands:
-                           cat         Display saved puzzle
-                           create      Save a new puzzle
-                           delete, rm  Delete a saved puzzle
-                           delete-all  Delete all saved puzzles
-                           list, ls    List saved puzzles
-                           update      Update a saved puzzle
+                           cat            Display saved puzzle
+                           create         Save a new puzzle
+                           delete, rm     Delete a saved puzzle
+                           delete-all     Delete all saved puzzles
+                           list, ls       List saved puzzles
+                           list-decoders  List puzzle decoders
+                           update         Update a saved puzzle
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
     }
@@ -178,6 +179,19 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         whenOneRunsCli("puzzle", "list");
 
         thenCli().writesToStdOut("No saved puzzle.\n")
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void listDecoders() {
+        whenOneRunsCli("puzzle", "list-decoders");
+        thenCli().writesToStdOut(
+                         """
+                         Name            	Description                     	Supported formats
+                         ----            	-----------                     	-----------------
+                         xd              	xd format decoder               	*.xd           \s
+                         """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }

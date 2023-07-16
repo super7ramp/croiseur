@@ -40,6 +40,12 @@ public final class PuzzleCommand {
         puzzleService.list();
     }
 
+    /** Lists the available puzzle decoders. */
+    @Command(name = "list-decoders")
+    void listDecoders() {
+        puzzleService.listDecoders();
+    }
+
     /**
      * Creates a puzzle.
      *

@@ -91,12 +91,13 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                          Manage saved puzzles
 
                          Commands:
-                           cat         Display saved puzzle
-                           create      Save a new puzzle
-                           delete, rm  Delete a saved puzzle
-                           delete-all  Delete all saved puzzles
-                           list, ls    List saved puzzles
-                           update      Update a saved puzzle
+                           cat            Display saved puzzle
+                           create         Save a new puzzle
+                           delete, rm     Delete a saved puzzle
+                           delete-all     Delete all saved puzzles
+                           list, ls       List saved puzzles
+                           list-decoders  List puzzle decoders
+                           update         Update a saved puzzle
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);

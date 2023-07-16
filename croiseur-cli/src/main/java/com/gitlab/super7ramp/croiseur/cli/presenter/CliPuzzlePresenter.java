@@ -23,6 +23,9 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     /** The format to present puzzle list. */
     private static final String PUZZLE_LIST_FORMAT = "%-4s\t%-4s\t%-16s\t%-16s\t%-16s%n";
 
+    /** The format to present the puzzle codec list. */
+    private static final String PUZZLE_CODEC_LIST_FORMAT = "%-16s\t%-32s\t%-16s%n";
+
     /**
      * Constructs an instance.
      */
@@ -98,7 +101,24 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (decoders.isEmpty()) {
+            System.out.println($("list.decoders.none-found"));
+            return;
+        }
+
+        final String nameHeader = $("decoder.name");
+        final String descriptionHeader = $("decoder.description");
+        final String supportedFormatsHeader = $("decoder.formats");
+
+        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, nameHeader, descriptionHeader,
+                          supportedFormatsHeader);
+        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, lineOf(nameHeader.length()),
+                          lineOf(descriptionHeader.length()),
+                          lineOf(supportedFormatsHeader.length()));
+        decoders.forEach(
+                decoder -> System.out.printf(PUZZLE_CODEC_LIST_FORMAT, decoder.name(),
+                                             decoder.description(),
+                                             String.join(", ", decoder.supportedFormats())));
     }
 
     @Override

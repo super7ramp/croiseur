@@ -5,6 +5,7 @@
 
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
@@ -35,6 +36,7 @@ module com.gitlab.super7ramp.croiseur {
 
     // Uses plugins since plugins can be implicitly loaded in factory.
     uses DictionaryProvider;
+    uses PuzzleDecoder;
     uses PuzzleRepository;
     uses CrosswordSolver;
     uses Presenter;
