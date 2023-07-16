@@ -95,6 +95,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            create         Save a new puzzle
                            delete, rm     Delete a saved puzzle
                            delete-all     Delete all saved puzzles
+                           import         Import a puzzle from a file
                            list, ls       List saved puzzles
                            list-decoders  List puzzle decoders
                            update         Update a saved puzzle

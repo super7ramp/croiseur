@@ -10,9 +10,13 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter.Puzzles;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -44,6 +48,29 @@ public final class PuzzleCommand {
     @Command(name = "list-decoders")
     void listDecoders() {
         puzzleService.listDecoders();
+    }
+
+    /**
+     * Imports the given puzzle.
+     *
+     * @param file   the input file
+     * @param format the file format; if not given, format is taken from file extension
+     * @return {@value ExitCode#OK} if file can be opened; {@value ExitCode#SOFTWARE} otherwise
+     */
+    @Command(name = "import")
+    int importPuzzle(@Parameters(arity = "1", paramLabel = "FILE") final File file,
+                     @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
+                     final Optional<String> format) {
+        try (final var fis = new FileInputStream(file)) {
+            puzzleService.importPuzzle(fis, format.orElseGet(() -> {
+                final int lastDot = file.getName().lastIndexOf(".");
+                return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
+            }));
+            return ExitCode.OK;
+        } catch (final IOException e) {
+            System.err.println("File not found.");
+            return ExitCode.SOFTWARE;
+        }
     }
 
     /**

@@ -123,6 +123,6 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleImportError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        System.err.println(error);
     }
 }

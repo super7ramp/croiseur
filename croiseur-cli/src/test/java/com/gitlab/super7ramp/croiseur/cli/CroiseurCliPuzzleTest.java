@@ -7,6 +7,11 @@ package com.gitlab.super7ramp.croiseur.cli;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,6 +35,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                            create         Save a new puzzle
                            delete, rm     Delete a saved puzzle
                            delete-all     Delete all saved puzzles
+                           import         Import a puzzle from a file
                            list, ls       List saved puzzles
                            list-decoders  List puzzle decoders
                            update         Update a saved puzzle
@@ -194,6 +200,144 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void importPuzzle(@TempDir final Path tempDir) throws IOException {
+        final Path example = tempDir.resolve("example.xd");
+        givenPuzzle(example, """
+                             Title: Example Grid
+                             Author: Jane Doe
+                             Editor: John Doe
+                             Date: 2023-06-19
+
+
+                             ABC
+                             DEF
+                             GHI
+
+
+                             A1. Start. ~ ABC
+                             A2. Middle. ~ DEF
+                             A3. End. ~ GHI
+
+                             D1. Some Very. ~ ADG
+                             D2. Dummy. ~ BEH
+                             D3. Clues. ~ CFI
+                             """);
+        whenOneRunsCli("puzzle", "import", example.toString());
+        thenCli().writesToStdOut(
+                         """
+                         Saved puzzle.
+
+                         Identifier: 1
+                         Revision: 1
+                         Title: Example Grid
+                         Author: Jane Doe
+                         Editor: John Doe
+                         Copyright:\s
+                         Date: 2023-06-19
+                         Grid:
+                         |A|B|C|
+                         |D|E|F|
+                         |G|H|I|
+
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    /**
+     * Writes the given puzzle content at given path.
+     *
+     * @param path    where to write the puzzle
+     * @param content the content to write
+     * @throws IOException if file couldn't be written
+     */
+    private void givenPuzzle(final Path path, final String content) throws IOException {
+        Files.writeString(path, content);
+    }
+
+    @Test
+    void importPuzzle_formatOption(@TempDir final Path tempDir) throws IOException {
+        final Path example = tempDir.resolve("example");
+        givenPuzzle(example, """
+                             Title: Example Grid
+                             Author: Jane Doe
+                             Editor: John Doe
+                             Date: 2023-06-19
+
+
+                             ABC
+                             DEF
+                             GHI
+
+
+                             A1. Start. ~ ABC
+                             A2. Middle. ~ DEF
+                             A3. End. ~ GHI
+
+                             D1. Some Very. ~ ADG
+                             D2. Dummy. ~ BEH
+                             D3. Clues. ~ CFI
+                             """);
+        whenOneRunsCli("puzzle", "import", "--format", "*.xd", example.toString());
+        thenCli().writesToStdOut(
+                         """
+                         Saved puzzle.
+
+                         Identifier: 1
+                         Revision: 1
+                         Title: Example Grid
+                         Author: Jane Doe
+                         Editor: John Doe
+                         Copyright:\s
+                         Date: 2023-06-19
+                         Grid:
+                         |A|B|C|
+                         |D|E|F|
+                         |G|H|I|
+
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void importPuzzle_unknownFormatOption(@TempDir final Path tempDir) throws IOException {
+        final Path example = tempDir.resolve("example");
+        givenPuzzle(example, """
+                             Title: Example Grid
+                             Author: Jane Doe
+                             Editor: John Doe
+                             Date: 2023-06-19
+
+
+                             ABC
+                             DEF
+                             GHI
+
+
+                             A1. Start. ~ ABC
+                             A2. Middle. ~ DEF
+                             A3. End. ~ GHI
+
+                             D1. Some Very. ~ ADG
+                             D2. Dummy. ~ BEH
+                             D3. Clues. ~ CFI
+                             """);
+        whenOneRunsCli("puzzle", "import", "--format", "unknown", example.toString());
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr("No suitable decoder found for format 'unknown'\n")
+                 .and().exitsWithCode(SUCCESS); // TODO error
+    }
+
+    @Test
+    void importPuzzle_noSuchFile() {
+        whenOneRunsCli("puzzle", "import", "404.xd");
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr("File not found.\n")
+                 .and().exitsWithCode(RUNTIME_ERROR);
     }
 
     @AfterEach
