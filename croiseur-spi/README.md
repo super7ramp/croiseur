@@ -30,3 +30,6 @@ stable as possible and respect the following rules:
     * SPIs may depend on `croiseur-common`, as `croiseur-common` strives for backward
       compatibility;
 * SPIs shall have their own versioning scheme.
+
+> Note: Until a first stable version of Croiseur is made, the above rules are not strictly enforced.
+> SPIs may break, and the SPI versions follow the Croiseur API version.

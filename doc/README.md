@@ -7,9 +7,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Tutorials
 
-* [Generate a grid using the graphical interface](tutorial/Generate-a-grid-using-croiseur-gui.md) 🚧
-* [Generate a grid using the command-line interface](tutorial/Generate-a-grid-using-croiseur-cli.md)
-  🚧
+* Generate a grid using the graphical interface 🚧
+* Generate a grid using the command-line interface 🚧
 
 ### How-To Guides
 
@@ -17,18 +16,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * [How to plug a solver](how-to/Plug-a-solver.md)
 * [How to plug a dictionary provider](how-to/Plug-a-dictionary-provider.md)
 * [How to plug a presenter](how-to/Plug-a-presenter.md)
-* [How to translate croiseur](how-to/Translate-croiseur.md) 🚧
+* How to translate Croiseur 🚧
+* [How to make a release of Croiseur](how-to/Make-a-release-of-Croiseur.md)
 
 ### Explanations
 
 * [Design Decisions](explanation/design-decisions/README.md) 🚧
 * [How Crossword Solvers Work](explanation/How-crossword-solvers-work.md)
-* [Why Dictionaries Matter](explanation/Why-dictionaries-matter.md)
+* [Why Dictionaries Matter](explanation/Why-dictionaries-matter.md) 🚧
 
 ### References
 
 * [Available Service Providers](reference/Available-service-providers.md)
 * [Component Descriptions](reference/Component-descriptions.md)
-* croiseur API Javadoc 🚧
-* croiseur SPI Javadoc 🚧
+* Croiseur API Javadoc 🚧
+* Croiseur SPI Javadoc 🚧
 * CLI man page 🚧
