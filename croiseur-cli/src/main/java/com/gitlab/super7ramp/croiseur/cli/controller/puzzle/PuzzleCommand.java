@@ -8,9 +8,10 @@ package com.gitlab.super7ramp.croiseur.cli.controller.puzzle;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter.Puzzles;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
+import com.gitlab.super7ramp.croiseur.cli.status.StatusCodes;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
@@ -38,16 +39,26 @@ public final class PuzzleCommand {
         puzzleService = puzzleServiceArg;
     }
 
-    /** Lists the available puzzles. */
+    /**
+     * Lists the available puzzles.
+     *
+     * @return the error status
+     */
     @Command(aliases = {"ls"})
-    void list() {
+    int list() {
         puzzleService.list();
+        return Status.getAndReset();
     }
 
-    /** Lists the available puzzle decoders. */
+    /**
+     * Lists the available puzzle decoders.
+     *
+     * @return the error status
+     */
     @Command(name = "list-decoders")
-    void listDecoders() {
+    int listDecoders() {
         puzzleService.listDecoders();
+        return Status.getAndReset();
     }
 
     /**
@@ -55,7 +66,7 @@ public final class PuzzleCommand {
      *
      * @param file   the input file
      * @param format the file format; if not given, format is taken from file extension
-     * @return {@value ExitCode#OK} if file can be opened; {@value ExitCode#SOFTWARE} otherwise
+     * @return the error status
      */
     @Command(name = "import")
     int importPuzzle(@Parameters(arity = "1", paramLabel = "FILE") final File file,
@@ -66,10 +77,10 @@ public final class PuzzleCommand {
                 final int lastDot = file.getName().lastIndexOf(".");
                 return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
             }));
-            return ExitCode.OK;
+            return Status.getAndReset();
         } catch (final IOException e) {
             System.err.println("File not found.");
-            return ExitCode.SOFTWARE;
+            return StatusCodes.IO_ERROR;
         }
     }
 
@@ -82,9 +93,10 @@ public final class PuzzleCommand {
      * @param copyright the puzzle copyright, if any
      * @param date      the puzzle date, if any
      * @param gridRows  the puzzle grid rows
+     * @return the error status
      */
     @Command
-    void create(
+    int create(
             @Option(names = {"-t", "--title"}, paramLabel = "TITLE") final Optional<String> title,
             @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR")
             final Optional<String> author,
@@ -97,6 +109,7 @@ public final class PuzzleCommand {
             final String gridRows) {
         final Puzzle puzzle = Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows);
         puzzleService.save(puzzle);
+        return Status.getAndReset();
     }
 
     /**
@@ -109,50 +122,61 @@ public final class PuzzleCommand {
      * @param copyright the new copyright, if any
      * @param date      the new date, if any
      * @param gridRows  the new grid rows, if any
+     * @return the error status
      */
     @Command
-    void update(@Parameters(arity = "1", paramLabel = "ID") final long id,
-                @Option(names = {"-t", "--title"}, paramLabel = "TITLE")
-                final Optional<String> title,
-                @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR")
-                final Optional<String> author,
-                @Option(names = {"-e", "--editor"}, paramLabel = "EDITOR")
-                final Optional<String> editor,
-                @Option(names = {"-c", "--copyright"}, paramLabel = "COPYRIGHT")
-                final Optional<String> copyright,
-                @Option(names = {"-d", "--date"}, paramLabel = "DATE")
-                final Optional<LocalDate> date,
-                @Option(names = {"-r", "--rows"}, paramLabel = "ROWS")
-                final Optional<String> gridRows) {
+    int update(@Parameters(arity = "1", paramLabel = "ID") final long id,
+               @Option(names = {"-t", "--title"}, paramLabel = "TITLE")
+               final Optional<String> title,
+               @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR")
+               final Optional<String> author,
+               @Option(names = {"-e", "--editor"}, paramLabel = "EDITOR")
+               final Optional<String> editor,
+               @Option(names = {"-c", "--copyright"}, paramLabel = "COPYRIGHT")
+               final Optional<String> copyright,
+               @Option(names = {"-d", "--date"}, paramLabel = "DATE")
+               final Optional<LocalDate> date,
+               @Option(names = {"-r", "--rows"}, paramLabel = "ROWS")
+               final Optional<String> gridRows) {
         final PuzzlePatch
                 puzzlePatch =
                 Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows);
         puzzleService.save(id, puzzlePatch);
+        return Status.getAndReset();
     }
 
     /**
      * Deletes a puzzle.
      *
      * @param id the puzzle id
+     * @return the error status
      */
     @Command(aliases = {"rm"})
-    public void delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
+    int delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
         puzzleService.delete(id);
+        return Status.getAndReset();
     }
 
-    /** Deletes all puzzle. */
+    /**
+     * Deletes all puzzle.
+     *
+     * @return the error status
+     */
     @Command(name = "delete-all")
-    public void deleteAll() {
+    int deleteAll() {
         puzzleService.deleteAll();
+        return Status.getAndReset();
     }
 
     /**
      * Displays a puzzle.
      *
      * @param id the puzzle id
+     * @return the error status
      */
     @Command
-    public void cat(@Parameters(arity = "1", paramLabel = "ID") final long id) {
+    int cat(@Parameters(arity = "1", paramLabel = "ID") final long id) {
         puzzleService.load(id);
+        return Status.getAndReset();
     }
 }

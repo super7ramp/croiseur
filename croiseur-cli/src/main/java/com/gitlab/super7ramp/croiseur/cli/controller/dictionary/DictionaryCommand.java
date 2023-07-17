@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionariesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import com.gitlab.super7ramp.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -38,32 +39,42 @@ public final class DictionaryCommand {
      * Displays dictionary entries.
      *
      * @param dictionaryId the dictionary identifier
+     * @return the error status
      */
     @Command
-    void cat(
-            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId) {
+    int cat(
+            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY")
+            final DictionaryIdentifier dictionaryId) {
         final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
         dictionaryService.listEntries(request);
+        return Status.getAndReset();
     }
 
     /**
      * Displays the default dictionary.
+     *
+     * @return the error status
      */
     @Command(name = "get-default")
-    void getDefault() {
+    int getDefault() {
         dictionaryService.getDefaultDictionary();
+        return Status.getAndReset();
     }
 
     /**
      * Greps the dictionary content.
+     *
+     * @return the error status
      */
     @Command(aliases = {"search"})
-    void grep(
-            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId,
+    int grep(
+            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY")
+            final DictionaryIdentifier dictionaryId,
             @Parameters(index = "1", paramLabel = "PATTERN") final String pattern) {
         final SearchDictionaryEntriesRequest request =
                 SearchDictionaryEntriesRequest.of(dictionaryId, pattern);
         dictionaryService.searchEntries(request);
+        return Status.getAndReset();
     }
 
     /**
@@ -71,20 +82,25 @@ public final class DictionaryCommand {
      *
      * @param provider filter on the provider
      * @param locale   filter on the locale
+     * @return the error status
      */
     @Command(aliases = {"ls"})
-    void list(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
-              @Option(names = {"-l", "--locale"}, paramLabel = "LOCALE") final Locale locale) {
+    int list(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
+             @Option(names = {"-l", "--locale"}, paramLabel = "LOCALE") final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
         dictionaryService.listDictionaries(request);
+        return Status.getAndReset();
     }
 
     /**
      * Lists the available dictionary providers.
+     *
+     * @return the error status
      */
     @Command(name = "list-providers")
-    void listProviders() {
+    int listProviders() {
         dictionaryService.listProviders();
+        return Status.getAndReset();
     }
 
 }

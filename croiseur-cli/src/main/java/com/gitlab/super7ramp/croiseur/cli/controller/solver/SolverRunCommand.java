@@ -12,18 +12,20 @@ import com.gitlab.super7ramp.croiseur.cli.controller.solver.adapter.SolveRequest
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 /**
  * "solver run" subcommand: Solves a crossword puzzle.
  */
 @Command(name = "run", aliases = {"solve"})
-public final class SolverRunCommand implements Runnable {
+public final class SolverRunCommand implements Callable<Integer> {
 
     /** Solver service. */
     private final SolverService solverService;
@@ -84,12 +86,13 @@ public final class SolverRunCommand implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Integer call() {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
                                                           prefilledHorizontalSlots,
                                                           prefilledVerticalSlots, dictionaryIds,
                                                           random, progress, save);
         solverService.solve(request);
+        return Status.getAndReset();
     }
 
 }

@@ -103,7 +103,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         thenCli().doesNotWriteToStdOut()
                  .and()
                  .writesToStdErr("Failed to update puzzle: Cannot find saved puzzle with id 1\n")
-                 .and().exitsWithCode(SUCCESS); // TODO shouldn't it be error?
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
@@ -329,7 +329,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         whenOneRunsCli("puzzle", "import", "--format", "unknown", example.toString());
         thenCli().doesNotWriteToStdOut()
                  .and().writesToStdErr("No suitable decoder found for format 'unknown'\n")
-                 .and().exitsWithCode(SUCCESS); // TODO error
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
@@ -337,7 +337,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         whenOneRunsCli("puzzle", "import", "404.xd");
         thenCli().doesNotWriteToStdOut()
                  .and().writesToStdErr("File not found.\n")
-                 .and().exitsWithCode(RUNTIME_ERROR);
+                 .and().exitsWithCode(IO_ERROR);
     }
 
     @AfterEach

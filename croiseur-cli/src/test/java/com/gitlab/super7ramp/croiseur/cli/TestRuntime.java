@@ -37,10 +37,16 @@ abstract class TestRuntime {
     protected static final int SUCCESS = 0;
 
     /** Application threw an exception. */
-    protected static final int RUNTIME_ERROR = 1;
+    protected static final int APPLICATIVE_ERROR = 1;
 
     /** Application rejected malformed or incomplete command. */
     protected static final int INPUT_ERROR = 2;
+
+    /** An I/O error occurred (e.g. file not found). */
+    protected static final int IO_ERROR = 3;
+
+    /** Solver did no find a solution to a grid. */
+    protected static final int NO_SOLUTION_FOUND = 4;
 
     /**
      * The host locale, assumed constant for JVM lifetime. Locale is overridden during test

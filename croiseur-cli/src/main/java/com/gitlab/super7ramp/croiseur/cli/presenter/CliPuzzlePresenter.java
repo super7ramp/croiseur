@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
@@ -79,6 +80,7 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentPuzzleRepositoryError(final String error) {
         System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 
     @Override
@@ -124,5 +126,6 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentPuzzleImportError(final String error) {
         System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 }

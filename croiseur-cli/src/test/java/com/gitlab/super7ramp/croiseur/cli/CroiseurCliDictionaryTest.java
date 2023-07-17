@@ -70,7 +70,7 @@ final class CroiseurCliDictionaryTest extends FluentTestHelper {
         whenOneRunsCli("dictionary", "cat", "unknown:unknown");
         thenCli().doesNotWriteToStdOut()
                  .and().writesToStdErr("No dictionary found\n")
-                 .and().exitsWithCode(SUCCESS); // TODO shouldn't be an error code returned?
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test

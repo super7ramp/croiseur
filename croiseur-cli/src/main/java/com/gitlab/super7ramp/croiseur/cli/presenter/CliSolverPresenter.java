@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
@@ -82,11 +83,15 @@ final class CliSolverPresenter implements SolverPresenter {
     @Override
     public void presentSolverResult(final SolverResult result) {
         System.out.println(SolverResultFormatter.formatSolverResult(result));
+        if (!result.isSuccess()) {
+            Status.setNoSolutionFound();
+        }
     }
 
     @Override
     public void presentSolverError(final String error) {
         System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 
 }

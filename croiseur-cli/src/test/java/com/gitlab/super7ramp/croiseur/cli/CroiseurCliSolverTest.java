@@ -110,7 +110,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
         thenCli().writesToStdOut(
                          """
                          Saved puzzle.
-                         
+
                          Identifier: 1
                          Revision: 1
                          Title:\s
@@ -119,16 +119,16 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          Copyright:\s
                          Date: $TODAY
                          Grid:
-                         
+
                          Result: SUCCESS
-                         
+
                          |F|T|P|S|
                          |L|O|L|A|
                          |O|U|E|N|
                          |C|R|A|G|
-                         
+
                          Saved puzzle.
-                         
+
                          Identifier: 1
                          Revision: 2
                          Title:\s
@@ -141,7 +141,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |L|O|L|A|
                          |O|U|E|N|
                          |C|R|A|G|
-                                                               
+
                          """.replace("$TODAY", LocalDate.now().toString()))
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
@@ -179,9 +179,10 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                 "--shaded-boxes", "(1,0)", "(2,1)"
         );
         thenCli().doesNotWriteToStdOut()
+                 // TODO improve error - printing an exception is not great
                  .and().writes(toStdErr().startingWith(
                          "java.lang.IllegalArgumentException: Conflict in prefilled boxes"))
-                 .and().exitsWithCode(RUNTIME_ERROR);
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
@@ -225,7 +226,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
 
                          """)
                  .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS); // TODO not a success exit code?
+                 .and().exitsWithCode(NO_SOLUTION_FOUND);
     }
 
     @Test
@@ -260,10 +261,10 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |B| |#|
                          |B| | |
                          |B| | |
-                         
+                                                  
                          """.replace("$TODAY", LocalDate.now().toString()))
                  .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS); // TODO not a success exit code?
+                 .and().exitsWithCode(NO_SOLUTION_FOUND);
     }
 
     @Test

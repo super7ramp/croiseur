@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import picocli.CommandLine.Command;
 
 /**
@@ -26,9 +27,14 @@ public final class SolverCommand {
         solverService = solverServiceArg;
     }
 
-    /** Lists the available solvers. */
+    /**
+     * Lists the available solvers.
+     *
+     * @return the error status
+     */
     @Command(aliases = {"ls"})
-    void list() {
+    int list() {
         solverService.listSolvers();
+        return Status.getAndReset();
     }
 }

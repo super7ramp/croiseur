@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
@@ -97,6 +98,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaryError(final String error) {
         System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 
     /**
