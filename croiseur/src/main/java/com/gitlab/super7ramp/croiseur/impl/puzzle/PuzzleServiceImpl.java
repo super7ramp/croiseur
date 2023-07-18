@@ -16,6 +16,7 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 
 /**
@@ -55,29 +56,32 @@ public final class PuzzleServiceImpl implements PuzzleService {
     /** The 'list puzzle encoders' usecase. */
     private final ListPuzzleEncodersUsecase listPuzzleEncodersUsecase;
 
+    private final ExportPuzzleUsecase exportPuzzleUsecase;
+
     /**
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
      * @param decoders      the puzzle decoders
      * @param encoders      the puzzle encoders
-     * @param presenterArg  the puzzle presenter
+     * @param presenter  the puzzle presenter
      */
     public PuzzleServiceImpl(final PuzzleRepository repositoryArg,
                              final Collection<PuzzleDecoder> decoders,
                              final Collection<PuzzleEncoder> encoders,
-                             final PuzzlePresenter presenterArg) {
-        final var repository = new SafePuzzleRepository(repositoryArg, presenterArg);
-        listPuzzlesUsecase = new ListPuzzlesUsecase(repository, presenterArg);
+                             final PuzzlePresenter presenter) {
+        final var repository = new SafePuzzleRepository(repositoryArg, presenter);
+        listPuzzlesUsecase = new ListPuzzlesUsecase(repository, presenter);
         deletePuzzleUsecase = new DeletePuzzleUsecase(repository);
         deleteAllPuzzlesUsecase = new DeleteAllPuzzlesUsecase(repository);
-        loadPuzzleUsecase = new LoadPuzzleUsecase(repository, presenterArg);
+        loadPuzzleUsecase = new LoadPuzzleUsecase(repository, presenter);
         saveNewPuzzleUsecase = new SaveNewPuzzleUsecase(repository);
         saveChangedPuzzleUsecase = new SaveChangedPuzzleUsecase(repository);
-        patchAndSavePuzzleUsecase = new PatchAndSavePuzzleUsecase(repository, presenterArg);
-        listPuzzleDecodersUsecase = new ListPuzzleDecodersUsecase(decoders, presenterArg);
-        importPuzzleUsecase = new ImportPuzzleUsecase(decoders, repository, presenterArg);
-        listPuzzleEncodersUsecase = new ListPuzzleEncodersUsecase(encoders, presenterArg);
+        patchAndSavePuzzleUsecase = new PatchAndSavePuzzleUsecase(repository, presenter);
+        listPuzzleDecodersUsecase = new ListPuzzleDecodersUsecase(decoders, presenter);
+        importPuzzleUsecase = new ImportPuzzleUsecase(decoders, repository, presenter);
+        listPuzzleEncodersUsecase = new ListPuzzleEncodersUsecase(encoders, presenter);
+        exportPuzzleUsecase = new ExportPuzzleUsecase(repository, encoders, presenter);
     }
 
     @Override
@@ -128,6 +132,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
     @Override
     public void listEncoders() {
         listPuzzleEncodersUsecase.process();
+    }
+
+    @Override
+    public void exportPuzzle(final long id, final String format, final OutputStream outputStream) {
+        exportPuzzleUsecase.process(id, format, outputStream);
     }
 
 }

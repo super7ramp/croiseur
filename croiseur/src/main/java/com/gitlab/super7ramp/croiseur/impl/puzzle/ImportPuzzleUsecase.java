@@ -47,8 +47,8 @@ final class ImportPuzzleUsecase {
     /**
      * Processes the 'import puzzle' request.
      *
-     * @param inputStream     the input stream where to read the puzzle to import
-     * @param format the format of the puzzle
+     * @param inputStream the input stream where to read the puzzle to import
+     * @param format      the format of the puzzle
      */
     void process(final InputStream inputStream, final String format) {
 
@@ -71,7 +71,8 @@ final class ImportPuzzleUsecase {
      * Selects the first decoder supporting the given format.
      *
      * @param format the puzzle format
-     * @return the first decoder supporting the given, if any; otherwise {@link Optional#empty()}
+     * @return the first decoder supporting the given format, if any; otherwise
+     * {@link Optional#empty()}
      */
     private Optional<PuzzleDecoder> selectDecoder(final String format) {
         return decoders.stream()

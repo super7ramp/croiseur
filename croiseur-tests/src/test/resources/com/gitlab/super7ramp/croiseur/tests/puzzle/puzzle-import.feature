@@ -61,7 +61,7 @@ Feature: Import Puzzle
     D2. Dummy. ~ BEH
     D3. Clues. ~ CFI
     """
-    Then the application presents the following puzzle import error "Error while importing puzzle: com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader.XdMetadataReadException: Invalid metadata: Invalid property 'Title - Example Grid'. Property must respect the format 'Key: Value'."
+    Then the application presents the puzzle import error "Error while importing puzzle: com.gitlab.super7ramp.croiseur.puzzle.codec.xd.reader.XdMetadataReadException: Invalid metadata: Invalid property 'Title - Example Grid'. Property must respect the format 'Key: Value'."
 
   Scenario: Import Puzzle - Unsupported Format
     When user requests to import the following puzzle in the 'unknown' format:
@@ -70,4 +70,4 @@ Feature: Import Puzzle
     |D|E|F|
     |G|H|I|
     """
-    Then the application presents the following puzzle import error "No suitable decoder found for format 'unknown'"
+    Then the application presents the puzzle import error "No suitable decoder found for format 'unknown'"

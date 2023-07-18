@@ -12,6 +12,8 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import org.mockito.Mockito;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.Objects;
 
 /**
@@ -27,6 +29,9 @@ public final class TestContext {
 
     /** The spied puzzle repository. */
     private PuzzleRepositorySpy puzzleRepositorySpy;
+
+    /** The export stream. */
+    private OutputStream exportStream;
 
     /**
      * Returns the dictionary service.
@@ -89,6 +94,18 @@ public final class TestContext {
         return puzzleRepositorySpy;
     }
 
+
+    /**
+     * Returns the puzzle export stream.
+     *
+     * @return the puzzle export stream
+     */
+    public OutputStream exportStream() {
+        Objects.requireNonNull(exportStream,
+                               "Puzzle export stream not initialized, have you called a deployment step?");
+        return exportStream;
+    }
+
     /**
      * Initialises the test context with the given information.
      *
@@ -107,6 +124,7 @@ public final class TestContext {
         crosswordService = crosswordServiceArg;
         puzzleRepositorySpy = puzzleRepositorySpyArg;
         presenterMock = presenterMockArg;
+        exportStream = new ByteArrayOutputStream();
     }
 
     /**
@@ -126,5 +144,6 @@ public final class TestContext {
         crosswordService = null;
         puzzleRepositorySpy = null;
         presenterMock = null;
+        exportStream = null;
     }
 }

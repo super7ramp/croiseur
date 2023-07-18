@@ -19,10 +19,12 @@ import io.cucumber.java.en.When;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 
 import static com.gitlab.super7ramp.croiseur.tests.puzzle.PuzzleMatchers.withId;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +40,9 @@ public final class PuzzleSteps {
     /** The presenter mock. */
     private final PuzzlePresenter presenterMock;
 
+    /** The puzzle export stream. */
+    private final OutputStream exportStream;
+
     /**
      * Constructs an instance.
      *
@@ -46,6 +51,7 @@ public final class PuzzleSteps {
     public PuzzleSteps(final TestContext testContext) {
         puzzleService = testContext.puzzleService();
         presenterMock = testContext.presenterMock();
+        exportStream = testContext.exportStream();
     }
 
     @When("user requests to delete the puzzle with id {puzzleId}")
@@ -99,6 +105,11 @@ public final class PuzzleSteps {
         puzzleService.listEncoders();
     }
 
+    @When("user requests to export the puzzle with id {puzzleId} to format {string}")
+    public void whenExport(final long puzzleId, final String format) {
+        puzzleService.exportPuzzle(puzzleId, format, exportStream);
+    }
+
     @Then("the application presents the following loaded puzzle:")
     public void thenPresentLoadedPuzzle(@Transpose final SavedPuzzle puzzle) {
         verify(presenterMock).presentLoadedPuzzle(eq(puzzle));
@@ -149,8 +160,18 @@ public final class PuzzleSteps {
         verify(presenterMock).presentPuzzleEncoders(eq(codecs));
     }
 
-    @Then("the application presents the following puzzle import error {string}")
+    @Then("the application presents the puzzle import error {string}")
     public void thenPresentImportError(final String error) {
         verify(presenterMock).presentPuzzleImportError(eq(error));
+    }
+
+    @Then("the application writes the following export data:")
+    public void thenExport(final String exportedData) {
+        assertEquals(exportedData, exportStream.toString());
+    }
+
+    @Then("the application presents the puzzle export error {string}")
+    public void thenPresentExportError(final String error) {
+        verify(presenterMock).presentPuzzleExportError(eq(error));
     }
 }
