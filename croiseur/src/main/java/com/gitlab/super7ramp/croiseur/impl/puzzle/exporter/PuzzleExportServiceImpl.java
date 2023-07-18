@@ -13,16 +13,27 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import java.io.OutputStream;
 import java.util.Collection;
 
-public final class PuzzleExporterServiceImpl implements PuzzleExportService {
+/**
+ * Implementation of {@link PuzzleExportService}.
+ */
+public final class PuzzleExportServiceImpl implements PuzzleExportService {
 
     /** The 'list puzzle encoders' usecase. */
     private final ListPuzzleEncodersUsecase listPuzzleEncodersUsecase;
 
+    /** The 'export puzzle' usecase. */
     private final ExportPuzzleUsecase exportPuzzleUsecase;
 
-    public PuzzleExporterServiceImpl(final SafePuzzleRepository repository,
-                                     final Collection<PuzzleEncoder> encoders,
-                                     final PuzzlePresenter presenter) {
+    /**
+     * Constructs an instance.
+     *
+     * @param repository the puzzle repository
+     * @param encoders   the puzzle encoders
+     * @param presenter  the puzzle presenter
+     */
+    public PuzzleExportServiceImpl(final SafePuzzleRepository repository,
+                                   final Collection<PuzzleEncoder> encoders,
+                                   final PuzzlePresenter presenter) {
         listPuzzleEncodersUsecase = new ListPuzzleEncodersUsecase(encoders, presenter);
         exportPuzzleUsecase = new ExportPuzzleUsecase(repository, encoders, presenter);
     }

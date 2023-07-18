@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.impl.puzzle;
 import com.gitlab.super7ramp.croiseur.api.puzzle.exporter.PuzzleExportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
-import com.gitlab.super7ramp.croiseur.impl.puzzle.exporter.PuzzleExporterServiceImpl;
+import com.gitlab.super7ramp.croiseur.impl.puzzle.exporter.PuzzleExportServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.importer.PuzzleImportServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.persistence.PuzzlePersistenceServiceImpl;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
@@ -49,7 +49,7 @@ public final class PuzzleServiceImpl implements
         final var repository = new SafePuzzleRepository(repositoryArg, presenter);
         persistence = new PuzzlePersistenceServiceImpl(repository, presenter);
         importer = new PuzzleImportServiceImpl(repository, decoders, presenter);
-        exporter = new PuzzleExporterServiceImpl(repository, encoders, presenter);
+        exporter = new PuzzleExportServiceImpl(repository, encoders, presenter);
     }
 
     @Override

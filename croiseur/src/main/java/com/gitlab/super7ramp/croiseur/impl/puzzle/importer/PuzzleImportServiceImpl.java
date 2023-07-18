@@ -13,6 +13,9 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import java.io.InputStream;
 import java.util.Collection;
 
+/**
+ * Implementation of {@link PuzzleImportService}.
+ */
 public final class PuzzleImportServiceImpl implements PuzzleImportService {
 
     /** The 'list puzzle decoders' usecase. */
@@ -21,6 +24,13 @@ public final class PuzzleImportServiceImpl implements PuzzleImportService {
     /** The 'import puzzle' usecase. */
     private final ImportPuzzleUsecase importPuzzleUsecase;
 
+    /**
+     * Constructs an instance.
+     *
+     * @param repository the puzzle repository
+     * @param decoders   the puzzle decoders
+     * @param presenter  the puzzle presenter
+     */
     public PuzzleImportServiceImpl(final SafePuzzleRepository repository,
                                    final Collection<PuzzleDecoder> decoders,
                                    final PuzzlePresenter presenter) {

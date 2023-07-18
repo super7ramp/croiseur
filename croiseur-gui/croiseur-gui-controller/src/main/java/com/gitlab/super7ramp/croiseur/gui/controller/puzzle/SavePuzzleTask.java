@@ -38,8 +38,8 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzlePersistenceService          the puzzle service
+     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzlePersistenceService the puzzle service
      */
     SavePuzzleTask(final PuzzleEditionViewModel puzzleEditionViewModel,
                    final PuzzlePersistenceService puzzlePersistenceService) {
@@ -50,8 +50,8 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Builds the actual task - either a creation or an update.
      *
-     * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzlePersistenceService          the puzzle service
+     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzlePersistenceService the puzzle service
      * @return the actual task
      */
     private static Runnable buildTask(final PuzzleEditionViewModel puzzleEditionViewModel,
@@ -68,8 +68,8 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Returns a new task suitable to saves the puzzle for the first time.
      *
-     * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzlePersistenceService          the puzzle service
+     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzlePersistenceService the puzzle service
      * @return a new task suitable to saves the puzzle for the first time
      */
     private static Runnable newCreationTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
@@ -84,8 +84,8 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Returns a new task suitable to Updates an already saved puzzle.
      *
-     * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzlePersistenceService          the puzzle service
+     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzlePersistenceService the puzzle service
      * @return a new task suitable to Updates an already saved puzzle.
      */
     private static Runnable newUpdateTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,

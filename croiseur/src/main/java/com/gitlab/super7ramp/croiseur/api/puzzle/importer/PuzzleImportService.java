@@ -17,7 +17,7 @@ public interface PuzzleImportService {
      * Lists the available puzzle decoders.
      *
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentPuzzleDecoders(List)
-     * presentPuzzleDecoders(List)
+     * PuzzlePresenter#presentPuzzleDecoders(List)
      */
     void listDecoders();
 
