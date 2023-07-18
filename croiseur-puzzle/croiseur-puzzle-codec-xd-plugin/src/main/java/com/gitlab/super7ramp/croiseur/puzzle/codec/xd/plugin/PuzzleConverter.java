@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
+import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClues;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
@@ -19,8 +20,10 @@ import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
+
 /**
- * Converts crossword from/to persistence format (xd).
+ * Converts crossword from/to the xd crossword model.
  */
 final class PuzzleConverter {
 
@@ -126,5 +129,65 @@ final class PuzzleConverter {
                              persistedGrid.nonFilled()).flatMap(Collection::stream).map(dimension)
                          .max(Comparator.naturalOrder())
                          .orElseThrow(() -> new PuzzleDecodingException("Invalid empty grid"));
+    }
+
+    /**
+     * Converts the domain crossword model to the xd crossword model.
+     *
+     * @param domainModel the domain crossword model
+     * @return the xd crossword model
+     */
+    static XdCrossword toXd(final Puzzle domainModel) {
+        final XdMetadata metadata = toXd(domainModel.details());
+        final XdGrid grid = toXd(domainModel.grid());
+        final XdClues clues = new XdClues.Builder().build(); // clues are not managed yet
+        return new XdCrossword(metadata, grid, clues);
+    }
+
+    /**
+     * Converts a domain metadata model to xd metadata model.
+     *
+     * @param details  the domain metadata model
+     * @return the persistence metadata model
+     */
+    static XdMetadata toXd(final PuzzleDetails details) {
+        final XdMetadata.Builder builder = new XdMetadata.Builder();
+        if (!details.title().isEmpty()) {
+            builder.title(details.title());
+        }
+        if (!details.author().isEmpty()) {
+            builder.author(details.author());
+        }
+        if (!details.editor().isEmpty()) {
+            builder.editor(details.editor());
+        }
+        if (!details.copyright().isEmpty()) {
+            builder.copyright(details.copyright());
+        }
+        details.date().ifPresent(builder::date);
+        return builder.build();
+    }
+
+    /**
+     * Converts a domain grid model to a xd grid model.
+     *
+     * @param grid the domain grid model
+     * @return the xd grid model
+     */
+    static XdGrid toXd(final PuzzleGrid grid) {
+        final XdGrid.Builder builder = new XdGrid.Builder();
+        for (int row = 0; row < grid.height(); row++) {
+            for (int column = 0; column < grid.width(); column++) {
+                final Character letter = grid.filled().get(at(column, row));
+                if (letter != null) {
+                    builder.filled(XdGrid.Index.at(column, row), letter);
+                } else if (grid.shaded().contains(at(column, row))) {
+                    builder.block(XdGrid.Index.at(column, row));
+                } else {
+                    builder.nonFilled(XdGrid.Index.at(column, row));
+                }
+            }
+        }
+        return builder.build();
     }
 }

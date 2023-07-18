@@ -8,6 +8,9 @@ package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.writer;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -56,13 +59,29 @@ public final class XdCrosswordWriter {
      * Writes the given crossword to a file at given path.
      *
      * @param crossword the crossword to write
-     * @param path the path of the file to write
+     * @param path      the path of the file to write
      * @throws NullPointerException if given crossword or any of its fields is {@code null}
-     * @throws IOException if an I/O error occurs when writing the text to file
+     * @throws IOException          if an I/O error occurs when writing the text to file
      */
     public void write(final XdCrossword crossword, final Path path) throws IOException {
         Objects.requireNonNull(path);
+        try (final var outputStream = Files.newOutputStream(path)) {
+            write(crossword, outputStream);
+        }
+    }
+
+    /**
+     * Writes the given crossword to a given output stream.
+     * @param crossword the crossword to write
+     * @param outputStream where to write the crossword
+     * @throws NullPointerException if any of the arguments is {@code null}
+     */
+    public void write(final XdCrossword crossword, final OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
         final String text = write(crossword);
-        Files.writeString(path, text);
+        try (final var writer = new PrintWriter(outputStream, false, StandardCharsets.UTF_8)) {
+            writer.write(text);
+            writer.flush();
+        }
     }
 }

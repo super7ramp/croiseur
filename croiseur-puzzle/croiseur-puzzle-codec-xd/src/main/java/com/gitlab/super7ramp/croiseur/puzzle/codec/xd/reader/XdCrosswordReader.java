@@ -53,7 +53,8 @@ public final class XdCrosswordReader {
      *
      * @param rawCrossword the crossword to read
      * @return the read {@link XdCrossword}
-     * @throws XdReadException if read fails
+     * @throws NullPointerException if given input is {@code null}
+     * @throws XdReadException if read fails for any other reason
      */
     public XdCrossword read(final String rawCrossword) throws XdReadException {
         final Sections sections = splitSections(rawCrossword);
@@ -68,7 +69,8 @@ public final class XdCrosswordReader {
      *
      * @param crosswordInputStream the input stream from which to read the crossword
      * @return the read {@link XdCrossword}
-     * @throws XdReadException if read fails
+     * @throws NullPointerException if given input is {@code null}
+     * @throws XdReadException if read fails for any other reason
      */
     public XdCrossword read(final InputStream crosswordInputStream) throws XdReadException {
         try {
@@ -85,7 +87,8 @@ public final class XdCrosswordReader {
      *
      * @param crosswordPath the path of the crossword to read
      * @return the read {@link XdCrossword}
-     * @throws XdReadException if read fails
+     * @throws NullPointerException if given input is {@code null}
+     * @throws XdReadException if read fails for any other reason
      */
     public XdCrossword read(final Path crosswordPath) throws XdReadException {
         try {
