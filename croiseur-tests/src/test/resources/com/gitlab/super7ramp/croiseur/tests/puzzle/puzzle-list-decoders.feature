@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2023 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-Feature: List Puzzle Codecs
+Feature: List Puzzle Dedoders
 
   Puzzle can be imported to the application puzzle repository from a variety of formats, using
   puzzle decoders.

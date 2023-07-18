@@ -15,7 +15,10 @@ import java.util.List;
  * Services pertaining to puzzle management.
  * <p>
  * Results of the requests are forwarded to the
- * {@link com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter PuzzlePresenter}
+ * {@link com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter PuzzlePresenter}.
+ * <p>
+ * All methods expect non-{@code null} parameters and raise a {@link NullPointerException} if given
+ * a {@code null} parameter.
  */
 public interface PuzzleService {
 
@@ -88,7 +91,7 @@ public interface PuzzleService {
      */
     void save(final long puzzleId, final PuzzlePatch patch);
 
-    // TODO move the following to a dedicated PuzzleImportService?
+    // TODO move the following to a dedicated (Puzzle)ImportService?
 
     /**
      * Lists the available puzzle decoders.
@@ -111,4 +114,15 @@ public interface PuzzleService {
      * presentSavedPuzzle(SavedPuzzle)
      */
     void importPuzzle(final InputStream inputStream, final String format);
+
+    // TODO move the following to a dedicated (Puzzle)ExportService?
+
+    /**
+     * Lists the available puzzle encoders.
+     *
+     * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentPuzzleEncoders(List)
+     * presentPuzzleEncoders(List)
+     */
+    void listEncoders();
+
 }

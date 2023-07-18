@@ -55,8 +55,6 @@ public interface PuzzlePresenter {
      */
     void presentDeletedPuzzle(final long id);
 
-    // TODO move the following into a dedicated PuzzleImportPresenter?
-
     /**
      * Presents the available puzzle decoders.
      *
@@ -70,4 +68,18 @@ public interface PuzzlePresenter {
      * @param error the error
      */
     void presentPuzzleImportError(final String error);
+
+    /**
+     * Presents the available puzzle encoders.
+     *
+     * @param encoders the available puzzle encoders
+     */
+    void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders);
+
+    /**
+     * Presents an error that occurred during puzzle export
+     *
+     * @param error the error
+     */
+    void presentPuzzleExportError(final String error);
 }

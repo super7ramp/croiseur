@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.impl.CrosswordServiceImpl;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.DummyPuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
@@ -40,10 +41,11 @@ public interface CrosswordService {
     static CrosswordService create(final Collection<DictionaryProvider> dictionaryProviders,
                                    final Collection<CrosswordSolver> solvers,
                                    final Collection<PuzzleDecoder> puzzleDecoders,
+                                   final Collection<PuzzleEncoder> puzzleEncoders,
                                    final PuzzleRepository puzzleRepository,
                                    final Presenter presenter) {
         return new CrosswordServiceImpl(solvers, dictionaryProviders, puzzleDecoders,
-                                        puzzleRepository, presenter);
+                                        puzzleEncoders, puzzleRepository, presenter);
     }
 
     /**
@@ -58,6 +60,7 @@ public interface CrosswordService {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
+        final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepository puzzleRepository =
                 load(PuzzleRepository.class).stream().findFirst().orElseGet(
                         DummyPuzzleRepository::new);
@@ -66,8 +69,8 @@ public interface CrosswordService {
             throw new IllegalStateException(
                     "Failed to instantiate crossword service: No presenter found");
         }
-        return create(dictionaryProviders, solvers, puzzleDecoders, puzzleRepository,
-                      Presenter.broadcastingTo(presenters));
+        return create(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders,
+                      puzzleRepository,  Presenter.broadcastingTo(presenters));
     }
 
     /**

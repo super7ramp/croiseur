@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Steps pertaining to the PuzzleService.
  */
-public class PuzzleSteps {
+public final class PuzzleSteps {
 
     /** The puzzle service. */
     private final PuzzleService puzzleService;
@@ -94,6 +94,11 @@ public class PuzzleSteps {
         puzzleService.listDecoders();
     }
 
+    @When("user requests to list the available puzzle encoders")
+    public void whenListEncoders() {
+        puzzleService.listEncoders();
+    }
+
     @Then("the application presents the following loaded puzzle:")
     public void thenPresentLoadedPuzzle(@Transpose final SavedPuzzle puzzle) {
         verify(presenterMock).presentLoadedPuzzle(eq(puzzle));
@@ -137,6 +142,11 @@ public class PuzzleSteps {
     @Then("the application presents the following puzzle decoders:")
     public void thenPresentAvailablePuzzleDecoders(final List<PuzzleCodecDetails> codecs) {
         verify(presenterMock).presentPuzzleDecoders(eq(codecs));
+    }
+
+    @Then("the application presents the following puzzle encoders:")
+    public void thenPresentAvailablePuzzleEncoders(final List<PuzzleCodecDetails> codecs) {
+        verify(presenterMock).presentPuzzleEncoders(eq(codecs));
     }
 
     @Then("the application presents the following puzzle import error {string}")

@@ -132,6 +132,16 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
+    @Override
+    public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void presentPuzzleExportError(final String error) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
     /**
      * Converts puzzle from domain type to view-model type.
      *

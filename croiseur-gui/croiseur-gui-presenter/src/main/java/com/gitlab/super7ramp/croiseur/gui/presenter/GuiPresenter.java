@@ -150,4 +150,14 @@ public final class GuiPresenter implements Presenter {
     public void presentPuzzleImportError(final String error) {
         puzzlePresenter.presentPuzzleImportError(error);
     }
+
+    @Override
+    public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
+        puzzlePresenter.presentPuzzleEncoders(encoders);
+    }
+
+    @Override
+    public void presentPuzzleExportError(final String error) {
+        puzzlePresenter.presentPuzzleExportError(error);
+    }
 }

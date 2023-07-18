@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.repository.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 
 import java.io.InputStream;
@@ -51,15 +52,20 @@ public final class PuzzleServiceImpl implements PuzzleService {
     /** The 'import puzzle' usecase. */
     private final ImportPuzzleUsecase importPuzzleUsecase;
 
+    /** The 'list puzzle encoders' usecase. */
+    private final ListPuzzleEncodersUsecase listPuzzleEncodersUsecase;
+
     /**
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
      * @param decoders      the puzzle decoders
+     * @param encoders      the puzzle encoders
      * @param presenterArg  the puzzle presenter
      */
     public PuzzleServiceImpl(final PuzzleRepository repositoryArg,
                              final Collection<PuzzleDecoder> decoders,
+                             final Collection<PuzzleEncoder> encoders,
                              final PuzzlePresenter presenterArg) {
         final var repository = new SafePuzzleRepository(repositoryArg, presenterArg);
         listPuzzlesUsecase = new ListPuzzlesUsecase(repository, presenterArg);
@@ -71,6 +77,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
         patchAndSavePuzzleUsecase = new PatchAndSavePuzzleUsecase(repository, presenterArg);
         listPuzzleDecodersUsecase = new ListPuzzleDecodersUsecase(decoders, presenterArg);
         importPuzzleUsecase = new ImportPuzzleUsecase(decoders, repository, presenterArg);
+        listPuzzleEncodersUsecase = new ListPuzzleEncodersUsecase(encoders, presenterArg);
     }
 
     @Override
@@ -117,4 +124,10 @@ public final class PuzzleServiceImpl implements PuzzleService {
     public void importPuzzle(final InputStream inputStream, final String format) {
         importPuzzleUsecase.process(inputStream, format);
     }
+
+    @Override
+    public void listEncoders() {
+        listPuzzleEncodersUsecase.process();
+    }
+
 }

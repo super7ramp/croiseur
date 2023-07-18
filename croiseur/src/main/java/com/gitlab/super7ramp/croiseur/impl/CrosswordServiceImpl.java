@@ -15,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.impl.solver.SolverServiceImpl;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
@@ -40,18 +41,21 @@ public final class CrosswordServiceImpl implements CrosswordService {
      * @param solvers             the solvers
      * @param dictionaryProviders the dictionary providers
      * @param puzzleDecoders      the puzzle decoders
+     * @param puzzleEncoders      the puzzle encoders
      * @param puzzleRepository    the puzzle repository
      * @param presenter           the publisher
      */
     public CrosswordServiceImpl(final Collection<CrosswordSolver> solvers,
                                 final Collection<DictionaryProvider> dictionaryProviders,
                                 final Collection<PuzzleDecoder> puzzleDecoders,
+                                final Collection<PuzzleEncoder> puzzleEncoders,
                                 final PuzzleRepository puzzleRepository,
                                 final Presenter presenter) {
         solverService =
                 new SolverServiceImpl(solvers, dictionaryProviders, puzzleRepository, presenter);
         dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
-        puzzleService = new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, presenter);
+        puzzleService =
+                new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);
     }
 
     @Override

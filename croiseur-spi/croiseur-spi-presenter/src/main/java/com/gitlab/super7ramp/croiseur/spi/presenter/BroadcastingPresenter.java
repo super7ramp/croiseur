@@ -136,4 +136,14 @@ final class BroadcastingPresenter implements Presenter {
     public void presentPuzzleImportError(final String error) {
         presenters.forEach(p -> p.presentPuzzleImportError(error));
     }
+
+    @Override
+    public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
+        presenters.forEach(p -> p.presentPuzzleEncoders(encoders));
+    }
+
+    @Override
+    public void presentPuzzleExportError(final String error) {
+        presenters.forEach(p -> p.presentPuzzleExportError(error));
+    }
 }

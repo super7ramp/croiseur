@@ -138,4 +138,14 @@ public final class CliPresenter implements Presenter {
     public void presentPuzzleImportError(final String error) {
         cliPuzzlePresenter.presentPuzzleImportError(error);
     }
+
+    @Override
+    public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
+        cliPuzzlePresenter.presentPuzzleEncoders(encoders);
+    }
+
+    @Override
+    public void presentPuzzleExportError(final String error) {
+        cliPuzzlePresenter.presentPuzzleExportError(error);
+    }
 }
