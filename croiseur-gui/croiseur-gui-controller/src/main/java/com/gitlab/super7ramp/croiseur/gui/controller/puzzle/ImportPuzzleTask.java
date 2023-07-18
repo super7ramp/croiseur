@@ -42,7 +42,7 @@ final class ImportPuzzleTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
         try (final var selectedPuzzleInputStream = new FileInputStream(selectedFile)) {
-            puzzleService.importPuzzle(selectedPuzzleInputStream, selectedFormat);
+            puzzleService.importPuzzle(selectedFormat, selectedPuzzleInputStream);
         }
         return null;
     }

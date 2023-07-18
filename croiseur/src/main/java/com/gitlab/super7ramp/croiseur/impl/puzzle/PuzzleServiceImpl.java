@@ -64,7 +64,7 @@ public final class PuzzleServiceImpl implements PuzzleService {
      * @param repositoryArg the puzzle repository
      * @param decoders      the puzzle decoders
      * @param encoders      the puzzle encoders
-     * @param presenter  the puzzle presenter
+     * @param presenter     the puzzle presenter
      */
     public PuzzleServiceImpl(final PuzzleRepository repositoryArg,
                              final Collection<PuzzleDecoder> decoders,
@@ -125,8 +125,8 @@ public final class PuzzleServiceImpl implements PuzzleService {
     }
 
     @Override
-    public void importPuzzle(final InputStream inputStream, final String format) {
-        importPuzzleUsecase.process(inputStream, format);
+    public void importPuzzle(final String format, final InputStream inputStream) {
+        importPuzzleUsecase.process(format, inputStream);
     }
 
     @Override

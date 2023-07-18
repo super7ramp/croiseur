@@ -73,10 +73,10 @@ public final class PuzzleCommand {
                      @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
                      final Optional<String> format) {
         try (final var fis = new FileInputStream(file)) {
-            puzzleService.importPuzzle(fis, format.orElseGet(() -> {
+            puzzleService.importPuzzle(format.orElseGet(() -> {
                 final int lastDot = file.getName().lastIndexOf(".");
                 return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
-            }));
+            }), fis);
             return Status.getAndReset();
         } catch (final IOException e) {
             System.err.println("File not found.");

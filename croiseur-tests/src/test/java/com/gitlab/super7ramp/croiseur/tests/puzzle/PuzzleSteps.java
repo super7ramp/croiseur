@@ -92,7 +92,7 @@ public final class PuzzleSteps {
     @When("user requests to import the following puzzle in the {string} format:")
     public void whenImport(final String formatName, final String input) {
         final InputStream is = new ByteArrayInputStream(input.getBytes());
-        puzzleService.importPuzzle(is, formatName);
+        puzzleService.importPuzzle(formatName, is);
     }
 
     @When("user requests to list the available puzzle decoders")

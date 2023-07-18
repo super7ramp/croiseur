@@ -47,10 +47,10 @@ final class ImportPuzzleUsecase {
     /**
      * Processes the 'import puzzle' request.
      *
-     * @param inputStream the input stream where to read the puzzle to import
      * @param format      the format of the puzzle
+     * @param inputStream the input stream where to read the puzzle to import
      */
-    void process(final InputStream inputStream, final String format) {
+    void process(final String format, final InputStream inputStream) {
 
         final Optional<PuzzleDecoder> selectedDecoder = selectDecoder(format);
         if (selectedDecoder.isEmpty()) {

@@ -116,8 +116,7 @@ public interface PuzzleService {
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentSavedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
      * presentSavedPuzzle(SavedPuzzle)
      */
-    // TODO inverse parameter order
-    void importPuzzle(final InputStream inputStream, final String format);
+    void importPuzzle(final String format, final InputStream inputStream);
 
     // TODO move the following to a dedicated (Puzzle)ExportService?
 
