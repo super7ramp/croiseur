@@ -98,6 +98,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            import         Import a puzzle from a file
                            list, ls       List saved puzzles
                            list-decoders  List puzzle decoders
+                           list-encoders  List puzzle encoders
                            update         Update a saved puzzle
                          """)
                  .and().doesNotWriteToStdErr()

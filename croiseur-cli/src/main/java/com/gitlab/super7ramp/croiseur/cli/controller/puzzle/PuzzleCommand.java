@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.exporter.PuzzleExportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
@@ -35,6 +36,9 @@ public final class PuzzleCommand {
     /** The puzzle import service. */
     private final PuzzleImportService puzzleImportService;
 
+    /** The puzzle export service. */
+    private final PuzzleExportService puzzleExportService;
+
     /**
      * Constructs an instance.
      *
@@ -43,6 +47,7 @@ public final class PuzzleCommand {
     public PuzzleCommand(final PuzzleService puzzleServiceArg) {
         puzzlePersistenceService = puzzleServiceArg.persistence();
         puzzleImportService = puzzleServiceArg.importer();
+        puzzleExportService = puzzleServiceArg.exporter();
     }
 
     /**
@@ -64,6 +69,17 @@ public final class PuzzleCommand {
     @Command(name = "list-decoders")
     int listDecoders() {
         puzzleImportService.listDecoders();
+        return Status.getAndReset();
+    }
+
+    /**
+     * Lists the available puzzle encoders.
+     *
+     * @return the error status
+     */
+    @Command(name = "list-encoders")
+    int listEncoders() {
+        puzzleExportService.listEncoders();
         return Status.getAndReset();
     }
 

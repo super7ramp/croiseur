@@ -107,20 +107,7 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
             System.out.println($("list.decoders.none-found"));
             return;
         }
-
-        final String nameHeader = $("decoder.name");
-        final String descriptionHeader = $("decoder.description");
-        final String supportedFormatsHeader = $("decoder.formats");
-
-        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, nameHeader, descriptionHeader,
-                          supportedFormatsHeader);
-        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, lineOf(nameHeader.length()),
-                          lineOf(descriptionHeader.length()),
-                          lineOf(supportedFormatsHeader.length()));
-        decoders.forEach(
-                decoder -> System.out.printf(PUZZLE_CODEC_LIST_FORMAT, decoder.name(),
-                                             decoder.description(),
-                                             String.join(", ", decoder.supportedFormats())));
+        presentCodecs(decoders);
     }
 
     @Override
@@ -131,11 +118,36 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (encoders.isEmpty()) {
+            System.out.println($("list.encoders.none-found"));
+            return;
+        }
+        presentCodecs(encoders);
     }
 
     @Override
     public void presentPuzzleExportError(final String error) {
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Presents a list of encoders or decoders.
+     *
+     * @param codecs the encoders or decoders
+     */
+    private static void presentCodecs(final List<PuzzleCodecDetails> codecs) {
+        final String nameHeader = $("codec.name");
+        final String descriptionHeader = $("codec.description");
+        final String supportedFormatsHeader = $("codec.formats");
+
+        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, nameHeader, descriptionHeader,
+                          supportedFormatsHeader);
+        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, lineOf(nameHeader.length()),
+                          lineOf(descriptionHeader.length()),
+                          lineOf(supportedFormatsHeader.length()));
+        codecs.forEach(
+                codec -> System.out.printf(PUZZLE_CODEC_LIST_FORMAT, codec.name(),
+                                           codec.description(),
+                                           String.join(", ", codec.supportedFormats())));
     }
 }
