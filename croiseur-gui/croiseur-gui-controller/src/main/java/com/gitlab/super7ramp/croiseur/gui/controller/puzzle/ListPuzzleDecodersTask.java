@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import javafx.concurrent.Task;
 
 /**
@@ -14,20 +15,20 @@ import javafx.concurrent.Task;
 final class ListPuzzleDecodersTask extends Task<Void> {
 
     /** The puzzle service to call. */
-    private final PuzzleService puzzleService;
+    private final PuzzleImportService puzzleImportService;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzleServiceArg the puzzle service
+     * @param puzzleImportServiceArg the puzzle import service
      */
-    ListPuzzleDecodersTask(final PuzzleService puzzleServiceArg) {
-        puzzleService = puzzleServiceArg;
+    ListPuzzleDecodersTask(final PuzzleImportService puzzleImportServiceArg) {
+        puzzleImportService = puzzleImportServiceArg;
     }
 
     @Override
     protected Void call() {
-        puzzleService.listDecoders();
+        puzzleImportService.listDecoders();
         return null;
     }
 }

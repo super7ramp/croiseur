@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
@@ -15,7 +15,7 @@ import javafx.concurrent.Task;
 final class LoadSelectedPuzzleTask extends Task<Void> {
 
     /** The puzzle service. */
-    private final PuzzleService puzzleService;
+    private final PuzzlePersistenceService puzzlePersistenceService;
 
     /** The selected puzzle id. */
     private final long selectedPuzzleId;
@@ -24,17 +24,17 @@ final class LoadSelectedPuzzleTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleServiceArg            the puzzle service
+     * @param puzzlePersistenceServiceArg            the puzzle service
      */
     LoadSelectedPuzzleTask(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                           final PuzzleService puzzleServiceArg) {
-        puzzleService = puzzleServiceArg;
+                           final PuzzlePersistenceService puzzlePersistenceServiceArg) {
+        puzzlePersistenceService = puzzlePersistenceServiceArg;
         selectedPuzzleId = puzzleSelectionViewModelArg.selectedPuzzle().id();
     }
 
     @Override
     protected Void call() {
-        puzzleService.load(selectedPuzzleId);
+        puzzlePersistenceService.load(selectedPuzzleId);
         return null;
     }
 }

@@ -10,7 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.impl.puzzle.repository.SafePuzzleRepository;
+import com.gitlab.super7ramp.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.impl.solver.postrun.SolverResultConverter;
 import com.gitlab.super7ramp.croiseur.impl.solver.prerun.DictionaryLoader;
 import com.gitlab.super7ramp.croiseur.impl.solver.prerun.ProgressListenerFactory;

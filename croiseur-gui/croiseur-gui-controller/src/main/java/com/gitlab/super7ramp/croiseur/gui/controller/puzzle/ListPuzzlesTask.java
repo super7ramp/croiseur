@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import javafx.concurrent.Task;
 
 /**
@@ -14,20 +14,20 @@ import javafx.concurrent.Task;
 final class ListPuzzlesTask extends Task<Void> {
 
     /** The puzzle service. */
-    private final PuzzleService puzzleService;
+    private final PuzzlePersistenceService puzzlePersistenceService;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzleServiceArg the puzzle service
+     * @param puzzlePersistenceServiceArg the puzzle service
      */
-    ListPuzzlesTask(final PuzzleService puzzleServiceArg) {
-        puzzleService = puzzleServiceArg;
+    ListPuzzlesTask(final PuzzlePersistenceService puzzlePersistenceServiceArg) {
+        puzzlePersistenceService = puzzlePersistenceServiceArg;
     }
 
     @Override
     protected Void call() {
-        puzzleService.list();
+        puzzlePersistenceService.list();
         return null;
     }
 }

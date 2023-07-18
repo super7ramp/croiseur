@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.tests.puzzle;
+package com.gitlab.super7ramp.croiseur.tests.puzzle.persistence;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import org.mockito.ArgumentMatcher;

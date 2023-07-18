@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;

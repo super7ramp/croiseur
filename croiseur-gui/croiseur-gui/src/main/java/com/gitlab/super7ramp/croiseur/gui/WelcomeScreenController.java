@@ -56,7 +56,7 @@ public final class WelcomeScreenController {
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
      * @param puzzleEditionViewModel      the puzzle edition view model
-     * @param puzzleCodecsViewModel       the puzzle codecs view model
+     * @param puzzleCodecsViewModelArg    the puzzle codecs view model
      * @param puzzleService               the puzzle service
      * @param executor                    the background task executor
      * @param editorViewArg               the editor view to switch to when a puzzle is selected

@@ -33,6 +33,9 @@ module com.gitlab.super7ramp.croiseur {
     exports com.gitlab.super7ramp.croiseur.api.dictionary;
     exports com.gitlab.super7ramp.croiseur.api.puzzle;
     exports com.gitlab.super7ramp.croiseur.api.solver;
+    exports com.gitlab.super7ramp.croiseur.api.puzzle.importer;
+    exports com.gitlab.super7ramp.croiseur.api.puzzle.exporter;
+    exports com.gitlab.super7ramp.croiseur.api.puzzle.persistence;
 
     // Uses plugins since plugins can be implicitly loaded in factory.
     uses DictionaryProvider;

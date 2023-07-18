@@ -5,8 +5,10 @@
 
 package com.gitlab.super7ramp.croiseur.cli.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter.Puzzles;
 import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.cli.status.StatusCodes;
@@ -27,8 +29,11 @@ import java.util.Optional;
 @Command(name = "puzzle")
 public final class PuzzleCommand {
 
-    /** The puzzle service. */
-    private final PuzzleService puzzleService;
+    /** The puzzle persistence service. */
+    private final PuzzlePersistenceService puzzlePersistenceService;
+
+    /** The puzzle import service. */
+    private final PuzzleImportService puzzleImportService;
 
     /**
      * Constructs an instance.
@@ -36,7 +41,8 @@ public final class PuzzleCommand {
      * @param puzzleServiceArg the puzzle service
      */
     public PuzzleCommand(final PuzzleService puzzleServiceArg) {
-        puzzleService = puzzleServiceArg;
+        puzzlePersistenceService = puzzleServiceArg.persistence();
+        puzzleImportService = puzzleServiceArg.importer();
     }
 
     /**
@@ -46,7 +52,7 @@ public final class PuzzleCommand {
      */
     @Command(aliases = {"ls"})
     int list() {
-        puzzleService.list();
+        puzzlePersistenceService.list();
         return Status.getAndReset();
     }
 
@@ -57,7 +63,7 @@ public final class PuzzleCommand {
      */
     @Command(name = "list-decoders")
     int listDecoders() {
-        puzzleService.listDecoders();
+        puzzleImportService.listDecoders();
         return Status.getAndReset();
     }
 
@@ -73,7 +79,7 @@ public final class PuzzleCommand {
                      @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
                      final Optional<String> format) {
         try (final var fis = new FileInputStream(file)) {
-            puzzleService.importPuzzle(format.orElseGet(() -> {
+            puzzleImportService.importPuzzle(format.orElseGet(() -> {
                 final int lastDot = file.getName().lastIndexOf(".");
                 return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
             }), fis);
@@ -108,7 +114,7 @@ public final class PuzzleCommand {
             @Option(names = {"-r", "--rows"}, paramLabel = "ROWS", required = true)
             final String gridRows) {
         final Puzzle puzzle = Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows);
-        puzzleService.save(puzzle);
+        puzzlePersistenceService.save(puzzle);
         return Status.getAndReset();
     }
 
@@ -141,7 +147,7 @@ public final class PuzzleCommand {
         final PuzzlePatch
                 puzzlePatch =
                 Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows);
-        puzzleService.save(id, puzzlePatch);
+        puzzlePersistenceService.save(id, puzzlePatch);
         return Status.getAndReset();
     }
 
@@ -153,7 +159,7 @@ public final class PuzzleCommand {
      */
     @Command(aliases = {"rm"})
     int delete(@Parameters(arity = "1", paramLabel = "ID") final long id) {
-        puzzleService.delete(id);
+        puzzlePersistenceService.delete(id);
         return Status.getAndReset();
     }
 
@@ -164,7 +170,7 @@ public final class PuzzleCommand {
      */
     @Command(name = "delete-all")
     int deleteAll() {
-        puzzleService.deleteAll();
+        puzzlePersistenceService.deleteAll();
         return Status.getAndReset();
     }
 
@@ -176,7 +182,7 @@ public final class PuzzleCommand {
      */
     @Command
     int cat(@Parameters(arity = "1", paramLabel = "ID") final long id) {
-        puzzleService.load(id);
+        puzzlePersistenceService.load(id);
         return Status.getAndReset();
     }
 }

@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import javafx.concurrent.Task;
 
 import java.io.File;
@@ -23,26 +23,26 @@ final class ImportPuzzleTask extends Task<Void> {
     private final String selectedFormat;
 
     /** The puzzle service to call. */
-    private final PuzzleService puzzleService;
+    private final PuzzleImportService puzzleImportService;
 
     /**
      * Constructs an instance.
      *
      * @param selectedFileArg   the file to import
      * @param selectedFormatArg the selected puzzle format
-     * @param puzzleServiceArg  the puzzle service to call
+     * @param puzzleImportServiceArg  the puzzle service to call
      */
     ImportPuzzleTask(final File selectedFileArg, final String selectedFormatArg,
-                     final PuzzleService puzzleServiceArg) {
+                     final PuzzleImportService puzzleImportServiceArg) {
         selectedFile = selectedFileArg;
         selectedFormat = selectedFormatArg;
-        puzzleService = puzzleServiceArg;
+        puzzleImportService = puzzleImportServiceArg;
     }
 
     @Override
     protected Void call() throws Exception {
         try (final var selectedPuzzleInputStream = new FileInputStream(selectedFile)) {
-            puzzleService.importPuzzle(selectedFormat, selectedPuzzleInputStream);
+            puzzleImportService.importPuzzle(selectedFormat, selectedPuzzleInputStream);
         }
         return null;
     }

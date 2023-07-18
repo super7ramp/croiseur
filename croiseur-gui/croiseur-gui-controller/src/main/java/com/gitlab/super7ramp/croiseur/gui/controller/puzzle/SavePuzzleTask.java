@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
@@ -39,11 +39,11 @@ final class SavePuzzleTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzleService          the puzzle service
+     * @param puzzlePersistenceService          the puzzle service
      */
     SavePuzzleTask(final PuzzleEditionViewModel puzzleEditionViewModel,
-                   final PuzzleService puzzleService) {
-        task = buildTask(puzzleEditionViewModel, puzzleService);
+                   final PuzzlePersistenceService puzzlePersistenceService) {
+        task = buildTask(puzzleEditionViewModel, puzzlePersistenceService);
         puzzleEditionViewModel.savingInProgressProperty().bind(runningProperty());
     }
 
@@ -51,16 +51,16 @@ final class SavePuzzleTask extends Task<Void> {
      * Builds the actual task - either a creation or an update.
      *
      * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzleService          the puzzle service
+     * @param puzzlePersistenceService          the puzzle service
      * @return the actual task
      */
     private static Runnable buildTask(final PuzzleEditionViewModel puzzleEditionViewModel,
-                                      final PuzzleService puzzleService) {
+                                      final PuzzlePersistenceService puzzlePersistenceService) {
         final Runnable task;
         if (puzzleEditionViewModel.puzzleDetailsViewModel().id() != null) {
-            task = newUpdateTaskFrom(puzzleEditionViewModel, puzzleService);
+            task = newUpdateTaskFrom(puzzleEditionViewModel, puzzlePersistenceService);
         } else {
-            task = newCreationTaskFrom(puzzleEditionViewModel, puzzleService);
+            task = newCreationTaskFrom(puzzleEditionViewModel, puzzlePersistenceService);
         }
         return task;
     }
@@ -69,27 +69,27 @@ final class SavePuzzleTask extends Task<Void> {
      * Returns a new task suitable to saves the puzzle for the first time.
      *
      * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzleService          the puzzle service
+     * @param puzzlePersistenceService          the puzzle service
      * @return a new task suitable to saves the puzzle for the first time
      */
     private static Runnable newCreationTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
-                                                final PuzzleService puzzleService) {
+                                                final PuzzlePersistenceService puzzlePersistenceService) {
         final PuzzleDetails details =
                 convertToDomain(puzzleEditionViewModel.puzzleDetailsViewModel());
         final PuzzleGrid grid = convertToDomain(puzzleEditionViewModel.crosswordGridViewModel());
         final Puzzle puzzle = new Puzzle(details, grid);
-        return () -> puzzleService.save(puzzle);
+        return () -> puzzlePersistenceService.save(puzzle);
     }
 
     /**
      * Returns a new task suitable to Updates an already saved puzzle.
      *
      * @param puzzleEditionViewModel the puzzle edition view model
-     * @param puzzleService          the puzzle service
+     * @param puzzlePersistenceService          the puzzle service
      * @return a new task suitable to Updates an already saved puzzle.
      */
     private static Runnable newUpdateTaskFrom(final PuzzleEditionViewModel puzzleEditionViewModel,
-                                              final PuzzleService puzzleService) {
+                                              final PuzzlePersistenceService puzzlePersistenceService) {
 
         final PuzzleDetailsViewModel puzzleDetailsViewModel =
                 puzzleEditionViewModel.puzzleDetailsViewModel();
@@ -101,7 +101,7 @@ final class SavePuzzleTask extends Task<Void> {
         final Puzzle puzzle = new Puzzle(details, currentGrid);
         final ChangedPuzzle changedPuzzle = new SavedPuzzle(id, puzzle, revision).asChangedPuzzle();
 
-        return () -> puzzleService.save(changedPuzzle);
+        return () -> puzzlePersistenceService.save(changedPuzzle);
     }
 
     /**

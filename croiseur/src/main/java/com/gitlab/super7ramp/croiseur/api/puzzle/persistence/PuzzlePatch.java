@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.api.puzzle;
+package com.gitlab.super7ramp.croiseur.api.puzzle.persistence;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 

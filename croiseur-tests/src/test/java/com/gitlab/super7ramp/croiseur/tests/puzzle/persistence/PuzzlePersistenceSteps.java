@@ -3,111 +3,97 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.tests.puzzle;
+package com.gitlab.super7ramp.croiseur.tests.puzzle.persistence;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzlePatch;
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.WriteException;
+import com.gitlab.super7ramp.croiseur.tests.context.PuzzleRepositorySpy;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.Transpose;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 
-import static com.gitlab.super7ramp.croiseur.tests.puzzle.PuzzleMatchers.withId;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.gitlab.super7ramp.croiseur.tests.puzzle.persistence.PuzzleMatchers.withId;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
- * Steps pertaining to the PuzzleService.
+ * Steps pertaining to the {@link PuzzlePersistenceService}.
  */
-public final class PuzzleSteps {
+public final class PuzzlePersistenceSteps {
 
     /** The puzzle service. */
-    private final PuzzleService puzzleService;
+    private final PuzzlePersistenceService puzzlePersistenceService;
 
     /** The presenter mock. */
     private final PuzzlePresenter presenterMock;
 
-    /** The puzzle export stream. */
-    private final OutputStream exportStream;
+    /** The puzzle repository spy. */
+    private final PuzzleRepositorySpy puzzleRepositorySpy;
 
     /**
      * Constructs an instance.
      *
      * @param testContext the test context
      */
-    public PuzzleSteps(final TestContext testContext) {
-        puzzleService = testContext.puzzleService();
+    public PuzzlePersistenceSteps(final TestContext testContext) {
+        puzzlePersistenceService = testContext.puzzleService().persistence();
+        puzzleRepositorySpy = testContext.puzzleRepositorySpy();
         presenterMock = testContext.presenterMock();
-        exportStream = testContext.exportStream();
+    }
+
+    @Given("the puzzle repository contains:")
+    public void givenContains(final List<SavedPuzzle> expectedSavedPuzzles) throws WriteException {
+        for (final SavedPuzzle expectedSavedPuzzle : expectedSavedPuzzles) {
+            puzzleRepositorySpy.create(expectedSavedPuzzle.data());
+            puzzleRepositorySpy.verifyCreation(expectedSavedPuzzle);
+        }
     }
 
     @When("user requests to delete the puzzle with id {puzzleId}")
     public void whenDelete(final long puzzleId) {
-        puzzleService.delete(puzzleId);
+        puzzlePersistenceService.delete(puzzleId);
     }
 
     @When("user requests to delete all puzzles")
     public void whenDeleteAll() {
-        puzzleService.deleteAll();
+        puzzlePersistenceService.deleteAll();
     }
 
     @When("user requests to list the available puzzles")
     public void whenList() {
-        puzzleService.list();
+        puzzlePersistenceService.list();
     }
 
     @When("user requests to load puzzle with id {long}")
     public void whenLoad(final long puzzleId) {
-        puzzleService.load(puzzleId);
+        puzzlePersistenceService.load(puzzleId);
     }
 
     @When("user requests to patch and save puzzle with id {long} with:")
     public void whenPatchAndSave(final long id, @Transpose final PuzzlePatch patch) {
-        puzzleService.save(id, patch);
+        puzzlePersistenceService.save(id, patch);
     }
 
     @When("user requests to save the following puzzle:")
     public void whenSave(@Transpose final Puzzle puzzle) {
-        puzzleService.save(puzzle);
+        puzzlePersistenceService.save(puzzle);
     }
 
     @When("user requests to save the following revised puzzle:")
     public void whenSaveRevision(@Transpose final ChangedPuzzle puzzle) {
-        puzzleService.save(puzzle);
-    }
-
-    @When("user requests to import the following puzzle in the {string} format:")
-    public void whenImport(final String formatName, final String input) {
-        final InputStream is = new ByteArrayInputStream(input.getBytes());
-        puzzleService.importPuzzle(formatName, is);
-    }
-
-    @When("user requests to list the available puzzle decoders")
-    public void whenListDecoders() {
-        puzzleService.listDecoders();
-    }
-
-    @When("user requests to list the available puzzle encoders")
-    public void whenListEncoders() {
-        puzzleService.listEncoders();
-    }
-
-    @When("user requests to export the puzzle with id {puzzleId} to format {string}")
-    public void whenExport(final long puzzleId, final String format) {
-        puzzleService.exportPuzzle(puzzleId, format, exportStream);
+        puzzlePersistenceService.save(puzzle);
     }
 
     @Then("the application presents the following loaded puzzle:")
@@ -155,23 +141,19 @@ public final class PuzzleSteps {
         verify(presenterMock).presentPuzzleDecoders(eq(codecs));
     }
 
-    @Then("the application presents the following puzzle encoders:")
-    public void thenPresentAvailablePuzzleEncoders(final List<PuzzleCodecDetails> codecs) {
-        verify(presenterMock).presentPuzzleEncoders(eq(codecs));
+    @Then("the application saves the following puzzle:")
+    public void thenCreate(@Transpose final SavedPuzzle savedPuzzle) {
+        puzzleRepositorySpy.verifyCreation(savedPuzzle);
     }
 
-    @Then("the application presents the puzzle import error {string}")
-    public void thenPresentImportError(final String error) {
-        verify(presenterMock).presentPuzzleImportError(eq(error));
+    @Then("the application updates the saved puzzle:")
+    public void thenUpdate(@Transpose final SavedPuzzle savedPuzzle) {
+        puzzleRepositorySpy.verifyUpdate(savedPuzzle);
     }
 
-    @Then("the application writes the following export data:")
-    public void thenExport(final String exportedData) {
-        assertEquals(exportedData, exportStream.toString());
+    @Then("the application deletes the puzzle with id {puzzleId} from repository")
+    public void thenDelete(final long puzzleId) {
+        puzzleRepositorySpy.verifyDeletion(puzzleId);
     }
 
-    @Then("the application presents the puzzle export error {string}")
-    public void thenPresentExportError(final String error) {
-        verify(presenterMock).presentPuzzleExportError(eq(error));
-    }
 }

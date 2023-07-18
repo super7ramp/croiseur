@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
-import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
+import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
@@ -18,23 +18,23 @@ final class DeleteSelectedPuzzleTask extends Task<Void> {
     private final long puzzleId;
 
     /** The puzzle service to call. */
-    private final PuzzleService puzzleService;
+    private final PuzzlePersistenceService puzzlePersistenceService;
 
     /**
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModel the puzzle selection view model
-     * @param puzzleServiceArg         the puzzle service
+     * @param puzzlePersistenceServiceArg         the puzzle service
      */
     public DeleteSelectedPuzzleTask(final PuzzleSelectionViewModel puzzleSelectionViewModel,
-                                    final PuzzleService puzzleServiceArg) {
+                                    final PuzzlePersistenceService puzzlePersistenceServiceArg) {
         puzzleId = puzzleSelectionViewModel.selectedPuzzle().id();
-        puzzleService = puzzleServiceArg;
+        puzzlePersistenceService = puzzlePersistenceServiceArg;
     }
 
     @Override
     protected Void call() {
-        puzzleService.delete(puzzleId);
+        puzzlePersistenceService.delete(puzzleId);
         return null;
     }
 }
