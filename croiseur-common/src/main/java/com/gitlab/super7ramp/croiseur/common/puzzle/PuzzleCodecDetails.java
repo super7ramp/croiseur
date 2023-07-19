@@ -13,8 +13,8 @@ import java.util.Objects;
  *
  * @param name             the codec name
  * @param description      the codec description
- * @param supportedFormats the formats supported by the codec (ideally the mimetype, or the file
- *                         extension)
+ * @param supportedFormats the supported formats under the form of file extensions, e.g. ["*.xd"] or
+ *                         mimetypes
  */
 public record PuzzleCodecDetails(String name, String description, List<String> supportedFormats) {
 
@@ -23,8 +23,8 @@ public record PuzzleCodecDetails(String name, String description, List<String> s
      *
      * @param name             the codec name
      * @param description      the codec description
-     * @param supportedFormats the mimetypes or the file extensions (in the format "*.extension",
-     *                         e.g. "*.ipuz") supported by the codec
+     * @param supportedFormats the supported formats under the form of file extensions, e.g.
+     *                         ["*.xd"] or mimetypes
      */
     public PuzzleCodecDetails {
         Objects.requireNonNull(name);

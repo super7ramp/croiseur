@@ -30,8 +30,8 @@ public interface PuzzleExportService {
      * If no saved puzzle has the given id, an error will be presented.
      *
      * @param id           the id of the saved puzzle to export
-     * @param format       the puzzle format - preferably the mimetype, if any, or the file
-     *                     extension
+     * @param format       the output format under the form of a file extension, e.g. "*.xd", or a
+     *                     mimetype
      * @param outputStream the output stream where to encode the puzzle
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentPuzzleExportError(String)
      * PuzzlePresenter#presentPuzzleExportError

@@ -28,8 +28,8 @@ public interface PuzzleImportService {
      * {@link #listDecoders() decoders}, then saved to the puzzle repository.
      *
      * @param inputStream the input stream from which to decode the puzzle to import
-     * @param format      the puzzle format - preferably the mimetype, if any, or the file
-     *                    extension
+     * @param format      the input format under the form of a file extension, e.g. "*.xd", or a
+     *                    mimetype
      * @see com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter#presentSavedPuzzle(com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle)
      * PuzzlePresenter#presentSavedPuzzle(SavedPuzzle)
      */

@@ -35,6 +35,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                            create         Save a new puzzle
                            delete, rm     Delete a saved puzzle
                            delete-all     Delete all saved puzzles
+                           export         Export a puzzle to a file
                            import         Import a puzzle from a file
                            list, ls       List saved puzzles
                            list-decoders  List puzzle decoders
@@ -352,6 +353,40 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void exportPuzzle(@TempDir final Path tempDir) throws IOException {
+        final Path exampleXdPath = tempDir.resolve("example.xd");
+        final String exampleXd = exampleXdPath.toString();
+
+        givenOneHasRunCli("puzzle", "create",
+                          "--title", "Example Grid",
+                          "--author", "Me",
+                          "--editor", "Myself",
+                          "--copyright", "Public Domain",
+                          "--date", "2023-07-19",
+                          "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "export", "1", exampleXd);
+        thenCli().doesNotWriteToStdOut()
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+
+        assertEquals("""
+                     Title: Example Grid
+                     Author: Me
+                     Editor: Myself
+                     Copyright: Public Domain
+                     Date: 2023-07-19
+
+
+                     ...
+                     ABC
+                     #D.
+                     
+                     
+                     
+                     """, Files.readString(exampleXdPath));
     }
 
     @AfterEach

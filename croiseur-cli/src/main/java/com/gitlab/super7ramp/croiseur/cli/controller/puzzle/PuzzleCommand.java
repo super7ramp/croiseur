@@ -20,6 +20,7 @@ import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -95,15 +96,47 @@ public final class PuzzleCommand {
                      @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
                      final Optional<String> format) {
         try (final var fis = new FileInputStream(file)) {
-            puzzleImportService.importPuzzle(format.orElseGet(() -> {
-                final int lastDot = file.getName().lastIndexOf(".");
-                return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
-            }), fis);
+            puzzleImportService.importPuzzle(format.orElseGet(() -> inferFormatFrom(file)), fis);
             return Status.getAndReset();
         } catch (final IOException e) {
             System.err.println("File not found.");
             return StatusCodes.IO_ERROR;
         }
+    }
+
+    /**
+     * Exports the puzzle to given file.
+     *
+     * @param id     the puzzle id
+     * @param file   the output file
+     * @param format the file format; if not given, format is taken from file extension
+     * @return the error status
+     */
+    @Command(name = "export")
+    int exportPuzzle(@Parameters(arity = "1", paramLabel = "ID") long id,
+                     @Parameters(arity = "1", paramLabel = "FILE") final File file,
+                     @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
+                     final Optional<String> format) {
+        try (final var fos = new FileOutputStream(file)) {
+            puzzleExportService.exportPuzzle(id, format.orElseGet(() -> inferFormatFrom(file)),
+                                             fos);
+            return Status.getAndReset();
+        } catch (final IOException e) {
+            System.err.println("Could not write export file.");
+            return StatusCodes.IO_ERROR;
+        }
+    }
+
+    /**
+     * Infers the puzzle import/export format from the extension of the given file.
+     *
+     * @param file the file
+     * @return the inferred format (basically {@literal "*.<file_extension>"}) or "unknown" if no
+     * format could be inferred
+     */
+    private String inferFormatFrom(final File file) {
+        final int lastDot = file.getName().lastIndexOf(".");
+        return lastDot >= 0 ? "*" + file.getName().substring(lastDot) : "unknown";
     }
 
     /**
@@ -160,8 +193,7 @@ public final class PuzzleCommand {
                final Optional<LocalDate> date,
                @Option(names = {"-r", "--rows"}, paramLabel = "ROWS")
                final Optional<String> gridRows) {
-        final PuzzlePatch
-                puzzlePatch =
+        final PuzzlePatch puzzlePatch =
                 Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows);
         puzzlePersistenceService.save(id, puzzlePatch);
         return Status.getAndReset();
