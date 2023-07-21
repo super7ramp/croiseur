@@ -113,7 +113,7 @@ public final class PuzzleCommand {
      * @return the error status
      */
     @Command(name = "export")
-    int exportPuzzle(@Parameters(arity = "1", paramLabel = "ID") long id,
+    int exportPuzzle(@Parameters(arity = "1", paramLabel = "ID") final long id,
                      @Parameters(arity = "1", paramLabel = "FILE") final File file,
                      @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
                      final Optional<String> format) {

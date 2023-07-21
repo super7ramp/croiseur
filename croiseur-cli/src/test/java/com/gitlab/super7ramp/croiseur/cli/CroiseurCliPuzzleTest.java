@@ -368,25 +368,24 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                           "--date", "2023-07-19",
                           "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "export", "1", exampleXd);
-        thenCli().doesNotWriteToStdOut()
+        thenCli().writesToFile(exampleXdPath, """
+                                              Title: Example Grid
+                                              Author: Me
+                                              Editor: Myself
+                                              Copyright: Public Domain
+                                              Date: 2023-07-19
+
+
+                                              ...
+                                              ABC
+                                              #D.
+                                                                   
+                                                                   
+                                                                   
+                                              """)
+                 .and().doesNotWriteToStdOut()
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
-
-        assertEquals("""
-                     Title: Example Grid
-                     Author: Me
-                     Editor: Myself
-                     Copyright: Public Domain
-                     Date: 2023-07-19
-
-
-                     ...
-                     ABC
-                     #D.
-                     
-                     
-                     
-                     """, Files.readString(exampleXdPath));
     }
 
     @AfterEach

@@ -7,16 +7,20 @@ package com.gitlab.super7ramp.croiseur.cli;
 
 import org.junit.jupiter.api.function.Executable;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * A helper test class providing a fluent API over {@link TestRuntime} for writing simple
- * BDD-like tests.
+ * A helper test class providing a fluent API over {@link TestRuntime} for writing simple BDD-like
+ * tests.
  * <p>
  * To be extended by actual test classes, e.g.:
  * <pre>{@code
@@ -199,6 +203,16 @@ abstract class FluentTestHelper extends TestRuntime {
         }
 
         /**
+         * Adds an assertion on the file at the given path matching the given string.
+         *
+         * @param expected the expected content of the file at the given path
+         * @return this assertion builder, for chaining
+         */
+        AssertionBuilder writesToFile(final Path filePath, final String expected) {
+            return writes(toFile(filePath).theLines(expected));
+        }
+
+        /**
          * Adds an assertion on the standard error output being empty.
          *
          * @return this assertion builder, for chaining
@@ -225,6 +239,24 @@ abstract class FluentTestHelper extends TestRuntime {
          */
         private WriteExpectation toStdErr() {
             return new WriteExpectation(err, "Standard error");
+        }
+
+        /**
+         * Creates a new {@link WriteExpectation} on the file at the given path to be used with
+         * {@link AssertionBuilder#writes(WriteExpectation)}.
+         *
+         * @return a new complex write expectation on the file at the given path
+         */
+        private WriteExpectation toFile(final Path path) {
+            final Supplier<String> fileReader = () -> {
+                try {
+                    return Files.readString(path);
+                } catch (final IOException e) {
+                    fail("Error while reading " + path, e);
+                    return null;
+                }
+            };
+            return new WriteExpectation(fileReader, "File " + path.getFileName().toString());
         }
 
         /**
@@ -258,8 +290,8 @@ abstract class FluentTestHelper extends TestRuntime {
     }
 
     /**
-     * Executes the croiseur-cli command with given arguments and verifies it exits with success.
-     * A precondition step.
+     * Executes the croiseur-cli command with given arguments and verifies it exits with success. A
+     * precondition step.
      *
      * @param args the arguments
      * @return this object, for chaining
