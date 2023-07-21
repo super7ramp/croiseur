@@ -39,7 +39,7 @@
 
 #puzzle-details-grid-pane {
     -fx-hgap: 10px;
-    -fx-vgap: 5px;
+    -fx-vgap: 10px;
 }
 
 #puzzle-details-grid-pane > .text-field,
@@ -51,4 +51,9 @@
 #puzzle-details-grid-pane > .date-picker {
     /* Let date picker text field grow. */
     -fx-max-width: Infinity;
+}
+
+#export-button {
+    /* Let button grow. */
+    -fx-max-width: Infinity
 }

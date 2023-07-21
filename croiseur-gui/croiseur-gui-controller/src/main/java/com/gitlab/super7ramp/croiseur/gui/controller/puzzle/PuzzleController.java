@@ -61,10 +61,18 @@ public final class PuzzleController {
     }
 
     /**
-     * Starts the 'list puzzle codecs' task.
+     * Starts the 'list puzzle decoders' task.
      */
     public void listPuzzleDecoders() {
         final var task = new ListPuzzleDecodersTask(puzzleService.importer());
+        execute(task);
+    }
+
+    /**
+     * Starts the 'list puzzle encoders' task.
+     */
+    public void listPuzzleEncoders() {
+        final var task = new ListPuzzleEncodersTask(puzzleService.exporter());
         execute(task);
     }
 
@@ -105,6 +113,19 @@ public final class PuzzleController {
     public void importPuzzle(final File selectedFile, final String selectedFormat) {
         final var task =
                 new ImportPuzzleTask(selectedFile, selectedFormat, puzzleService.importer());
+        execute(task);
+    }
+
+    /**
+     * Starts the 'export puzzle' task.
+     *
+     * @param selectedFile   the destination file
+     * @param selectedFormat the puzzle format of the export
+     */
+    public void exportPuzzle(final File selectedFile, final String selectedFormat) {
+        final var task =
+                new ExportPuzzleTask(puzzleEditionViewModel, selectedFile, selectedFormat,
+                                     puzzleService.exporter());
         execute(task);
     }
 

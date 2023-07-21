@@ -133,6 +133,29 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
+     * Returns the on export button action property.
+     *
+     * @return the on export button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onExportButtonActionProperty() {
+        return puzzlePane.onExportButtonActionProperty();
+    }
+
+    /**
+     * The puzzle export button disable property.
+     * <p>
+     * Allows to disable specifically the export button. Note that global
+     * {@link #puzzleEditionDisableProperty()} takes precedence (i.e. if
+     * {@link #puzzleEditionDisableProperty()} is {@code true} then the button will be effectively
+     * disabled).
+     *
+     * @return the export button disable property
+     */
+    public BooleanProperty puzzleExportButtonDisableProperty() {
+        return puzzlePane.exportButtonDisableProperty();
+    }
+
+    /**
      * Returns the puzzle edition disable property.
      *
      * @return the puzzle edition disable property

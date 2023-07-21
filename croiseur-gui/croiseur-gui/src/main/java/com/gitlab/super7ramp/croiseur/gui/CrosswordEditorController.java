@@ -16,17 +16,24 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleCodecsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
@@ -46,6 +53,9 @@ public final class CrosswordEditorController {
 
     /** The view model. */
     private final ApplicationViewModel applicationViewModel;
+
+    /** The file chooser (for the export function). */
+    private final FileChooser fileChooser;
 
     /** The view. */
     @FXML
@@ -74,6 +84,7 @@ public final class CrosswordEditorController {
                                                 applicationViewModelArg.puzzleEditionViewModel(),
                                                 crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
+        fileChooser = new FileChooser();
     }
 
     @FXML
@@ -84,6 +95,7 @@ public final class CrosswordEditorController {
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         initializePuzzleBindings();
+        initializePuzzleExportBindings();
         populateModels();
     }
 
@@ -100,6 +112,32 @@ public final class CrosswordEditorController {
         view.onSaveButtonActionProperty().set(e -> puzzleController.savePuzzle());
         final BooleanProperty puzzleIsBeingSaved = applicationViewModel.puzzleIsBeingSaved();
         view.puzzleEditionDisableProperty().bind(puzzleIsBeingSaved);
+    }
+
+    /**
+     * Initializes the bindings related to puzzle export function.
+     */
+    private void initializePuzzleExportBindings() {
+        fileChooser.setTitle(resources.getString("export-filechooser-title"));
+
+        final PuzzleCodecsViewModel puzzleCodecsViewModel =
+                applicationViewModel.puzzleCodecsViewModel();
+        puzzleCodecsViewModel.decodersProperty().addListener((InvalidationListener) observable -> {
+            final List<FileChooser.ExtensionFilter> extensionFilters =
+                    puzzleCodecsViewModel.encodersProperty().stream()
+                                         .map(codec -> new FileChooser.ExtensionFilter(
+                                                 codec.name(), codec.extensions())).toList();
+            fileChooser.getExtensionFilters().setAll(extensionFilters);
+        });
+        view.onExportButtonActionProperty().set(e -> onExportButtonAction());
+
+        // Export button exports last saved puzzle; Disable it if puzzle hasn't been saved yet
+        final PuzzleDetailsViewModel puzzleDetailsViewModel =
+                applicationViewModel.puzzleDetailsViewModel();
+        final BooleanExpression puzzleNotSavedYet =
+                Bindings.createBooleanBinding(() -> puzzleDetailsViewModel.id() == null,
+                                              puzzleDetailsViewModel.idProperty());
+        view.puzzleExportButtonDisableProperty().bind(puzzleNotSavedYet);
     }
 
     /**
@@ -207,6 +245,20 @@ public final class CrosswordEditorController {
     }
 
     /**
+     * Performs the export button action.
+     */
+    private void onExportButtonAction() {
+        final File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+        if (selectedFile != null) {
+            final List<String> selectedExtensions =
+                    fileChooser.getSelectedExtensionFilter().getExtensions();
+            final String selectedFormat =
+                    selectedExtensions.isEmpty() ? "unknown" : selectedExtensions.get(0);
+            puzzleController.exportPuzzle(selectedFile, selectedFormat);
+        } // else do nothing since no file has been chosen
+    }
+
+    /**
      * Performs the solve button action.
      */
     private void onSolveButtonAction() {
@@ -218,11 +270,12 @@ public final class CrosswordEditorController {
     }
 
     /**
-     * Populates solver and dictionary models.
+     * Populates models.
      */
     private void populateModels() {
         solverController.listSolvers();
         dictionaryController.listDictionaries();
+        puzzleController.listPuzzleEncoders();
     }
 
 }

@@ -17,13 +17,15 @@ public final class PuzzleCodecsViewModel {
     /** The available puzzle decoders. */
     private final ListProperty<PuzzleCodec> decoders;
 
-    // Encoders will be added there when ready.
+    /** The available puzzle encoders. */
+    private final ListProperty<PuzzleCodec> encoders;
 
     /**
      * Constructs an instance.
      */
     PuzzleCodecsViewModel() {
         decoders = new SimpleListProperty<>(this, "decoders", FXCollections.observableArrayList());
+        encoders = new SimpleListProperty<>(this, "encoders", FXCollections.observableArrayList());
     }
 
     /**
@@ -33,6 +35,15 @@ public final class PuzzleCodecsViewModel {
      */
     public ListProperty<PuzzleCodec> decodersProperty() {
         return decoders;
+    }
+
+    /**
+     * The available puzzle encoders.
+     *
+     * @return the available puzzle encoders
+     */
+    public ListProperty<PuzzleCodec> encodersProperty() {
+        return encoders;
     }
 
 }

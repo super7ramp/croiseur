@@ -38,6 +38,17 @@ public final class PuzzleDetailsViewModel {
     }
 
     /**
+     * The puzzle id property.
+     * <p>
+     * Value can {@code null} if puzzle hasn't been saved yet.
+     *
+     * @return the puzzle id property
+     */
+    public Property<Long> idProperty() {
+        return id;
+    }
+
+    /**
      * Returns the value of the id property.
      * <p>
      * Can be {@code null} if puzzle hasn't been saved yet.

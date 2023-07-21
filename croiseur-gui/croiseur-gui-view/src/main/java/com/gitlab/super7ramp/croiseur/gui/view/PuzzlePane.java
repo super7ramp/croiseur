@@ -6,9 +6,14 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -29,6 +34,10 @@ public final class PuzzlePane extends Accordion {
     /** The (creation) date picker. */
     @FXML
     private DatePicker date;
+
+    /** The export button. */
+    @FXML
+    private Button exportButton;
 
     /**
      * Constructs an instance.
@@ -85,6 +94,28 @@ public final class PuzzlePane extends Accordion {
      */
     public StringProperty dateProperty() {
         return date.getEditor().textProperty();
+    }
+
+    /**
+     * The export button event handler property.
+     *
+     * @return the export button event handler property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onExportButtonActionProperty() {
+        return exportButton.onActionProperty();
+    }
+
+    /**
+     * The export button disable property.
+     * <p>
+     * Allows to disable specifically the export button. Note that global {@link #disableProperty()}
+     * takes precedence (i.e. if {@link #disableProperty()} is {@code true} then the button will be
+     * effectively disabled).
+     *
+     * @return the export button disable property
+     */
+    public BooleanProperty exportButtonDisableProperty() {
+        return exportButton.disableProperty();
     }
 
     /**

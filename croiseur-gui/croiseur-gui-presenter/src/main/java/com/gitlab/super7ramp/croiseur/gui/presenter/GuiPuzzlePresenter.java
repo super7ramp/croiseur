@@ -134,12 +134,16 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        LOGGER.info(() -> "Received puzzle enoders: " + encoders);
+        final List<PuzzleCodec> encoderViewModels =
+                encoders.stream().map(GuiPuzzlePresenter::convertToViewModel).toList();
+        Platform.runLater(() -> puzzleCodecsViewModel.encodersProperty().setAll(encoderViewModels));
     }
 
     @Override
     public void presentPuzzleExportError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        LOGGER.warning(() -> "Received puzzle export error: " + error);
+        Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
     /**

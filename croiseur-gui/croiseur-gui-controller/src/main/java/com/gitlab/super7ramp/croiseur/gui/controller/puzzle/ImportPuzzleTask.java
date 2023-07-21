@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * The 'import puzzle' task.
@@ -28,9 +29,9 @@ final class ImportPuzzleTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param selectedFileArg   the file to import
-     * @param selectedFormatArg the selected puzzle format
-     * @param puzzleImportServiceArg  the puzzle service to call
+     * @param selectedFileArg        the file to import
+     * @param selectedFormatArg      the selected puzzle format
+     * @param puzzleImportServiceArg the puzzle service to call
      */
     ImportPuzzleTask(final File selectedFileArg, final String selectedFormatArg,
                      final PuzzleImportService puzzleImportServiceArg) {
@@ -40,7 +41,7 @@ final class ImportPuzzleTask extends Task<Void> {
     }
 
     @Override
-    protected Void call() throws Exception {
+    protected Void call() throws IOException {
         try (final var selectedPuzzleInputStream = new FileInputStream(selectedFile)) {
             puzzleImportService.importPuzzle(selectedFormat, selectedPuzzleInputStream);
         }
