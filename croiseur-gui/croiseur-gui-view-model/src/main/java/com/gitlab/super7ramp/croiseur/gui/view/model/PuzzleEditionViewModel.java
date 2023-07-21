@@ -57,4 +57,12 @@ public final class PuzzleEditionViewModel {
     public BooleanProperty savingInProgressProperty() {
         return savingInProgress;
     }
+
+    /**
+     * Resets edition view model to default.
+     */
+    public void reset() {
+        puzzleDetailsViewModel.reset();
+        crosswordGridViewModel.reset();
+    }
 }

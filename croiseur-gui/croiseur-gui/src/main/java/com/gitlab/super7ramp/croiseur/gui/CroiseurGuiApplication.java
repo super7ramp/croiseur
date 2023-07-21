@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -67,8 +69,8 @@ public final class CroiseurGuiApplication extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         final Executor executor = createExecutor();
-        final Parent firstView = loadComponents(stage, executor);
-        configureStage(stage, firstView);
+        final Map<String, Scene> namedScenes = loadComponents(stage, executor);
+        configureStage(stage, namedScenes);
         configureStyleSheet();
         stage.show();
     }
@@ -82,13 +84,17 @@ public final class CroiseurGuiApplication extends Application {
 
     /**
      * Configures the stage.
+     * <p>
+     * All given scenes will be attached as properties of the stage. The first one will be set as
+     * stage's scene.
      *
-     * @param stage the stage to configure
-     * @param view  the view to set as scene
+     * @param stage       the stage to configure
+     * @param namedScenes the scenes to load. Need to be a sequenced map, as the first scene of the
+     *                    collection will be set as stage's scene
      */
-    private static void configureStage(final Stage stage, final Parent view) {
-        final Scene scene = new Scene(view);
-        stage.setScene(scene);
+    private static void configureStage(final Stage stage, final Map<String, Scene> namedScenes) {
+        stage.getProperties().putAll(namedScenes);
+        stage.setScene(namedScenes.values().iterator().next());
         stage.setTitle(STAGE_TITLE);
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
@@ -126,10 +132,10 @@ public final class CroiseurGuiApplication extends Application {
      * Loads the application components.
      *
      * @param executor the background task executor
-     * @return the first application view (the welcome screen view)
+     * @return the application components named scenes
      * @throws IOException if loading from FXML files fails
      */
-    private static Parent loadComponents(final Stage stage, final Executor executor)
+    private static Map<String, Scene> loadComponents(final Stage stage, final Executor executor)
             throws IOException {
         // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
         final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
@@ -138,7 +144,13 @@ public final class CroiseurGuiApplication extends Application {
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
         final Parent editorView =
                 loadCrosswordEditor(applicationViewModel, crosswordService, executor);
-        return loadWelcomeScreen(applicationViewModel, crosswordService, executor, editorView);
+        final Parent welcomeScreenView =
+                loadWelcomeScreen(applicationViewModel, crosswordService, executor);
+
+        final Map<String, Scene> namedScenes = new LinkedHashMap<>();
+        namedScenes.put("welcomeScene", new Scene(welcomeScreenView));
+        namedScenes.put("editorScene", new Scene(editorView));
+        return namedScenes;
     }
 
     /**
@@ -183,20 +195,17 @@ public final class CroiseurGuiApplication extends Application {
      * @param applicationViewModel the application view-models
      * @param crosswordService     the croiseur core library
      * @param executor             the background task executor
-     * @param editorView           the editor view to which to switch when a puzzle is selected
      * @return the welcome screen view
      * @throws IOException if loading from FXML file fails
      */
     private static Parent loadWelcomeScreen(final ApplicationViewModel applicationViewModel,
                                             final CrosswordService crosswordService,
-                                            final Executor executor,
-                                            final Parent editorView) throws IOException {
+                                            final Executor executor) throws IOException {
         final var welcomeScreenController =
                 new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
                                             applicationViewModel.puzzleEditionViewModel(),
                                             applicationViewModel.puzzleCodecsViewModel(),
-                                            crosswordService.puzzleService(), executor,
-                                            editorView);
+                                            crosswordService.puzzleService(), executor);
         return ViewLoader.load(welcomeScreenController);
     }
 

@@ -39,6 +39,10 @@ public final class PuzzlePane extends Accordion {
     @FXML
     private Button exportButton;
 
+    /** The back to puzzle selection button. */
+    @FXML
+    private Button backToSelectionButton;
+
     /**
      * Constructs an instance.
      */
@@ -116,6 +120,15 @@ public final class PuzzlePane extends Accordion {
      */
     public BooleanProperty exportButtonDisableProperty() {
         return exportButton.disableProperty();
+    }
+
+    /**
+     * The back to puzzle selection button event handler property.
+     *
+     * @return the back to puzzle selection button event handler property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onBackToSelectionButtonActionProperty() {
+        return backToSelectionButton.onActionProperty();
     }
 
     /**

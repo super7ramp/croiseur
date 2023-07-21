@@ -30,7 +30,9 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
@@ -96,6 +98,7 @@ public final class CrosswordEditorController {
         initializeOtherSolverBindings();
         initializePuzzleBindings();
         initializePuzzleExportBindings();
+        initializeNavigationBindings();
         populateModels();
     }
 
@@ -129,7 +132,7 @@ public final class CrosswordEditorController {
                                                  codec.name(), codec.extensions())).toList();
             fileChooser.getExtensionFilters().setAll(extensionFilters);
         });
-        view.onExportButtonActionProperty().set(e -> onExportButtonAction());
+        view.onExportPuzzleButtonActionProperty().set(e -> onExportButtonAction());
 
         // Export button exports last saved puzzle; Disable it if puzzle hasn't been saved yet
         final PuzzleDetailsViewModel puzzleDetailsViewModel =
@@ -242,6 +245,18 @@ public final class CrosswordEditorController {
         view.solveButtonDisableProperty()
             .bind(solverRunning.not()
                                .and(selectedDictionaries.emptyProperty().or(grid.emptyProperty())));
+    }
+
+    /**
+     * Initialize view navigation bindings.
+     */
+    private void initializeNavigationBindings() {
+        view.onBackToPuzzleSelectionButtonActionProperty().set(e -> {
+            final Stage stage = (Stage) view.getScene().getWindow();
+            final Scene welcomeScene = (Scene) stage.getProperties().get("welcomeScene");
+            applicationViewModel.puzzleEditionViewModel().reset();
+            stage.setScene(welcomeScene);
+        });
     }
 
     /**

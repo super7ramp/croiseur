@@ -338,6 +338,12 @@ public final class CrosswordGridViewModel {
     /** The maximum number of rows or columns. */
     private static final int MAX_ROW_COLUMN_COUNT = 20;
 
+    /** The number of columns of the welcome grid. */
+    private static final int WELCOME_GRID_COLUMN_COUNT = 6;
+
+    /** The number of rows of the welcome grid. */
+    private static final int WELCOME_GRID_ROW_COUNT = 7;
+
     /** The boxes of the view. */
     private final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes;
 
@@ -387,8 +393,8 @@ public final class CrosswordGridViewModel {
      */
     public static CrosswordGridViewModel welcomeGrid() {
         final Map<GridCoord, CrosswordBoxViewModel> welcomeBoxes = new HashMap<>();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < WELCOME_GRID_COLUMN_COUNT; i++) {
+            for (int j = 0; j < WELCOME_GRID_ROW_COUNT; j++) {
                 welcomeBoxes.put(new GridCoord(i, j), new CrosswordBoxViewModel());
             }
         }
@@ -715,6 +721,15 @@ public final class CrosswordGridViewModel {
      */
     public void resetContentLettersFilledBySolverOnly() {
         boxes.values().forEach(box -> box.solverContent(""));
+    }
+
+    /**
+     * Resets the model to defaults.
+     */
+    public void reset() {
+        workingArea.currentBoxPosition.set(null);
+        boxes.values().forEach(this::resetBox);
+        resizeTo(WELCOME_GRID_COLUMN_COUNT, WELCOME_GRID_ROW_COUNT);
     }
 
     /**

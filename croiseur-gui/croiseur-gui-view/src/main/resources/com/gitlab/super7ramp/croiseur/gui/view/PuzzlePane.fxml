@@ -33,6 +33,7 @@
                     <RowConstraints vgrow="NEVER"/>
                     <RowConstraints vgrow="NEVER"/>
                     <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
                 </rowConstraints>
                 <Label text="%author.key" GridPane.rowIndex="1"/>
                 <Label text="%editor.key" GridPane.rowIndex="2"/>
@@ -48,10 +49,16 @@
                            GridPane.rowIndex="3"/>
                 <DatePicker fx:id="date" editable="false" promptText="%date.prompt"
                             GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                <Button id="export-button" fx:id="exportButton" text="%export.button.text"
-                        GridPane.columnSpan="2" GridPane.rowIndex="5">
+                <Button fx:id="exportButton" text="%export.button.text" GridPane.columnSpan="2"
+                        GridPane.rowIndex="5">
                     <tooltip>
                         <Tooltip text="%export.button.tooltip"/>
+                    </tooltip>
+                </Button>
+                <Button id="back-button" fx:id="backToSelectionButton" mnemonicParsing="false"
+                        text="%back.button.text" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                    <tooltip>
+                        <Tooltip text="%back.button.tooltip"/>
                     </tooltip>
                 </Button>
             </GridPane>

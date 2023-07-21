@@ -13,7 +13,6 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,9 +39,6 @@ public final class WelcomeScreenController {
     /** The file chooser (for the import function). */
     private final FileChooser fileChooser;
 
-    /** The editor view to switch to when a puzzle is selected. */
-    private final Parent editorView;
-
     /** The puzzle selector of the welcome screen. */
     @FXML
     private SavedPuzzleSelector selectorView;
@@ -59,19 +55,16 @@ public final class WelcomeScreenController {
      * @param puzzleCodecsViewModelArg    the puzzle codecs view model
      * @param puzzleService               the puzzle service
      * @param executor                    the background task executor
-     * @param editorViewArg               the editor view to switch to when a puzzle is selected
      */
     public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
                                    final PuzzleEditionViewModel puzzleEditionViewModel,
                                    final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
-                                   final PuzzleService puzzleService, final Executor executor,
-                                   final Parent editorViewArg) {
+                                   final PuzzleService puzzleService, final Executor executor) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleCodecsViewModel = puzzleCodecsViewModelArg;
         puzzleController = new PuzzleController(puzzleSelectionViewModelArg, puzzleEditionViewModel,
                                                 puzzleService, executor);
         fileChooser = new FileChooser();
-        editorView = editorViewArg;
     }
 
     /**
@@ -156,7 +149,7 @@ public final class WelcomeScreenController {
      */
     private void switchToEditorView() {
         final Stage stage = (Stage) selectorView.getScene().getWindow();
-        final Scene editorScene = new Scene(editorView);
+        final Scene editorScene = (Scene) stage.getProperties().get("editorScene");
         stage.setScene(editorScene);
     }
 

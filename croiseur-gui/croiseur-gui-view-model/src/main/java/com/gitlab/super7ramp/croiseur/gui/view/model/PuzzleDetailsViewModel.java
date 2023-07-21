@@ -223,4 +223,16 @@ public final class PuzzleDetailsViewModel {
         date.set(value);
     }
 
+    /**
+     * Resets this model to defaults.
+     */
+    public void reset() {
+        id.setValue(null);
+        revision.setValue(null);
+        title.set("");
+        author.set("");
+        editor.set("");
+        copyright.set("");
+        date.set("");
+    }
 }

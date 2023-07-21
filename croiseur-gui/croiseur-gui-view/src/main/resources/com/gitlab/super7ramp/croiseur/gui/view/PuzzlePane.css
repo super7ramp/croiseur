@@ -53,7 +53,11 @@
     -fx-max-width: Infinity;
 }
 
-#export-button {
-    /* Let button grow. */
+.button {
+    /* Let buttons grow. */
     -fx-max-width: Infinity
+}
+
+#back-button {
+    -fx-graphic: url("icon/sc_zoomprevious.png");
 }

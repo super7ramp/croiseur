@@ -133,11 +133,11 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
-     * Returns the on export button action property.
+     * Returns the on export puzzle button action property.
      *
-     * @return the on export button action property
+     * @return the on export puzzle button action property
      */
-    public ObjectProperty<EventHandler<ActionEvent>> onExportButtonActionProperty() {
+    public ObjectProperty<EventHandler<ActionEvent>> onExportPuzzleButtonActionProperty() {
         return puzzlePane.onExportButtonActionProperty();
     }
 
@@ -153,6 +153,15 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public BooleanProperty puzzleExportButtonDisableProperty() {
         return puzzlePane.exportButtonDisableProperty();
+    }
+
+    /**
+     * Returns the on back to puzzle selection button action property.
+     *
+     * @return the on back to puzzle selection button action property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onBackToPuzzleSelectionButtonActionProperty() {
+        return puzzlePane.onBackToSelectionButtonActionProperty();
     }
 
     /**
