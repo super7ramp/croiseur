@@ -122,7 +122,7 @@ public final class CrosswordEditorController {
 
         final PuzzleCodecsViewModel puzzleCodecsViewModel =
                 applicationViewModel.puzzleCodecsViewModel();
-        puzzleCodecsViewModel.decodersProperty().addListener((InvalidationListener) observable -> {
+        puzzleCodecsViewModel.encodersProperty().addListener((InvalidationListener) observable -> {
             final List<FileChooser.ExtensionFilter> extensionFilters =
                     puzzleCodecsViewModel.encodersProperty().stream()
                                          .map(codec -> new FileChooser.ExtensionFilter(

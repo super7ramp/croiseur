@@ -134,7 +134,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleEncoders(final List<PuzzleCodecDetails> encoders) {
-        LOGGER.info(() -> "Received puzzle enoders: " + encoders);
+        LOGGER.info(() -> "Received puzzle encoders: " + encoders);
         final List<PuzzleCodec> encoderViewModels =
                 encoders.stream().map(GuiPuzzlePresenter::convertToViewModel).toList();
         Platform.runLater(() -> puzzleCodecsViewModel.encodersProperty().setAll(encoderViewModels));
