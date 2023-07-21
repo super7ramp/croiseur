@@ -11,6 +11,7 @@ junit5-platform = "1.9.3"
 mockito = "5.4.0"
 native-plugin = "0.9.23"
 picocli = "4.7.4"
+testfx = "4.0.16-alpha"
 
 [libraries]
 # BDD library, for acceptance tests
@@ -29,6 +30,9 @@ native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref =
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
+# Testing framework for JavaFx application
+testfx-core = { module = "org.testfx:testfx-core", version.ref="testfx" }
+testfx-junit = { module = "org.testfx:testfx-junit5", version.ref="testfx" }
 
 [plugins]
 # Plugin to help embedding rust code, only used by native solvers

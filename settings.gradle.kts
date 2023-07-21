@@ -57,6 +57,7 @@ include("croiseur-gui:croiseur-gui-controller")
 include("croiseur-gui:croiseur-gui-presenter")
 include("croiseur-gui:croiseur-gui-view")
 include("croiseur-gui:croiseur-gui-view-model")
+include("croiseur-gui:croiseur-gui-tests")
 
 // Acceptance tests
 include("croiseur-tests")

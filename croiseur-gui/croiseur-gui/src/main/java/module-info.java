@@ -30,8 +30,9 @@ module com.gitlab.super7ramp.croiseur.gui {
     uses PuzzleRepository;
 
     // JavaFX stuff
+    requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
-    exports com.gitlab.super7ramp.croiseur.gui to javafx.graphics;
+    exports com.gitlab.super7ramp.croiseur.gui;
     opens com.gitlab.super7ramp.croiseur.gui to javafx.fxml;
 }
