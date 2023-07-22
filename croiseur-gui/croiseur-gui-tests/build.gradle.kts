@@ -26,12 +26,26 @@ dependencies {
     testImplementation(project(":croiseur-gui:croiseur-gui"))
     testImplementation(sbom.testfx.core)
     testImplementation(sbom.testfx.junit)
+    testRuntimeOnly(sbom.testfx.monocle)
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
 tasks.named<Test>("test") {
-    jvmArgs = listOf("--add-exports", "javafx.graphics/com.sun.javafx.application=org.testfx")
+    // Export/open JavaFx internals to TestFx: TestFx relies on them.
+    jvmArgs = listOf(
+        "--add-exports", "javafx.graphics/com.sun.javafx.application=org.testfx",
+        "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx",
+        "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle"
+    )
+
+    // Configure JavaFx/TestFx to run in headless mode, in order to run the tests on CI machines.
+    systemProperty("java.awt.headless", true)
+    systemProperty("prism.order", "sw")
+    systemProperty("testfx.robot", "glass")
+    systemProperty("testfx.headless", true)
+
+    // Application properties
     systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath())
     systemProperty("com.gitlab.super7ramp.croiseur.puzzle.path", testRepoPath())
 }

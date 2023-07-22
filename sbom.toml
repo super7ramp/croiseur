@@ -12,6 +12,7 @@ mockito = "5.4.0"
 native-plugin = "0.9.23"
 picocli = "4.7.4"
 testfx = "4.0.16-alpha"
+testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
 
 [libraries]
 # BDD library, for acceptance tests
@@ -31,8 +32,9 @@ native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref =
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 # Testing framework for JavaFx application
-testfx-core = { module = "org.testfx:testfx-core", version.ref="testfx" }
-testfx-junit = { module = "org.testfx:testfx-junit5", version.ref="testfx" }
+testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
+testfx-junit = { module = "org.testfx:testfx-junit5", version.ref = "testfx" }
+testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "testfx-monocle" }
 
 [plugins]
 # Plugin to help embedding rust code, only used by native solvers
