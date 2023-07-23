@@ -32,7 +32,7 @@ Build on Linux:
     - gradle --parallel --build-cache assemble -x distZip
     - gradle --parallel --build-cache check -x croiseur-gui:croiseur-gui-tests:test
     # GUI tests require a graphic server, use xvfb-run to simulate it
-    - xvfb-run gradle --parallel --build-cache croiseur-gui:croiseur-gui-tests:test
+    - gradle --parallel --build-cache croiseur-gui:croiseur-gui-tests:test
     - gradle --parallel --build-cache croiseur-tests-coverage:testCodeCoverageReport
     # For total coverage: Display html report so that Gitlab can parse it (using the coverage regex defined above).
     - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html

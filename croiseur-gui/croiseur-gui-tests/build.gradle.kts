@@ -40,6 +40,7 @@ tasks.named<Test>("test") {
     )
 
     // Configure JavaFx/TestFx to run in headless mode, in order to run the tests on CI machines.
+    systemProperty("headless.geometry", "1920x1080-32")
     systemProperty("java.awt.headless", true)
     systemProperty("prism.order", "sw")
     systemProperty("testfx.robot", "glass")
