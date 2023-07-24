@@ -3,6 +3,12 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.6 – Puzzle SPI – 2023/07/24
+
+- Allow to save/re-open crosswords (#39, !95)
+- Allow to import/export crosswords (#6, !99)
+- Add a Conveyor configuration for Croiseur GUI (!89)
+
 ## Version 0.5 – CLI Improvements – 2023/07/01
 
 - CLI:

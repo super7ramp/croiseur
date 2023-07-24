@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-solver:0.5")
+    api("com.gitlab.super7ramp:croiseur-spi-solver:0.6")
 }
 ```
 
