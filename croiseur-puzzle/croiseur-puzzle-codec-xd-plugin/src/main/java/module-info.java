@@ -9,9 +9,9 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
 
 /**
- * Puzzle codec plugin for the xd format.
+ * Puzzle codec provider adapting croiseur-puzzle-codec-xd.
  */
-module com.gitlab.super7ramp.croiseur.super7ramp.puzzle.codec.xd.plugin {
+module com.gitlab.super7ramp.croiseur.puzzle.codec.xd.plugin {
     requires com.gitlab.super7ramp.croiseur.common;
     requires com.gitlab.super7ramp.croiseur.puzzle.codec.xd;
     requires com.gitlab.super7ramp.croiseur.spi.puzzle.codec;

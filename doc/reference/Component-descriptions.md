@@ -27,7 +27,8 @@ Here are the software components of Croiseur:
 | [`croiseur-gui-presenter`][]                       | Presenter submodule of `croiseur-gui` (presents `croiseur` outputs by updating `croiseur-gui-view-model`)                           |
 | [`croiseur-gui-view`][]                            | View submodule of `croiseur-gui` (widgets of `croiseur-gui`)                                                                        |
 | [`croiseur-gui-view-model`][]                      | View-model submodule of `croiseur-gui` (a model representing the state of the views, observed and displayed by `croiseur-gui-view`) |
-| [`croiseur-puzzle-codec-xd`][]                     | Library which allows to read/write puzzles in the xf format                                                                         |
+| [`croiseur-puzzle-codec-xd`][]                     | Library which allows to read/write puzzles in the xd format                                                                         |
+| [`croiseur-puzzle-codec-xd-plugin`][]              | Puzzle codec provider adapting `croiseur-puzzle-codec-xd`                                                                           |
 | [`croiseur-puzzle-repository-filesystem-plugin`][] | Puzzle repository implementation which stores puzzles as files on disk                                                              |
 | [`croiseur-puzzle-repository-memory-plugin`][]     | Puzzle repository implementation whose storage is purely in memory - only used for tests                                            |                                           
 | [`croiseur-solver-ginsberg`][]                     | Crossword solver library based on Matt Ginsberg's papers                                                                            |
@@ -38,6 +39,7 @@ Here are the software components of Croiseur:
 | [`croiseur-solver-szunami-plugin`][]               | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
 | [`croiseur-spi-dictionary`][]                      | Interface definition for dictionary providers                                                                                       |
 | [`croiseur-spi-presenter`][]                       | Interface definition for presenters                                                                                                 |
+| [`croiseur-spi-puzzle-codec`][]                    | Interface definition for puzzle codecs                                                                                              |
 | [`croiseur-spi-puzzle-repository`][]               | Interface definition for puzzle repositories                                                                                        |
 | [`croiseur-spi-solver`][]                          | Interface definition for solvers                                                                                                    |
 
@@ -69,6 +71,8 @@ The following conventions apply to all diagrams:
 This diagram represents the main module dependencies, with the following omissions:
 
 - Dictionary SPI implementations (see [dedicated section](#dictionary-spi-implementations) below)
+- Puzzle codec SPI implementations (see [dedicated section](#puzzle-codec-spi-implementations)
+  below)
 - Puzzle repository SPI implementations
   (see [dedicated section](#puzzle-repository-spi-implementations) below)
 - Solver SPI implementations (see [dedicated section](#solver-spi-implementations) below)
@@ -89,6 +93,7 @@ digraph "overview" {
   "croiseur.spi.solver"        -> "croiseur.common";
   "croiseur"                   -> "croiseur.spi.dictionary" [label=uses];
   "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
+  "croiseur"                   -> "croiseur.spi.puzzle.codec" [label=uses];
   "croiseur"                   -> "croiseur.spi.puzzle.repository" [label=uses];
   "croiseur"                   -> "croiseur.spi.solver" [label=uses];
   "croiseur.common"            -> "java.base";
@@ -99,6 +104,7 @@ digraph "overview" {
   "croiseur.gui"               -> "croiseur";
   "croiseur.gui"               -> "javafx.*";
   "croiseur.spi.dictionary"    -> "croiseur.common";
+  "croiseur.spi.puzzle.codec"  -> "croiseur.common"
   "croiseur.spi.puzzle.repository" -> "croiseur.common"
 }
 @enddot
@@ -130,6 +136,26 @@ digraph "dictionaries" {
   "croiseur.spi.dictionary"    -> "croiseur.common";
   "croiseur.dictionary.xml.codec" -> "java.base";
   "croiseur.dictionary.xml.codec" -> "java.xml";
+}
+@enddot
+```
+
+#### Puzzle Codec SPI Implementations
+
+```plantuml
+@startdot
+digraph "solvers" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=gray];
+
+  "croiseur.puzzle.codec.xd.plugin" -> "croiseur.spi.puzzle.codec" [label=provides];
+  "croiseur.puzzle.codec.xd.plugin" -> "croiseur.puzzle.codec.xd";
+  "croiseur.spi.puzzle.codec" -> "croiseur.common";
+  "croiseur.common"   -> "java.base";
+  "croiseur.puzzle.codec.xd" -> "java.base"
 }
 @enddot
 ```
@@ -259,6 +285,8 @@ Refer to the generated Javadoc (🚧).
 
 [`croiseur-puzzle-codec-xd`]: ../../croiseur-puzzle/croiseur-puzzle-codec-xd
 
+[`croiseur-puzzle-codec-xd-plugin`]: ../../croiseur-puzzle/croiseur-puzzle-codec-xd-plugin
+
 [`croiseur-puzzle-repository-filesystem-plugin`]: ../../croiseur-puzzle/croiseur-puzzle-repository-filesystem-plugin
 
 [`croiseur-puzzle-repository-memory-plugin`]: ../../croiseur-puzzle/croiseur-puzzle-repository-memory-plugin
@@ -278,6 +306,8 @@ Refer to the generated Javadoc (🚧).
 [`croiseur-spi-dictionary`]: ../../croiseur-spi/croiseur-spi-dictionary
 
 [`croiseur-spi-presenter`]: ../../croiseur-spi/croiseur-spi-presenter
+
+[`croiseur-spi-puzzle-codec`]: ../../croiseur-spi/croiseur-spi-puzzle-codec
 
 [`croiseur-spi-puzzle-repository`]: ../../croiseur-spi/croiseur-spi-puzzle-repository
 

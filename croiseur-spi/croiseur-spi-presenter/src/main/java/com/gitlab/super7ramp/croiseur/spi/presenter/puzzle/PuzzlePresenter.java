@@ -58,7 +58,7 @@ public interface PuzzlePresenter {
     /**
      * Presents the available puzzle decoders.
      *
-     * @param decoders the available puzzle coders
+     * @param decoders the available puzzle decoders
      */
     void presentPuzzleDecoders(final List<PuzzleCodecDetails> decoders);
 

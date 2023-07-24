@@ -41,7 +41,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 | Name   | Encoder | Decoder | Description                                          |
 |--------|---------|---------|------------------------------------------------------|
-| [xd][] | ❌       | ✔️      | Codec for xd, a crossword description textual format |
+| [xd][] | ✔️      | ✔️      | Codec for xd, a crossword description textual format |
 
 #### Repositories
 
