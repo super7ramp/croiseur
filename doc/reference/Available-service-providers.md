@@ -97,6 +97,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 [Service Providers]: ../../croiseur-spi
 
+[xd]: ../../croiseur-puzzle/croiseur-puzzle-codec-xd-plugin
+
 [XWords RS (szunami)]: ../../croiseur-solver/croiseur-solver-szunami-plugin
 
 [XWords RS]: https://github.com/szunami/xwords-rs

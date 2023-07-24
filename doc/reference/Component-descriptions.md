@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## Component Descriptions
+## Reference: Component Descriptions
 
 This page describes the software components of the Croiseur project.
 
