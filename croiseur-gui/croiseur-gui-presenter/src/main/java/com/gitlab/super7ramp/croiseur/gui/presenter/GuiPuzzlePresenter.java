@@ -105,7 +105,11 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
         final SavedPuzzleViewModel savedPuzzleViewModel = convertToViewModel(puzzle);
         Platform.runLater(
-                () -> puzzleSelectionViewModel.updateAvailablePuzzlesWith(savedPuzzleViewModel));
+                () -> {
+                    puzzleSelectionViewModel.updateAvailablePuzzlesWith(savedPuzzleViewModel);
+                    puzzleDetailsViewModel.id(puzzle.id());
+                    puzzleDetailsViewModel.revision(puzzle.revision());
+                });
     }
 
     @Override
