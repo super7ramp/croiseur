@@ -72,7 +72,8 @@ public final class XdCrosswordWriter {
 
     /**
      * Writes the given crossword to a given output stream.
-     * @param crossword the crossword to write
+     *
+     * @param crossword    the crossword to write
      * @param outputStream where to write the crossword
      * @throws NullPointerException if any of the arguments is {@code null}
      */

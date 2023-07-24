@@ -14,7 +14,6 @@ Feature: Export Puzzle
   Scenario: Export Puzzle - xd Format
     When user requests to export the puzzle with id 1 to format '*.xd'
     Then the application writes the following export data:
-    # TODO investigate: It looks like there are extra lines at the end
     """
     Title: Example Grid
     Author: Jane Doe
@@ -30,6 +29,10 @@ Feature: Export Puzzle
 
 
     """
+    # The 4 new lines at the end are normal:
+    # - 1 new line after grid
+    # - 2 new lines separating grid from clues
+    # - 1 new line between across and down clues (which are both empty)
 
   Scenario: Export Puzzle - Unsupported Format
     When user requests to export the puzzle with id 1 to format 'unknown'
