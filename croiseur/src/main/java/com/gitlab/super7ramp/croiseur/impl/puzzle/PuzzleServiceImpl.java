@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.puzzle;
 
+import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.exporter.PuzzleExportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
@@ -22,8 +23,7 @@ import java.util.Collection;
 /**
  * Implementation of {@link com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService}.
  */
-public final class PuzzleServiceImpl implements
-        com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService {
+public final class PuzzleServiceImpl implements PuzzleService {
 
     /** The persistence service. */
     private final PuzzlePersistenceService persistence;
