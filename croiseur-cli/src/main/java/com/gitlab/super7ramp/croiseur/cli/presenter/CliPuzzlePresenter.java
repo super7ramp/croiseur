@@ -127,7 +127,8 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
 
     @Override
     public void presentPuzzleExportError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 
     /**

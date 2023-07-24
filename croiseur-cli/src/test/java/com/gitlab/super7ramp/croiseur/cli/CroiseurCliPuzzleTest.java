@@ -356,7 +356,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     }
 
     @Test
-    void exportPuzzle(@TempDir final Path tempDir) throws IOException {
+    void exportPuzzle(@TempDir final Path tempDir) {
         final Path exampleXdPath = tempDir.resolve("example.xd");
         final String exampleXd = exampleXdPath.toString();
 
@@ -387,6 +387,25 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
     }
+
+    @Test
+    void exportPuzzle_unknownFormatOption(@TempDir final Path tempDir) {
+        final Path examplePath = tempDir.resolve("example");
+        final String example = examplePath.toString();
+
+        givenOneHasRunCli("puzzle", "create",
+                          "--title", "Example Grid",
+                          "--author", "Me",
+                          "--editor", "Myself",
+                          "--copyright", "Public Domain",
+                          "--date", "2023-07-19",
+                          "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "export", "--format", "unknown", "1", example);
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr("No suitable encoder found for format 'unknown'\n")
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
+    }
+
 
     @AfterEach
     void cleanRepository() {
