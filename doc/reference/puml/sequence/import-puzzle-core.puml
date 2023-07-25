@@ -1,41 +1,25 @@
 @startuml
-skinparam responseMessageBelowArrow true
-
-actor User
-participant croiseur.cli.controller
+group Import Puzzle Usecase
 participant croiseur.api.puzzle.importer
-participant "croiseur.spi.presenter\n(croiseur.cli.presenter)" as croiseur.spi.presenter
-
-User -> croiseur.cli.controller : croiseur-cli puzzle import \\\nexample_file
-activate croiseur.cli.controller
-croiseur.cli.controller -> croiseur.cli.controller : Adapt request\n(create an input stream)
-activate croiseur.cli.controller
-deactivate croiseur.cli.controller
-croiseur.cli.controller -> croiseur.api.puzzle.importer : Import
+participant croiseur.spi.puzzle.codec
+participant croiseur.spi.puzzle.repository
+participant croiseur.spi.puzzle.presenter
 
 activate croiseur.api.puzzle.importer
-activate croiseur.spi.presenter
-ref over croiseur.api.puzzle.importer, croiseur.spi.presenter : Import Puzzle Usecase\n
-croiseur.spi.presenter -> croiseur.spi.presenter : Format saved puzzle
-activate croiseur.spi.presenter
-deactivate croiseur.spi.presenter
-
-croiseur.spi.presenter -> User : \
-Saved puzzle.\n\
-\n\
-Identifier: 1\n\
-Revision: 1\n\
-Title: Example Grid\n\
-Author: Me\n\
-Editor: (No one)\n\
-Copyright: Public Domain\n\
-Date: 2023-06-19\n\
-Grid:\n\
-|A|B|C|\n\
-|D|E|F|\n\
-|G|H|I|
-
-deactivate croiseur.spi.presenter
+croiseur.api.puzzle.importer -> croiseur.api.puzzle.importer : Select decoder
+activate croiseur.api.puzzle.importer
 deactivate croiseur.api.puzzle.importer
-deactivate croiseur.cli.controller
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.codec : Decode puzzle
+activate croiseur.spi.puzzle.codec
+croiseur.spi.puzzle.codec -> croiseur.api.puzzle.importer : Decoded puzzle
+deactivate croiseur.spi.puzzle.codec
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.repository : Save puzzle
+activate croiseur.spi.puzzle.repository
+croiseur.spi.puzzle.repository -> croiseur.api.puzzle.importer : Saved puzzle
+deactivate croiseur.spi.puzzle.repository
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.presenter : Present saved puzzle
+activate croiseur.spi.puzzle.presenter
 @enduml
