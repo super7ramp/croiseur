@@ -1,0 +1,56 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor User
+participant croiseur.gui.view
+participant croiseur.gui.controller
+participant croiseur.gui.view.model
+participant croiseur.api.puzzle.importer
+participant "croiseur.spi.presenter\n(croiseur.gui.presenter)" as croiseur.spi.presenter
+
+User -> croiseur.gui.view : <img:"image/input/croiseur-gui-puzzle-import.png"{scale=0.75}>
+activate croiseur.gui.view
+
+croiseur.gui.view -> croiseur.gui.controller : Import puzzle
+activate croiseur.gui.controller
+
+croiseur.gui.controller -> croiseur.gui.controller : Create import puzzle task
+activate croiseur.gui.controller
+deactivate croiseur.gui.controller
+
+croiseur.gui.controller ->> croiseur.api.puzzle.importer : Execute import puzzle task
+note right
+ Asynchronous call: Import puzzle task
+ is executed in a background thread
+ in order not to freeze the view.
+end note
+deactivate croiseur.gui.controller
+deactivate croiseur.gui.view
+activate croiseur.api.puzzle.importer
+activate croiseur.spi.presenter
+
+ref over croiseur.api.puzzle.importer, croiseur.spi.presenter : Import Puzzle Usecase\n
+
+croiseur.spi.presenter -> croiseur.spi.presenter : Adapt saved puzzle
+activate croiseur.spi.presenter
+deactivate croiseur.api.puzzle.importer
+deactivate croiseur.spi.presenter
+
+croiseur.spi.presenter ->> croiseur.gui.view.model : Add an element to the puzzle list
+note left
+ Asynchronous call: View model
+ (and thus the view) is updated
+ in the application thread.
+end note
+activate croiseur.gui.view.model
+deactivate croiseur.spi.presenter
+deactivate croiseur.api.solver
+
+croiseur.gui.view.model -> croiseur.gui.view : Notify update
+activate croiseur.gui.view
+
+croiseur.gui.view -> User : <img:"image/input/croiseur-gui-puzzle-imported.png"{scale=0.75}>
+
+deactivate croiseur.gui.view
+deactivate croiseur.gui.view.model
+@enduml

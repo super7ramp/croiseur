@@ -1,0 +1,63 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor User
+participant croiseur.gui.view
+participant croiseur.gui.controller
+participant croiseur.gui.view.model
+participant croiseur.api.solver
+participant "croiseur.spi.presenter\n(croiseur.gui.presenter)" as croiseur.spi.presenter
+
+User -> croiseur.gui.view : <img:"image/input/croiseur-gui-solver-solve.png"{scale=0.75}>
+activate croiseur.gui.view
+
+croiseur.gui.view -> croiseur.gui.controller : Solve
+activate croiseur.gui.controller
+
+croiseur.gui.controller -> croiseur.gui.controller : Create solve task
+activate croiseur.gui.controller
+croiseur.gui.controller -> croiseur.gui.view.model : Retrieve grid and\nselected dictionaries
+deactivate croiseur.gui.controller
+
+croiseur.gui.controller ->> croiseur.api.solver : Execute solve task
+note right
+ Asynchronous call: Solve task is
+ executed in a background thread
+ in order not to freeze the view.
+
+ Some elements of the view are
+ disabled while the task is
+ running though (e.g. the grid
+ edition controls) to prevent
+ inconsistencies when the task
+ finishes.
+end note
+deactivate croiseur.gui.controller
+deactivate croiseur.gui.view
+activate croiseur.api.solver
+activate croiseur.spi.presenter
+
+ref over croiseur.api.solver, croiseur.spi.presenter : Solve Grid Usecase\n
+
+croiseur.spi.presenter -> croiseur.spi.presenter : Adapt result
+activate croiseur.spi.presenter
+deactivate croiseur.spi.presenter
+
+croiseur.spi.presenter ->> croiseur.gui.view.model : Update grid
+note left
+ Asynchronous call: View model
+ (and thus the view) is updated
+ in the application thread.
+end note
+activate croiseur.gui.view.model
+deactivate croiseur.spi.presenter
+deactivate croiseur.api.solver
+
+croiseur.gui.view.model -> croiseur.gui.view : Notify update
+activate croiseur.gui.view
+
+croiseur.gui.view -> User : <img:"image/input/croiseur-gui-solver-solved.png"{scale=0.75}>
+
+deactivate croiseur.gui.view
+deactivate croiseur.gui.view.model
+@enduml

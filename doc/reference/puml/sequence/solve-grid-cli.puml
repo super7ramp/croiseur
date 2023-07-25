@@ -1,0 +1,32 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor User
+participant croiseur.cli.controller
+participant croiseur.api.solver
+participant "croiseur.spi.presenter\n(croiseur.cli.presenter)" as croiseur.spi.presenter
+
+User -> croiseur.cli.controller : croiseur-cli solver run \\\n--size 3x3
+activate croiseur.cli.controller
+croiseur.cli.controller -> croiseur.cli.controller : Adapt request
+activate croiseur.cli.controller
+deactivate croiseur.cli.controller
+croiseur.cli.controller -> croiseur.api.solver : Solve
+
+activate croiseur.api.solver
+activate croiseur.spi.presenter
+ref over croiseur.api.solver, croiseur.spi.presenter : Solve Grid Usecase\n
+croiseur.spi.presenter -> croiseur.spi.presenter : Format result
+activate croiseur.spi.presenter
+deactivate croiseur.spi.presenter
+
+croiseur.spi.presenter -> User : \
+Result: SUCCESS\n\n\
+|A|B|C|\n\
+|D|E|F|\n\
+|G|H|I|
+
+deactivate croiseur.spi.presenter
+deactivate croiseur.api.solver
+deactivate croiseur.cli.controller
+@enduml

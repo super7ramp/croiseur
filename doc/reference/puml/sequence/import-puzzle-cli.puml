@@ -1,0 +1,25 @@
+@startuml
+group Import Puzzle Usecase
+participant croiseur.api.puzzle.importer
+participant croiseur.spi.puzzle.codec
+participant croiseur.spi.puzzle.repository
+participant croiseur.spi.puzzle.presenter
+
+activate croiseur.api.puzzle.importer
+croiseur.api.puzzle.importer -> croiseur.api.puzzle.importer : Select decoder
+activate croiseur.api.puzzle.importer
+deactivate croiseur.api.puzzle.importer
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.codec : Decode puzzle
+activate croiseur.spi.puzzle.codec
+croiseur.spi.puzzle.codec -> croiseur.api.puzzle.importer : Decoded puzzle
+deactivate croiseur.spi.puzzle.codec
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.repository : Save puzzle
+activate croiseur.spi.puzzle.repository
+croiseur.spi.puzzle.repository -> croiseur.api.puzzle.importer : Saved puzzle
+deactivate croiseur.spi.puzzle.repository
+
+croiseur.api.puzzle.importer -> croiseur.spi.puzzle.presenter : Present saved puzzle
+activate croiseur.spi.puzzle.presenter
+@enduml

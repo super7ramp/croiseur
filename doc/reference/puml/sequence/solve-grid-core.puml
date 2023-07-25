@@ -1,0 +1,48 @@
+@startuml
+group Solve Grid Usecase
+participant croiseur.api.solver
+participant croiseur.spi.dictionary
+participant croiseur.spi.solver
+participant croiseur.spi.puzzle.repository
+participant croiseur.spi.presenter
+
+activate croiseur.api.solver
+croiseur.api.solver -> croiseur.spi.dictionary : Select dictionary (filter on provider and name)
+
+croiseur.api.solver -> croiseur.spi.solver : Select solver (filter on name)
+
+opt Save Grid
+  croiseur.api.solver -> croiseur.spi.puzzle.repository : Save grid in new puzzle
+  activate croiseur.spi.puzzle.repository
+  croiseur.spi.puzzle.repository -> croiseur.api.solver : Saved puzzle
+  deactivate croiseur.spi.puzzle.repository
+  croiseur.api.solver -> croiseur.spi.presenter : Present saved puzzle
+  activate croiseur.spi.presenter
+  deactivate croiseur.spi.presenter
+end opt
+
+opt Shuffle Dictionary
+  croiseur.api.solver -> croiseur.api.solver : Shuffle dictionary
+  activate croiseur.api.solver
+  deactivate croiseur.api.solver
+end opt
+
+croiseur.api.solver -> croiseur.spi.solver : Run solver
+activate croiseur.spi.solver
+croiseur.spi.solver -> croiseur.api.solver : Solver result
+deactivate croiseur.spi.solver
+
+opt Save Grid && Solver Result is a Success
+  croiseur.api.solver -> croiseur.spi.puzzle.repository : Save grid in puzzle created above
+  activate croiseur.spi.puzzle.repository
+  croiseur.spi.puzzle.repository -> croiseur.api.solver : Saved puzzle
+  deactivate croiseur.spi.puzzle.repository
+  croiseur.api.solver -> croiseur.spi.presenter : Present saved puzzle
+  activate croiseur.spi.presenter
+  deactivate croiseur.spi.presenter
+end opt
+
+croiseur.api.solver -> croiseur.spi.presenter : Present solver result
+activate croiseur.spi.presenter
+end
+@enduml
