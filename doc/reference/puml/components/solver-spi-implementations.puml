@@ -1,0 +1,22 @@
+@startdot
+digraph "solvers" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=lightgray];
+
+  "croiseur.solver.szunami"    -> "java.base";
+  "croiseur.solver.szunami.plugin" -> "croiseur.solver.szunami";
+  "croiseur.solver.szunami.plugin" -> "croiseur.spi.solver" [label=provides];
+  "croiseur.spi.solver"        -> "croiseur.common";
+  "croiseur.common"            -> "java.base";
+  "croiseur.solver.ginsberg.plugin" -> "croiseur.solver.ginsberg";
+  "croiseur.solver.ginsberg.plugin" -> "croiseur.spi.solver" [label=provides];
+  "croiseur.solver.paulgb.plugin" -> "croiseur.solver.paulgb";
+  "croiseur.solver.paulgb.plugin" -> "croiseur.spi.solver" [label=provides];
+  "croiseur.solver.ginsberg"   -> "croiseur.common";
+  "croiseur.solver.paulgb"     -> "java.base";
+
+}
+@enddot

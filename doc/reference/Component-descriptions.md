@@ -78,176 +78,29 @@ This diagram represents the main module dependencies, with the following omissio
 - Solver SPI implementations (see [dedicated section](#solver-spi-implementations) below)
 - GUI detailed dependencies (see [dedicated section](#gui-detailed-dependencies) below)
 
-```plantuml
-@startdot
-digraph "overview" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "info.picocli" [style=filled fillcolor=lightgray];
-  "javafx.*" [style=filled fillcolor=lightgray];
-  "java.base" [style=filled fillcolor=lightgray];
-
-  "info.picocli"               -> "java.base";
-  "croiseur.spi.solver"        -> "croiseur.common";
-  "croiseur"                   -> "croiseur.spi.dictionary" [label=uses];
-  "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
-  "croiseur"                   -> "croiseur.spi.puzzle.codec" [label=uses];
-  "croiseur"                   -> "croiseur.spi.puzzle.repository" [label=uses];
-  "croiseur"                   -> "croiseur.spi.solver" [label=uses];
-  "croiseur.common"            -> "java.base";
-  "javafx.*"                   -> "java.base";
-  "croiseur.cli"               -> "croiseur";
-  "croiseur.cli"               -> "info.picocli";
-  "croiseur.spi.presenter"     -> "croiseur.common";
-  "croiseur.gui"               -> "croiseur";
-  "croiseur.gui"               -> "javafx.*";
-  "croiseur.spi.dictionary"    -> "croiseur.common";
-  "croiseur.spi.puzzle.codec"  -> "croiseur.common"
-  "croiseur.spi.puzzle.repository" -> "croiseur.common"
-}
-@enddot
-```
+![Overview](puml/components/image/output/overview.png)
 
 #### Dictionary SPI Implementations
 
-```plantuml
-@startdot
-digraph "dictionaries" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=lightgray];
-  "java.xml" [style=filled fillcolor=lightgray];
-
-  "croiseur.dictionary.hunspell.plugin" -> "croiseur.dictionary.hunspell.codec";
-  "croiseur.dictionary.hunspell.plugin" -> "croiseur.spi.dictionary" [label=provides];
-  "croiseur.dictionary.common" -> "java.base";
-  "croiseur.dictionary.hunspell.codec" -> "croiseur.common";
-  "croiseur.dictionary.hunspell.codec" -> "croiseur.dictionary.common";
-  "croiseur.dictionary.xml.plugin" -> "croiseur.dictionary.common";
-  "croiseur.dictionary.xml.plugin" -> "croiseur.dictionary.xml.codec";
-  "croiseur.dictionary.xml.plugin" -> "croiseur.spi.dictionary" [label=provides];
-  "croiseur.common"                -> "java.base";
-  "croiseur.dictionary.txt.plugin" -> "croiseur.dictionary.common";
-  "croiseur.dictionary.txt.plugin" -> "croiseur.spi.dictionary" [label=provides];
-  "croiseur.spi.dictionary"    -> "croiseur.common";
-  "croiseur.dictionary.xml.codec" -> "java.base";
-  "croiseur.dictionary.xml.codec" -> "java.xml";
-}
-@enddot
-```
+![Dictionary SPI Implementations](puml/components/image/output/dictionary-spi-implementations.png)
 
 #### Puzzle Codec SPI Implementations
 
-```plantuml
-@startdot
-digraph "solvers" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=gray];
-
-  "croiseur.puzzle.codec.xd.plugin" -> "croiseur.spi.puzzle.codec" [label=provides];
-  "croiseur.puzzle.codec.xd.plugin" -> "croiseur.puzzle.codec.xd";
-  "croiseur.spi.puzzle.codec" -> "croiseur.common";
-  "croiseur.common"   -> "java.base";
-  "croiseur.puzzle.codec.xd" -> "java.base"
-}
-@enddot
-```
+![Puzzle Codec SPI Implementations](puml/components/image/output/puzzle-codec-spi-implementations.png)
 
 #### Puzzle Repository SPI Implementations
 
-```plantuml
-@startdot
-digraph "solvers" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=gray];
-
-  "croiseur.puzzle.repository.memory.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
-  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
-  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.puzzle.codec.xd";
-  "croiseur.spi.puzzle.repository" -> "croiseur.common";
-  "croiseur.common"   -> "java.base";
-  "croiseur.puzzle.codec.xd" -> "java.base"
-}
-@enddot
-```
+![Puzzle Repository SPI Implementations](puml/components/image/output/puzzle-repository-spi-implementations.png)
 
 #### Solver SPI Implementations
 
-```plantuml
-@startdot
-digraph "solvers" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=gray];
-
-  "croiseur.solver.szunami"    -> "java.base";
-  "croiseur.solver.szunami.plugin" -> "croiseur.solver.szunami";
-  "croiseur.solver.szunami.plugin" -> "croiseur.spi.solver" [label=provides];
-  "croiseur.spi.solver"        -> "croiseur.common";
-  "croiseur.common"            -> "java.base";
-  "croiseur.solver.ginsberg.plugin" -> "croiseur.solver.ginsberg";
-  "croiseur.solver.ginsberg.plugin" -> "croiseur.spi.solver" [label=provides];
-  "croiseur.solver.paulgb.plugin" -> "croiseur.solver.paulgb";
-  "croiseur.solver.paulgb.plugin" -> "croiseur.spi.solver" [label=provides];
-  "croiseur.solver.ginsberg"   -> "croiseur.common";
-  "croiseur.solver.paulgb"     -> "java.base";
-
-}
-@enddot
-```
+![Solver SPI Implementations](puml/components/image/output/solver-spi-implementations.png)
 
 #### GUI Detailed Dependencies
 
 Note: Some dependencies of `javafx.*` are omitted for clarity.
 
-```plantuml
-@startdot
-digraph "gui" {
-  // All nodes are components
-  node [shape=component];
-
-  // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=lightgrey];
-  "javafx.base" [style=filled fillcolor=lightgrey];
-  "javafx.controls" [style=filled fillcolor=lightgrey];
-  "javafx.graphics" [style=filled fillcolor=lightgrey];
-  "javafx.fxml" [style=filled fillcolor=lightgrey];
-
-  "javafx.controls"            -> "javafx.graphics";
-  "croiseur.gui.view"          -> "croiseur.gui.view.model";
-  "croiseur.gui.view"          -> "javafx.controls";
-  "croiseur.gui.view"          -> "javafx.fxml";
-  "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
-  "croiseur.gui.view.model"    -> "javafx.base";
-  "croiseur.common"            -> "java.base";
-  "javafx.graphics"            -> "javafx.base";
-  "croiseur.gui.presenter"     -> "croiseur.gui.view.model";
-  "croiseur.gui.presenter"     -> "croiseur.spi.presenter" [label=provides];
-  "croiseur.gui.presenter"     -> "javafx.graphics";
-  "javafx.base"                -> "java.base";
-  "croiseur.spi.presenter"     -> "croiseur.common";
-  "javafx.fxml"                -> "javafx.graphics";
-  "croiseur.gui"               -> "croiseur.gui.controller";
-  "croiseur.gui"               -> "croiseur.gui.presenter";
-  "croiseur.gui"               -> "croiseur.gui.view";
-  "croiseur.gui.controller"    -> "croiseur";
-  "croiseur.gui.controller"    -> "croiseur.gui.view.model";
-  "croiseur.gui.controller"    -> "javafx.graphics";
-}
-@enddot
-```
+![GUI Detailed Dependencies](puml/components/image/output/gui-detailed-dependencies.png)
 
 ### Interfaces
 

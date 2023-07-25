@@ -1,0 +1,34 @@
+@startdot
+digraph "gui" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=lightgrey];
+  "javafx.base" [style=filled fillcolor=lightgrey];
+  "javafx.controls" [style=filled fillcolor=lightgrey];
+  "javafx.graphics" [style=filled fillcolor=lightgrey];
+  "javafx.fxml" [style=filled fillcolor=lightgrey];
+
+  "javafx.controls"            -> "javafx.graphics";
+  "croiseur.gui.view"          -> "croiseur.gui.view.model";
+  "croiseur.gui.view"          -> "javafx.controls";
+  "croiseur.gui.view"          -> "javafx.fxml";
+  "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
+  "croiseur.gui.view.model"    -> "javafx.base";
+  "croiseur.common"            -> "java.base";
+  "javafx.graphics"            -> "javafx.base";
+  "croiseur.gui.presenter"     -> "croiseur.gui.view.model";
+  "croiseur.gui.presenter"     -> "croiseur.spi.presenter" [label=provides];
+  "croiseur.gui.presenter"     -> "javafx.graphics";
+  "javafx.base"                -> "java.base";
+  "croiseur.spi.presenter"     -> "croiseur.common";
+  "javafx.fxml"                -> "javafx.graphics";
+  "croiseur.gui"               -> "croiseur.gui.controller";
+  "croiseur.gui"               -> "croiseur.gui.presenter";
+  "croiseur.gui"               -> "croiseur.gui.view";
+  "croiseur.gui.controller"    -> "croiseur";
+  "croiseur.gui.controller"    -> "croiseur.gui.view.model";
+  "croiseur.gui.controller"    -> "javafx.graphics";
+}
+@enddot

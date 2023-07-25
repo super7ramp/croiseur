@@ -1,0 +1,25 @@
+@startdot
+digraph "dictionaries" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=lightgray];
+  "java.xml" [style=filled fillcolor=lightgray];
+
+  "croiseur.dictionary.hunspell.plugin" -> "croiseur.dictionary.hunspell.codec";
+  "croiseur.dictionary.hunspell.plugin" -> "croiseur.spi.dictionary" [label=provides];
+  "croiseur.dictionary.common" -> "java.base";
+  "croiseur.dictionary.hunspell.codec" -> "croiseur.common";
+  "croiseur.dictionary.hunspell.codec" -> "croiseur.dictionary.common";
+  "croiseur.dictionary.xml.plugin" -> "croiseur.dictionary.common";
+  "croiseur.dictionary.xml.plugin" -> "croiseur.dictionary.xml.codec";
+  "croiseur.dictionary.xml.plugin" -> "croiseur.spi.dictionary" [label=provides];
+  "croiseur.common"                -> "java.base";
+  "croiseur.dictionary.txt.plugin" -> "croiseur.dictionary.common";
+  "croiseur.dictionary.txt.plugin" -> "croiseur.spi.dictionary" [label=provides];
+  "croiseur.spi.dictionary"    -> "croiseur.common";
+  "croiseur.dictionary.xml.codec" -> "java.base";
+  "croiseur.dictionary.xml.codec" -> "java.xml";
+}
+@enddot

@@ -1,0 +1,16 @@
+@startdot
+digraph "solvers" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "java.base" [style=filled fillcolor=lightgray];
+
+  "croiseur.puzzle.repository.memory.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
+  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.spi.puzzle.repository" [label=provides];
+  "croiseur.puzzle.repository.filesystem.plugin" -> "croiseur.puzzle.codec.xd";
+  "croiseur.spi.puzzle.repository" -> "croiseur.common";
+  "croiseur.common"   -> "java.base";
+  "croiseur.puzzle.codec.xd" -> "java.base"
+}
+@enddot

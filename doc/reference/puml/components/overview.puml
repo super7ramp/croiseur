@@ -1,0 +1,29 @@
+@startdot
+digraph "overview" {
+  // All nodes are components
+  node [shape=component];
+
+  // External dependencies need to be distinguished from the rest
+  "info.picocli" [style=filled fillcolor=lightgray];
+  "javafx.*" [style=filled fillcolor=lightgray];
+  "java.base" [style=filled fillcolor=lightgray];
+
+  "info.picocli"               -> "java.base";
+  "croiseur.spi.solver"        -> "croiseur.common";
+  "croiseur"                   -> "croiseur.spi.dictionary" [label=uses];
+  "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
+  "croiseur"                   -> "croiseur.spi.puzzle.codec" [label=uses];
+  "croiseur"                   -> "croiseur.spi.puzzle.repository" [label=uses];
+  "croiseur"                   -> "croiseur.spi.solver" [label=uses];
+  "croiseur.common"            -> "java.base";
+  "javafx.*"                   -> "java.base";
+  "croiseur.cli"               -> "croiseur";
+  "croiseur.cli"               -> "info.picocli";
+  "croiseur.spi.presenter"     -> "croiseur.common";
+  "croiseur.gui"               -> "croiseur";
+  "croiseur.gui"               -> "javafx.*";
+  "croiseur.spi.dictionary"    -> "croiseur.common";
+  "croiseur.spi.puzzle.codec"  -> "croiseur.common"
+  "croiseur.spi.puzzle.repository" -> "croiseur.common"
+}
+@enddot
