@@ -114,12 +114,9 @@ activate croiseur.gui.view
 croiseur.gui.view -> croiseur.gui.controller : Solve
 activate croiseur.gui.controller
 
-croiseur.gui.controller -> croiseur.gui.view.model : Retrieve grid and\nselected dictionaries
-activate croiseur.gui.view.model
-deactivate croiseur.gui.view.model
-
 croiseur.gui.controller -> croiseur.gui.controller : Create solve task
 activate croiseur.gui.controller
+croiseur.gui.controller -> croiseur.gui.view.model : Retrieve grid and\nselected dictionaries
 deactivate croiseur.gui.controller
 
 croiseur.gui.controller ->> croiseur.api.solver : Execute solve task
