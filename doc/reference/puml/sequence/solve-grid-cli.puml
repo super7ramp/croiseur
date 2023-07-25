@@ -6,7 +6,7 @@ participant croiseur.cli.controller
 participant croiseur.api.solver
 participant "croiseur.spi.presenter\n(croiseur.cli.presenter)" as croiseur.spi.presenter
 
-User -> croiseur.cli.controller : croiseur-cli solver run \\\n--size 3x3
+User -> croiseur.cli.controller : ""croiseur-cli solver run ""\\\n""--size 3x3""
 activate croiseur.cli.controller
 croiseur.cli.controller -> croiseur.cli.controller : Adapt request
 activate croiseur.cli.controller
@@ -21,10 +21,11 @@ activate croiseur.spi.presenter
 deactivate croiseur.spi.presenter
 
 croiseur.spi.presenter -> User : \
-Result: SUCCESS\n\n\
-|A|B|C|\n\
-|D|E|F|\n\
-|G|H|I|
+""Result: SUCCESS""\n\
+\n\
+""|A|B|C|""\n\
+""|D|E|F|""\n\
+""|G|H|I|""
 
 deactivate croiseur.spi.presenter
 deactivate croiseur.api.solver
