@@ -49,7 +49,7 @@ public final class DeploymentSteps {
      * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
      * system's locale.
      */
-    @Before
+    @Before(order = 1 /* run before deployment step */)
     public void setEnglishLocale() {
         Locale.setDefault(Locale.ENGLISH);
     }
