@@ -12,6 +12,7 @@ plugins {
 
 dependencies {
     implementation(project(":croiseur"))
+    runtimeOnly(project(":croiseur-clue:croiseur-clue-openai-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))

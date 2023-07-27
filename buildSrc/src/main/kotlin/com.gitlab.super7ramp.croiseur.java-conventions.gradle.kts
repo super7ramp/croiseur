@@ -29,10 +29,6 @@ java {
     }
 }
 
-extraJavaModuleInfo {
-    failOnMissingModuleInfo.set(false)
-}
-
 tasks.withType(JavaCompile::class).configureEach {
     options.encoding = "UTF-8"
 }
@@ -48,4 +44,24 @@ tasks.withType(Test::class).configureEach {
 tasks.named<JacocoReport>("jacocoTestReport") {
     // Do not generate reports for individual projects by default.
     enabled = false
+}
+
+// Hack: Extra information for external projects lacking module information
+extraJavaModuleInfo {
+    failOnMissingModuleInfo.set(false)
+    module("io.reactivex.rxjava2:rxjava", "rxjava2") {
+        requires("org.reactivestreams")
+    }
+    module("com.theokanning.openai-gpt3-java:service", "com.theokanning.openai") {
+        // api and client jars share com.theokanning.openai (split package) which is forbidden
+        // Merge them to workaround the issue
+        mergeJar("com.theokanning.openai-gpt3-java:api")
+        mergeJar("com.theokanning.openai-gpt3-java:client")
+        requires("com.fasterxml.jackson.databind")
+        requires("retrofit2")
+        requires("okhttp3")
+        requires("rxjava2")
+        exports("com.theokanning.openai.completion.chat")
+        exports("com.theokanning.openai.service")
+    }
 }

@@ -11,12 +11,3 @@ dependencies {
     api(project(":croiseur-spi:croiseur-spi-clue"))
     implementation(sbom.openai)
 }
-
-extraJavaModuleInfo {
-    automaticModule("com.theokanning.openai-gpt3-java:service", "com.theokanning.openai") {
-        // api, service and client jars share com.theokanning.openai (split package) which is
-        // forbidden. Merge them to workaround the issue
-        mergeJar("com.theokanning.openai-gpt3-java:api")
-        mergeJar("com.theokanning.openai-gpt3-java:client")
-    }
-}
