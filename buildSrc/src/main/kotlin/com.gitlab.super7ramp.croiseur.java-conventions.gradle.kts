@@ -9,6 +9,9 @@
 
 plugins {
     id("com.gitlab.super7ramp.croiseur.base-conventions")
+    // Cannot use version catalog in plugins block of pre-compiled script plugins, i.e.
+    // "alias(sbom.plugins.extra.java.module.info)" doesn't work (gh#gradle/gradle#15383)
+    id("org.gradlex.extra-java-module-info")
     java
     jacoco
 }
@@ -24,6 +27,10 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+extraJavaModuleInfo {
+    failOnMissingModuleInfo.set(false)
 }
 
 tasks.withType(JavaCompile::class).configureEach {

@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":croiseur-spi:croiseur-spi-clue"))
     api(project(":croiseur-spi:croiseur-spi-dictionary"))
     api(project(":croiseur-spi:croiseur-spi-puzzle-codec"))
     api(project(":croiseur-spi:croiseur-spi-puzzle-repository"))

@@ -23,6 +23,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            help        Display help information about the specified command
                            solver      Solve crosswords and list available solvers
                            dictionary  List and print available dictionaries
+                           clue        Get crossword clues and list available clue providers
                            puzzle      Manage saved puzzles
                          """)
                  .and().doesNotWriteToStdErr()
@@ -42,6 +43,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            help        Display help information about the specified command
                            solver      Solve crosswords and list available solvers
                            dictionary  List and print available dictionaries
+                           clue        Get crossword clues and list available clue providers
                            puzzle      Manage saved puzzles
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
@@ -61,6 +63,22 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            grep, search    Display dictionary entries which match a given pattern
                            list, ls        List available dictionaries
                            list-providers  List available dictionary providers
+                         """)
+                 .and().doesNotWriteToStdErr()
+                 .and().exitsWithCode(SUCCESS);
+    }
+
+    @Test
+    void helpClue() {
+        whenOneRunsCli("help", "clue");
+        thenCli().writesToStdOut(
+                         """
+                         Usage: croiseur-cli clue COMMAND
+                         Get crossword clues and list available clue providers
+
+                         Commands:
+                           get       Get clues for the given words
+                           list, ls  List available clue providers
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);

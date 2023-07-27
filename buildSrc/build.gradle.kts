@@ -12,8 +12,10 @@ dependencies {
     implementation(files(sbom.javaClass.superclass.protectionDomain.codeSource.location))
     // Explicit dependency required in plugin block of convention plugin
     implementation(sbom.native)
+    implementation(sbom.extra.java.module.info)
 }
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }

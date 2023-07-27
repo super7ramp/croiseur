@@ -4,12 +4,12 @@
  */
 
 plugins {
-    id 'com.gitlab.super7ramp.croiseur.java-library-conventions'
+    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
 }
 
 dependencies {
-    api project(':croiseur-spi:croiseur-spi-clue')
-    implementation sbom.openai
+    api(project(":croiseur-spi:croiseur-spi-clue"))
+    implementation(sbom.openai)
 }
 
 extraJavaModuleInfo {

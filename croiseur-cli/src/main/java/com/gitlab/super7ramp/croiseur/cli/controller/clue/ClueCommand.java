@@ -7,7 +7,8 @@ package com.gitlab.super7ramp.croiseur.cli.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.clue.CreateClueRequest;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +17,7 @@ import java.util.Optional;
 /**
  * The 'clue' command.
  */
-@CommandLine.Command(name = "clue", description = "Give crossword clues and list available " +
-        "clue providers", synopsisSubcommandLabel = "COMMAND" /* instead of [COMMAND], because
-        subcommand is mandatory */)
+@Command(name = "clue")
 public final class ClueCommand {
 
     /** The clue service. */
@@ -33,15 +32,13 @@ public final class ClueCommand {
         clueService = clueServiceArg;
     }
 
-    @CommandLine.Command(name = "list", aliases = {"ls"}, description = "List available clue " +
-            "providers")
+    @Command(aliases = {"ls"})
     void list() {
         clueService.listProviders();
     }
 
-
-    @CommandLine.Command(name = "get", description = "Get clues for the given words")
-    void create(@CommandLine.Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
+    @Command
+    void get(@Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
         final CreateClueRequest request = new CreateClueRequest() {
             @Override
             public Optional<String> clueProvider() {

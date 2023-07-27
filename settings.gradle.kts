@@ -12,6 +12,7 @@ include("croiseur")
 include("croiseur-common")
 
 // The application core library plugin definitions
+include("croiseur-spi:croiseur-spi-clue")
 include("croiseur-spi:croiseur-spi-dictionary")
 include("croiseur-spi:croiseur-spi-presenter")
 include("croiseur-spi:croiseur-spi-puzzle-codec")
@@ -30,6 +31,9 @@ include("croiseur-dictionary:croiseur-dictionary-txt-plugin")
 include("croiseur-dictionary:croiseur-dictionary-xml-codec")
 include("croiseur-dictionary:croiseur-dictionary-xml-data")
 include("croiseur-dictionary:croiseur-dictionary-xml-plugin")
+
+// Clue libraries/plugins
+include("croiseur-clue:croiseur-clue-openai-plugin")
 
 // Solvers libraries/plugins
 include("croiseur-solver:croiseur-solver-example-plugin")

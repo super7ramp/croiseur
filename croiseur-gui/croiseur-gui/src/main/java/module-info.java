@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
@@ -24,6 +25,7 @@ module com.gitlab.super7ramp.croiseur.gui {
 
     // GUI loads service providers itself
     uses DictionaryProvider;
+    uses ClueProvider;
     uses CrosswordSolver;
     uses PuzzleDecoder;
     uses PuzzleEncoder;

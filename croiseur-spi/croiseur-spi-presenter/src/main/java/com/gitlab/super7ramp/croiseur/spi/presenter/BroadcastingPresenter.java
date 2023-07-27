@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetail
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
@@ -19,6 +20,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -145,5 +147,20 @@ final class BroadcastingPresenter implements Presenter {
     @Override
     public void presentPuzzleExportError(final String error) {
         presenters.forEach(p -> p.presentPuzzleExportError(error));
+    }
+
+    @Override
+    public void presentClueError(final String error) {
+        presenters.forEach(p -> p.presentClueError(error));
+    }
+
+    @Override
+    public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
+        presenters.forEach(p -> p.presentClueProviders(clueProviderDescriptions));
+    }
+
+    @Override
+    public void presentClues(final Map<String, String> clues) {
+        presenters.forEach(p -> p.presentClues(clues));
     }
 }
