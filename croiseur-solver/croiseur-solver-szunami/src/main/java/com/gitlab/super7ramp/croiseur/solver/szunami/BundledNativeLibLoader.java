@@ -16,12 +16,12 @@ import java.nio.file.StandardCopyOption;
  * <p>
  * This class allows to load native libraries bundled in jar.
  *
- * @see
- * <a href="https://github.com/adamheinrich/native-utils/blob/master/src/main/java/cz/adamh/utils/NativeUtils.java">
+ * @see <a
+ * href="https://github.com/adamheinrich/native-utils/blob/master/src/main/java/cz/adamh/utils/NativeUtils.java">
  * Adam Heinrich's NativeUtils</a>: BundledNativeLibLoader is basically a
  * simplification/appropriation attempt of NativeUtils.
- * @see
- * <a href="https://github.com/openjdk/jfx/blob/jfx17/modules/javafx.graphics/src/main/java/com/sun/glass/utils/NativeLibLoader.java">JavaFX's
+ * @see <a
+ * href="https://github.com/openjdk/jfx/blob/jfx17/modules/javafx.graphics/src/main/java/com/sun/glass/utils/NativeLibLoader.java">JavaFX's
  * NativeLibLoader</a>: JavaFX version, more complete but more complex and with an uncompatible
  * licence. Additional features:
  * <ul>
@@ -50,7 +50,12 @@ final class BundledNativeLibLoader {
     }
 
     /**
-     * Loads the given library bundled at the root of the jar containing this code.
+     * Loads the given library bundled in a folder of the jar containing this code.
+     * <p>
+     * The folder is platform specific, allowing to bundle native libraries for multiple targets in
+     * the same jar. The folder name is "/native/${os.name}-${os-arch}/", where "${os.name}"
+     * (respectively "{os.arch}) corresponds to the lowercase value of the system property "os.name"
+     * (resp. "os.arch"). Example: "/native /linux-amd64/".
      * <p>
      * The file from jar is copied into a temporary directory (itself inside system's temporary
      * directory) and then loaded. Both the extracted library and temporary directory are deleted
@@ -61,24 +66,39 @@ final class BundledNativeLibLoader {
      */
     static void loadLibrary(final String libraryName) {
 
-        final String platformLibraryName = System.mapLibraryName(libraryName);
-        if (platformLibraryName == null || platformLibraryName.length() < MIN_PREFIX_LENGTH) {
+        final String librarySystemName = System.mapLibraryName(libraryName);
+        if (librarySystemName == null || librarySystemName.length() < MIN_PREFIX_LENGTH) {
             throw new UnsatisfiedLinkError("The filename has to be at least 3 characters long");
         }
 
-        try (final InputStream libraryInputStream =
-                     BundledNativeLibLoader.class.getResourceAsStream("/" + platformLibraryName)) {
+        final String libraryFolder = libraryFolder();
+
+        try (final InputStream libraryInputStream = BundledNativeLibLoader.class.getResourceAsStream(
+                libraryFolder + librarySystemName)) {
 
             if (libraryInputStream == null) {
-                throw new UnsatisfiedLinkError("No bundled native library named " + platformLibraryName);
+                throw new UnsatisfiedLinkError(
+                        "No bundled native library named " + librarySystemName + " in " +
+                        libraryFolder);
             }
 
-            final File extractedLibrary = extractLibrary(libraryInputStream, platformLibraryName);
+            final File extractedLibrary = extractLibrary(libraryInputStream, librarySystemName);
             System.load(extractedLibrary.getAbsolutePath());
 
         } catch (final IOException e) {
             throw new UnsatisfiedLinkError(e.getMessage());
         }
+    }
+
+    /**
+     * Returns the platform-specific folder of the jar where the native library is expected to be.
+     *
+     * @return the platform-specific folder of the jar where the native library is expected to be.
+     */
+    private static String libraryFolder() {
+        final String osName = System.getProperty("os.name").toLowerCase();
+        final String osArch = System.getProperty("os.arch").toLowerCase();
+        return "/native/" + osName + "-" + osArch + "/";
     }
 
     /**

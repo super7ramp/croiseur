@@ -1,0 +1,135 @@
+/*
+ * SPDX-FileCopyrightText: 2021 Arc'blroth
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.gitlab.super7ramp.croiseur.cargo;
+
+import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
+import org.gradle.api.Project;
+import org.gradle.api.tasks.InputDirectory;
+import org.gradle.api.tasks.OutputFiles;
+import org.gradle.api.tasks.TaskAction;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+/**
+ * The main Cargo wrapper task.
+ */
+public class CargoTask extends DefaultTask {
+
+    public List<String> args;
+    private String cargoCommand;
+    private Map<String, String> environment;
+
+    /**
+     * This is an imperfect solution to incremental builds:
+     * if a change is made to the source code, this directory
+     * will change, and Gradle will run Cargo. But once the
+     * first execution runs, the directory will change, and
+     * Gradle will need to invoke Cargo a second time even if
+     * no rebuild is necessary. Luckily, Cargo itself is pretty
+     * fast at determining whether a rebuild is needed,
+     * and will not modify this directory if no rebuild is
+     * performed, thus allowing this task to be skipped if it
+     * is invoked a third time.
+     */
+    private File workingDir;
+
+    private List<File> outputFiles;
+
+    /**
+     * Configures this task with the given options.
+     *
+     * @param config Extension object to fetch options from.
+     */
+    public void configure(CargoExtension config) {
+        Project project = getProject();
+
+        if (config.cargoCommand != null && config.cargoCommand.isEmpty()) {
+            throw new GradleException("Cargo command cannot be empty");
+        }
+        
+        this.cargoCommand = config.cargoCommand == null ? "cargo" : config.cargoCommand;
+
+        final List<String> customTaskArgs = args == null ? List.of() : new ArrayList<>(args);
+        args = new ArrayList<>();
+
+        if (config.toolchain != null) {
+            // Remove a preceding `+`, if present.
+            String toolchain = config.toolchain.startsWith("+") ? config.toolchain.substring(1) : config.toolchain;
+            if (toolchain.isEmpty()) {
+                throw new GradleException("Toolchain cannot be empty");
+            }
+            this.args.add("+" + toolchain);
+        }
+        this.args.add("build");
+        if (!"debug".equals(config.profile)) {
+            this.args.add("--release");
+        }
+        this.args.addAll(config.arguments);
+        this.args.addAll(customTaskArgs);
+
+        this.environment = new ConcurrentHashMap<>(config.environment);
+
+        this.workingDir = config.crate != null ? project.file(config.crate) : project.getProjectDir();
+        File targetDir = new File(this.workingDir, "target");
+
+        // For the default toolchain, the output is located in target/<file>
+        // For all other toolchains, the output is located in target/<target-triple>/<file>.
+        this.outputFiles = config.outputs.entrySet().stream().map(output ->
+                                                                          new File(targetDir, (output.getKey().isEmpty() ? "" : output.getKey() + File.separator) + config.profile + File.separator + output.getValue())
+        ).collect(Collectors.toList());
+        if (this.outputFiles.isEmpty()) {
+            throw new GradleException("At least one output must be specified.");
+        }
+    }
+
+    /**
+     * Builds the specified crate using Cargo.
+     * @throws org.gradle.process.internal.ExecException If Cargo execution fails.
+     */
+    @TaskAction
+    public void build() {
+        Project project = getProject();
+        project.exec(spec -> {
+            spec.commandLine(this.cargoCommand);
+            spec.args(args);
+            spec.workingDir(workingDir);
+            spec.environment(environment);
+        }).assertNormalExitValue();
+    }
+
+    /**
+     * @return The working directory of this task.
+     */
+    @InputDirectory
+    public File getWorkingDir() {
+        return this.workingDir;
+    }
+
+    /**
+     * @return The output artifacts of this task.
+     */
+    @OutputFiles
+    public List<File> getOutputFiles() {
+        return this.outputFiles;
+    }
+
+    @Override
+    public String getGroup() {
+        return "Build";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Builds the native library using Cargo";
+    }
+}

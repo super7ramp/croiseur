@@ -3,11 +3,30 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import com.gitlab.super7ramp.croiseur.cargo.CargoTask
+
 plugins {
-    alias(sbom.plugins.cargo)
+    id("com.gitlab.super7ramp.croiseur.cargo-wrapper")
 }
 
 cargo {
-    outputs = mapOf("" to System.mapLibraryName("crossword_composer_jni"))
+    outputs = mapOf(
+        /* The default target and its output. */
+        "" to System.mapLibraryName("crossword_composer_jni"),
+        /*
+         * Below are all supported targets and their output. They are not compiled by the default
+         * CargoTask, but they can be performed with a CargoTask with custom arguments.
+         */
+        "x86_64-unknown-linux-gnu" to "libcrossword_composer_jni.so",
+        "x86_64-pc-windows-gnu" to "crossword_composer_jni.dll"
+    )
     profile = "release"
+}
+
+tasks.register<CargoTask>("crossBuild") {
+    description = "Cross-compile the library against all main targets (external linkers required)"
+    args = listOf(
+        "--target", "x86_64-unknown-linux-gnu",
+        "--target", "x86_64-pc-windows-gnu"
+    )
 }

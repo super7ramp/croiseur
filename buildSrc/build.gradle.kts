@@ -5,6 +5,7 @@
 
 plugins {
     `kotlin-dsl`
+    `java-gradle-plugin`
 }
 
 dependencies {
@@ -16,4 +17,13 @@ dependencies {
 
 repositories {
     mavenCentral()
+}
+
+gradlePlugin {
+    plugins {
+        create("cargoWrapper") {
+            id = "com.gitlab.super7ramp.croiseur.cargo-wrapper"
+            implementationClass = "com.gitlab.super7ramp.croiseur.cargo.CargoWrapperPlugin"
+        }
+    }
 }

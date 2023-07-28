@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [versions]
-cargo-plugin = "1.1.0"
 conveyor-plugin = "1.5"
 cucumber = "7.13.0"
 java = "17.0.7"
@@ -38,8 +37,6 @@ testfx-junit = { module = "org.testfx:testfx-junit5", version.ref = "testfx" }
 testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "testfx-monocle" }
 
 [plugins]
-# Plugin to help embedding rust code, only used by native solvers
-cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin" }
 # Plugin to pull JavaFx; only used by gui module
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
 # Plugin for conveyor (to create application package)
