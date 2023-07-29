@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * [How to plug a presenter](how-to/Plug-a-presenter.md)
 * How to translate Croiseur 🚧
 * [How to make a release of Croiseur](how-to/Make-a-release-of-Croiseur.md)
+* [How to cross-compile the solvers written in Rust](how-to/Cross-compile-the-solvers-written-in-Rust.md)
 
 ### Explanations
 
