@@ -12,6 +12,7 @@ variables:
 stages:
   - build
   - publish
+  - pages
 
 ##
 # Builds croiseur on a Linux machine.
@@ -112,6 +113,8 @@ Publish Linux Distribution:
     - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
     - gradle --parallel --build-cache distZip
     - gradle --parallel --build-cache publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
+    # Javadoc for consumption by page job, which needs to be separate
+    - ./doc/scripts/javadoc.sh
   cache:
     key: master-cache-linux
     paths:
@@ -122,5 +125,18 @@ Publish Linux Distribution:
       - .cargo
   artifacts:
     paths:
+      - javadoc
       - "croiseur-cli/build/distributions/croiseur-cli*.zip"
       - "croiseur-gui/croiseur-gui/build/distributions/croiseur-gui*.zip"
+
+##
+# Publish Javadoc as Gitlab pages.
+#
+pages:
+  rules: [ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ]
+  image: busybox:latest
+  stage: pages
+  script:
+    - mv javadoc public
+  artifacts:
+    paths: [ public ]

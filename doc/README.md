@@ -30,6 +30,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * [Available Service Providers](reference/Available-service-providers.md)
 * [Component Descriptions](reference/Component-descriptions.md)
 * [Examples of Execution](reference/Examples-of-execution.md) 🚧
-* Croiseur API Javadoc 🚧
-* Croiseur SPI Javadoc 🚧
+* [Croiseur Javadoc](https://super7ramp.gitlab.io/croiseur/)
 * CLI man page 🚧

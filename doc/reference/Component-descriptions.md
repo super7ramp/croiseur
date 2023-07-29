@@ -104,7 +104,7 @@ Note: Some dependencies of `javafx.*` are omitted for clarity.
 
 ### Interfaces
 
-Refer to the generated Javadoc (🚧).
+Refer to the [generated Javadoc](https://super7ramp.gitlab.io/croiseur/).
 
 <!-- Reference Links -->
 
