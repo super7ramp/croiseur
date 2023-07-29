@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * [How to add a dictionary to an existing dictionary provider](how-to/Add-a-dictionary-to-an-existing-dictionary-provider.md)
 * [How to plug a solver](how-to/Plug-a-solver.md)
 * [How to plug a dictionary provider](how-to/Plug-a-dictionary-provider.md)
-* [How to plug a clue provider](how-to/Plug-a-clue-provider.md)
+* How to plug a clue provider 🚧
 * [How to plug a presenter](how-to/Plug-a-presenter.md)
 * How to translate Croiseur 🚧
 * [How to make a release of Croiseur](how-to/Make-a-release-of-Croiseur.md)
