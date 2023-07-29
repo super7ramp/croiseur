@@ -24,9 +24,10 @@ simple [convention plugins](https://docs.gradle.org/current/samples/sample_conve
 - [`java`][]: General conventions for Java components: Encoding, test and coverage.
 - [`java-library`][]: General conventions for Java libraries: Adds a publishing configuration.
   Extends the `java` conventions.
-- [`jni-rust`][]: Defines an incoming configuration for defining dependencies on native libraries
-  implementing the Java Native Interface (JNI). The native libraries are imported as resources of
-  the project; They are bundled in the output jar. Extends the `java-library` conventions.
+- [`jni-consumer`][]: Defines an incoming configuration for defining dependencies on native
+  libraries implementing the Java Native Interface (JNI). The native libraries are imported as
+  resources of the project; They are bundled in the output jar. Extends the `java-library`
+  conventions.
 
 ### Other Plugins
 

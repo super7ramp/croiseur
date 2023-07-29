@@ -4,9 +4,9 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.jni-rust-conventions")
+    id("com.gitlab.super7ramp.croiseur.jni-consumer-conventions")
 }
 
 dependencies {
-    rust(project(":croiseur-solver:croiseur-solver-paulgb:crossword-composer-jni"))
+    nativeLibrary(project(":croiseur-solver:croiseur-solver-paulgb:crossword-composer-jni"))
 }

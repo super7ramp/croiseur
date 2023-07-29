@@ -4,7 +4,7 @@
  */
 
 /**
- * Conventions for Java libraries relying on JNI implemented in Rust.
+ * Conventions for Java libraries consuming native methods through JNI.
  */
 
 plugins {
@@ -12,17 +12,17 @@ plugins {
 }
 
 // Configuration of the native libraries (input)
-configurations.register("rust") {
+configurations.register("nativeLibrary") {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
 
 tasks.named<ProcessResources>("processResources") {
-    from(configurations.named("rust")) {
+    from(configurations.named("nativeLibrary")) {
         include("*.dll")
         into("native/windows-amd64/")
     }
-    from(configurations.named("rust")) {
+    from(configurations.named("nativeLibrary")) {
         include("*.so")
         into("native/linux-amd64/")
     }
@@ -30,6 +30,6 @@ tasks.named<ProcessResources>("processResources") {
 
 tasks.named<Test>("test") {
     // Some settings to ease native code debugging
-    environment("RUST_BACKTRACE", "1")
+    environment("RUST_BACKTRACE", "1") // Only useful for Rust binaries, harmless for the others
     jvmArgs("-Xcheck:jni")
 }
