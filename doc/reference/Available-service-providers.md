@@ -21,7 +21,7 @@ None yet.
 | [Local XML Dictionary Provider][]      | Provides access to local dictionaries in an XML format.       |                                          |
 | [Local Text Dictionary Provider][]     | Provides access to local dictionaries in a simple text format |                                          |
 
-#### Dictionary List
+#### List
 
 | Provider                       | Name                                | Locale                  | Description                                                        |
 |--------------------------------|-------------------------------------|-------------------------|--------------------------------------------------------------------|

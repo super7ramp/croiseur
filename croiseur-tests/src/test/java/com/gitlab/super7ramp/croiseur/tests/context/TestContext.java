@@ -73,7 +73,7 @@ public final class TestContext {
     /**
      * Returns the clue service.
      *
-     * @return the solver service
+     * @return the clue service
      * @throws NullPointerException if test context is not initialised
      */
     public ClueService clueService() {
