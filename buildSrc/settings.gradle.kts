@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-rootProject.name = "gradle-conventions"
+rootProject.name = "gradle-plugins"
 
 // Dependency versions
 dependencyResolutionManagement {
