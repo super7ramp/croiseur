@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## croiseur-puzzle
 
-This folder gathers two types of modules:
+This folder gathers three types of modules:
 
 - Puzzle codec
 - Puzzle codec plugins

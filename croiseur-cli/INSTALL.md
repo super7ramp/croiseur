@@ -5,10 +5,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Installation instructions
 
-### From release
+> No stable release of the application has been made yet. Software may break and change.
 
-No stable release of the application has been made yet. This section will be updated when a stable
-release is made.
+### From a package
+
+No package of Croiseur CLI has been made yet. This section will be updated when a package is made.
 
 ### From sources
 

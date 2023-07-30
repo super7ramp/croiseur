@@ -32,3 +32,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * [Examples of Execution](reference/Examples-of-execution.md) 🚧
 * [Croiseur Javadoc](https://super7ramp.gitlab.io/croiseur/)
 * CLI man page 🚧
+* [Similar Software](reference/Similar-software.md)

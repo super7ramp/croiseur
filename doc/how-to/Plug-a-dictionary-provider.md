@@ -36,8 +36,8 @@ provider plugin when run by `croiseur`.
 
 `croiseur-dictionary-spi` jar is published
 in [a Maven repository](https://gitlab.com/super7ramp/croiseur/-/packages). It can be retrieved with
-a build tool such as Maven or Gradle to develop a new dictionary provider plugin without having to download
-and rebuild all `croiseur` sources.
+a build tool such as Maven or Gradle to develop a new dictionary provider plugin without having to
+download and rebuild all `croiseur` sources.
 
 Assuming a Gradle project, add the following lines to your project's `build.gradle.kts`:
 
@@ -152,8 +152,8 @@ com.gitlab.super7ramp.croiseur.dictionary.<new_dictionary_provider_name>.plugin.
 
 #### 4. Install the dictionary provider plugin
 
-In order for `croiseur` to find the dictionary provider plugin, this one needs to be present in `croiseur`'s
-module path.
+In order for `croiseur` to find the dictionary provider plugin, this one needs to be present
+in `croiseur`'s module path.
 
 Assuming a distribution of [`croiseur-cli`](../../croiseur-cli/INSTALL.md)
 or [`croiseur-gui`](../../croiseur-gui/INSTALL.md), perform the following actions:
@@ -182,8 +182,9 @@ is similar.
 
 ##### 4.2. Adjust the `MODULE_PATH` variable in the launcher scripts in the distribution's `bin` folder
 
-Append the path to the dictionary provider plugin jar to the `MODULE_PATH` variable in `bin/croiseur-cli` (for
-Unix) and/or `bin/croiseur-cli.bat` (for Windows) so that it includes the new jar:
+Append the path to the dictionary provider plugin jar to the `MODULE_PATH` variable
+in `bin/croiseur-cli` (for Unix) and/or `bin/croiseur-cli.bat` (for Windows) so that it includes the
+new jar:
 
 In `bin/croiseur-cli`:
 
@@ -197,8 +198,8 @@ In `bin/croiseur-cli.bat`:
 set MODULE_PATH=%APP_HOME%\lib\croiseur-cli.jar;(...);%APP_HOME%\lib\<new_dictionary_provider_plugin>.jar
 ```
 
-At this point, it should be possible to interact with the new dictionary provider. Check that it is detected
-using the following command:
+At this point, it should be possible to interact with the new dictionary provider. Check that it is
+detected using the following command:
 
 ```sh
 croiseur-cli dictionary list-providers
@@ -227,13 +228,13 @@ runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-<your_dictionary_p
 
 ### See also
 
-- [`croiseur-dictionary-example-plugin`](../../croiseur-dictionary/croiseur-dictionary-example-plugin): A
-  minimal example plugin.
+- [`croiseur-dictionary-example-plugin`](../../croiseur-dictionary/croiseur-dictionary-example-plugin):
+  A minimal example plugin.
 - Real plugin implementations:
-  - [`croiseur-dictionary-hunspell-plugin`](../../croiseur-dictionary/croiseur-dictionary-hunspell-plugin)
-  - [`croiseur-dictionary-txt-plugin`](../../croiseur-dictionary/croiseur-dictionary-txt-plugin)
-  - [`croiseur-dictionary-xml-plugin`](../../croiseur-dictionary/croiseur-dictionary-xml-plugin)
-- TODO croiseur dictionary SPI generated Javadoc
+    - [`croiseur-dictionary-hunspell-plugin`](../../croiseur-dictionary/croiseur-dictionary-hunspell-plugin)
+    - [`croiseur-dictionary-txt-plugin`](../../croiseur-dictionary/croiseur-dictionary-txt-plugin)
+    - [`croiseur-dictionary-xml-plugin`](../../croiseur-dictionary/croiseur-dictionary-xml-plugin)
+- [Dictionary SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.dictionary/com/gitlab/super7ramp/croiseur/spi/dictionary/package-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's

@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 * It embeds [dictionaries][] for multiple languages;
 * It provides several crossword [solvers][] capable of finding various grid fillings;
+* It can import and export puzzles in the [xd][] format;
 * It can be used through a simple [desktop application][] for manual authoring, as well as a
   [command-line interface][] for automation;
 * It is designed to be [extensible][]: Solvers, dictionaries and even user interfaces can be plugged
@@ -21,9 +22,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 ### Getting Started 🚀
 
 As a crossword enthusiast, you may be interested in creating your crossword puzzle right away with
-**[croiseur-gui][]**, a desktop application based on Croiseur.
+**[Croiseur GUI][]**, a desktop application based on Croiseur.
 
-As a command-line fan, you may be interested in **[croiseur-cli][]**, a command-line interface to
+As a command-line fan, you may be interested in **[Croiseur CLI][]**, a command-line interface to
 Croiseur.
 
 Need more? Check the [project documentation][]!
@@ -43,11 +44,11 @@ comprehensive listing of all the files with their associated licences.
 
 [command-line interface]: croiseur-cli
 
-[croiseur-cli]: croiseur-cli
+[Croiseur CLI]: croiseur-cli
 
 [desktop application]: croiseur-gui
 
-[croiseur-gui]: croiseur-gui
+[Croiseur GUI]: croiseur-gui
 
 [dictionaries]: doc/reference/Available-service-providers.md#dictionary-list
 
@@ -64,6 +65,8 @@ comprehensive listing of all the files with their associated licences.
 [reuse tool]: https://github.com/fsfe/reuse-tool
 
 [solvers]: doc/reference/Available-service-providers.md#solvers
+
+[xd]: croiseur-puzzle/croiseur-puzzle-codec-xd
 
 ---
 

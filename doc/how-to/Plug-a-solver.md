@@ -233,7 +233,7 @@ runtimeOnly(project(":croiseur-solver:croiseur-solver-<your_solver_name>-plugin"
     - [`croiseur-solver-ginsberg-plugin`](../../croiseur-solver/croiseur-solver-ginsberg-plugin)
     - [`croiseur-solver-paulgb-plugin`](../../croiseur-solver/croiseur-solver-paulgb-plugin)
     - [`croiseur-solver-szunami-plugin`](../../croiseur-solver/croiseur-solver-szunami-plugin)
-- TODO croiseur solver SPI generated Javadoc
+- [Solver SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.solver/module-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's

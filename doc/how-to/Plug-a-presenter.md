@@ -185,7 +185,7 @@ At this point, it should be possible to interact with the new presenter.
 - Real plugin implementations:
     - [`croiseur-cli's presenter`](../../croiseur-cli/src/main/java/com/gitlab/super7ramp/croiseur/cli/presenter)
     - [`croiseur-gui's presenter`](../../croiseur-gui/croiseur-gui-presenter)
-- TODO croiseur presenter SPI generated Javadoc
+- [Presenter SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.presenter/module-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's
