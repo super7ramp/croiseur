@@ -27,10 +27,9 @@ public final class Backtrackers {
     /**
      * Returns the best {@link Backtracker} in most situations.
      *
-     * @param puzzle     the puzzle
-     * @param dictionary the dictionary
-     * @param els        the elimination space
-     * @param history    assignment history
+     * @param puzzle      the puzzle
+     * @param probePuzzle the copy of the puzzle used for look-ahead
+     * @param history     assignment history
      * @return the best {@link Backtracker} in most situations.
      */
     public static Backtracker<Slot, SlotIdentifier> byDefault(final Puzzle puzzle,

@@ -50,11 +50,12 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
     /**
      * Constructs an instance.
      *
-     * @param puzzleArg     the puzzle
-     * @param dictionaryArg the dictionary
-     * @param historyArg    the history
+     * @param puzzleArg      the puzzle
+     * @param probePuzzleArg the copy of the puzzle used for look-ahead
+     * @param historyArg     the history
      */
-    DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg, final History historyArg) {
+    DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg,
+                       final History historyArg) {
         probePuzzle = probePuzzleArg;
         puzzle = puzzleArg;
         history = historyArg;
@@ -66,7 +67,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
         final Set<SlotIdentifier> candidates = candidatesFrom(variable);
         final List<SlotIdentifier> chosen = choose(candidates, variable);
         final List<Elimination<Slot, SlotIdentifier>> eliminations = eliminationsFrom(candidates,
-                chosen);
+                                                                                      chosen);
         LOGGER.fine(() -> "Backtrack gave the following eliminations: " + eliminations);
         return eliminations;
     }
@@ -112,8 +113,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
                                 final Slot unassignable) {
         final Optional<SlotIdentifier> eliminated =
                 candidates.stream()
-                          .filter(candidate -> probePuzzle.hasSolutionAfter(Unassignment.of(candidate)
-                                  , unassignable))
+                          .filter(candidate -> probePuzzle.hasSolutionAfter(
+                                  Unassignment.of(candidate), unassignable))
                           .findFirst();
 
         final List<SlotIdentifier> eliminatedSlots;
@@ -151,7 +152,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * @param chosen     the chosen eliminated slots
      * @return the eliminations corresponding to the given eliminated slots
      */
-    private List<Elimination<Slot, SlotIdentifier>> eliminationsFrom(final Set<SlotIdentifier> candidates, final List<SlotIdentifier> chosen) {
+    private List<Elimination<Slot, SlotIdentifier>> eliminationsFrom(
+            final Set<SlotIdentifier> candidates, final List<SlotIdentifier> chosen) {
         final List<Elimination<Slot, SlotIdentifier>> eliminations;
         if (!chosen.isEmpty()) {
             final Set<SlotIdentifier> reasons =

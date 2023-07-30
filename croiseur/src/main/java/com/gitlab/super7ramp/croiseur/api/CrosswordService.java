@@ -33,6 +33,8 @@ public interface CrosswordService {
      *
      * @param dictionaryProviders the dictionary providers
      * @param solvers             the solvers
+     * @param puzzleDecoders      the puzzle decoders
+     * @param puzzleEncoders      the puzzle encoders
      * @param puzzleRepository    the puzzle repository; If puzzle repository service is not going
      *                            to be used, then {@link DummyPuzzleRepository} can be passed here
      * @param presenter           the presenter
@@ -70,7 +72,7 @@ public interface CrosswordService {
                     "Failed to instantiate crossword service: No presenter found");
         }
         return create(dictionaryProviders, solvers, puzzleDecoders, puzzleEncoders,
-                      puzzleRepository,  Presenter.broadcastingTo(presenters));
+                      puzzleRepository, Presenter.broadcastingTo(presenters));
     }
 
     /**
