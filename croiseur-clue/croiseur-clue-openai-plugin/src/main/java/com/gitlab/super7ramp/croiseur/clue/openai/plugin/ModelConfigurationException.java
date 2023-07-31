@@ -11,21 +11,25 @@ package com.gitlab.super7ramp.croiseur.clue.openai.plugin;
 public final class ModelConfigurationException extends RuntimeException {
 
     /**
-     * Constructs an instance.
+     * Constructs an instance with the specified message.
+     *
+     * @param message the detail message (which is saved for later retrieval by the
+     *                {@link #getMessage()} method).
      */
-    ModelConfigurationException() {
-        this(null);
+    ModelConfigurationException(final String message) {
+        super(message);
     }
 
     /**
-     * Constructs an instance with the specified cause.
+     * Constructs an instance with the specified message and cause.
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method).  (A {@code null} value is
-     *              permitted, and indicates that the cause is nonexistent or
-     *              unknown.)
+     * @param message the detail message (which is saved for later retrieval by the
+     *                {@link #getMessage()} method).
+     * @param cause   the cause (which is saved for later retrieval by the {@link #getCause()}
+     *                method).  (A {@code null} value is permitted, and indicates that the cause is
+     *                nonexistent or unknown.)
      */
-    ModelConfigurationException(final Throwable cause) {
-        super(cause);
+    ModelConfigurationException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 }
