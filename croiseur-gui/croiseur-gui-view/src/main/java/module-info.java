@@ -10,9 +10,9 @@
  */
 module com.gitlab.super7ramp.croiseur.gui.view {
     requires transitive com.gitlab.super7ramp.croiseur.gui.view.model;
-    exports com.gitlab.super7ramp.croiseur.gui.view;
-    opens com.gitlab.super7ramp.croiseur.gui.view to javafx.fxml;
-
     requires javafx.controls;
     requires javafx.fxml;
+
+    exports com.gitlab.super7ramp.croiseur.gui.view;
+    opens com.gitlab.super7ramp.croiseur.gui.view to javafx.fxml;
 }

@@ -13,7 +13,6 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
 module com.gitlab.super7ramp.croiseur.repository.puzzle.filesystem.plugin {
     requires com.gitlab.super7ramp.croiseur.puzzle.codec.xd;
     requires com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
-    provides PuzzleRepository with FileSystemPuzzleRepository;
-
     requires java.logging;
+    provides PuzzleRepository with FileSystemPuzzleRepository;
 }

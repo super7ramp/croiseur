@@ -11,23 +11,19 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
  */
 module com.gitlab.super7ramp.croiseur.cli {
 
-    // Core library
-    requires com.gitlab.super7ramp.croiseur;
+    requires com.gitlab.super7ramp.croiseur;     // Core library
+    requires info.picocli;                       // CLI framework
+    requires java.logging;                       // Base modules
 
     // CLI provides core library with a publisher
     provides Presenter with CliPresenter;
 
     // Open for reflection to CLI framework
     opens com.gitlab.super7ramp.croiseur.cli to info.picocli;
+    opens com.gitlab.super7ramp.croiseur.cli.controller to info.picocli;
+    opens com.gitlab.super7ramp.croiseur.cli.controller.clue to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller.dictionary to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller.puzzle to info.picocli;
     opens com.gitlab.super7ramp.croiseur.cli.controller.solver to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller.clue to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller to info.picocli;
 
-    // CLI framework
-    requires info.picocli;
-
-    // Base modules
-    requires java.logging;
 }

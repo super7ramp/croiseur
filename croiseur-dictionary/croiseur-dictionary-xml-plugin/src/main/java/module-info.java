@@ -13,8 +13,8 @@ module com.gitlab.super7ramp.croiseur.dictionary.xml.plugin {
     requires com.gitlab.super7ramp.croiseur.dictionary.common;
     requires com.gitlab.super7ramp.croiseur.dictionary.xml.codec;
     requires transitive com.gitlab.super7ramp.croiseur.spi.dictionary;
+    requires java.logging;
+
     provides DictionaryProvider with XmlDictionaryProvider;
     // No API exposed, only a provider
-
-    requires java.logging;
 }

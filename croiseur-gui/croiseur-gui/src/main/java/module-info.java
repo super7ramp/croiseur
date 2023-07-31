@@ -15,26 +15,26 @@ import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
  */
 module com.gitlab.super7ramp.croiseur.gui {
 
+    // GUI submodules
     requires com.gitlab.super7ramp.croiseur.gui.controller;
     requires com.gitlab.super7ramp.croiseur.gui.presenter;
-    requires com.gitlab.super7ramp.croiseur.gui.view.model;
     requires com.gitlab.super7ramp.croiseur.gui.view;
-
-    // Actual dependency to core library
+    requires com.gitlab.super7ramp.croiseur.gui.view.model;
+    // The main dependency: The core library
     requires com.gitlab.super7ramp.croiseur;
-
-    // GUI loads service providers itself
-    uses DictionaryProvider;
-    uses ClueProvider;
-    uses CrosswordSolver;
-    uses PuzzleDecoder;
-    uses PuzzleEncoder;
-    uses PuzzleRepository;
-
     // JavaFX stuff
     requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
+
+    // GUI loads service providers itself
+    uses ClueProvider;
+    uses CrosswordSolver;
+    uses DictionaryProvider;
+    uses PuzzleDecoder;
+    uses PuzzleEncoder;
+    uses PuzzleRepository;
+
     exports com.gitlab.super7ramp.croiseur.gui;
     opens com.gitlab.super7ramp.croiseur.gui to javafx.fxml;
 }

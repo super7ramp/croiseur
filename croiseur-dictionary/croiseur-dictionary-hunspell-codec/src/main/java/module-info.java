@@ -9,7 +9,7 @@
 module com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec {
     requires transitive com.gitlab.super7ramp.croiseur.common;
     requires com.gitlab.super7ramp.croiseur.dictionary.common;
-    exports com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec;
-
     requires java.logging;
+
+    exports com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec;
 }

@@ -9,8 +9,8 @@
 module com.gitlab.super7ramp.croiseur.spi.presenter {
     requires transitive com.gitlab.super7ramp.croiseur.common;
     exports com.gitlab.super7ramp.croiseur.spi.presenter;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.solver;
+    exports com.gitlab.super7ramp.croiseur.spi.presenter.clue;
     exports com.gitlab.super7ramp.croiseur.spi.presenter.dictionary;
     exports com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.clue;
+    exports com.gitlab.super7ramp.croiseur.spi.presenter.solver;
 }
