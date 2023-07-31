@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.api.clue;
 
 /**
- * Clue service: Allows to create clues, definitions of words.
+ * Clue service: Allows to get clues, definitions of words.
  */
 public interface ClueService {
 
@@ -16,9 +16,9 @@ public interface ClueService {
     void listProviders();
 
     /**
-     * Creates clues.
+     * Gets clues from a clue provider.
      *
-     * @param createClueRequest the clue request
+     * @param getClueRequest the clue request
      */
-    void createClues(final CreateClueRequest createClueRequest);
+    void getClues(final GetClueRequest getClueRequest);
 }

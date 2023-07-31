@@ -11,4 +11,4 @@ Feature: List Clue Providers
   No clue provider is available yet, hence an error message is printed.
 
     When user requests to list the available clue providers
-    Then the application presents the clue error "No clue provider found"
+    Then the application presents the clue service error "No clue provider found"

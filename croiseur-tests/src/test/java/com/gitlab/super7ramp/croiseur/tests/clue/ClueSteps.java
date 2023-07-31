@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.tests.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
-import com.gitlab.super7ramp.croiseur.api.clue.CreateClueRequest;
+import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.en.Then;
@@ -44,9 +44,9 @@ public final class ClueSteps {
         clueService.listProviders();
     }
 
-    @When("user requests to give clues for the following words:")
-    public void whenGiveClue(final List<String> words) {
-        final CreateClueRequest request = new CreateClueRequest() {
+    @When("user requests clues for the following words:")
+    public void whenGetClues(final List<String> words) {
+        final GetClueRequest request = new GetClueRequest() {
 
             @Override
             public Optional<String> clueProvider() {
@@ -58,10 +58,10 @@ public final class ClueSteps {
                 return words;
             }
         };
-        clueService.createClues(request);
+        clueService.getClues(request);
     }
 
-    @Then("the application presents the clue error {string}")
+    @Then("the application presents the clue service error {string}")
     public void thenClueError(final String error) {
         verify(presenterMock).presentClueError(eq(error));
     }

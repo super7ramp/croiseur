@@ -5,7 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.clue;
 
-import com.gitlab.super7ramp.croiseur.api.clue.CreateClueRequest;
+import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
 import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 
@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Implementation of the 'create clue' usecase.
+ * Implementation of the 'get clue' usecase.
  */
-final class CreateClueUsecase {
+final class GetClueUsecase {
 
     /** The clue providers. */
     private final Collection<ClueProvider> clueProviders;
@@ -30,18 +30,18 @@ final class CreateClueUsecase {
      * @param clueProvidersArg the clue providers
      * @param cluePresenterArg the clue presenter
      */
-    CreateClueUsecase(final Collection<ClueProvider> clueProvidersArg,
-                      final CluePresenter cluePresenterArg) {
+    GetClueUsecase(final Collection<ClueProvider> clueProvidersArg,
+                   final CluePresenter cluePresenterArg) {
         clueProviders = clueProvidersArg;
         cluePresenter = cluePresenterArg;
     }
 
     /**
-     * Processes the "give clue" event.
+     * Processes the "get clue" event.
      *
-     * @param event the "give clue" event
+     * @param event the "get clue" event
      */
-    void process(final CreateClueRequest event) {
+    void process(final GetClueRequest event) {
         final Optional<ClueProvider> selectedClueProvider = selectClueProvider(event);
         if (selectedClueProvider.isPresent()) {
             final Map<String, String> clues = selectedClueProvider.get().define(event.words());
@@ -61,11 +61,12 @@ final class CreateClueUsecase {
      * @param event the 'give clue' request
      * @return the appropriate clue provider, if found, otherwise {@link Optional#empty()}
      */
-    private Optional<ClueProvider> selectClueProvider(final CreateClueRequest event) {
+    private Optional<ClueProvider> selectClueProvider(final GetClueRequest event) {
         final Optional<String> requestedClueProviderName = event.clueProvider();
         return clueProviders.stream()
                             .filter(clueProvider -> requestedClueProviderName.isEmpty() ||
-                                    clueProvider.name().equals(requestedClueProviderName.get()))
+                                                    clueProvider.name()
+                                                                .equals(requestedClueProviderName.get()))
                             .findFirst();
     }
 }

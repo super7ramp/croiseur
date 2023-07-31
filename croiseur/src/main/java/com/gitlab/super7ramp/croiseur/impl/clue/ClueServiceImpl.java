@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.impl.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
-import com.gitlab.super7ramp.croiseur.api.clue.CreateClueRequest;
+import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
 import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 
@@ -20,8 +20,8 @@ public final class ClueServiceImpl implements ClueService {
     /** The 'list clue providers' use case. */
     private final ListClueProvidersUsecase listClueProvidersUseCase;
 
-    /** The 'create clue' use case. */
-    private final CreateClueUsecase createClueUsecase;
+    /** The 'get clue' use case. */
+    private final GetClueUsecase getClueUsecase;
 
     /**
      * Constructs an instance.
@@ -32,7 +32,7 @@ public final class ClueServiceImpl implements ClueService {
     public ClueServiceImpl(final Collection<ClueProvider> clueProviders,
                            final CluePresenter cluePresenter) {
         listClueProvidersUseCase = new ListClueProvidersUsecase(clueProviders, cluePresenter);
-        createClueUsecase = new CreateClueUsecase(clueProviders, cluePresenter);
+        getClueUsecase = new GetClueUsecase(clueProviders, cluePresenter);
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class ClueServiceImpl implements ClueService {
     }
 
     @Override
-    public void createClues(final CreateClueRequest createClueRequest) {
-        createClueUsecase.process(createClueRequest);
+    public void getClues(final GetClueRequest getClueRequest) {
+        getClueUsecase.process(getClueRequest);
     }
 }

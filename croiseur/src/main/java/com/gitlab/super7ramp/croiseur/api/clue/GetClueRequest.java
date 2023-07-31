@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A request to create clues.
+ * A request to get clues from a clue provider.
  */
-public interface CreateClueRequest {
+public interface GetClueRequest {
 
     /**
      * The name of the clue provider to use, if any.
@@ -24,9 +24,9 @@ public interface CreateClueRequest {
     Optional<String> clueProvider();
 
     /**
-     * The words for which to create clues.
+     * The words for which to get clues.
      *
-     * @return the words for which to create clues
+     * @return the words for which to get clues
      */
     List<String> words();
 
