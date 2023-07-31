@@ -14,4 +14,5 @@ Only words to define are sent through the API; no personal data is sent.
 
 In order for the plugin to work, a valid OpenAI API access key must be provided. The plugin reads
 the access key from the environment variable `OPENAI_API_KEY`. Refer
-to [OpenAI documentation](https://platform.openai.com/) for how to create an access token.
+to the [OpenAI documentation](https://platform.openai.com/docs/api-reference/authentication) for how
+to create an access key.

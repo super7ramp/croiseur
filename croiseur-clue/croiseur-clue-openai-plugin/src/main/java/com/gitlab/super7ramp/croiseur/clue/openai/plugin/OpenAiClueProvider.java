@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * {@link ClueProvider} implementation for {@link ClueGenerator}.
@@ -17,9 +18,6 @@ public final class OpenAiClueProvider implements ClueProvider {
 
     /** The provider name. */
     private static final String NAME = "OpenAI";
-
-    /** The provider description. */
-    private static final String DESCRIPTION = "Clue generator backed by OpenAI's ChatGPT service";
 
     /**
      * Constructs an instance.
@@ -35,7 +33,9 @@ public final class OpenAiClueProvider implements ClueProvider {
 
     @Override
     public String description() {
-        return DESCRIPTION;
+        return ResourceBundle
+                .getBundle("com.gitlab.super7ramp.croiseur.clue.openai.plugin.Messages")
+                .getString("description");
     }
 
     @Override
