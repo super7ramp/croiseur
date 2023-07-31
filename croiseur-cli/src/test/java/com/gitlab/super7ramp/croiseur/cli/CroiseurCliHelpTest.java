@@ -77,8 +77,8 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                          Get crossword clues and list available clue providers
 
                          Commands:
-                           get       Get clues for the given words
-                           list, ls  List available clue providers
+                           get             Get clues for the given words
+                           list-providers  List available clue providers
                          """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);

@@ -32,8 +32,8 @@ public final class ClueCommand {
         clueService = clueServiceArg;
     }
 
-    @Command(aliases = {"ls"})
-    void list() {
+    @Command(name = "list-providers")
+    void listProviders() {
         clueService.listProviders();
     }
 
