@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
+import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
@@ -23,8 +24,7 @@ final class CliCluePresenter implements CluePresenter {
     private static final String PROVIDERS_FORMAT = "%-16s\t%-54s%n";
 
     /** Clue presentation format. */
-    // TODO l10n (there may be space before ':')
-    private static final String CLUE_FORMAT = "%s: %s\n";
+    private static final String CLUE_FORMAT = $("clue-format");
 
     /**
      * Constructs an instance.
@@ -40,16 +40,16 @@ final class CliCluePresenter implements CluePresenter {
 
     @Override
     public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
-        final String providerHeader = "Name"; // TODO l10n
-        final String descriptionHeader = "Description"; // TODO l10n
+        final String providerHeader = $("name");
+        final String descriptionHeader = $("description");
 
         System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
         System.out.printf(PROVIDERS_FORMAT, lineOf(providerHeader.length()),
-                lineOf(descriptionHeader.length()));
+                          lineOf(descriptionHeader.length()));
 
-        clueProviderDescriptions.forEach(provider -> System.out.printf(PROVIDERS_FORMAT,
-                provider.name(),
-                provider.description()));
+        clueProviderDescriptions.forEach(
+                provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
+                                              provider.description()));
     }
 
     @Override
@@ -57,5 +57,15 @@ final class CliCluePresenter implements CluePresenter {
         for (final Map.Entry<String, String> clue : clues.entrySet()) {
             System.out.printf(CLUE_FORMAT, clue.getKey(), clue.getValue());
         }
+    }
+
+    /**
+     * Returns the localised message with given key.
+     *
+     * @param key the message key
+     * @return the localised message
+     */
+    private static String $(final String key) {
+        return ResourceBundles.$("presenter.clue." + key);
     }
 }
