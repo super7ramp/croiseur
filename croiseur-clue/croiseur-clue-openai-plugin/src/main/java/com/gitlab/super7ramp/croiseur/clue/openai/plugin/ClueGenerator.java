@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
  */
 final class ClueGenerator {
 
+    /** Name of the environment variable storing the OpenAI API access key. */
+    private static final String OPENAI_API_KEY = "OPENAI_API_KEY";
+
     /** Access to the OpenAI API. */
     private final OpenAiService openAiService;
 
@@ -39,7 +42,7 @@ final class ClueGenerator {
      * Constructs an instance.
      */
     public ClueGenerator() {
-        final String token = System.getenv("OPENAI_TOKEN");
+        final String token = System.getenv(OPENAI_API_KEY);
         openAiService = new OpenAiService(token);
         config = new ModelConfiguration();
         final ResourceBundle rb = ResourceBundle.getBundle("com.gitlab.super7ramp.croiseur.clue" +
