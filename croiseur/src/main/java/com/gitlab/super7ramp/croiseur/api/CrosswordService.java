@@ -34,8 +34,8 @@ public interface CrosswordService {
      * Required services are explicitly passed as arguments.
      *
      * @param dictionaryProviders the dictionary providers
-     * @param clueProviders       the clue providers
      * @param solvers             the solvers
+     * @param clueProviders       the clue providers
      * @param puzzleDecoders      the puzzle decoders
      * @param puzzleEncoders      the puzzle encoders
      * @param puzzleRepository    the puzzle repository; If puzzle repository service is not going
@@ -44,13 +44,13 @@ public interface CrosswordService {
      * @return a new instance of {@link CrosswordService}
      */
     static CrosswordService create(final Collection<DictionaryProvider> dictionaryProviders,
-                                   final Collection<ClueProvider> clueProviders,
                                    final Collection<CrosswordSolver> solvers,
+                                   final Collection<ClueProvider> clueProviders,
                                    final Collection<PuzzleDecoder> puzzleDecoders,
                                    final Collection<PuzzleEncoder> puzzleEncoders,
                                    final PuzzleRepository puzzleRepository,
                                    final Presenter presenter) {
-        return new CrosswordServiceImpl(solvers, dictionaryProviders, clueProviders, puzzleDecoders,
+        return new CrosswordServiceImpl(dictionaryProviders, solvers, clueProviders, puzzleDecoders,
                                         puzzleEncoders, puzzleRepository, presenter);
     }
 
@@ -64,8 +64,8 @@ public interface CrosswordService {
      */
     static CrosswordService create() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
-        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<CrosswordSolver> solvers = load(CrosswordSolver.class);
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepository puzzleRepository =
@@ -76,8 +76,8 @@ public interface CrosswordService {
             throw new IllegalStateException(
                     "Failed to instantiate crossword service: No presenter found");
         }
-        return create(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders,
-                      puzzleRepository,  Presenter.broadcastingTo(presenters));
+        return create(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
+                      puzzleRepository, Presenter.broadcastingTo(presenters));
     }
 
     /**
@@ -99,18 +99,18 @@ public interface CrosswordService {
     DictionaryService dictionaryService();
 
     /**
-     * Returns the clue service.
-     *
-     * @return the clue service
-     */
-    ClueService clueService();
-
-    /**
      * Returns the solver service.
      *
      * @return the solver service
      */
     SolverService solverService();
+
+    /**
+     * Returns the clue service.
+     *
+     * @return the clue service
+     */
+    ClueService clueService();
 
     /**
      * Returns the puzzle service.

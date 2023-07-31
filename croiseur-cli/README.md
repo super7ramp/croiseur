@@ -16,9 +16,10 @@ frontend to the `croiseur` library.
 Usage: croiseur-cli COMMAND
 
 Commands:
-  help        Display help information about the specified command.
-  solver      Solve crosswords and list available solvers
+  help        Display help information about the specified command
   dictionary  List and print available dictionaries
+  solver      Solve crosswords and list available solvers
+  clue        Get crossword clues and list available clue providers
   puzzle      Manage saved puzzles
 ```
 

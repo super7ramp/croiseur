@@ -32,11 +32,11 @@ public final class CrosswordServiceImpl implements CrosswordService {
     /** Dictionary service. */
     private final DictionaryService dictionaryService;
 
-    /** Clue service. */
-    private final ClueService clueService;
-
     /** Solver service. */
     private final SolverService solverService;
+
+    /** Clue service. */
+    private final ClueService clueService;
 
     /** The puzzle service. */
     private final PuzzleService puzzleService;
@@ -44,24 +44,24 @@ public final class CrosswordServiceImpl implements CrosswordService {
     /**
      * Constructor.
      *
-     * @param solvers             the solvers
      * @param dictionaryProviders the dictionary providers
+     * @param solvers             the solvers
      * @param clueProviders       the clue providers
      * @param puzzleDecoders      the puzzle decoders
      * @param puzzleEncoders      the puzzle encoders
      * @param puzzleRepository    the puzzle repository
      * @param presenter           the publisher
      */
-    public CrosswordServiceImpl(final Collection<CrosswordSolver> solvers,
-                                final Collection<DictionaryProvider> dictionaryProviders,
+    public CrosswordServiceImpl(final Collection<DictionaryProvider> dictionaryProviders,
+                                final Collection<CrosswordSolver> solvers,
                                 final Collection<ClueProvider> clueProviders,
                                 final Collection<PuzzleDecoder> puzzleDecoders,
                                 final Collection<PuzzleEncoder> puzzleEncoders,
                                 final PuzzleRepository puzzleRepository,
                                 final Presenter presenter) {
+        dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
         solverService =
                 new SolverServiceImpl(solvers, dictionaryProviders, puzzleRepository, presenter);
-        dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
         clueService = new ClueServiceImpl(clueProviders, presenter);
         puzzleService =
                 new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);
@@ -73,13 +73,13 @@ public final class CrosswordServiceImpl implements CrosswordService {
     }
 
     @Override
-    public ClueService clueService() {
-        return clueService;
+    public SolverService solverService() {
+        return solverService;
     }
 
     @Override
-    public SolverService solverService() {
-        return solverService;
+    public ClueService clueService() {
+        return clueService;
     }
 
     @Override

@@ -59,6 +59,18 @@ public final class TestContext {
     }
 
     /**
+     * Returns the clue service.
+     *
+     * @return the clue service
+     * @throws NullPointerException if test context is not initialised
+     */
+    public ClueService clueService() {
+        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
+                                                 "called a deployment step?");
+        return crosswordService.clueService();
+    }
+
+    /**
      * Returns the puzzle service.
      *
      * @return the puzzle service
@@ -68,18 +80,6 @@ public final class TestContext {
         Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
                                                  "called a deployment step?");
         return crosswordService.puzzleService();
-    }
-
-    /**
-     * Returns the clue service.
-     *
-     * @return the clue service
-     * @throws NullPointerException if test context is not initialised
-     */
-    public ClueService clueService() {
-        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                "called a deployment step?");
-        return crosswordService.clueService();
     }
 
     /**

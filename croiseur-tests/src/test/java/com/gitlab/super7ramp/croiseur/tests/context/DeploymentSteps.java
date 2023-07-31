@@ -73,21 +73,22 @@ public final class DeploymentSteps {
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
+        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
+               puzzleRepositorySpy,
                presenterMock);
     }
 
     @Given("an application deployed without solver")
     public void givenDeployedWithoutSolver() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
-        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<CrosswordSolver> solvers = Collections.emptyList();
+        final Collection<ClueProvider> clueProviders = load(ClueProvider.class);
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
-               presenterMock);
+        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
+               puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -102,8 +103,8 @@ public final class DeploymentSteps {
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, clueProviders, solvers, puzzleDecoders, puzzleEncoders, puzzleRepositorySpy,
-               presenterMock);
+        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
+               puzzleRepositorySpy, presenterMock);
     }
 
     /**
@@ -134,17 +135,14 @@ public final class DeploymentSteps {
     }
 
     private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
-                        final Collection<ClueProvider> clueProviders,
                         final Collection<CrosswordSolver> solvers,
+                        final Collection<ClueProvider> clueProviders,
                         final Collection<PuzzleDecoder> puzzleDecoders,
                         final Collection<PuzzleEncoder> puzzleEncoders,
                         final PuzzleRepositorySpy puzzleRepository, final Presenter presenter) {
-        final CrosswordService crosswordService = CrosswordService.create(dictionaryProviders,
-                                                                          clueProviders,
-                                                                          solvers, puzzleDecoders,
-                                                                          puzzleEncoders,
-                                                                          puzzleRepository,
-                                                                          presenter);
+        final CrosswordService crosswordService =
+                CrosswordService.create(dictionaryProviders, solvers, clueProviders, puzzleDecoders,
+                                        puzzleEncoders, puzzleRepository, presenter);
         testContext.deploy(crosswordService, puzzleRepository, presenter);
     }
 

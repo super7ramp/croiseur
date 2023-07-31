@@ -23,8 +23,8 @@ final class CroiseurCliTest extends FluentTestHelper {
                                               
                          Commands:
                            help        Display help information about the specified command
-                           solver      Solve crosswords and list available solvers
                            dictionary  List and print available dictionaries
+                           solver      Solve crosswords and list available solvers
                            clue        Get crossword clues and list available clue providers
                            puzzle      Manage saved puzzles
                          """)

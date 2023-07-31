@@ -49,10 +49,10 @@ final class CroiseurCliApplication {
         final CrosswordService crosswordService = CrosswordService.create();
 
         command.addSubcommand(new HelpCommand())
+               .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
                .addSubcommand(new CommandLine(
                        new SolverCommand(crosswordService.solverService())).addSubcommand(
                        new SolverRunCommand(crosswordService.solverService())))
-               .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
                .addSubcommand(new ClueCommand(crosswordService.clueService()))
                .addSubcommand(new PuzzleCommand(crosswordService.puzzleService()))
                .setResourceBundle(ResourceBundles.messages());

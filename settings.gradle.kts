@@ -32,9 +32,6 @@ include("croiseur-dictionary:croiseur-dictionary-xml-codec")
 include("croiseur-dictionary:croiseur-dictionary-xml-data")
 include("croiseur-dictionary:croiseur-dictionary-xml-plugin")
 
-// Clue libraries/plugins
-include("croiseur-clue:croiseur-clue-openai-plugin")
-
 // Solvers libraries/plugins
 include("croiseur-solver:croiseur-solver-example-plugin")
 include("croiseur-solver:croiseur-solver-ginsberg")
@@ -45,6 +42,9 @@ include("croiseur-solver:croiseur-solver-paulgb-plugin")
 include("croiseur-solver:croiseur-solver-szunami")
 include("croiseur-solver:croiseur-solver-szunami:xwords-rs-jni")
 include("croiseur-solver:croiseur-solver-szunami-plugin")
+
+// Clue libraries/plugins
+include("croiseur-clue:croiseur-clue-openai-plugin")
 
 // Puzzles codecs/data/providers
 include("croiseur-puzzle:croiseur-puzzle-codec-xd")
