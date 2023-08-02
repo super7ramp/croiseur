@@ -5,8 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.gitlab.super7ramp.croiseur.gui.view.model.testutil.ChangeEventCounter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,21 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * </ul>
  */
 final class CrosswordGridViewModelTest {
-
-    /**
-     * A util for counting change events.
-     */
-    private static final class ChangeEventCounter<T> implements ChangeListener<T> {
-
-        /** The number of times this listener has received a change event. */
-        private int count;
-
-        @Override
-        public void changed(final ObservableValue<? extends T> observable, final T oldValue,
-                            final T newValue) {
-            count++;
-        }
-    }
 
     /** The grid view model under test. */
     private CrosswordGridViewModel crosswordGridViewModel;
@@ -777,13 +761,13 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
-        final ChangeEventCounter<String> changeEventCounter = new ChangeEventCounter<>();
-        crosswordGridViewModel.currentSlotContentProperty().addListener(changeEventCounter);
+        final var changeEventCounter =
+                new ChangeEventCounter<>(crosswordGridViewModel.currentSlotContentProperty());
 
         crosswordGridViewModel.currentSlotContent("ABC");
 
         assertEquals("ABC", crosswordGridViewModel.currentSlotContent());
-        assertEquals(1, changeEventCounter.count);
+        assertEquals(1, changeEventCounter.count());
     }
 
     /**

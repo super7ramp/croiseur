@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.testutil.ChangeEventCounter;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -95,10 +96,11 @@ final class SlotsViewModelTest {
         grid.addRow();
         grid.addRow();
         grid.addRow();
-
         final var slots = new SlotsViewModel(grid.boxesProperty(),
                                              grid.columnCountProperty(),
                                              grid.rowCountProperty());
+        final var acrossChangeCounter = new ChangeEventCounter<>(slots.acrossSlotsProperty());
+        final var downChangeCounter = new ChangeEventCounter<>(slots.downSlotsProperty());
 
         grid.box(at(0, 0)).shade();
         grid.box(at(3, 0)).shade();
@@ -110,10 +112,12 @@ final class SlotsViewModelTest {
                              SlotOutline.across(2, 4, 2),
                              SlotOutline.across(0, 3, 3)),
                      slots.acrossSlotsProperty().get());
+        assertEquals(4, acrossChangeCounter.count());
         assertEquals(List.of(SlotOutline.down(1, 4, 0),
                              SlotOutline.down(0, 2, 1),
                              SlotOutline.down(0, 4, 2),
                              SlotOutline.down(1, 3, 3)),
                      slots.downSlotsProperty());
+        assertEquals(4, downChangeCounter.count());
     }
 }

@@ -13,6 +13,9 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.collections.FXCollections;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
 
 /**
@@ -85,39 +88,41 @@ public final class SlotsViewModel {
     }
 
     private void evaluateAcrossSlots() {
-        acrossSlots.clear();
+        final List<SlotOutline> newAcrossSlots = new ArrayList<>();
         for (int row = 0; row < rowCount.get(); row++) {
             int columnStart = 0;
             for (int column = columnStart; column < columnCount.get(); column++) {
                 if (box(at(column, row)).isShaded()) {
                     if (column - columnStart >= MIN_SLOT_LENGTH) {
-                        acrossSlots.add(SlotOutline.across(columnStart, column, row));
+                        newAcrossSlots.add(SlotOutline.across(columnStart, column, row));
                     }
                     columnStart = column + 1;
                 }
             }
             if (columnCount.get() - columnStart >= MIN_SLOT_LENGTH) {
-                acrossSlots.add(SlotOutline.across(columnStart, columnCount.get(), row));
+                newAcrossSlots.add(SlotOutline.across(columnStart, columnCount.get(), row));
             }
         }
+        acrossSlots.setAll(newAcrossSlots);
     }
 
     private void evaluateDownSlots() {
-        downSlots.clear();
+        final List<SlotOutline> newDownSlots = new ArrayList<>();
         for (int column = 0; column < columnCount.get(); column++) {
             int rowStart = 0;
             for (int row = rowStart; row < rowCount.get(); row++) {
                 if (box(at(column, row)).isShaded()) {
                     if (row - rowStart >= MIN_SLOT_LENGTH) {
-                        downSlots.add(SlotOutline.down(rowStart, row, column));
+                        newDownSlots.add(SlotOutline.down(rowStart, row, column));
                     }
                     rowStart = row + 1;
                 }
             }
             if (rowCount.get() - rowStart >= MIN_SLOT_LENGTH) {
-                downSlots.add(SlotOutline.down(rowStart, rowCount.get(), column));
+                newDownSlots.add(SlotOutline.down(rowStart, rowCount.get(), column));
             }
         }
+        downSlots.setAll(newDownSlots);
     }
 
     private CrosswordBoxViewModel box(final GridCoord coord) {
