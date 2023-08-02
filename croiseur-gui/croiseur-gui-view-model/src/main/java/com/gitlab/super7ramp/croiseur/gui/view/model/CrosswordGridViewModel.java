@@ -9,6 +9,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -365,7 +366,9 @@ public final class CrosswordGridViewModel {
     /**
      * Constructs an instance.
      *
-     * @param boxesArg the initial grid
+     * @param boxesArg       the initial grid
+     * @param columnCountArg grid column count
+     * @param rowCountArg    the grid row count
      */
     private CrosswordGridViewModel(final Map<GridCoord, CrosswordBoxViewModel> boxesArg,
                                    final int columnCountArg, final int rowCountArg) {
@@ -425,22 +428,40 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * Returns the column count.
+     * The column count property.
      * <p>
-     * Incomplete columns are not counted.
+     * Transient incomplete columns are not counted, i.e. value is updated when grid is consistent.
      *
-     * @return the column count
+     * @return the column count property
+     */
+    public ReadOnlyIntegerProperty columnCountProperty() {
+        return columnCount.getReadOnlyProperty();
+    }
+
+    /**
+     * Returns the value of the column count property.
+     *
+     * @return the value of the column count property.
      */
     public int columnCount() {
         return columnCount.get();
     }
 
     /**
-     * Returns the row count.
+     * The row count property.
      * <p>
-     * Incomplete rows are not counted.
+     * Transient incomplete rows are not counted, i.e. value is updated when grid is consistent.
      *
-     * @return the row count
+     * @return the row count property
+     */
+    public ReadOnlyIntegerProperty rowCountProperty() {
+        return rowCount.getReadOnlyProperty();
+    }
+
+    /**
+     * Returns the value of the column count property.
+     *
+     * @return the value of the row count property
      */
     public int rowCount() {
         return rowCount.get();

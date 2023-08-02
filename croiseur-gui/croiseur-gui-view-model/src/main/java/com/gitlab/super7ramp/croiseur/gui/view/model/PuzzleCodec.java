@@ -7,6 +7,9 @@ package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import java.util.List;
 
+/**
+ * A puzzle codec.
+ */
 public final class PuzzleCodec {
 
     /** The codec name. */
