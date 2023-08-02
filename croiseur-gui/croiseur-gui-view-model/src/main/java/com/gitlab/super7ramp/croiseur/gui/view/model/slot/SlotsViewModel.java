@@ -56,8 +56,9 @@ public final class SlotsViewModel {
                                                 FXCollections.observableArrayList());
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
                                               FXCollections.observableArrayList());
-        createAcrossSlots();
-        createDownSlots();
+        evaluateAcrossSlots();
+        evaluateDownSlots();
+        boxes.forEach((coord, box) -> box.shadedProperty().addListener(observable -> evaluate()));
     }
 
     /**
@@ -78,7 +79,13 @@ public final class SlotsViewModel {
         return downSlots.getReadOnlyProperty();
     }
 
-    private void createAcrossSlots() {
+    private void evaluate() {
+        evaluateAcrossSlots();
+        evaluateDownSlots();
+    }
+
+    private void evaluateAcrossSlots() {
+        acrossSlots.clear();
         for (int row = 0; row < rowCount.get(); row++) {
             int columnStart = 0;
             for (int column = columnStart; column < columnCount.get(); column++) {
@@ -95,7 +102,8 @@ public final class SlotsViewModel {
         }
     }
 
-    private void createDownSlots() {
+    private void evaluateDownSlots() {
+        downSlots.clear();
         for (int column = 0; column < columnCount.get(); column++) {
             int rowStart = 0;
             for (int row = rowStart; row < rowCount.get(); row++) {

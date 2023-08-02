@@ -84,4 +84,36 @@ final class SlotsViewModelTest {
                              SlotOutline.down(1, 3, 3)),
                      slots.downSlotsProperty());
     }
+
+    @Test
+    void shadeBox() {
+        final var grid = CrosswordGridViewModel.newGrid();
+        grid.addColumn(); // implicitly creates first row
+        grid.addColumn();
+        grid.addColumn();
+        grid.addColumn();
+        grid.addRow();
+        grid.addRow();
+        grid.addRow();
+
+        final var slots = new SlotsViewModel(grid.boxesProperty(),
+                                             grid.columnCountProperty(),
+                                             grid.rowCountProperty());
+
+        grid.box(at(0, 0)).shade();
+        grid.box(at(3, 0)).shade();
+        grid.box(at(1, 2)).shade();
+        grid.box(at(3, 3)).shade();
+
+        assertEquals(List.of(SlotOutline.across(1, 3, 0),
+                             SlotOutline.across(0, 4, 1),
+                             SlotOutline.across(2, 4, 2),
+                             SlotOutline.across(0, 3, 3)),
+                     slots.acrossSlotsProperty().get());
+        assertEquals(List.of(SlotOutline.down(1, 4, 0),
+                             SlotOutline.down(0, 2, 1),
+                             SlotOutline.down(0, 4, 2),
+                             SlotOutline.down(1, 3, 3)),
+                     slots.downSlotsProperty());
+    }
 }
