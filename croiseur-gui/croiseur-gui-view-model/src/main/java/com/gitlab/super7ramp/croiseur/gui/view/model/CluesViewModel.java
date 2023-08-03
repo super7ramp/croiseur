@@ -45,4 +45,12 @@ public final class CluesViewModel {
     public ListProperty<ClueViewModel> downCluesProperty() {
         return downClues;
     }
+
+    /**
+     * Resets all clues to empty string.
+     */
+    public void reset() {
+        acrossClues.forEach(ClueViewModel::reset);
+        downClues.forEach(ClueViewModel::reset);
+    }
 }

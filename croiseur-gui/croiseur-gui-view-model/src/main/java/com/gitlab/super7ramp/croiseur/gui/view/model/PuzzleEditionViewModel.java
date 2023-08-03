@@ -5,8 +5,13 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotOutline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 /**
  * Puzzle edition view model.
@@ -19,6 +24,9 @@ public final class PuzzleEditionViewModel {
     /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
+    /** The clues view model. */
+    private final CluesViewModel cluesViewModel;
+
     /** Property following the saving state. */
     private final BooleanProperty savingInProgress;
 
@@ -28,7 +36,21 @@ public final class PuzzleEditionViewModel {
     PuzzleEditionViewModel() {
         puzzleDetailsViewModel = new PuzzleDetailsViewModel();
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
+        cluesViewModel = new CluesViewModel();
         savingInProgress = new SimpleBooleanProperty(this, "savingInProgress");
+
+        // Bind clue lists to slot lists
+
+        final ObservableList<SlotOutline> acrossSlots =
+                crosswordGridViewModel.acrossSlotsProperty();
+        final List<ClueViewModel> acrossClues = cluesViewModel.acrossCluesProperty();
+        acrossSlots.forEach(slot -> acrossClues.add(new ClueViewModel()));
+        acrossSlots.addListener(this::updateAcrossClues);
+
+        final ObservableList<SlotOutline> downSlots = crosswordGridViewModel.downSlotsProperty();
+        final List<ClueViewModel> downClues = cluesViewModel.downCluesProperty();
+        downSlots.forEach(slot -> downClues.add(new ClueViewModel()));
+        downSlots.addListener(this::updateDownClues);
     }
 
     /**
@@ -50,6 +72,15 @@ public final class PuzzleEditionViewModel {
     }
 
     /**
+     * Returns the clues view model.
+     *
+     * @return the clues view model
+     */
+    public CluesViewModel cluesViewModel() {
+        return cluesViewModel;
+    }
+
+    /**
      * Returns the property indicating whether the puzzle is being saved.
      *
      * @return the property indicating whether the puzzle is being saved
@@ -64,5 +95,44 @@ public final class PuzzleEditionViewModel {
     public void reset() {
         puzzleDetailsViewModel.reset();
         crosswordGridViewModel.reset();
+        cluesViewModel.reset();
+    }
+
+    /**
+     * Updates the across clue list when the across slot list changes.
+     *
+     * @param c the across clue list changes
+     */
+    private void updateAcrossClues(final ListChangeListener.Change<? extends SlotOutline> c) {
+        while (c.next()) {
+            if (c.wasRemoved()) {
+                cluesViewModel.acrossCluesProperty().remove(c.getFrom(), c.getRemovedSize());
+            }
+            if (c.wasAdded()) {
+                final var newClues = c.getAddedSubList().stream()
+                                      .map(slot -> new ClueViewModel())
+                                      .toList();
+                cluesViewModel.acrossCluesProperty().addAll(c.getFrom(), newClues);
+            }
+        }
+    }
+
+    /**
+     * Updates the down clue list when the down slot list changes.
+     *
+     * @param c the down clue list changes
+     */
+    private void updateDownClues(final ListChangeListener.Change<? extends SlotOutline> c) {
+        while (c.next()) {
+            if (c.wasRemoved()) {
+                cluesViewModel.downCluesProperty().remove(c.getFrom(), c.getRemovedSize());
+            }
+            if (c.wasAdded()) {
+                final var newClues = c.getAddedSubList().stream()
+                                      .map(slot -> new ClueViewModel())
+                                      .toList();
+                cluesViewModel.downCluesProperty().addAll(c.getFrom(), newClues);
+            }
+        }
     }
 }

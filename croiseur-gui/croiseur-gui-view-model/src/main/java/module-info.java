@@ -11,4 +11,5 @@
 module com.gitlab.super7ramp.croiseur.gui.view.model {
     requires transitive javafx.base; // Requiring only javafx.base for javafx.beans
     exports com.gitlab.super7ramp.croiseur.gui.view.model;
+    exports com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 }

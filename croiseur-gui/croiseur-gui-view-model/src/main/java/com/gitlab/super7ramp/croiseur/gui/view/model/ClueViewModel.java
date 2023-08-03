@@ -8,6 +8,8 @@ package com.gitlab.super7ramp.croiseur.gui.view.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 /**
  * The clues view model: Represents a single clue in the grid.
  */
@@ -79,5 +81,34 @@ public final class ClueViewModel {
      */
     public void systemContent(final String value) {
         systemContent.set(value);
+    }
+
+    /**
+     * Resets both user and system content to an empty string.
+     */
+    public void reset() {
+        userContent.set(null);
+        systemContent.set(null);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof final ClueViewModel that)) return false;
+        return Objects.equals(userContent.get(), that.userContent.get()) &&
+               Objects.equals(systemContent.get(), that.systemContent.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userContent.get(), systemContent.get());
+    }
+
+    @Override
+    public String toString() {
+        return "ClueViewModel{" +
+               "userContent=" + userContent.get() +
+               ", systemContent=" + systemContent.get() +
+               '}';
     }
 }

@@ -5,6 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotOutline;
+import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotsViewModel;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -357,6 +359,9 @@ public final class CrosswordGridViewModel {
     /** The number of rows. */
     private final ReadOnlyIntegerWrapper rowCount;
 
+    /** The slots view model, based on this grid. */
+    private final SlotsViewModel slotsViewModel;
+
     /** The working area. */
     private final WorkingArea workingArea;
 
@@ -377,6 +382,7 @@ public final class CrosswordGridViewModel {
                                                  FXCollections.unmodifiableObservableMap(boxes));
         columnCount = new ReadOnlyIntegerWrapper(this, "columnCount", columnCountArg);
         rowCount = new ReadOnlyIntegerWrapper(this, "rowCount", rowCountArg);
+        slotsViewModel = new SlotsViewModel(boxes, columnCount, rowCount);
         workingArea = new WorkingArea();
     }
 
@@ -465,6 +471,14 @@ public final class CrosswordGridViewModel {
      */
     public int rowCount() {
         return rowCount.get();
+    }
+
+    public ReadOnlyListProperty<SlotOutline> acrossSlotsProperty() {
+        return slotsViewModel.acrossSlotsProperty();
+    }
+
+    public ReadOnlyListProperty<SlotOutline> downSlotsProperty() {
+        return slotsViewModel.downSlotsProperty();
     }
 
     /**
