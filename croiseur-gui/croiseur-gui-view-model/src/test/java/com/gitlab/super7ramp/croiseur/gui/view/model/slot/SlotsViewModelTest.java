@@ -34,12 +34,7 @@ final class SlotsViewModelTest {
 
     @Test
     void constructor_3x3() {
-        final var grid = CrosswordGridViewModel.newGrid();
-        grid.addColumn(); // implicitly creates first row
-        grid.addColumn();
-        grid.addColumn();
-        grid.addRow();
-        grid.addRow();
+        final var grid = new3x3Grid();
 
         final var slots = new SlotsViewModel(grid.boxesProperty(),
                                              grid.columnCountProperty(),
@@ -57,14 +52,7 @@ final class SlotsViewModelTest {
 
     @Test
     void constructor_4x4WithShades() {
-        final var grid = CrosswordGridViewModel.newGrid();
-        grid.addColumn(); // implicitly creates first row
-        grid.addColumn();
-        grid.addColumn();
-        grid.addColumn();
-        grid.addRow();
-        grid.addRow();
-        grid.addRow();
+        final var grid = new4x4Grid();
         grid.box(at(0, 0)).shade();
         grid.box(at(3, 0)).shade();
         grid.box(at(1, 2)).shade();
@@ -88,14 +76,7 @@ final class SlotsViewModelTest {
 
     @Test
     void shadeBox() {
-        final var grid = CrosswordGridViewModel.newGrid();
-        grid.addColumn(); // implicitly creates first row
-        grid.addColumn();
-        grid.addColumn();
-        grid.addColumn();
-        grid.addRow();
-        grid.addRow();
-        grid.addRow();
+        final var grid = new4x4Grid();
         final var slots = new SlotsViewModel(grid.boxesProperty(),
                                              grid.columnCountProperty(),
                                              grid.rowCountProperty());
@@ -119,5 +100,72 @@ final class SlotsViewModelTest {
                              SlotOutline.down(1, 3, 3)),
                      slots.downSlotsProperty());
         assertEquals(4, downChangeCounter.count());
+    }
+
+
+
+    @Test
+    void addColumn() {
+        final var grid = new3x3Grid();
+        final var slots = new SlotsViewModel(grid.boxesProperty(),
+                                             grid.columnCountProperty(),
+                                             grid.rowCountProperty());
+        final var acrossChangeCounter = new ChangeEventCounter<>(slots.acrossSlotsProperty());
+        final var downChangeCounter = new ChangeEventCounter<>(slots.downSlotsProperty());
+
+        grid.addColumn();
+
+        assertEquals(List.of(SlotOutline.across(0, 4, 0),
+                             SlotOutline.across(0, 4, 1),
+                             SlotOutline.across(0, 4, 2)),
+                     slots.acrossSlotsProperty().get());
+        assertEquals(1, acrossChangeCounter.count());
+        assertEquals(List.of(SlotOutline.down(0, 3, 0),
+                             SlotOutline.down(0, 3, 1),
+                             SlotOutline.down(0, 3, 2),
+                             SlotOutline.down(0, 3, 3)),
+                     slots.downSlotsProperty());
+        assertEquals(1, downChangeCounter.count());
+    }
+
+    @Test
+    void addRow() {
+        final var grid = new3x3Grid();
+        final var slots = new SlotsViewModel(grid.boxesProperty(),
+                                             grid.columnCountProperty(),
+                                             grid.rowCountProperty());
+        final var acrossChangeCounter = new ChangeEventCounter<>(slots.acrossSlotsProperty());
+        final var downChangeCounter = new ChangeEventCounter<>(slots.downSlotsProperty());
+
+        grid.addRow();
+
+        assertEquals(List.of(SlotOutline.across(0, 3, 0),
+                             SlotOutline.across(0, 3, 1),
+                             SlotOutline.across(0, 3, 2),
+                             SlotOutline.across(0, 3, 3)),
+                     slots.acrossSlotsProperty().get());
+        assertEquals(1, acrossChangeCounter.count());
+        assertEquals(List.of(SlotOutline.down(0, 4, 0),
+                             SlotOutline.down(0, 4, 1),
+                             SlotOutline.down(0, 4, 2)),
+                     slots.downSlotsProperty());
+        assertEquals(1, downChangeCounter.count());
+    }
+
+    private static CrosswordGridViewModel new3x3Grid() {
+        final var grid = CrosswordGridViewModel.newGrid();
+        grid.addColumn(); // implicitly creates first row
+        grid.addColumn();
+        grid.addColumn();
+        grid.addRow();
+        grid.addRow();
+        return grid;
+    }
+
+    private static CrosswordGridViewModel new4x4Grid() {
+        final var grid = new3x3Grid();
+        grid.addColumn();
+        grid.addRow();
+        return grid;
     }
 }

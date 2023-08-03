@@ -7,11 +7,11 @@ package com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
-import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
-import javafx.beans.property.ReadOnlyMapProperty;
+import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ public final class SlotsViewModel {
     private static final int MIN_SLOT_LENGTH = 2;
 
     /** The grid boxes. */
-    private final ReadOnlyMapProperty<GridCoord, CrosswordBoxViewModel> boxes;
+    private final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes;
 
     /** The grid column count. */
-    private final ReadOnlyIntegerProperty columnCount;
+    private final ObservableIntegerValue columnCount;
 
     /** The grid row count. */
-    private final ReadOnlyIntegerProperty rowCount;
+    private final ObservableIntegerValue rowCount;
 
     /** The across slots. */
     private final ReadOnlyListWrapper<SlotOutline> acrossSlots;
@@ -43,25 +43,30 @@ public final class SlotsViewModel {
 
     /**
      * Constructs an instance.
+     * <p>
+     * All parameters are only listened; No modification will be attempted.
      *
      * @param boxesArg       the grid boxes
      * @param columnCountArg the grid column count
      * @param rowCountArg    the grid row count
      */
-    public SlotsViewModel(final ReadOnlyMapProperty<GridCoord, CrosswordBoxViewModel> boxesArg,
-                          final ReadOnlyIntegerProperty columnCountArg,
-                          final ReadOnlyIntegerProperty rowCountArg) {
+    public SlotsViewModel(final ObservableMap<GridCoord, CrosswordBoxViewModel> boxesArg,
+                          final ObservableIntegerValue columnCountArg,
+                          final ObservableIntegerValue rowCountArg) {
         boxes = boxesArg;
         columnCount = columnCountArg;
         rowCount = rowCountArg;
 
         acrossSlots = new ReadOnlyListWrapper<>(this, "acrossSlots",
                                                 FXCollections.observableArrayList());
+        evaluateAcrossSlots();
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
                                               FXCollections.observableArrayList());
-        evaluateAcrossSlots();
         evaluateDownSlots();
+
         boxes.forEach((coord, box) -> box.shadedProperty().addListener(observable -> evaluate()));
+        columnCount.addListener(observable -> evaluate());
+        rowCount.addListener(observable -> evaluate());
     }
 
     /**
