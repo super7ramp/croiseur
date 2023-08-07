@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.testutil.ChangeEventCounter;
+import com.gitlab.super7ramp.croiseur.gui.view.model.testutil.ListChangeEventCounter;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -80,8 +81,8 @@ final class SlotsViewModelTest {
         final var slots = new SlotsViewModel(grid.boxesProperty(),
                                              grid.columnCountProperty(),
                                              grid.rowCountProperty());
-        final var acrossChangeCounter = new ChangeEventCounter<>(slots.acrossSlotsProperty());
-        final var downChangeCounter = new ChangeEventCounter<>(slots.downSlotsProperty());
+        final var acrossChangeCounter = new ListChangeEventCounter<>(slots.acrossSlotsProperty());
+        final var downChangeCounter = new ListChangeEventCounter<>(slots.downSlotsProperty());
 
         grid.box(at(0, 0)).shade();
         grid.box(at(3, 0)).shade();
@@ -94,15 +95,55 @@ final class SlotsViewModelTest {
                              SlotOutline.across(0, 3, 3)),
                      slots.acrossSlotsProperty().get());
         assertEquals(4, acrossChangeCounter.count());
+        assertEquals(4, acrossChangeCounter.addedSize());
+        assertEquals(4, acrossChangeCounter.removedSize());
+
         assertEquals(List.of(SlotOutline.down(1, 4, 0),
                              SlotOutline.down(0, 2, 1),
                              SlotOutline.down(0, 4, 2),
                              SlotOutline.down(1, 3, 3)),
-                     slots.downSlotsProperty());
+                     slots.downSlotsProperty().get());
         assertEquals(4, downChangeCounter.count());
+        assertEquals(4, downChangeCounter.addedSize());
+        assertEquals(4, acrossChangeCounter.removedSize());
     }
 
+    @Test
+    void lightenBox() {
+        final var grid = new4x4Grid();
+        grid.box(at(0, 0)).shade();
+        grid.box(at(3, 0)).shade();
+        grid.box(at(1, 2)).shade();
+        grid.box(at(3, 3)).shade();
+        final var slots = new SlotsViewModel(grid.boxesProperty(),
+                                             grid.columnCountProperty(),
+                                             grid.rowCountProperty());
+        final var acrossChangeCounter = new ListChangeEventCounter<>(slots.acrossSlotsProperty());
+        final var downChangeCounter = new ListChangeEventCounter<>(slots.downSlotsProperty());
 
+        grid.box(at(0, 0)).lighten();
+        grid.box(at(3, 0)).lighten();
+        grid.box(at(1, 2)).lighten();
+        grid.box(at(3, 3)).lighten();
+
+        assertEquals(List.of(SlotOutline.across(0, 4, 0),
+                             SlotOutline.across(0, 4, 1),
+                             SlotOutline.across(0, 4, 2),
+                             SlotOutline.across(0, 4, 3)),
+                     slots.acrossSlotsProperty().get());
+        assertEquals(4, acrossChangeCounter.count());
+        assertEquals(4, acrossChangeCounter.addedSize());
+        assertEquals(4, acrossChangeCounter.removedSize());
+
+        assertEquals(List.of(SlotOutline.down(0, 4, 0),
+                             SlotOutline.down(0, 4, 1),
+                             SlotOutline.down(0, 4, 2),
+                             SlotOutline.down(0, 4, 3)),
+                     slots.downSlotsProperty().get());
+        assertEquals(4, downChangeCounter.count());
+        assertEquals(4, downChangeCounter.addedSize());
+        assertEquals(4, acrossChangeCounter.removedSize());
+    }
 
     @Test
     void addColumn() {
