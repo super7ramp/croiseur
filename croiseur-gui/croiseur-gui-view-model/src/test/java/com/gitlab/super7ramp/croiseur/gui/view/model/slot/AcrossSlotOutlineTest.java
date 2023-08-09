@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests on {@link SlotOutline}s.
+ * Tests on {@link AcrossSlotOutline}s.
  */
 final class AcrossSlotOutlineTest {
 
@@ -28,10 +28,10 @@ final class AcrossSlotOutlineTest {
     @Test
     void contains() {
         final var slot = new AcrossSlotOutline(2, 4, 2);
-        assertTrue(slot.contains(at(2,2)));
-        assertTrue(slot.contains(at(3,2)));
-        assertFalse(slot.contains(at(1,2)));
-        assertFalse(slot.contains(at(4,2)));
-        assertFalse(slot.contains(at(3,3)));
+        assertTrue(slot.contains(at(2, 2)));
+        assertTrue(slot.contains(at(3, 2)));
+        assertFalse(slot.contains(at(1, 2)));
+        assertFalse(slot.contains(at(4, 2)));
+        assertFalse(slot.contains(at(3, 3)));
     }
 }

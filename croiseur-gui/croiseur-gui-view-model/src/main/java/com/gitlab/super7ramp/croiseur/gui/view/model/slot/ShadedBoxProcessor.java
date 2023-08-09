@@ -8,7 +8,6 @@ package com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Updates a list of slots after a box has been shaded, with the minimal number of modifications.
@@ -34,33 +33,27 @@ abstract sealed class ShadedBoxProcessor {
      *
      * @param shadedBoxCoordinates the coordinates of the shaded box
      */
-    final void updateSlotsAfterShadingOf(final GridCoord shadedBoxCoordinates) {
-        final Optional<SlotOutline> slotOpt =
-                slots.stream().filter(slot -> slot.contains(shadedBoxCoordinates)).findFirst();
-        if (slotOpt.isEmpty()) {
-            // Shaded box does not belong to a slot: It is too close to a border (the group of boxes
-            // it belongs to is less than MIN_SLOT_LENGTH).
-            return;
-        }
-
-        final SlotOutline slot = slotOpt.get();
+    final void process(final GridCoord shadedBoxCoordinates) {
+        final SlotOutline slot =
+                slots.stream().filter(s -> s.contains(shadedBoxCoordinates)).findFirst()
+                     .orElseThrow();
         final int slotIndex = slots.indexOf(slot);
         final int shadedBoxIndex = varyingCoordinateOf(shadedBoxCoordinates);
 
         // Put first half at existing slot position, if it is long enough.
-        if (shadedBoxIndex - slot.start >= SlotConstants.MIN_SLOT_LENGTH) {
+        if (shadedBoxIndex - slot.start > 0) {
             final SlotOutline firstHalf = slotOf(slot.start, shadedBoxIndex, slot.offset);
             slots.set(slotIndex, firstHalf);
 
             // Create a new slot for second half, if it is long enough
-            if (slot.end - (shadedBoxIndex + 1) >= SlotConstants.MIN_SLOT_LENGTH) {
+            if (slot.end - (shadedBoxIndex + 1) > 0) {
                 final SlotOutline secondHalf = slotOf(shadedBoxIndex + 1, slot.end, slot.offset);
                 slots.add(slotIndex + 1, secondHalf);
             }
         } else {
             // First half is too small, drop it. Put second half at existing slot position, if it
             // is long enough.
-            if (slot.end - (shadedBoxIndex + 1) >= SlotConstants.MIN_SLOT_LENGTH) {
+            if (slot.end - (shadedBoxIndex + 1) > 0) {
                 final SlotOutline secondHalf = slotOf(shadedBoxIndex + 1, slot.end, slot.offset);
                 slots.set(slotIndex, secondHalf);
             } else {

@@ -8,11 +8,35 @@ package com.gitlab.super7ramp.croiseur.gui.view.model.slot;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * Slot outline base class.
+ * <p>
+ * Example of across slot:
+ * <pre>
+ *      0 1 2 3 4 5 6
+ *   0 | | | | | | | |
+ *   1 | |#|A|B|C|#| | <-- offset = 1
+ *   2 | | | | | | | |
+ *   3 | | | |#| | | |
+ *          ^     ^
+ *          |      ` end = 4 (exclusive)
+ *          `- start = 2 (inclusive)
+ * </pre>
+ * Example of down slot:
+ * <pre>
+ *      0 1 2 3 4 5 6
+ *   0 | | | |B| | | | <-- start = 0 (inclusive)
+ *   1 | |#| |B| |#| |
+ *   2 | | | |B| | | |
+ *   3 | | | |#| | | | <-- end = 3 (exclusive)
+ *            ^
+ *            ` offset = 3
+ * </pre>
  */
-public abstract sealed class SlotOutline permits AcrossSlotOutline, DownSlotOutline {
+public abstract sealed class SlotOutline {
 
     /** The varying coordinate start index. */
     protected final int start;
@@ -61,6 +85,15 @@ public abstract sealed class SlotOutline permits AcrossSlotOutline, DownSlotOutl
     }
 
     /**
+     * The length of the slot.
+     *
+     * @return the length of the slot
+     */
+    public final int length() {
+        return end - start;
+    }
+
+    /**
      * The positions that this slot represents.
      *
      * @return the positions that this slot represents.
@@ -69,9 +102,108 @@ public abstract sealed class SlotOutline permits AcrossSlotOutline, DownSlotOutl
 
     /**
      * Evaluates whether the given coordinates belong to this slot.
+     * <p>
+     * Behaviour should be equivalent to {@code boxPositions().contains(coord)}.
      *
      * @param coord the coordinates
      * @return {@code true} iff the given coordinates belong to this slot
      */
     public abstract boolean contains(final GridCoord coord);
+}
+
+/**
+ * An across (= horizontal) {@link SlotOutline}.
+ */
+final class AcrossSlotOutline extends SlotOutline {
+
+    /**
+     * Constructs an instance.
+     *
+     * @param columnStart the slot column start index (inclusive)
+     * @param columnEnd   the slot column end index (exclusive)
+     * @param row         the row index
+     */
+    AcrossSlotOutline(final int columnStart, final int columnEnd, final int row) {
+        super(columnStart, columnEnd, row);
+    }
+
+    @Override
+    public List<GridCoord> boxPositions() {
+        return IntStream.range(start, end).mapToObj(column -> new GridCoord(column, offset))
+                        .toList();
+    }
+
+    @Override
+    public boolean contains(final GridCoord coord) {
+        return coord.row() == offset && coord.column() >= start && coord.column() < end;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof final AcrossSlotOutline that)) return false;
+        return start == that.start && end == that.end && offset == that.offset;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end, offset);
+    }
+
+    @Override
+    public String toString() {
+        return "AcrossSlotOutline{" +
+               "columnStart=" + start +
+               ", columnEnd=" + end +
+               ", row=" + offset +
+               '}';
+    }
+}
+
+/**
+ * A down (= vertical) {@link SlotOutline}.
+ */
+final class DownSlotOutline extends SlotOutline {
+
+    /**
+     * Constructs an instance.
+     *
+     * @param rowStart the slot row start index (inclusive)
+     * @param rowEnd   the slot row end index (exclusive)
+     * @param column   the column index
+     */
+    DownSlotOutline(final int rowStart, final int rowEnd, final int column) {
+        super(rowStart, rowEnd, column);
+    }
+
+    @Override
+    public List<GridCoord> boxPositions() {
+        return IntStream.range(start, end).mapToObj(row -> new GridCoord(offset, row)).toList();
+    }
+
+    @Override
+    public boolean contains(final GridCoord coord) {
+        return coord.column() == offset && coord.row() >= start && coord.row() < end;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof final DownSlotOutline that)) return false;
+        return start == that.start && end == that.end && offset == that.offset;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end, offset);
+    }
+
+    @Override
+    public String toString() {
+        return "DownSlotOutline{" +
+               "rowStart=" + start +
+               ", rowEnd=" + end +
+               ", column=" + offset +
+               '}';
+    }
 }

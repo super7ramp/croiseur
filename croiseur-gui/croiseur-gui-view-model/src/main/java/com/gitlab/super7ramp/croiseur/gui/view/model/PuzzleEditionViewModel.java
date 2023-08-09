@@ -12,6 +12,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Puzzle edition view model.
@@ -105,14 +106,17 @@ public final class PuzzleEditionViewModel {
      */
     private void updateAcrossClues(final ListChangeListener.Change<? extends SlotOutline> c) {
         while (c.next()) {
-            if (c.wasRemoved()) {
-                cluesViewModel.acrossCluesProperty().remove(c.getFrom(), c.getRemovedSize());
-            }
-            if (c.wasAdded()) {
+            final var acrossClues = cluesViewModel.acrossCluesProperty();
+            if (c.wasReplaced()) {
+                IntStream.range(c.getFrom(), c.getTo())
+                         .forEach(i -> acrossClues.set(i, new ClueViewModel()));
+            } else if (c.wasRemoved()) {
+                acrossClues.remove(c.getFrom(), c.getRemovedSize());
+            } else if (c.wasAdded()) {
                 final var newClues = c.getAddedSubList().stream()
                                       .map(slot -> new ClueViewModel())
                                       .toList();
-                cluesViewModel.acrossCluesProperty().addAll(c.getFrom(), newClues);
+                acrossClues.addAll(c.getFrom(), newClues);
             }
         }
     }
@@ -124,14 +128,17 @@ public final class PuzzleEditionViewModel {
      */
     private void updateDownClues(final ListChangeListener.Change<? extends SlotOutline> c) {
         while (c.next()) {
-            if (c.wasRemoved()) {
-                cluesViewModel.downCluesProperty().remove(c.getFrom(), c.getRemovedSize());
-            }
-            if (c.wasAdded()) {
+            final var downClues = cluesViewModel.downCluesProperty();
+            if (c.wasReplaced()) {
+                IntStream.range(c.getFrom(), c.getTo())
+                         .forEach(i -> downClues.set(i, new ClueViewModel()));
+            } else if (c.wasRemoved()) {
+                downClues.remove(c.getFrom(), c.getRemovedSize());
+            } else if (c.wasAdded()) {
                 final var newClues = c.getAddedSubList().stream()
                                       .map(slot -> new ClueViewModel())
                                       .toList();
-                cluesViewModel.downCluesProperty().addAll(c.getFrom(), newClues);
+                downClues.addAll(c.getFrom(), newClues);
             }
         }
     }

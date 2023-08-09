@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotOutline;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -18,10 +19,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 final class PuzzleEditionViewModelTest {
 
+    /** The model under tests. */
+    private PuzzleEditionViewModel model;
+
+    @BeforeEach
+    void setup() {
+        model = new PuzzleEditionViewModel();
+    }
+
     @Test
     void constructor() {
-        final var model = new PuzzleEditionViewModel();
-
         // Default model is a 6x7 grid.
         assertEquals(List.of(SlotOutline.across(0, 6, 0),
                              SlotOutline.across(0, 6, 1),
@@ -52,9 +59,6 @@ final class PuzzleEditionViewModelTest {
 
     @Test
     void addSlot() {
-        // Default model is a 6x7 grid.
-        final var model = new PuzzleEditionViewModel();
-
         model.crosswordGridViewModel().addColumn();
 
         assertEquals(List.of(SlotOutline.across(0, 7, 0),
@@ -86,12 +90,32 @@ final class PuzzleEditionViewModelTest {
                      model.cluesViewModel().downCluesProperty().get());
     }
 
+    /**
+     * Don't clear clues if slot is not modified.
+     */
+    @Test
+    void addSlot_dontChangeNonImpactedClues() {
+        model.cluesViewModel().downClue(0).userContent("A clue");
+
+        model.crosswordGridViewModel().addColumn();
+
+        assertEquals("A clue", model.cluesViewModel().downClue(0).userContent());
+    }
+
+    /**
+     * Clear clue if slot is modified.
+     */
+    @Test
+    void addSlot_clearInvalidatedClues() {
+        model.cluesViewModel().acrossClue(0).userContent("A clue");
+
+        model.crosswordGridViewModel().addColumn();
+
+        assertEquals("", model.cluesViewModel().acrossClue(0).userContent());
+    }
 
     @Test
     void deleteSlot() {
-        // Default model is a 6x7 grid.
-        final var model = new PuzzleEditionViewModel();
-
         model.crosswordGridViewModel().deleteLastColumn();
 
         assertEquals(List.of(SlotOutline.across(0, 5, 0),
@@ -122,8 +146,6 @@ final class PuzzleEditionViewModelTest {
 
     @Test
     void clear() {
-        final var model = new PuzzleEditionViewModel();
-
         model.crosswordGridViewModel().clear();
 
         assertEquals(Collections.emptyList(), model.crosswordGridViewModel().acrossSlotsProperty());

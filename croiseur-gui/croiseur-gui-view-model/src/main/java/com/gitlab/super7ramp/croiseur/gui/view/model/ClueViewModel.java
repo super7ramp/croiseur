@@ -5,9 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 import java.util.Objects;
 
 /**
@@ -16,99 +13,85 @@ import java.util.Objects;
 public final class ClueViewModel {
 
     /** The clue, as entered by the user. */
-    private final StringProperty userContent;
+    private String userContent;
 
     /** The clue, as determined by the system. */
-    private final StringProperty systemContent;
+    private String systemContent;
 
     /**
      * Constructs an instance.
      */
     ClueViewModel() {
-        userContent = new SimpleStringProperty();
-        systemContent = new SimpleStringProperty();
+        userContent = "";
+        systemContent = "";
     }
 
     /**
-     * The clue, as entered by the user.
+     * Returns the clue as entered by user.
      *
-     * @return the clue, as entered by the user.
+     * @return the clue as entered by user.
      */
-    public StringProperty userContentProperty() {
+    public String userContent() {
         return userContent;
     }
 
     /**
-     * Returns the value of the user content property.
-     *
-     * @return the value of the user content property
-     */
-    public String userContent() {
-        return userContent.get();
-    }
-
-    /**
-     * Sets the value of the user content property.
+     * Sets the clue as entered by user.
      *
      * @param value the value to set
      */
     public void userContent(final String value) {
-        userContent.set(value);
+        Objects.requireNonNull(value,
+                               "Clue user content shall be non null; Use empty string in absence of value");
+        userContent = value;
     }
 
     /**
-     * The clue, as entered by the system.
+     * Returns the clue as determined by system.
      *
-     * @return the clue, as determined by the system.
+     * @return the clue as determined by system
      */
-    public StringProperty systemContentProperty() {
+    public String systemContent() {
         return systemContent;
     }
 
     /**
-     * Returns the value of the system content property.
-     *
-     * @return the value of the system content property
-     */
-    public String systemContent() {
-        return systemContent.get();
-    }
-
-    /**
-     * Sets the value of system content property.
+     * Sets the clue as determined by system.
      *
      * @param value the value to set
      */
     public void systemContent(final String value) {
-        systemContent.set(value);
+        Objects.requireNonNull(value,
+                               "Clue system content shall be non null; Use empty string in absence of value");
+        systemContent = value;
     }
 
     /**
      * Resets both user and system content to an empty string.
      */
     public void reset() {
-        userContent.set(null);
-        systemContent.set(null);
+        userContent = "";
+        systemContent = "";
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final ClueViewModel that)) return false;
-        return Objects.equals(userContent.get(), that.userContent.get()) &&
-               Objects.equals(systemContent.get(), that.systemContent.get());
+        return Objects.equals(userContent, that.userContent) &&
+               Objects.equals(systemContent, that.systemContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userContent.get(), systemContent.get());
+        return Objects.hash(userContent, systemContent);
     }
 
     @Override
     public String toString() {
         return "ClueViewModel{" +
-               "userContent=" + userContent.get() +
-               ", systemContent=" + systemContent.get() +
+               "userContent=" + userContent +
+               ", systemContent=" + systemContent +
                '}';
     }
 }

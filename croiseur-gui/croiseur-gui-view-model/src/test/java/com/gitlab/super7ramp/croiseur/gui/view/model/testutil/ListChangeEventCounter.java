@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  */
 public final class ListChangeEventCounter<T> {
 
-    private int count, addedSize, removedSize;
+    private int count, addedSize, removedSize, replacedSize;
 
     /**
      * Constructs an instance.
@@ -41,6 +41,11 @@ public final class ListChangeEventCounter<T> {
         return addedSize;
     }
 
+    /** @return the cumulated changed replaced size */
+    public int replacedSize() {
+        return addedSize;
+    }
+
     private void onChange(final ListChangeListener.Change<? extends T> c) {
         while (c.next()) {
             count++;
@@ -49,6 +54,9 @@ public final class ListChangeEventCounter<T> {
             }
             if (c.wasAdded()) {
                 addedSize += c.getAddedSize();
+            }
+            if (c.wasReplaced()) {
+                replacedSize += c.getAddedSize();
             }
         }
     }

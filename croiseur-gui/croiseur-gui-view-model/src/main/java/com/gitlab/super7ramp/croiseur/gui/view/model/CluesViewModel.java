@@ -38,12 +38,34 @@ public final class CluesViewModel {
     }
 
     /**
+     * Returns the across clue at given index in the across clue list.
+     *
+     * @param index the clue index
+     * @return the across clue at given index in the across clue list
+     * @throws IndexOutOfBoundsException if index is not in clue list range
+     */
+    public ClueViewModel acrossClue(final int index) {
+        return acrossClues.get(index);
+    }
+
+    /**
      * The down (vertical) clues.
      *
      * @return the down (vertical) clues.
      */
     public ListProperty<ClueViewModel> downCluesProperty() {
         return downClues;
+    }
+
+    /**
+     * Returns the down clue at given index in the down clue list.
+     *
+     * @param index the clue index
+     * @return the down clue at given index in the down clue list
+     * @throws IndexOutOfBoundsException if index is not in clue list range
+     */
+    public ClueViewModel downClue(final int index) {
+        return downClues.get(index);
     }
 
     /**

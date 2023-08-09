@@ -11,12 +11,13 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
 
@@ -25,72 +26,68 @@ import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
  */
 public final class SlotsViewModel {
 
-    /** The grid boxes. */
-    private final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes;
+    /** The minimal slot length; Slot of a single letter will be ignored. */
+    private static final Predicate<SlotOutline> AT_LEAST_TWO_BOXES = s -> s.length() >= 2;
 
-    /** The grid column count. */
-    private final ObservableIntegerValue columnCount;
-
-    /** The grid row count. */
-    private final ObservableIntegerValue rowCount;
-
-    /** The across slots. */
+    /** The across slots. Filter out slots of length less than 2. */
     private final ReadOnlyListWrapper<SlotOutline> acrossSlots;
 
-    /** The down slots. */
+    /** The down slots. Filter out slots of length less than 2. */
     private final ReadOnlyListWrapper<SlotOutline> downSlots;
-
-    /** The processor of box shading events, updating across slots. */
-    private final ShadedBoxProcessor acrossSlotsShadedBoxProcessor;
-
-    /** The processor of box shading events, updating down slots. */
-    private final ShadedBoxProcessor downSlotsShadedBoxProcessor;
-
-    /** The processor of box enlightenment events, updating across slots. */
-    private final LightenedBoxProcessor acrossSlotsLightenedBoxProcessor;
-
-    /** The processor of box enlightenment events, updating down slots. */
-    private final LightenedBoxProcessor downSlotsLightenedBoxProcessor;
 
     /**
      * Constructs an instance.
      * <p>
      * All parameters are only listened; No modification will be attempted.
      *
-     * @param boxesArg       the grid boxes
-     * @param columnCountArg the grid column count
-     * @param rowCountArg    the grid row count
+     * @param boxes       the grid boxes
+     * @param columnCount the grid column count
+     * @param rowCount    the grid row count
      */
-    public SlotsViewModel(final ObservableMap<GridCoord, CrosswordBoxViewModel> boxesArg,
-                          final ObservableIntegerValue columnCountArg,
-                          final ObservableIntegerValue rowCountArg) {
-        boxes = boxesArg;
-        columnCount = columnCountArg;
-        rowCount = rowCountArg;
+    public SlotsViewModel(final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes,
+                          final ObservableIntegerValue columnCount,
+                          final ObservableIntegerValue rowCount) {
+        final var internalAcrossSlots =
+                initialAcrossSlots(boxes, columnCount.get(), rowCount.get());
+        acrossSlots =
+                new ReadOnlyListWrapper<>(this, "acrossSlots",
+                                          internalAcrossSlots.filtered(AT_LEAST_TWO_BOXES));
 
-        acrossSlots = new ReadOnlyListWrapper<>(this, "acrossSlots",
-                                                FXCollections.observableList(
-                                                        initialAcrossSlots(boxesArg,
-                                                                           columnCountArg.get(),
-                                                                           rowCountArg.get())));
+        final var internalDownSlots = initialDownSlots(boxes, columnCount.get(), rowCount.get());
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
-                                              FXCollections.observableList(
-                                                      initialDownSlots(boxesArg,
-                                                                       columnCountArg.get(),
-                                                                       rowCountArg.get())));
+                                              internalDownSlots.filtered(AT_LEAST_TWO_BOXES));
 
-        acrossSlotsShadedBoxProcessor = new AcrossSlotShadedBoxProcessor(acrossSlots);
-        downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(downSlots);
-        acrossSlotsLightenedBoxProcessor =
-                new AcrossSlotsLightenedBoxProcessor(acrossSlots, boxes, columnCount::get);
-        downSlotsLightenedBoxProcessor =
-                new DownSlotsLightenedBoxProcessor(downSlots, boxes, rowCount::get);
+        final var acrossSlotsShadedBoxProcessor =
+                new AcrossSlotShadedBoxProcessor(internalAcrossSlots);
+        final var downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(internalDownSlots);
+        final var acrossSlotsLightenedBoxProcessor =
+                new AcrossSlotsLightenedBoxProcessor(internalAcrossSlots);
+        final var downSlotsLightenedBoxProcessor =
+                new DownSlotsLightenedBoxProcessor(internalDownSlots);
 
-        boxes.forEach((coord, box) -> box.shadedProperty()
-                                         .addListener(observable -> onShadedChange(coord,
-                                                                                   box.isShaded())));
-        columnCount.addListener(observable -> evaluate());
-        rowCount.addListener(observable -> evaluate());
+        boxes.forEach(
+                (coord, box) -> box.shadedProperty()
+                                   .addListener(observable -> {
+                                       if (box.isShaded()) {
+                                           acrossSlotsShadedBoxProcessor.process(coord);
+                                           downSlotsShadedBoxProcessor.process(coord);
+                                       } else {
+                                           acrossSlotsLightenedBoxProcessor.process(coord);
+                                           downSlotsLightenedBoxProcessor.process(coord);
+                                       }
+                                   }));
+
+        final var columnCountChangeProcessor =
+                new ColumnCountChangeProcessor(internalDownSlots, internalAcrossSlots);
+        columnCount.addListener(
+                (observable, oldCount, newCount) -> columnCountChangeProcessor.process(
+                        oldCount.intValue(), newCount.intValue(), rowCount.get()));
+
+        final var rowCountChangeProcessor =
+                new RowCountChangeProcessor(internalDownSlots, internalAcrossSlots);
+        rowCount.addListener(
+                (observable, oldCount, newCount) -> rowCountChangeProcessor.process(
+                        oldCount.intValue(), newCount.intValue(), columnCount.get()));
     }
 
     /**
@@ -119,7 +116,7 @@ public final class SlotsViewModel {
      * @param rowCount    the initial row count
      * @return the initial across slot list
      */
-    private static List<SlotOutline> initialAcrossSlots(
+    private static ObservableList<SlotOutline> initialAcrossSlots(
             final Map<GridCoord, CrosswordBoxViewModel> boxes, final int columnCount,
             final int rowCount) {
         final List<SlotOutline> initialAcrossSlots = new LinkedList<>();
@@ -127,17 +124,17 @@ public final class SlotsViewModel {
             int columnStart = 0;
             for (int column = columnStart; column < columnCount; column++) {
                 if (boxes.get(at(column, row)).isShaded()) {
-                    if (column - columnStart >= SlotConstants.MIN_SLOT_LENGTH) {
+                    if (column - columnStart > 0) {
                         initialAcrossSlots.add(SlotOutline.across(columnStart, column, row));
                     }
                     columnStart = column + 1;
                 }
             }
-            if (columnCount - columnStart >= SlotConstants.MIN_SLOT_LENGTH) {
+            if (columnCount - columnStart > 0) {
                 initialAcrossSlots.add(SlotOutline.across(columnStart, columnCount, row));
             }
         }
-        return initialAcrossSlots;
+        return FXCollections.observableList(initialAcrossSlots);
     }
 
     /**
@@ -148,7 +145,7 @@ public final class SlotsViewModel {
      * @param rowCount    the initial row count
      * @return the initial down slot list
      */
-    private static List<SlotOutline> initialDownSlots(
+    private static ObservableList<SlotOutline> initialDownSlots(
             final Map<GridCoord, CrosswordBoxViewModel> boxes,
             final int columnCount, final int rowCount) {
         final List<SlotOutline> initialDownSlots = new LinkedList<>();
@@ -156,79 +153,16 @@ public final class SlotsViewModel {
             int rowStart = 0;
             for (int row = rowStart; row < rowCount; row++) {
                 if (boxes.get(at(column, row)).isShaded()) {
-                    if (row - rowStart >= SlotConstants.MIN_SLOT_LENGTH) {
+                    if (row - rowStart > 0) {
                         initialDownSlots.add(SlotOutline.down(rowStart, row, column));
                     }
                     rowStart = row + 1;
                 }
             }
-            if (rowCount - rowStart >= SlotConstants.MIN_SLOT_LENGTH) {
+            if (rowCount - rowStart > 0) {
                 initialDownSlots.add(SlotOutline.down(rowStart, rowCount, column));
             }
         }
-        return initialDownSlots;
-    }
-
-    /**
-     * Processes a shading change.
-     *
-     * @param coord               the coordinates of the box which has changed
-     * @param boxAtCoordNowShaded whether the box is now shaded
-     */
-    private void onShadedChange(final GridCoord coord, final boolean boxAtCoordNowShaded) {
-        if (boxAtCoordNowShaded) {
-            acrossSlotsShadedBoxProcessor.updateSlotsAfterShadingOf(coord);
-            downSlotsShadedBoxProcessor.updateSlotsAfterShadingOf(coord);
-        } else {
-            acrossSlotsLightenedBoxProcessor.updateSlotsAfterEnlightenmentOf(coord);
-            downSlotsLightenedBoxProcessor.updateSlotsAfterEnlightenmentOf(coord);
-        }
-    }
-
-    private void evaluate() {
-        evaluateAcrossSlots();
-        evaluateDownSlots();
-    }
-
-    private void evaluateAcrossSlots() {
-        final List<SlotOutline> newAcrossSlots = new ArrayList<>();
-        for (int row = 0; row < rowCount.get(); row++) {
-            int columnStart = 0;
-            for (int column = columnStart; column < columnCount.get(); column++) {
-                if (box(at(column, row)).isShaded()) {
-                    if (column - columnStart >= SlotConstants.MIN_SLOT_LENGTH) {
-                        newAcrossSlots.add(SlotOutline.across(columnStart, column, row));
-                    }
-                    columnStart = column + 1;
-                }
-            }
-            if (columnCount.get() - columnStart >= SlotConstants.MIN_SLOT_LENGTH) {
-                newAcrossSlots.add(SlotOutline.across(columnStart, columnCount.get(), row));
-            }
-        }
-        acrossSlots.setAll(newAcrossSlots);
-    }
-
-    private void evaluateDownSlots() {
-        final List<SlotOutline> newDownSlots = new ArrayList<>();
-        for (int column = 0; column < columnCount.get(); column++) {
-            int rowStart = 0;
-            for (int row = rowStart; row < rowCount.get(); row++) {
-                if (box(at(column, row)).isShaded()) {
-                    if (row - rowStart >= SlotConstants.MIN_SLOT_LENGTH) {
-                        newDownSlots.add(SlotOutline.down(rowStart, row, column));
-                    }
-                    rowStart = row + 1;
-                }
-            }
-            if (rowCount.get() - rowStart >= SlotConstants.MIN_SLOT_LENGTH) {
-                newDownSlots.add(SlotOutline.down(rowStart, rowCount.get(), column));
-            }
-        }
-        downSlots.setAll(newDownSlots);
-    }
-
-    private CrosswordBoxViewModel box(final GridCoord coord) {
-        return boxes.get(coord);
+        return FXCollections.observableList(initialDownSlots);
     }
 }

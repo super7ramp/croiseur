@@ -48,6 +48,7 @@ public final class CrosswordGridViewModel {
      * The area under work, which consists of the last focused box and the slot (either horizontal
      * or vertical) it belongs to.
      */
+    // TODO refactor: On-the-fly current slot computation can be avoided now there is a SlotsViewModel
     private final class WorkingArea {
 
         /**
@@ -473,10 +474,20 @@ public final class CrosswordGridViewModel {
         return rowCount.get();
     }
 
+    /**
+     * The across (= horizontal) slots.
+     *
+     * @return the across slots property
+     */
     public ReadOnlyListProperty<SlotOutline> acrossSlotsProperty() {
         return slotsViewModel.acrossSlotsProperty();
     }
 
+    /**
+     * The down (= vertical) slots.
+     *
+     * @return the down slots property
+     */
     public ReadOnlyListProperty<SlotOutline> downSlotsProperty() {
         return slotsViewModel.downSlotsProperty();
     }
