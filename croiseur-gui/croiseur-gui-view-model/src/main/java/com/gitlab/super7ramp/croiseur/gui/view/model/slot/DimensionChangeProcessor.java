@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Updates the slots after a grid dimension change.
  */
-abstract class DimensionChangeProcessor {
+abstract sealed class DimensionChangeProcessor {
 
     /** The slots parallel to the changed side. */
     private final List<SlotOutline> parallelSlots;

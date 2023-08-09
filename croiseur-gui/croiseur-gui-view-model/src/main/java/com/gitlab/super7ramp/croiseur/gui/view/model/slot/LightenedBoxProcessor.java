@@ -16,7 +16,7 @@ import java.util.Optional;
  * <p>
  * Given slots must be of same type: Either across or down.
  */
-abstract class LightenedBoxProcessor {
+abstract sealed class LightenedBoxProcessor {
 
     /** The slots to update. */
     private final List<SlotOutline> slots;
