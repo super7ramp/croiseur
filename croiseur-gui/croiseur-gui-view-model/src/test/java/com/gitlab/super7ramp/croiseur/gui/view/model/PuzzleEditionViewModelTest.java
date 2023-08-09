@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Tests for {@link PuzzleEditionViewModel}.
@@ -95,11 +97,14 @@ final class PuzzleEditionViewModelTest {
      */
     @Test
     void addSlot_dontChangeNonImpactedClues() {
-        model.cluesViewModel().downClue(0).userContent("A clue");
+        model.crosswordGridViewModel().box(at(3, 0)).shade();
+        model.cluesViewModel().acrossClue(0).systemContent("An across clue");
+        model.cluesViewModel().downClue(0).userContent("A down clue");
 
         model.crosswordGridViewModel().addColumn();
 
-        assertEquals("A clue", model.cluesViewModel().downClue(0).userContent());
+        assertEquals("An across clue", model.cluesViewModel().acrossClue(0).systemContent());
+        assertEquals("A down clue", model.cluesViewModel().downClue(0).userContent());
     }
 
     /**
@@ -107,11 +112,14 @@ final class PuzzleEditionViewModelTest {
      */
     @Test
     void addSlot_clearInvalidatedClues() {
-        model.cluesViewModel().acrossClue(0).userContent("A clue");
+        model.crosswordGridViewModel().box(at(3, 0)).shade();
+        model.cluesViewModel().acrossClue(1).systemContent("An across clue");
+        model.cluesViewModel().acrossClue(2).userContent("Another across clue");
 
         model.crosswordGridViewModel().addColumn();
 
-        assertEquals("", model.cluesViewModel().acrossClue(0).userContent());
+        assertEquals("", model.cluesViewModel().acrossClue(1).systemContent());
+        assertEquals("", model.cluesViewModel().acrossClue(2).userContent());
     }
 
     @Test
@@ -152,5 +160,26 @@ final class PuzzleEditionViewModelTest {
         assertEquals(Collections.emptyList(), model.cluesViewModel().acrossCluesProperty());
         assertEquals(Collections.emptyList(), model.crosswordGridViewModel().downSlotsProperty());
         assertEquals(Collections.emptyList(), model.cluesViewModel().downCluesProperty());
+    }
+
+    @Test
+    void reset() {
+        model.cluesViewModel().downClue(0).userContent("A down clue");
+        model.cluesViewModel().acrossClue(0).systemContent("An across clue");
+        model.crosswordGridViewModel().box(at(3,3)).shade();
+        model.crosswordGridViewModel().box(at(4,4)).solverContent("A");
+        model.crosswordGridViewModel().box(at(5,5)).userContent("B");
+        model.crosswordGridViewModel().addColumn();
+        model.crosswordGridViewModel().deleteLastColumn();
+
+        model.reset();
+
+        assertEquals("", model.cluesViewModel().downClue(0).userContent());
+        assertEquals("", model.cluesViewModel().acrossClue(0).systemContent());
+        assertFalse(model.crosswordGridViewModel().box(at(3,3)).isShaded());
+        assertEquals("", model.crosswordGridViewModel().box(at(4,4)).solverContent());
+        assertEquals("", model.crosswordGridViewModel().box(at(5,5)).userContent());
+        assertEquals(6, model.crosswordGridViewModel().columnCount());
+        assertEquals(7, model.crosswordGridViewModel().rowCount());
     }
 }
