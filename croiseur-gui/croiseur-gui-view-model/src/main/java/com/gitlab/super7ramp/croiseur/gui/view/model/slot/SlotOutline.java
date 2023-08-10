@@ -98,7 +98,10 @@ public abstract sealed class SlotOutline {
      *
      * @return the positions that this slot represents.
      */
-    public abstract List<GridCoord> boxPositions();
+    public final List<GridCoord> boxPositions() {
+        return IntStream.range(start, end).mapToObj(varying -> coordOf(varying, offset))
+                        .toList();
+    }
 
     /**
      * Evaluates whether the given coordinates belong to this slot.
@@ -108,7 +111,37 @@ public abstract sealed class SlotOutline {
      * @param coord the coordinates
      * @return {@code true} iff the given coordinates belong to this slot
      */
-    public abstract boolean contains(final GridCoord coord);
+    public final boolean contains(final GridCoord coord) {
+        return coord != null &&
+               offsetCoordinateOf(coord) == offset &&
+               varyingCoordinateOf(coord) >= start &&
+               varyingCoordinateOf(coord) < end;
+    }
+
+    /**
+     * Returns the value of the varying coordinate.
+     *
+     * @param coord some coordinates
+     * @return the value of the varying coordinate of the given {@link GridCoord}.
+     */
+    abstract int varyingCoordinateOf(final GridCoord coord);
+
+    /**
+     * Returns the value of the offset coordinate.
+     *
+     * @param coord some coordinates
+     * @return the value of the offset coordinate of the given {@link GridCoord}.
+     */
+    abstract int offsetCoordinateOf(final GridCoord coord);
+
+    /**
+     * Creates a {@link GridCoord}.
+     *
+     * @param varyingCoordinate the varying coordinate
+     * @param offsetCoordinate the offset coordinate
+     * @return a new {@link GridCoord}
+     */
+    abstract GridCoord coordOf(final int varyingCoordinate, final int offsetCoordinate);
 }
 
 /**
@@ -125,18 +158,6 @@ final class AcrossSlotOutline extends SlotOutline {
      */
     AcrossSlotOutline(final int columnStart, final int columnEnd, final int row) {
         super(columnStart, columnEnd, row);
-    }
-
-    @Override
-    public List<GridCoord> boxPositions() {
-        return IntStream.range(start, end).mapToObj(column -> new GridCoord(column, offset))
-                        .toList();
-    }
-
-    @Override
-    public boolean contains(final GridCoord coord) {
-        return coord != null && coord.row() == offset && coord.column() >= start &&
-               coord.column() < end;
     }
 
     @Override
@@ -159,6 +180,21 @@ final class AcrossSlotOutline extends SlotOutline {
                ", row=" + offset +
                '}';
     }
+
+    @Override
+    int varyingCoordinateOf(final GridCoord coord) {
+        return coord.column();
+    }
+
+    @Override
+    int offsetCoordinateOf(final GridCoord coord) {
+        return coord.row();
+    }
+
+    @Override
+    GridCoord coordOf(final int varying, final int offset) {
+        return new GridCoord(varying, offset);
+    }
 }
 
 /**
@@ -175,17 +211,6 @@ final class DownSlotOutline extends SlotOutline {
      */
     DownSlotOutline(final int rowStart, final int rowEnd, final int column) {
         super(rowStart, rowEnd, column);
-    }
-
-    @Override
-    public List<GridCoord> boxPositions() {
-        return IntStream.range(start, end).mapToObj(row -> new GridCoord(offset, row)).toList();
-    }
-
-    @Override
-    public boolean contains(final GridCoord coord) {
-        return coord != null && coord.column() == offset && coord.row() >= start &&
-               coord.row() < end;
     }
 
     @Override
@@ -207,5 +232,20 @@ final class DownSlotOutline extends SlotOutline {
                ", rowEnd=" + end +
                ", column=" + offset +
                '}';
+    }
+
+    @Override
+    int varyingCoordinateOf(final GridCoord coord) {
+        return coord.row();
+    }
+
+    @Override
+    int offsetCoordinateOf(final GridCoord coord) {
+        return coord.column();
+    }
+
+    @Override
+    GridCoord coordOf(final int varying, final int offset) {
+        return new GridCoord(offset, varying);
     }
 }
