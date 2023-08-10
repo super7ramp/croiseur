@@ -12,16 +12,12 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 /**
  * Puzzle edition view model.
  */
 public final class PuzzleEditionViewModel {
-
-    /** The minimal slot length to consider for clues; Slot of a single letter will be ignored. */
-    private static final Predicate<SlotOutline> AT_LEAST_TWO_BOXES = s -> s.length() >= 2;
 
     /** The puzzle details view model. */
     private final PuzzleDetailsViewModel puzzleDetailsViewModel;
@@ -46,14 +42,12 @@ public final class PuzzleEditionViewModel {
 
         // Bind clue lists to slot lists
 
-        final ObservableList<SlotOutline> acrossSlots =
-                crosswordGridViewModel.acrossSlotsProperty().filtered(AT_LEAST_TWO_BOXES);
+        final ObservableList<SlotOutline> acrossSlots = crosswordGridViewModel.longAcrossSlots();
         final List<ClueViewModel> acrossClues = cluesViewModel.acrossCluesProperty();
         acrossSlots.forEach(slot -> acrossClues.add(new ClueViewModel()));
         acrossSlots.addListener(this::updateAcrossClues);
 
-        final ObservableList<SlotOutline> downSlots =
-                crosswordGridViewModel.downSlotsProperty().filtered(AT_LEAST_TWO_BOXES);
+        final ObservableList<SlotOutline> downSlots = crosswordGridViewModel.longDownSlots();
         final List<ClueViewModel> downClues = cluesViewModel.downCluesProperty();
         downSlots.forEach(slot -> downClues.add(new ClueViewModel()));
         downSlots.addListener(this::updateDownClues);

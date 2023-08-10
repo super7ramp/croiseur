@@ -25,6 +25,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
@@ -467,12 +468,30 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * The across (= horizontal) slots which contain at least 2 boxes.
+     *
+     * @return the across (= horizontal) slots which contain at least 2 boxes.
+     */
+    public ObservableList<SlotOutline> longAcrossSlots() {
+        return slotsViewModel.longAcrossSlots();
+    }
+
+    /**
      * The down (= vertical) slots.
      *
      * @return the down slots property
      */
     public ReadOnlyListProperty<SlotOutline> downSlotsProperty() {
         return slotsViewModel.downSlotsProperty();
+    }
+
+    /**
+     * The down (= vertical) slots which contain at least 2 boxes.
+     *
+     * @return the down (= vertical) slots which contain at least 2 boxes.
+     */
+    public ObservableList<SlotOutline> longDownSlots() {
+        return slotsViewModel.longDownSlots();
     }
 
     /**

@@ -18,6 +18,7 @@ import javafx.collections.ObservableMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
 
@@ -26,11 +27,20 @@ import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
  */
 public final class SlotsViewModel {
 
-    /** The across slots. Filter out slots of length less than 2. */
+    /** A predicate to filter boxes; Slot of a single box will be ignored. */
+    private static final Predicate<SlotOutline> AT_LEAST_TWO_BOXES = s -> s.length() >= 2;
+
+    /** The across slots. */
     private final ReadOnlyListWrapper<SlotOutline> acrossSlots;
 
-    /** The down slots. Filter out slots of length less than 2. */
+    /** The across slots filtered to exclude single box slots. */
+    private final ObservableList<SlotOutline> longAcrossSlots;
+
+    /** The down slots */
     private final ReadOnlyListWrapper<SlotOutline> downSlots;
+
+    /** The across slots filtered to exclude single box slots. */
+    private final ObservableList<SlotOutline> longDownSlots;
 
     /** Across slots updater, processing box transitions to shaded state. */
     private final AcrossSlotShadedBoxProcessor acrossSlotsShadedBoxProcessor;
@@ -60,10 +70,12 @@ public final class SlotsViewModel {
                 new ReadOnlyListWrapper<>(this, "acrossSlots",
                                           initialAcrossSlots(boxes, columnCount.get(),
                                                              rowCount.get()));
+        longAcrossSlots = acrossSlots.getReadOnlyProperty().filtered(AT_LEAST_TWO_BOXES);
 
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
                                               initialDownSlots(boxes, columnCount.get(),
                                                                rowCount.get()));
+        longDownSlots = downSlots.getReadOnlyProperty().filtered(AT_LEAST_TWO_BOXES);
 
         acrossSlotsShadedBoxProcessor = new AcrossSlotShadedBoxProcessor(acrossSlots);
         downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(downSlots);
@@ -103,12 +115,30 @@ public final class SlotsViewModel {
     }
 
     /**
+     * The across slots which contain at least 2 boxes.
+     *
+     * @return the across slots which contain at least 2 boxes.
+     */
+    public ObservableList<SlotOutline> longAcrossSlots() {
+        return longAcrossSlots;
+    }
+
+    /**
      * The down slots.
      *
      * @return the down slots
      */
     public ReadOnlyListProperty<SlotOutline> downSlotsProperty() {
         return downSlots.getReadOnlyProperty();
+    }
+
+    /**
+     * The down slots which contain at least 2 boxes.
+     *
+     * @return the down slots which contain at least 2 boxes.
+     */
+    public ObservableList<SlotOutline> longDownSlots() {
+        return longDownSlots;
     }
 
     /**
