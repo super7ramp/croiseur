@@ -207,7 +207,7 @@ public final class CrosswordGridViewModel {
             }
 
             while (change.next()) {
-                if (Stream.concat(change.getList().stream(), change.getRemoved().stream())
+                if (Stream.concat(change.getAddedSubList().stream(), change.getRemoved().stream())
                           .anyMatch(s -> s.contains(current))) {
                     recomputeCurrentSlotPositions();
                     break;
@@ -232,7 +232,7 @@ public final class CrosswordGridViewModel {
             }
 
             while (change.next()) {
-                if (Stream.concat(change.getList().stream(), change.getRemoved().stream())
+                if (Stream.concat(change.getAddedSubList().stream(), change.getRemoved().stream())
                           .anyMatch(s -> s.contains(current))) {
                     recomputeCurrentSlotPositions();
                     break;
