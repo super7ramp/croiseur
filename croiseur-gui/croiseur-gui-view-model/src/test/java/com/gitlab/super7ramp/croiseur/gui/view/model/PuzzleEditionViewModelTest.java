@@ -123,6 +123,41 @@ final class PuzzleEditionViewModelTest {
     }
 
     @Test
+    void shade() {
+        model.crosswordGridViewModel().box(at(1, 1)).shade();
+
+        assertEquals(List.of(SlotOutline.across(0, 6, 0),
+                             SlotOutline.across(0, 1, 1),
+                             SlotOutline.across(2, 6, 1),
+                             SlotOutline.across(0, 6, 2),
+                             SlotOutline.across(0, 6, 3),
+                             SlotOutline.across(0, 6, 4),
+                             SlotOutline.across(0, 6, 5),
+                             SlotOutline.across(0, 6, 6)),
+                     model.crosswordGridViewModel().acrossSlotsProperty().get());
+
+        // Only 7 clues: Slot with less than 2 boxes is ignored
+        assertEquals(List.of(new ClueViewModel(), new ClueViewModel(), new ClueViewModel(),
+                             new ClueViewModel(), new ClueViewModel(), new ClueViewModel(),
+                             new ClueViewModel()),
+                     model.cluesViewModel().acrossCluesProperty().get());
+
+        assertEquals(List.of(SlotOutline.down(0, 7, 0),
+                             SlotOutline.down(0, 1, 1),
+                             SlotOutline.down(2, 7, 1),
+                             SlotOutline.down(0, 7, 2),
+                             SlotOutline.down(0, 7, 3),
+                             SlotOutline.down(0, 7, 4),
+                             SlotOutline.down(0, 7, 5)),
+                     model.crosswordGridViewModel().downSlotsProperty().get());
+
+        // Only 6 clues: Slot with less than 2 boxes is ignored
+        assertEquals(List.of(new ClueViewModel(), new ClueViewModel(), new ClueViewModel(),
+                             new ClueViewModel(), new ClueViewModel(), new ClueViewModel()),
+                     model.cluesViewModel().downCluesProperty().get());
+    }
+
+    @Test
     void deleteSlot() {
         model.crosswordGridViewModel().deleteLastColumn();
 
@@ -166,9 +201,9 @@ final class PuzzleEditionViewModelTest {
     void reset() {
         model.cluesViewModel().downClue(0).userContent("A down clue");
         model.cluesViewModel().acrossClue(0).systemContent("An across clue");
-        model.crosswordGridViewModel().box(at(3,3)).shade();
-        model.crosswordGridViewModel().box(at(4,4)).solverContent("A");
-        model.crosswordGridViewModel().box(at(5,5)).userContent("B");
+        model.crosswordGridViewModel().box(at(3, 3)).shade();
+        model.crosswordGridViewModel().box(at(4, 4)).solverContent("A");
+        model.crosswordGridViewModel().box(at(5, 5)).userContent("B");
         model.crosswordGridViewModel().addColumn();
         model.crosswordGridViewModel().deleteLastColumn();
 
@@ -176,9 +211,9 @@ final class PuzzleEditionViewModelTest {
 
         assertEquals("", model.cluesViewModel().downClue(0).userContent());
         assertEquals("", model.cluesViewModel().acrossClue(0).systemContent());
-        assertFalse(model.crosswordGridViewModel().box(at(3,3)).isShaded());
-        assertEquals("", model.crosswordGridViewModel().box(at(4,4)).solverContent());
-        assertEquals("", model.crosswordGridViewModel().box(at(5,5)).userContent());
+        assertFalse(model.crosswordGridViewModel().box(at(3, 3)).isShaded());
+        assertEquals("", model.crosswordGridViewModel().box(at(4, 4)).solverContent());
+        assertEquals("", model.crosswordGridViewModel().box(at(5, 5)).userContent());
         assertEquals(6, model.crosswordGridViewModel().columnCount());
         assertEquals(7, model.crosswordGridViewModel().rowCount());
     }

@@ -18,7 +18,6 @@ import javafx.collections.ObservableMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
 
@@ -26,9 +25,6 @@ import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
  * The slots view model.
  */
 public final class SlotsViewModel {
-
-    /** The minimal slot length; Slot of a single letter will be ignored. */
-    private static final Predicate<SlotOutline> AT_LEAST_TWO_BOXES = s -> s.length() >= 2;
 
     /** The across slots. Filter out slots of length less than 2. */
     private final ReadOnlyListWrapper<SlotOutline> acrossSlots;
@@ -60,23 +56,19 @@ public final class SlotsViewModel {
     public SlotsViewModel(final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes,
                           final ObservableIntegerValue columnCount,
                           final ObservableIntegerValue rowCount) {
-        final var internalAcrossSlots =
-                initialAcrossSlots(boxes, columnCount.get(), rowCount.get());
         acrossSlots =
                 new ReadOnlyListWrapper<>(this, "acrossSlots",
-                                          internalAcrossSlots.filtered(AT_LEAST_TWO_BOXES));
+                                          initialAcrossSlots(boxes, columnCount.get(),
+                                                             rowCount.get()));
 
-        final var internalDownSlots = initialDownSlots(boxes, columnCount.get(), rowCount.get());
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
-                                              internalDownSlots.filtered(AT_LEAST_TWO_BOXES));
+                                              initialDownSlots(boxes, columnCount.get(),
+                                                               rowCount.get()));
 
-        acrossSlotsShadedBoxProcessor =
-                new AcrossSlotShadedBoxProcessor(internalAcrossSlots);
-        downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(internalDownSlots);
-        acrossSlotsLightenedBoxProcessor =
-                new AcrossSlotsLightenedBoxProcessor(internalAcrossSlots);
-        downSlotsLightenedBoxProcessor =
-                new DownSlotsLightenedBoxProcessor(internalDownSlots);
+        acrossSlotsShadedBoxProcessor = new AcrossSlotShadedBoxProcessor(acrossSlots);
+        downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(downSlots);
+        acrossSlotsLightenedBoxProcessor = new AcrossSlotsLightenedBoxProcessor(acrossSlots);
+        downSlotsLightenedBoxProcessor = new DownSlotsLightenedBoxProcessor(downSlots);
 
         boxes.forEach(
                 (coord, box) -> box.shadedProperty()
@@ -90,13 +82,12 @@ public final class SlotsViewModel {
         });
 
         final var columnCountChangeProcessor =
-                new ColumnCountChangeProcessor(internalDownSlots, internalAcrossSlots);
+                new ColumnCountChangeProcessor(downSlots, acrossSlots);
         columnCount.addListener(
                 (observable, oldCount, newCount) -> columnCountChangeProcessor.process(
                         oldCount.intValue(), newCount.intValue(), rowCount.get()));
 
-        final var rowCountChangeProcessor =
-                new RowCountChangeProcessor(internalDownSlots, internalAcrossSlots);
+        final var rowCountChangeProcessor = new RowCountChangeProcessor(downSlots, acrossSlots);
         rowCount.addListener(
                 (observable, oldCount, newCount) -> rowCountChangeProcessor.process(
                         oldCount.intValue(), newCount.intValue(), columnCount.get()));

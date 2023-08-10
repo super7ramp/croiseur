@@ -24,7 +24,7 @@ abstract sealed class LightenedBoxProcessor {
     /**
      * Constructs an instance.
      *
-     * @param slotsArg    the slots to update
+     * @param slotsArg the slots to update
      */
     protected LightenedBoxProcessor(final List<SlotOutline> slotsArg) {
         slots = slotsArg;
@@ -69,8 +69,33 @@ abstract sealed class LightenedBoxProcessor {
             final int secondHalfIndex = slots.indexOf(secondHalf);
             slots.set(secondHalfIndex, updatedSecondHalf);
         } else {
-            // TODO Box between 2 shaded boxes
+            // Box is between 2 shaded boxes/borders
+            final SlotOutline newSlot =
+                    slotOf(lightenedBoxIndex, lightenedBoxIndex + 1, lightenedBoxOffset);
+            final int insertionIndex = insertionIndexFor(newSlot);
+            slots.add(insertionIndex, newSlot);
         }
+    }
+
+    /**
+     * Finds the insertion index for the given new slot.
+     *
+     * @param newSlot the new slot
+     * @return the insertion index
+     */
+    private int insertionIndexFor(final SlotOutline newSlot) {
+        int insertionIndex = 0;
+        final var it = slots.listIterator();
+        while (it.hasNext()) {
+            final var slot = it.next();
+            if (slot.offset < newSlot.offset ||
+                slot.offset == newSlot.offset && slot.end < newSlot.start) {
+                insertionIndex = it.nextIndex();
+            } else {
+                break;
+            }
+        }
+        return insertionIndex;
     }
 
     /**

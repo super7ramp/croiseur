@@ -56,11 +56,13 @@ final class SlotsViewModelTest {
                                              grid.rowCountProperty());
 
         assertEquals(List.of(SlotOutline.across(1, 3, 0), SlotOutline.across(0, 4, 1),
-                             SlotOutline.across(2, 4, 2), SlotOutline.across(0, 3, 3)),
+                             SlotOutline.across(0, 1, 2), SlotOutline.across(2, 4, 2),
+                             SlotOutline.across(0, 3, 3)),
                      slots.acrossSlotsProperty().get());
         assertEquals(List.of(SlotOutline.down(1, 4, 0), SlotOutline.down(0, 2, 1),
-                             SlotOutline.down(0, 4, 2), SlotOutline.down(1, 3, 3)),
-                     slots.downSlotsProperty());
+                             SlotOutline.down(3, 4, 1), SlotOutline.down(0, 4, 2),
+                             SlotOutline.down(1, 3, 3)),
+                     slots.downSlotsProperty().get());
     }
 
     @Test
@@ -77,16 +79,18 @@ final class SlotsViewModelTest {
         grid.box(at(3, 3)).shade();
 
         assertEquals(List.of(SlotOutline.across(1, 3, 0), SlotOutline.across(0, 4, 1),
-                             SlotOutline.across(2, 4, 2), SlotOutline.across(0, 3, 3)),
+                             SlotOutline.across(0, 1, 2), SlotOutline.across(2, 4, 2),
+                             SlotOutline.across(0, 3, 3)),
                      slots.acrossSlotsProperty().get());
         assertEquals(5, acrossChangeCounter.count());
-        assertEquals(4, acrossChangeCounter.replacedSize());
+        assertEquals(5, acrossChangeCounter.replacedSize());
 
         assertEquals(List.of(SlotOutline.down(1, 4, 0), SlotOutline.down(0, 2, 1),
-                             SlotOutline.down(0, 4, 2), SlotOutline.down(1, 3, 3)),
+                             SlotOutline.down(3, 4, 1), SlotOutline.down(0, 4, 2),
+                             SlotOutline.down(1, 3, 3)),
                      slots.downSlotsProperty().get());
-        assertEquals(4, downChangeCounter.count());
-        assertEquals(4, downChangeCounter.replacedSize());
+        assertEquals(5, downChangeCounter.count());
+        assertEquals(5, downChangeCounter.replacedSize());
     }
 
     @Test
@@ -100,8 +104,10 @@ final class SlotsViewModelTest {
 
         grid.box(at(1, 0)).shade();
 
-        assertEquals(Collections.emptyList(), slots.acrossSlotsProperty().get());
-        assertEquals(Collections.emptyList(), slots.downSlotsProperty().get());
+        assertEquals(List.of(SlotOutline.across(0, 1, 0), SlotOutline.across(2, 3, 0)),
+                     slots.acrossSlotsProperty().get());
+        assertEquals(List.of(SlotOutline.down(0, 1, 0), SlotOutline.down(0, 1, 2)),
+                     slots.downSlotsProperty().get());
     }
 
     @Test
@@ -130,7 +136,7 @@ final class SlotsViewModelTest {
         assertEquals(List.of(SlotOutline.down(0, 4, 0), SlotOutline.down(0, 4, 1),
                              SlotOutline.down(0, 4, 2), SlotOutline.down(0, 4, 3)),
                      slots.downSlotsProperty().get());
-        assertEquals(4, downChangeCounter.count());
+        assertEquals(5, downChangeCounter.count());
         assertEquals(4, downChangeCounter.replacedSize());
     }
 
@@ -147,7 +153,9 @@ final class SlotsViewModelTest {
         grid.box(at(1, 0)).lighten();
 
         assertEquals(List.of(SlotOutline.across(0, 3, 0)), slots.acrossSlotsProperty().get());
-        assertEquals(Collections.emptyList(), slots.downSlotsProperty().get());
+        assertEquals(List.of(SlotOutline.down(0, 1, 0), SlotOutline.down(0, 1, 1),
+                             SlotOutline.down(0, 1, 2)),
+                     slots.downSlotsProperty().get());
     }
 
     @Test

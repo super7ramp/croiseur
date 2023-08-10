@@ -21,22 +21,18 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-import static java.util.Comparator.comparingInt;
 import static java.util.function.Predicate.not;
 
 /**
@@ -48,40 +44,7 @@ public final class CrosswordGridViewModel {
      * The area under work, which consists of the last focused box and the slot (either horizontal
      * or vertical) it belongs to.
      */
-    // TODO refactor: On-the-fly current slot computation can be avoided now there is a SlotsViewModel
     private final class WorkingArea {
-
-        /**
-         * A listener attached to each box model shading property. Allows to trigger slot position
-         * re-computation when shading change.
-         */
-        private final class ShadingChangeListener implements ChangeListener<Boolean> {
-
-            /** The coordinate of the listened box. */
-            private final GridCoord listenedBoxCoordinate;
-
-            /**
-             * Constructs an instance.
-             *
-             * @param listenedBoxCoordinateArg the listened box coordinate
-             */
-            ShadingChangeListener(final GridCoord listenedBoxCoordinateArg) {
-                listenedBoxCoordinate = listenedBoxCoordinateArg;
-            }
-
-            @Override
-            public void changed(final ObservableValue<? extends Boolean> observable,
-                                final Boolean wasShaded, final Boolean isShaded) {
-                final GridCoord current = currentBoxPosition.get();
-                if (current != null &&
-                    ((currentSlotVertical.get() &&
-                      current.column() == listenedBoxCoordinate.column()) ||
-                     (!currentSlotVertical.get() &&
-                      current.row() == listenedBoxCoordinate.row()))) {
-                    recomputeCurrentSlotPositions();
-                }
-            }
-        }
 
         /**
          * A listener attached to each box model content property. Allows to trigger slot content
@@ -109,10 +72,6 @@ public final class CrosswordGridViewModel {
                 }
             }
         }
-
-        /** A comparator to sort the boxes. */
-        private static final Comparator<GridCoord> COMPARING_BY_COLUMN_THEN_BY_ROW =
-                comparingInt(GridCoord::column).thenComparing(GridCoord::row);
 
         /**
          * The position of the box being worked on. The value it contains is {@code null} if no box
@@ -156,6 +115,8 @@ public final class CrosswordGridViewModel {
             rowCount.addListener(this::onDimensionChange);
             boxes.forEach(this::onBoxAdded);
             boxes.addListener(this::onGridChange);
+            slotsViewModel.acrossSlotsProperty().addListener(this::onHorizontalSlotsChange);
+            slotsViewModel.downSlotsProperty().addListener(this::onVerticalSlotsChange);
         }
 
         /**
@@ -186,7 +147,6 @@ public final class CrosswordGridViewModel {
          * @param box        the added box
          */
         private void onBoxAdded(final GridCoord coordinate, final CrosswordBoxViewModel box) {
-            box.shadedProperty().addListener(new ShadingChangeListener(coordinate));
             box.userContentProperty().addListener(new ContentChangeListener(coordinate));
         }
 
@@ -216,11 +176,67 @@ public final class CrosswordGridViewModel {
          */
         private void onDimensionChange(final ObservableValue<? extends Number> observable,
                                        final Number oldDimension, final Number newDimension) {
+            resetCurrentBoxPositionIfRemoved();
+        }
+
+        /**
+         * Checks if {@link #currentBoxPosition} still exists in {@link #boxes}, resets it if it is
+         * not the case.
+         */
+        private void resetCurrentBoxPositionIfRemoved() {
             final GridCoord current = currentBoxPosition.get();
             if (current != null && !boxes.containsKey(current)) {
                 currentBoxPosition.set(null);
-            } else {
-                recomputeCurrentSlotPositions();
+            }
+        }
+
+        /**
+         * Processes horizontal slot changes.
+         *
+         * @param change the change
+         */
+        private void onHorizontalSlotsChange(
+                final ListChangeListener.Change<? extends SlotOutline> change) {
+
+            // Force current box update because slot changes are processed before dimension changes
+            resetCurrentBoxPositionIfRemoved();
+
+            final var current = currentBoxPosition.get();
+            if (current == null || currentSlotVertical.get()) {
+                return;
+            }
+
+            while (change.next()) {
+                if (Stream.concat(change.getList().stream(), change.getRemoved().stream())
+                          .anyMatch(s -> s.contains(current))) {
+                    recomputeCurrentSlotPositions();
+                    break;
+                }
+            }
+        }
+
+        /**
+         * Processes vertical slot changes.
+         *
+         * @param change the change
+         */
+        private void onVerticalSlotsChange(
+                final ListChangeListener.Change<? extends SlotOutline> change) {
+
+            // Force current box update because slot changes are processed before dimension changes
+            resetCurrentBoxPositionIfRemoved();
+
+            final var current = currentBoxPosition.get();
+            if (current == null || !currentSlotVertical.get()) {
+                return;
+            }
+
+            while (change.next()) {
+                if (Stream.concat(change.getList().stream(), change.getRemoved().stream())
+                          .anyMatch(s -> s.contains(current))) {
+                    recomputeCurrentSlotPositions();
+                    break;
+                }
             }
         }
 
@@ -228,12 +244,7 @@ public final class CrosswordGridViewModel {
          * Recomputes the {@link #currentSlotPositions}.
          */
         private void recomputeCurrentSlotPositions() {
-            final GridCoord current = currentBoxPosition.get();
-            if (current == null || boxes.get(current).isShaded()) {
-                if (!currentSlotPositions.isEmpty()) {
-                    currentSlotPositions.clear();
-                }
-            } else if (currentSlotVertical.get()) {
+            if (currentSlotVertical.get()) {
                 recomputeVerticalCurrentSlotPositions();
             } else {
                 recomputeCurrentHorizontalSlotPositions();
@@ -244,54 +255,26 @@ public final class CrosswordGridViewModel {
          * Recomputes the positions of current when it is horizontal.
          */
         private void recomputeCurrentHorizontalSlotPositions() {
-            final GridCoord current = currentBoxPosition.get();
-            final List<GridCoord> slotBoxes = new ArrayList<>();
-            slotBoxes.add(current);
-            for (int column = current.column() - 1; column >= 0; column--) {
-                final GridCoord position = new GridCoord(column, current.row());
-                final CrosswordBoxViewModel box = boxes.get(position);
-                if (box.isShaded()) {
-                    break;
-                }
-                slotBoxes.add(position);
-            }
-            for (int column = current.column() + 1; column < columnCount.get(); column++) {
-                final GridCoord position = new GridCoord(column, current.row());
-                final CrosswordBoxViewModel box = boxes.get(position);
-                if (box.isShaded()) {
-                    break;
-                }
-                slotBoxes.add(position);
-            }
-            slotBoxes.sort(COMPARING_BY_COLUMN_THEN_BY_ROW);
-            currentSlotPositions.setAll(slotBoxes);
+            final var current = currentBoxPosition.get();
+            slotsViewModel.acrossSlotsProperty().stream()
+                          .filter(s -> s.contains(current))
+                          .map(SlotOutline::boxPositions)
+                          .findFirst()
+                          .ifPresentOrElse(currentSlotPositions::setAll,
+                                           currentSlotPositions::clear);
         }
 
         /**
          * Recomputes the positions of the current slot when it is vertical.
          */
         private void recomputeVerticalCurrentSlotPositions() {
-            final GridCoord current = currentBoxPosition.get();
-            final List<GridCoord> slotBoxes = new ArrayList<>();
-            slotBoxes.add(current);
-            for (int row = current.row() - 1; row >= 0; row--) {
-                final GridCoord position = new GridCoord(current.column(), row);
-                final CrosswordBoxViewModel box = boxes.get(position);
-                if (box.isShaded()) {
-                    break;
-                }
-                slotBoxes.add(position);
-            }
-            for (int row = current.row() + 1; row < rowCount.get(); row++) {
-                final GridCoord position = new GridCoord(current.column(), row);
-                final CrosswordBoxViewModel box = boxes.get(position);
-                if (box.isShaded()) {
-                    break;
-                }
-                slotBoxes.add(position);
-            }
-            slotBoxes.sort(COMPARING_BY_COLUMN_THEN_BY_ROW);
-            currentSlotPositions.setAll(slotBoxes);
+            final var current = currentBoxPosition.get();
+            slotsViewModel.downSlotsProperty().stream()
+                          .filter(s -> s.contains(current))
+                          .map(SlotOutline::boxPositions)
+                          .findFirst()
+                          .ifPresentOrElse(currentSlotPositions::setAll,
+                                           currentSlotPositions::clear);
         }
 
         /**

@@ -135,7 +135,8 @@ final class AcrossSlotOutline extends SlotOutline {
 
     @Override
     public boolean contains(final GridCoord coord) {
-        return coord.row() == offset && coord.column() >= start && coord.column() < end;
+        return coord != null && coord.row() == offset && coord.column() >= start &&
+               coord.column() < end;
     }
 
     @Override
@@ -183,7 +184,8 @@ final class DownSlotOutline extends SlotOutline {
 
     @Override
     public boolean contains(final GridCoord coord) {
-        return coord.column() == offset && coord.row() >= start && coord.row() < end;
+        return coord != null && coord.column() == offset && coord.row() >= start &&
+               coord.row() < end;
     }
 
     @Override
