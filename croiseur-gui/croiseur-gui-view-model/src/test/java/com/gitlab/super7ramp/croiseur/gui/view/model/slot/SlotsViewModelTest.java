@@ -186,7 +186,7 @@ final class SlotsViewModelTest {
         assertEquals(3, acrossChangeCounter.count());
         assertEquals(3, acrossChangeCounter.replacedSize());
         assertEquals(List.of(SlotOutline.down(0, 3, 0), SlotOutline.down(0, 3, 1)),
-                     slots.downSlotsProperty());
+                     slots.downSlotsProperty().get());
         assertEquals(1, downChangeCounter.count());
         assertEquals(3, acrossChangeCounter.replacedSize());
     }

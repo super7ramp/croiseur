@@ -11,6 +11,7 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
@@ -35,6 +36,18 @@ public final class SlotsViewModel {
     /** The down slots. Filter out slots of length less than 2. */
     private final ReadOnlyListWrapper<SlotOutline> downSlots;
 
+    /** Across slots updater, processing box transitions to shaded state. */
+    private final AcrossSlotShadedBoxProcessor acrossSlotsShadedBoxProcessor;
+
+    /** Down slots updater, processing box transitions to shaded state. */
+    private final DownSlotShadedBoxProcessor downSlotsShadedBoxProcessor;
+
+    /** Across slots updater, processing box transition to lightened state. */
+    private final AcrossSlotsLightenedBoxProcessor acrossSlotsLightenedBoxProcessor;
+
+    /** Down slots updater, processing box transition to lightened state. */
+    private final DownSlotsLightenedBoxProcessor downSlotsLightenedBoxProcessor;
+
     /**
      * Constructs an instance.
      * <p>
@@ -57,25 +70,24 @@ public final class SlotsViewModel {
         downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
                                               internalDownSlots.filtered(AT_LEAST_TWO_BOXES));
 
-        final var acrossSlotsShadedBoxProcessor =
+        acrossSlotsShadedBoxProcessor =
                 new AcrossSlotShadedBoxProcessor(internalAcrossSlots);
-        final var downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(internalDownSlots);
-        final var acrossSlotsLightenedBoxProcessor =
+        downSlotsShadedBoxProcessor = new DownSlotShadedBoxProcessor(internalDownSlots);
+        acrossSlotsLightenedBoxProcessor =
                 new AcrossSlotsLightenedBoxProcessor(internalAcrossSlots);
-        final var downSlotsLightenedBoxProcessor =
+        downSlotsLightenedBoxProcessor =
                 new DownSlotsLightenedBoxProcessor(internalDownSlots);
 
         boxes.forEach(
                 (coord, box) -> box.shadedProperty()
-                                   .addListener(observable -> {
-                                       if (box.isShaded()) {
-                                           acrossSlotsShadedBoxProcessor.process(coord);
-                                           downSlotsShadedBoxProcessor.process(coord);
-                                       } else {
-                                           acrossSlotsLightenedBoxProcessor.process(coord);
-                                           downSlotsLightenedBoxProcessor.process(coord);
-                                       }
-                                   }));
+                                   .addListener(observable -> onBoxShadingChange(box, coord)));
+        boxes.addListener((MapChangeListener<GridCoord, CrosswordBoxViewModel>) change -> {
+            if (change.wasAdded()) {
+                final GridCoord coord = change.getKey();
+                final CrosswordBoxViewModel box = change.getValueAdded();
+                box.shadedProperty().addListener(observable -> onBoxShadingChange(box, coord));
+            }
+        });
 
         final var columnCountChangeProcessor =
                 new ColumnCountChangeProcessor(internalDownSlots, internalAcrossSlots);
@@ -164,5 +176,21 @@ public final class SlotsViewModel {
             }
         }
         return FXCollections.observableList(initialDownSlots);
+    }
+
+    /**
+     * Processes a box shading change.
+     *
+     * @param box   the changed box
+     * @param coord the coordinate of the changed box
+     */
+    private void onBoxShadingChange(final CrosswordBoxViewModel box, final GridCoord coord) {
+        if (box.isShaded()) {
+            acrossSlotsShadedBoxProcessor.process(coord);
+            downSlotsShadedBoxProcessor.process(coord);
+        } else {
+            acrossSlotsLightenedBoxProcessor.process(coord);
+            downSlotsLightenedBoxProcessor.process(coord);
+        }
     }
 }

@@ -12,21 +12,21 @@ import java.util.List;
  */
 abstract sealed class DimensionChangeProcessor {
 
-    /** The slots parallel to the changed side. */
-    private final List<SlotOutline> parallelSlots;
+    /** The slots collinear to the added/removed slot(s). */
+    private final List<SlotOutline> collinearSlots;
 
-    /** The slots orthogonal to the changed side. */
+    /** The slots orthogonal to the changed side to the added/removed slot(s). */
     private final List<SlotOutline> orthogonalSlots;
 
     /**
      * Constructs an instance.
      *
-     * @param parallelSlotsArg   the slots parallel to the changed side
-     * @param orthogonalSlotsArg the slots orthogonal to the changed side
+     * @param collinearSlotsArg  the slots collinear to the added/removed slot(s)
+     * @param orthogonalSlotsArg the slots orthogonal to the added/removed slot(s)
      */
-    DimensionChangeProcessor(final List<SlotOutline> parallelSlotsArg,
+    DimensionChangeProcessor(final List<SlotOutline> collinearSlotsArg,
                              final List<SlotOutline> orthogonalSlotsArg) {
-        parallelSlots = parallelSlotsArg;
+        collinearSlots = collinearSlotsArg;
         orthogonalSlots = orthogonalSlotsArg;
     }
 
@@ -39,17 +39,17 @@ abstract sealed class DimensionChangeProcessor {
      */
     final void process(final int oldLength, final int newLength, final int otherDimensionLength) {
         if (newLength == 0) {
-            parallelSlots.clear();
+            collinearSlots.clear();
             orthogonalSlots.clear();
             return;
         }
 
-        // Update parallel slots
+        // Update collinear slots
         if (oldLength > newLength) {
-            parallelSlots.subList(newLength, oldLength).clear();
+            collinearSlots.removeIf(slot -> slot.offset >= newLength);
         } else {
             for (int row = oldLength; row < newLength; row++) {
-                parallelSlots.add(parallelSlotOf(0, otherDimensionLength, row));
+                collinearSlots.add(collinearSlotOf(0, otherDimensionLength, row));
             }
         }
 
@@ -61,7 +61,7 @@ abstract sealed class DimensionChangeProcessor {
                 // Not impacted
                 continue;
             }
-            if (newLength - slot.start > 0) {
+            if (slot.start < newLength) {
                 it.set(orthogonalSlotOf(slot.start, newLength, slot.offset));
             } else {
                 it.remove();
@@ -70,17 +70,17 @@ abstract sealed class DimensionChangeProcessor {
     }
 
     /**
-     * Creates a new slot, parallel to the changed side.
+     * Creates a new slot, collinear to the added/removed slot(s).
      *
      * @param start  the start index (inclusive)
      * @param end    the end index (exclusive)
      * @param offset the offset
      * @return a new slot
      */
-    abstract SlotOutline parallelSlotOf(final int start, final int end, final int offset);
+    abstract SlotOutline collinearSlotOf(final int start, final int end, final int offset);
 
     /**
-     * Creates a new slot, orthogonal to the changed side.
+     * Creates a new slot, orthogonal to the added/removed slot(s).
      *
      * @param start  the start index (inclusive)
      * @param end    the end index (exclusive)
@@ -107,7 +107,7 @@ final class ColumnCountChangeProcessor extends DimensionChangeProcessor {
     }
 
     @Override
-    SlotOutline parallelSlotOf(final int start, final int end, final int offset) {
+    SlotOutline collinearSlotOf(final int start, final int end, final int offset) {
         return SlotOutline.down(start, end, offset);
     }
 
@@ -134,7 +134,7 @@ final class RowCountChangeProcessor extends DimensionChangeProcessor {
     }
 
     @Override
-    SlotOutline parallelSlotOf(final int start, final int end, final int offset) {
+    SlotOutline collinearSlotOf(final int start, final int end, final int offset) {
         return SlotOutline.across(start, end, offset);
     }
 
