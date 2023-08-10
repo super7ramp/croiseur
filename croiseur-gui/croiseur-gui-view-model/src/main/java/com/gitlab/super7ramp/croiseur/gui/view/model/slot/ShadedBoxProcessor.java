@@ -40,24 +40,24 @@ abstract sealed class ShadedBoxProcessor {
         final int slotIndex = slots.indexOf(slot);
         final int shadedBoxIndex = varyingCoordinateOf(shadedBoxCoordinates);
 
-        // Put first half at existing slot position, if it is long enough.
-        if (shadedBoxIndex - slot.start > 0) {
+        // Put first half at existing slot position, if it is not empty.
+        if (shadedBoxIndex > slot.start) {
             final SlotOutline firstHalf = slotOf(slot.start, shadedBoxIndex, slot.offset);
             slots.set(slotIndex, firstHalf);
 
-            // Create a new slot for second half, if it is long enough
-            if (slot.end - (shadedBoxIndex + 1) > 0) {
+            // Create a new slot for second half, if it is not empty.
+            if (slot.end > shadedBoxIndex + 1) {
                 final SlotOutline secondHalf = slotOf(shadedBoxIndex + 1, slot.end, slot.offset);
                 slots.add(slotIndex + 1, secondHalf);
             }
         } else {
-            // First half is too small, drop it. Put second half at existing slot position, if it
-            // is long enough.
-            if (slot.end - (shadedBoxIndex + 1) > 0) {
+            // First half is empty. Put second half at existing slot position, if it is not empty.
+            if (slot.end > shadedBoxIndex + 1) {
                 final SlotOutline secondHalf = slotOf(shadedBoxIndex + 1, slot.end, slot.offset);
                 slots.set(slotIndex, secondHalf);
             } else {
-                // Neither first half nor second half are long enough: Drop the slot.
+                // Both halves are empty, i.e. shaded box is between 2 shaded boxes or borders: Drop
+                // the slot.
                 slots.remove(slotIndex);
             }
         }
