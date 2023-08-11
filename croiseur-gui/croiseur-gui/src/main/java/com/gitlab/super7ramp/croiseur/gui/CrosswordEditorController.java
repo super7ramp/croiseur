@@ -294,6 +294,27 @@ public final class CrosswordEditorController {
                 applicationViewModel.puzzleEditionViewModel().cluesViewModel();
         view.acrossCluesProperty().set(cluesViewModel.acrossCluesProperty());
         view.downCluesProperty().set(cluesViewModel.downCluesProperty());
+
+        // TODO move selected clue to view model and do the bindings there
+        final CrosswordGridViewModel gridViewModel = applicationViewModel.crosswordGridViewModel();
+        view.selectedAcrossClueIndexProperty().addListener(observable -> {
+            final int index = view.selectedAcrossClueIndexProperty().get();
+            if (index >= 0) {
+                final GridCoord slotFirstBox =
+                        gridViewModel.longAcrossSlots().get(index).firstBoxPosition();
+                gridViewModel.currentSlotHorizontal();
+                gridViewModel.currentBoxPosition(slotFirstBox);
+            }
+        });
+        view.selectedDownClueIndexProperty().addListener(observable -> {
+            final int index = view.selectedDownClueIndexProperty().get();
+            if (index >= 0) {
+                final GridCoord slotFirstBox =
+                        gridViewModel.longDownSlots().get(index).firstBoxPosition();
+                gridViewModel.currentSlotVertical();
+                gridViewModel.currentBoxPosition(slotFirstBox);
+            }
+        });
     }
 
     /**

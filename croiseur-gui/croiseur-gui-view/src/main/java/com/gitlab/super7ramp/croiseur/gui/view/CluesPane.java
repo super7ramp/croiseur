@@ -7,7 +7,9 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.control.cell.TextFieldListCell;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -53,6 +55,12 @@ public final class CluesPane extends TitledPane {
     /** The down clues. */
     private final ListProperty<ClueViewModel> downClues;
 
+    /** The selected across clue index. Value is -1 if no across clue is selected. */
+    private final IntegerProperty selectedAcrossClueIndex;
+
+    /** The selected down clue index. Value is -1 if no down clue is selected. */
+    private final IntegerProperty selectedDownClueIndex;
+
     /** The across clue list view. */
     @FXML
     private ListView<ClueViewModel> acrossClueListView;
@@ -69,6 +77,8 @@ public final class CluesPane extends TitledPane {
                 new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList());
         downClues =
                 new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
+        selectedAcrossClueIndex = new SimpleIntegerProperty(this, "selectedAcrossClue", -1);
+        selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClue", -1);
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -91,6 +101,28 @@ public final class CluesPane extends TitledPane {
     }
 
     /**
+     * Returns the "selected across clue index" property.
+     * <p>
+     * Value is -1 if no across clue is selected.
+     *
+     * @return the "selected across clue index" property
+     */
+    public IntegerProperty selectedAcrossClueIndexProperty() {
+        return selectedAcrossClueIndex;
+    }
+
+    /**
+     * Returns the "selected down clue index" property.
+     * <p>
+     * Value is -1 if no down clue is selected.
+     *
+     * @return the "selected down clue index" property
+     */
+    public IntegerProperty selectedDownClueIndexProperty() {
+        return selectedDownClueIndex;
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML
@@ -103,11 +135,27 @@ public final class CluesPane extends TitledPane {
         acrossClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                        SYSTEM_CLUE_STRING_CONVERTER));
         acrossClueListView.setItems(acrossClues);
+
+        final var acrossClueSelectionModel = acrossClueListView.getSelectionModel();
+        acrossClueSelectionModel.selectedIndexProperty().addListener(observable -> {
+            selectedAcrossClueIndex.set(acrossClueSelectionModel.getSelectedIndex());
+            if (selectedAcrossClueIndex.get() >= 0) {
+                downClueListView.getSelectionModel().clearSelection();
+            }
+        });
     }
 
     private void initializeDownClueListView() {
         downClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                      SYSTEM_CLUE_STRING_CONVERTER));
         downClueListView.setItems(downClues);
+
+        final var downClueSelectionModel = downClueListView.getSelectionModel();
+        downClueSelectionModel.selectedIndexProperty().addListener(observable -> {
+            selectedDownClueIndex.set(downClueSelectionModel.getSelectedIndex());
+            if (selectedDownClueIndex.get() >= 0) {
+                acrossClueListView.getSelectionModel().clearSelection();
+            }
+        });
     }
 }

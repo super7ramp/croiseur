@@ -94,6 +94,17 @@ public abstract sealed class SlotOutline {
     }
 
     /**
+     * The first position in this slot.
+     * <p>
+     * Equivalent to {@code boxPositions().get(0)}.
+     *
+     * @return first position in this slot
+     */
+    public final GridCoord firstBoxPosition() {
+        return coordOf(start, offset);
+    }
+
+    /**
      * The positions that this slot represents.
      *
      * @return the positions that this slot represents.
@@ -138,7 +149,7 @@ public abstract sealed class SlotOutline {
      * Creates a {@link GridCoord}.
      *
      * @param varyingCoordinate the varying coordinate
-     * @param offsetCoordinate the offset coordinate
+     * @param offsetCoordinate  the offset coordinate
      * @return a new {@link GridCoord}
      */
     abstract GridCoord coordOf(final int varyingCoordinate, final int offsetCoordinate);

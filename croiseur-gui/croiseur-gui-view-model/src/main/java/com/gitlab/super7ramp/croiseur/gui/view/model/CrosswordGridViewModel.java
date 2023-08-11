@@ -598,6 +598,13 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * Sets the orientation property of the current slot to horizontal.
+     */
+    public void currentSlotHorizontal() {
+        workingArea.currentSlotVertical.set(false);
+    }
+
+    /**
      * The unsolvable current slot property.
      *
      * @return the unsolvable current slot property.

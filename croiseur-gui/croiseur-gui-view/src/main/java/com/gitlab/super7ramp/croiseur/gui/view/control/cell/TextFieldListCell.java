@@ -87,7 +87,7 @@ public final class TextFieldListCell<T> extends ListCell<T> {
         } else {
             if (textField == null) {
                 createTextField();
-            } else if (isEditing()) {
+            } else {
                 textField.setText(itemText());
             }
             setGraphic(textField);
@@ -98,7 +98,6 @@ public final class TextFieldListCell<T> extends ListCell<T> {
         textField = new TextField();
         textField.setPromptText(itemPromptText());
         textField.setText(itemText());
-        commitEdit(getItem());
         textField.setOnAction(event -> {
             final StringConverter<T> converter = textConverter.get();
             if (converter == null) {
@@ -116,6 +115,16 @@ public final class TextFieldListCell<T> extends ListCell<T> {
                 event.consume();
             }
         });
+        /*
+         * Default text field behaviour allows edition of the content by a single click, which would
+         * bypass the ListCell edit management (i.e. first click -> select cell, second click ->
+         * edit).
+         *
+         * The trick is to set the text field as transparent to the mouse. This way, a single click
+         * only selects the list cell. A second click will start edit mode by triggering call to
+         * startEdit (which enables text field editing by requesting focus).
+         */
+        textField.setMouseTransparent(true);
     }
 
     private String itemText() {

@@ -16,6 +16,7 @@ import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -418,6 +419,28 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public ListProperty<ClueViewModel> downCluesProperty() {
         return cluesPane.downCluesProperty();
+    }
+
+    /**
+     * Returns the "selected across clue index" property.
+     * <p>
+     * Value is -1 if no across clue is selected.
+     *
+     * @return the "selected across clue index" property
+     */
+    public IntegerProperty selectedAcrossClueIndexProperty() {
+        return cluesPane.selectedAcrossClueIndexProperty();
+    }
+
+    /**
+     * Returns the "selected down clue index" property.
+     * <p>
+     * Value is -1 if no down clue is selected.
+     *
+     * @return the "selected down clue index" property
+     */
+    public IntegerProperty selectedDownClueIndexProperty() {
+        return cluesPane.selectedDownClueIndexProperty();
     }
 
     /**
