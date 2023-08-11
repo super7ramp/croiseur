@@ -21,7 +21,7 @@ public final class ClueViewModel {
     /**
      * Constructs an instance.
      */
-    ClueViewModel() {
+    public ClueViewModel() {
         userContent = "";
         systemContent = "";
     }

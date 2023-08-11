@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+.titled-pane {
+    -fx-animated: false;
+}
+
 .titled-pane > .title {
     /* Use subtle background color to be consistent with toolbar. */
     -fx-background-color: -color-bg-subtle;

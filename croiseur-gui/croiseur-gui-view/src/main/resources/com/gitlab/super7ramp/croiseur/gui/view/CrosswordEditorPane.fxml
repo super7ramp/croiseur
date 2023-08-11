@@ -5,24 +5,35 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
+<?import com.gitlab.super7ramp.croiseur.gui.view.CluesPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorToolbar?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordGridPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.DictionariesPane?>
 <?import com.gitlab.super7ramp.croiseur.gui.view.PuzzlePane?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-         stylesheets="@CrosswordEditorPane.css" type="BorderPane" xmlns="http://javafx.com/javafx/17">
+         stylesheets="@CrosswordEditorPane.css" type="BorderPane"
+         xmlns="http://javafx.com/javafx/17">
     <center>
         <SplitPane fx:id="centerSplitPane">
-            <PuzzlePane fx:id="puzzlePane" SplitPane.resizableWithParent="false" visible="false"/>
-            <StackPane id="grid-enclosing-zone">
-                <CrosswordGridPane fx:id="grid"/>
-                <ProgressIndicator fx:id="solverProgressIndicator" visible="false"/>
-            </StackPane>
-            <DictionariesPane fx:id="dictionariesPane" SplitPane.resizableWithParent="false" visible="false"/>
+            <PuzzlePane fx:id="puzzlePane" visible="false" SplitPane.resizableWithParent="false"/>
+            <ScrollPane>
+                <FlowPane alignment="CENTER">
+                    <StackPane id="grid-enclosing-zone">
+                        <CrosswordGridPane fx:id="grid"/>
+                        <ProgressIndicator fx:id="solverProgressIndicator" visible="false"/>
+                    </StackPane>
+                    <!-- -Infinity = use pref size. Not settable via CSS. -->
+                    <CluesPane id="clues-pane" fx:id="cluesPane" maxWidth="-Infinity"/>
+                </FlowPane>
+            </ScrollPane>
+            <DictionariesPane fx:id="dictionariesPane" visible="false"
+                              SplitPane.resizableWithParent="false"/>
         </SplitPane>
     </center>
     <top>

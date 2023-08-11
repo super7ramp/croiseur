@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
+import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
@@ -79,6 +80,10 @@ public final class CrosswordEditorPane extends BorderPane {
     /** The dictionaries pane. */
     @FXML
     private DictionariesPane dictionariesPane;
+
+    /** The clues pane. */
+    @FXML
+    private CluesPane cluesPane;
 
     /**
      * Constructs an instance.
@@ -395,6 +400,24 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public ListProperty<String> wordsProperty() {
         return dictionariesPane.wordsProperty();
+    }
+
+    /**
+     * Returns the displayed across (= horizontal) clues.
+     *
+     * @return the displayed across clues
+     */
+    public ListProperty<ClueViewModel> acrossCluesProperty() {
+        return cluesPane.acrossCluesProperty();
+    }
+
+    /**
+     * Returns the displayed down (= vertical) clues.
+     *
+     * @return the displayed down (= vertical) clues
+     */
+    public ListProperty<ClueViewModel> downCluesProperty() {
+        return cluesPane.downCluesProperty();
     }
 
     /**

@@ -21,7 +21,11 @@
     -fx-font-size: 1.5em;
 }
 
-#grid-enclosing-zone {
-    /* Leaves some space around the crossword grid. */
+.scroll-pane {
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
+}
+
+#grid-enclosing-zone, #clues-pane {
     -fx-padding: 20;
 }

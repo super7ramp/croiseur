@@ -15,7 +15,7 @@
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DictionariesPane.css"
          type="Accordion" xmlns="http://javafx.com/javafx/17">
     <panes>
-        <TitledPane animated="false" styleClass="dense" text="%dictionaries-label">
+        <TitledPane styleClass="dense" text="%dictionaries-label">
             <ListView fx:id="dictionariesListView" styleClass="dense">
                 <placeholder>
                     <VBox alignment="CENTER">
@@ -30,7 +30,7 @@
                 <ImageView id="titled-pane-dictionaries-icon-image-view" preserveRatio="true"/>
             </graphic>
         </TitledPane>
-        <TitledPane animated="false" styleClass="dense" text="%words-label">
+        <TitledPane styleClass="dense" text="%words-label">
             <VBox id="words-vbox">
                 <TextField fx:id="searchTextField" promptText="%search-text-field"/>
                 <ListView fx:id="wordsListView" styleClass="dense" VBox.vgrow="ALWAYS">
@@ -48,7 +48,7 @@
                 <ImageView id="titled-pane-words-icon-image-view" preserveRatio="true"/>
             </graphic>
         </TitledPane>
-        <TitledPane animated="false" styleClass="dense" text="%suggestions-label">
+        <TitledPane styleClass="dense" text="%suggestions-label">
             <ListView fx:id="suggestionsListView" styleClass="dense">
                 <placeholder>
                     <VBox alignment="CENTER">

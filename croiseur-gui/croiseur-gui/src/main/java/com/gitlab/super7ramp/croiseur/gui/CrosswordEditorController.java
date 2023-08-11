@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
 import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorPane;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
@@ -99,6 +100,7 @@ public final class CrosswordEditorController {
         initializePuzzleBindings();
         initializePuzzleExportBindings();
         initializeNavigationBindings();
+        initializeClueBindings();
         populateModels();
     }
 
@@ -141,6 +143,20 @@ public final class CrosswordEditorController {
                 Bindings.createBooleanBinding(() -> puzzleDetailsViewModel.id() == null,
                                               puzzleDetailsViewModel.idProperty());
         view.puzzleExportButtonDisableProperty().bind(puzzleNotSavedYet);
+    }
+
+    /**
+     * Performs the export button action.
+     */
+    private void onExportButtonAction() {
+        final File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+        if (selectedFile != null) {
+            final List<String> selectedExtensions =
+                    fileChooser.getSelectedExtensionFilter().getExtensions();
+            final String selectedFormat =
+                    selectedExtensions.isEmpty() ? "unknown" : selectedExtensions.get(0);
+            puzzleController.exportPuzzle(selectedFile, selectedFormat);
+        } // else do nothing since no file has been chosen
     }
 
     /**
@@ -248,6 +264,17 @@ public final class CrosswordEditorController {
     }
 
     /**
+     * Performs the solve button action.
+     */
+    private void onSolveButtonAction() {
+        if (!applicationViewModel.solverRunning().get()) {
+            solverController.startSolver();
+        } else {
+            solverController.stopSolver();
+        }
+    }
+
+    /**
      * Initialize view navigation bindings.
      */
     private void initializeNavigationBindings() {
@@ -260,28 +287,13 @@ public final class CrosswordEditorController {
     }
 
     /**
-     * Performs the export button action.
+     * Initializes clue bindings
      */
-    private void onExportButtonAction() {
-        final File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
-        if (selectedFile != null) {
-            final List<String> selectedExtensions =
-                    fileChooser.getSelectedExtensionFilter().getExtensions();
-            final String selectedFormat =
-                    selectedExtensions.isEmpty() ? "unknown" : selectedExtensions.get(0);
-            puzzleController.exportPuzzle(selectedFile, selectedFormat);
-        } // else do nothing since no file has been chosen
-    }
-
-    /**
-     * Performs the solve button action.
-     */
-    private void onSolveButtonAction() {
-        if (!applicationViewModel.solverRunning().get()) {
-            solverController.startSolver();
-        } else {
-            solverController.stopSolver();
-        }
+    private void initializeClueBindings() {
+        final CluesViewModel cluesViewModel =
+                applicationViewModel.puzzleEditionViewModel().cluesViewModel();
+        view.acrossCluesProperty().set(cluesViewModel.acrossCluesProperty());
+        view.downCluesProperty().set(cluesViewModel.downCluesProperty());
     }
 
     /**

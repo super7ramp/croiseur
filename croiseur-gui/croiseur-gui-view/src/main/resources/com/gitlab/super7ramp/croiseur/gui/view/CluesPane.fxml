@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" expanded="false" stylesheets="@CluesPane.css" text="%clues.title"
+         type="TitledPane" xmlns="http://javafx.com/javafx/17">
+    <HBox>
+        <VBox styleClass="clue-vbox">
+            <Label styleClass="clue-list-label" text="%clues.across"/>
+            <ListView fx:id="acrossClueListView" editable="true">
+                <styleClass>
+                    <String fx:value="clue-list-view"/>
+                    <String fx:value="edge-to-edge"/>
+                </styleClass>
+            </ListView>
+        </VBox>
+        <VBox styleClass="clue-vbox">
+            <Label styleClass="clue-list-label" text="%clues.down"/>
+            <ListView fx:id="downClueListView" editable="true">
+                <styleClass>
+                    <String fx:value="clue-list-view"/>
+                    <String fx:value="edge-to-edge"/>
+                </styleClass>
+            </ListView>
+        </VBox>
+    </HBox>
+</fx:root>

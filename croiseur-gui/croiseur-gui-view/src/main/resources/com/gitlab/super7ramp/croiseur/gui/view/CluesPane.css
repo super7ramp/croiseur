@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.clue-vbox {
+    -fx-spacing: 10px;
+}
+
+.clue-list-label {
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+}
+
+.titled-pane {
+    -fx-alignment: CENTER;
+    -fx-animated: false;
+}
