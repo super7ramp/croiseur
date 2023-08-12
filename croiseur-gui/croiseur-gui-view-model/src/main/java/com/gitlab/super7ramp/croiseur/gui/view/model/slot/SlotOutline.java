@@ -123,8 +123,7 @@ public abstract sealed class SlotOutline {
      * @return {@code true} iff the given coordinates belong to this slot
      */
     public final boolean contains(final GridCoord coord) {
-        return coord != null &&
-               offsetCoordinateOf(coord) == offset &&
+        return offsetCoordinateOf(coord) == offset &&
                varyingCoordinateOf(coord) >= start &&
                varyingCoordinateOf(coord) < end;
     }

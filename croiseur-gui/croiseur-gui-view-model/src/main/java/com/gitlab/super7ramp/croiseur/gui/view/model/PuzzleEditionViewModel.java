@@ -40,17 +40,27 @@ public final class PuzzleEditionViewModel {
         cluesViewModel = new CluesViewModel();
         savingInProgress = new SimpleBooleanProperty(this, "savingInProgress");
 
-        // Bind clue lists to slot lists
-
+        // Bind across clues to across slots
         final ObservableList<SlotOutline> acrossSlots = crosswordGridViewModel.longAcrossSlots();
         final List<ClueViewModel> acrossClues = cluesViewModel.acrossCluesProperty();
         acrossSlots.forEach(slot -> acrossClues.add(new ClueViewModel()));
         acrossSlots.addListener(this::updateAcrossClues);
+        cluesViewModel.selectedAcrossClueIndexProperty()
+                      .addListener(observable -> updateCurrentAcrossSlot(
+                              cluesViewModel.selectedAcrossClueIndex()));
 
+        // Bind down clues to down slots
         final ObservableList<SlotOutline> downSlots = crosswordGridViewModel.longDownSlots();
         final List<ClueViewModel> downClues = cluesViewModel.downCluesProperty();
         downSlots.forEach(slot -> downClues.add(new ClueViewModel()));
         downSlots.addListener(this::updateDownClues);
+        cluesViewModel.selectedDownClueIndexProperty()
+                      .addListener(observable -> updateCurrentDownSlot(
+                              cluesViewModel.selectedDownClueIndex()));
+
+        // Bind current slot to current clue
+        crosswordGridViewModel.currentBoxPositionProperty().addListener(
+                observable -> updateCurrentClue(crosswordGridViewModel.currentBoxPosition()));
     }
 
     /**
@@ -141,4 +151,55 @@ public final class PuzzleEditionViewModel {
             }
         }
     }
+
+    /**
+     * Updates current slot upon current down clue change.
+     *
+     * @param selectedDownClueIndex the current down clue new index
+     */
+    private void updateCurrentDownSlot(final int selectedDownClueIndex) {
+        if (selectedDownClueIndex >= 0) {
+            final GridCoord slotFirstBoxPosition =
+                    crosswordGridViewModel.longDownSlots()
+                                          .get(selectedDownClueIndex)
+                                          .firstBoxPosition();
+            crosswordGridViewModel.currentSlotVertical();
+            crosswordGridViewModel.currentBoxPosition(slotFirstBoxPosition);
+        }
+    }
+
+    /**
+     * Updates current slot upon current across clue change.
+     *
+     * @param selectedAcrossClueIndex the current across clue new index
+     */
+    private void updateCurrentAcrossSlot(final int selectedAcrossClueIndex) {
+        if (selectedAcrossClueIndex >= 0) {
+            final GridCoord slotFirstBoxPosition =
+                    crosswordGridViewModel.longAcrossSlots()
+                                          .get(selectedAcrossClueIndex)
+                                          .firstBoxPosition();
+            crosswordGridViewModel.currentSlotHorizontal();
+            crosswordGridViewModel.currentBoxPosition(slotFirstBoxPosition);
+        }
+    }
+
+    /**
+     * Updates current clue upon current box position change.
+     *
+     * @param currentBoxCoord the current box new position
+     */
+    private void updateCurrentClue(final GridCoord currentBoxCoord) {
+        if (currentBoxCoord == null) {
+            cluesViewModel.selectedAcrossClueIndex(-1);
+            cluesViewModel.selectedDownClueIndex(-1);
+        } else if (crosswordGridViewModel.currentSlotVerticalProperty().get()) {
+            crosswordGridViewModel.indexOfLongDownSlotContaining(currentBoxCoord)
+                                  .ifPresent(cluesViewModel::selectedDownClueIndex);
+        } else {
+            crosswordGridViewModel.indexOfLongAcrossSlotContaining(currentBoxCoord)
+                                  .ifPresent(cluesViewModel::selectedAcrossClueIndex);
+        }
+    }
+
 }

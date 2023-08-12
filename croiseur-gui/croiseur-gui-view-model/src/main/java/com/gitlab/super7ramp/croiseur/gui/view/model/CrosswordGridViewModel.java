@@ -31,6 +31,7 @@ import javafx.collections.ObservableMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -245,7 +246,9 @@ public final class CrosswordGridViewModel {
          * Recomputes the {@link #currentSlotPositions}.
          */
         private void recomputeCurrentSlotPositions() {
-            if (currentSlotVertical.get()) {
+            if (currentBoxPosition.get() == null) {
+                currentSlotPositions.clear();
+            } else if (currentSlotVertical.get()) {
                 recomputeVerticalCurrentSlotPositions();
             } else {
                 recomputeCurrentHorizontalSlotPositions();
@@ -257,10 +260,8 @@ public final class CrosswordGridViewModel {
          */
         private void recomputeCurrentHorizontalSlotPositions() {
             final var current = currentBoxPosition.get();
-            slotsViewModel.acrossSlotsProperty().stream()
-                          .filter(s -> s.contains(current))
+            slotsViewModel.acrossSlotContaining(current)
                           .map(SlotOutline::boxPositions)
-                          .findFirst()
                           .ifPresentOrElse(currentSlotPositions::setAll,
                                            currentSlotPositions::clear);
         }
@@ -270,10 +271,8 @@ public final class CrosswordGridViewModel {
          */
         private void recomputeVerticalCurrentSlotPositions() {
             final var current = currentBoxPosition.get();
-            slotsViewModel.downSlotsProperty().stream()
-                          .filter(s -> s.contains(current))
+            slotsViewModel.downSlotContaining(current)
                           .map(SlotOutline::boxPositions)
-                          .findFirst()
                           .ifPresentOrElse(currentSlotPositions::setAll,
                                            currentSlotPositions::clear);
         }
@@ -477,6 +476,16 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * Returns the index of the slot in {@link #longAcrossSlots} containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the index of the slot in {@link #longAcrossSlots} containing these coordinates
+     */
+    public OptionalInt indexOfLongAcrossSlotContaining(final GridCoord coord) {
+        return slotsViewModel.indexOfLongAcrossSlotContaining(coord);
+    }
+
+    /**
      * The down (= vertical) slots.
      *
      * @return the down slots property
@@ -492,6 +501,16 @@ public final class CrosswordGridViewModel {
      */
     public ObservableList<SlotOutline> longDownSlots() {
         return slotsViewModel.longDownSlots();
+    }
+
+    /**
+     * Returns the index of the slot in {@link #longDownSlots} containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the index of the slot in {@link #longDownSlots} containing these coordinates
+     */
+    public OptionalInt indexOfLongDownSlotContaining(final GridCoord coord) {
+        return slotsViewModel.indexOfLongDownSlotContaining(coord);
     }
 
     /**

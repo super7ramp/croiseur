@@ -18,6 +18,8 @@ import javafx.collections.ObservableMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 
 import static com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord.at;
@@ -115,12 +117,46 @@ public final class SlotsViewModel {
     }
 
     /**
+     * Returns the across slot containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the across slot containing these coordinates
+     */
+    public Optional<SlotOutline> acrossSlotContaining(final GridCoord coord) {
+        return acrossSlots.stream()
+                          .takeWhile(s -> s.offset <= coord.row())
+                          .filter(s -> s.contains(coord))
+                          .findFirst();
+    }
+
+    /**
      * The across slots which contain at least 2 boxes.
      *
      * @return the across slots which contain at least 2 boxes.
      */
     public ObservableList<SlotOutline> longAcrossSlots() {
         return longAcrossSlots;
+    }
+
+    /**
+     * Returns the index of the slot in {@link #longAcrossSlots} containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the index of the slot in {@link #longAcrossSlots} containing these coordinates
+     */
+    public OptionalInt indexOfLongAcrossSlotContaining(final GridCoord coord) {
+        final var it = longAcrossSlots.listIterator();
+        while (it.hasNext()) {
+            final var slot = it.next();
+            if (slot.contains(coord)) {
+                return OptionalInt.of(it.previousIndex());
+            }
+            if (slot.offset > coord.row() ||
+                slot.offset == coord.row() && slot.end > coord.column()) {
+                break;
+            }
+        }
+        return OptionalInt.empty();
     }
 
     /**
@@ -133,12 +169,46 @@ public final class SlotsViewModel {
     }
 
     /**
+     * Returns the down slot containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the down slot containing these coordinates
+     */
+    public Optional<SlotOutline> downSlotContaining(final GridCoord coord) {
+        return downSlots.stream()
+                        .takeWhile(s -> s.offset <= coord.column())
+                        .filter(s -> s.contains(coord))
+                        .findFirst();
+    }
+
+    /**
      * The down slots which contain at least 2 boxes.
      *
      * @return the down slots which contain at least 2 boxes.
      */
     public ObservableList<SlotOutline> longDownSlots() {
         return longDownSlots;
+    }
+
+    /**
+     * Returns the index of the slot in {@link #longDownSlots} containing the given coordinates.
+     *
+     * @param coord the coordinates to look for
+     * @return the index of the slot in {@link #longDownSlots} containing these coordinates
+     */
+    public OptionalInt indexOfLongDownSlotContaining(final GridCoord coord) {
+        final var it = longDownSlots.listIterator();
+        while (it.hasNext()) {
+            final var slot = it.next();
+            if (slot.contains(coord)) {
+                return OptionalInt.of(it.previousIndex());
+            }
+            if (slot.offset > coord.column() ||
+                slot.offset == coord.column() && slot.end > coord.row()) {
+                break;
+            }
+        }
+        return OptionalInt.empty();
     }
 
     /**

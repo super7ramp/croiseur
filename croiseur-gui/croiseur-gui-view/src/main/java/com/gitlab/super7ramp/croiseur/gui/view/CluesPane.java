@@ -37,17 +37,15 @@ public final class CluesPane extends TitledPane {
                 public ClueViewModel fromString(final String value) {
                     final ClueViewModel clueViewModel = new ClueViewModel();
                     clueViewModel.userContent(value);
+                    // System content is lost but that's no big deal
                     return clueViewModel;
                 }
             };
 
     /** Converter for system clue (prompt text). */
     private static final Function<ClueViewModel, String> SYSTEM_CLUE_STRING_CONVERTER =
-            viewModel ->
-                    viewModel.systemContent().isEmpty() ?
-                            ResourceBundle.getBundle(CluesPane.class.getName())
-                                          .getString("clues.none") :
-                            viewModel.systemContent();
+            viewModel -> viewModel.systemContent().isEmpty() ? defaultPromptText() :
+                    viewModel.systemContent();
 
     /** The across clues. */
     private final ListProperty<ClueViewModel> acrossClues;
@@ -123,6 +121,15 @@ public final class CluesPane extends TitledPane {
     }
 
     /**
+     * Returns the default prompt text to use when no system content is set.
+     *
+     * @return the default prompt text to use when no system content is set
+     */
+    private static String defaultPromptText() {
+        return ResourceBundle.getBundle(CluesPane.class.getName()).getString("clues.none");
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML
@@ -131,11 +138,15 @@ public final class CluesPane extends TitledPane {
         initializeDownClueListView();
     }
 
+    /**
+     * Initializes across clue list view bindings.
+     */
     private void initializeAcrossClueListView() {
         acrossClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                        SYSTEM_CLUE_STRING_CONVERTER));
         acrossClueListView.setItems(acrossClues);
 
+        // view -> model
         final var acrossClueSelectionModel = acrossClueListView.getSelectionModel();
         acrossClueSelectionModel.selectedIndexProperty().addListener(observable -> {
             selectedAcrossClueIndex.set(acrossClueSelectionModel.getSelectedIndex());
@@ -143,18 +154,42 @@ public final class CluesPane extends TitledPane {
                 downClueListView.getSelectionModel().clearSelection();
             }
         });
+
+        // model -> view
+        selectedAcrossClueIndex.addListener(observable -> {
+            final int index = selectedAcrossClueIndex.get();
+            if (index < 0) {
+                acrossClueSelectionModel.clearSelection();
+            } else {
+                acrossClueSelectionModel.select(index);
+            }
+        });
     }
 
+    /**
+     * Initializes down clue list view bindings.
+     */
     private void initializeDownClueListView() {
         downClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                      SYSTEM_CLUE_STRING_CONVERTER));
         downClueListView.setItems(downClues);
 
+        // view -> model
         final var downClueSelectionModel = downClueListView.getSelectionModel();
         downClueSelectionModel.selectedIndexProperty().addListener(observable -> {
             selectedDownClueIndex.set(downClueSelectionModel.getSelectedIndex());
             if (selectedDownClueIndex.get() >= 0) {
                 acrossClueListView.getSelectionModel().clearSelection();
+            }
+        });
+
+        // model -> view
+        selectedDownClueIndex.addListener(observable -> {
+            final int index = selectedDownClueIndex.get();
+            if (index < 0) {
+                downClueSelectionModel.clearSelection();
+            } else {
+                downClueSelectionModel.select(index);
             }
         });
     }
