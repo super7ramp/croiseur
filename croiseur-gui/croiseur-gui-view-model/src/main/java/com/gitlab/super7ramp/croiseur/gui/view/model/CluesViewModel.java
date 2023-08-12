@@ -90,6 +90,13 @@ public final class CluesViewModel {
     }
 
     /**
+     * Sets the value of the selected across clue index property to -1.
+     */
+    public void deselectAcrossClue() {
+        selectedAcrossClueIndex.set(-1);
+    }
+
+    /**
      * The down (vertical) clues.
      *
      * @return the down (vertical) clues.
@@ -139,12 +146,19 @@ public final class CluesViewModel {
     }
 
     /**
+     * Sets the value of the selected down clue index property to -1.
+     */
+    public void deselectDownClue() {
+        selectedDownClueIndex.set(-1);
+    }
+
+    /**
      * Resets all clues to empty string.
      */
     public void reset() {
         acrossClues.forEach(ClueViewModel::reset);
-        selectedAcrossClueIndex.set(-1);
+        deselectAcrossClue();
         downClues.forEach(ClueViewModel::reset);
-        selectedDownClueIndex.set(-1);
+        deselectDownClue();
     }
 }

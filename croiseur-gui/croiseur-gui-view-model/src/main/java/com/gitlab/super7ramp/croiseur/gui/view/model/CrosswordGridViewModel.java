@@ -29,6 +29,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.OptionalInt;
@@ -548,6 +549,16 @@ public final class CrosswordGridViewModel {
      */
     public ReadOnlyListProperty<GridCoord> currentSlotPositionsProperty() {
         return workingArea.currentSlotPositions.getReadOnlyProperty();
+    }
+
+    /**
+     * The value of the current slot positions property. The list value is empty if no slot is
+     * selected.
+     *
+     * @return the current slot positions
+     */
+    public List<GridCoord> currentSlotPositions() {
+        return currentSlotPositionsProperty().get();
     }
 
     /**

@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotOutline;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
@@ -59,8 +60,9 @@ public final class PuzzleEditionViewModel {
                               cluesViewModel.selectedDownClueIndex()));
 
         // Bind current slot to current clue
-        crosswordGridViewModel.currentBoxPositionProperty().addListener(
-                observable -> updateCurrentClue(crosswordGridViewModel.currentBoxPosition()));
+        crosswordGridViewModel.currentSlotPositionsProperty().addListener(
+                (InvalidationListener) observable -> updateCurrentClue(
+                        crosswordGridViewModel.currentSlotPositions()));
     }
 
     /**
@@ -159,12 +161,14 @@ public final class PuzzleEditionViewModel {
      */
     private void updateCurrentDownSlot(final int selectedDownClueIndex) {
         if (selectedDownClueIndex >= 0) {
-            final GridCoord slotFirstBoxPosition =
+            final List<GridCoord> slotPositions =
                     crosswordGridViewModel.longDownSlots()
                                           .get(selectedDownClueIndex)
-                                          .firstBoxPosition();
+                                          .boxPositions();
             crosswordGridViewModel.currentSlotVertical();
-            crosswordGridViewModel.currentBoxPosition(slotFirstBoxPosition);
+            if (!slotPositions.contains(crosswordGridViewModel.currentBoxPosition())) {
+                crosswordGridViewModel.currentBoxPosition(slotPositions.get(0));
+            }
         }
     }
 
@@ -175,30 +179,34 @@ public final class PuzzleEditionViewModel {
      */
     private void updateCurrentAcrossSlot(final int selectedAcrossClueIndex) {
         if (selectedAcrossClueIndex >= 0) {
-            final GridCoord slotFirstBoxPosition =
+            final List<GridCoord> slotPositions =
                     crosswordGridViewModel.longAcrossSlots()
                                           .get(selectedAcrossClueIndex)
-                                          .firstBoxPosition();
+                                          .boxPositions();
             crosswordGridViewModel.currentSlotHorizontal();
-            crosswordGridViewModel.currentBoxPosition(slotFirstBoxPosition);
+            if (!slotPositions.contains(crosswordGridViewModel.currentBoxPosition())) {
+                crosswordGridViewModel.currentBoxPosition(slotPositions.get(0));
+            }
         }
     }
 
     /**
-     * Updates current clue upon current box position change.
+     * Updates current clue upon current slot positions change.
      *
-     * @param currentBoxCoord the current box new position
+     * @param currentSlotPositions the current slot positions change
      */
-    private void updateCurrentClue(final GridCoord currentBoxCoord) {
-        if (currentBoxCoord == null) {
-            cluesViewModel.selectedAcrossClueIndex(-1);
-            cluesViewModel.selectedDownClueIndex(-1);
+    private void updateCurrentClue(final List<GridCoord> currentSlotPositions) {
+        if (currentSlotPositions.isEmpty()) {
+            cluesViewModel.deselectAcrossClue();
+            cluesViewModel.deselectDownClue();
         } else if (crosswordGridViewModel.currentSlotVerticalProperty().get()) {
-            crosswordGridViewModel.indexOfLongDownSlotContaining(currentBoxCoord)
-                                  .ifPresent(cluesViewModel::selectedDownClueIndex);
+            crosswordGridViewModel.indexOfLongDownSlotContaining(currentSlotPositions.get(0))
+                                  .ifPresentOrElse(cluesViewModel::selectedDownClueIndex,
+                                                   cluesViewModel::deselectDownClue);
         } else {
-            crosswordGridViewModel.indexOfLongAcrossSlotContaining(currentBoxCoord)
-                                  .ifPresent(cluesViewModel::selectedAcrossClueIndex);
+            crosswordGridViewModel.indexOfLongAcrossSlotContaining(currentSlotPositions.get(0))
+                                  .ifPresentOrElse(cluesViewModel::selectedAcrossClueIndex,
+                                                   cluesViewModel::deselectAcrossClue);
         }
     }
 
