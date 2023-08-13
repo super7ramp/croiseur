@@ -26,6 +26,12 @@
     -fx-fit-to-height: true;
 }
 
-#grid-enclosing-zone, #clues-pane {
-    -fx-padding: 20;
+#grid-enclosing-zone {
+    -fx-padding: 20px;
+    -fx-pref-width: 500px;
+    -fx-pref-height: 500px;
+}
+
+#clues-pane {
+    -fx-padding: 20px;
 }
