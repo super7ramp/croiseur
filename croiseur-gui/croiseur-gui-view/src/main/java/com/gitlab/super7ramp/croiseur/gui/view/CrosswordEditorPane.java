@@ -31,7 +31,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -492,13 +491,11 @@ public final class CrosswordEditorPane extends BorderPane {
         final InvalidationListener updateLeftDividerNodeOnFirstShow = new InvalidationListener() {
             @Override
             public void invalidated(final Observable observable) {
-                if (getScene() != null) {
-                    Platform.runLater(() -> updateLeftDividerNode());
-                    observable.removeListener(this);
-                }
+                Platform.runLater(() -> updateLeftDividerNode());
+                observable.removeListener(this);
             }
         };
-        sceneProperty().addListener(updateLeftDividerNodeOnFirstShow);
+        centerSplitPane.layoutBoundsProperty().addListener(updateLeftDividerNodeOnFirstShow);
         puzzlePane.visibleProperty().addListener(observable -> updateLeftDivider());
     }
 
@@ -523,10 +520,9 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     private void updateLeftDividerNode() {
         final boolean puzzlePaneVisible = puzzlePane.isVisible();
-        dividerNodeOf(LEFT_DIVIDER_ID).ifPresent(node -> {
-            node.setVisible(puzzlePaneVisible);
-            node.setManaged(puzzlePaneVisible);
-        });
+        final Node dividerNode = dividerNodeOf(LEFT_DIVIDER_ID);
+        dividerNode.setVisible(puzzlePaneVisible);
+        dividerNode.setManaged(puzzlePaneVisible);
     }
 
     /**
@@ -547,13 +543,11 @@ public final class CrosswordEditorPane extends BorderPane {
         final InvalidationListener updateRightDividerNodeOnFirstShow = new InvalidationListener() {
             @Override
             public void invalidated(final Observable observable) {
-                if (getScene() != null) {
-                    Platform.runLater(() -> updateRightDividerNode());
-                    observable.removeListener(this);
-                }
+                Platform.runLater(() -> updateRightDividerNode());
+                observable.removeListener(this);
             }
         };
-        sceneProperty().addListener(updateRightDividerNodeOnFirstShow);
+        centerSplitPane.layoutBoundsProperty().addListener(updateRightDividerNodeOnFirstShow);
         dictionariesPane.visibleProperty().addListener(observable -> updateRightDivider());
     }
 
@@ -578,10 +572,9 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     private void updateRightDividerNode() {
         final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
-        dividerNodeOf(RIGHT_DIVIDER_ID).ifPresent(node -> {
-            node.setVisible(dictionariesPaneVisible);
-            node.setManaged(dictionariesPaneVisible);
-        });
+        final Node dividerNode = dividerNodeOf(RIGHT_DIVIDER_ID);
+        dividerNode.setVisible(dictionariesPaneVisible);
+        dividerNode.setManaged(dictionariesPaneVisible);
     }
 
     /**
@@ -598,14 +591,11 @@ public final class CrosswordEditorPane extends BorderPane {
      * Finds the split pane divider node corresponding to given divider id.
      *
      * @param dividerId the divider id
-     * @return the split pane divider node corresponding to given divider id, or
-     * {@link Optional#empty()} if no such divider has been found (e.g. if pane hasn't been shown
-     * yet)
+     * @return the split pane divider node corresponding to given divider id
+     * @throws java.util.NoSuchElementException if divider is not found, likely because split pane
+     *                                          has not been laid out yet
      */
-    private Optional<Node> dividerNodeOf(final int dividerId) {
-        if (getScene() == null) {
-            return Optional.empty();
-        }
+    private Node dividerNodeOf(final int dividerId) {
         /*
          * Select all dividers then filter by position: There is no way to get a specific divider
          * via a CSS selector.
@@ -617,6 +607,6 @@ public final class CrosswordEditorPane extends BorderPane {
             final Bounds boundsInLocal = node.getBoundsInLocal();
             final Bounds boundsInScene = node.localToScene(boundsInLocal);
             return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
-        }).findFirst();
+        }).findFirst().orElseThrow();
     }
 }
