@@ -26,10 +26,14 @@
     -fx-fit-to-height: true;
 }
 
+#edition-flow-pane {
+    -fx-alignment: center;
+}
+
 #grid-enclosing-zone {
     -fx-padding: 20px;
-    -fx-pref-width: 500px;
-    -fx-pref-height: 500px;
+    -fx-pref-width: 550px;
+    -fx-pref-height: 550px;
 }
 
 #clues-pane {
