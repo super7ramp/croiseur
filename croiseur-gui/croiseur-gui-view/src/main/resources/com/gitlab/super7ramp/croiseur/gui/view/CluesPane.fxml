@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.lang.String?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CluesPane.css" type="HBox"
-         xmlns="http://javafx.com/javafx/17">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="clue-hbox" stylesheets="@CluesPane.css"
+         type="HBox" xmlns="http://javafx.com/javafx/17">
     <VBox styleClass="clue-vbox">
         <Label styleClass="clue-list-label" text="%clues.across"/>
         <ListView fx:id="acrossClueListView" editable="true">

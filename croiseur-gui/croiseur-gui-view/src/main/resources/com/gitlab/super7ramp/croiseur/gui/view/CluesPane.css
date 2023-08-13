@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-.clue-vbox {
-    -fx-spacing: 10px;
+.clue-hbox, .clue-vbox {
+    -fx-spacing: 20px;
 }
 
 .clue-list-label {
