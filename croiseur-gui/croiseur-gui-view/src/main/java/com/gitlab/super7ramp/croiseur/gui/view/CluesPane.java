@@ -14,7 +14,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 
 import java.util.ResourceBundle;
@@ -23,7 +23,7 @@ import java.util.function.Function;
 /**
  * Clues pane.
  */
-public final class CluesPane extends TitledPane {
+public final class CluesPane extends HBox {
 
     /** Converter for user clue (main text). */
     private static final StringConverter<ClueViewModel> USER_CLUE_STRING_CONVERTER =

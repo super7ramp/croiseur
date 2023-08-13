@@ -11,8 +11,3 @@
     -fx-font-size: 1.2em;
     -fx-font-weight: bold;
 }
-
-.titled-pane {
-    -fx-alignment: CENTER;
-    -fx-animated: false;
-}
