@@ -29,7 +29,7 @@
                         <ProgressIndicator fx:id="solverProgressIndicator" visible="false"/>
                     </StackPane>
                     <!-- -Infinity = use pref size. Not settable via CSS. -->
-                    <CluesPane id="clues-pane" fx:id="cluesPane" maxWidth="-Infinity"/>
+                    <CluesPane id="clues-pane" fx:id="cluesPane" maxHeight="-Infinity"/>
                 </FlowPane>
             </ScrollPane>
             <DictionariesPane fx:id="dictionariesPane" visible="false"
