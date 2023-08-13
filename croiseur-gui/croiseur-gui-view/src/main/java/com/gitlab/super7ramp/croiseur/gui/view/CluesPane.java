@@ -50,9 +50,6 @@ public final class CluesPane extends HBox {
             viewModel -> viewModel.systemContent().isEmpty() ? defaultPromptText() :
                     viewModel.systemContent();
 
-    /** Fixed cell height. Not great, there is no nice solution to control list view height. */
-    private static final double CELL_HEIGHT = 39.2;
-
     /** The across clues. */
     private final ListProperty<ClueViewModel> acrossClues;
 
@@ -148,10 +145,6 @@ public final class CluesPane extends HBox {
      * Initializes across clue list view bindings.
      */
     private void initializeAcrossClueListView() {
-        // pure appearance
-        acrossClueListView.prefHeightProperty()
-                          .bind(acrossClues.sizeProperty().multiply(CELL_HEIGHT));
-
         // model -> view
         acrossClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                        SYSTEM_CLUE_STRING_CONVERTER));
@@ -170,9 +163,6 @@ public final class CluesPane extends HBox {
      * Initializes down clue list view bindings.
      */
     private void initializeDownClueListView() {
-        // Pure appearance
-        downClueListView.prefHeightProperty().bind(downClues.sizeProperty().multiply(CELL_HEIGHT));
-
         // model -> view
         downClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
                                                                      SYSTEM_CLUE_STRING_CONVERTER));
