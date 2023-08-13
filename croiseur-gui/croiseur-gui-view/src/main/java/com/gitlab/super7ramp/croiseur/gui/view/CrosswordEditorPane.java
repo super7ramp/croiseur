@@ -46,16 +46,23 @@ public final class CrosswordEditorPane extends BorderPane {
     /** The CSS selector for split pane divider nodes. */
     private static final String DIVIDER_SELECTOR = ".split-pane-divider";
 
-    /** Identifiers of dividers between grid and lateral panes. */
-    private static final int LEFT_DIVIDER_ID = 0, RIGHT_DIVIDER_ID = 1;
+    /** Identifier of the divider between grid and puzzle pane. */
+    private static final int LEFT_DIVIDER_ID = 0;
 
-    /** The divider positions when lateral panes are collapsed. */
-    private static final double LEFT_DIVIDER_COLLAPSED_POSITION = 0.0,
-            RIGHT_DIVIDER_COLLAPSED_POSITION = 1.0;
+    /** Identifier of the divider between grid and dictionary pane. */
+    private static final int RIGHT_DIVIDER_ID = 1;
 
-    /** The ideal position of the dividers. */
-    private static final double LEFT_DIVIDER_IDEAL_POSITION = 0.25, RIGHT_DIVIDER_IDEAL_POSITION =
-            0.75;
+    /** The left divider position when puzzle panes is collapsed. */
+    private static final double LEFT_DIVIDER_COLLAPSED_POSITION = 0.0;
+
+    /** The right divider position when dictionary pane is collapsed. */
+    private static final double RIGHT_DIVIDER_COLLAPSED_POSITION = 1.0;
+
+    /** The left divider ideal position. */
+    private static final double LEFT_DIVIDER_IDEAL_POSITION = 0.25;
+
+    /** The right divider ideal position. */
+    private static final double RIGHT_DIVIDER_IDEAL_POSITION = 0.75;
 
     /** The toolbar. */
     @FXML
