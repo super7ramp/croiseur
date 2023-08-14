@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+#container-hbox {
+    -fx-alignment: center-left;
+    -fx-spacing: 4px;
+}
+
+#container-hbox > .label {
+    -fx-pref-width: 35px;
+    -fx-text-alignment: right;
+    -fx-font-weight: bold;
+}
+
+#fill-button-image-view {
+    -fx-image: url("icon/sc_usewizards.png");
+}

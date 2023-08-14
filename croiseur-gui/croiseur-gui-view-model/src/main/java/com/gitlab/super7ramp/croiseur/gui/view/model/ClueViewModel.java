@@ -22,7 +22,16 @@ public final class ClueViewModel {
      * Constructs an instance.
      */
     public ClueViewModel() {
-        userContent = "";
+        this("");
+    }
+
+    /**
+     * Constructs an instance.
+     *
+     * @param userContentArg the user content
+     */
+    public ClueViewModel(final String userContentArg) {
+        userContent = userContentArg;
         systemContent = "";
     }
 

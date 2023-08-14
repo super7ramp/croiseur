@@ -12,6 +12,10 @@
     -fx-font-weight: bold;
 }
 
+.list-view {
+    -fx-min-width: 320px;
+}
+
 #across-clue-list-view .clue-list-cell {
     -index-format: roman;
 }
