@@ -16,12 +16,17 @@ import javafx.util.StringConverter;
 import java.util.function.Function;
 
 /**
- * An alternative to {@link javafx.scene.control.cell.TextFieldListCell}, which allows to customize
+ * An alternative to {@link javafx.scene.control.cell.TextFieldListCell}, which allows to: customize
  * prompt text.
+ * <p>
+ * It uses the {@code text-field-list-cell} CSS class.
+ * <p>
+ * Note: Text part of the cell is not used at all, only the graphic part is used: It contains the
+ * text field.
  *
  * @param <T> The type of the elements contained within the ListView.
  */
-public final class TextFieldListCell<T> extends ListCell<T> {
+public class TextFieldListCell<T> extends ListCell<T> {
 
     /** The main text converter. */
     private final ObjectProperty<StringConverter<T>> textConverter;

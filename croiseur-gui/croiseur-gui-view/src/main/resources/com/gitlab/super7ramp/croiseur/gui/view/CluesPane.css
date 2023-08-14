@@ -11,3 +11,11 @@
     -fx-font-size: 1.2em;
     -fx-font-weight: bold;
 }
+
+#across-clue-list-view .clue-list-cell {
+    -index-format: roman;
+}
+
+#down-clue-list-view .clue-list-cell {
+    -index-format: arabic;
+}

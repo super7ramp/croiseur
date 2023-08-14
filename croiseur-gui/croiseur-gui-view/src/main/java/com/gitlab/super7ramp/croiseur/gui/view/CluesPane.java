@@ -5,7 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view;
 
-import com.gitlab.super7ramp.croiseur.gui.view.control.cell.TextFieldListCell;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
 import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
@@ -18,38 +17,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
 
 import java.util.ResourceBundle;
-import java.util.function.Function;
 
 /**
  * Clues pane.
  */
 public final class CluesPane extends HBox {
-
-    /** Converter for user clue (main text). */
-    private static final StringConverter<ClueViewModel> USER_CLUE_STRING_CONVERTER =
-            new StringConverter<>() {
-                @Override
-                public String toString(final ClueViewModel model) {
-                    return model.userContent();
-                }
-
-                @Override
-                public ClueViewModel fromString(final String value) {
-                    final ClueViewModel clueViewModel = new ClueViewModel();
-                    clueViewModel.userContent(value);
-                    // System content is lost but that's no big deal
-                    return clueViewModel;
-                }
-            };
-
-    /** Converter for system clue (prompt text). */
-    private static final Function<ClueViewModel, String> SYSTEM_CLUE_STRING_CONVERTER =
-            viewModel -> viewModel.systemContent().isEmpty() ? defaultPromptText() :
-                    viewModel.systemContent();
-
     /** The across clues. */
     private final ListProperty<ClueViewModel> acrossClues;
 
@@ -124,15 +98,6 @@ public final class CluesPane extends HBox {
     }
 
     /**
-     * Returns the default prompt text to use when no system content is set.
-     *
-     * @return the default prompt text to use when no system content is set
-     */
-    private static String defaultPromptText() {
-        return ResourceBundle.getBundle(CluesPane.class.getName()).getString("clues.none");
-    }
-
-    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML
@@ -146,8 +111,7 @@ public final class CluesPane extends HBox {
      */
     private void initializeAcrossClueListView() {
         // model -> view
-        acrossClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
-                                                                       SYSTEM_CLUE_STRING_CONVERTER));
+        acrossClueListView.setCellFactory(l -> new ClueListCell());
         acrossClues.addListener(this::clearAcrossViewSelectionUponItemDeletion);
         acrossClueListView.setItems(acrossClues);
         selectedAcrossClueIndex.addListener(
@@ -156,7 +120,6 @@ public final class CluesPane extends HBox {
         // view -> model
         acrossClueListView.getSelectionModel().selectedIndexProperty().addListener(
                 this::updateAcrossModelSelectionUponViewSelectionIndexChange);
-
     }
 
     /**
@@ -164,8 +127,7 @@ public final class CluesPane extends HBox {
      */
     private void initializeDownClueListView() {
         // model -> view
-        downClueListView.setCellFactory(l -> new TextFieldListCell<>(USER_CLUE_STRING_CONVERTER,
-                                                                     SYSTEM_CLUE_STRING_CONVERTER));
+        downClueListView.setCellFactory(l -> new ClueListCell());
         downClues.addListener(this::clearDownSelectionUponItemDeletion);
         downClueListView.setItems(downClues);
         selectedDownClueIndex.addListener(

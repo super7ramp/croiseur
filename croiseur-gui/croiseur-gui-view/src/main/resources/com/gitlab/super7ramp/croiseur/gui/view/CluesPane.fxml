@@ -14,7 +14,7 @@
          type="HBox" xmlns="http://javafx.com/javafx/17">
     <VBox styleClass="clue-vbox">
         <Label styleClass="clue-list-label" text="%clues.across"/>
-        <ListView fx:id="acrossClueListView" editable="true">
+        <ListView id="across-clue-list-view" fx:id="acrossClueListView" editable="true">
             <styleClass>
                 <String fx:value="clue-list-view"/>
                 <String fx:value="edge-to-edge"/>
@@ -23,7 +23,7 @@
     </VBox>
     <VBox styleClass="clue-vbox">
         <Label styleClass="clue-list-label" text="%clues.down"/>
-        <ListView fx:id="downClueListView" editable="true">
+        <ListView id="down-clue-list-view" fx:id="downClueListView" editable="true">
             <styleClass>
                 <String fx:value="clue-list-view"/>
                 <String fx:value="edge-to-edge"/>
