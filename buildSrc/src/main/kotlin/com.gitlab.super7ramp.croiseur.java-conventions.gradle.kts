@@ -49,6 +49,7 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 // Hack: Extra information for external projects lacking module information
 extraJavaModuleInfo {
     failOnMissingModuleInfo.set(false)
+    automaticModule("com.kjetland:mbknor-jackson-jsonschema_2.12", "mbknor.jackson.jsonschema")
     module("io.reactivex.rxjava2:rxjava", "rxjava2") {
         requires("org.reactivestreams")
     }
