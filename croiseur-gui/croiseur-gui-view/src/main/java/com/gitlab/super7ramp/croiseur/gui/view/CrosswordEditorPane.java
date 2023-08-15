@@ -450,6 +450,24 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
+     * Returns the "on fill clue button action" property.
+     *
+     * @return the "on fill clue button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onFillClueButtonActionProperty() {
+        return cluesPane.onFillClueButtonActionProperty();
+    }
+
+    /**
+     * Returns the "fill clue button disable" property.
+     *
+     * @return the "fill clue button disable" property
+     */
+    public BooleanProperty fillClueButtonDisableProperty() {
+        return cluesPane.fillClueButtonDisableProperty();
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML

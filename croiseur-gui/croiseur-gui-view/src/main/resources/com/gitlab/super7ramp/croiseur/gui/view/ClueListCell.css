@@ -13,6 +13,11 @@
     -fx-font-weight: bold;
 }
 
+.clue-text-area {
+    -fx-pref-column-count: 6;
+    -fx-wrap-text: true;
+}
+
 .fill-button-image-view {
     -fx-image: url("icon/sc_usewizards.png");
 }

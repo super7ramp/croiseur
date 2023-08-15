@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":croiseur-gui:croiseur-gui-presenter"))
     implementation(project(":croiseur-gui:croiseur-gui-view"))
     implementation(project(":croiseur-gui:croiseur-gui-view-model"))
+    runtimeOnly(project(":croiseur-clue:croiseur-clue-openai-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-xml-plugin"))

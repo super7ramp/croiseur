@@ -5,11 +5,15 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.util.Callback;
 
 /**
  * The clues view model: Represents all the clues of the grid.
@@ -28,16 +32,26 @@ public final class CluesViewModel {
     /** The selected down clue index. Value is -1 if no down clue is selected. */
     private final IntegerProperty selectedDownClueIndex;
 
+    /** Whether the clue service is unavailable and should not be called. */
+    private final BooleanProperty clueServiceDisabled;
+
+    /** Whether the clue service is running. */
+    private final BooleanProperty clueServiceIsRunning;
+
     /**
      * Constructs an instance.
      */
     CluesViewModel() {
-        acrossClues =
-                new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList());
+        final Callback<ClueViewModel, Observable[]> extractor =
+                entry -> new Observable[]{entry.userContentProperty(), entry.systemContentProperty()};
+        acrossClues = new SimpleListProperty<>(this, "acrossClues",
+                                               FXCollections.observableArrayList(extractor));
         selectedAcrossClueIndex = new SimpleIntegerProperty(this, "selectedAcrossClueIndex", -1);
-        downClues =
-                new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
+        downClues = new SimpleListProperty<>(this, "downClues",
+                                             FXCollections.observableArrayList(extractor));
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClueIndex", -1);
+        clueServiceDisabled = new SimpleBooleanProperty(this, "clueServiceDisabled");
+        clueServiceIsRunning = new SimpleBooleanProperty(this, "clueServiceIsRunning");
     }
 
     /**
@@ -153,12 +167,30 @@ public final class CluesViewModel {
     }
 
     /**
-     * Resets all clues to empty string.
+     * Resets all clues to empty strings.
      */
     public void reset() {
         acrossClues.forEach(ClueViewModel::reset);
         deselectAcrossClue();
         downClues.forEach(ClueViewModel::reset);
         deselectDownClue();
+    }
+
+    /**
+     * Whether a task is calling clue service.
+     *
+     * @return the property denoting whether a task is calling clue service
+     */
+    public BooleanProperty clueServiceIsRunningProperty() {
+        return clueServiceIsRunning;
+    }
+
+    /**
+     * Whether the clue service is unavailable and should not be called.
+     *
+     * @return the property denoting the clue service is unavailable and should not be called
+     */
+    public BooleanProperty clueServiceDisabledProperty() {
+        return clueServiceDisabled;
     }
 }

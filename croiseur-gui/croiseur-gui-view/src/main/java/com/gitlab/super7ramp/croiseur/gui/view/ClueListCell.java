@@ -6,18 +6,24 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.css.CssMetaData;
 import javafx.css.SimpleStyleableObjectProperty;
 import javafx.css.Styleable;
 import javafx.css.StyleableObjectProperty;
 import javafx.css.StyleablePropertyFactory;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
@@ -29,12 +35,12 @@ import java.util.ResourceBundle;
  * It is a list cell inspired by {@link javafx.scene.control.cell.TextFieldListCell} with the
  * following particularities:
  * <ul>
- *     <li>ListCell Label is not used at all: Everything is in the graphic part;
+ *     <li>Its label is empty: Everything is in the graphic part;
  *     <li>It displays the cell index in a label on the left;
- *     <li>It displays the clue content in a text field in the middle;
+ *     <li>It displays the clue content in a text area (not a text field) in the middle;
  *     <li>It displays a button on the right, whose action is configurable;</li>
- *     <li>Its appearance can be customized via the {@code .clue-list-cell} CSS class, inheriting
- *     from {@code .text-field-list-cell}, which has the additional properties:
+ *     <li>Its appearance can be customized via the {@code .clue-list-cell} CSS class allowing the
+ *     following properties:
  *     <ul>
  *         <li>{@code -index-format: [roman|arabic]}: Defines the format of the cell index
  *     </ul>
@@ -67,9 +73,9 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     @FXML
     private Label indexLabel;
 
-    /** The text field containing the clue. */
+    /** The text area containing the clue. */
     @FXML
-    private TextField textField;
+    private TextArea textArea;
 
     /** The fill button. */
     @FXML
@@ -86,6 +92,24 @@ final class ClueListCell extends ListCell<ClueViewModel> {
         indexFormat.addListener(observable -> updateItem(getItem(), isEmpty()));
     }
 
+    /**
+     * The "on fill clue button action" property.
+     *
+     * @return the "on fill clue button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onFillClueButtonActionProperty() {
+        return fillButton.onActionProperty();
+    }
+
+    /**
+     * The "fill clue button disable" property.
+     *
+     * @return The "fill clue button disable" property
+     */
+    public BooleanProperty fillClueButtonDisableProperty() {
+        return fillButton.disableProperty();
+    }
+
     @Override
     public void startEdit() {
         if (!isEditable() || !getListView().isEditable()) {
@@ -93,10 +117,10 @@ final class ClueListCell extends ListCell<ClueViewModel> {
         }
         super.startEdit();
         if (isEditing()) {
-            textField.setPromptText(itemToPromptText());
-            textField.setText(itemToText());
-            textField.selectAll();
-            textField.requestFocus();
+            textArea.setPromptText(itemToPromptText());
+            textArea.setText(itemToText());
+            textArea.selectAll();
+            textArea.requestFocus();
         }
     }
 
@@ -106,9 +130,9 @@ final class ClueListCell extends ListCell<ClueViewModel> {
         if (empty || item == null) {
             setGraphic(null);
         } else {
-            indexLabel.setText(formatIndex());
-            textField.setPromptText(itemToPromptText());
-            textField.setText(itemToText());
+            indexLabel.setText(formattedIndex());
+            textArea.setPromptText(itemToPromptText());
+            textArea.setText(itemToText());
             fillButton.setVisible(isSelected());
             setGraphic(containerHBox);
         }
@@ -130,11 +154,33 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     @FXML
     private void initialize() {
-        textField.setOnAction(event -> {
-            commitEdit(itemFromText());
-            event.consume();
+        initializeDynamicHeight();
+        initializeTextArea();
+    }
+
+    /**
+     * Initializes this cell dynamic height: The cell height follows the container height, which
+     * itself follows the text area content height.
+     */
+    private void initializeDynamicHeight() {
+        final var dynamicHeight = Bindings.createDoubleBinding(() -> {
+            final double containerHBoxHeight = containerHBox.getHeight();
+            return containerHBoxHeight > 0.0 ? containerHBoxHeight : USE_COMPUTED_SIZE;
+        }, containerHBox.heightProperty());
+        prefHeightProperty().bind(dynamicHeight);
+    }
+
+    /**
+     * Initializes text area event handlers.
+     */
+    private void initializeTextArea() {
+        textArea.addEventFilter(KeyEvent.ANY, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                commitEdit(itemFromText());
+                event.consume();
+            }
         });
-        textField.setOnKeyReleased(event -> {
+        textArea.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 cancelEdit();
                 event.consume();
@@ -150,7 +196,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      * @return the item model
      */
     private ClueViewModel itemFromText() {
-        return new ClueViewModel(textField.getText());
+        return new ClueViewModel(textArea.getText());
     }
 
     /**
@@ -177,11 +223,11 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     // Index format methods
 
     /**
-     * Formats the the cell index.
+     * Returns the formatted cell index.
      *
      * @return the formatted cell index
      */
-    private String formatIndex() {
+    private String formattedIndex() {
         final int index = getIndex() + 1;
         return switch (indexFormat.getValue()) {
             case ARABIC -> arabicFormat(index);
@@ -208,17 +254,17 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     private static String romanFormat(final int index) {
         // Not the most efficient implementation, but definitely one of the coolest.
         return "I".repeat(index)
-                                .replace("IIIII", "V")
-                                .replace("IIII", "IV")
-                                .replace("VV", "X")
-                                .replace("VIV", "IX")
-                                .replace("XXXXX", "L")
-                                .replace("XXXX", "XL")
-                                .replace("LL", "C")
-                                .replace("LXL", "XC")
-                                .replace("CCCCC", "D")
-                                .replace("CCCC", "CD")
-                                .replace("DD", "M")
-                                .replace("DCD", "CM");
+                  .replace("IIIII", "V")
+                  .replace("IIII", "IV")
+                  .replace("VV", "X")
+                  .replace("VIV", "IX")
+                  .replace("XXXXX", "L")
+                  .replace("XXXX", "XL")
+                  .replace("LL", "C")
+                  .replace("LXL", "XC")
+                  .replace("CCCCC", "D")
+                  .replace("CCCC", "CD")
+                  .replace("DD", "M")
+                  .replace("DCD", "CM");
     }
 }

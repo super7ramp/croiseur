@@ -34,6 +34,9 @@ public final class GuiPresenter implements Presenter {
     /** Solver presenter. */
     private final GuiSolverPresenter solverPresenter;
 
+    /** Clue presenter. */
+    private final GuiCluePresenter cluePresenter;
+
     /** Puzzle presenter. */
     private final GuiPuzzlePresenter puzzlePresenter;
 
@@ -51,6 +54,8 @@ public final class GuiPresenter implements Presenter {
                                        applicationViewModel.solverSelectionViewModel(),
                                        applicationViewModel.solverProgressViewModel(),
                                        applicationViewModel.errorsViewModel());
+        cluePresenter = new GuiCluePresenter(applicationViewModel.cluesViewModel(),
+                                             applicationViewModel.errorsViewModel());
         puzzlePresenter = new GuiPuzzlePresenter(applicationViewModel.puzzleSelectionViewModel(),
                                                  applicationViewModel.puzzleEditionViewModel(),
                                                  applicationViewModel.puzzleCodecsViewModel(),
@@ -165,16 +170,16 @@ public final class GuiPresenter implements Presenter {
 
     @Override
     public void presentClueError(final String error) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cluePresenter.presentClueError(error);
     }
 
     @Override
     public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cluePresenter.presentClueProviders(clueProviderDescriptions);
     }
 
     @Override
     public void presentClues(final Map<String, String> clues) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        cluePresenter.presentClues(clues);
     }
 }

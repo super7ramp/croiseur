@@ -104,6 +104,17 @@ public final class ApplicationViewModel {
     }
 
     /**
+     * Returns the view model of the edited crossword clues.
+     * <p>
+     * Convenience shortcut for: {@code puzzleEditionViewModel().cluesViewModel()}.
+     *
+     * @return the view model of the edited crossword clues
+     */
+    public CluesViewModel cluesViewModel() {
+        return puzzleEditionViewModel.cluesViewModel();
+    }
+
+    /**
      * Returns the property indicating whether the puzzle is being saved.
      * <p>
      * Convenience shortcut for {@code puzzleEditionViewModel().savingInProgress()}.

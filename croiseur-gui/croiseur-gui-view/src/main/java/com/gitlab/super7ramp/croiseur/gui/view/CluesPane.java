@@ -7,12 +7,18 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
 import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionModel;
@@ -24,6 +30,7 @@ import java.util.ResourceBundle;
  * Clues pane.
  */
 public final class CluesPane extends HBox {
+
     /** The across clues. */
     private final ListProperty<ClueViewModel> acrossClues;
 
@@ -35,6 +42,12 @@ public final class CluesPane extends HBox {
 
     /** The selected down clue index. Value is -1 if no down clue is selected. */
     private final IntegerProperty selectedDownClueIndex;
+
+    /** The action to perform when fill clue button is clicked. */
+    private final ObjectProperty<EventHandler<ActionEvent>> onFillClueButtonAction;
+
+    /** Whether fill clue button should be disabled. */
+    private final BooleanProperty fillClueButtonDisable;
 
     /** The across clue list view. */
     @FXML
@@ -54,6 +67,8 @@ public final class CluesPane extends HBox {
                 new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
         selectedAcrossClueIndex = new SimpleIntegerProperty(this, "selectedAcrossClue", -1);
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClue", -1);
+        onFillClueButtonAction = new SimpleObjectProperty<>(this, "onFillClueButtonAction");
+        fillClueButtonDisable = new SimpleBooleanProperty(this, "fillClueButtonDisable");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -98,6 +113,24 @@ public final class CluesPane extends HBox {
     }
 
     /**
+     * The "on fill clue button action" property.
+     *
+     * @return the "on fill clue button action" property
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onFillClueButtonActionProperty() {
+        return onFillClueButtonAction;
+    }
+
+    /**
+     * The "fill clue button disable" property.
+     *
+     * @return "fill clue button disable" property
+     */
+    public BooleanProperty fillClueButtonDisableProperty() {
+        return fillClueButtonDisable;
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML
@@ -111,7 +144,7 @@ public final class CluesPane extends HBox {
      */
     private void initializeAcrossClueListView() {
         // model -> view
-        acrossClueListView.setCellFactory(l -> new ClueListCell());
+        acrossClueListView.setCellFactory(l -> newClueListCell());
         acrossClues.addListener(this::clearAcrossViewSelectionUponItemDeletion);
         acrossClueListView.setItems(acrossClues);
         selectedAcrossClueIndex.addListener(
@@ -127,7 +160,7 @@ public final class CluesPane extends HBox {
      */
     private void initializeDownClueListView() {
         // model -> view
-        downClueListView.setCellFactory(l -> new ClueListCell());
+        downClueListView.setCellFactory(l -> newClueListCell());
         downClues.addListener(this::clearDownSelectionUponItemDeletion);
         downClueListView.setItems(downClues);
         selectedDownClueIndex.addListener(
@@ -136,6 +169,19 @@ public final class CluesPane extends HBox {
         // view -> model
         downClueListView.getSelectionModel().selectedIndexProperty().addListener(
                 this::updateDownModelSelectionUponViewSelectionIndexChange);
+    }
+
+    /**
+     * Creates a new {@link ClueListCell} whose fill button action property is filled to this pane
+     * {@link #onFillClueButtonActionProperty()}.
+     *
+     * @return a new {@link ClueListCell}
+     */
+    private ClueListCell newClueListCell() {
+        final var cell = new ClueListCell();
+        cell.onFillClueButtonActionProperty().bind(onFillClueButtonAction);
+        cell.fillClueButtonDisableProperty().bind(fillClueButtonDisable);
+        return cell;
     }
 
     /**

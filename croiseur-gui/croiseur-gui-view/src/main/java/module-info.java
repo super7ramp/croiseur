@@ -14,5 +14,6 @@ module com.gitlab.super7ramp.croiseur.gui.view {
     requires javafx.fxml;
 
     exports com.gitlab.super7ramp.croiseur.gui.view;
+    exports com.gitlab.super7ramp.croiseur.gui.view.javafx.scene.control;
     opens com.gitlab.super7ramp.croiseur.gui.view to javafx.fxml;
 }

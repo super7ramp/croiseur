@@ -5,6 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.Objects;
 
 /**
@@ -13,10 +16,10 @@ import java.util.Objects;
 public final class ClueViewModel {
 
     /** The clue, as entered by the user. */
-    private String userContent;
+    private final StringProperty userContent;
 
     /** The clue, as determined by the system. */
-    private String systemContent;
+    private final StringProperty systemContent;
 
     /**
      * Constructs an instance.
@@ -31,76 +34,96 @@ public final class ClueViewModel {
      * @param userContentArg the user content
      */
     public ClueViewModel(final String userContentArg) {
-        userContent = userContentArg;
-        systemContent = "";
+        userContent = new SimpleStringProperty(this, "userContent", userContentArg);
+        systemContent = new SimpleStringProperty(this, "systemContent", "");
     }
 
     /**
-     * Returns the clue as entered by user.
+     * The clue as entered by user.
      *
      * @return the clue as entered by user.
      */
-    public String userContent() {
+    public StringProperty userContentProperty() {
         return userContent;
     }
 
     /**
-     * Sets the clue as entered by user.
+     * The value of the {@link #userContentProperty()}.
+     *
+     * @return the value of the {@link #userContentProperty()}.
+     */
+    public String userContent() {
+        return userContent.get();
+    }
+
+    /**
+     * Sets the value of the {@link #userContentProperty()}.
      *
      * @param value the value to set
+     * @throws NullPointerException if given clue is {@code null}
      */
     public void userContent(final String value) {
         Objects.requireNonNull(value,
                                "Clue user content shall be non null; Use empty string in absence of value");
-        userContent = value;
+        userContent.set(value);
     }
 
     /**
-     * Returns the clue as determined by system.
+     * The clue as determined by system.
      *
      * @return the clue as determined by system
      */
-    public String systemContent() {
+    public StringProperty systemContentProperty() {
         return systemContent;
     }
 
     /**
-     * Sets the clue as determined by system.
+     * Returns the value of the {@link #systemContentProperty()}.
+     *
+     * @return the value of the {@link #systemContentProperty()}
+     */
+    public String systemContent() {
+        return systemContent.get();
+    }
+
+    /**
+     * Sets the value of the {@link #systemContentProperty()}.
      *
      * @param value the value to set
+     * @throws NullPointerException if given clue is {@code null}
      */
     public void systemContent(final String value) {
         Objects.requireNonNull(value,
                                "Clue system content shall be non null; Use empty string in absence of value");
-        systemContent = value;
+        systemContent.set(value);
     }
 
     /**
      * Resets both user and system content to an empty string.
      */
     public void reset() {
-        userContent = "";
-        systemContent = "";
+        userContent.set("");
+        systemContent.set("");
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final ClueViewModel that)) return false;
-        return Objects.equals(userContent, that.userContent) &&
-               Objects.equals(systemContent, that.systemContent);
+        return Objects.equals(userContent.get(), that.userContent.get()) &&
+               Objects.equals(systemContent.get(), that.systemContent.get());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userContent, systemContent);
+        return Objects.hash(userContent.get(), systemContent.get());
     }
 
     @Override
     public String toString() {
         return "ClueViewModel{" +
-               "userContent=" + userContent +
-               ", systemContent=" + systemContent +
+               "userContent=" + userContent.get() +
+               ", systemContent=" + systemContent.get() +
                '}';
     }
 }

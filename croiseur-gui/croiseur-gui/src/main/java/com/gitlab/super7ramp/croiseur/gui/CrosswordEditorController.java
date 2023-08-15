@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
+import com.gitlab.super7ramp.croiseur.gui.controller.clue.ClueController;
 import com.gitlab.super7ramp.croiseur.gui.controller.dictionary.DictionaryController;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
 import com.gitlab.super7ramp.croiseur.gui.controller.solver.SolverController;
@@ -45,14 +46,17 @@ import java.util.concurrent.Executor;
  */
 public final class CrosswordEditorController {
 
-    /** The controller dedicated to the solver use-cases. */
-    private final SolverController solverController;
-
     /** The controller dedicated to the dictionary use-cases. */
     private final DictionaryController dictionaryController;
 
+    /** The controller dedicated to the solver use-cases. */
+    private final SolverController solverController;
+
     /** The controller dedicated to puzzle use-cases. */
     private final PuzzleController puzzleController;
+
+    /** The controller dedicated to clue use-cases. */
+    private final ClueController clueController;
 
     /** The view model. */
     private final ApplicationViewModel applicationViewModel;
@@ -78,11 +82,13 @@ public final class CrosswordEditorController {
     public CrosswordEditorController(final CrosswordService crosswordService,
                                      final ApplicationViewModel applicationViewModelArg,
                                      final Executor executor) {
+        dictionaryController =
+                new DictionaryController(crosswordService.dictionaryService(), executor);
         solverController =
                 new SolverController(applicationViewModelArg, crosswordService.solverService(),
                                      executor);
-        dictionaryController =
-                new DictionaryController(crosswordService.dictionaryService(), executor);
+        clueController = new ClueController(applicationViewModelArg.crosswordGridViewModel(),
+                                            crosswordService.clueService(), executor);
         puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
                                                 applicationViewModelArg.puzzleEditionViewModel(),
                                                 crosswordService.puzzleService(), executor);
@@ -297,6 +303,8 @@ public final class CrosswordEditorController {
             .bindBidirectional(cluesViewModel.selectedAcrossClueIndexProperty());
         view.selectedDownClueIndexProperty()
             .bindBidirectional(cluesViewModel.selectedDownClueIndexProperty());
+        view.onFillClueButtonActionProperty().set(event -> clueController.getClueForCurrentSlot());
+        view.fillClueButtonDisableProperty().bind(cluesViewModel.clueServiceDisabledProperty());
     }
 
     /**

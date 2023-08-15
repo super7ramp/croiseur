@@ -14,6 +14,7 @@ module com.gitlab.super7ramp.croiseur.gui.controller {
     requires java.logging;
     requires javafx.graphics; // for javafx.concurrent
 
+    exports com.gitlab.super7ramp.croiseur.gui.controller.clue;
     exports com.gitlab.super7ramp.croiseur.gui.controller.dictionary;
     exports com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
     exports com.gitlab.super7ramp.croiseur.gui.controller.solver;
