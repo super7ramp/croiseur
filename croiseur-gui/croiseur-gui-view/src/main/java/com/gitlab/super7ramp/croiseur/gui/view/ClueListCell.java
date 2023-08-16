@@ -6,7 +6,6 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.css.CssMetaData;
@@ -154,20 +153,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     @FXML
     private void initialize() {
-        initializeDynamicHeight();
         initializeTextArea();
-    }
-
-    /**
-     * Initializes this cell dynamic height: The cell height follows the container height, which
-     * itself follows the text area content height.
-     */
-    private void initializeDynamicHeight() {
-        final var dynamicHeight = Bindings.createDoubleBinding(() -> {
-            final double containerHBoxHeight = containerHBox.getHeight();
-            return containerHBoxHeight > 0.0 ? containerHBoxHeight : USE_COMPUTED_SIZE;
-        }, containerHBox.heightProperty());
-        prefHeightProperty().bind(dynamicHeight);
     }
 
     /**

@@ -4,7 +4,8 @@
  */
 
 .list-cell {
-    /* Use computed size instead of default 24px. */
+    /* Use computed size instead of default 24px. Somehow not required when using Modena CSS, but
+     * definitely necessary when using AtlantaFx CSS. */
     -fx-cell-size: -1;
     -fx-padding: 0;
     -fx-border-insets: 10px;

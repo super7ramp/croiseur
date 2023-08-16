@@ -14,14 +14,12 @@
 <fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="clue-list-cell"
          stylesheets="@ClueListCell.css" type="ListCell" xmlns="http://javafx.com/javafx/17">
     <graphic>
-        <HBox fx:id="containerHBox" styleClass="container-hbox" minHeight="-Infinity">
+        <HBox fx:id="containerHBox" styleClass="container-hbox">
             <!-- Technically the list cell label could be reused, but it's a pain to size correctly -->
-            <Label fx:id="indexLabel" HBox.hgrow="NEVER" minWidth="-Infinity"
-                   styleClass="index-label"/>
+            <Label fx:id="indexLabel" styleClass="index-label"/>
             <ExpandableTextArea fx:id="textArea" HBox.hgrow="SOMETIMES" mouseTransparent="true"
                                 promptText="%clue.none" styleClass="clue-text-area"/>
-            <Button fx:id="fillButton" HBox.hgrow="NEVER" minWidth="-Infinity"
-                    text="%clue.fill">
+            <Button fx:id="fillButton" text="%clue.fill">
                 <graphic>
                     <ImageView styleClass="fill-button-image-view"/>
                 </graphic>

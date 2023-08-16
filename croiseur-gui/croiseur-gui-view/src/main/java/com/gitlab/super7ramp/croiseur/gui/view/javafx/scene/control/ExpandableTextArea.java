@@ -5,69 +5,105 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.javafx.scene.control;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.ScrollPane;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.skin.TextAreaSkin;
+import javafx.scene.layout.Region;
+
+import java.util.Set;
 
 /**
- * A {@link TextArea} whose {@link #prefRowCountProperty()} follows the computed number of text
- * lines. Height is supposed to follow pref row count.
+ * A {@link TextArea} which auto-resizes its height according to its text content.
  *
- * @see <a href="https://github.com/HanSolo/expandabletextarea">Gerrit Grunwald's
- * ExpandableTextArea implementation</a>
+ * @see <a href="https://stackoverflow.com/a/72007076">Sai Dandem's original implementation</a>,
+ * which is the base for this implementation
+ * @see <a href="https://github.com/HanSolo/expandabletextarea">Gerrit Grunwald's alternative
+ * implementation</a>: A different approach, not used here but good to know.
  */
 public final class ExpandableTextArea extends TextArea {
 
-    /** Height for one line. Meh. */
-    private static final double LINE_HEIGHT = 14.0;
+    /** Cached insets. */
+    private Double insets;
+
+    /** Cached text nodes. */
+    private Set<Node> textNodes;
 
     /**
      * Constructs an instance.
      */
     public ExpandableTextArea() {
-        final var computedNumberOfLines =
-                Bindings.createIntegerBinding(this::computeNumberOfLines, textProperty());
-        prefRowCountProperty().bind(computedNumberOfLines);
-        disableVerticalScrollbarOnFirstShow();
+        // Nothing to do.
+    }
+
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        final double computedHeight = recomputeHeight();
+        if (currentHeightDiffersFrom(computedHeight)) {
+            setMinMaxPrefHeightsTo(computedHeight);
+            Platform.runLater(this::requestLayout);
+        }
     }
 
     /**
-     * Computes the current number of text lines.
+     * Computes the total height considering all the required insets.
      *
-     * @return the current number of text lines
+     * @return the computed height
      */
-    private int computeNumberOfLines() {
-        final TextAreaSkin textAreaSkin = (TextAreaSkin) getSkin();
-        // TODO and what about prompt text?
-        final int textLength = getText().length();
-        final int numberOfLines;
-        if (textLength < 1) {
-            numberOfLines = 1;
-        } else {
-            final Rectangle2D startBounds = textAreaSkin.getCharacterBounds(1);
-            final Rectangle2D endBounds = textAreaSkin.getCharacterBounds(textLength);
-            final int computedNoOfLines =
-                    (int) ((endBounds.getMaxY() - startBounds.getMinY()) / LINE_HEIGHT);
-            numberOfLines = Math.max(computedNoOfLines, 1);
-        }
-        return numberOfLines;
+    private double recomputeHeight() {
+        return insets() + text().getLayoutBounds().getHeight();
     }
 
-    private void disableVerticalScrollbarOnFirstShow() {
-        final InvalidationListener listener = new InvalidationListener() {
-            @Override
-            public void invalidated(final Observable observable) {
-                final ScrollPane scrollPane = (ScrollPane) lookup(".scroll-pane");
-                if (scrollPane != null) {
-                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                    observable.removeListener(this);
-                }
-            }
-        };
-        layoutBoundsProperty().addListener(listener);
+    /**
+     * Retrieves all insets. Do it only once, assuming skin never changes.
+     *
+     * @return the insets
+     */
+    private double insets() {
+        if (insets == null) {
+            final Region scrollPane = (Region) lookup(".scroll-pane");
+            final Region content = (Region) lookup(".content");
+            final double textAreaInsets = getInsets().getTop() + getInsets().getBottom();
+            final double scrollInsets =
+                    scrollPane.getInsets().getTop() + scrollPane.getInsets().getBottom();
+            final double contentInsets =
+                    content.getInsets().getTop() + content.getInsets().getBottom();
+            insets = textAreaInsets + scrollInsets + contentInsets;
+        }
+        return insets;
+    }
+
+    /**
+     * Retrieves the visible text node.
+     *
+     * @return the visible text node
+     */
+    private Node text() {
+        if (textNodes == null) {
+            textNodes = lookupAll(".text");
+        }
+        // There are two text nodes: The main one, and one for the prompt. Select the one visible.
+        return textNodes.stream().filter(Node::isVisible).findFirst().orElseThrow();
+    }
+
+    /**
+     * Whether current height differs from given height.
+     *
+     * @param newHeight the new height
+     * @return {@code true} if the two heigts differ
+     */
+    private boolean currentHeightDiffersFrom(final double newHeight) {
+        return Math.abs(getHeight() - newHeight) > 10E-1;
+    }
+
+    /**
+     * Sets the min, max and pref heights to given value.
+     *
+     * @param height the value to set
+     */
+    private void setMinMaxPrefHeightsTo(final double height) {
+        setMinHeight(height);
+        setMaxHeight(height);
+        setPrefHeight(height);
     }
 }
