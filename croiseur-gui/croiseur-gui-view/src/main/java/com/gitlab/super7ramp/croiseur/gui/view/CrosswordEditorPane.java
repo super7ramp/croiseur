@@ -459,12 +459,33 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
+     * The "fill clue button hide" property.
+     * <p>
+     * Note that a {@code false} value does not imply the button will be visible. The fill clue
+     * button of a cell is visible when this property value is {@code false} and cell is selected.
+     *
+     * @return the "fill clue button hide" property.
+     */
+    public BooleanProperty fillClueButtonHideProperty() {
+        return cluesPane.fillClueButtonHideProperty();
+    }
+
+    /**
      * Returns the "fill clue button disable" property.
      *
      * @return the "fill clue button disable" property
      */
     public BooleanProperty fillClueButtonDisableProperty() {
         return cluesPane.fillClueButtonDisableProperty();
+    }
+
+    /**
+     * Returns the "clue edition disable" property.
+     *
+     * @return the "clue edition disable" property
+     */
+    public BooleanProperty clueEditionDisableProperty() {
+        return cluesPane.disableProperty();
     }
 
     /**

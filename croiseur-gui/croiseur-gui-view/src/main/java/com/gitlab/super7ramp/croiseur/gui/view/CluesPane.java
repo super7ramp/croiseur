@@ -49,6 +49,9 @@ public final class CluesPane extends HBox {
     /** Whether fill clue button should be disabled. */
     private final BooleanProperty fillClueButtonDisable;
 
+    /** Whether fill clue button should be hidden. */
+    private final BooleanProperty fillClueButtonHide;
+
     /** The across clue list view. */
     @FXML
     private ListView<ClueViewModel> acrossClueListView;
@@ -69,6 +72,7 @@ public final class CluesPane extends HBox {
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClue", -1);
         onFillClueButtonAction = new SimpleObjectProperty<>(this, "onFillClueButtonAction");
         fillClueButtonDisable = new SimpleBooleanProperty(this, "fillClueButtonDisable");
+        fillClueButtonHide = new SimpleBooleanProperty(this, "fillClueButtonHide");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -131,6 +135,18 @@ public final class CluesPane extends HBox {
     }
 
     /**
+     * The "fill clue button hide" property.
+     * <p>
+     * Note that a {@code false} value does not imply the button will be visible. The fill clue
+     * button of a cell is visible when this property value is {@code false} and cell is selected.
+     *
+     * @return the "fill clue button hide" property.
+     */
+    public BooleanProperty fillClueButtonHideProperty() {
+        return fillClueButtonHide;
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML
@@ -181,6 +197,7 @@ public final class CluesPane extends HBox {
         final var cell = new ClueListCell();
         cell.onFillClueButtonActionProperty().bind(onFillClueButtonAction);
         cell.fillClueButtonDisableProperty().bind(fillClueButtonDisable);
+        cell.fillButtonHideProperty().bind(fillClueButtonHide);
         return cell;
     }
 

@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.gui.view;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.CssMetaData;
 import javafx.css.SimpleStyleableObjectProperty;
 import javafx.css.Styleable;
@@ -64,6 +65,9 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     /** The index format styleable property. */
     private final StyleableObjectProperty<IndexFormat> indexFormat;
 
+    /** Whether fill button shall never be visible, even when cell is selected. */
+    private final BooleanProperty hideFillButton;
+
     /** The hbox containing the following label, text field and button. */
     @FXML
     private HBox containerHBox;
@@ -84,11 +88,12 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      * Constructs an instance.
      */
     ClueListCell() {
-        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
         indexFormat =
                 new SimpleStyleableObjectProperty<>(INDEX_FORMAT_CSS_METADATA, this, "indexFormat",
                                                     IndexFormat.ARABIC);
         indexFormat.addListener(observable -> updateItem(getItem(), isEmpty()));
+        hideFillButton = new SimpleBooleanProperty(this, "hideFillButton");
+        FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
     /**
@@ -107,6 +112,18 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     public BooleanProperty fillClueButtonDisableProperty() {
         return fillButton.disableProperty();
+    }
+
+
+    /**
+     * The "fill clue button hide" property.
+     * <p>
+     * Fill button is visible when this property value is {@code false} and the cell is selected.
+     *
+     * @return the "fill clue button hide" property
+     */
+    public BooleanProperty fillButtonHideProperty() {
+        return hideFillButton;
     }
 
     @Override
@@ -132,7 +149,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
             indexLabel.setText(formattedIndex());
             textArea.setPromptText(itemToPromptText());
             textArea.setText(itemToText());
-            fillButton.setVisible(isSelected());
+            fillButton.setVisible(isSelected() && !hideFillButton.get());
             setGraphic(containerHBox);
         }
     }

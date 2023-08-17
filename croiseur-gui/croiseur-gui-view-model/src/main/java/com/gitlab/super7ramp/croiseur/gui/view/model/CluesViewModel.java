@@ -20,6 +20,9 @@ import javafx.util.Callback;
  */
 public final class CluesViewModel {
 
+    /** The names of the available clue providers. */
+    private final ListProperty<String> clueProviders;
+
     /** The across (horizontal) clues. */
     private final ListProperty<ClueViewModel> acrossClues;
 
@@ -32,9 +35,6 @@ public final class CluesViewModel {
     /** The selected down clue index. Value is -1 if no down clue is selected. */
     private final IntegerProperty selectedDownClueIndex;
 
-    /** Whether the clue service is unavailable and should not be called. */
-    private final BooleanProperty clueServiceDisabled;
-
     /** Whether the clue service is running. */
     private final BooleanProperty clueServiceIsRunning;
 
@@ -42,6 +42,9 @@ public final class CluesViewModel {
      * Constructs an instance.
      */
     CluesViewModel() {
+        clueProviders = new SimpleListProperty<>(this, "clueProviders",
+                                                 FXCollections.observableArrayList());
+
         final Callback<ClueViewModel, Observable[]> extractor =
                 entry -> new Observable[]{entry.userContentProperty(), entry.systemContentProperty()};
         acrossClues = new SimpleListProperty<>(this, "acrossClues",
@@ -50,8 +53,17 @@ public final class CluesViewModel {
         downClues = new SimpleListProperty<>(this, "downClues",
                                              FXCollections.observableArrayList(extractor));
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClueIndex", -1);
-        clueServiceDisabled = new SimpleBooleanProperty(this, "clueServiceDisabled");
+
         clueServiceIsRunning = new SimpleBooleanProperty(this, "clueServiceIsRunning");
+    }
+
+    /**
+     * The names of the available clue providers.
+     *
+     * @return the names of the available clue providers
+     */
+    public ListProperty<String> clueProvidersProperty() {
+        return clueProviders;
     }
 
     /**
@@ -185,12 +197,4 @@ public final class CluesViewModel {
         return clueServiceIsRunning;
     }
 
-    /**
-     * Whether the clue service is unavailable and should not be called.
-     *
-     * @return the property denoting the clue service is unavailable and should not be called
-     */
-    public BooleanProperty clueServiceDisabledProperty() {
-        return clueServiceDisabled;
-    }
 }

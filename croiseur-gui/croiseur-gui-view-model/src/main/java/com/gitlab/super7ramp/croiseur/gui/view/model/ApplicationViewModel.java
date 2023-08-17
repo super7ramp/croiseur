@@ -164,6 +164,17 @@ public final class ApplicationViewModel {
     }
 
     /**
+     * Returns whether the clue service is running.
+     * <p>
+     * Shortcut for {@code cluesViewModel().clueServiceIsRunningProperty()}.
+     *
+     * @return whether the clue service is running
+     */
+    public BooleanProperty clueServiceIsRunning() {
+        return cluesViewModel().clueServiceIsRunningProperty();
+    }
+
+    /**
      * Returns the errors view model.
      *
      * @return the errors view model

@@ -30,6 +30,7 @@ import javafx.beans.binding.When;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -87,7 +88,8 @@ public final class CrosswordEditorController {
         solverController =
                 new SolverController(applicationViewModelArg, crosswordService.solverService(),
                                      executor);
-        clueController = new ClueController(applicationViewModelArg.crosswordGridViewModel(),
+        clueController = new ClueController(applicationViewModelArg.cluesViewModel(),
+                                            applicationViewModelArg.crosswordGridViewModel(),
                                             crosswordService.clueService(), executor);
         puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
                                                 applicationViewModelArg.puzzleEditionViewModel(),
@@ -246,8 +248,10 @@ public final class CrosswordEditorController {
     private void initializeOtherSolverBindings() {
         // Edition shall be disabled when solver is running or when puzzle is being saved
         final BooleanProperty solverRunning = applicationViewModel.solverRunning();
+        final BooleanProperty clueServiceIsRunning = applicationViewModel.clueServiceIsRunning();
         final BooleanProperty puzzleIsBeingSaved = applicationViewModel.puzzleIsBeingSaved();
-        view.gridEditionDisableProperty().bind(solverRunning.or(puzzleIsBeingSaved));
+        view.gridEditionDisableProperty()
+            .bind(solverRunning.or(puzzleIsBeingSaved).or(clueServiceIsRunning));
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
@@ -304,15 +308,26 @@ public final class CrosswordEditorController {
         view.selectedDownClueIndexProperty()
             .bindBidirectional(cluesViewModel.selectedDownClueIndexProperty());
         view.onFillClueButtonActionProperty().set(event -> clueController.getClueForCurrentSlot());
-        view.fillClueButtonDisableProperty().bind(cluesViewModel.clueServiceDisabledProperty());
+
+        view.clueEditionDisableProperty().bind(cluesViewModel.clueServiceIsRunningProperty());
+        view.fillClueButtonHideProperty()
+            .bind(cluesViewModel.clueProvidersProperty().emptyProperty());
+        final ReadOnlyStringProperty slotContentProperty =
+                applicationViewModel.crosswordGridViewModel().currentSlotContentProperty();
+        final BooleanBinding slotEmpty = slotContentProperty.isEmpty();
+        final BooleanBinding slotPartiallyFilled =
+                Bindings.createBooleanBinding(() -> slotContentProperty.get().contains("."),
+                                              slotContentProperty);
+        view.fillClueButtonDisableProperty().bind(slotEmpty.or(slotPartiallyFilled));
     }
 
     /**
      * Populates models.
      */
     private void populateModels() {
-        solverController.listSolvers();
         dictionaryController.listDictionaries();
+        solverController.listSolvers();
+        clueController.listClueProviders();
         puzzleController.listPuzzleEncoders();
     }
 

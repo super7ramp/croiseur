@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import javafx.concurrent.Task;
 
@@ -22,6 +23,9 @@ public final class ClueController {
     private static final Logger LOGGER = Logger.getLogger(ClueController.class.getName());
 
     /** The clues view model. */
+    private final CluesViewModel cluesViewModel;
+
+    /** The crossword grid view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
     /** The clue service to call. */
@@ -33,23 +37,33 @@ public final class ClueController {
     /**
      * Constructs an instance.
      *
+     * @param cluesViewModelArg         the clues view model
      * @param crosswordGridViewModelArg the crossword grid view model
      * @param clueServiceArg            the clue service to call
      * @param executorArg               the worker executing the clue tasks.
      */
-    public ClueController(final CrosswordGridViewModel crosswordGridViewModelArg,
+    public ClueController(final CluesViewModel cluesViewModelArg,
+                          final CrosswordGridViewModel crosswordGridViewModelArg,
                           final ClueService clueServiceArg,
                           final Executor executorArg) {
+        cluesViewModel = cluesViewModelArg;
         crosswordGridViewModel = crosswordGridViewModelArg;
         clueService = clueServiceArg;
         executor = executorArg;
     }
 
     /**
+     * Lists the available clue providers.
+     */
+    public void listClueProviders() {
+        execute(new ListClueProviderTask(cluesViewModel, clueService));
+    }
+
+    /**
      * Gets the clue for the currently selected slot.
      */
     public void getClueForCurrentSlot() {
-        execute(new GetClueTask(crosswordGridViewModel, clueService));
+        execute(new GetClueTask(cluesViewModel, crosswordGridViewModel, clueService));
     }
 
     /**

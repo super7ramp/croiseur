@@ -7,10 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.view.model;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.slot.SlotOutline;
 import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -66,18 +63,6 @@ public final class PuzzleEditionViewModel {
         crosswordGridViewModel.currentSlotPositionsProperty().addListener(
                 (InvalidationListener) observable -> updateCurrentClue(
                         crosswordGridViewModel.currentSlotPositions()));
-
-        // Bind clue service availability to slot state
-        final ReadOnlyStringProperty slotContentProperty =
-                crosswordGridViewModel.currentSlotContentProperty();
-        final BooleanBinding slotEmpty = slotContentProperty.isEmpty();
-        final BooleanBinding slotPartiallyFilled =
-                Bindings.createBooleanBinding(() -> slotContentProperty.get().contains("."),
-                                              slotContentProperty);
-        cluesViewModel.clueServiceDisabledProperty()
-                      .bind(slotEmpty.or(slotPartiallyFilled)
-                                     .or(cluesViewModel.clueServiceIsRunningProperty())
-                                     .or(savingInProgress));
     }
 
     /**

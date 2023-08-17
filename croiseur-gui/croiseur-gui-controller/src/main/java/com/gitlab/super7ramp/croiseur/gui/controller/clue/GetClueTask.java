@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import javafx.concurrent.Task;
 
@@ -24,13 +25,16 @@ final class GetClueTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
+     * @param cluesViewModel         the clues view model
      * @param crosswordGridViewModel the crossword grid view model
      * @param clueServiceArg         the service to call
      */
-    public GetClueTask(final CrosswordGridViewModel crosswordGridViewModel,
+    public GetClueTask(final CluesViewModel cluesViewModel,
+                       final CrosswordGridViewModel crosswordGridViewModel,
                        final ClueService clueServiceArg) {
         request = new GetClueRequestImpl(crosswordGridViewModel);
         clueService = clueServiceArg;
+        cluesViewModel.clueServiceIsRunningProperty().bind(runningProperty());
     }
 
     @Override

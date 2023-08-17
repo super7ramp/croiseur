@@ -49,7 +49,10 @@ final class GuiCluePresenter implements CluePresenter {
 
     @Override
     public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        LOGGER.info(() -> "Received clue providers: " + clueProviderDescriptions);
+        final List<String> clueProviderNames =
+                clueProviderDescriptions.stream().map(ClueProviderDescription::name).toList();
+        Platform.runLater(() -> cluesViewModel.clueProvidersProperty().setAll(clueProviderNames));
     }
 
     @Override
@@ -73,7 +76,7 @@ final class GuiCluePresenter implements CluePresenter {
         final int selectedDownClue = cluesViewModel.selectedDownClueIndex();
         if (selectedAcrossClue != -1) {
             cluesViewModel.acrossClue(selectedAcrossClue).systemContent(clue);
-        } else if (selectedDownClue != -1){
+        } else if (selectedDownClue != -1) {
             cluesViewModel.downClue(selectedDownClue).systemContent(clue);
         } else {
             errorsViewModel.addError("Received clue from clue provider, but no slot selected");
