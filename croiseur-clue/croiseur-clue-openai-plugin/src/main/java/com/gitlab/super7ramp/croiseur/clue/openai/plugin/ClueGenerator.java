@@ -45,8 +45,8 @@ final class ClueGenerator {
         final String token = System.getenv(OPENAI_API_KEY);
         openAiService = new OpenAiService(token);
         config = new ModelConfiguration();
-        final ResourceBundle rb = ResourceBundle.getBundle("com.gitlab.super7ramp.croiseur.clue" +
-                ".openai.plugin.Prompt");
+        final ResourceBundle rb = ResourceBundle.getBundle(
+                "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Prompt");
         systemMessage = rb.getString("system");
         userMessageHeader = rb.getString("user");
         placeholder = rb.getString("placeholder");
@@ -72,7 +72,8 @@ final class ClueGenerator {
         final Map<String, String> clues = new HashMap<>();
         for (int i = 0; i < words.size(); i++) {
             final String word = words.get(i);
-            final String definitionPayload = definitions[i].replace(word + ":", "");
+            final String definitionPayload =
+                    definitions[i].replace(word + ":", "").replace("\"", "");
             clues.put(word, definitionPayload);
         }
         return clues;
@@ -137,7 +138,7 @@ final class ClueGenerator {
             userMessageBodyBuilder.append(System.lineSeparator());
         }
         final ChatMessage userBody = new ChatMessage("user",
-                userMessageBodyBuilder.toString());
+                                                     userMessageBodyBuilder.toString());
         return List.of(system, userHeader, userBody);
     }
 }
