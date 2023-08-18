@@ -9,6 +9,13 @@ plugins {
     alias(sbom.plugins.javafx)
 }
 
+// TODO Find a way to make gradle-extra-module-info work and remove this block (#84).
+configurations {
+    testRuntimeClasspath {
+        attributes { attribute(Attribute.of("javaModule", Boolean::class.javaObjectType), false) }
+    }
+}
+
 /**
  * The resolvable dictionary path, where the dictionaries come from.
  */
@@ -33,11 +40,13 @@ dependencies {
 
 tasks.named<Test>("test") {
     // Export/open JavaFx internals to TestFx: TestFx relies on them.
+    /* TODO uncomment these lines when project is modularized again (#84)
     jvmArgs = listOf(
         "--add-exports", "javafx.graphics/com.sun.javafx.application=org.testfx",
         "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx",
         "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle"
     )
+    */
 
     // Configure JavaFx/TestFx to run in headless mode, in order to run the tests on CI machines.
     systemProperty("headless.geometry", "1920x1080-32")

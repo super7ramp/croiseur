@@ -6,6 +6,7 @@
 /**
  * End-to-end tests of Croiseur GUI.
  */
+// TODO enable modularization (#84)
 module com.gitlab.super7ramp.croiseur.gui.tests {
     // The module under tests
     requires com.gitlab.super7ramp.croiseur.gui;
