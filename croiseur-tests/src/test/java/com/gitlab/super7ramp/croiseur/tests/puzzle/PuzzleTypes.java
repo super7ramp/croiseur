@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -19,6 +20,8 @@ import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +45,9 @@ public final class PuzzleTypes {
      * This pattern offers a capture group on the key of the id variable (i.e. the number 0, 1, 2).
      */
     private static final Pattern ID_VARIABLE_PATTERN = Pattern.compile("\\$id(?:_(1-9)+)?");
+
+    /** The characters separating two clues in a datatable. */
+    private static final String CLUE_SEPARATOR = " - ";
 
     /** The puzzle repository spy. */
     private final PuzzleRepositorySpy puzzleRepositorySpy;
@@ -105,7 +111,20 @@ public final class PuzzleTypes {
     public Puzzle puzzle(final Map<String, String> table) {
         final PuzzleDetails details = puzzleDetails(table);
         final PuzzleGrid grid = puzzleGrid(table.get("Grid (rows)"));
-        return new Puzzle(details, grid);
+        final PuzzleClues clues =
+                puzzleClues(table.get("Clues (across)"), table.get("Clues (down)"));
+        return new Puzzle(details, grid, clues);
+    }
+
+    private PuzzleClues puzzleClues(final String rawAcrossClues, final String rawDownClues) {
+        final List<String> acrossClues = splitClues(rawAcrossClues);
+        final List<String> downClues = splitClues(rawDownClues);
+        return new PuzzleClues(acrossClues, downClues);
+    }
+
+    private List<String> splitClues(final String rawClues) {
+        return Optional.ofNullable(rawClues).map(s -> List.of(s.split(CLUE_SEPARATOR)))
+                       .orElseGet(Collections::emptyList);
     }
 
     @ParameterType(".*")
@@ -173,36 +192,62 @@ public final class PuzzleTypes {
 
     @DataTableType
     public PuzzlePatch puzzlePatch(final Map<String, String> table) {
+
+        final Map<String, String> workTable = new HashMap<>(table);
+        final String title = workTable.remove("Title");
+        final String author = workTable.remove("Author");
+        final String editor = workTable.remove("Editor");
+        final String copyright = workTable.remove("Copyright");
+        final String date = workTable.remove("Date");
+        final String grid = workTable.remove("Grid (rows)");
+        final String acrossClues = workTable.remove("Clues (across)");
+        final String downClues = workTable.remove("Clues (down)");
+
+        if (!workTable.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Unused fields detected while creating puzzle patch: " + workTable +
+                    ". Have you misspelled them?");
+        }
+
         return new PuzzlePatch() {
             @Override
             public Optional<String> modifiedTitle() {
-                return Optional.ofNullable(table.get("Title"));
+                return Optional.ofNullable(title);
             }
 
             @Override
             public Optional<String> modifiedAuthor() {
-                return Optional.ofNullable(table.get("Author"));
+                return Optional.ofNullable(author);
             }
 
             @Override
             public Optional<String> modifiedEditor() {
-                return Optional.ofNullable(table.get("Editor"));
+                return Optional.ofNullable(editor);
             }
 
             @Override
             public Optional<String> modifiedCopyright() {
-                return Optional.ofNullable(table.get("Copyright"));
+                return Optional.ofNullable(copyright);
             }
 
             @Override
             public Optional<LocalDate> modifiedDate() {
-                return Optional.ofNullable(table.get("Date")).map(LocalDate::parse);
+                return Optional.ofNullable(date).map(LocalDate::parse);
             }
 
             @Override
             public Optional<PuzzleGrid> modifiedGrid() {
-                return Optional.ofNullable(table.get("Grid (rows)"))
-                               .map(PuzzleTypes.this::puzzleGrid);
+                return Optional.ofNullable(grid).map(PuzzleTypes.this::puzzleGrid);
+            }
+
+            @Override
+            public Optional<List<String>> modifiedAcrossClues() {
+                return Optional.ofNullable(acrossClues).map(PuzzleTypes.this::splitClues);
+            }
+
+            @Override
+            public Optional<List<String>> modifiedDownClues() {
+                return Optional.ofNullable(downClues).map(PuzzleTypes.this::splitClues);
             }
         };
     }

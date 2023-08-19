@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClues;
@@ -42,7 +43,22 @@ final class PuzzleConverter {
     static Puzzle toDomain(final XdCrossword xdModel) throws PuzzleDecodingException {
         final PuzzleDetails details = toDomain(xdModel.metadata());
         final PuzzleGrid grid = toDomain(xdModel.grid());
-        return new Puzzle(details, grid);
+        final PuzzleClues clues = toDomain(xdModel.clues());
+        return new Puzzle(details, grid, clues);
+    }
+
+    /**
+     * Converts the xd metadata model to the domain metadata model
+     *
+     * @param persistenceMetadataModel the xd metadata model
+     * @return the domain metadata model
+     */
+    private static PuzzleDetails toDomain(final XdMetadata persistenceMetadataModel) {
+        return new PuzzleDetails(persistenceMetadataModel.title().orElse(""),
+                                 persistenceMetadataModel.author().orElse(""),
+                                 persistenceMetadataModel.editor().orElse(""),
+                                 persistenceMetadataModel.copyright().orElse(""),
+                                 persistenceMetadataModel.date());
     }
 
     /**
@@ -69,17 +85,14 @@ final class PuzzleConverter {
     }
 
     /**
-     * Converts the xd metadata model to the domain metadata model
+     * Converts the xd clues model to the domain clues model.
      *
-     * @param persistenceMetadataModel the xd metadata model
-     * @return the domain metadata model
+     * @param persistenceCluesModel the xd clues model
+     * @return the domain clues model
      */
-    private static PuzzleDetails toDomain(final XdMetadata persistenceMetadataModel) {
-        return new PuzzleDetails(persistenceMetadataModel.title().orElse(""),
-                                 persistenceMetadataModel.author().orElse(""),
-                                 persistenceMetadataModel.editor().orElse(""),
-                                 persistenceMetadataModel.copyright().orElse(""),
-                                 persistenceMetadataModel.date());
+    private static PuzzleClues toDomain(final XdClues persistenceCluesModel) {
+        // TODO #7 implement
+        return PuzzleClues.empty();
     }
 
     /**

@@ -6,7 +6,9 @@
 package com.gitlab.super7ramp.croiseur.impl.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
+import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -114,9 +116,8 @@ final class SolveUsecase {
                                              final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
         if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
             final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
-            final Puzzle updatedPuzzle =
-                    new Puzzle(savedPuzzle.details(), presentableResult.grid());
-            puzzleRepository.update(savedPuzzle.modifiedWith(updatedPuzzle));
+            final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(presentableResult.grid());
+            puzzleRepository.update(changedPuzzle);
         } // else no previously saved puzzle, do nothing
 
     }
@@ -131,7 +132,8 @@ final class SolveUsecase {
         if (!solveRequest.savePuzzle()) {
             return Optional.empty();
         }
-        final Puzzle puzzleToSave = new Puzzle(PuzzleDetails.emptyOfToday(), solveRequest.grid());
+        final Puzzle puzzleToSave =
+                new Puzzle(PuzzleDetails.emptyOfToday(), solveRequest.grid(), PuzzleClues.empty());
         return puzzleRepository.create(puzzleToSave);
     }
 

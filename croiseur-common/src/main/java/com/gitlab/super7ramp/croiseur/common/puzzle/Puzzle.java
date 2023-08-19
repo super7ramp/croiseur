@@ -12,18 +12,20 @@ import java.util.Objects;
  *
  * @param details details about the puzzle
  * @param grid the grid definition
+ * @param clues the clues
  */
-public record Puzzle(PuzzleDetails details, PuzzleGrid grid) {
+public record Puzzle(PuzzleDetails details, PuzzleGrid grid, PuzzleClues clues) {
 
     /**
      * Validates fields.
      *
      * @param details details about the puzzle
      * @param grid the grid definition
+     * @param clues the clues
      */
     public Puzzle {
         Objects.requireNonNull(details);
         Objects.requireNonNull(grid);
+        Objects.requireNonNull(clues);
     }
-    // Will include clues, when support for clues is added
 }

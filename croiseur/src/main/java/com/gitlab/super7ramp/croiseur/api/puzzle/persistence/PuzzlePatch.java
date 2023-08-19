@@ -8,6 +8,7 @@ package com.gitlab.super7ramp.croiseur.api.puzzle.persistence;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -56,4 +57,19 @@ public interface PuzzlePatch {
      * @return the new grid, or {@link Optional#empty()} if grid shouldn't be changed.
      */
     Optional<PuzzleGrid> modifiedGrid();
+
+    /**
+     * The new across clues, or {@link Optional#empty()} if across clues shouldn't be changed.
+     *
+     * @return the new across clues, or {@link Optional#empty()} if across clues shouldn't be
+     * changed.
+     */
+    Optional<List<String>> modifiedAcrossClues();
+
+    /**
+     * The new down clues, or {@link Optional#empty()} if down clues shouldn't be changed.
+     *
+     * @return the new down clues, or {@link Optional#empty()} if down clues shouldn't be changed.
+     */
+    Optional<List<String>> modifiedDownClues();
 }

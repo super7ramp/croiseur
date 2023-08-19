@@ -8,10 +8,12 @@ package com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
@@ -46,7 +48,7 @@ public final class Puzzles {
                                   copyright.orElse(""),
                                   date.or(() -> Optional.of(LocalDate.now())));
         final PuzzleGrid grid = puzzleGridFrom(gridRows);
-        return new Puzzle(details, grid);
+        return new Puzzle(details, grid, PuzzleClues.empty() /* TODO #7 implement */);
     }
 
     /**
@@ -95,6 +97,18 @@ public final class Puzzles {
             @Override
             public Optional<PuzzleGrid> modifiedGrid() {
                 return gridRows.map(Puzzles::puzzleGridFrom);
+            }
+
+            @Override
+            public Optional<List<String>> modifiedAcrossClues() {
+                // TODO #7 implement
+                return Optional.empty();
+            }
+
+            @Override
+            public Optional<List<String>> modifiedDownClues() {
+                // TODO #7 implement
+                return Optional.empty();
             }
         };
 

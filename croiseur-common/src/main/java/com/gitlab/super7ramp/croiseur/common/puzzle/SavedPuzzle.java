@@ -50,7 +50,7 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
      * @return a new {@link ChangedPuzzle}
      */
     public ChangedPuzzle modifiedWith(final PuzzleGrid newGrid) {
-        final Puzzle newData = new Puzzle(details(), newGrid);
+        final Puzzle newData = new Puzzle(details(), newGrid, clues());
         return modifiedWith(newData);
     }
 
@@ -64,7 +64,7 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
      * @return a new {@link ChangedPuzzle}
      */
     public ChangedPuzzle modifiedWith(final PuzzleDetails newDetails) {
-        final Puzzle newData = new Puzzle(newDetails, grid());
+        final Puzzle newData = new Puzzle(newDetails, grid(), clues());
         return modifiedWith(newData);
     }
 
@@ -80,7 +80,7 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
     /**
      * Returns the puzzle grid inside the {@link #data}.
      * <p>
-     * A shortcut for {@code committedPuzzle.data().grid()}.
+     * A shortcut for {@code savedPuzzle.data().grid()}.
      *
      * @return puzzle grid inside the {@link #data}
      */
@@ -91,11 +91,22 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
     /**
      * Returns the puzzle details inside the {@link #data}.
      * <p>
-     * A shortcut for {@code committedPuzzle.data().details()}.
+     * A shortcut for {@code savedPuzzle.data().details()}.
      *
      * @return puzzle details inside the {@link #data}
      */
     public PuzzleDetails details() {
         return data.details();
+    }
+
+    /**
+     * Returns the puzzle clues inside the {@link #data}.
+     * <p>
+     * A shortcut for {@code savedPuzzle.data().clues()}.
+     *
+     * @return puzzle clues inside the {@link #data}
+     */
+    public PuzzleClues clues() {
+        return data.clues();
     }
 }
