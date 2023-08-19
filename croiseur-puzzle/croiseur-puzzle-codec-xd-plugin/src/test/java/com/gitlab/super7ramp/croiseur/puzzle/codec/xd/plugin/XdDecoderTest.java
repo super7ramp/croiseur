@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecodingException;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
@@ -65,6 +67,10 @@ final class XdDecoderTest {
                                         .fill(at(0, 2), 'G').fill(at(1, 2), 'H').fill(at(2, 2), 'I')
                                         .build();
         assertEquals(expectedGrid, puzzle.grid());
+
+        final var expectedClues = new PuzzleClues(List.of("Start.", "Middle.", "End."),
+                                                  List.of("Some Very.", "Dummy.", "Clues."));
+        assertEquals(expectedClues, puzzle.clues());
     }
 
     @Test

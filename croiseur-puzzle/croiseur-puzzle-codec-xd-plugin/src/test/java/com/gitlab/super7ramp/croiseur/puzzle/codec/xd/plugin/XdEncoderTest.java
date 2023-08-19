@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.puzzle.codec.xd.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ final class XdEncoderTest {
                                                  .fill(at(0, 2), 'G').fill(at(1, 2), 'H')
                                                  .fill(at(2, 2), 'I')
                                                  .build();
-        final var puzzle = new Puzzle(details, grid);
+        final var puzzle = new Puzzle(details, grid, PuzzleClues.empty() /* TODO #7 fill */);
         final var out = new ByteArrayOutputStream();
 
         new XdEncoder().encode(puzzle, out);

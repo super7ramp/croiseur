@@ -10,6 +10,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
+import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClue;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClues;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
@@ -18,6 +19,7 @@ import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -91,8 +93,11 @@ final class PuzzleConverter {
      * @return the domain clues model
      */
     private static PuzzleClues toDomain(final XdClues persistenceCluesModel) {
-        // TODO #7 implement
-        return PuzzleClues.empty();
+        final List<String> acrossClues =
+                persistenceCluesModel.acrossClues().stream().map(XdClue::clue).toList();
+        final List<String> downClues =
+                persistenceCluesModel.downClues().stream().map(XdClue::clue).toList();
+        return new PuzzleClues(acrossClues, downClues);
     }
 
     /**
@@ -160,7 +165,7 @@ final class PuzzleConverter {
     /**
      * Converts a domain metadata model to xd metadata model.
      *
-     * @param details  the domain metadata model
+     * @param details the domain metadata model
      * @return the persistence metadata model
      */
     static XdMetadata toXd(final PuzzleDetails details) {

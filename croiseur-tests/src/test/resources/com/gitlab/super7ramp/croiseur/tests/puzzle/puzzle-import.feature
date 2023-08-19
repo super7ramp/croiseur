@@ -29,14 +29,16 @@ Feature: Import Puzzle
     D3. Clues. ~ CFI
     """
     Then the application saves the following puzzle:
-      | Id          | $id          |
-      | Revision    | 1            |
-      | Title       | Example Grid |
-      | Author      | Jane Doe     |
-      | Editor      | John Doe     |
-      | Copyright   |              |
-      | Date        | 2023-06-19   |
-      | Grid (rows) | ABC,DEF,GHI  |
+      | Id             | $id                          |
+      | Revision       | 1                            |
+      | Title          | Example Grid                 |
+      | Author         | Jane Doe                     |
+      | Editor         | John Doe                     |
+      | Copyright      |                              |
+      | Date           | 2023-06-19                   |
+      | Grid (rows)    | ABC,DEF,GHI                  |
+      | Clues (across) | Start. - Middle. - End.      |
+      | Clues (down)   | Some Very. - Dummy. - Clues. |
     And the application presents the confirmation the puzzle has been saved using identifier $id
 
   Scenario: Import Puzzle - xd Format - Decoding Error
