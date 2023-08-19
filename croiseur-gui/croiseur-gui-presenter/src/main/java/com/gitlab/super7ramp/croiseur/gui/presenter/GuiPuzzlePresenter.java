@@ -6,10 +6,12 @@
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
@@ -51,6 +53,9 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     /** The crossword grid edition view model. */
     private final CrosswordGridViewModel crosswordGridViewModel;
 
+    /** The clues view model. */
+    private final CluesViewModel cluesViewModel;
+
     /** The puzzle codecs view model. */
     private final PuzzleCodecsViewModel puzzleCodecsViewModel;
 
@@ -72,6 +77,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleDetailsViewModel = puzzleEditionViewModelArg.puzzleDetailsViewModel();
         crosswordGridViewModel = puzzleEditionViewModelArg.crosswordGridViewModel();
+        cluesViewModel = puzzleEditionViewModelArg.cluesViewModel();
         puzzleCodecsViewModel = puzzleCodecsViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
@@ -91,6 +97,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         Platform.runLater(() -> {
             fillDetailsViewModelWith(puzzle.id(), puzzle.revision(), puzzle.details());
             fillGridViewModelWith(puzzle.grid());
+            fillCluesViewModelWith(puzzle.clues());
         });
     }
 
@@ -239,4 +246,21 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         return new GridCoord(domainPosition.x(), domainPosition.y());
     }
 
+    /**
+     * Synchronizes the clues view model with given puzzle clues.
+     *
+     * @param clues the clues
+     */
+    private void fillCluesViewModelWith(final PuzzleClues clues) {
+        // Don't use setAll() on clue lists: They are synchronized with the grid slots. Only update
+        // the content of the lists here, not their structure.
+        final List<String> acrossClues = clues.across();
+        for (int i = 0; i < acrossClues.size(); i++) {
+            cluesViewModel.acrossClue(i).userContent(acrossClues.get(i));
+        }
+        final List<String> downClues = clues.down();
+        for (int i = 0; i < downClues.size(); i++) {
+            cluesViewModel.downClue(i).userContent(downClues.get(i));
+        }
+    }
 }
