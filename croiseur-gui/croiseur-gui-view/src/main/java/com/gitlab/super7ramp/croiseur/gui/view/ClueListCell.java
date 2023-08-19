@@ -65,8 +65,11 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     /** The index format styleable property. */
     private final StyleableObjectProperty<IndexFormat> indexFormat;
 
-    /** Whether fill button shall never be visible, even when cell is selected. */
+    /** Whether fill button shall not be visible, even when cell is selected. */
     private final BooleanProperty hideFillButton;
+
+    /** Whether fill button shall be disabled, even when cell is selected. */
+    private final BooleanProperty disableFillButton;
 
     /** The hbox containing the following label, text field and button. */
     @FXML
@@ -93,6 +96,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
                                                     IndexFormat.ARABIC);
         indexFormat.addListener(observable -> updateItem(getItem(), isEmpty()));
         hideFillButton = new SimpleBooleanProperty(this, "hideFillButton");
+        disableFillButton = new SimpleBooleanProperty(this, "disableFillButton");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -111,9 +115,8 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      * @return The "fill clue button disable" property
      */
     public BooleanProperty fillClueButtonDisableProperty() {
-        return fillButton.disableProperty();
+        return disableFillButton;
     }
-
 
     /**
      * The "fill clue button hide" property.
@@ -150,6 +153,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
             textArea.setPromptText(itemToPromptText());
             textArea.setText(itemToText());
             fillButton.setVisible(isSelected() && !hideFillButton.get());
+            fillButton.setDisable(disableFillButton.get() || !item.userContent().isEmpty());
             setGraphic(containerHBox);
         }
     }

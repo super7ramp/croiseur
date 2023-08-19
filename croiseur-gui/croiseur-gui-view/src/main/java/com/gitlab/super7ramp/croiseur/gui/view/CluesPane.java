@@ -188,7 +188,7 @@ public final class CluesPane extends HBox {
     }
 
     /**
-     * Creates a new {@link ClueListCell} whose fill button action property is filled to this pane
+     * Creates a new {@link ClueListCell} whose fill button action property is bound to this pane
      * {@link #onFillClueButtonActionProperty()}.
      *
      * @return a new {@link ClueListCell}
