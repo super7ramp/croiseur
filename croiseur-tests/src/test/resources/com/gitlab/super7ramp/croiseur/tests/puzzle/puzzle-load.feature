@@ -10,18 +10,20 @@ Feature: Load Puzzle
 
   Scenario: Load Puzzle - Nominal Case
     Given the puzzle repository contains:
-      | Id | Revision | Title | Author   | Editor | Copyright | Date       | Grid (rows) |
-      | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI |
+      | Id | Revision | Title | Author   | Editor | Copyright | Date       | Grid (rows) | Clues (across)                                 | Clues (down)                                   |
+      | 1  | 1        |       | Jane Doe |        |           | 2023-06-16 | ABC,DEF,GHI | A first clue. - A second clue. - A third clue. | A fourth clue. - A fifth clue. - A sixth clue. |
     When user requests to load puzzle with id 1
     Then the application presents the following loaded puzzle:
-      | Id          | 1           |
-      | Revision    | 1           |
-      | Title       |             |
-      | Author      | Jane Doe    |
-      | Editor      |             |
-      | Copyright   |             |
-      | Date        | 2023-06-16  |
-      | Grid (rows) | ABC,DEF,GHI |
+      | Id             | 1                                              |
+      | Revision       | 1                                              |
+      | Title          |                                                |
+      | Author         | Jane Doe                                       |
+      | Editor         |                                                |
+      | Copyright      |                                                |
+      | Date           | 2023-06-16                                     |
+      | Grid (rows)    | ABC,DEF,GHI                                    |
+      | Clues (across) | A first clue. - A second clue. - A third clue. |
+      | Clues (down)   | A fourth clue. - A fifth clue. - A sixth clue. |
 
   Scenario: Load Puzzle - Puzzle does not exist
     When user requests to load puzzle with id 404
