@@ -9,9 +9,12 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceSe
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
@@ -21,6 +24,7 @@ import javafx.concurrent.Task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -77,7 +81,8 @@ final class SavePuzzleTask extends Task<Void> {
         final PuzzleDetails details =
                 convertToDomain(puzzleEditionViewModel.puzzleDetailsViewModel());
         final PuzzleGrid grid = convertToDomain(puzzleEditionViewModel.crosswordGridViewModel());
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = convertToDomain(puzzleEditionViewModel.cluesViewModel());
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
         return () -> puzzlePersistenceService.save(puzzle);
     }
 
@@ -98,7 +103,8 @@ final class SavePuzzleTask extends Task<Void> {
         final int revision = puzzleDetailsViewModel.revision();
         final PuzzleGrid currentGrid =
                 convertToDomain(puzzleEditionViewModel.crosswordGridViewModel());
-        final Puzzle puzzle = new Puzzle(details, currentGrid);
+        final PuzzleClues clues = convertToDomain(puzzleEditionViewModel.cluesViewModel());
+        final Puzzle puzzle = new Puzzle(details, currentGrid, clues);
         final ChangedPuzzle changedPuzzle = new SavedPuzzle(id, puzzle, revision).asChangedPuzzle();
 
         return () -> puzzlePersistenceService.save(changedPuzzle);
@@ -145,6 +151,28 @@ final class SavePuzzleTask extends Task<Void> {
             }
         });
         return builder.build();
+    }
+
+    /**
+     * Converts clues view model to domain type.
+     *
+     * @param cluesViewModel the clues view model
+     * @return the clues converted to domain type
+     */
+    private static PuzzleClues convertToDomain(final CluesViewModel cluesViewModel) {
+        final List<String> acrossClues = convertToDomain(cluesViewModel.acrossCluesProperty());
+        final List<String> downClues = convertToDomain(cluesViewModel.downCluesProperty());
+        return new PuzzleClues(acrossClues, downClues);
+    }
+
+    /**
+     * Converts clue view models to domain type.
+     *
+     * @param clueViewModels the clue view models
+     * @return the clues converted to domain type
+     */
+    private static List<String> convertToDomain(final List<ClueViewModel> clueViewModels) {
+        return clueViewModels.stream().map(ClueViewModel::userContent).toList();
     }
 
     /**
