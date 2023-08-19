@@ -46,6 +46,37 @@ final class XdCluesReaderTest {
     }
 
     /**
+     * Allows empty clues; Useful when the puzzle is being edited.
+     *
+     * @throws XdClueReadException should not happen
+     */
+    @Test
+    void emptyClues() throws XdClueReadException {
+        final String rawClues =
+                """
+                A1. Sadness. ~ HEARTACHE
+                A2.  ~ ADAM
+                A3. Mae West stand-by. ~ DIAMONDLIL
+                                
+                D1. Vital throb. ~ HEARTBEAT
+                D2. Having wings. ~ ALATE
+                D3.  ~ CUTANDDEAL
+                """;
+
+        final XdClues parsedClues = reader.read(rawClues);
+
+        final XdClues expectedClues =
+                new XdClues.Builder().across(1, "Sadness.", "HEARTACHE")
+                                     .across(2, "", "ADAM")
+                                     .across(3, "Mae West stand-by.", "DIAMONDLIL")
+                                     .down(1, "Vital throb.", "HEARTBEAT")
+                                     .down(2, "Having wings.", "ALATE")
+                                     .down(3, "", "CUTANDDEAL")
+                                     .build();
+        assertEquals(expectedClues, parsedClues);
+    }
+
+    /**
      * Verifies that reader accepts crosswords with missing clue numbers.
      * <p>
      * Format does not specify that all clue numbers shall be present.

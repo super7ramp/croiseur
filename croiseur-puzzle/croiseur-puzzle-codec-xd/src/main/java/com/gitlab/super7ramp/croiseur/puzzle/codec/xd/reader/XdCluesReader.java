@@ -18,7 +18,7 @@ final class XdCluesReader {
 
     /** Regex matching a clue. */
     private static final Pattern CLUE_REGEX =
-            Pattern.compile("(?<orientation>[AD])(?<number>\\d+)\\. (?<clue>.+) ~ (?<answer>.+)");
+            Pattern.compile("(?<orientation>[AD])(?<number>\\d+)\\. (?<clue>.*) ~ (?<answer>.+)");
 
     /** The clues model builder. */
     private final XdClues.Builder builder;
