@@ -5,13 +5,17 @@
 
 package com.gitlab.super7ramp.croiseur.common.puzzle;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Definition of the grid of a crossword puzzle.
@@ -110,6 +114,9 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
         }
     }
 
+    /** The minimal size of a group of boxes to be considered as a slot. */
+    private static final int MIN_SLOT_LENGTH = 2;
+
     /**
      * Validates grid.
      *
@@ -164,4 +171,73 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
         return Collections.unmodifiableMap(filled);
     }
 
+    /**
+     * Returns the across slot contents.
+     * <p>
+     * Non-filled boxes will be replaced by the character '.'.
+     * <p>
+     * Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be
+     * considered as a slot and have its content returned by this method.
+     *
+     * @return the across slot contents
+     */
+    public List<String> acrossSlotContents() {
+        final List<String> slotContents = new ArrayList<>();
+        final StringBuilder contentBuffer = new StringBuilder();
+        for (int row = 0; row < height; row++) {
+            int columnStart = 0;
+            for (int column = columnStart; column < width; column++) {
+                final GridPosition position = at(column, row);
+                if (shaded.contains(position)) {
+                    if (column - columnStart >= MIN_SLOT_LENGTH) {
+                        slotContents.add(contentBuffer.toString());
+                    }
+                    columnStart = column + 1;
+                    contentBuffer.delete(0, contentBuffer.length());
+                } else {
+                    contentBuffer.append(filled.getOrDefault(position, '.'));
+                }
+            }
+            if (width - columnStart >= MIN_SLOT_LENGTH) {
+                slotContents.add(contentBuffer.toString());
+            }
+            contentBuffer.delete(0, contentBuffer.length());
+        }
+        return slotContents;
+    }
+
+    /**
+     * Returns the down slot contents.
+     * <p>
+     * Non-filled boxes will be replaced by the character '.'.
+     * <p>
+     * Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be
+     * considered as a slot and have its content returned by this method.
+     *
+     * @return the down slot contents
+     */
+    public List<String> downSlotContents() {
+        final List<String> slotContents = new ArrayList<>();
+        final StringBuilder contentBuffer = new StringBuilder();
+        for (int column = 0; column < width; column++) {
+            int rowStart = 0;
+            for (int row = rowStart; row < height; row++) {
+                final GridPosition position = at(column, row);
+                if (shaded.contains(position)) {
+                    if (row - rowStart >= MIN_SLOT_LENGTH) {
+                        slotContents.add(contentBuffer.toString());
+                    }
+                    rowStart = row + 1;
+                    contentBuffer.delete(0, contentBuffer.length());
+                } else {
+                    contentBuffer.append(filled.getOrDefault(position, '.'));
+                }
+            }
+            if (height - rowStart >= MIN_SLOT_LENGTH) {
+                slotContents.add(contentBuffer.toString());
+            }
+            contentBuffer.delete(0, contentBuffer.length());
+        }
+        return slotContents;
+    }
 }

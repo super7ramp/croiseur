@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.puzzle.repository.filesystem.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -70,11 +71,12 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void create() throws WriteException, IOException {
+    void create() throws WriteException {
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = PuzzleClues.empty();
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
 
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
 
@@ -84,11 +86,12 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void create_consistencyWithQuery() throws WriteException, IOException {
+    void create_consistencyWithQuery() throws WriteException {
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = PuzzleClues.empty();
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
 
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
         final SavedPuzzle queriedPuzzle =
@@ -98,15 +101,16 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void update() throws WriteException, IOException {
+    void update() throws WriteException {
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = PuzzleClues.empty();
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
         final PuzzleGrid changedGrid =
                 new PuzzleGrid.Builder().width(2).height(2).fill(at(0, 0), 'A').build();
-        final Puzzle changedPuzzleData = new Puzzle(details, changedGrid);
+        final Puzzle changedPuzzleData = new Puzzle(details, changedGrid, clues);
         final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(changedPuzzleData);
 
         final SavedPuzzle updatedSavedPuzzle = repo.update(changedPuzzle);
@@ -117,11 +121,12 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void update_noRealChange() throws WriteException, IOException {
+    void update_noRealChange() throws WriteException {
         final PuzzleDetails details =
                 new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = PuzzleClues.empty();
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
         final ChangedPuzzle noReallyChangedPuzzle = savedPuzzle.modifiedWith(puzzle);
 
@@ -141,7 +146,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void delete_missing() throws IOException {
+    void delete_missing() {
         assertThrows(WriteException.class, () -> repo.delete(1L));
     }
 
@@ -168,7 +173,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void query_empty() throws IOException {
+    void query_empty() {
         final Optional<SavedPuzzle> puzzle = repo.query(1L);
         assertEquals(Optional.empty(), puzzle);
     }
@@ -185,7 +190,7 @@ final class FileSystemPuzzleRepositoryTest {
     }
 
     @Test
-    void list_empty() throws IOException {
+    void list_empty() {
         final Collection<SavedPuzzle> puzzles = repo.list();
         assertEquals(Collections.emptyList(), puzzles);
     }

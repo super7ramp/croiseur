@@ -17,7 +17,6 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -220,84 +219,18 @@ final class PuzzleConverter {
     private static XdClues toXd(final PuzzleGrid grid, final PuzzleClues clues) {
         final XdClues.Builder builder = new XdClues.Builder();
 
-        final List<String> acrossSlotsContents = acrossSlotContents(grid);
+        final List<String> acrossSlotsContents = grid.acrossSlotContents();
         final List<String> acrossClues = clues.across();
         for (int i = 0; i < acrossClues.size(); i++) {
             builder.across(i + 1, acrossClues.get(i), acrossSlotsContents.get(i));
         }
 
-        final List<String> downSlotContents = downSlotContents(grid);
+        final List<String> downSlotContents = grid.downSlotContents();
         final List<String> downClues = clues.down();
         for (int i = 0; i < downClues.size(); i++) {
             builder.down(i + 1, downClues.get(i), downSlotContents.get(i));
         }
 
         return builder.build();
-    }
-
-    /**
-     * Retrieves the across slot contents from given grid domain model.
-     * <p>
-     * Non-filled boxes will be replaced by the character '.'.
-     *
-     * @param grid the grid domain model
-     * @return the across slot contents
-     */
-    private static List<String> acrossSlotContents(final PuzzleGrid grid) {
-        final List<String> slotContents = new ArrayList<>();
-        final StringBuilder contentBuffer = new StringBuilder();
-        for (int row = 0; row < grid.height(); row++) {
-            int columnStart = 0;
-            for (int column = columnStart; column < grid.width(); column++) {
-                final GridPosition position = at(column, row);
-                if (grid.shaded().contains(position)) {
-                    if (column - columnStart > 1) {
-                        slotContents.add(contentBuffer.toString());
-                    }
-                    columnStart = column + 1;
-                    contentBuffer.delete(0, contentBuffer.length());
-                } else {
-                    contentBuffer.append(grid.filled().getOrDefault(position, '.'));
-                }
-            }
-            if (grid.width() - columnStart > 1) {
-                slotContents.add(contentBuffer.toString());
-            }
-            contentBuffer.delete(0, contentBuffer.length());
-        }
-        return slotContents;
-    }
-
-    /**
-     * Retrieves the down slot contents from given grid domain model.
-     * <p>
-     * Non-filled boxes will be replaced by the character '.'.
-     *
-     * @param grid the grid domain model
-     * @return the down slot contents
-     */
-    private static List<String> downSlotContents(final PuzzleGrid grid) {
-        final List<String> slotContents = new ArrayList<>();
-        final StringBuilder contentBuffer = new StringBuilder();
-        for (int column = 0; column < grid.width(); column++) {
-            int rowStart = 0;
-            for (int row = rowStart; row < grid.height(); row++) {
-                final GridPosition position = at(column, row);
-                if (grid.shaded().contains(position)) {
-                    if (row - rowStart > 1) {
-                        slotContents.add(contentBuffer.toString());
-                    }
-                    rowStart = row + 1;
-                    contentBuffer.delete(0, contentBuffer.length());
-                } else {
-                    contentBuffer.append(grid.filled().getOrDefault(position, '.'));
-                }
-            }
-            if (grid.height() - rowStart > 1) {
-                slotContents.add(contentBuffer.toString());
-            }
-            contentBuffer.delete(0, contentBuffer.length());
-        }
-        return slotContents;
     }
 }

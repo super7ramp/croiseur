@@ -7,9 +7,11 @@ package com.gitlab.super7ramp.croiseur.puzzle.repository.filesystem.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClue;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdClues;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdCrossword;
 import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdGrid;
@@ -17,6 +19,7 @@ import com.gitlab.super7ramp.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -48,7 +51,8 @@ final class PuzzleConverter {
         final int revision = extractRevision(persistenceCrosswordModel.metadata());
         final PuzzleDetails details = toDomain(persistenceCrosswordModel.metadata());
         final PuzzleGrid grid = toDomain(persistenceCrosswordModel.grid());
-        final Puzzle puzzle = new Puzzle(details, grid);
+        final PuzzleClues clues = toDomain(persistenceCrosswordModel.clues());
+        final Puzzle puzzle = new Puzzle(details, grid, clues);
         return new SavedPuzzle(id, puzzle, revision);
     }
 
@@ -61,7 +65,7 @@ final class PuzzleConverter {
     static XdCrossword toPersistence(final SavedPuzzle puzzle) {
         final XdMetadata metadata = toPersistence(puzzle.details(), puzzle.revision());
         final XdGrid grid = toPersistence(puzzle.grid());
-        final XdClues clues = new XdClues.Builder().build(); // clues are not managed yet
+        final XdClues clues = toPersistence(puzzle.grid(), puzzle.clues());
         return new XdCrossword(metadata, grid, clues);
     }
 
@@ -116,6 +120,20 @@ final class PuzzleConverter {
                                  persistenceMetadataModel.editor().orElse(""),
                                  persistenceMetadataModel.copyright().orElse(""),
                                  persistenceMetadataModel.date());
+    }
+
+    /**
+     * Converts the persistence clues model to the domain clues model.
+     *
+     * @param persistenceCluesModel the persistence clues model
+     * @return the domain clues model
+     */
+    private static PuzzleClues toDomain(final XdClues persistenceCluesModel) {
+        final List<String> acrossClues =
+                persistenceCluesModel.acrossClues().stream().map(XdClue::clue).toList();
+        final List<String> downClues =
+                persistenceCluesModel.downClues().stream().map(XdClue::clue).toList();
+        return new PuzzleClues(acrossClues, downClues);
     }
 
     /**
@@ -213,6 +231,31 @@ final class PuzzleConverter {
                 }
             }
         }
+        return builder.build();
+    }
+
+    /**
+     * Converts a domain clues model to a persistence clues model.
+     *
+     * @param grid  the domain grid model
+     * @param clues the domain clues model
+     * @return the persistence clues model
+     */
+    private static XdClues toPersistence(final PuzzleGrid grid, final PuzzleClues clues) {
+        final XdClues.Builder builder = new XdClues.Builder();
+
+        final List<String> acrossSlotsContents = grid.acrossSlotContents();
+        final List<String> acrossClues = clues.across();
+        for (int i = 0; i < acrossClues.size(); i++) {
+            builder.across(i + 1, acrossClues.get(i), acrossSlotsContents.get(i));
+        }
+
+        final List<String> downSlotContents = grid.downSlotContents();
+        final List<String> downClues = clues.down();
+        for (int i = 0; i < downClues.size(); i++) {
+            builder.down(i + 1, downClues.get(i), downSlotContents.get(i));
+        }
+
         return builder.build();
     }
 }
