@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.puzzle.repository.memory.plugin;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.ChangedPuzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
@@ -149,6 +150,6 @@ final class InMemoryPuzzleRepositoryTest {
     private static Puzzle puzzleOfSize(final int numberOfColumns, final int numberOfRows) {
         final var grid =
                 new PuzzleGrid.Builder().height(numberOfRows).width(numberOfColumns).build();
-        return new Puzzle(PuzzleDetails.empty(), grid);
+        return new Puzzle(PuzzleDetails.empty(), grid, PuzzleClues.empty());
     }
 }
