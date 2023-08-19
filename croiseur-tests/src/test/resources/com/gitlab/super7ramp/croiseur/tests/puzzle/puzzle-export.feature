@@ -8,8 +8,8 @@ Feature: Export Puzzle
 
   Background:
     Given the puzzle repository contains:
-      | Id | Revision | Title        | Author   | Editor   | Copyright | Date       | Grid (rows) |
-      | 1  | 1        | Example Grid | Jane Doe | John Doe |           | 2023-06-19 | ABC,DEF,GHI |
+      | Id | Revision | Title        | Author   | Editor   | Copyright | Date       | Grid (rows) | Clues (across)          | Clues (down)                 |
+      | 1  | 1        | Example Grid | Jane Doe | John Doe |           | 2023-06-19 | ABC,DEF,GHI | Start. - Middle. - End. | Some Very. - Dummy. - Clues. |
 
   Scenario: Export Puzzle - xd Format
     When user requests to export the puzzle with id 1 to format '*.xd'
@@ -26,13 +26,15 @@ Feature: Export Puzzle
     GHI
 
 
+    A1. Start. ~ ABC
+    A2. Middle. ~ DEF
+    A3. End. ~ GHI
 
+    D1. Some Very. ~ ADG
+    D2. Dummy. ~ BEH
+    D3. Clues. ~ CFI
 
     """
-    # The 4 new lines at the end are normal:
-    # - 1 new line after grid
-    # - 2 new lines separating grid from clues
-    # - 1 new line between across and down clues (which are both empty)
 
   Scenario: Export Puzzle - Unsupported Format
     When user requests to export the puzzle with id 1 to format 'unknown'

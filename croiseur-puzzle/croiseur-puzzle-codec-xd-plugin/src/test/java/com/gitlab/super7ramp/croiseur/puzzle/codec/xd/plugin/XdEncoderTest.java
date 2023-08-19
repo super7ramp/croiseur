@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
@@ -34,7 +35,9 @@ final class XdEncoderTest {
                                                  .fill(at(0, 2), 'G').fill(at(1, 2), 'H')
                                                  .fill(at(2, 2), 'I')
                                                  .build();
-        final var puzzle = new Puzzle(details, grid, PuzzleClues.empty() /* TODO #7 fill */);
+        final var clues = new PuzzleClues(List.of("Middle.", "End."),
+                                          List.of("Some Very.", "Dummy.", "Clues."));
+        final var puzzle = new Puzzle(details, grid, clues);
         final var out = new ByteArrayOutputStream();
 
         new XdEncoder().encode(puzzle, out);
@@ -51,7 +54,12 @@ final class XdEncoderTest {
                      GHI
 
 
+                     A1. Middle. ~ DEF
+                     A2. End. ~ GHI
 
+                     D1. Some Very. ~ .DG
+                     D2. Dummy. ~ EH
+                     D3. Clues. ~ CFI
                      """, out.toString());
     }
 }
