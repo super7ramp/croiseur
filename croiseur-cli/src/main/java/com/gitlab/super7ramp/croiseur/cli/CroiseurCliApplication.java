@@ -12,6 +12,7 @@ import com.gitlab.super7ramp.croiseur.cli.controller.clue.ClueCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.DictionaryCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.dictionary.parser.DictionaryIdentifierParser;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.PuzzleCommand;
+import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.parser.Clue;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.SolverRunCommand;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridPositionParser;
@@ -64,7 +65,8 @@ final class CroiseurCliApplication {
                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
                .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf))
-               .registerConverter(Random.class, TypeConverter.wrap(RandomParser::parse));
+               .registerConverter(Random.class, TypeConverter.wrap(RandomParser::parse))
+               .registerConverter(Clue.class, TypeConverter.wrap(Clue::valueOf));
     }
 
     /**

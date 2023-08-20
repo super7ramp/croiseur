@@ -31,7 +31,7 @@ final class SolverResultFormatter {
                 PuzzleFormatter.formatPuzzleGrid(result.grid(), result.unsolvableBoxes());
         final String lineSeparator = System.lineSeparator();
         return resultHeaderKey + resultHeaderValue + lineSeparator + lineSeparator +
-               formattedPuzzle;
+               formattedPuzzle + lineSeparator;
     }
 
     /**

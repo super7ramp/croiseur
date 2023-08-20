@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,14 +55,28 @@ final class PuzzleFormatter {
      */
     static String formatSavedPuzzle(final SavedPuzzle savedPuzzle) {
         final PuzzleDetails details = savedPuzzle.details();
-        return $("identifier") + ": " + savedPuzzle.id() + LINE_SEPARATOR +
-               $("revision") + ": " + savedPuzzle.revision() + LINE_SEPARATOR +
-               $("title") + ": " + details.title() + LINE_SEPARATOR +
-               $("author") + ": " + details.author() + LINE_SEPARATOR +
-               $("editor") + ": " + details.editor() + LINE_SEPARATOR +
-               $("copyright") + ": " + details.copyright() + LINE_SEPARATOR +
-               $("date") + ": " + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
-               $("grid") + ":" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid());
+        // @formatter:off
+        return $("identifier")   + ": "                 + savedPuzzle.id()                                         + LINE_SEPARATOR +
+               $("revision")     + ": "                 + savedPuzzle.revision()                                   + LINE_SEPARATOR +
+               $("title")        + ": "                 + details.title()                                          + LINE_SEPARATOR +
+               $("author")       + ": "                 + details.author()                                         + LINE_SEPARATOR +
+               $("editor")       + ": "                 + details.editor()                                         + LINE_SEPARATOR +
+               $("copyright")    + ": "                 + details.copyright()                                      + LINE_SEPARATOR +
+               $("date")         + ": "                 + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
+               $("grid")         + ":" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid())                     + LINE_SEPARATOR +
+               $("clues.across") + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().across()) +
+               $("clues.down")   + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().down());
+        // @formatter:on
+    }
+
+    /**
+     * Returns the localised message with given key.
+     *
+     * @param key the message key
+     * @return the localised message
+     */
+    private static String $(final String key) {
+        return ResourceBundles.$("presenter.puzzle." + key);
     }
 
     /**
@@ -102,26 +117,18 @@ final class PuzzleFormatter {
                 } else {
                     value = filledBoxes.getOrDefault(position, EMPTY);
                 }
-                final String format = unsolvableBoxes.contains(position) ? UNSOLVABLE_FORMAT :
-                        DEFAULT_FORMAT;
+                final String format =
+                        unsolvableBoxes.contains(position) ? UNSOLVABLE_FORMAT : DEFAULT_FORMAT;
                 final String box =
                         CommandLine.Help.Ansi.AUTO.string("@|" + format + " " + value + "|@");
                 sb.append(box);
                 sb.append(COLUMN_SEPARATOR);
             }
-            sb.append(LINE_SEPARATOR);
+            if (y < height - 1) {
+                sb.append(LINE_SEPARATOR);
+            }
         }
         return sb.toString();
-    }
-
-    /**
-     * Returns the localised message with given key.
-     *
-     * @param key the message key
-     * @return the localised message
-     */
-    private static String $(final String key) {
-        return ResourceBundles.$("presenter.puzzle." + key);
     }
 
     private static int width(final Set<GridPosition> positions) {
@@ -138,4 +145,20 @@ final class PuzzleFormatter {
                         .orElse(-1) + 1;
     }
 
+    /**
+     * Formats the given clue list.
+     *
+     * @param clues the clue list
+     * @return the formatted clue list
+     */
+    private static String formatClues(final List<String> clues) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < clues.size(); i++) {
+            final String content = clues.get(i);
+            if (!content.isEmpty()) {
+                sb.append(i + 1).append(". ").append(content).append(LINE_SEPARATOR);
+            }
+        }
+        return sb.toString();
+    }
 }

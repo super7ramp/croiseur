@@ -120,6 +120,9 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          Date: $TODAY
                          Grid:
 
+                         Across:
+                         Down:
+
                          Result: SUCCESS
 
                          |F|T|P|S|
@@ -141,6 +144,8 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |L|O|L|A|
                          |O|U|E|N|
                          |C|R|A|G|
+                         Across:
+                         Down:
 
                          """.replace("$TODAY", LocalDate.now().toString()))
                  .and().doesNotWriteToStdErr()
@@ -254,6 +259,8 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |B| |#|
                          |B| | |
                          |B| | |
+                         Across:
+                         Down:
 
                          Result: IMPOSSIBLE
 
@@ -261,7 +268,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |B| |#|
                          |B| | |
                          |B| | |
-                                                  
+
                          """.replace("$TODAY", LocalDate.now().toString()))
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(NO_SOLUTION_FOUND);

@@ -53,7 +53,10 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                        "--editor", "Nobody",
                        "--copyright", "CC-0",
                        "--date", "2023-06-21",
-                       "--rows", "...,ABC,#D.");
+                       "--rows", "...,ABC,#D.",
+                       "--across-clue", "2,Some Very.",
+                       "--down-clue", "1,Dummy.",
+                       "--down-clue", "3,Clues.");
         thenCli().writesToStdOut("""
                                  Saved puzzle.
                                                                            
@@ -68,7 +71,12 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  | | | |
                                  |A|B|C|
                                  |#|D| |
-                                                                           
+                                 Across:
+                                 2. Some Very.
+                                 Down:
+                                 1. Dummy.
+                                 3. Clues.
+
                                  """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
@@ -76,9 +84,14 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
     void update() {
-        givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows",
-                          "...,ABC,#D.");
-        whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
+        givenOneHasRunCli("puzzle", "create",
+                          "--author", "Me",
+                          "--date", "2023-06-22",
+                          "--rows", "...,ABC,#D.");
+        whenOneRunsCli("puzzle", "update", "1",
+                       "--title", "Example",
+                       "--rows", "XYZ,ABC,#D.",
+                       "--across-clue", "1,A clue.");
         thenCli().writesToStdOut("""
                                  Saved puzzle.
                                                                            
@@ -93,7 +106,10 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  |X|Y|Z|
                                  |A|B|C|
                                  |#|D| |
-                                                                           
+                                 Across:
+                                 1. A clue.
+                                 Down:
+
                                  """)
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);
@@ -147,6 +163,8 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          | | | |
                          |A|B|C|
                          |#|D| |
+                         Across:
+                         Down:
                                                                    
                          """)
                  .and().doesNotWriteToStdErr()
@@ -243,6 +261,14 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          |A|B|C|
                          |D|E|F|
                          |G|H|I|
+                         Across:
+                         1. Start.
+                         2. Middle.
+                         3. End.
+                         Down:
+                         1. Some Very.
+                         2. Dummy.
+                         3. Clues.
 
                          """)
                  .and().doesNotWriteToStdErr()
@@ -299,6 +325,14 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          |A|B|C|
                          |D|E|F|
                          |G|H|I|
+                         Across:
+                         1. Start.
+                         2. Middle.
+                         3. End.
+                         Down:
+                         1. Some Very.
+                         2. Dummy.
+                         3. Clues.
 
                          """)
                  .and().doesNotWriteToStdErr()

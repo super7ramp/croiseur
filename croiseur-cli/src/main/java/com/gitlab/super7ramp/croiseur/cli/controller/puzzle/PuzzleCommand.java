@@ -11,6 +11,7 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.importer.PuzzleImportService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePatch;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.adapter.Puzzles;
+import com.gitlab.super7ramp.croiseur.cli.controller.puzzle.parser.Clue;
 import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.cli.status.StatusCodes;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
@@ -23,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -161,8 +163,14 @@ public final class PuzzleCommand {
             final Optional<String> copyright,
             @Option(names = {"-d", "--date"}, paramLabel = "DATE") final Optional<LocalDate> date,
             @Option(names = {"-r", "--rows"}, paramLabel = "ROWS", required = true)
-            final String gridRows) {
-        final Puzzle puzzle = Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows);
+            final String gridRows,
+            @Option(names = {"-h", "--horizontal-clue", "--across-clue"}, paramLabel = "CLUE")
+            final List<Clue> acrossClues,
+            @Option(names = {"-v", "--vertical-clue", "--down-clue"}, paramLabel = "CLUE")
+            final List<Clue> downClues) {
+        final Puzzle puzzle =
+                Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows, acrossClues,
+                                   downClues);
         puzzlePersistenceService.save(puzzle);
         return Status.getAndReset();
     }
@@ -192,9 +200,14 @@ public final class PuzzleCommand {
                @Option(names = {"-d", "--date"}, paramLabel = "DATE")
                final Optional<LocalDate> date,
                @Option(names = {"-r", "--rows"}, paramLabel = "ROWS")
-               final Optional<String> gridRows) {
+               final Optional<String> gridRows,
+               @Option(names = {"-h", "--horizontal-clue", "--across-clue"}, paramLabel = "CLUE")
+               final List<Clue> acrossClues,
+               @Option(names = {"-v", "--vertical-clue", "--down-clue"}, paramLabel = "CLUE")
+               final List<Clue> downClues) {
         final PuzzlePatch puzzlePatch =
-                Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows);
+                Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows,
+                                        acrossClues, downClues);
         puzzlePersistenceService.save(id, puzzlePatch);
         return Status.getAndReset();
     }
