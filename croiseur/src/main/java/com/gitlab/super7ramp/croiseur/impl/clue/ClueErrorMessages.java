@@ -16,6 +16,9 @@ final class ClueErrorMessages {
     /** Error message to publish when no clue provider matching the request is found. */
     static final String NO_CLUE_PROVIDER = "No clue provider found";
 
+    /** Error message to publish when clue provider fails with a runtime exception. */
+    static final String CLUE_PROVIDER_FAILED = "Clue provider %s failed with the following message: %s";
+
     /** Prevents instantiation. */
     private ClueErrorMessages() {
         // Nothing to do.
