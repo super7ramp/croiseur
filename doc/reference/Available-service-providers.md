@@ -9,7 +9,9 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 ### Clue Providers
 
-None yet.
+| Name       | Description                                       |
+|------------|---------------------------------------------------|
+| [OpenAI][] | Clue generator backed by OpenAI's ChatGPT service |
 
 ### Dictionaries
 
@@ -98,6 +100,8 @@ None yet.
 [Local XML Dictionary Provider]: ../../croiseur-dictionary/croiseur-dictionary-xml-plugin
 
 [memory]: ../../croiseur-puzzle/croiseur-puzzle-repository-memory-plugin
+
+[OpenAI]: ../../croiseur-clue/croiseur-clue-openai-plugin
 
 [Service Providers]: ../../croiseur-spi
 
