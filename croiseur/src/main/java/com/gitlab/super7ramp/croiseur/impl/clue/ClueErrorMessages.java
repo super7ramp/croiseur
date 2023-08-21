@@ -10,8 +10,11 @@ package com.gitlab.super7ramp.croiseur.impl.clue;
  */
 final class ClueErrorMessages {
 
+    /** Error message to publish when no clue is returned by clue provider. */
+    static final String NO_CLUE = "Couldn't find any acceptable clues";
+
     /** Error message to publish when no clue provider matching the request is found. */
-    static final String NO_CLUE_PROVIDER_ERROR_MESSAGE = "No clue provider found";
+    static final String NO_CLUE_PROVIDER = "No clue provider found";
 
     /** Prevents instantiation. */
     private ClueErrorMessages() {

@@ -119,8 +119,7 @@ public final class PuzzleEditionViewModel {
         while (c.next()) {
             final var acrossClues = cluesViewModel.acrossCluesProperty();
             if (c.wasReplaced()) {
-                IntStream.range(c.getFrom(), c.getTo())
-                         .forEach(i -> acrossClues.set(i, new ClueViewModel()));
+                IntStream.range(c.getFrom(), c.getTo()).forEach(i -> acrossClues.get(i).reset());
             } else if (c.wasRemoved()) {
                 acrossClues.remove(c.getFrom(), c.getFrom() + c.getRemovedSize());
             } else if (c.wasAdded()) {
@@ -141,8 +140,7 @@ public final class PuzzleEditionViewModel {
         while (c.next()) {
             final var downClues = cluesViewModel.downCluesProperty();
             if (c.wasReplaced()) {
-                IntStream.range(c.getFrom(), c.getTo())
-                         .forEach(i -> downClues.set(i, new ClueViewModel()));
+                IntStream.range(c.getFrom(), c.getTo()).forEach(i -> downClues.get(i).reset());
             } else if (c.wasRemoved()) {
                 downClues.remove(c.getFrom(), c.getFrom() + c.getRemovedSize());
             } else if (c.wasAdded()) {

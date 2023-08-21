@@ -45,7 +45,7 @@ final class ListClueProvidersUsecase {
                                      clueProvider.description()))
                              .toList();
         if (descriptions.isEmpty()) {
-            cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER_ERROR_MESSAGE);
+            cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER);
         } else {
             cluePresenter.presentClueProviders(descriptions);
         }

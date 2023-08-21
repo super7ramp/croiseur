@@ -46,12 +46,12 @@ final class GetClueUsecase {
         if (selectedClueProvider.isPresent()) {
             final Map<String, String> clues = selectedClueProvider.get().define(event.words());
             if (clues.isEmpty()) {
-                cluePresenter.presentClueError("Couldn't find any acceptable clues");
+                cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE);
             } else {
                 cluePresenter.presentClues(clues);
             }
         } else {
-            cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER_ERROR_MESSAGE);
+            cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER);
         }
     }
 
