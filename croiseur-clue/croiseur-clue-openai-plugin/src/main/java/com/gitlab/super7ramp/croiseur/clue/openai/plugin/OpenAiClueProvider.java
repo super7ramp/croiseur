@@ -19,6 +19,9 @@ public final class OpenAiClueProvider implements ClueProvider {
     /** The provider name. */
     private static final String NAME = "OpenAI";
 
+    /** The actual provider, lazily initialized. */
+    private ClueGenerator clueGenerator;
+
     /**
      * Constructs an instance.
      */
@@ -40,7 +43,18 @@ public final class OpenAiClueProvider implements ClueProvider {
 
     @Override
     public Map<String, String> define(final List<String> words) {
-        // TODO Cache generator instance in a lazily evaluated field
-        return new ClueGenerator().generate(words);
+        return clueGenerator().generate(words);
+    }
+
+    /**
+     * Gets the clue generator, creating it on first call.
+     *
+     * @return the clue generator
+     */
+    private synchronized ClueGenerator clueGenerator() {
+        if (clueGenerator == null) {
+            clueGenerator = new ClueGenerator();
+        }
+        return clueGenerator;
     }
 }
