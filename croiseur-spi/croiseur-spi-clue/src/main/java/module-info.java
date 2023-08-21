@@ -4,7 +4,7 @@
  */
 
 /**
- * Clue SPI definition.
+ * Interface definition for clue providers.
  */
 module com.gitlab.super7ramp.croiseur.spi.clue {
     exports com.gitlab.super7ramp.croiseur.spi.clue;

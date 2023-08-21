@@ -2,7 +2,7 @@
 'SPDX-License-Identifier: GPL-3.0-or-later
 
 @startdot
-digraph "solvers" {
+digraph "puzzle-repositories" {
   // All nodes are components
   node [shape=component];
 

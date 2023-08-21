@@ -7,7 +7,7 @@ import com.gitlab.super7ramp.croiseur.clue.openai.plugin.OpenAiClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 
 /**
- * A clue provider based on OpenAI.
+ * A clue provider backed by OpenAI Web API.
  */
 module com.gitlab.super7ramp.croiseur.clue.openai.plugin {
     requires com.theokanning.openai;

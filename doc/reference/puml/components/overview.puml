@@ -13,6 +13,7 @@ digraph "overview" {
 
   "info.picocli"               -> "java.base";
   "croiseur.spi.solver"        -> "croiseur.common";
+  "croiseur"                   -> "croiseur.spi.clue" [label=uses]
   "croiseur"                   -> "croiseur.spi.dictionary" [label=uses];
   "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
   "croiseur"                   -> "croiseur.spi.puzzle.codec" [label=uses];

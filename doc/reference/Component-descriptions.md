@@ -15,6 +15,7 @@ Here are the software components of Croiseur:
 |----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | [`croiseur`][]                                     | Application core library                                                                                                            |
 | [`croiseur-cli`][]                                 | Command-line frontend to `croiseur`                                                                                                 |
+| [`croiseur-clue-openai-plugin`][]                  | A clue provider backed by OpenAI Web API                                                                                            |                                                                                               |
 | [`croiseur-common`][]                              | Common types used as building blocks by all other modules                                                                           |
 | [`croiseur-dictionary-common`][]                   | Collection of utility classes useful for implementing dictionary providers                                                          |
 | [`croiseur-dictionary-hunspell-codec`][]           | Library which allows to read Hunspell dictionaries and generate all word forms from them                                            |
@@ -37,6 +38,7 @@ Here are the software components of Croiseur:
 | [`croiseur-solver-paulgb-plugin`][]                | Solver provider adapting `croiseur-solver-paulgb`                                                                                   |
 | [`croiseur-solver-szunami`][]                      | Crossword solver library based on szunami's xwords-rs                                                                               |
 | [`croiseur-solver-szunami-plugin`][]               | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
+| [`croiseur-spi-clue`][]                            | Interface definition for clue providers                                                                                             |
 | [`croiseur-spi-dictionary`][]                      | Interface definition for dictionary providers                                                                                       |
 | [`croiseur-spi-presenter`][]                       | Interface definition for presenters                                                                                                 |
 | [`croiseur-spi-puzzle-codec`][]                    | Interface definition for puzzle codecs                                                                                              |
@@ -45,11 +47,12 @@ Here are the software components of Croiseur:
 
 In addition to these components, the following external components are used:
 
-| Name      | Description                                        |
-|-----------|----------------------------------------------------|
-| `java`    | The Java platform                                  |
-| `javafx`  | Framework for creating graphical user interface    |
-| `picocli` | Framework for creating command-line user interface |
+| Name                     | Description                                        |
+|--------------------------|----------------------------------------------------|
+| `java`                   | The Java platform                                  |
+| `javafx`                 | Framework for creating graphical user interface    |
+| `info.picocli`           | Framework for creating command-line user interface |
+| `com.theokanning.openai` | OpenAI Web API Client                              |
 
 ### Dependencies
 
@@ -70,6 +73,7 @@ The following conventions apply to all diagrams:
 
 This diagram represents the main module dependencies, with the following omissions:
 
+- Clue SPI implementations (see [dedicated section](#clue-spi-implementations) below) 
 - Dictionary SPI implementations (see [dedicated section](#dictionary-spi-implementations) below)
 - Puzzle codec SPI implementations (see [dedicated section](#puzzle-codec-spi-implementations)
   below)
@@ -79,6 +83,10 @@ This diagram represents the main module dependencies, with the following omissio
 - GUI detailed dependencies (see [dedicated section](#gui-detailed-dependencies) below)
 
 ![Overview](puml/components/image/output/overview.png)
+
+#### Clue SPI Implementations
+
+![Clue SPI Implementation](puml/components/image/output/clue-spi-implementations.png)
 
 #### Dictionary SPI Implementations
 
@@ -111,6 +119,8 @@ Refer to the [generated Javadoc](https://super7ramp.gitlab.io/croiseur/).
 [`croiseur`]: ../../croiseur
 
 [`croiseur-cli`]: ../../croiseur-cli
+
+[`croiseur-clue-openai-plugin`]: ../../croiseur-clue/croiseur-clue-openai-plugin
 
 [`croiseur-common`]: ../../croiseur-common
 
@@ -155,6 +165,8 @@ Refer to the [generated Javadoc](https://super7ramp.gitlab.io/croiseur/).
 [`croiseur-solver-szunami`]: ../../croiseur-solver/croiseur-solver-szunami
 
 [`croiseur-solver-szunami-plugin`]: ../../croiseur-solver/croiseur-solver-szunami-plugin
+
+[`croiseur-spi-clue`]: ../../croiseur-spi/croiseur-spi-clue
 
 [`croiseur-spi-dictionary`]: ../../croiseur-spi/croiseur-spi-dictionary
 
