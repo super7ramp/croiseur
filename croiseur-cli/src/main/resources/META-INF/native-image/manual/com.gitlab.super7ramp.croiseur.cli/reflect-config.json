@@ -1,7 +1,325 @@
 [
-  {
-    "name": "picocli.CommandLine$HelpCommand",
-    "queryAllDeclaredMethods": true,
-    "allDeclaredFields": true
-  }
+    {
+        "name": "com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.Usage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "setCompletionTokens",
+                "parameterTypes": [
+                    "long"
+                ]
+            },
+            {
+                "name": "setPromptTokens",
+                "parameterTypes": [
+                    "long"
+                ]
+            },
+            {
+                "name": "setTotalTokens",
+                "parameterTypes": [
+                    "long"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.completion.chat.ChatCompletionChoice",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "setFinishReason",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            },
+            {
+                "name": "setIndex",
+                "parameterTypes": [
+                    "java.lang.Integer"
+                ]
+            },
+            {
+                "name": "setMessage",
+                "parameterTypes": [
+                    "com.theokanning.openai.completion.chat.ChatMessage"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.completion.chat.ChatCompletionRequest",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "getFrequencyPenalty",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getFunctionCall",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getFunctions",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getLogitBias",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getMaxTokens",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getMessages",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getModel",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getN",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getPresencePenalty",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getStop",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getStream",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getTemperature",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getTopP",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getUser",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.completion.chat.ChatCompletionResult",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "setChoices",
+                "parameterTypes": [
+                    "java.util.List"
+                ]
+            },
+            {
+                "name": "setCreated",
+                "parameterTypes": [
+                    "long"
+                ]
+            },
+            {
+                "name": "setId",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            },
+            {
+                "name": "setModel",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            },
+            {
+                "name": "setObject",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            },
+            {
+                "name": "setUsage",
+                "parameterTypes": [
+                    "com.theokanning.openai.Usage"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.completion.chat.ChatFunctionCall",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.theokanning.openai.completion.chat.ChatMessage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getContent",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getFunctionCall",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getName",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "getRole",
+                "parameterTypes": [
+
+                ]
+            },
+            {
+                "name": "setContent",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            },
+            {
+                "name": "setRole",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.service.ChatCompletionRequestMixIn",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.theokanning.openai.service.ChatCompletionRequestSerializerAndDeserializer$Serializer",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.service.ChatFunctionCallArgumentsSerializerAndDeserializer$Deserializer",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.theokanning.openai.service.ChatFunctionCallMixIn",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "picocli.CommandLine$HelpCommand",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true
+    }
 ]
