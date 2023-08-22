@@ -7,7 +7,9 @@ package com.gitlab.super7ramp.croiseur.cli.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
 import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.util.Arrays;
@@ -38,11 +40,12 @@ public final class ClueCommand {
     }
 
     @Command
-    void get(@Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
+    int get(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
+             @Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
         final GetClueRequest request = new GetClueRequest() {
             @Override
             public Optional<String> clueProvider() {
-                return Optional.empty();
+                return Optional.ofNullable(provider);
             }
 
             @Override
@@ -51,5 +54,6 @@ public final class ClueCommand {
             }
         };
         clueService.getClues(request);
+        return Status.getAndReset();
     }
 }

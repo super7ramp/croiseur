@@ -30,6 +30,14 @@ final class CroiseurCliClueTest extends FluentTestHelper {
     }
 
     @Test
+    void getCluesUnknownProvider() {
+        whenOneRunsCli("clue", "get", "--provider", "unknown", "CROSSWORD");
+        thenCli().doesNotWriteToStdOut()
+                 .and().writesToStdErr("No clue provider found\n")
+                 .and().exitsWithCode(APPLICATIVE_ERROR);
+    }
+
+    @Test
     void listProviders() {
         whenOneRunsCli("clue", "list-providers");
         thenCli().writesToStdOut("""

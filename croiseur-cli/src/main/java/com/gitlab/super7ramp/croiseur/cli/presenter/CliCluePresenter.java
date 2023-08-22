@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.cli.presenter;
 
 import com.gitlab.super7ramp.croiseur.cli.l10n.ResourceBundles;
+import com.gitlab.super7ramp.croiseur.cli.status.Status;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
@@ -36,6 +37,7 @@ final class CliCluePresenter implements CluePresenter {
     @Override
     public void presentClueError(final String error) {
         System.err.println(error);
+        Status.setGeneralApplicativeError();
     }
 
     @Override
