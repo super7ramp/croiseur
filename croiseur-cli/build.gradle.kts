@@ -48,6 +48,8 @@ application {
 tasks.named<JavaCompile>("compileJava") {
     options.compilerArgs.add("-Aother.resource.bundles=" +
             "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +
+            "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Messages," +
+            "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Prompt," +
             "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
             "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
             "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
