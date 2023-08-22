@@ -14,10 +14,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 * It embeds [dictionaries][] for multiple languages;
 * It provides several crossword [solvers][] capable of finding various grid fillings;
 * It can import and export puzzles in the [xd][] format;
+* It is able to suggest [clues][];
 * It can be used through a simple [desktop application][] for manual authoring, as well as a
   [command-line interface][] for automation;
-* It is designed to be [extensible][]: Solvers, dictionaries and even user interfaces can be plugged
-  to a core component.
+* It is designed to be [extensible][]: Solvers, dictionaries, clue providers, puzzle formats and
+  even user interfaces can be plugged to a core component.
 
 ### Getting Started 🚀
 
@@ -41,6 +42,8 @@ You may use the [reuse tool][] to generate a
 comprehensive listing of all the files with their associated licences.
 
 <!-- Reference Links -->
+
+[clues]: croiseur-clue/croiseur-clue-openai-plugin
 
 [command-line interface]: croiseur-cli
 
