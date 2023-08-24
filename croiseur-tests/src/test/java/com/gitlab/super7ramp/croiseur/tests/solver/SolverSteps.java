@@ -69,20 +69,29 @@ public final class SolverSteps {
     @When("^user requests to solve and save the following grid" +
           OPTIONALLY_WITH_SOLVER +
           AND_OPTIONALLY_WITH_DICTIONARY + AND_OPTIONALLY_WITH_RANDOMNESS + ":$")
-    public void whenSolveWith(final String solver, final String dictionary,
-                              final String dictionaryProvider, final Long randomSeed,
-                              final PuzzleGrid puzzleGrid) {
+    public void whenSolveAndSave(final String solver, final String dictionary,
+                                 final String dictionaryProvider, final Long randomSeed,
+                                 final PuzzleGrid puzzleGrid) {
         callSolver(solver, dictionary, dictionaryProvider, randomSeed, puzzleGrid,
-                   true /* save puzzle */);
+                   false /* do not get clues */, true /* save puzzle */);
+    }
+
+    @When("^user requests to solve and get clues for the following grid" + OPTIONALLY_WITH_SOLVER +
+          AND_OPTIONALLY_WITH_DICTIONARY + AND_OPTIONALLY_WITH_RANDOMNESS + ":$")
+    public void whenSolveAndGetClues(final String solver, final String dictionary,
+                                     final String dictionaryProvider, final Long randomSeed,
+                                     final PuzzleGrid puzzleGrid) {
+        callSolver(solver, dictionary, dictionaryProvider, randomSeed, puzzleGrid,
+                   true /* get clues */, false /* do not save puzzle */);
     }
 
     @When("^user requests to solve the following grid" + OPTIONALLY_WITH_SOLVER +
           AND_OPTIONALLY_WITH_DICTIONARY + AND_OPTIONALLY_WITH_RANDOMNESS + ":$")
-    public void whenProbeWith(final String solver, final String dictionary,
-                              final String dictionaryProvider, final Long randomSeed,
-                              final PuzzleGrid puzzleGrid) {
+    public void whenSolve(final String solver, final String dictionary,
+                          final String dictionaryProvider, final Long randomSeed,
+                          final PuzzleGrid puzzleGrid) {
         callSolver(solver, dictionary, dictionaryProvider, randomSeed, puzzleGrid,
-                   false /* do not save puzzle */);
+                   false /* do not get clues */, false /* do not save puzzle */);
     }
 
     /**
@@ -93,11 +102,13 @@ public final class SolverSteps {
      * @param dictionaryProvider the dictionary provider, if any, otherwise {@code null}
      * @param randomSeed         the random seed, if any, otherwise {@code null}
      * @param puzzleGrid         the grid
+     * @param withClues          whether to get clues for the solution, if any found
      * @param savePuzzle         whether to publish the given grid as a puzzle in repository
      */
     private void callSolver(final String solver, final String dictionary,
                             final String dictionaryProvider, final Long randomSeed,
-                            final PuzzleGrid puzzleGrid, final boolean savePuzzle) {
+                            final PuzzleGrid puzzleGrid, final boolean withClues,
+                            final boolean savePuzzle) {
         final SolveRequest solveRequest = new SolveRequest() {
 
             @Override
@@ -140,7 +151,7 @@ public final class SolverSteps {
 
             @Override
             public boolean withClues() {
-                return false;
+                return withClues;
             }
         };
         solverService.solve(solveRequest);
