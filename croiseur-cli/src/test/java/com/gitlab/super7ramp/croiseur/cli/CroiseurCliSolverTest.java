@@ -56,7 +56,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                  .and().writesToStdErr(
                          """
                          Missing required option: '--size=INTEGERxINTEGER'
-                         Usage: croiseur-cli solver run [-pS] [-r[=SEED]] -s=INTEGERxINTEGER [-b=
+                         Usage: croiseur-cli solver run [-cpS] [-r[=SEED]] -s=INTEGERxINTEGER [-b=
                                                         (COORDINATE,LETTER)...]... [-B=COORDINATE...]...
                                                         [-d=PROVIDER:DICTIONARY...]... [-H=(COORDINATE,
                                                         WORD)...]... [-V=(COORDINATE,WORD)...]...
@@ -67,6 +67,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                                             Pre-filled boxes e.g. '--boxes ((1,2),A) ((3,4),B)...'
                            -B, --shaded-box, --shaded-boxes=COORDINATE...
                                             Shaded boxes, e.g. '--shaded-boxes (1,2) (3,4)...'
+                           -c, --clues      Generate clues if solver finds a solution
                            -d, --dictionary, --dictionaries=PROVIDER:DICTIONARY...
                                             Dictionary identifiers
                            -H, --across, --horizontal=(COORDINATE,WORD)...
