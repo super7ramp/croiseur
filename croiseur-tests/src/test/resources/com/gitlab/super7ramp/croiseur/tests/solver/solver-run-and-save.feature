@@ -32,12 +32,15 @@ Feature: Run Solver - Run and Save
       | E | P | A |
       | S | A | Y |
     And the application updates the saved puzzle:
-      | Id          | $id         |
-      | Revision    | 2           |
-      | Title       |             |
-      | Author      |             |
-      | Editor      |             |
-      | Copyright   |             |
-      | Date        | $today      |
-      | Grid (rows) | DCM,EPA,SAY |
+      | Id             | $id                         |
+      | Revision       | 2                           |
+      | Title          |                             |
+      | Author         |                             |
+      | Editor         |                             |
+      | Copyright      |                             |
+      | Date           | $today                      |
+      | Grid (rows)    | DCM,EPA,SAY                 |
+      # (empty) is an empty string
+      | Clues (across) | (empty) - (empty) - (empty) |
+      | Clues (down)   | (empty) - (empty) - (empty) |
     And the application presents the confirmation the puzzle has been saved twice using identifier $id

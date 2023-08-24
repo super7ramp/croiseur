@@ -20,7 +20,7 @@ import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +96,7 @@ public final class PuzzleTypes {
          * (package-private constructor only accessible from SavedPuzzle).
          */
         final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(id, puzzle, 1);
-        return fakeSavedPuzzle.modifiedWith(puzzle);
+        return fakeSavedPuzzle.asChangedPuzzle();
     }
 
     @DataTableType
@@ -123,8 +123,12 @@ public final class PuzzleTypes {
     }
 
     private List<String> splitClues(final String rawClues) {
-        return Optional.ofNullable(rawClues).map(s -> List.of(s.split(CLUE_SEPARATOR)))
-                       .orElseGet(Collections::emptyList);
+        final String[] splitClues = Optional.ofNullable(rawClues)
+                                            .map(s -> s.split(CLUE_SEPARATOR))
+                                            .orElseGet(() -> new String[]{});
+        return Arrays.stream(splitClues)
+                     .map(clue -> clue.replace("(empty)", ""))
+                     .toList();
     }
 
     @ParameterType(".*")
