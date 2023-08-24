@@ -64,17 +64,22 @@ final class ClueGenerator {
         if (completion.isEmpty()) {
             return Collections.emptyMap();
         }
-        final String[] definitions =
+
+        final String[] payload =
                 completion.get(0).getMessage().getContent().split(System.lineSeparator());
-        if (definitions.length != words.size()) {
+        if (payload.length != words.size()) {
             return Collections.emptyMap();
         }
+
         final Map<String, String> clues = new HashMap<>();
         for (int i = 0; i < words.size(); i++) {
             final String word = words.get(i);
-            final String definitionPayload =
-                    definitions[i].replace(word + ":", "").replace("\"", "");
-            clues.put(word, definitionPayload);
+            final String clue = payload[i].trim()
+                                          // Model sometimes adds quotes to clue
+                                          .replace("\"", "")
+                                          // Model sometimes repeats given word despite instructions
+                                          .replaceFirst("^" + word + "\\s*(:\\s*)?", "");
+            clues.put(word, clue);
         }
         return clues;
     }
