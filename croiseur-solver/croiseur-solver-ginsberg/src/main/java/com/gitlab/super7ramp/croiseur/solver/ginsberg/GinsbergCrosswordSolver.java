@@ -126,6 +126,8 @@ public final class GinsbergCrosswordSolver {
 
         final boolean solved = solver.solve();
 
+        progressListener.onSolverProgressUpdate((short) 100);
+
         return SolverResultFactory.createFrom(crossword, stats, solved);
     }
 
