@@ -15,7 +15,6 @@ import io.cucumber.java.en.When;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -63,7 +62,7 @@ public final class ClueSteps {
 
     @Then("the application presents the clue service error {string}")
     public void thenClueError(final String error) {
-        verify(presenterMock).presentClueError(eq(error));
+        verify(presenterMock).presentClueError(error);
     }
 
 }

@@ -16,7 +16,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -61,12 +60,12 @@ public final class PuzzleExportSteps {
 
     @Then("the application presents the following puzzle encoders:")
     public void thenPresentAvailablePuzzleEncoders(final List<PuzzleCodecDetails> codecs) {
-        verify(presenterMock).presentPuzzleEncoders(eq(codecs));
+        verify(presenterMock).presentPuzzleEncoders(codecs);
     }
 
     @Then("the application presents the puzzle export error {string}")
     public void thenPresentExportError(final String error) {
-        verify(presenterMock).presentPuzzleExportError(eq(error));
+        verify(presenterMock).presentPuzzleExportError(error);
     }
 
 }

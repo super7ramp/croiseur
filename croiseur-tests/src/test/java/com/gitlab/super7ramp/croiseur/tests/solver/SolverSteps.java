@@ -23,7 +23,6 @@ import java.util.Random;
 
 import static com.gitlab.super7ramp.croiseur.tests.solver.SolverMatchers.impossible;
 import static com.gitlab.super7ramp.croiseur.tests.solver.SolverMatchers.success;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -159,12 +158,12 @@ public final class SolverSteps {
 
     @Then("the application presents the following solvers:")
     public void thenPresentSolvers(final List<SolverDescription> solverDescriptions) {
-        verify(presenterMock).presentAvailableSolvers(eq(solverDescriptions));
+        verify(presenterMock).presentAvailableSolvers(solverDescriptions);
     }
 
     @Then("the application presents the solver error {string}")
     public void thenSolverError(final String error) {
-        verify(presenterMock).presentSolverError(eq(error));
+        verify(presenterMock).presentSolverError(error);
     }
 
     @Then("the application presents the following successful solver result:")

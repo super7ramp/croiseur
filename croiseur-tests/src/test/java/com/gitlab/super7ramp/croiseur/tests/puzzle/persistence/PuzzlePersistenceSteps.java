@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.gitlab.super7ramp.croiseur.tests.puzzle.persistence.PuzzleMatchers.withId;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -98,22 +97,22 @@ public final class PuzzlePersistenceSteps {
 
     @Then("the application presents the following loaded puzzle:")
     public void thenPresentLoadedPuzzle(@Transpose final SavedPuzzle puzzle) {
-        verify(presenterMock).presentLoadedPuzzle(eq(puzzle));
+        verify(presenterMock).presentLoadedPuzzle(puzzle);
     }
 
     @Then("the application presents an empty list of puzzles")
     public void thenPresentNoPuzzle() {
-        verify(presenterMock).presentAvailablePuzzles(eq(Collections.emptyList()));
+        verify(presenterMock).presentAvailablePuzzles(Collections.emptyList());
     }
 
     @Then("the application presents the following list of puzzles:")
     public void thenPresentPuzzles(final List<SavedPuzzle> puzzles) {
-        verify(presenterMock).presentAvailablePuzzles(eq(puzzles));
+        verify(presenterMock).presentAvailablePuzzles(puzzles);
     }
 
     @Then("the application presents the puzzle repository error {string}")
     public void thenPresentPuzzleRepositoryError(final String error) {
-        verify(presenterMock).presentPuzzleRepositoryError(eq(error));
+        verify(presenterMock).presentPuzzleRepositoryError(error);
     }
 
     @Then("the application presents the confirmation the puzzle has been saved using identifier {puzzleId}")
@@ -128,7 +127,7 @@ public final class PuzzlePersistenceSteps {
 
     @Then("the application presents the confirmation the puzzle with identifier {puzzleId} has been deleted")
     public void thenPresentDeletedPuzzle(final long puzzleId) {
-        verify(presenterMock).presentDeletedPuzzle(eq(puzzleId));
+        verify(presenterMock).presentDeletedPuzzle(puzzleId);
     }
 
     @Then("the application presents the confirmation that all puzzles have been deleted")
@@ -138,7 +137,7 @@ public final class PuzzlePersistenceSteps {
 
     @Then("the application presents the following puzzle decoders:")
     public void thenPresentAvailablePuzzleDecoders(final List<PuzzleCodecDetails> codecs) {
-        verify(presenterMock).presentPuzzleDecoders(eq(codecs));
+        verify(presenterMock).presentPuzzleDecoders(codecs);
     }
 
     @Then("the application saves the following puzzle:")

@@ -14,7 +14,6 @@ import io.cucumber.java.en.When;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -51,6 +50,6 @@ public final class PuzzleImportSteps {
 
     @Then("the application presents the puzzle import error {string}")
     public void thenPresentImportError(final String error) {
-        verify(presenterMock).presentPuzzleImportError(eq(error));
+        verify(presenterMock).presentPuzzleImportError(error);
     }
 }

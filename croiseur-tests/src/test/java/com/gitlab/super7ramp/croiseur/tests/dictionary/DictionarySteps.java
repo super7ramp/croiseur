@@ -23,7 +23,6 @@ import java.util.Locale;
 
 import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.dictionaryContentWith;
 import static com.gitlab.super7ramp.croiseur.tests.dictionary.DictionaryMatchers.searchResultWith;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -111,22 +110,22 @@ public final class DictionarySteps {
 
     @Then("the application presents the following dictionaries:")
     public void thenPresentDictionaries(final List<ProvidedDictionaryDetails> dictionaries) {
-        verify(presenterMock).presentDictionaries(eq(dictionaries));
+        verify(presenterMock).presentDictionaries(dictionaries);
     }
 
     @Then("the application presents the following dictionary providers:")
     public void thenPresentDictionaryProviders(
             final List<DictionaryProviderDetails> dictionaryProviders) {
-        verify(presenterMock).presentDictionaryProviders(eq(dictionaryProviders));
+        verify(presenterMock).presentDictionaryProviders(dictionaryProviders);
     }
 
     @Then("the application presents the dictionary error {string}")
     public void thenPresentError(final String error) {
-        verify(presenterMock).presentDictionaryError(eq(error));
+        verify(presenterMock).presentDictionaryError(error);
     }
 
     @Then("application presents the following default dictionary:")
     public void thenPresentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
-        verify(presenterMock).presentDefaultDictionary(eq(defaultDictionary));
+        verify(presenterMock).presentDefaultDictionary(defaultDictionary);
     }
 }
