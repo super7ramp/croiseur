@@ -272,7 +272,8 @@ public final class CrosswordEditorController {
                 applicationViewModel.crosswordGridViewModel().boxesProperty();
         view.solveButtonDisableProperty()
             .bind(solverRunning.not()
-                               .and(selectedDictionaries.emptyProperty().or(grid.emptyProperty())));
+                               .and(selectedDictionaries.emptyProperty().or(grid.emptyProperty())
+                                                        .or(clueServiceIsRunning)));
     }
 
     /**
