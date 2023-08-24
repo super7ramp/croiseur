@@ -118,46 +118,14 @@ final class SolveUsecase {
         }
     }
 
-    private Map<String, String> optionallyGenerateClues(
-            final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
-        final Map<String, String> clues;
-        if (presentableResult.isSuccess()) {
-            final PuzzleGrid grid = presentableResult.grid();
-            final List<String> acrossWords = grid.acrossSlotContents();
-            final List<String> downWords = grid.downSlotContents();
-            final List<String> words =
-                    Stream.concat(acrossWords.stream(), downWords.stream()).distinct().toList();
-            clues = clueProvider.getClues(words);
-        } else {
-            clues = Collections.emptyMap();
-        }
-        return clues;
-    }
-
-    private void optionallyPresentClues(final Map<String, String> clues) {
-        if (!clues.isEmpty()) {
-            presenter.presentClues(clues);
-        }
-    }
-
     /**
-     * Updates the previously saved puzzle, if any.
+     * Selects the solver to use given request parameters.
      *
-     * @param savedPuzzleOpt    the previously saved puzzle, if any
-     * @param presentableResult the solver presentable result
-     * @param clues             the clues
+     * @param request the solve request
+     * @return the solver to use
      */
-    private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
-                                             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult,
-                                             final Map<String, String> clues) {
-        if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
-            final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
-            final PuzzleGrid newGrid = presentableResult.grid();
-            final PuzzleClues newClues = PuzzleClues.from(clues, newGrid);
-            final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(newGrid, newClues);
-            puzzleRepository.update(changedPuzzle);
-        } // else no previously saved puzzle, do nothing
-
+    private Optional<CrosswordSolver> selectSolver(final SolveRequest request) {
+        return request.solver().map(solvers::get).or(solvers.values().stream()::findFirst);
     }
 
     /**
@@ -220,13 +188,43 @@ final class SolveUsecase {
     }
 
     /**
-     * Selects the solver to use given request parameters.
+     * Updates the previously saved puzzle, if any.
      *
-     * @param request the solve request
-     * @return the solver to use
+     * @param savedPuzzleOpt    the previously saved puzzle, if any
+     * @param presentableResult the solver presentable result
+     * @param clues             the clues
      */
-    private Optional<CrosswordSolver> selectSolver(final SolveRequest request) {
-        return request.solver().map(solvers::get).or(solvers.values().stream()::findFirst);
+    private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
+                                             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult,
+                                             final Map<String, String> clues) {
+        if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
+            final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
+            final PuzzleGrid newGrid = presentableResult.grid();
+            final PuzzleClues newClues = PuzzleClues.from(clues, newGrid);
+            final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(newGrid, newClues);
+            puzzleRepository.update(changedPuzzle);
+        } // else no previously saved puzzle, do nothing
     }
 
+    private Map<String, String> optionallyGenerateClues(
+            final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+        final Map<String, String> clues;
+        if (presentableResult.isSuccess()) {
+            final PuzzleGrid grid = presentableResult.grid();
+            final List<String> acrossWords = grid.acrossSlotContents();
+            final List<String> downWords = grid.downSlotContents();
+            final List<String> words =
+                    Stream.concat(acrossWords.stream(), downWords.stream()).distinct().toList();
+            clues = clueProvider.getClues(words);
+        } else {
+            clues = Collections.emptyMap();
+        }
+        return clues;
+    }
+
+    private void optionallyPresentClues(final Map<String, String> clues) {
+        if (!clues.isEmpty()) {
+            presenter.presentClues(clues);
+        }
+    }
 }
