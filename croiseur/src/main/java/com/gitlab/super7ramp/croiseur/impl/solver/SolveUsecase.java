@@ -112,7 +112,7 @@ final class SolveUsecase {
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
-            final Map<String, String> clues = optionallyGenerateClues(presentableResult);
+            final Map<String, String> clues = optionallyGenerateClues(event.withClues(), presentableResult);
             optionallyPresentClues(clues);
             optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult, clues);
         }
@@ -207,9 +207,10 @@ final class SolveUsecase {
     }
 
     private Map<String, String> optionallyGenerateClues(
+            final boolean eventRequestedClues,
             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
         final Map<String, String> clues;
-        if (presentableResult.isSuccess()) {
+        if (eventRequestedClues && presentableResult.isSuccess()) {
             final PuzzleGrid grid = presentableResult.grid();
             final List<String> acrossWords = grid.acrossSlotContents();
             final List<String> downWords = grid.downSlotContents();
