@@ -5,15 +5,32 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SolveSplitMenuButton.css"
-         text="%solve-button" type="SplitMenuButton" xmlns="http://javafx.com/javafx/17">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SolveSplitMenuButton.css" text="%solve-button"
+         type="SplitMenuButton" xmlns="http://javafx.com/javafx/17">
     <graphic>
         <ImageView id="solve-button-image-view"/>
     </graphic>
     <tooltip>
         <Tooltip text="%solve-tooltip"/>
     </tooltip>
+    <items>
+        <SeparatorMenuItem/>
+        <CheckMenuItem fx:id="fillCluesOnSuccessMenuItem">
+            <!-- Use a Label inside graphic instead of text since there is no way to attach a
+                 Tooltip on a MenuItem -->
+            <graphic>
+                <Label text="%get-clues-item-text">
+                    <tooltip>
+                        <Tooltip text="%get-clues-item-tooltip"/>
+                    </tooltip>
+                </Label>
+            </graphic>
+        </CheckMenuItem>
+    </items>
 </fx:root>

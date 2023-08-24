@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.view;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -13,10 +14,10 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
@@ -25,9 +26,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * A start/stop solve button with additional menu to select solver.
+ * A start/stop solve button with additional menu to select solver and behaviour upon solver
+ * success.
  */
 public final class SolveSplitMenuButton extends SplitMenuButton {
+
+    /** The number of static items defined in fxml (separator item + get clues item). */
+    private static final int STATIC_ITEMS = 2;
 
     /** The available solvers. */
     private final ListProperty<SolverItemViewModel> availableSolvers;
@@ -37,6 +42,10 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /** The toggle group. */
     private final ToggleGroup toggleGroup;
+
+    /** The menu item to configure whether clues should be filled upon solver success. */
+    @FXML
+    private CheckMenuItem fillCluesOnSuccessMenuItem;
 
     /**
      * Constructs an instance.
@@ -50,24 +59,37 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
     }
 
     /**
-     * Creates a new menu item with.
+     * Returns the selected solver property.
+     * <p>
+     * Value is {@code null} if no solver is selected.
      *
-     * @param solver the solver
-     * @return a new menu item
+     * @return the selected solver property
      */
-    private static RadioMenuItem createMenuItem(final SolverItemViewModel solver) {
-        /*
-         * MenuItem doesn't extend Control so a Tooltip cannot be added directly to it.
-         * Here's a small hack that instead of setting text in the expected field puts it in a
-         * Label inside the optional graphics node attached to the item. It displays fine and
-         * tooltip can be attached to the Label (since it extends Control).
-         */
-        final Label label = new Label(solver.name());
-        final Tooltip tooltip = new Tooltip(solver.description());
-        label.setTooltip(tooltip);
-        return new RadioMenuItem(null, label);
+    public ReadOnlyStringProperty selectedSolverProperty() {
+        return selectedSolver.getReadOnlyProperty();
     }
 
+    /**
+     * Returns the available solvers property.
+     *
+     * @return the available solvers property
+     */
+    public ListProperty<SolverItemViewModel> availableSolversProperty() {
+        return availableSolvers;
+    }
+
+    /**
+     * Whether item "get clues on success" is checked.
+     *
+     * @return the property indicating whether item "get clues on success" is checked.
+     */
+    public BooleanProperty getCluesOnSuccessProperty() {
+        return fillCluesOnSuccessMenuItem.selectedProperty();
+    }
+
+    /**
+     * Initializes the control after object hierarchy has been loaded from FXML.
+     */
     @FXML
     private void initialize() {
         availableSolvers.addListener((ListChangeListener<SolverItemViewModel>) c -> {
@@ -95,34 +117,32 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
         final RadioMenuItem item = createMenuItem(solver);
         item.setToggleGroup(toggleGroup);
         item.setOnAction(event -> selectedSolver.set(solver.name()));
+
         final List<MenuItem> items = getItems();
-        if (items.isEmpty()) {
+        items.add(items.size() - STATIC_ITEMS, item);
+
+        if (items.size() == STATIC_ITEMS + 1) {
+            // Auto select first solver
             item.setSelected(true);
-            items.add(item);
-            items.add(new SeparatorMenuItem());
-        } else {
-            items.add(item);
         }
     }
 
     /**
-     * Returns the selected solver property.
-     * <p>
-     * Value is {@code null} if no solver is selected.
+     * Creates a new menu item with.
      *
-     * @return the selected solver property
+     * @param solver the solver
+     * @return a new menu item
      */
-    public ReadOnlyStringProperty selectedSolverProperty() {
-        return selectedSolver.getReadOnlyProperty();
+    private static RadioMenuItem createMenuItem(final SolverItemViewModel solver) {
+        /*
+         * MenuItem doesn't extend Control so a Tooltip cannot be added directly to it.
+         * Here's a small hack that instead of setting text in the expected field puts it in a
+         * Label inside the optional graphics node attached to the item. It displays fine and
+         * tooltip can be attached to the Label (since it extends Control).
+         */
+        final Label label = new Label(solver.name());
+        final Tooltip tooltip = new Tooltip(solver.description());
+        label.setTooltip(tooltip);
+        return new RadioMenuItem(null, label);
     }
-
-    /**
-     * Returns the available solvers property.
-     *
-     * @return the available solvers property
-     */
-    public ListProperty<SolverItemViewModel> availableSolversProperty() {
-        return availableSolvers;
-    }
-
 }

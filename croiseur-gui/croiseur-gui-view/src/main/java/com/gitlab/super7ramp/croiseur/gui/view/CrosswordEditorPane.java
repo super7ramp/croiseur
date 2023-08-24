@@ -20,6 +20,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -398,6 +399,15 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     public ReadOnlyProperty<String> selectedSolverProperty() {
         return toolbar.solveButtonSelectedSolverProperty();
+    }
+
+    /**
+     * Returns whether clues should be filled upon solver success.
+     *
+     * @return whether clues should be filled upon solver success
+     */
+    public ReadOnlyBooleanProperty fillClueOnSolverSuccessProperty() {
+        return toolbar.fillClueOnSolverSuccessProperty();
     }
 
     /**

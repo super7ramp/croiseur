@@ -5,7 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -14,7 +16,7 @@ import javafx.collections.FXCollections;
 /**
  * The solver selection view model.
  */
-public final class SolverSelectionViewModel {
+public final class SolverConfigurationViewModel {
 
     /** The available solvers. */
     private final ListProperty<SolverItemViewModel> availableSolvers;
@@ -22,13 +24,17 @@ public final class SolverSelectionViewModel {
     /** The selected solver (name). */
     private final StringProperty selectedSolverName;
 
+    /** Whether the clues should be automatically for the solution returned by solver. */
+    private final BooleanProperty fillCluesOnSuccess;
+
     /**
      * Constructs an instance.
      */
-    public SolverSelectionViewModel() {
+    public SolverConfigurationViewModel() {
         selectedSolverName = new SimpleStringProperty(this, "selectedSolver");
         availableSolvers = new SimpleListProperty<>(this, "availableSolvers",
-                FXCollections.observableArrayList());
+                                                    FXCollections.observableArrayList());
+        fillCluesOnSuccess = new SimpleBooleanProperty(this, "fillCluesOnSuccess");
     }
 
     /**
@@ -58,5 +64,23 @@ public final class SolverSelectionViewModel {
      */
     public ListProperty<SolverItemViewModel> availableSolversProperty() {
         return availableSolvers;
+    }
+
+    /**
+     * Returns the "fill clues on success" property.
+     *
+     * @return the "fill clues on success" property
+     */
+    public BooleanProperty fillCluesOnSuccessProperty() {
+        return fillCluesOnSuccess;
+    }
+
+    /**
+     * Returns the value of the "fill clues on success" property.
+     *
+     * @return the value of the "fill clues on success" property.
+     */
+    public boolean fillCluesOnSuccess() {
+        return fillCluesOnSuccess.get();
     }
 }

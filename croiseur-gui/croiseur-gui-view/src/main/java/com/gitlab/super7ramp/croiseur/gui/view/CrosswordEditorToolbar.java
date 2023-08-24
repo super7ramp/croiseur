@@ -9,6 +9,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -325,5 +326,14 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     public ListProperty<SolverItemViewModel> solveButtonAvailableSolversProperty() {
         return solveButton.availableSolversProperty();
+    }
+
+    /**
+     * Returns the "fill clues on solver success" property.
+     *
+     * @return the "fill clues on solver success" property
+     */
+    public ReadOnlyBooleanProperty fillClueOnSolverSuccessProperty() {
+        return solveButton.getCluesOnSuccessProperty();
     }
 }

@@ -25,7 +25,7 @@ public final class ApplicationViewModel {
     private final DictionariesViewModel dictionariesViewModel;
 
     /** The view model of the solver selection. */
-    private final SolverSelectionViewModel solverSelectionViewModel;
+    private final SolverConfigurationViewModel solverConfigurationViewModel;
 
     /** The view model of the solver progress. */
     private final SolverProgressViewModel solverProgressViewModel;
@@ -41,7 +41,7 @@ public final class ApplicationViewModel {
         puzzleEditionViewModel = new PuzzleEditionViewModel();
         puzzleCodecsViewModel = new PuzzleCodecsViewModel();
         dictionariesViewModel = new DictionariesViewModel();
-        solverSelectionViewModel = new SolverSelectionViewModel();
+        solverConfigurationViewModel = new SolverConfigurationViewModel();
         solverProgressViewModel = new SolverProgressViewModel();
         errorsViewModel = new ErrorsViewModel();
 
@@ -135,12 +135,12 @@ public final class ApplicationViewModel {
     }
 
     /**
-     * Returns the view model of the solver selection.
+     * Returns the view model of the solver configuration.
      *
-     * @return the view model of the solver selection
+     * @return the view model of the solver configuration
      */
-    public SolverSelectionViewModel solverSelectionViewModel() {
-        return solverSelectionViewModel;
+    public SolverConfigurationViewModel solverConfigurationViewModel() {
+        return solverConfigurationViewModel;
     }
 
     /**

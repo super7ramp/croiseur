@@ -61,7 +61,7 @@ public final class SolverController {
             protected Task<Void> createTask() {
                 return new SolveTask(applicationViewModel.crosswordGridViewModel(),
                                      applicationViewModel.dictionaryViewModel(),
-                                     applicationViewModel.solverSelectionViewModel(),
+                                     applicationViewModel.solverConfigurationViewModel(),
                                      solverService, RANDOM);
             }
         };

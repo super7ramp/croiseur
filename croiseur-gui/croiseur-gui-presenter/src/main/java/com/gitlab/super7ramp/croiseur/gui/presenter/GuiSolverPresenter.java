@@ -10,9 +10,9 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
@@ -37,7 +37,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     private final CrosswordGridViewModel crosswordGridViewModel;
 
     /** The solver selection view model. */
-    private final SolverSelectionViewModel solverSelectionViewModel;
+    private final SolverConfigurationViewModel solverConfigurationViewModel;
 
     /** The solver progress view mode. */
     private final SolverProgressViewModel solverProgressViewModel;
@@ -49,15 +49,15 @@ final class GuiSolverPresenter implements SolverPresenter {
      * Constructs an instance.
      *
      * @param crosswordGridViewModelArg   the grid view model
-     * @param solverSelectionViewModelArg the solver selection view model
+     * @param solverConfigurationViewModelArg the solver selection view model
      * @param errorsViewModelArg          the errors view model
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
-                       final SolverSelectionViewModel solverSelectionViewModelArg,
+                       final SolverConfigurationViewModel solverConfigurationViewModelArg,
                        final SolverProgressViewModel solverProgressViewModelArg,
                        final ErrorsViewModel errorsViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
-        solverSelectionViewModel = solverSelectionViewModelArg;
+        solverConfigurationViewModel = solverConfigurationViewModelArg;
         solverProgressViewModel = solverProgressViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
@@ -71,8 +71,8 @@ final class GuiSolverPresenter implements SolverPresenter {
                                                                     s.description()))
                                   .toList();
         Platform.runLater(() ->
-                                  solverSelectionViewModel.availableSolversProperty()
-                                                          .addAll(solverNames));
+                                  solverConfigurationViewModel.availableSolversProperty()
+                                                              .addAll(solverNames));
     }
 
     @Override

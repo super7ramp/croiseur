@@ -12,7 +12,7 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -35,17 +35,20 @@ final class SolveRequestImpl implements SolveRequest {
     /** The source of randomness. */
     private final Random random;
 
+    /** Whether to fill clues for the solution, if any. */
+    private final boolean fillCluesOnSuccess;
+
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModel   the crossword model
-     * @param dictionariesViewModel    the dictionary model
-     * @param solverSelectionViewModel the solver selection model
-     * @param randomArg                the source of randomness
+     * @param crosswordGridViewModel       the crossword model
+     * @param dictionariesViewModel        the dictionary model
+     * @param solverConfigurationViewModel the solver configuration model
+     * @param randomArg                    the source of randomness
      */
     SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
                      final DictionariesViewModel dictionariesViewModel,
-                     final SolverSelectionViewModel solverSelectionViewModel,
+                     final SolverConfigurationViewModel solverConfigurationViewModel,
                      final Random randomArg) {
 
         final var pdb = new PuzzleGrid.Builder();
@@ -66,8 +69,9 @@ final class SolveRequestImpl implements SolveRequest {
                                                                                    entry.name()))
                                             .toList();
 
-        selectedSolver = solverSelectionViewModel.selectedSolver();
+        selectedSolver = solverConfigurationViewModel.selectedSolver();
         random = randomArg;
+        fillCluesOnSuccess = solverConfigurationViewModel.fillCluesOnSuccess();
     }
 
     @Override
@@ -102,8 +106,7 @@ final class SolveRequestImpl implements SolveRequest {
 
     @Override
     public boolean withClues() {
-        // TODO allow configuration
-        return true;
+        return fillCluesOnSuccess;
     }
 
     private static GridPosition gridPositionFrom(final GridCoord coord) {

@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
 import javafx.concurrent.Task;
 
 import java.util.Random;
@@ -28,18 +28,18 @@ final class SolveTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModelArg   the crossword model
-     * @param dictionariesViewModelArg    the dictionary model
-     * @param solverSelectionViewModelArg the solver selection view mode
-     * @param solverServiceArg            the solver service
-     * @param randomArg                   the source of randomness
+     * @param crosswordGridViewModelArg       the crossword model
+     * @param dictionariesViewModelArg        the dictionary model
+     * @param solverConfigurationViewModelArg the solver configuration view mode
+     * @param solverServiceArg                the solver service
+     * @param randomArg                       the source of randomness
      */
     SolveTask(final CrosswordGridViewModel crosswordGridViewModelArg,
               final DictionariesViewModel dictionariesViewModelArg,
-              final SolverSelectionViewModel solverSelectionViewModelArg,
+              final SolverConfigurationViewModel solverConfigurationViewModelArg,
               final SolverService solverServiceArg, final Random randomArg) {
         solveRequest = new SolveRequestImpl(crosswordGridViewModelArg, dictionariesViewModelArg,
-                                            solverSelectionViewModelArg, randomArg);
+                                            solverConfigurationViewModelArg, randomArg);
         solverService = solverServiceArg;
     }
 

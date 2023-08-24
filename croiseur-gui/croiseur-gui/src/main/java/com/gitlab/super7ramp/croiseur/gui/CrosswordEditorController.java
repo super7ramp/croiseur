@@ -20,8 +20,8 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleCodecsViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverSelectionViewModel;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -102,7 +102,7 @@ public final class CrosswordEditorController {
     private void initialize() {
         initializeCrosswordGridBindings();
         initializeDictionaryBindings();
-        initializeSolverSelectionBindings();
+        initializeSolverConfigurationBindings();
         initializeSolverProgressBindings();
         initializeOtherSolverBindings();
         initializePuzzleBindings();
@@ -222,12 +222,15 @@ public final class CrosswordEditorController {
     }
 
     /**
-     * Initializes bindings between the solver selection view and the solver selection view model.
+     * Initializes bindings between the solver configuration view and the solver configuration view
+     * model.
      */
-    private void initializeSolverSelectionBindings() {
-        final SolverSelectionViewModel viewModel = applicationViewModel.solverSelectionViewModel();
+    private void initializeSolverConfigurationBindings() {
+        final SolverConfigurationViewModel viewModel =
+                applicationViewModel.solverConfigurationViewModel();
         view.solversProperty().set(viewModel.availableSolversProperty());
         viewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
+        viewModel.fillCluesOnSuccessProperty().bind(view.fillClueOnSolverSuccessProperty());
     }
 
     /**

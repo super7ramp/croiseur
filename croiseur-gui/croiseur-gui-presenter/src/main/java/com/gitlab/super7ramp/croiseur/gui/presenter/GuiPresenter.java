@@ -51,7 +51,7 @@ public final class GuiPresenter implements Presenter {
                                            applicationViewModel.errorsViewModel());
         solverPresenter =
                 new GuiSolverPresenter(applicationViewModel.crosswordGridViewModel(),
-                                       applicationViewModel.solverSelectionViewModel(),
+                                       applicationViewModel.solverConfigurationViewModel(),
                                        applicationViewModel.solverProgressViewModel(),
                                        applicationViewModel.errorsViewModel());
         cluePresenter = new GuiCluePresenter(applicationViewModel.cluesViewModel(),
