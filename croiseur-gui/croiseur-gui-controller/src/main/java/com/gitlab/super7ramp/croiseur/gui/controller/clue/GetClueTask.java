@@ -34,7 +34,8 @@ final class GetClueTask extends Task<Void> {
                        final ClueService clueServiceArg) {
         request = new GetClueRequestImpl(crosswordGridViewModel);
         clueService = clueServiceArg;
-        cluesViewModel.clueServiceIsRunningProperty().bind(runningProperty());
+        runningProperty().addListener(
+                (observable, oldValue, newValue) -> cluesViewModel.clueServiceIsRunning(newValue));
     }
 
     @Override

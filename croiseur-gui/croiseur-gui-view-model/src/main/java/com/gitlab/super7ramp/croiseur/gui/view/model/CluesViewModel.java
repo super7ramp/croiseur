@@ -197,4 +197,12 @@ public final class CluesViewModel {
         return clueServiceIsRunning;
     }
 
+    /**
+     * Sets the value of {@link #clueServiceIsRunningProperty()}.
+     *
+     * @param value the value to set
+     */
+    public void clueServiceIsRunning(final boolean value) {
+        clueServiceIsRunning.set(value);
+    }
 }

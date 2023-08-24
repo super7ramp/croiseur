@@ -72,7 +72,13 @@ public final class SolverController {
         solver.setOnSucceeded(e -> LOGGER.info("Solver finished"));
         solver.setOnFailed(e -> LOGGER.log(Level.WARNING, "Solver failed",
                                            e.getSource().getException()));
+
         applicationViewModel.solverRunning().bind(solver.runningProperty());
+        // Solver service may fill clues if requested; Assume it is always the case to avoid any
+        // concurrent modification.
+        applicationViewModel.solverRunning().addListener(
+                (observable, oldValue, newValue) -> applicationViewModel.clueServiceIsRunning()
+                                                                        .set(newValue));
     }
 
     /**
