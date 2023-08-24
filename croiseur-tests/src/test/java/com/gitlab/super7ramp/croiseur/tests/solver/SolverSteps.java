@@ -137,6 +137,11 @@ public final class SolverSteps {
             public SolverProgressNotificationMethod progress() {
                 return SolverProgressNotificationMethod.NONE;
             }
+
+            @Override
+            public boolean withClues() {
+                return false;
+            }
         };
         solverService.solve(solveRequest);
     }

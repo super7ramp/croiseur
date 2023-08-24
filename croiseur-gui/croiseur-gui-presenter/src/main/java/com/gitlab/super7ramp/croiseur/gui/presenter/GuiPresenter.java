@@ -55,6 +55,7 @@ public final class GuiPresenter implements Presenter {
                                        applicationViewModel.solverProgressViewModel(),
                                        applicationViewModel.errorsViewModel());
         cluePresenter = new GuiCluePresenter(applicationViewModel.cluesViewModel(),
+                                             applicationViewModel.crosswordGridViewModel(),
                                              applicationViewModel.errorsViewModel());
         puzzlePresenter = new GuiPuzzlePresenter(applicationViewModel.puzzleSelectionViewModel(),
                                                  applicationViewModel.puzzleEditionViewModel(),

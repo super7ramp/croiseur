@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
@@ -26,6 +27,9 @@ final class GuiCluePresenter implements CluePresenter {
     /** The clues view model. */
     private final CluesViewModel cluesViewModel;
 
+    /** The crossword grid view model. */
+    private final CrosswordGridViewModel gridViewModel;
+
     /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
@@ -33,11 +37,14 @@ final class GuiCluePresenter implements CluePresenter {
      * Constructs an instance.
      *
      * @param cluesViewModelArg  the clues view model
+     * @param gridViewModelArg   the crossword grid view model
      * @param errorsViewModelArg the errors view model
      */
     GuiCluePresenter(final CluesViewModel cluesViewModelArg,
+                     final CrosswordGridViewModel gridViewModelArg,
                      final ErrorsViewModel errorsViewModelArg) {
         cluesViewModel = cluesViewModelArg;
+        gridViewModel = gridViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
 
@@ -61,25 +68,27 @@ final class GuiCluePresenter implements CluePresenter {
         Platform.runLater(() -> fillCluesViewModel(clues));
     }
 
+    /**
+     * Fills the clues view model with the given clues
+     *
+     * @param clues the clues, indexed by the defined words
+     */
     private void fillCluesViewModel(final Map<String, String> clues) {
-        if (clues.isEmpty()) {
-            errorsViewModel.addError("No clue received from clue provider");
-            return;
+        final List<String> acrossSlotContents = gridViewModel.longAcrossSlotContents();
+        for (int i = 0; i < acrossSlotContents.size(); i++) {
+            final String word = acrossSlotContents.get(i);
+            final String clue = clues.get(word);
+            if (clue != null) {
+                cluesViewModel.acrossClue(i).systemContent(clue);
+            }
         }
-        // GUI fills clue one by one, there shouldn't be multiple clues
-        if (clues.size() > 1) {
-            errorsViewModel.addError("Inconsistent number of clues received from clue provider");
-            return;
-        }
-        final String clue = clues.values().iterator().next();
-        final int selectedAcrossClue = cluesViewModel.selectedAcrossClueIndex();
-        final int selectedDownClue = cluesViewModel.selectedDownClueIndex();
-        if (selectedAcrossClue != -1) {
-            cluesViewModel.acrossClue(selectedAcrossClue).systemContent(clue);
-        } else if (selectedDownClue != -1) {
-            cluesViewModel.downClue(selectedDownClue).systemContent(clue);
-        } else {
-            errorsViewModel.addError("Received clue from clue provider, but no slot selected");
+        final List<String> downSlotContents = gridViewModel.longDownSlotContents();
+        for (int i = 0; i < acrossSlotContents.size(); i++) {
+            final String word = downSlotContents.get(i);
+            final String clue = clues.get(word);
+            if (clue != null) {
+                cluesViewModel.downClue(i).systemContent(clue);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.impl.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
@@ -28,19 +29,21 @@ public final class SolverServiceImpl implements SolverService {
     /**
      * Constructs an instance.
      *
-     * @param solversArg             the solvers
-     * @param dictionaryProvidersArg the dictionary providers
-     * @param puzzleRepository       the puzzle repository
-     * @param presenterArg           the solver presenter
+     * @param solvers             the solvers
+     * @param dictionaryProviders the dictionary providers
+     * @param clueProviders       the clue providers
+     * @param puzzleRepository    the puzzle repository
+     * @param presenter           the solver presenter
      * @throws IllegalArgumentException if solver collection is empty
      */
-    public SolverServiceImpl(final Collection<CrosswordSolver> solversArg,
-                             final Collection<DictionaryProvider> dictionaryProvidersArg,
+    public SolverServiceImpl(final Collection<CrosswordSolver> solvers,
+                             final Collection<DictionaryProvider> dictionaryProviders,
+                             final Collection<ClueProvider> clueProviders,
                              final PuzzleRepository puzzleRepository,
-                             final Presenter presenterArg) {
-        listSolversUsecase = new ListSolversUsecase(solversArg, presenterArg);
-        solveUsecase = new SolveUsecase(solversArg, dictionaryProvidersArg, puzzleRepository,
-                                        presenterArg);
+                             final Presenter presenter) {
+        listSolversUsecase = new ListSolversUsecase(solvers, presenter);
+        solveUsecase = new SolveUsecase(solvers, dictionaryProviders, clueProviders,
+                                        puzzleRepository, presenter);
     }
 
     @Override

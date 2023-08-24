@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.common.puzzle;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,6 +31,22 @@ public record PuzzleClues(List<String> across, List<String> down) {
     public PuzzleClues {
         Objects.requireNonNull(across);
         Objects.requireNonNull(down);
+    }
+
+    /**
+     * Creates a new {@link PuzzleClues} from the given puzzle grid and given clues.
+     *
+     * @param clues the clues
+     * @param grid  the grid
+     * @return a new {@link PuzzleClues}
+     */
+    public static PuzzleClues from(final Map<String, String> clues, final PuzzleGrid grid) {
+        final List<String> across =
+                grid.acrossSlotContents().stream().map(word -> clues.getOrDefault(word, ""))
+                    .toList();
+        final List<String> down =
+                grid.downSlotContents().stream().map(word -> clues.getOrDefault(word, "")).toList();
+        return new PuzzleClues(across, down);
     }
 
     /**

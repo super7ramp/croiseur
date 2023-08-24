@@ -100,6 +100,12 @@ final class SolveRequestImpl implements SolveRequest {
         return SolverProgressNotificationMethod.PERIODICAL;
     }
 
+    @Override
+    public boolean withClues() {
+        // TODO allow configuration
+        return true;
+    }
+
     private static GridPosition gridPositionFrom(final GridCoord coord) {
         return new GridPosition(coord.column(), coord.row());
     }

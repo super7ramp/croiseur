@@ -85,6 +85,10 @@ public final class PuzzleEditionViewModel {
 
     /**
      * Returns the clues view model.
+     * <p>
+     * Note: The clue lists are synchronized with {@link #crosswordGridViewModel()}'s slots so that
+     * there is a 1:1 mapping between clues and slots. The clue position in a clue list is the same
+     * as a slot in a slot list.
      *
      * @return the clues view model
      */

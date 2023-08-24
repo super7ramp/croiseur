@@ -55,6 +55,22 @@ public record SavedPuzzle(long id, Puzzle data, int revision) {
     }
 
     /**
+     * Creates a new {@link ChangedPuzzle} from this saved version, using the given new grid and
+     * clues.
+     * <p>
+     * Same as {@link #modifiedWith(Puzzle)} but allows to only update the {@link #grid()} and
+     * {@link #clues()}, without touching the {@link #details()}.
+     *
+     * @param newGrid  the new grid
+     * @param newClues the new clues
+     * @return a new {@link ChangedPuzzle}
+     */
+    public ChangedPuzzle modifiedWith(final PuzzleGrid newGrid, final PuzzleClues newClues) {
+        final Puzzle newData = new Puzzle(details(), newGrid, newClues);
+        return modifiedWith(newData);
+    }
+
+    /**
      * Creates a new {@link ChangedPuzzle} from this saved version, using the given new details.
      * <p>
      * Same as {@link #modifiedWith(Puzzle)} but allows to only update the {@link #details()},

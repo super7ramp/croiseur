@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toSet;
 /**
  * Adapts command line arguments into a {@link SolveRequest}.
  */
+// TODO a builder could be created to mask the big error-prone constructor
 public final class SolveRequestImpl implements SolveRequest {
 
     private final String solver;
@@ -48,6 +49,8 @@ public final class SolveRequestImpl implements SolveRequest {
 
     private final boolean progress;
 
+    private final boolean clues;
+
     private final boolean save;
 
     /**
@@ -62,6 +65,7 @@ public final class SolveRequestImpl implements SolveRequest {
      * @param dictionaryIdArg             the dictionary identifiers
      * @param randomArg                   the randomness source to shuffle dictionaries
      * @param progressArg                 whether progress should be notified
+     * @param cluesArg                    whether to generate clues for result slot words
      * @param saveArg                     whether given grid shall be saved
      */
     public SolveRequestImpl(final String solverArg,
@@ -73,6 +77,7 @@ public final class SolveRequestImpl implements SolveRequest {
                             final DictionaryIdentifier[] dictionaryIdArg,
                             final Random randomArg,
                             final boolean progressArg,
+                            final boolean cluesArg,
                             final boolean saveArg) {
         solver = solverArg;
         size = sizeArg;
@@ -83,6 +88,7 @@ public final class SolveRequestImpl implements SolveRequest {
         dictionaryIds = dictionaryIdArg;
         random = randomArg;
         progress = progressArg;
+        clues = cluesArg;
         save = saveArg;
     }
 
@@ -117,6 +123,11 @@ public final class SolveRequestImpl implements SolveRequest {
     public SolverProgressNotificationMethod progress() {
         return progress ? SolverProgressNotificationMethod.PERIODICAL :
                 SolverProgressNotificationMethod.NONE;
+    }
+
+    @Override
+    public boolean withClues() {
+        return clues;
     }
 
     /**

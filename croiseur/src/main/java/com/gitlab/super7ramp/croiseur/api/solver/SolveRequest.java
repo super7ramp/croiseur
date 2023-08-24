@@ -29,20 +29,6 @@ public interface SolveRequest {
     }
 
     /**
-     * The grid to solve.
-     *
-     * @return the grid to solve
-     */
-    PuzzleGrid grid();
-
-    /**
-     * Whether the given {@link #grid()} shall be saved to puzzle repository.
-     *
-     * @return {@code true} if given {@link #grid()} shall be saved to puzzle repository
-     */
-    boolean savePuzzle();
-
-    /**
      * The dictionaries to use.
      * <p>
      * An empty collection means the default dictionary for the system's locale will be used.
@@ -63,6 +49,13 @@ public interface SolveRequest {
     Optional<Random> dictionariesShuffle();
 
     /**
+     * The grid to solve.
+     *
+     * @return the grid to solve
+     */
+    PuzzleGrid grid();
+
+    /**
      * The name of the solver to use, if any.
      * <p>
      * If not present, the default solver will be used. The default solver is the first one
@@ -80,4 +73,20 @@ public interface SolveRequest {
      * @see SolverPresenter#presentSolverInitialisationState
      */
     SolverProgressNotificationMethod progress();
+
+    /**
+     * Whether to generate clues if solver finds a solution.
+     * <p>
+     * The first provider found is used.
+     *
+     * @return {@code true} if clues shall be generated upon solver success
+     */
+    boolean withClues();
+
+    /**
+     * Whether the given {@link #grid()} shall be saved to puzzle repository.
+     *
+     * @return {@code true} if given {@link #grid()} shall be saved to puzzle repository
+     */
+    boolean savePuzzle();
 }

@@ -61,7 +61,8 @@ public final class CrosswordServiceImpl implements CrosswordService {
                                 final Presenter presenter) {
         dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
         solverService =
-                new SolverServiceImpl(solvers, dictionaryProviders, puzzleRepository, presenter);
+                new SolverServiceImpl(solvers, dictionaryProviders, clueProviders, puzzleRepository,
+                                      presenter);
         clueService = new ClueServiceImpl(clueProviders, presenter);
         puzzleService =
                 new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);

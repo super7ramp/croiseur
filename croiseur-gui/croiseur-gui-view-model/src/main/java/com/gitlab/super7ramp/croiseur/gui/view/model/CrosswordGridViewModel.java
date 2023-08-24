@@ -28,6 +28,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -477,6 +478,15 @@ public final class CrosswordGridViewModel {
     }
 
     /**
+     * The contents of the across (= horizontal) slots which contain at least 2 boxes.
+     *
+     * @return the contents of the across slots
+     */
+    public List<String> longAcrossSlotContents() {
+        return slotContentsOf(slotsViewModel.longAcrossSlots());
+    }
+
+    /**
      * Returns the index of the slot in {@link #longAcrossSlots} containing the given coordinates.
      *
      * @param coord the coordinates to look for
@@ -502,6 +512,15 @@ public final class CrosswordGridViewModel {
      */
     public ObservableList<SlotOutline> longDownSlots() {
         return slotsViewModel.longDownSlots();
+    }
+
+    /**
+     * The contents of the down (= vertical) slots which contain at least 2 boxes.
+     *
+     * @return the contents of the down slots
+     */
+    public List<String> longDownSlotContents() {
+        return slotContentsOf(slotsViewModel.longDownSlots());
     }
 
     /**
@@ -768,6 +787,32 @@ public final class CrosswordGridViewModel {
         boxes.clear();
         columnCount.set(0);
         rowCount.set(0);
+    }
+
+    /**
+     * Retrieves the contents of the given slots.
+     * <p>
+     * Slots' {@link CrosswordBoxViewModel#userContentProperty() User content} is returned, unless
+     * it is empty, in which case the {@link CrosswordBoxViewModel#solverContent() solver content}
+     * is used.
+     *
+     * @param slots the slots
+     * @return the slot contents
+     */
+    private List<String> slotContentsOf(final List<SlotOutline> slots) {
+        final List<String> contents = new ArrayList<>();
+        final StringBuilder sb = new StringBuilder();
+        for (final SlotOutline slot : slots) {
+            for (final GridCoord pos : slot.boxPositions()) {
+                final CrosswordBoxViewModel box = boxes.get(pos);
+                final String content =
+                        box.userContent().isEmpty() ? box.solverContent() : box.userContent();
+                sb.append(content);
+            }
+            contents.add(sb.toString());
+            sb.delete(0, sb.length());
+        }
+        return contents;
     }
 
     /**

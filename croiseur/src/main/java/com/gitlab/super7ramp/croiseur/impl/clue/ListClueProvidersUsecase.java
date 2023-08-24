@@ -5,6 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.impl.clue;
 
+import com.gitlab.super7ramp.croiseur.impl.clue.error.ClueErrorMessages;
 import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;

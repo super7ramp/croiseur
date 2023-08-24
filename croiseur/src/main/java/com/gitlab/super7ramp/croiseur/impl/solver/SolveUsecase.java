@@ -12,11 +12,13 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
+import com.gitlab.super7ramp.croiseur.impl.clue.shared.SafeClueProvider;
 import com.gitlab.super7ramp.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import com.gitlab.super7ramp.croiseur.impl.solver.postrun.SolverResultConverter;
 import com.gitlab.super7ramp.croiseur.impl.solver.prerun.DictionaryLoader;
 import com.gitlab.super7ramp.croiseur.impl.solver.prerun.ProgressListenerFactory;
 import com.gitlab.super7ramp.croiseur.impl.solver.prerun.ShuffledSolverDictionary;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
@@ -26,9 +28,12 @@ import com.gitlab.super7ramp.croiseur.spi.solver.ProgressListener;
 import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -42,6 +47,9 @@ final class SolveUsecase {
 
     /** The dictionary loader. */
     private final DictionaryLoader dictionaryLoader;
+
+    /** The clue provider. */
+    private final SafeClueProvider clueProvider;
 
     /** The puzzle repository. */
     private final SafePuzzleRepository puzzleRepository;
@@ -61,13 +69,15 @@ final class SolveUsecase {
      */
     SolveUsecase(final Collection<CrosswordSolver> solversArg,
                  final Collection<DictionaryProvider> dictionaryProvidersArg,
+                 final Collection<ClueProvider> clueProvidersArg,
                  final PuzzleRepository puzzleRepositoryArg,
                  final Presenter presenterArg) {
         solvers = solversArg.stream().collect(toMap(CrosswordSolver::name, Function.identity()));
-        presenter = presenterArg;
+        clueProvider = new SafeClueProvider(clueProvidersArg, presenterArg);
         puzzleRepository = new SafePuzzleRepository(puzzleRepositoryArg, presenterArg);
         dictionaryLoader = new DictionaryLoader(dictionaryProvidersArg);
-        progressListenerFactory = new ProgressListenerFactory(presenter);
+        progressListenerFactory = new ProgressListenerFactory(presenterArg);
+        presenter = presenterArg;
     }
 
     /**
@@ -102,7 +112,31 @@ final class SolveUsecase {
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
-            optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult);
+            final Map<String, String> clues = optionallyGenerateClues(presentableResult);
+            optionallyPresentClues(clues);
+            optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult, clues);
+        }
+    }
+
+    private Map<String, String> optionallyGenerateClues(
+            final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+        final Map<String, String> clues;
+        if (presentableResult.isSuccess()) {
+            final PuzzleGrid grid = presentableResult.grid();
+            final List<String> acrossWords = grid.acrossSlotContents();
+            final List<String> downWords = grid.downSlotContents();
+            final List<String> words =
+                    Stream.concat(acrossWords.stream(), downWords.stream()).distinct().toList();
+            clues = clueProvider.getClues(words);
+        } else {
+            clues = Collections.emptyMap();
+        }
+        return clues;
+    }
+
+    private void optionallyPresentClues(final Map<String, String> clues) {
+        if (!clues.isEmpty()) {
+            presenter.presentClues(clues);
         }
     }
 
@@ -111,12 +145,16 @@ final class SolveUsecase {
      *
      * @param savedPuzzleOpt    the previously saved puzzle, if any
      * @param presentableResult the solver presentable result
+     * @param clues             the clues
      */
     private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
-                                             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+                                             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult,
+                                             final Map<String, String> clues) {
         if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
             final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
-            final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(presentableResult.grid());
+            final PuzzleGrid newGrid = presentableResult.grid();
+            final PuzzleClues newClues = PuzzleClues.from(clues, newGrid);
+            final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(newGrid, newClues);
             puzzleRepository.update(changedPuzzle);
         } // else no previously saved puzzle, do nothing
 

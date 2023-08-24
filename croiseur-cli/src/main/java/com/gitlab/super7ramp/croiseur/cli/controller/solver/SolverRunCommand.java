@@ -72,6 +72,10 @@ public final class SolverRunCommand implements Callable<Integer> {
     @Option(names = {"-p", "--progress"})
     private boolean progress;
 
+    /** Flag to generate clues for result slot words if solver succeeds. */
+    @Option(names = {"-c", "--clues"})
+    private boolean clues;
+
     /** Flag to save the grid. */
     @Option(names = {"-S", "--save"})
     private boolean save;
@@ -90,7 +94,7 @@ public final class SolverRunCommand implements Callable<Integer> {
         final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
                                                           prefilledHorizontalSlots,
                                                           prefilledVerticalSlots, dictionaryIds,
-                                                          random, progress, save);
+                                                          random, progress, clues, save);
         solverService.solve(request);
         return Status.getAndReset();
     }
