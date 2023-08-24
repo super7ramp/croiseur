@@ -83,7 +83,7 @@ final class GuiCluePresenter implements CluePresenter {
             }
         }
         final List<String> downSlotContents = gridViewModel.longDownSlotContents();
-        for (int i = 0; i < acrossSlotContents.size(); i++) {
+        for (int i = 0; i < downSlotContents.size(); i++) {
             final String word = downSlotContents.get(i);
             final String clue = clues.get(word);
             if (clue != null) {
