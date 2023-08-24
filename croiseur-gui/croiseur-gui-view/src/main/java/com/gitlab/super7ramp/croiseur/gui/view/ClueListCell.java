@@ -95,8 +95,13 @@ final class ClueListCell extends ListCell<ClueViewModel> {
                 new SimpleStyleableObjectProperty<>(INDEX_FORMAT_CSS_METADATA, this, "indexFormat",
                                                     IndexFormat.ARABIC);
         indexFormat.addListener(observable -> updateItem(getItem(), isEmpty()));
+
         hideFillButton = new SimpleBooleanProperty(this, "hideFillButton");
+        hideFillButton.addListener(o -> updateItem(getItem(), isEmpty()));
+
         disableFillButton = new SimpleBooleanProperty(this, "disableFillButton");
+        disableFillButton.addListener(o -> updateItem(getItem(), isEmpty()));
+
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
