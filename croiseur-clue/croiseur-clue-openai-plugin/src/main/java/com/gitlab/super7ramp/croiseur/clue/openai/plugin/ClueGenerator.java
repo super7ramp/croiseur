@@ -65,8 +65,7 @@ final class ClueGenerator {
             return Collections.emptyMap();
         }
 
-        final String[] payload =
-                completion.get(0).getMessage().getContent().split(System.lineSeparator());
+        final String[] payload = completion.get(0).getMessage().getContent().split("\\R");
         if (payload.length != words.size()) {
             return Collections.emptyMap();
         }
