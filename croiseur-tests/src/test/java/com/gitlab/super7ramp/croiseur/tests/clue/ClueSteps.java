@@ -12,8 +12,10 @@ import com.gitlab.super7ramp.croiseur.tests.context.TestContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.Mockito.verify;
 
@@ -53,8 +55,8 @@ public final class ClueSteps {
             }
 
             @Override
-            public List<String> words() {
-                return words;
+            public Set<String> words() {
+                return new HashSet<>(words);
             }
         };
         clueService.getClues(request);

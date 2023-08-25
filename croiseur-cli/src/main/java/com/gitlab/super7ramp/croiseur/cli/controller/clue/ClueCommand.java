@@ -12,9 +12,8 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The 'clue' command.
@@ -41,7 +40,7 @@ public final class ClueCommand {
 
     @Command
     int get(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
-             @Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
+            @Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
         final GetClueRequest request = new GetClueRequest() {
             @Override
             public Optional<String> clueProvider() {
@@ -49,8 +48,8 @@ public final class ClueCommand {
             }
 
             @Override
-            public List<String> words() {
-                return Arrays.asList(words);
+            public Set<String> words() {
+                return Set.of(words);
             }
         };
         clueService.getClues(request);

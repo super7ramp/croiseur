@@ -8,8 +8,8 @@ package com.gitlab.super7ramp.croiseur.gui.controller.clue;
 import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
 import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Implementation of {@link GetClueRequest}.
@@ -38,7 +38,7 @@ final class GetClueRequestImpl implements GetClueRequest {
     }
 
     @Override
-    public List<String> words() {
-        return List.of(word);
+    public Set<String> words() {
+        return Set.of(word);
     }
 }

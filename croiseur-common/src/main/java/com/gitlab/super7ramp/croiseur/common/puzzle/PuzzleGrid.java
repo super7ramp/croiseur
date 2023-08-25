@@ -172,7 +172,8 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
     }
 
     /**
-     * Returns the across slot contents.
+     * Returns the across slot contents, naturally sorted according to the slot position on the grid
+     * (top to down then left to right).
      * <p>
      * Non-filled boxes will be replaced by the character '.'.
      * <p>
@@ -207,7 +208,9 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
     }
 
     /**
-     * Returns the down slot contents.
+     * Returns the down slot contents, naturally sorted according to the slot position on the grid
+     * (left to right then top to down).
+     *
      * <p>
      * Non-filled boxes will be replaced by the character '.'.
      * <p>
@@ -239,5 +242,19 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
             contentBuffer.delete(0, contentBuffer.length());
         }
         return slotContents;
+    }
+
+    /**
+     * Returns all the slot contents, unordered.
+     * <p>
+     * Size may be less than the sum of the sizes of {@link #acrossSlotContents()} and
+     * {@link #downSlotContents()} since dupe words are removed.
+     *
+     * @return all the slot contents
+     */
+    public Set<String> slotContents() {
+        final Set<String> slots = new HashSet<>(acrossSlotContents());
+        slots.addAll(downSlotContents());
+        return slots;
     }
 }

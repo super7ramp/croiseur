@@ -7,9 +7,9 @@ package com.gitlab.super7ramp.croiseur.clue.openai.plugin;
 
 import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
 
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * {@link ClueProvider} implementation for {@link ClueGenerator}.
@@ -42,7 +42,7 @@ public final class OpenAiClueProvider implements ClueProvider {
     }
 
     @Override
-    public Map<String, String> define(final List<String> words) {
+    public Map<String, String> define(final Set<String> words) {
         return clueGenerator().generate(words);
     }
 

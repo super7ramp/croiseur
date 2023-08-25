@@ -9,11 +9,13 @@ import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Clue generator backed by OpenAI API.
@@ -89,11 +91,12 @@ final class ClueGenerator {
      * @param words the words to define
      * @return the generated clues, indexed by the defined words
      */
-    public Map<String, String> generate(final List<String> words) {
-        final ChatCompletionRequest completionRequest = createRequest(words);
+    public Map<String, String> generate(final Set<String> words) {
+        final List<String> orderedWords = new ArrayList<>(words);
+        final ChatCompletionRequest completionRequest = createRequest(orderedWords);
         final List<ChatCompletionChoice> choices =
                 openAiService.createChatCompletion(completionRequest).getChoices();
-        return extractClues(words, choices);
+        return extractClues(orderedWords, choices);
     }
 
     private ChatCompletionRequest createRequest(final List<String> words) {

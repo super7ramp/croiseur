@@ -29,11 +29,10 @@ import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -112,7 +111,8 @@ final class SolveUsecase {
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
-            final Map<String, String> clues = optionallyGenerateClues(event.withClues(), presentableResult);
+            final Map<String, String> clues =
+                    optionallyGenerateClues(event.withClues(), presentableResult);
             optionallyPresentClues(clues);
             optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult, clues);
         }
@@ -211,11 +211,7 @@ final class SolveUsecase {
             final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
         final Map<String, String> clues;
         if (eventRequestedClues && presentableResult.isSuccess()) {
-            final PuzzleGrid grid = presentableResult.grid();
-            final List<String> acrossWords = grid.acrossSlotContents();
-            final List<String> downWords = grid.downSlotContents();
-            final List<String> words =
-                    Stream.concat(acrossWords.stream(), downWords.stream()).distinct().toList();
+            final Set<String> words = presentableResult.grid().slotContents();
             clues = clueProvider.getClues(words);
         } else {
             clues = Collections.emptyMap();

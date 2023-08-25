@@ -11,9 +11,9 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A wrapper around {@link ClueProvider} which handles common errors.
@@ -46,7 +46,7 @@ public final class SafeClueProvider {
      * @param words the words to define
      * @return the clues, indexed by the defined words
      */
-    public Map<String, String> getClues(final List<String> words) {
+    public Map<String, String> getClues(final Set<String> words) {
         return getClues(null, words);
     }
 
@@ -54,10 +54,10 @@ public final class SafeClueProvider {
      * Safely get clues, using the given provider.
      *
      * @param providerName the provider to use
-     * @param words        the words to defined
+     * @param words        the words to define
      * @return the clues, indexed by the defined words
      */
-    public Map<String, String> getClues(final String providerName, final List<String> words) {
+    public Map<String, String> getClues(final String providerName, final Set<String> words) {
         final Optional<ClueProvider> selectedClueProvider = selectClueProvider(providerName);
         if (selectedClueProvider.isEmpty()) {
             cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER);
@@ -91,7 +91,7 @@ public final class SafeClueProvider {
      * @return the clues indexed by the defined words
      */
     private Map<String, String> safeGetClues(final ClueProvider clueProvider,
-                                             final List<String> words) {
+                                             final Set<String> words) {
         try {
             return clueProvider.define(words);
         } catch (final Exception e) {
