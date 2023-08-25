@@ -36,6 +36,10 @@ activate croiseur.spi.solver
 croiseur.spi.solver -> croiseur.api.solver : Solver result
 deactivate croiseur.spi.solver
 
+croiseur.api.solver -> croiseur.spi.presenter : Present solver result
+activate croiseur.spi.presenter
+deactivate croiseur.spi.presenter
+
 opt Generate Clues && Solver Result is a Success
   croiseur.api.solver -> croiseur.spi.clue : Get clues
   activate croiseur.spi.clue
@@ -56,7 +60,5 @@ opt Save Grid && Solver Result is a Success
   deactivate croiseur.spi.presenter
 end opt
 
-croiseur.api.solver -> croiseur.spi.presenter : Present solver result
-activate croiseur.spi.presenter
 end
 @enduml
