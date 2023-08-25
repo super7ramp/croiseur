@@ -42,7 +42,7 @@ public final class SolverRunCommand implements Callable<Integer> {
     /** The identifiers of the dictionary to use for solving. */
     @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "PROVIDER:DICTIONARY",
             arity = "1..*")
-    private DictionaryIdentifier[] dictionaryIds;
+    private DictionaryIdentifier[] dictionaryIds = {};
 
     /** The definition of the shaded boxes. */
     @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", paramLabel =
@@ -91,10 +91,19 @@ public final class SolverRunCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        final SolveRequest request = new SolveRequestImpl(solver, size, shadedBoxes, prefilledBoxes,
-                                                          prefilledHorizontalSlots,
-                                                          prefilledVerticalSlots, dictionaryIds,
-                                                          random, progress, clues, save);
+        final SolveRequest request =
+                new SolveRequestImpl.Builder().solver(solver)
+                                              .size(size)
+                                              .shadedBoxes(shadedBoxes)
+                                              .prefilledBoxes(prefilledBoxes)
+                                              .prefilledHorizontalSlots(prefilledHorizontalSlots)
+                                              .prefilledVerticalSlots(prefilledVerticalSlots)
+                                              .dictionaryIds(dictionaryIds)
+                                              .random(random)
+                                              .progress(progress)
+                                              .clues(clues)
+                                              .save(save)
+                                              .build();
         solverService.solve(request);
         return Status.getAndReset();
     }
