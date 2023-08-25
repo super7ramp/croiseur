@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public final class GridPositionParser {
 
     /** Textual representation. */
-    private static final Pattern PATTERN = Pattern.compile("\\((?<x>[0-9]+),(?<y>[0-9]+)\\)");
+    private static final Pattern PATTERN = Pattern.compile("\\((?<x>\\d+),(?<y>\\d+)\\)");
 
     /** Private constructor to prevent instantiation. */
     private GridPositionParser() {

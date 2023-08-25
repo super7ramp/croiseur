@@ -17,10 +17,8 @@ import java.util.regex.Pattern;
  */
 public record Clue(int number, String content) {
 
-    /**
-     * Textual representation pattern.
-     */
-    private static final Pattern PATTERN = Pattern.compile("(?<number>[1-9]+[0-9]*),(?<content>.*)");
+    /** Textual representation pattern. */
+    private static final Pattern PATTERN = Pattern.compile("(?<number>[1-9]+\\d*),(?<content>.*)");
 
     /**
      * Validates fields.
