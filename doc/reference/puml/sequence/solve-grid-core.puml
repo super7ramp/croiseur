@@ -6,6 +6,7 @@ group Solve Grid Usecase
 participant croiseur.api.solver
 participant croiseur.spi.dictionary
 participant croiseur.spi.solver
+participant croiseur.spi.clue
 participant croiseur.spi.puzzle.repository
 participant croiseur.spi.presenter
 
@@ -34,6 +35,16 @@ croiseur.api.solver -> croiseur.spi.solver : Run solver
 activate croiseur.spi.solver
 croiseur.spi.solver -> croiseur.api.solver : Solver result
 deactivate croiseur.spi.solver
+
+opt Generate Clues && Solver Result is a Success
+  croiseur.api.solver -> croiseur.spi.clue : Get clues
+  activate croiseur.spi.clue
+  croiseur.spi.clue -> croiseur.api.solver : Clues
+  deactivate croiseur.spi.clue
+  croiseur.api.solver -> croiseur.spi.presenter : Present clues
+  activate croiseur.spi.presenter
+  deactivate croiseur.spi.presenter
+end opt
 
 opt Save Grid && Solver Result is a Success
   croiseur.api.solver -> croiseur.spi.puzzle.repository : Save grid in puzzle created above
