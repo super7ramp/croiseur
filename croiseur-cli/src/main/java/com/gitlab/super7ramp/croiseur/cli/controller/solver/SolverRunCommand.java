@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.cli.controller.solver;
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
-import com.gitlab.super7ramp.croiseur.cli.controller.solver.adapter.SolveRequestImpl;
+import com.gitlab.super7ramp.croiseur.cli.controller.solver.adapter.CliSolveRequest;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.GridSize;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledBox;
 import com.gitlab.super7ramp.croiseur.cli.controller.solver.parser.PrefilledSlot;
@@ -92,18 +92,18 @@ public final class SolverRunCommand implements Callable<Integer> {
     @Override
     public Integer call() {
         final SolveRequest request =
-                new SolveRequestImpl.Builder().solver(solver)
-                                              .size(size)
-                                              .shadedBoxes(shadedBoxes)
-                                              .prefilledBoxes(prefilledBoxes)
-                                              .prefilledHorizontalSlots(prefilledHorizontalSlots)
-                                              .prefilledVerticalSlots(prefilledVerticalSlots)
-                                              .dictionaryIds(dictionaryIds)
-                                              .random(random)
-                                              .progress(progress)
-                                              .clues(clues)
-                                              .save(save)
-                                              .build();
+                new CliSolveRequest.Builder().solver(solver)
+                                             .size(size)
+                                             .shadedBoxes(shadedBoxes)
+                                             .prefilledBoxes(prefilledBoxes)
+                                             .prefilledHorizontalSlots(prefilledHorizontalSlots)
+                                             .prefilledVerticalSlots(prefilledVerticalSlots)
+                                             .dictionaryIds(dictionaryIds)
+                                             .random(random)
+                                             .progress(progress)
+                                             .clues(clues)
+                                             .save(save)
+                                             .build();
         solverService.solve(request);
         return Status.getAndReset();
     }

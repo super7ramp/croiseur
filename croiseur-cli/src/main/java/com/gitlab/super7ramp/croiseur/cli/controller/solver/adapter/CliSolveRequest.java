@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toSet;
 /**
  * Adapts command line arguments into a {@link SolveRequest}.
  */
-public final class SolveRequestImpl implements SolveRequest {
+public final class CliSolveRequest implements SolveRequest {
 
     /**
      * A builder. Unless specified otherwise, all method arguments are required to be
@@ -181,7 +181,7 @@ public final class SolveRequestImpl implements SolveRequest {
          *
          * @return the built request
          */
-        public SolveRequestImpl build() {
+        public CliSolveRequest build() {
 
             final var puzzleGrid = new PuzzleGrid(size.width(), size.height(),
                                                   Arrays.stream(shadedBoxes).collect(toSet()),
@@ -192,8 +192,8 @@ public final class SolveRequestImpl implements SolveRequest {
             final var solverProgress = progress ? SolverProgressNotificationMethod.PERIODICAL :
                     SolverProgressNotificationMethod.NONE;
 
-            return new SolveRequestImpl(solver, puzzleGrid, dictionaries, random, solverProgress,
-                                        clues, save);
+            return new CliSolveRequest(solver, puzzleGrid, dictionaries, random, solverProgress,
+                                       clues, save);
         }
 
         /**
@@ -261,13 +261,13 @@ public final class SolveRequestImpl implements SolveRequest {
      * @param cluesArg        whether to generate clues for result slot words
      * @param saveArg         whether given grid shall be saved
      */
-    private SolveRequestImpl(final String solverArg,
-                             final PuzzleGrid puzzleGridArg,
-                             final Collection<DictionaryIdentifier> dictionaryIdArg,
-                             final Random randomArg,
-                             final SolverProgressNotificationMethod progressArg,
-                             final boolean cluesArg,
-                             final boolean saveArg) {
+    private CliSolveRequest(final String solverArg,
+                            final PuzzleGrid puzzleGridArg,
+                            final Collection<DictionaryIdentifier> dictionaryIdArg,
+                            final Random randomArg,
+                            final SolverProgressNotificationMethod progressArg,
+                            final boolean cluesArg,
+                            final boolean saveArg) {
         solver = solverArg;
         puzzleGrid = puzzleGridArg;
         dictionaryIds = dictionaryIdArg;
