@@ -47,7 +47,6 @@ note left
 end note
 activate croiseur.gui.view.model
 deactivate croiseur.spi.presenter
-deactivate croiseur.api.solver
 
 croiseur.gui.view.model -> croiseur.gui.view : Notify update
 activate croiseur.gui.view
