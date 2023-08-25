@@ -10,6 +10,7 @@ frontend to the `croiseur` library.
 
 ![Welcome Screen](doc/media/welcome-screen.png)
 ![Editor View](doc/media/editor-view.png)
+![Clues Pane](doc/media/clues-pane.png)
 
 ### Installation
 
