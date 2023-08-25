@@ -5,8 +5,8 @@
 
 package com.gitlab.super7ramp.croiseur.api.clue;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A request to get clues from a clue provider.
@@ -28,6 +28,6 @@ public interface GetClueRequest {
      *
      * @return the words for which to get clues
      */
-    List<String> words();
+    Set<String> words();
 
 }
