@@ -111,8 +111,7 @@ final class SolveUsecase {
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
-            final Map<String, String> clues =
-                    optionallyGenerateClues(event.withClues(), presentableResult);
+            final Map<String, String> clues = optionallyGetClues(event, presentableResult);
             optionallyPresentClues(clues);
             optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult, clues);
         }
@@ -188,6 +187,36 @@ final class SolveUsecase {
     }
 
     /**
+     * Gets clues, if explicitly requested and if solver has found a solution.
+     *
+     * @param event             the solve request
+     * @param presentableResult the solver result
+     * @return the clues, if any requested and found; otherwise, an empty map
+     */
+    private Map<String, String> optionallyGetClues(final SolveRequest event,
+                                                   final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+        final Map<String, String> clues;
+        if (event.withClues() && presentableResult.isSuccess()) {
+            final Set<String> words = presentableResult.grid().slotContents();
+            clues = clueProvider.getClues(words);
+        } else {
+            clues = Collections.emptyMap();
+        }
+        return clues;
+    }
+
+    /**
+     * Present clues, if any.
+     *
+     * @param clues the clues to present
+     */
+    private void optionallyPresentClues(final Map<String, String> clues) {
+        if (!clues.isEmpty()) {
+            presenter.presentClues(clues);
+        }
+    }
+
+    /**
      * Updates the previously saved puzzle, if any.
      *
      * @param savedPuzzleOpt    the previously saved puzzle, if any
@@ -204,24 +233,5 @@ final class SolveUsecase {
             final ChangedPuzzle changedPuzzle = savedPuzzle.modifiedWith(newGrid, newClues);
             puzzleRepository.update(changedPuzzle);
         } // else no previously saved puzzle, do nothing
-    }
-
-    private Map<String, String> optionallyGenerateClues(
-            final boolean eventRequestedClues,
-            final com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult presentableResult) {
-        final Map<String, String> clues;
-        if (eventRequestedClues && presentableResult.isSuccess()) {
-            final Set<String> words = presentableResult.grid().slotContents();
-            clues = clueProvider.getClues(words);
-        } else {
-            clues = Collections.emptyMap();
-        }
-        return clues;
-    }
-
-    private void optionallyPresentClues(final Map<String, String> clues) {
-        if (!clues.isEmpty()) {
-            presenter.presentClues(clues);
-        }
     }
 }
