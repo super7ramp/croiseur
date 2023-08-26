@@ -4,7 +4,7 @@
  */
 
 /**
- * Puzzle repository SPI definition.
+ * Interface definition for puzzle repositories.
  */
 module com.gitlab.super7ramp.croiseur.spi.puzzle.repository {
     requires transitive com.gitlab.super7ramp.croiseur.common;

@@ -23,6 +23,7 @@
 
 function prepare() {
     cp -r croiseur-common com.gitlab.super7ramp.croiseur.common
+    cp -r croiseur-spi/croiseur-spi-clue com.gitlab.super7ramp.croiseur.spi.clue
     cp -r croiseur-spi/croiseur-spi-dictionary com.gitlab.super7ramp.croiseur.spi.dictionary
     cp -r croiseur-spi/croiseur-spi-presenter com.gitlab.super7ramp.croiseur.spi.presenter
     cp -r croiseur-spi/croiseur-spi-puzzle-codec com.gitlab.super7ramp.croiseur.spi.puzzle.codec
@@ -44,6 +45,7 @@ function cleanup() {
 }
 
 modules="com.gitlab.super7ramp.croiseur.common \
+         com.gitlab.super7ramp.croiseur.spi.clue \
          com.gitlab.super7ramp.croiseur.spi.dictionary \
          com.gitlab.super7ramp.croiseur.spi.presenter \
          com.gitlab.super7ramp.croiseur.spi.puzzle.codec \
