@@ -84,6 +84,36 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                            -V, --down, --vertical=(COORDINATE,WORD)...
                                             Pre-filled vertical slots, e.g. '--vertical ((0,0),hello)
                                               ((5,0),world)...'
+
+                         Example:
+                                                  
+                         The following command asks Croiseur to solve a grid of 6 columns and 7 rows,
+                         with blocks and pre-filled boxes.
+                                                  
+                         		croiseur-cli solver run \\
+                         		--size 6x7  \\
+                         		--shaded-boxes '(1,1)' '(2,2)' '(3,5')' '(5,4)' \\
+                         		--down '((1,2),cross)' \\
+                         		--across '((0,4),words)' \\
+                                                  
+                         Note that the index of the boxes starts at 0 and not at 1. Also note that the
+                         command does not define a particular solver or a dictionary: Therefore Croiseur
+                         will select them for you.
+                                                  
+                         The command command quickly produces a result such as the one below:
+                                                  
+                         	Result: SUCCESS
+                                                  
+                         	|C|R|O|S|S|S|
+                         	|A|#|M|I|T|O|
+                         	|T|C|#|D|E|W|
+                         	|A|R|D|E|N|S|
+                         	|W|O|R|D|S|#|
+                         	|B|S|A|#|O|T|
+                         	|A|S|T|O|N|S|
+                                                  
+                         Numerous options exist, notably --random which allows to produce a different
+                         result for each invocation. Don't hesitate to explore them!
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
     }

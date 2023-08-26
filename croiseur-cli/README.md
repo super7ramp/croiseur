@@ -21,6 +21,15 @@ Commands:
   solver      Solve crosswords and list available solvers
   clue        Get crossword clues and list available clue providers
   puzzle      Manage saved puzzles
+
+First time with Croiseur? Try this out:
+
+        croiseur-cli solver run --size 4x4
+
+This command will generate your first square grid! Next step: Discover the
+options and the examples of the 'solver run' subcommand with:
+
+        croiseur solver run --help
 ```
 
 ### Installation
