@@ -7,10 +7,10 @@ package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.gui.controller.puzzle.PuzzleController;
-import com.gitlab.super7ramp.croiseur.gui.view.SavedPuzzleSelector;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleCodecsViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.codec.PuzzleCodecsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleEditionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.selection.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.puzzle.selection.SavedPuzzleSelector;
 import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;

@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionaryViewModel;
 
 /**
  * Implementation of {@link ListDictionaryEntriesRequest}.

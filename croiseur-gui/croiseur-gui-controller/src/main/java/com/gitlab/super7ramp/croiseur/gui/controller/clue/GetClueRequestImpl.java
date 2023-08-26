@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.GetClueRequest;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
 
 import java.util.Optional;
 import java.util.Set;

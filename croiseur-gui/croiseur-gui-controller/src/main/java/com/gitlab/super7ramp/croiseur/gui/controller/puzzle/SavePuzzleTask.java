@@ -13,12 +13,12 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleClues;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ClueViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleDetailsViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.clue.ClueViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.clue.CluesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleEditionViewModel;
 import javafx.concurrent.Task;
 
 import java.time.LocalDate;

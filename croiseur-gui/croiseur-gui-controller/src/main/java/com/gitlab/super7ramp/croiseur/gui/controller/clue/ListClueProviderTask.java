@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.clue;
 
 import com.gitlab.super7ramp.croiseur.api.clue.ClueService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.clue.CluesViewModel;
 import javafx.concurrent.Task;
 
 /**

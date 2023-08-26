@@ -10,7 +10,7 @@ import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutorServic
 import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutors;
 import com.gitlab.super7ramp.croiseur.gui.presenter.GuiPresenter;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.error.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
 import javafx.application.Application;
 import javafx.application.Platform;

@@ -7,9 +7,9 @@ package com.gitlab.super7ramp.croiseur.gui.controller.solver;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverConfigurationViewModel;
 import javafx.concurrent.Task;
 
 import java.util.Random;

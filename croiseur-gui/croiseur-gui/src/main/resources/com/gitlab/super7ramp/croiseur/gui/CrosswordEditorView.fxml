@@ -5,7 +5,7 @@
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import com.gitlab.super7ramp.croiseur.gui.view.CrosswordEditorPane?>
+<?import com.gitlab.super7ramp.croiseur.gui.view.puzzle.edition.CrosswordEditorPane?>
 <CrosswordEditorPane xmlns:fx="http://javafx.com/fxml"
                      xmlns="http://javafx.com/javafx"
                      fx:controller="com.gitlab.super7ramp.croiseur.gui.CrosswordEditorController"

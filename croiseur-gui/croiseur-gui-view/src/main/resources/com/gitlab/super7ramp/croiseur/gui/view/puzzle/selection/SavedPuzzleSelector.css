@@ -1,0 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+#puzzle-actions-hbox {
+    -fx-spacing: 10px;
+}
+
+#puzzle-placeholder-vbox {
+    -fx-spacing: 10px;
+}
+
+#puzzle-placeholder-image-view {
+    -fx-image: url("../../icon/system-search-symbolic.png");
+}
+
+#puzzle-placeholder-text {
+    -fx-font-size: 1.2em;
+}

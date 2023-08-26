@@ -6,13 +6,13 @@
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordBoxViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverItemViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverProgressViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.error.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordBoxViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverConfigurationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverItemViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverProgressViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationState;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;

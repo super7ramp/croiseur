@@ -1,0 +1,63 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.titled-pane > .title {
+    /* Use subtle background color to be consistent with toolbar. */
+    -fx-background-color: -color-bg-subtle;
+
+    -fx-border-color: -color-border-default;
+    /* Straight border. */
+    -fx-border-radius: 0;
+    /* Only top and right borders, No border between title and content, and nothing on the left. */
+    -fx-border-width: 1px 1px 0px 0px;
+}
+
+.first-titled-pane > .title {
+    /* Blend top border with top pane. */
+    -fx-border-width: 0px 1px 0px 0px;
+}
+
+.titled-pane > .content {
+    /* Make sure list views are not half bg-default, half-bg-subtle. */
+    -fx-background-color: -color-bg-subtle;
+
+    /* Straight border. */
+    -fx-border-radius: 0;
+    /* Only left border; Blend bottom border with bottom pane. */
+    -fx-border-width: 0px 1px 0px 0px;
+}
+
+#titled-pane-details-icon-image-view {
+    -fx-image: url("../../icon/sc_dbformedit.png");
+}
+
+#puzzle-title-text-field {
+    -fx-font-size: 1.2em;
+}
+
+#puzzle-details-grid-pane {
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+}
+
+#puzzle-details-grid-pane > .text-field,
+#puzzle-details-grid-pane > .date-picker > .text-field {
+    /* Reduce a bit from default 12 so that pane is not visually too large. */
+    -fx-pref-column-count: 8;
+}
+
+#puzzle-details-grid-pane > .date-picker {
+    /* Let date picker text field grow. */
+    -fx-max-width: Infinity;
+}
+
+.button {
+    /* Let buttons grow. */
+    -fx-max-width: Infinity
+}
+
+#back-button {
+    -fx-graphic: url("../../icon/sc_zoomprevious.png");
+}

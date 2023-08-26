@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.gui.controller.dictionary;
 
 import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryService;
 import com.gitlab.super7ramp.croiseur.api.dictionary.ListDictionaryEntriesRequest;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionaryViewModel;
 import javafx.concurrent.Task;
 
 /**

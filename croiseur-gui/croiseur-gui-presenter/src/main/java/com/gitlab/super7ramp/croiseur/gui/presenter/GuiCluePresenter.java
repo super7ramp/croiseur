@@ -5,9 +5,9 @@
 
 package com.gitlab.super7ramp.croiseur.gui.presenter;
 
-import com.gitlab.super7ramp.croiseur.gui.view.model.CluesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.clue.CluesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.error.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.CluePresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.clue.ClueProviderDescription;
 import javafx.application.Platform;

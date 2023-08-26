@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import com.gitlab.super7ramp.croiseur.gui.view.puzzle.edition.CrosswordGridPlaceholder?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordGridPane.css" type="StackPane"
+         xmlns="http://javafx.com/javafx/17">
+    <CrosswordGridPlaceholder fx:id="placeholder"/>
+    <GridPane id="crossword-grid" fx:id="grid"/>
+</fx:root>

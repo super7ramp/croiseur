@@ -13,8 +13,17 @@ module com.gitlab.super7ramp.croiseur.gui.view {
     requires javafx.controls;
     requires javafx.fxml;
 
-    exports com.gitlab.super7ramp.croiseur.gui.view;
+    exports com.gitlab.super7ramp.croiseur.gui.view.clue;
+    exports com.gitlab.super7ramp.croiseur.gui.view.dictionary;
     exports com.gitlab.super7ramp.croiseur.gui.view.javafx.scene.control;
-    opens com.gitlab.super7ramp.croiseur.gui.view to javafx.fxml;
+    exports com.gitlab.super7ramp.croiseur.gui.view.puzzle.edition;
+    exports com.gitlab.super7ramp.croiseur.gui.view.puzzle.selection;
+    exports com.gitlab.super7ramp.croiseur.gui.view.solver;
+
+    opens com.gitlab.super7ramp.croiseur.gui.view.clue to javafx.fxml;
+    opens com.gitlab.super7ramp.croiseur.gui.view.dictionary to javafx.fxml;
+    opens com.gitlab.super7ramp.croiseur.gui.view.puzzle.selection to javafx.fxml;
     opens com.gitlab.super7ramp.croiseur.gui.view.javafx.scene.control to javafx.fxml;
+    opens com.gitlab.super7ramp.croiseur.gui.view.solver to javafx.fxml;
+    opens com.gitlab.super7ramp.croiseur.gui.view.puzzle.edition to javafx.fxml;
 }

@@ -6,8 +6,8 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleEditionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.selection.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
 import java.io.File;

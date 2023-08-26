@@ -9,10 +9,10 @@ import com.gitlab.super7ramp.croiseur.api.dictionary.DictionaryIdentifier;
 import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import com.gitlab.super7ramp.croiseur.gui.view.model.CrosswordGridViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.GridCoord;
-import com.gitlab.super7ramp.croiseur.gui.view.model.SolverConfigurationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.GridCoord;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverConfigurationViewModel;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -5,6 +5,16 @@
 
 package com.gitlab.super7ramp.croiseur.gui.view.model;
 
+import com.gitlab.super7ramp.croiseur.gui.view.model.clue.CluesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.error.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.codec.PuzzleCodecsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.CrosswordGridViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleDetailsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.edition.PuzzleEditionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.selection.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverConfigurationViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.solver.SolverProgressViewModel;
 import javafx.beans.property.BooleanProperty;
 
 /**

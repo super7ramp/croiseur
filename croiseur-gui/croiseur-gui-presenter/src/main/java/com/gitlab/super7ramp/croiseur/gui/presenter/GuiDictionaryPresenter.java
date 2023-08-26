@@ -7,10 +7,10 @@ package com.gitlab.super7ramp.croiseur.gui.presenter;
 
 import com.gitlab.super7ramp.croiseur.common.dictionary.DictionaryProviderDetails;
 import com.gitlab.super7ramp.croiseur.common.dictionary.ProvidedDictionaryDetails;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionariesViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryKey;
-import com.gitlab.super7ramp.croiseur.gui.view.model.DictionaryViewModel;
-import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionariesViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionaryKey;
+import com.gitlab.super7ramp.croiseur.gui.view.model.dictionary.DictionaryViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.error.ErrorsViewModel;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryContent;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.dictionary.DictionarySearchResult;

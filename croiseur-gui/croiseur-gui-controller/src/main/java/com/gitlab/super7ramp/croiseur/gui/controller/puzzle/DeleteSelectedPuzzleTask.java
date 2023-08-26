@@ -6,7 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
-import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
+import com.gitlab.super7ramp.croiseur.gui.view.model.puzzle.selection.PuzzleSelectionViewModel;
 import javafx.concurrent.Task;
 
 /**
