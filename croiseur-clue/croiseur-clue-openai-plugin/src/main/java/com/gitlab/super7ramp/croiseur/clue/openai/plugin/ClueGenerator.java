@@ -9,6 +9,7 @@ import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ final class ClueGenerator {
      */
     public ClueGenerator() {
         final String token = System.getenv(OPENAI_API_KEY);
-        openAiService = new OpenAiService(token);
+        openAiService = new OpenAiService(token, Duration.ofSeconds(30L));
         config = new ModelConfiguration();
         final ResourceBundle rb = ResourceBundle.getBundle(
                 "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Prompt");
