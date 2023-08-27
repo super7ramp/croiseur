@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-## Version 0.7 – Clue SPI – 2023/07/27
+## Version 0.7 – Clue SPI – 2023/08/27
 
 - Introduce clue management and generation (#7, !115)
 - Fix dictionary path management on Windows (!121)
