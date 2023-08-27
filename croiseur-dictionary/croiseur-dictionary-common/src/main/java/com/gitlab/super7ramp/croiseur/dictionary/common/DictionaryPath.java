@@ -6,6 +6,8 @@
 package com.gitlab.super7ramp.croiseur.dictionary.common;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.CodeSource;
@@ -77,8 +79,7 @@ public final class DictionaryPath {
      * @return the dictionary path relative to the source code location
      */
     public static DictionaryPath relativeToJar() {
-        final CodeSource codeSource = DictionaryPath.class.getProtectionDomain().getCodeSource();
-        final String codeLocation = codeSource != null ? codeSource.getLocation().toString(): null;
+        final URI codeLocation = codeLocation();
         final String path;
         if (codeLocation != null) {
             final Path parentDir = Path.of(codeLocation).getParent();
@@ -87,6 +88,21 @@ public final class DictionaryPath {
             path = "";
         }
         return new DictionaryPath(path);
+    }
+
+    /**
+     * Returns the source code location as a {@link URI}.
+     *
+     * @return the source code location as a {@link URI} or {@code null} if location could not be
+     * determined
+     */
+    private static URI codeLocation() {
+        final CodeSource codeSource = DictionaryPath.class.getProtectionDomain().getCodeSource();
+        try {
+            return codeSource != null ? codeSource.getLocation().toURI() : null;
+        } catch (final URISyntaxException e) {
+            return null;
+        }
     }
 
     /**
