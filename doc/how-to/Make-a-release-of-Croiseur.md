@@ -27,6 +27,8 @@ a new release of the project.
     - [How To: Plug a Solver](../how-to/Plug-a-solver.md)
     - [How To: Plug a Presenter](../how-to/Plug-a-presenter.md)
 
+> Yes, this is bad. Version should be at only one place. To be improved.
+
 #### 3. Update changelog
 
 Update [`CHANGELOG.md`](../../CHANGELOG.md) with the version changes.

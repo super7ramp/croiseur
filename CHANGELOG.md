@@ -3,6 +3,13 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.7 – Clue SPI – 2023/07/27
+
+- Introduce clue management and generation (#7, !115)
+- Fix dictionary path management on Windows (!121)
+- CLI: Add examples in help message (!118)
+- Publish Javadoc to Gitlab pages (#54, !107)
+
 ## Version 0.6 – Puzzle SPI – 2023/07/24
 
 - Allow to save/re-open crosswords (#39, !95)
