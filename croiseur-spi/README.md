@@ -17,7 +17,7 @@ interfaces – used by the core [`croiseur`](../croiseur/README.md) library. The
   encoder/decoder.
 * [`croiseur-spi-puzzle-repository`](croiseur-spi-puzzle-repository): The definition of a puzzle
   repository.
-* [`croiseur-spi-solver`](croiseur-spi-solver): The definition of crossword solver.
+* [`croiseur-spi-solver`](croiseur-spi-solver): The definition of a crossword solver.
 
 These interfaces are designed to be implemented by any module willing to extend the capabilities of
 the `croiseur` library.

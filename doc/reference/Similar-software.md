@@ -20,13 +20,13 @@ more or less advanced. Here is a non-comprehensive list.
   version dates from 1999 and still works!
 - [GNOME Crossword Editor](https://gitlab.gnome.org/jrb/crosswords): Under development but already
   very polished. Comes also with a player mode. Only works on Linux.
-- [Qxw](https://www.quinapalus.com/qxw.html): Fast, stable and with an extensive set of features. UI
-  is aging though - it still uses the old GTK 2 library. Works on Linux and Windows.
 - [Palabra](https://github.com/svisser/palabra): An interesting Python application for editing
   crosswords. No automatic filling of the grid.
 - [Phil](https://github.com/keiranking/Phil): An impressive crossword maker web application.
 - [pycrossword](https://github.com/S0mbre/crossword): A pure-Python implementation of a crossword
   puzzle generator and editor.
+- [Qxw](https://www.quinapalus.com/qxw.html): Fast, stable and with an extensive set of features. UI
+  is aging though - it still uses the old GTK 2 library. Works on Linux and Windows.
 - [swordsmith](https://github.com/adamaaronson/swordsmith): A command-line crossword filler, written
   in Python.
 - [xwords-rs](https://github.com/szunami/xwords-rs): A command-line crossword filler, written in

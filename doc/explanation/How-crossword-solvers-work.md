@@ -38,7 +38,7 @@ by-word approach in mind but should be transposable to a by-letter approach.
 > — [Jensen97] presents a hybrid, generalised approach where a variable is a _chunk_, which can be a
 > letter or a group of letters, possibly an entire word.
 
-Solvers currently available in **croiseur** search for a solution using similar techniques
+Solvers currently available in Croiseur search for a solution using similar techniques
 described notably by [Ginsberg90], [Peterson20] and [Jensen97].
 
 This search can be summarised in three steps:
@@ -108,7 +108,7 @@ However, such a strategy may:
 An improved version of the simple backtrack that stores some information to avoid repeating the
 same work, proposed by [Gaschnig79].
 
-> — This strategy is not used in **croiseur**. I am not sure whether it can scale for very large
+> — This strategy is not used in Croiseur. I am not sure whether it can scale for very large
 > search spaces such as the ones found in crossword problems.
 
 ##### Backjump
@@ -138,7 +138,7 @@ stuck exploring a large space with no or few solutions because of a few bad deci
 the search process. LDS dynamically reorders the search in a way which allows to get back faster to
 these early decisions.
 
-> — This technique is not implemented in **croiseur** yet but is planned to be. This technique has
+> — This technique is not implemented in Croiseur yet but is planned to be. This technique has
 > been adapted and implemented in Matt Ginsberg's Dr. Fill software ([Ginsberg11]), whose source
 > code is available for educational
 > purpose [here](https://github.com/albertkx/Berkeley-Crossword-Solver/tree/drfill).
@@ -445,7 +445,7 @@ With this strategy, the search order has actually been modified:
 
 ### Solver Comparison
 
-Here is a comparison between solvers available in **croiseur**:
+Here is a comparison between solvers available in Croiseur:
 
 | Solvers ↓ Characteristics → | Variable Kind | Variable Selection                                                      | Value Selection    | Backtrack     |
 |-----------------------------|---------------|-------------------------------------------------------------------------|--------------------|---------------|

@@ -35,7 +35,7 @@ In order to build Croiseur GUI from sources, you need:
 Note that Rust is only needed for
 the [Crossword Composer](../croiseur-solver/croiseur-solver-paulgb)
 and [XWords RS](../croiseur-solver/croiseur-solver-szunami) solvers. You may disable them by
-commenting the following lines in `croiseur-gui`'s `build.gradle`:
+commenting the following lines in `croiseur-gui`'s `build.gradle.kts`:
 
 ```gradle
 runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
