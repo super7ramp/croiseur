@@ -35,7 +35,7 @@ final class CroiseurCliTest extends FluentTestHelper {
                          This command will generate your first square grid! Next step: Discover the
                          options and the examples of the 'solver run' subcommand with:
                                                   
-                         	croiseur solver run --help
+                         	croiseur-cli solver run --help
                          """)
                  .and().exitsWithCode(INPUT_ERROR);
     }

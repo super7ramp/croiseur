@@ -29,7 +29,7 @@ First time with Croiseur? Try this out:
 This command will generate your first square grid! Next step: Discover the
 options and the examples of the 'solver run' subcommand with:
 
-        croiseur solver run --help
+        croiseur-cli solver run --help
 ```
 
 ### Installation
