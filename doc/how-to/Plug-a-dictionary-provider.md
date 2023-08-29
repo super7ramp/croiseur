@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-dictionary:0.7")
+    api("com.gitlab.super7ramp:croiseur-spi-dictionary:0.7.1")
 }
 ```
 

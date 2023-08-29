@@ -3,6 +3,12 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.7.1 – Bugfixes – 2023/08/29
+
+- Increase OpenAI clue plugin http timeout (#86, !122)
+- CLI: Fix example command (!123)
+- Fix typos in documentation (!123)
+
 ## Version 0.7 – Clue SPI – 2023/08/27
 
 - Introduce clue management and generation (#7, !115)
