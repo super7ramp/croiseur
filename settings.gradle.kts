@@ -71,6 +71,9 @@ include("croiseur-gui:croiseur-gui-view")
 include("croiseur-gui:croiseur-gui-view-model")
 include("croiseur-gui:croiseur-gui-tests")
 
+// Web API frontend
+include("croiseur-web")
+
 // Acceptance tests
 include("croiseur-tests")
 include("croiseur-tests-coverage")
