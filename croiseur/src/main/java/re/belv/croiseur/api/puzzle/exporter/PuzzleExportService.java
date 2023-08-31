@@ -24,8 +24,8 @@ public interface PuzzleExportService {
     /**
      * Exports a puzzle from repository to given output stream.
      * <p>
-     * The puzzle will be encoded using available {@link #listEncoders() encoders}, then saved to
-     * the puzzle repository.
+     * The puzzle will be encoded using available {@link #listEncoders() encoders} then written to
+     * the given output stream.
      * <p>
      * If no saved puzzle has the given id, an error will be presented.
      *
