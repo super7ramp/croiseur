@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.controller.solver;
+package com.gitlab.super7ramp.croiseur.web.controller;
 
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;

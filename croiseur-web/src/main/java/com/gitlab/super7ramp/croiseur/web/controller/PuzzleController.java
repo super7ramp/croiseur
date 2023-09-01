@@ -3,17 +3,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.controller.puzzle;
+package com.gitlab.super7ramp.croiseur.web.controller;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
+import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleSessionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/puzzles")
-public final class PuzzlePersistenceController {
+public final class PuzzleController {
 
     /** The puzzle persistence service that this controller calls. */
     private final PuzzlePersistenceService puzzlePersistenceService;
@@ -39,8 +41,8 @@ public final class PuzzlePersistenceController {
      * @param puzzleSessionModelArg       the puzzle session model, where the session state is
      *                                    stored
      */
-    public PuzzlePersistenceController(final PuzzlePersistenceService puzzlePersistenceServiceArg,
-                                       final PuzzleSessionModel puzzleSessionModelArg) {
+    public PuzzleController(final PuzzlePersistenceService puzzlePersistenceServiceArg,
+                            final PuzzleSessionModel puzzleSessionModelArg) {
         puzzlePersistenceService = puzzlePersistenceServiceArg;
         puzzleSessionModel = puzzleSessionModelArg;
     }
@@ -71,16 +73,43 @@ public final class PuzzlePersistenceController {
     }
 
     /**
+     * Creates a new puzzle.
+     *
+     * @param newPuzzle the new puzzle to save
+     * @return the String "OK" if creation was successful
+     */
+    @PostMapping(value = {"", "/"})
+    public ResponseEntity<String> addPuzzle(@RequestBody final Puzzle newPuzzle) {
+        puzzlePersistenceService.save(newPuzzle);
+        return puzzleSessionModel.error()
+                                 .map(error -> ResponseEntity.notFound().<String>build())
+                                 .orElseGet(() -> ResponseEntity.ok("OK"));
+    }
+
+    /**
+     * Deletes all saved puzzles.
+     *
+     * @return the String "OK" if deletion was successful
+     */
+    @DeleteMapping({"", "/"})
+    public ResponseEntity<String> deleteAll() {
+        puzzlePersistenceService.deleteAll();
+        return puzzleSessionModel.error()
+                                 .map(error -> ResponseEntity.internalServerError().<String>build())
+                                 .orElseGet(() -> ResponseEntity.ok("OK"));
+    }
+
+    /**
      * Deletes the saved puzzle matching given id.
      *
      * @param id the id of the puzzle to delete
-     * @return a string containing "OK" if puzzle has been successfully deleted
+     * @return the string "OK" deletion was successful
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePuzzle(@PathVariable("id") final long id) {
         puzzlePersistenceService.delete(id);
         return puzzleSessionModel.error()
-                                 .map(error -> new ResponseEntity<String>(HttpStatus.NOT_FOUND))
+                                 .map(error -> ResponseEntity.notFound().<String>build())
                                  .orElseGet(() -> ResponseEntity.ok("OK"));
     }
 }
