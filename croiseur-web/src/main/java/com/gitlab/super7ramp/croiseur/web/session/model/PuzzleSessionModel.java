@@ -46,7 +46,7 @@ public class PuzzleSessionModel {
      *
      * @return the saved puzzles
      */
-    public final List<SavedPuzzle> puzzles() {
+    public List<SavedPuzzle> puzzles() {
         return puzzles;
     }
 

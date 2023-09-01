@@ -27,6 +27,13 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfiguration {
 
     /**
+     * Constructs an instance.
+     */
+    public ServiceConfiguration() {
+        // Nothing to do.
+    }
+
+    /**
      * The root {@link CrosswordService} bean.
      *
      * @return the crossword service

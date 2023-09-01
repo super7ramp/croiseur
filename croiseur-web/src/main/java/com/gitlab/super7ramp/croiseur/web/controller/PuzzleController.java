@@ -79,6 +79,7 @@ public final class PuzzleController {
      * @return the String "OK" if creation was successful
      */
     @PostMapping(value = {"", "/"})
+    // TODO return URI to created resource instead of "OK"
     public ResponseEntity<String> addPuzzle(@RequestBody final Puzzle newPuzzle) {
         puzzlePersistenceService.save(newPuzzle);
         return puzzleSessionModel.error()
