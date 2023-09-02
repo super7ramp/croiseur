@@ -17,6 +17,7 @@ module com.gitlab.super7ramp.croiseur.web {
     requires spring.boot.autoconfigure;
     requires spring.context;
     requires spring.web;
+    requires spring.webmvc;
     requires java.logging;
 
     provides Presenter with WebPresenter;

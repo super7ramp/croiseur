@@ -10,7 +10,7 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationS
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
-import com.gitlab.super7ramp.croiseur.web.session.model.SolverSessionModel;
+import com.gitlab.super7ramp.croiseur.web.session.model.SolverRequestResponseModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,21 +26,21 @@ public final class WebSolverPresenter implements SolverPresenter {
     private static final Logger LOGGER = Logger.getLogger(WebSolverPresenter.class.getName());
 
     /** The solver session model. */
-    private final SolverSessionModel solverSessionModel;
+    private final SolverRequestResponseModel solverRequestResponseModel;
 
     /**
      * Constructs an instance.
      *
-     * @param solverSessionModelArg the solver session model to update
+     * @param solverRequestResponseModelArg the solver session model to update
      */
-    public WebSolverPresenter(final SolverSessionModel solverSessionModelArg) {
-        solverSessionModel = solverSessionModelArg;
+    public WebSolverPresenter(final SolverRequestResponseModel solverRequestResponseModelArg) {
+        solverRequestResponseModel = solverRequestResponseModelArg;
     }
 
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
         LOGGER.info(() -> "Received solver descriptions: " + solverDescriptions);
-        solverSessionModel.solvers(solverDescriptions);
+        solverRequestResponseModel.solvers(solverDescriptions);
     }
 
     @Override

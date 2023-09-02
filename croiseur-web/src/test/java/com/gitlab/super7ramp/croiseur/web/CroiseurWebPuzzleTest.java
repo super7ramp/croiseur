@@ -11,13 +11,8 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,19 +21,19 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * (Almost) end-to-end tests pertaining to the puzzle service.
  */
-@SpringBootTest
-@AutoConfigureJsonTesters
-@AutoConfigureMockMvc
-final class CroiseurWebPuzzleTest {
+final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
 
     /** Some example puzzles. */
     private static final List<Puzzle> EXAMPLE_PUZZLES;
@@ -69,14 +64,6 @@ final class CroiseurWebPuzzleTest {
         EXAMPLE_PUZZLES = List.of(puzzle1, puzzle2, puzzle3);
     }
 
-    /** The "server" entry point. */
-    @Autowired
-    private MockMvc mockMvc;
-
-    /** The test json (un)marshaller. */
-    @Autowired
-    private JacksonTester<Puzzle> json;
-
     /**
      * Verifies puzzle creation with a POST on "/puzzles".
      *
@@ -84,7 +71,21 @@ final class CroiseurWebPuzzleTest {
      */
     @Test
     void addPuzzle() throws Exception {
-        addPuzzle(EXAMPLE_PUZZLES.get(0));
+        addPuzzle(EXAMPLE_PUZZLES.get(0))
+                .andExpect(header().string("Location", endsWith("/puzzles/1")))
+                .andExpect(content().string(emptyString()));
+    }
+
+    /**
+     * Verifies a 404 error is returned when performing a GET on "/puzzles/$id" when puzzle does not
+     * exist.
+     *
+     * @throws Exception should not happen
+     */
+    @Test
+    void getPuzzle_notFound() throws Exception {
+        mockMvc.perform(get("/puzzles/1"))
+               .andExpect(status().isNotFound());
     }
 
     /**
@@ -133,7 +134,7 @@ final class CroiseurWebPuzzleTest {
                                    "across":[],
                                    "down":[]
                                }
-                               },
+                           },
                            "revision":1
                        },
                        {
@@ -185,18 +186,36 @@ final class CroiseurWebPuzzleTest {
                        """));
     }
 
+    /**
+     * Verifies single puzzle deletion - puzzle not found case.
+     *
+     * @throws Exception should not happen
+     */
+    @Test
+    void delete_notFound() throws Exception {
+        mockMvc.perform(delete("/puzzles/1"))
+               .andExpect(status().isNotFound());
+    }
+
     @AfterEach
     void tearDown() throws Exception {
         // Clear database between each test
         mockMvc.perform(delete("/puzzles"));
     }
 
-    private void addPuzzle(final Puzzle puzzle) throws Exception {
+    /**
+     * Performs a POST on /puzzles with the given puzzle, creating the resource. Method verifies the
+     * return code to be 201.
+     *
+     * @param puzzle the puzzle to save
+     * @return the {@link ResultActions} for further verifications
+     * @throws Exception should not happen
+     */
+    private ResultActions addPuzzle(final Puzzle puzzle) throws Exception {
         final String puzzleJson = json.write(puzzle).getJson();
-        mockMvc.perform(post("/puzzles")
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                .content(puzzleJson))
-               .andExpect(status().isOk())
-               .andExpect(content().string("OK"));
+        return mockMvc.perform(post("/puzzles")
+                                       .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                       .content(puzzleJson))
+                      .andExpect(status().isCreated());
     }
 }

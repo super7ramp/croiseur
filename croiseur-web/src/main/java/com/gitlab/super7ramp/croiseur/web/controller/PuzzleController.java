@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleSessionModel;
+import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleRequestResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Optional;
+import java.net.URI;
 
 /**
  * Controller of the {@link PuzzleService}.
@@ -31,20 +32,20 @@ public final class PuzzleController {
     /** The puzzle persistence service that this controller calls. */
     private final PuzzlePersistenceService puzzlePersistenceService;
 
-    /** The puzzle session model, where the session state is stored. */
-    private final PuzzleSessionModel puzzleSessionModel;
+    /** The puzzle request response model, where the request state is stored. */
+    private final PuzzleRequestResponseModel puzzleRequestResponseModel;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzlePersistenceServiceArg the puzzle persistence service
-     * @param puzzleSessionModelArg       the puzzle session model, where the session state is
-     *                                    stored
+     * @param puzzlePersistenceServiceArg   the puzzle persistence service
+     * @param puzzleRequestResponseModelArg the puzzle request response model, where the request
+     *                                      processing state is stored
      */
     public PuzzleController(final PuzzlePersistenceService puzzlePersistenceServiceArg,
-                            final PuzzleSessionModel puzzleSessionModelArg) {
+                            final PuzzleRequestResponseModel puzzleRequestResponseModelArg) {
         puzzlePersistenceService = puzzlePersistenceServiceArg;
-        puzzleSessionModel = puzzleSessionModelArg;
+        puzzleRequestResponseModel = puzzleRequestResponseModelArg;
     }
 
     /**
@@ -55,7 +56,7 @@ public final class PuzzleController {
     @GetMapping({"", "/"})
     public Iterable<SavedPuzzle> getPuzzles() {
         puzzlePersistenceService.list();
-        return puzzleSessionModel.puzzles();
+        return puzzleRequestResponseModel.puzzles();
     }
 
     /**
@@ -66,51 +67,65 @@ public final class PuzzleController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<SavedPuzzle> getPuzzle(@PathVariable("id") final long id) {
-        puzzleSessionModel.resetLoadedPuzzle();
         puzzlePersistenceService.load(id);
-        final Optional<SavedPuzzle> puzzle = puzzleSessionModel.loadedPuzzle();
-        return ResponseEntity.of(puzzle);
+        return ResponseEntity.of(puzzleRequestResponseModel.puzzle());
     }
 
     /**
      * Creates a new puzzle.
      *
      * @param newPuzzle the new puzzle to save
-     * @return the String "OK" if creation was successful
+     * @return the URI to saved puzzle
      */
     @PostMapping(value = {"", "/"})
-    // TODO return URI to created resource instead of "OK"
-    public ResponseEntity<String> addPuzzle(@RequestBody final Puzzle newPuzzle) {
+    public ResponseEntity<URI> addPuzzle(@RequestBody final Puzzle newPuzzle) {
         puzzlePersistenceService.save(newPuzzle);
-        return puzzleSessionModel.error()
-                                 .map(error -> ResponseEntity.notFound().<String>build())
-                                 .orElseGet(() -> ResponseEntity.ok("OK"));
+        return puzzleRequestResponseModel.puzzle()
+                                         .map(puzzle -> ResponseEntity.created(toUri(puzzle)))
+                                         .orElseGet(ResponseEntity::internalServerError)
+                                         .build();
+    }
+
+    /**
+     * Returns the URI of the saved puzzle resource.
+     *
+     * @param puzzle the saved puzzle
+     * @return the URI of the saved puzzle resource
+     */
+    private URI toUri(final SavedPuzzle puzzle) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(puzzle.id())
+                .toUri();
     }
 
     /**
      * Deletes all saved puzzles.
      *
-     * @return the String "OK" if deletion was successful
+     * @return 200 if deletion was successful; 500 with body containing details about the error
+     * otherwise
      */
     @DeleteMapping({"", "/"})
     public ResponseEntity<String> deleteAll() {
         puzzlePersistenceService.deleteAll();
-        return puzzleSessionModel.error()
-                                 .map(error -> ResponseEntity.internalServerError().<String>build())
-                                 .orElseGet(() -> ResponseEntity.ok("OK"));
+        return puzzleRequestResponseModel.allPuzzlesDeleted() ? ResponseEntity.ok().build() :
+                ResponseEntity.internalServerError().build();
     }
 
     /**
      * Deletes the saved puzzle matching given id.
      *
      * @param id the id of the puzzle to delete
-     * @return the string "OK" deletion was successful
+     * @return 200 if deletion was successful, 404 otherwise
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePuzzle(@PathVariable("id") final long id) {
+    public ResponseEntity<Object> deletePuzzle(@PathVariable("id") final long id) {
         puzzlePersistenceService.delete(id);
-        return puzzleSessionModel.error()
-                                 .map(error -> ResponseEntity.notFound().<String>build())
-                                 .orElseGet(() -> ResponseEntity.ok("OK"));
+        return puzzleRequestResponseModel.deletedPuzzleIds().stream()
+                                         .filter(deletedId -> deletedId.equals(id))
+                                         .map(deletedId -> ResponseEntity.ok().build())
+                                         .findFirst()
+                                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

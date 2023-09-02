@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.web.presenter;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleSessionModel;
+import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleRequestResponseModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,28 +23,28 @@ public final class WebPuzzlePresenter implements PuzzlePresenter {
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(WebPuzzlePresenter.class.getName());
 
-    /** The puzzle session model to update. */
-    private final PuzzleSessionModel puzzleSessionModel;
+    /** The puzzle request response model to update. */
+    private final PuzzleRequestResponseModel puzzleRequestResponseModel;
 
     /**
      * Constructs an instance.
      *
-     * @param puzzleSessionModelArg the puzzle session model to update
+     * @param puzzleRequestResponseModelArg the puzzle request response model to update
      */
-    public WebPuzzlePresenter(final PuzzleSessionModel puzzleSessionModelArg) {
-        puzzleSessionModel = puzzleSessionModelArg;
+    public WebPuzzlePresenter(final PuzzleRequestResponseModel puzzleRequestResponseModelArg) {
+        puzzleRequestResponseModel = puzzleRequestResponseModelArg;
     }
 
     @Override
     public void presentAvailablePuzzles(final List<SavedPuzzle> puzzles) {
         LOGGER.info(() -> "Received available puzzles: " + puzzles);
-        puzzleSessionModel.puzzles(puzzles);
+        puzzleRequestResponseModel.puzzles(puzzles);
     }
 
     @Override
     public void presentLoadedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received loaded puzzle: " + puzzle);
-        puzzleSessionModel.loadedPuzzle(puzzle);
+        puzzleRequestResponseModel.puzzle(puzzle);
     }
 
     @Override
@@ -55,16 +55,19 @@ public final class WebPuzzlePresenter implements PuzzlePresenter {
     @Override
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
+        puzzleRequestResponseModel.puzzle(puzzle);
     }
 
     @Override
     public void presentDeletedAllPuzzles() {
         LOGGER.info("Received all puzzles deleted notification");
+        puzzleRequestResponseModel.allPuzzlesDeleted(true);
     }
 
     @Override
     public void presentDeletedPuzzle(final long id) {
         LOGGER.info(() -> "Received all puzzle deleted notification for id #" + id);
+        puzzleRequestResponseModel.deletedPuzzleId(id);
     }
 
     @Override
