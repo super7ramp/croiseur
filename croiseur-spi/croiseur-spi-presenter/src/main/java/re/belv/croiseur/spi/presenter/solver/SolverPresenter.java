@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Solver-related presentation services.
  */
+// TODO update SPI and core to allow multiple solver runs
 public interface SolverPresenter {
 
     /**

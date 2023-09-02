@@ -32,4 +32,16 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
                                          }]
                                          """));
     }
+
+    /**
+     * Verifies a GET on "/solvers/runs" lists the solvers runs - no run case.
+     *
+     * @throws Exception should not happen
+     */
+    @Test
+    void listRuns_empty() throws Exception {
+        mockMvc.perform(get("/solvers/runs"))
+               .andExpect(status().isOk())
+               .andExpect(content().json("[]"));
+    }
 }

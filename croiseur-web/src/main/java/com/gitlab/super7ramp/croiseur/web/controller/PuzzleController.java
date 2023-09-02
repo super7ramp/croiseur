@@ -9,7 +9,7 @@ import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.PuzzleRequestResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

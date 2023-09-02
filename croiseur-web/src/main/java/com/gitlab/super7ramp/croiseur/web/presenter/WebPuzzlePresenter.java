@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.web.presenter;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-import com.gitlab.super7ramp.croiseur.web.session.model.PuzzleRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.PuzzleRequestResponseModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

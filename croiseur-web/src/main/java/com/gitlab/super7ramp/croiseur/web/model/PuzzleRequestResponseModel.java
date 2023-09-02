@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.session.model;
+package com.gitlab.super7ramp.croiseur.web.model;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import org.springframework.stereotype.Component;
