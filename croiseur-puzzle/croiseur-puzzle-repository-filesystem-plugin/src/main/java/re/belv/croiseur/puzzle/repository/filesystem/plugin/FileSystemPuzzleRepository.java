@@ -60,7 +60,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
      */
     public FileSystemPuzzleRepository() throws IOException {
         repositoryPath = PuzzleRepositoryPath.get();
-        LOGGER.info("Initializing FileSystemPuzzleRepository at " + repositoryPath);
+        LOGGER.info(() -> "Initializing FileSystemPuzzleRepository at " + repositoryPath);
         if (Files.notExists(repositoryPath)) {
             Files.createDirectories(repositoryPath);
         }
@@ -72,7 +72,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     public SavedPuzzle create(final Puzzle puzzle) throws WriteException {
         final long id = nextId().orElseThrow(
                 () -> new WriteException("Repository is full, no more id available"));
-        final SavedPuzzle savedPuzzle = new SavedPuzzle(id, puzzle, 1);
+        final SavedPuzzle savedPuzzle = new SavedPuzzle(id, 1, puzzle);
         writer.write(savedPuzzle, pathOf(id));
         return savedPuzzle;
     }
@@ -89,7 +89,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
         }
 
         final SavedPuzzle updated =
-                new SavedPuzzle(id, changedPuzzle.data(), original.revision() + 1);
+                new SavedPuzzle(id, original.revision() + 1, changedPuzzle.data());
         writer.write(updated, pathOf(id));
         return updated;
     }

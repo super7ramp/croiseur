@@ -116,6 +116,7 @@ final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
                        """
                        [{
                            "id":1,
+                           "revision":1,
                            "data":{
                                "details":{
                                    "title":"Puzzle #1",
@@ -134,11 +135,11 @@ final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
                                    "across":[],
                                    "down":[]
                                }
-                           },
-                           "revision":1
+                           }
                        },
                        {
                            "id":2,
+                           "revision":1,
                            "data":{
                                "details":{
                                    "title":"Puzzle #2",
@@ -157,11 +158,11 @@ final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
                                    "across":[],
                                    "down":[]
                                }
-                           },
-                           "revision":1
+                           }
                        },
                        {
                            "id":3,
+                           "revision":1,
                            "data":{
                                "details":{
                                    "title":"Puzzle #3",
@@ -180,8 +181,7 @@ final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
                                    "across":[],
                                    "down":[]
                                }
-                           },
-                           "revision":1
+                           }
                        }]
                        """));
     }

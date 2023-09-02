@@ -95,7 +95,7 @@ public final class PuzzleTypes {
          * Have to fake a SavedPuzzle to bypass the small protection put on ChangedPuzzle
          * (package-private constructor only accessible from SavedPuzzle).
          */
-        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(id, puzzle, 1);
+        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(id, 1, puzzle);
         return fakeSavedPuzzle.asChangedPuzzle();
     }
 
@@ -104,7 +104,7 @@ public final class PuzzleTypes {
         final long id = puzzleId(table.get("Id"));
         final int revision = Integer.parseInt(table.get("Revision"));
         final Puzzle puzzle = puzzle(table);
-        return new SavedPuzzle(id, puzzle, revision);
+        return new SavedPuzzle(id, revision, puzzle);
     }
 
     @DataTableType

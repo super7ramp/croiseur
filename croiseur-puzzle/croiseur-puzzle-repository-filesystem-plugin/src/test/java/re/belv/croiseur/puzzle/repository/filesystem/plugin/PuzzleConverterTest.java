@@ -90,7 +90,7 @@ final class PuzzleConverterTest {
                                         .shade(GridPosition.at(0, 1)).build();
         final PuzzleClues clues = new PuzzleClues(List.of("A clue."), Collections.emptyList());
         final Puzzle puzzle = new Puzzle(details, grid, clues);
-        final SavedPuzzle domainCrosswordModel = new SavedPuzzle(1L, puzzle, 3);
+        final SavedPuzzle domainCrosswordModel = new SavedPuzzle(1L, 3, puzzle);
 
         final XdCrossword persistenceCrosswordModel =
                 PuzzleConverter.toPersistence(domainCrosswordModel);

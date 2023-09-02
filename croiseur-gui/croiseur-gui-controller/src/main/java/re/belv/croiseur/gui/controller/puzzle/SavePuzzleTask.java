@@ -105,7 +105,7 @@ final class SavePuzzleTask extends Task<Void> {
                 convertToDomain(puzzleEditionViewModel.crosswordGridViewModel());
         final PuzzleClues clues = convertToDomain(puzzleEditionViewModel.cluesViewModel());
         final Puzzle puzzle = new Puzzle(details, currentGrid, clues);
-        final ChangedPuzzle changedPuzzle = new SavedPuzzle(id, puzzle, revision).asChangedPuzzle();
+        final ChangedPuzzle changedPuzzle = new SavedPuzzle(id, revision, puzzle).asChangedPuzzle();
 
         return () -> puzzlePersistenceService.save(changedPuzzle);
     }

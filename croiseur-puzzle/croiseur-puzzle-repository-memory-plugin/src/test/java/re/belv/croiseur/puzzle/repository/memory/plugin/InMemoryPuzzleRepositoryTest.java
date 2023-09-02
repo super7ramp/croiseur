@@ -86,7 +86,7 @@ final class InMemoryPuzzleRepositoryTest {
 
     @Test
     void update_missing() {
-        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(404, puzzleOfSize(3, 3), 1);
+        final SavedPuzzle fakeSavedPuzzle = new SavedPuzzle(404, 1, puzzleOfSize(3, 3));
         final ChangedPuzzle changedPuzzle = fakeSavedPuzzle.modifiedWith(puzzleOfSize(3, 4));
 
         assertThrows(WriteException.class, () -> repo.update(changedPuzzle));

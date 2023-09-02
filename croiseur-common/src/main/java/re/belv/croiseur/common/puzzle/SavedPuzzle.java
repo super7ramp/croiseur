@@ -11,10 +11,10 @@ import java.util.Objects;
  * A puzzle which has been saved to a repository.
  *
  * @param id       the unique identifier of the puzzle
- * @param data     the puzzle data
  * @param revision the puzzle revision (i.e. the number of updates for this identifier)
+ * @param data     the puzzle data
  */
-public record SavedPuzzle(long id, Puzzle data, int revision) {
+public record SavedPuzzle(long id, int revision, Puzzle data) {
 
     /**
      * Validates fields

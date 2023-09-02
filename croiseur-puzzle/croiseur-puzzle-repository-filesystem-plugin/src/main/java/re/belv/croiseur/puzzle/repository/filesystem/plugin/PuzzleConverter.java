@@ -53,7 +53,7 @@ final class PuzzleConverter {
         final PuzzleGrid grid = toDomain(persistenceCrosswordModel.grid());
         final PuzzleClues clues = toDomain(persistenceCrosswordModel.clues());
         final Puzzle puzzle = new Puzzle(details, grid, clues);
-        return new SavedPuzzle(id, puzzle, revision);
+        return new SavedPuzzle(id, revision, puzzle);
     }
 
     /**

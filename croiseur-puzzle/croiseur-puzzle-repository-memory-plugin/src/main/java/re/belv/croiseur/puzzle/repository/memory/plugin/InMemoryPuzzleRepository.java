@@ -39,7 +39,7 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
 
     @Override
     public SavedPuzzle create(final Puzzle puzzle) {
-        final SavedPuzzle savedPuzzle = new SavedPuzzle(nextId(), puzzle, 1);
+        final SavedPuzzle savedPuzzle = new SavedPuzzle(nextId(), 1, puzzle);
         puzzles.put(savedPuzzle.id(), savedPuzzle);
         return savedPuzzle;
     }
@@ -55,7 +55,7 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
             return oldSavedPuzzle;
         }
         final SavedPuzzle newSavedPuzzle =
-                new SavedPuzzle(id, changedPuzzle.data(), oldSavedPuzzle.revision() + 1);
+                new SavedPuzzle(id, oldSavedPuzzle.revision() + 1, changedPuzzle.data());
         puzzles.put(id, newSavedPuzzle);
         return newSavedPuzzle;
     }
