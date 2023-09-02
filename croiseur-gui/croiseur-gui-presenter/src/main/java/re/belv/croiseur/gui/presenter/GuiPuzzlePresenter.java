@@ -224,16 +224,16 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
                 new HashSet<>(crosswordGridViewModel.boxesProperty().keySet());
 
         grid.filled().forEach((position, letter) -> {
-            positionsToUpdate.remove(gridCoordFrom(position));
-            final CrosswordBoxViewModel box =
-                    crosswordGridViewModel.box(gridCoordFrom(position));
+            final GridCoord gridCoord = gridCoordFrom(position);
+            positionsToUpdate.remove(gridCoord);
+            final CrosswordBoxViewModel box = crosswordGridViewModel.box(gridCoord);
             box.lighten();
             box.userContent(String.valueOf(letter));
         });
 
-        grid.shaded().forEach(position -> {
-            positionsToUpdate.remove(gridCoordFrom(position));
-            crosswordGridViewModel.box(gridCoordFrom(position)).shade();
+        grid.shaded().stream().map(GuiPuzzlePresenter::gridCoordFrom).forEach(coord -> {
+            positionsToUpdate.remove(coord);
+            crosswordGridViewModel.box(coord).shade();
         });
 
         positionsToUpdate.stream().map(crosswordGridViewModel::box).forEach(box -> {
@@ -242,6 +242,12 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         });
     }
 
+    /**
+     * Transforms a domain {@link GridPosition} to a view-model {@link GridCoord}.
+     *
+     * @param domainPosition the domain grid position
+     * @return the view model grid coord
+     */
     private static GridCoord gridCoordFrom(final GridPosition domainPosition) {
         return new GridCoord(domainPosition.x(), domainPosition.y());
     }
