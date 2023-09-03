@@ -51,19 +51,26 @@ public final class WebSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
-        LOGGER.info(() -> "Received solver initialisation state: " + solverInitialisationState);
+    public void presentSolverInitialisationState(final String solverRun,
+                                                 final SolverInitialisationState solverInitialisationState) {
+        LOGGER.info(() -> "Received solver initialisation state for run '" + solverRun + "': " +
+                          solverInitialisationState);
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress solverProgress) {
-        LOGGER.info(() -> "Received solver progress: " + solverProgress);
+    public void presentSolverProgress(final String solverRun, final SolverProgress solverProgress) {
+        LOGGER.info(
+                () -> "Received solver progress for run '" + solverRun + "': " + solverProgress);
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
-        LOGGER.info(() -> "Received solver result: " + result);
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
+        LOGGER.info(() -> "Received solver result for run '" + solverRun + "': " + result);
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        LOGGER.warning(() -> "Received solver error for run '" + solverRun + "': " + error);
     }
 
     @Override

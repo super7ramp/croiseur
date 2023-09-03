@@ -161,6 +161,11 @@ public final class SolverSteps {
         verify(presenterMock).presentAvailableSolvers(solverDescriptions);
     }
 
+    @Then("the application presents the solver service error {string}")
+    public void thenSolverServiceError(final String error) {
+        verify(presenterMock).presentSolverError(error);
+    }
+
     @Then("the application presents the solver error {string}")
     public void thenSolverError(final String error) {
         verify(presenterMock).presentSolverError(error);

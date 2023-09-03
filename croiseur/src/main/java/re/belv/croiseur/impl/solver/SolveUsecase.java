@@ -88,20 +88,21 @@ final class SolveUsecase {
 
         final Optional<CrosswordSolver> optSolver = selectSolver(event);
         if (optSolver.isEmpty()) {
-            presenter.presentSolverError("Solver not found");
+            presenter.presentSolverError(event.solverRun(), "Solver not found");
             return;
         }
 
         final Optional<Dictionary> optDictionary = dictionaryLoader.load(event.dictionaries());
         if (optDictionary.isEmpty()) {
-            presenter.presentSolverError("Dictionary not found");
+            presenter.presentSolverError(event.solverRun(), "Dictionary not found");
             return;
         }
 
         final Optional<SavedPuzzle> savedPuzzle = optionallySavePuzzle(event);
 
         final Dictionary dictionary = optionallyShuffledDictionary(event, optDictionary.get());
-        final ProgressListener progressListener = progressListenerFactory.from(event.progress());
+        final ProgressListener progressListener =
+                progressListenerFactory.from(event.solverRun(), event.progress());
         final Optional<SolverResult> optResult =
                 runSolver(optSolver.get(), event.grid(), dictionary, progressListener);
 
@@ -110,7 +111,7 @@ final class SolveUsecase {
             final re.belv.croiseur.spi.presenter.solver.SolverResult
                     presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
-            presenter.presentSolverResult(presentableResult);
+            presenter.presentSolverResult(event.solverRun(), presentableResult);
             final Map<String, String> clues = optionallyGetClues(event, presentableResult);
             optionallyPresentClues(clues);
             optionallyUpdateSavedPuzzle(savedPuzzle, presentableResult, clues);
@@ -181,7 +182,7 @@ final class SolveUsecase {
              * Present exception message, even for runtime exceptions: Exception comes from only one
              * solver plugin, it should not stop the whole application.
              */
-            presenter.presentSolverError(e.getMessage());
+            presenter.presentSolverError("" /* TODO solver run name */, e.getMessage());
             return Optional.empty();
         }
     }

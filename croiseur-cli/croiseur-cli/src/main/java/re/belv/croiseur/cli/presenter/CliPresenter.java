@@ -55,19 +55,24 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
-        cliSolverPresenter.presentSolverInitialisationState(solverInitialisationState);
+    public void presentSolverInitialisationState(final String solverRun,
+                                                 final SolverInitialisationState solverInitialisationState) {
+        cliSolverPresenter.presentSolverInitialisationState(solverRun, solverInitialisationState);
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress progress) {
-        cliSolverPresenter.presentSolverProgress(progress);
+    public void presentSolverProgress(final String solverRun, final SolverProgress progress) {
+        cliSolverPresenter.presentSolverProgress(solverRun, progress);
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
-        cliSolverPresenter.presentSolverResult(result);
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
+        cliSolverPresenter.presentSolverResult(solverRun, result);
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        cliSolverPresenter.presentSolverError(solverRun, error);
     }
 
     @Override

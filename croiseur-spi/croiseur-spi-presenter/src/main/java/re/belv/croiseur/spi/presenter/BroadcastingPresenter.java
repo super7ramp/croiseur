@@ -79,19 +79,25 @@ final class BroadcastingPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
-        presenters.forEach(p -> p.presentSolverInitialisationState(solverInitialisationState));
+    public void presentSolverInitialisationState(final String solverRun,
+                                                 final SolverInitialisationState solverInitialisationState) {
+        presenters.forEach(
+                p -> p.presentSolverInitialisationState(solverRun, solverInitialisationState));
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress progress) {
-        presenters.forEach(p -> p.presentSolverProgress(progress));
+    public void presentSolverProgress(final String solverRun, final SolverProgress progress) {
+        presenters.forEach(p -> p.presentSolverProgress(solverRun, progress));
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
-        presenters.forEach(p -> p.presentSolverResult(result));
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
+        presenters.forEach(p -> p.presentSolverResult(solverRun, result));
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        presenters.forEach(p -> p.presentSolverError(solverRun, error));
     }
 
     @Override

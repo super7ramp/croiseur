@@ -7,7 +7,6 @@ package re.belv.croiseur.api.solver;
 
 import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -66,27 +65,48 @@ public interface SolveRequest {
     Optional<String> solver();
 
     /**
+     * The name of the solver run triggered by this request.
+     * <p>
+     * It can be used as an identifier by caller to manage several solver runs in parallel. This
+     * string will be passed as argument of the
+     * {@link re.belv.croiseur.spi.presenter.solver.SolverPresenter SolverPresenter} methods.
+     * <p>
+     * Note that solver service does not maintain a memory of the solver runs itself. This means
+     * that solver service will <em>not</em> perform any validation on this field, i.e. it is
+     * possible for two runs to use the same identifier at the same time if caller does not prevent
+     * it.
+     *
+     * @return the name of the solver run
+     */
+    default String solverRun() {
+        return "";
+    }
+
+    /**
      * Defines how progress should be notified for presentation.
      *
      * @return the definition of how progress should be notified for presentation
-     * @see SolverPresenter#presentSolverProgress
-     * @see SolverPresenter#presentSolverInitialisationState
+     * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverProgress
+     * SolverPresenter#presentSolverProgress
+     * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverInitialisationState
+     * SolverPresenter#presentSolverInitialisationState
      */
     SolverProgressNotificationMethod progress();
 
     /**
      * Whether to generate clues if solver finds a solution.
      * <p>
-     * The first provider found is used.
+     * The first clue provider found is used.
      *
      * @return {@code true} if clues shall be generated upon solver success
      */
     boolean withClues();
 
     /**
-     * Whether the given {@link #grid()} shall be saved to puzzle repository.
+     * Whether the given {@link #grid()} shall be saved as a new record in the puzzle repository.
      *
-     * @return {@code true} if given {@link #grid()} shall be saved to puzzle repository
+     * @return {@code true} if given {@link #grid()} shall be saved as a new record in the puzzle
+     * repository
      */
     boolean savePuzzle();
 }

@@ -48,9 +48,9 @@ final class GuiSolverPresenter implements SolverPresenter {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModelArg   the grid view model
+     * @param crosswordGridViewModelArg       the grid view model
      * @param solverConfigurationViewModelArg the solver selection view model
-     * @param errorsViewModelArg          the errors view model
+     * @param errorsViewModelArg              the errors view model
      */
     GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
                        final SolverConfigurationViewModel solverConfigurationViewModelArg,
@@ -76,27 +76,31 @@ final class GuiSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final String solverRun,
+                                                 final SolverInitialisationState solverInitialisationState) {
         LOGGER.info(() -> "Received solver initialisation state: " + solverInitialisationState);
         // No specific presentation for initialisation progress
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress solverProgress) {
+    public void presentSolverProgress(final String solverRun, final SolverProgress solverProgress) {
         LOGGER.info(() -> "Received solver progress: " + solverProgress);
-        final double normalizedSolverProgress =
-                ((double) solverProgress.completionPercentage()) / 100.0;
+        final double normalizedSolverProgress = solverProgress.completionPercentage() / 100.0;
         Platform.runLater(() -> solverProgressViewModel.solverProgress(normalizedSolverProgress));
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
         LOGGER.info(() -> "Received solver result: " + result);
         Platform.runLater(() -> {
             updateBoxContent(result);
             updateBoxSolvableState(result);
         });
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        presentSolverError(error);
     }
 
     @Override

@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Solver-related presentation services.
  */
-// TODO update SPI and core to allow multiple solver runs
 public interface SolverPresenter {
 
     /**
@@ -26,30 +25,42 @@ public interface SolverPresenter {
     /**
      * Presents the solver initialisation state.
      *
+     * @param solverRun                 the name of the solver run
      * @param solverInitialisationState the solver initialisation state
      */
-    void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState);
+    void presentSolverInitialisationState(final String solverRun,
+                                          final SolverInitialisationState solverInitialisationState);
 
     /**
      * Presents the solving progress.
      *
-     * @param progress the completion percentage of the solving
+     * @param solverRun the name of the solver run
+     * @param progress  the completion percentage of the solving
      */
-    void presentSolverProgress(final SolverProgress progress);
+    void presentSolverProgress(final String solverRun, final SolverProgress progress);
 
     /**
      * Presents the result of a crossword solving request.
      *
-     * @param result the solver result
+     * @param solverRun the name of the solver run
+     * @param result    the solver result
      */
-    void presentSolverResult(final SolverResult result);
+    void presentSolverResult(final String solverRun, final SolverResult result);
 
     /**
-     * Presents an error from the solver.
+     * Presents an error from a particular solver run.
+     *
+     * @param solverRun the solver run name
+     * @param error     the error
+     */
+    // TODO error should be a dedicated type
+    void presentSolverError(final String solverRun, final String error);
+
+    /**
+     * Presents an error from the solver service, no related to a particular solver run.
      *
      * @param error the error
      */
     // TODO error should be a dedicated type
     void presentSolverError(final String error);
-
 }

@@ -55,14 +55,16 @@ final class CliSolverPresenter implements SolverPresenter {
 
         System.out.printf(SOLVER_LIST_FORMAT, nameHeader, descriptionHeader);
         System.out.printf(SOLVER_LIST_FORMAT, lineOf(nameHeader.length()),
-                lineOf(descriptionHeader.length()));
+                          lineOf(descriptionHeader.length()));
 
         solverDescriptions.forEach(solver ->
-                System.out.printf(SOLVER_LIST_FORMAT, solver.name(), solver.description()));
+                                           System.out.printf(SOLVER_LIST_FORMAT, solver.name(),
+                                                             solver.description()));
     }
 
     @Override
-    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final String solverRun,
+                                                 final SolverInitialisationState solverInitialisationState) {
         if (solverInitialisationState == SolverInitialisationState.STARTED) {
             System.out.println($("state.initializing"));
             bestCompletionPercentage = 0;
@@ -72,7 +74,7 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress solverProgress) {
+    public void presentSolverProgress(final String solverRun, final SolverProgress solverProgress) {
         final short completionPercentage = solverProgress.completionPercentage();
         if (completionPercentage > bestCompletionPercentage) {
             bestCompletionPercentage = completionPercentage;
@@ -81,11 +83,16 @@ final class CliSolverPresenter implements SolverPresenter {
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
         System.out.println(SolverResultFormatter.formatSolverResult(result));
         if (!result.isSuccess()) {
             Status.setNoSolutionFound();
         }
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        presentSolverError(error);
     }
 
     @Override

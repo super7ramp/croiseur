@@ -23,4 +23,4 @@ Feature: List Solvers
 
     Given an application deployed without solver
     When user requests to list the available solvers
-    Then the application presents the solver error "No solver found"
+    Then the application presents the solver service error "No solver found"

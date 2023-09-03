@@ -69,19 +69,24 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
+    public void presentSolverInitialisationState(final String solverRun,
             final SolverInitialisationState solverInitialisationState) {
-        solverPresenter.presentSolverInitialisationState(solverInitialisationState);
+        solverPresenter.presentSolverInitialisationState(solverRun, solverInitialisationState);
     }
 
     @Override
-    public void presentSolverProgress(final SolverProgress solverProgress) {
-        solverPresenter.presentSolverProgress(solverProgress);
+    public void presentSolverProgress(final String solverRun, final SolverProgress solverProgress) {
+        solverPresenter.presentSolverProgress(solverRun, solverProgress);
     }
 
     @Override
-    public void presentSolverResult(final SolverResult result) {
-        solverPresenter.presentSolverResult(result);
+    public void presentSolverResult(final String solverRun, final SolverResult result) {
+        solverPresenter.presentSolverResult(solverRun, result);
+    }
+
+    @Override
+    public void presentSolverError(final String solverRun, final String error) {
+        solverPresenter.presentSolverError(solverRun, error);
     }
 
     @Override
