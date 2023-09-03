@@ -52,6 +52,3 @@ and [report them](#report-bugs) – given the current dictionary generation proc
 some.
 
 ### Cheers!
-
---
-Antoine

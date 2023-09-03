@@ -40,6 +40,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 |---------|---------------------------------------------------------|
 | [cli][] | Presents croiseur output in the standard console output |
 | [gui][] | Presents croiseur output in a graphical window          |
+| [web][] | Presents croiseur output through a REST API             |
 
 ### Puzzle
 
@@ -51,11 +52,11 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 #### Repositories
 
-| Name           | Description                                               |
-|----------------|-----------------------------------------------------------|
-| [dummy][]      | A dummy puzzle repository that always rejects writes.     |
-| [filesystem][] | Stores puzzles as files on disk.                          |
-| [memory][]     | Stores puzzles in memory. No persistence. Used for tests. |
+| Name           | Description                                           |
+|----------------|-------------------------------------------------------|
+| [dummy][]      | A dummy puzzle repository that always rejects writes. |
+| [filesystem][] | Stores puzzles as files on disk.                      |
+| [memory][]     | Stores puzzles in memory. No persistence.             |
 
 ### Solvers
 
@@ -113,3 +114,5 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 [XWords RS (szunami)]: ../../croiseur-solver/croiseur-solver-szunami-plugin
 
 [XWords RS]: https://github.com/szunami/xwords-rs
+
+[web]: ../../croiseur-web

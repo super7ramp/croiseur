@@ -5,5 +5,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Croiseur Web
 
-**Croiseur Web** is a Web API allowing to generate crossword puzzles. It is a frontend to
+**Croiseur Web** is a REST API allowing to generate crossword puzzles. It is a frontend to
 the `croiseur` library.
