@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.controller;
+package com.gitlab.super7ramp.croiseur.web.controller.puzzle;
 
 import com.gitlab.super7ramp.croiseur.api.puzzle.PuzzleService;
 import com.gitlab.super7ramp.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import com.gitlab.super7ramp.croiseur.common.puzzle.Puzzle;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
-import com.gitlab.super7ramp.croiseur.web.model.PuzzleRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.puzzle.PuzzleRequestResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ import java.net.URI;
  */
 @RestController
 @RequestMapping("/puzzles")
-public final class PuzzleController {
+public class PuzzleController {
 
     /** The puzzle persistence service that this controller calls. */
     private final PuzzlePersistenceService puzzlePersistenceService;

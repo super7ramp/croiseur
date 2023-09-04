@@ -8,7 +8,7 @@ package com.gitlab.super7ramp.croiseur.web.presenter;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleCodecDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import com.gitlab.super7ramp.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-import com.gitlab.super7ramp.croiseur.web.model.PuzzleRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.puzzle.PuzzleRequestResponseModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Implementation of {@link PuzzlePresenter} for Croiseur Web.
  */
 @Component
-public final class WebPuzzlePresenter implements PuzzlePresenter {
+public class WebPuzzlePresenter implements PuzzlePresenter {
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(WebPuzzlePresenter.class.getName());

@@ -11,6 +11,8 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleDetails;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -63,6 +65,10 @@ final class CroiseurWebPuzzleTest extends CroiseurWebTestBase {
                                        PuzzleClues.empty());
         EXAMPLE_PUZZLES = List.of(puzzle1, puzzle2, puzzle3);
     }
+
+    /** The test json (de)serializer for {@link Puzzle}s. */
+    @Autowired
+    private JacksonTester<Puzzle> json;
 
     /**
      * Verifies puzzle creation with a POST on "/puzzles".

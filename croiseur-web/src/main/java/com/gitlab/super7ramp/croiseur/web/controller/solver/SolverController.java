@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.controller;
+package com.gitlab.super7ramp.croiseur.web.controller.solver;
 
-import com.gitlab.super7ramp.croiseur.api.solver.SolveRequest;
 import com.gitlab.super7ramp.croiseur.api.solver.SolverService;
+import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
-import com.gitlab.super7ramp.croiseur.web.model.SolverRequestResponseModel;
-import com.gitlab.super7ramp.croiseur.web.model.SolverRun;
-import com.gitlab.super7ramp.croiseur.web.model.SolverSessionModel;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverRun;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverSessionModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +23,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controller of the {@link SolverService}.
  */
 @RestController
 @RequestMapping("/solvers")
-public final class SolverController {
+public class SolverController {
 
     /** The service that this controller calls. */
     private final SolverService solverService;
@@ -39,6 +40,9 @@ public final class SolverController {
 
     /** The solver session model, where the session state is stored. */
     private final SolverSessionModel solverSessionModel;
+
+    /** The solver run count. Used as solver run name when creating solver run. Meh. */
+    private final AtomicInteger solverRunCount;
 
     /**
      * Constructs an instance.
@@ -52,6 +56,7 @@ public final class SolverController {
         solverService = solverServiceArg;
         solverRequestResponseModel = solverRequestResponseModelArg;
         solverSessionModel = solverSessionModelArg;
+        solverRunCount = new AtomicInteger(1);
     }
 
     /**
@@ -76,30 +81,31 @@ public final class SolverController {
     }
 
     /**
-     * Gets the solver run with given id.
+     * Gets the solver run with given name.
      *
-     * @return the solver run with given id
+     * @return the solver run with given name
      */
-    @GetMapping("/runs/{id}")
-    public ResponseEntity<SolverRun> getSolverRun(@PathVariable("id") final int id) {
-        final Optional<SolverRun> solverRun = solverSessionModel.solverRuns().stream()
-                                                                .filter(run -> run.id() == id)
-                                                                .findFirst();
+    @GetMapping("/runs/{name}")
+    public ResponseEntity<SolverRun> getSolverRun(@PathVariable("name") final String name) {
+        final Optional<SolverRun> solverRun = solverSessionModel.solverRun(name);
         return ResponseEntity.of(solverRun);
     }
 
     /**
      * Starts a solver run.
      *
-     * @return the URI to the created solver run resource
+     * @param grid the grid to solve
+     * @return 201 with the URI to the created solver run resource, or 500 with the error message
      */
     @PostMapping("/runs")
-    public HttpEntity<URI> run(@RequestBody final SolveRequest solveRequest) {
+    public HttpEntity<Object> run(@RequestBody final PuzzleGrid grid) {
+        final var runName = String.valueOf(solverRunCount.getAndIncrement());
+        final var solveRequest = new WebSolveRequest(grid, runName);
         solverService.solve(solveRequest);
         return solverRequestResponseModel.solverRun()
-                                         .map(run -> ResponseEntity.created(toUri(run)))
-                                         .orElseGet(ResponseEntity::internalServerError)
-                                         .build();
+                                         .map(run -> ResponseEntity.created(toUri(run)).build())
+                                         .orElseGet(() -> ResponseEntity.internalServerError()
+                                                                        .body(solverRequestResponseModel.error()));
     }
 
     /**
@@ -111,8 +117,8 @@ public final class SolverController {
     private URI toUri(final SolverRun run) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(run.id())
+                .path("/{name}")
+                .buildAndExpand(run.name())
                 .toUri();
     }
 }

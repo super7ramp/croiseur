@@ -26,7 +26,7 @@ import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
 /**
- * Declares core services as Spring beans.
+ * Declares core services as Spring beans so that they are accessible from controllers.
  */
 @Configuration
 public class ServiceConfiguration {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.model;
+package com.gitlab.super7ramp.croiseur.web.model.solver;
 
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverDescription;
 import org.springframework.stereotype.Component;
@@ -27,12 +27,16 @@ public class SolverRequestResponseModel {
     /** The solver runs created or queried by the current request. */
     private final List<SolverRun> solverRuns;
 
+    /** The errors. */
+    private final List<String> errors;
+
     /**
      * Constructs an instance.
      */
     public SolverRequestResponseModel() {
         solvers = new ArrayList<>();
         solverRuns = new ArrayList<>();
+        errors = new ArrayList<>();
     }
 
     /**
@@ -58,7 +62,7 @@ public class SolverRequestResponseModel {
      *
      * @param run the solver run created or queried by the current request
      */
-    public void solverRuns(final SolverRun run) {
+    public void solverRun(final SolverRun run) {
         solverRuns.add(run);
     }
 
@@ -69,5 +73,24 @@ public class SolverRequestResponseModel {
      */
     public Optional<SolverRun> solverRun() {
         return solverRuns.stream().findFirst();
+    }
+
+    /**
+     * Adds the given error to the list of errors raised by the current request.
+     *
+     * @param error the error
+     */
+    public void error(final String error) {
+        errors.add(error);
+    }
+
+    /**
+     * A text containing all the errors raised by the current request. There is one line per error.
+     *
+     * @return a text containing all the errors raised by the current request; empty if no error
+     * raised by current request
+     */
+    public String error() {
+        return String.join("\n", errors);
     }
 }

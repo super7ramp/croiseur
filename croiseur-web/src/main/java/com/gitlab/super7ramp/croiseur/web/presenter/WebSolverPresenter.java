@@ -10,8 +10,9 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverInitialisationS
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
-import com.gitlab.super7ramp.croiseur.web.model.SolverRequestResponseModel;
-import com.gitlab.super7ramp.croiseur.web.model.SolverSessionModel;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverRequestResponseModel;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverRun;
+import com.gitlab.super7ramp.croiseur.web.model.solver.SolverSessionModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * Implementation of {@link SolverPresenter} for Croiseur Web.
  */
 @Component
-public final class WebSolverPresenter implements SolverPresenter {
+public class WebSolverPresenter implements SolverPresenter {
 
     /** The logger. */
     private static final Logger LOGGER = Logger.getLogger(WebSolverPresenter.class.getName());
@@ -55,26 +56,36 @@ public final class WebSolverPresenter implements SolverPresenter {
                                                  final SolverInitialisationState solverInitialisationState) {
         LOGGER.info(() -> "Received solver initialisation state for run '" + solverRun + "': " +
                           solverInitialisationState);
+        if (solverInitialisationState == SolverInitialisationState.STARTED) {
+            final SolverRun createdRun = solverSessionModel.newSolverRun(solverRun);
+            solverRequestResponseModel.solverRun(createdRun);
+        } else {
+            solverSessionModel.solverRunStarted(solverRun);
+        }
     }
 
     @Override
     public void presentSolverProgress(final String solverRun, final SolverProgress solverProgress) {
         LOGGER.info(
                 () -> "Received solver progress for run '" + solverRun + "': " + solverProgress);
+        solverSessionModel.solverRunProgressed(solverRun, solverProgress.completionPercentage());
     }
 
     @Override
     public void presentSolverResult(final String solverRun, final SolverResult result) {
         LOGGER.info(() -> "Received solver result for run '" + solverRun + "': " + result);
+        solverSessionModel.solverRunTerminated(solverRun);
     }
 
     @Override
     public void presentSolverError(final String solverRun, final String error) {
         LOGGER.warning(() -> "Received solver error for run '" + solverRun + "': " + error);
+        solverRequestResponseModel.error(error);
     }
 
     @Override
     public void presentSolverError(final String error) {
         LOGGER.warning(() -> "Received solver error: " + error);
+        solverRequestResponseModel.error(error);
     }
 }

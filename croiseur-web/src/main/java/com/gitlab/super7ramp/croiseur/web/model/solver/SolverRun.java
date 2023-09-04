@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.model;
+package com.gitlab.super7ramp.croiseur.web.model.solver;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Represent a crossword solver run.
  */
-// TODO impact service layer
+// TODO define property types: CreatedSolverRun, RunningSolverRun, InterruptedSolverRun, TerminatedSolverRun
 public final class SolverRun {
 
     /** The run status. */
@@ -27,27 +27,37 @@ public final class SolverRun {
     }
 
     /** The run id. */
-    private final int id;
+    private final String name;
 
     /** The run creation time. */
     private final LocalDateTime creationTime;
 
     /** The run end time. May be {@code null}. */
-    private LocalDateTime endTime;
+    private final LocalDateTime endTime;
 
     /** The run status. */
-    private Status status;
+    private final Status status;
+
+    /** The run progress (percentage). */
+    private final short progress;
 
     /**
      * Constructs an instance.
      *
-     * @param idArg the run id
+     * @param nameArg the run id
      */
-    public SolverRun(final int idArg) {
-        id = idArg;
-        creationTime = LocalDateTime.now();
-        status = Status.CREATED;
-        // endTime intentionally kept null
+    public SolverRun(final String nameArg) {
+        this(nameArg, LocalDateTime.now(), null, Status.CREATED, (short) 0);
+    }
+
+    private SolverRun(final String nameArg, final LocalDateTime creationTimeArg,
+                      final LocalDateTime endTimeArg, final Status statusArg,
+                      final short progressArg) {
+        name = nameArg;
+        creationTime = creationTimeArg;
+        endTime = endTimeArg;
+        status = statusArg;
+        progress = progressArg;
     }
 
     /**
@@ -55,8 +65,8 @@ public final class SolverRun {
      *
      * @return the run id
      */
-    public int id() {
-        return id;
+    public String name() {
+        return name;
     }
 
     /**
@@ -86,4 +96,20 @@ public final class SolverRun {
         return status;
     }
 
+    public short progress() {
+        return progress;
+    }
+
+    public SolverRun progress(final short newProgressValue) {
+        return new SolverRun(name, creationTime, endTime, status, newProgressValue);
+    }
+
+    public SolverRun started() {
+        return new SolverRun(name, creationTime, endTime, Status.RUNNING, progress);
+    }
+
+    public SolverRun terminated() {
+        return new SolverRun(name, creationTime, LocalDateTime.now(), Status.TERMINATED,
+                             (short) 100);
+    }
 }

@@ -7,7 +7,7 @@ package com.gitlab.super7ramp.croiseur.web.configuration;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
-import com.gitlab.super7ramp.croiseur.web.model.GridPositionDeserializer;
+import com.gitlab.super7ramp.croiseur.web.model.puzzle.GridPositionDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

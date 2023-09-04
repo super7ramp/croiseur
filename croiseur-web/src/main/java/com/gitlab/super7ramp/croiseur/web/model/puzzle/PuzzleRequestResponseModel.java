@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package com.gitlab.super7ramp.croiseur.web.model;
+package com.gitlab.super7ramp.croiseur.web.model.puzzle;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.SavedPuzzle;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * The puzzle request response model: All data relative to puzzle management and relevant only for
@@ -21,6 +22,9 @@ import java.util.Optional;
 @Component
 @RequestScope
 public class PuzzleRequestResponseModel {
+
+    /** The logger. */
+    private static final Logger LOGGER = Logger.getLogger(PuzzleRequestResponseModel.class.getName());
 
     /** The list of puzzles created, updated or queried by the current request. */
     private final List<SavedPuzzle> puzzles;
@@ -35,6 +39,7 @@ public class PuzzleRequestResponseModel {
      * Constructs an instance.
      */
     public PuzzleRequestResponseModel() {
+        LOGGER.info("Creating new PuzzleRequestResponseModel");
         puzzles = new ArrayList<>();
         deletedPuzzleIds = new ArrayList<>();
     }
