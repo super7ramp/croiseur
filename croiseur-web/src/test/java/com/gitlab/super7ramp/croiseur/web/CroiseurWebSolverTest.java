@@ -75,7 +75,7 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
      */
     @Test
     void getSolverRun_notFound() throws Exception {
-        mockMvc.perform(get("/solvers/runs/1"))
+        mockMvc.perform(get("/solvers/runs/1").session(mockHttpSession))
                .andExpect(status().isNotFound());
     }
 
@@ -86,7 +86,7 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
      */
     @Test
     void listRuns_empty() throws Exception {
-        mockMvc.perform(get("/solvers/runs"))
+        mockMvc.perform(get("/solvers/runs").session(mockHttpSession))
                .andExpect(status().isOk())
                .andExpect(content().json("[]"));
     }
@@ -97,10 +97,10 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
      * @throws Exception should not happen
      */
     @Test
-    @Disabled("mockMvc doesn't fill JSESSIONID out-of-the box, so session scope bean does not work")
+    @Disabled("SolverRun serialization to fix")
     void listRuns_notEmpty() throws Exception {
         addSolverRun(EXAMPLE_GRID);
-        mockMvc.perform(get("/solvers/runs"))
+        mockMvc.perform(get("/solvers/runs").session(mockHttpSession))
                .andExpect(status().isOk())
                .andExpect(content().json("[something]"));
     }
@@ -116,6 +116,7 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
     private ResultActions addSolverRun(final PuzzleGrid grid) throws Exception {
         final String puzzleGridJson = json.write(grid).getJson();
         return mockMvc.perform(post("/solvers/runs")
+                                       .session(mockHttpSession)
                                        .contentType(MediaType.APPLICATION_JSON_VALUE)
                                        .content(puzzleGridJson))
                       .andExpect(status().isCreated());
