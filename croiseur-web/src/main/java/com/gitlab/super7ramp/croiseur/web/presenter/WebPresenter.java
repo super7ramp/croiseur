@@ -20,11 +20,11 @@ import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverPresenter;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverProgress;
 import com.gitlab.super7ramp.croiseur.spi.presenter.solver.SolverResult;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Implementation of {@link Presenter} for Croiseur Web.
@@ -33,10 +33,8 @@ import java.util.Objects;
  * dependencies cannot be injected directly: It uses the Spring {@link ApplicationContext}, which is
  * expected to be statically set before instantiation, to retrieve the Spring beans.
  */
-public final class WebPresenter implements Presenter {
-
-    /** The spring application context. */
-    private static ApplicationContext applicationContext;
+@Component
+public class WebPresenter implements Presenter {
 
     /** The solver presenter. */
     private final SolverPresenter solverPresenter;
@@ -46,21 +44,14 @@ public final class WebPresenter implements Presenter {
 
     /**
      * Constructs an instance.
-     */
-    public WebPresenter() {
-        Objects.requireNonNull(applicationContext,
-                               "Spring application context has not been set. It must be statically set before WebPresenter instantiation.");
-        solverPresenter = applicationContext.getBean(SolverPresenter.class);
-        puzzlePresenter = applicationContext.getBean(PuzzlePresenter.class);
-    }
-
-    /**
-     * Injects the Spring application context.
      *
-     * @param applicationContextArg the Spring application context
+     * @param solverPresenterArg the solver presenter
+     * @param puzzlePresenterArg the puzzle presenter
      */
-    public static void inject(final ApplicationContext applicationContextArg) {
-        applicationContext = Objects.requireNonNull(applicationContextArg);
+    public WebPresenter(final SolverPresenter solverPresenterArg,
+                        final PuzzlePresenter puzzlePresenterArg) {
+        solverPresenter = solverPresenterArg;
+        puzzlePresenter = puzzlePresenterArg;
     }
 
     @Override
@@ -166,7 +157,7 @@ public final class WebPresenter implements Presenter {
 
     @Override
     public void presentSolverInitialisationState(final String solverRun,
-            final SolverInitialisationState solverInitialisationState) {
+                                                 final SolverInitialisationState solverInitialisationState) {
         solverPresenter.presentSolverInitialisationState(solverRun, solverInitialisationState);
     }
 

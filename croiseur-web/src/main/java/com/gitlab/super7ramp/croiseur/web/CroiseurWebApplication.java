@@ -5,9 +5,7 @@
 
 package com.gitlab.super7ramp.croiseur.web;
 
-import com.gitlab.super7ramp.croiseur.web.presenter.WebPresenter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 /**
  * The Croiseur Web Application.
@@ -17,10 +15,8 @@ public class CroiseurWebApplication {
 
     /**
      * Constructs an instance.
-     *
-     * @param applicationContext the Spring application context
      */
-    public CroiseurWebApplication(final ApplicationContext applicationContext) {
-        WebPresenter.inject(applicationContext);
+    public CroiseurWebApplication() {
+        // Nothing to do.
     }
 }

@@ -3,8 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
-import com.gitlab.super7ramp.croiseur.web.presenter.WebPresenter;
+import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
+import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
+import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
+import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Web API, frontend to croiseur.
@@ -20,5 +24,11 @@ module com.gitlab.super7ramp.croiseur.web {
     requires spring.webmvc;
     requires java.logging;
 
-    provides Presenter with WebPresenter;
+    // Component loads service providers itself
+    uses ClueProvider;
+    uses CrosswordSolver;
+    uses DictionaryProvider;
+    uses PuzzleDecoder;
+    uses PuzzleEncoder;
+    uses PuzzleRepository;
 }
