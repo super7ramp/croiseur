@@ -17,11 +17,23 @@ import java.util.regex.Pattern;
 public final class SolverRunJsonMatcher extends TypeSafeMatcher<String> {
 
     private static final Pattern PATTERN = Pattern.compile(
-            "\\[?\\{\"name\":\"(?<name>[^\"]+)\",\"status\":\"(?<status>[^\"]+)\",\"progress\":\\d{1,3},\"creationTime\":\"(?<creationTime>[^\"]+)\",\"endTime\":\"(?<endTime>[^\"]+)\"}]?");
+            "\\[?\\{\"name\":\"(?<name>[^\"]+)\",\"status\":\"(?<status>[^\"]+)\",\"progress\":\\d{1,3},\"creationTime\":\"(?<creationTime>[^\"]+)\",\"endTime\":\"?(?<endTime>([^\"]+))\"?}]?");
     private final SolverRun.Status state;
 
     private SolverRunJsonMatcher(final SolverRun.Status stateArg) {
         state = stateArg;
+    }
+
+    public static SolverRunJsonMatcher createdSolverRun() {
+        return new SolverRunJsonMatcher(SolverRun.Status.CREATED);
+    }
+
+    public static SolverRunJsonMatcher runningSolverRun() {
+        return new SolverRunJsonMatcher(SolverRun.Status.RUNNING);
+    }
+
+    public static SolverRunJsonMatcher interruptedSolverRun() {
+        return new SolverRunJsonMatcher(SolverRun.Status.INTERRUPTED);
     }
 
     public static SolverRunJsonMatcher terminatedSolverRun() {

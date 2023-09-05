@@ -5,5 +5,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## TODO
 
-- Make solver run asynchronous 
+- Interrupt solver run after timeout
+- Protect puzzle API against concurrent writes
 - Define a proper data model with json serialization in mind instead of reusing directly common data

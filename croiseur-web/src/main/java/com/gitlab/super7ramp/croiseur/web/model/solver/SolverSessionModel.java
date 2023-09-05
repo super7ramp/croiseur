@@ -97,4 +97,11 @@ public class SolverSessionModel {
     public SolverRun solverRunTerminated(final String solverRun) {
         return solverRuns.computeIfPresent(solverRun, (name, run) -> run.terminated());
     }
+
+    /**
+     * Clears the solver runs.
+     */
+    public void clear() {
+        solverRuns.clear();
+    }
 }

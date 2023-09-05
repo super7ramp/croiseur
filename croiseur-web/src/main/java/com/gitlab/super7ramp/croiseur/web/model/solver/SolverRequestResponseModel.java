@@ -12,6 +12,9 @@ import org.springframework.web.context.annotation.RequestScope;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The solver request response model: All data relative to the solver service and relevant only for
@@ -24,8 +27,8 @@ public class SolverRequestResponseModel {
     /** The list of solvers queried by the current request. */
     private final List<SolverDescription> solvers;
 
-    /** The solver runs created or queried by the current request. */
-    private final List<SolverRun> solverRuns;
+    /** The blocking queue of solver runs created asynchronously by the current request, if any. */
+    private final BlockingQueue<SolverRun> solverRun;
 
     /** The errors. */
     private final List<String> errors;
@@ -35,7 +38,7 @@ public class SolverRequestResponseModel {
      */
     public SolverRequestResponseModel() {
         solvers = new ArrayList<>();
-        solverRuns = new ArrayList<>();
+        solverRun = new SynchronousQueue<>();
         errors = new ArrayList<>();
     }
 
@@ -58,21 +61,36 @@ public class SolverRequestResponseModel {
     }
 
     /**
-     * Adds the given solver to the list of runs created or queried by the current request.
+     * Adds the given solver to the queue of solver runs created asynchronously by the current
+     * request.
      *
-     * @param run the solver run created or queried by the current request
+     * @param run the solver run created asynchronously by the current request
      */
     public void solverRun(final SolverRun run) {
-        solverRuns.add(run);
+        try {
+            solverRun.put(run);
+        } catch (final InterruptedException e) {
+            // TODO log, error handling
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
-     * The first solver run created or queried by the current request, if any.
+     * The solver run created asynchronously by the current request.
      *
-     * @return the solver run created or queried by the current request, if any
+     * @return solver run created asynchronously by the current request
      */
     public Optional<SolverRun> solverRun() {
-        return solverRuns.stream().findFirst();
+        try {
+            // TODO extract constant
+            return Optional.ofNullable(solverRun.poll(5L, TimeUnit.SECONDS));
+        } catch (final InterruptedException e) {
+            // TODO log, error handling
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
     }
 
     /**

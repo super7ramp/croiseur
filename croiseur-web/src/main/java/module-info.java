@@ -13,7 +13,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
 /**
  * Web API, frontend to croiseur.
  */
-module com.gitlab.super7ramp.croiseur.web {
+open module com.gitlab.super7ramp.croiseur.web {
     requires com.fasterxml.jackson.databind;
     requires com.gitlab.super7ramp.croiseur;
     requires spring.beans;
@@ -23,6 +23,7 @@ module com.gitlab.super7ramp.croiseur.web {
     requires spring.web;
     requires spring.webmvc;
     requires java.logging;
+    requires jdk.unsupported; // not required by croiseur.web but by spring.aop, at run-time
 
     // Component loads service providers itself
     uses ClueProvider;
