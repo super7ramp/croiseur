@@ -6,17 +6,18 @@
 package com.gitlab.super7ramp.croiseur.web;
 
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
+import static com.gitlab.super7ramp.croiseur.web.matcher.SolverRunJsonMatcher.terminatedSolverRun;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,9 +31,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 final class CroiseurWebSolverTest extends CroiseurWebTestBase {
 
-    /** An example grid used by several tests. */
-    private static final PuzzleGrid EXAMPLE_GRID =
-            new PuzzleGrid(4, 4, Set.of(at(0, 0)), Map.of(at(1, 0), 'A'));
+    /** Some example grids. */
+    private static final List<PuzzleGrid> EXAMPLE_GRIDS;
+
+    static {
+        final var puzzleGrid1 = new PuzzleGrid(4, 4, Set.of(at(0, 0)), Map.of(at(1, 0), 'A'));
+        final var puzzleGrid2 = new PuzzleGrid(3, 3, Set.of(at(0, 0)), Map.of(at(1, 0), 'A'));
+        final var puzzleGrid3 = new PuzzleGrid(2, 2, Set.of(), Map.of());
+        EXAMPLE_GRIDS = List.of(puzzleGrid1, puzzleGrid2, puzzleGrid3);
+    }
 
     /** The test json (de)serializer for {@link PuzzleGrid}s. */
     @Autowired
@@ -62,9 +69,9 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
      */
     @Test
     void addSolverRun() throws Exception {
-        addSolverRun(EXAMPLE_GRID).andExpect(
-                                          header().string("Location", endsWith("/solvers/runs/1")))
-                                  .andExpect(content().string(emptyString()));
+        addSolverRun(EXAMPLE_GRIDS.get(0)).andExpect(
+                                                  header().string("Location", endsWith("/solvers/runs/1")))
+                                          .andExpect(content().string(emptyString()));
     }
 
     /**
@@ -97,12 +104,12 @@ final class CroiseurWebSolverTest extends CroiseurWebTestBase {
      * @throws Exception should not happen
      */
     @Test
-    @Disabled("SolverRun serialization to fix")
     void listRuns_notEmpty() throws Exception {
-        addSolverRun(EXAMPLE_GRID);
+        addSolverRun(EXAMPLE_GRIDS.get(0));
+        // TODO add several runs
         mockMvc.perform(get("/solvers/runs").session(mockHttpSession))
                .andExpect(status().isOk())
-               .andExpect(content().json("[something]"));
+               .andExpect(content().string(terminatedSolverRun()));
     }
 
     /**

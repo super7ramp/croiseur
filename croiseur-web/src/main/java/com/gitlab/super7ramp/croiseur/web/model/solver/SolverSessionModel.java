@@ -65,7 +65,7 @@ public class SolverSessionModel {
      * @return the created solver run
      */
     public SolverRun newSolverRun(final String solverRun) {
-        final var run = new SolverRun(solverRun);
+        final var run = SolverRun.created(solverRun);
         solverRuns.put(run.name(), run);
         return run;
     }
@@ -86,7 +86,7 @@ public class SolverSessionModel {
      * @param percentage the progress percentage
      */
     public SolverRun solverRunProgressed(final String solverRun, final short percentage) {
-        return solverRuns.computeIfPresent(solverRun, (name, run) -> run.progress(percentage));
+        return solverRuns.computeIfPresent(solverRun, (name, run) -> run.progressed(percentage));
     }
 
     /**

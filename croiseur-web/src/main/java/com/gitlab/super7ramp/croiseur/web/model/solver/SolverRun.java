@@ -6,13 +6,19 @@
 package com.gitlab.super7ramp.croiseur.web.model.solver;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * Represent a crossword solver run.
+ *
+ * @param name         the name
+ * @param status       the status
+ * @param progress     the progress (a percentage)
+ * @param creationTime the creation time
+ * @param endTime      the end time (may be {@code null})
  */
-// TODO define property types: CreatedSolverRun, RunningSolverRun, InterruptedSolverRun, TerminatedSolverRun
-public final class SolverRun {
+public record SolverRun(String name, Status status, short progress, LocalDateTime creationTime,
+                        LocalDateTime endTime) {
 
     /** The run status. */
     public enum Status {
@@ -26,90 +32,71 @@ public final class SolverRun {
         TERMINATED
     }
 
-    /** The run id. */
-    private final String name;
-
-    /** The run creation time. */
-    private final LocalDateTime creationTime;
-
-    /** The run end time. May be {@code null}. */
-    private final LocalDateTime endTime;
-
-    /** The run status. */
-    private final Status status;
-
-    /** The run progress (percentage). */
-    private final short progress;
-
     /**
-     * Constructs an instance.
+     * Validates fields.
      *
-     * @param nameArg the run id
+     * @param name         the name
+     * @param status       the status
+     * @param progress     the progress (a percentage)
+     * @param creationTime the creation time
+     * @param endTime      the end time (may be {@code null})
      */
-    public SolverRun(final String nameArg) {
-        this(nameArg, LocalDateTime.now(), null, Status.CREATED, (short) 0);
-    }
-
-    private SolverRun(final String nameArg, final LocalDateTime creationTimeArg,
-                      final LocalDateTime endTimeArg, final Status statusArg,
-                      final short progressArg) {
-        name = nameArg;
-        creationTime = creationTimeArg;
-        endTime = endTimeArg;
-        status = statusArg;
-        progress = progressArg;
+    public SolverRun {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(status);
+        Objects.requireNonNull(creationTime);
+        if (status == Status.INTERRUPTED || status == Status.TERMINATED) {
+            Objects.requireNonNull(endTime);
+        }
     }
 
     /**
-     * The run id.
+     * Creates a new {@link SolverRun} in {@link Status#CREATED} state.
      *
-     * @return the run id
+     * @param nameArg the run name
+     * @return a new {@link SolverRun} in {@link Status#CREATED} state
      */
-    public String name() {
-        return name;
+    static SolverRun created(final String nameArg) {
+        return new SolverRun(nameArg, Status.CREATED, (short) 0, LocalDateTime.now(), null);
     }
 
     /**
-     * The run creation time.
+     * Updates state to {@link Status#RUNNING} state.
      *
-     * @return the run creation time
+     * @return a new {@link SolverRun} in {@link Status#RUNNING} state
+     * @throws IllegalStateException if this object is not in {@link Status#CREATED} state
      */
-    public LocalDateTime creationTime() {
-        return creationTime;
-    }
-
-    /**
-     * The run end time, if run status is terminated or interrupted.
-     *
-     * @return the run end time, if any
-     */
-    public Optional<LocalDateTime> endTime() {
-        return Optional.ofNullable(endTime);
-    }
-
-    /**
-     * The run status.
-     *
-     * @return the job status
-     */
-    public Status status() {
-        return status;
-    }
-
-    public short progress() {
-        return progress;
-    }
-
-    public SolverRun progress(final short newProgressValue) {
-        return new SolverRun(name, creationTime, endTime, status, newProgressValue);
-    }
-
     public SolverRun started() {
-        return new SolverRun(name, creationTime, endTime, Status.RUNNING, progress);
+        if (status != Status.CREATED) {
+            throw new IllegalStateException(
+                    "Illegal attempt to start an already running or stopped solver run");
+        }
+        return new SolverRun(name, Status.RUNNING, progress, creationTime, endTime);
     }
 
+    /**
+     * Updates progress.
+     *
+     * @param newProgressValue the new progress value
+     * @return a new {@link SolverRun} in {@link Status#RUNNING} state, with an updated
+     * {@link #progress}
+     * @throws IllegalStateException if this object is not in {@link Status#RUNNING} state
+     */
+    public SolverRun progressed(final short newProgressValue) {
+        if (status != Status.RUNNING) {
+            throw new IllegalStateException(
+                    "Illegal attempt to set progress on a non-running solver run");
+        }
+        return new SolverRun(name, status, newProgressValue, creationTime, endTime);
+    }
+
+    /**
+     * Updates state to {@link Status#TERMINATED}.
+     *
+     * @return a new {@link SolverRun} in {@link Status#TERMINATED} state
+     */
     public SolverRun terminated() {
-        return new SolverRun(name, creationTime, LocalDateTime.now(), Status.TERMINATED,
-                             (short) 100);
+        return new SolverRun(name, Status.TERMINATED, (short) 100, creationTime,
+                             LocalDateTime.now());
     }
 }
