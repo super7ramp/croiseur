@@ -74,6 +74,14 @@ tasks.named<JavaExec>("run") {
     systemProperty("re.belv.croiseur.puzzle.path", testPuzzlePath())
 }
 
+/** Configures parameters to be used when launch the application via './gradlew bootRun'. */
+pluginManager.withPlugin("org.springframework.boot") {
+    tasks.named<JavaExec>("bootRun") {
+        systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
+        systemProperty("re.belv.croiseur.puzzle.path", testPuzzlePath())
+    }
+}
+
 /** Returns the binary directory, relative to destination directory. */
 fun binaryDistDir(): String {
     return project.property("bindir") as String
