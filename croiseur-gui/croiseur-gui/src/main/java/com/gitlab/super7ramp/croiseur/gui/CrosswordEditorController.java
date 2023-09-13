@@ -33,9 +33,7 @@ import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
@@ -45,7 +43,7 @@ import java.util.concurrent.Executor;
 /**
  * The crossword editor controller.
  */
-public final class CrosswordEditorController {
+final class CrosswordEditorController {
 
     /** The controller dedicated to the dictionary use-cases. */
     private final DictionaryController dictionaryController;
@@ -65,6 +63,9 @@ public final class CrosswordEditorController {
     /** The file chooser (for the export function). */
     private final FileChooser fileChooser;
 
+    /** The utility to switch between scenes. */
+    private final SceneSwitcher sceneSwitcher;
+
     /** The view. */
     @FXML
     private CrosswordEditorPane view;
@@ -78,11 +79,12 @@ public final class CrosswordEditorController {
      *
      * @param crosswordService        the use-cases
      * @param applicationViewModelArg the view model
+     * @param sceneSwitcherArg        the scene switcher
      * @param executor                the executor allowing to run background tasks
      */
-    public CrosswordEditorController(final CrosswordService crosswordService,
-                                     final ApplicationViewModel applicationViewModelArg,
-                                     final Executor executor) {
+    CrosswordEditorController(final CrosswordService crosswordService,
+                              final ApplicationViewModel applicationViewModelArg,
+                              final SceneSwitcher sceneSwitcherArg, final Executor executor) {
         dictionaryController =
                 new DictionaryController(crosswordService.dictionaryService(), executor);
         solverController =
@@ -96,6 +98,7 @@ public final class CrosswordEditorController {
                                                 crosswordService.puzzleService(), executor);
         applicationViewModel = applicationViewModelArg;
         fileChooser = new FileChooser();
+        sceneSwitcher = sceneSwitcherArg;
     }
 
     @FXML
@@ -292,10 +295,8 @@ public final class CrosswordEditorController {
      */
     private void initializeNavigationBindings() {
         view.onBackToPuzzleSelectionButtonActionProperty().set(e -> {
-            final Stage stage = (Stage) view.getScene().getWindow();
-            final Scene welcomeScene = (Scene) stage.getProperties().get("welcomeScene");
+            sceneSwitcher.switchToWelcomeScreen();
             applicationViewModel.puzzleEditionViewModel().reset();
-            stage.setScene(welcomeScene);
         });
     }
 

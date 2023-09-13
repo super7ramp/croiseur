@@ -13,9 +13,7 @@ import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleEditionViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +23,7 @@ import java.util.concurrent.Executor;
 /**
  * The welcome screen controller.
  */
-public final class WelcomeScreenController {
+final class WelcomeScreenController {
 
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
@@ -38,6 +36,9 @@ public final class WelcomeScreenController {
 
     /** The file chooser (for the import function). */
     private final FileChooser fileChooser;
+
+    /** The scene switcher. */
+    private final SceneSwitcher sceneSwitcher;
 
     /** The puzzle selector of the welcome screen. */
     @FXML
@@ -54,17 +55,20 @@ public final class WelcomeScreenController {
      * @param puzzleEditionViewModel      the puzzle edition view model
      * @param puzzleCodecsViewModelArg    the puzzle codecs view model
      * @param puzzleService               the puzzle service
+     * @param sceneSwitcherArg            the scene switcher
      * @param executor                    the background task executor
      */
-    public WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                                   final PuzzleEditionViewModel puzzleEditionViewModel,
-                                   final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
-                                   final PuzzleService puzzleService, final Executor executor) {
+    WelcomeScreenController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+                            final PuzzleEditionViewModel puzzleEditionViewModel,
+                            final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
+                            final PuzzleService puzzleService, final SceneSwitcher sceneSwitcherArg,
+                            final Executor executor) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleCodecsViewModel = puzzleCodecsViewModelArg;
         puzzleController = new PuzzleController(puzzleSelectionViewModelArg, puzzleEditionViewModel,
                                                 puzzleService, executor);
         fileChooser = new FileChooser();
+        sceneSwitcher = sceneSwitcherArg;
     }
 
     /**
@@ -148,9 +152,7 @@ public final class WelcomeScreenController {
      * Switches to editor view.
      */
     private void switchToEditorView() {
-        final Stage stage = (Stage) selectorView.getScene().getWindow();
-        final Scene editorScene = (Scene) stage.getProperties().get("editorScene");
-        stage.setScene(editorScene);
+        sceneSwitcher.switchToEditorView();
     }
 
     /**

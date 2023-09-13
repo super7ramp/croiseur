@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -68,9 +66,10 @@ public final class CroiseurGuiApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
+        final SceneSwitcher sceneSwitcher = new SceneSwitcher(stage);
         final Executor executor = createExecutor();
-        final Map<String, Scene> namedScenes = loadComponents(stage, executor);
-        configureStage(stage, namedScenes);
+        loadComponents(stage, sceneSwitcher, executor);
+        configureStage(stage);
         configureStyleSheet();
         stage.show();
     }
@@ -84,17 +83,11 @@ public final class CroiseurGuiApplication extends Application {
 
     /**
      * Configures the stage.
-     * <p>
-     * All given scenes will be attached as properties of the stage. The first one will be set as
-     * stage's scene.
      *
-     * @param stage       the stage to configure
-     * @param namedScenes the scenes to load. Need to be a sequenced map, as the first scene of the
-     *                    collection will be set as stage's scene
+     * @param stage the stage to configure
      */
-    private static void configureStage(final Stage stage, final Map<String, Scene> namedScenes) {
-        stage.getProperties().putAll(namedScenes);
-        stage.setScene(namedScenes.values().iterator().next());
+    private static void configureStage(final Stage stage) {
+        // Stage's scene is managed by SceneSwitcher and already set at this point
         stage.setTitle(STAGE_TITLE);
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
@@ -131,26 +124,22 @@ public final class CroiseurGuiApplication extends Application {
     /**
      * Loads the application components.
      *
-     * @param executor the background task executor
-     * @return the application components named scenes
+     * @param stage         the stage
+     * @param sceneSwitcher the scene switcher
+     * @param executor      the background task executor
      * @throws IOException if loading from FXML files fails
      */
-    private static Map<String, Scene> loadComponents(final Stage stage, final Executor executor)
-            throws IOException {
+    private static void loadComponents(final Stage stage, final SceneSwitcher sceneSwitcher,
+                                       final Executor executor) throws IOException {
+
         // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
         final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
         loadErrorPopup(applicationViewModel, stage);
+
         final Presenter presenter = new GuiPresenter(applicationViewModel);
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
-        final Parent editorView =
-                loadCrosswordEditor(applicationViewModel, crosswordService, executor);
-        final Parent welcomeScreenView =
-                loadWelcomeScreen(applicationViewModel, crosswordService, executor);
-
-        final Map<String, Scene> namedScenes = new LinkedHashMap<>();
-        namedScenes.put("welcomeScene", new Scene(welcomeScreenView));
-        namedScenes.put("editorScene", new Scene(editorView));
-        return namedScenes;
+        loadWelcomeScreen(applicationViewModel, crosswordService, sceneSwitcher, executor);
+        loadCrosswordEditor(applicationViewModel, crosswordService, sceneSwitcher, executor);
     }
 
     /**
@@ -174,39 +163,45 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads the crossword editor.
-     *
-     * @param applicationViewModel the application view model
-     * @param crosswordService     the croiseur core library
-     * @param executor             the executor
-     * @return the editor view
-     */
-    private static Parent loadCrosswordEditor(final ApplicationViewModel applicationViewModel,
-                                              final CrosswordService crosswordService,
-                                              final Executor executor) throws IOException {
-        final var editorController =
-                new CrosswordEditorController(crosswordService, applicationViewModel, executor);
-        return ViewLoader.load(editorController);
-    }
-
-    /**
      * Loads the welcome screen.
      *
      * @param applicationViewModel the application view-models
      * @param crosswordService     the croiseur core library
+     * @param sceneSwitcher        the scene switcher
      * @param executor             the background task executor
-     * @return the welcome screen view
      * @throws IOException if loading from FXML file fails
      */
-    private static Parent loadWelcomeScreen(final ApplicationViewModel applicationViewModel,
-                                            final CrosswordService crosswordService,
-                                            final Executor executor) throws IOException {
+    private static void loadWelcomeScreen(final ApplicationViewModel applicationViewModel,
+                                          final CrosswordService crosswordService,
+                                          final SceneSwitcher sceneSwitcher,
+                                          final Executor executor) throws IOException {
         final var welcomeScreenController =
                 new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
                                             applicationViewModel.puzzleEditionViewModel(),
                                             applicationViewModel.puzzleCodecsViewModel(),
-                                            crosswordService.puzzleService(), executor);
-        return ViewLoader.load(welcomeScreenController);
+                                            crosswordService.puzzleService(), sceneSwitcher,
+                                            executor);
+        final Parent parent = ViewLoader.load(welcomeScreenController);
+        sceneSwitcher.registerScene(SceneSwitcher.SceneId.WELCOME_SCREEN, new Scene(parent));
+    }
+
+    /**
+     * Loads the crossword editor.
+     *
+     * @param applicationViewModel the application view model
+     * @param crosswordService     the croiseur core library
+     * @param sceneSwitcher        the scene switcher
+     * @param executor             the executor
+     */
+    private static void loadCrosswordEditor(final ApplicationViewModel applicationViewModel,
+                                            final CrosswordService crosswordService,
+                                            final SceneSwitcher sceneSwitcher,
+                                            final Executor executor) throws IOException {
+        final var editorController =
+                new CrosswordEditorController(crosswordService, applicationViewModel, sceneSwitcher,
+                                              executor);
+        final Parent parent = ViewLoader.load(editorController);
+        sceneSwitcher.registerScene(SceneSwitcher.SceneId.CROSSWORD_EDITOR, new Scene(parent));
     }
 
     /**

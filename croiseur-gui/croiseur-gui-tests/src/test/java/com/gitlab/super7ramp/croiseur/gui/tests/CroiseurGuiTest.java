@@ -6,12 +6,10 @@
 package com.gitlab.super7ramp.croiseur.gui.tests;
 
 import com.gitlab.super7ramp.croiseur.gui.CroiseurGuiApplication;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
-import org.testfx.framework.junit5.Start;
 
 import java.util.Locale;
 
@@ -33,11 +31,6 @@ abstract class CroiseurGuiTest {
     static void setup() throws Exception {
         Locale.setDefault(Locale.ENGLISH);
         launch(CroiseurGuiApplication.class);
-    }
-
-    @Start
-    final void start(final Stage stage) {
-        stage.show();
     }
 
     @AfterAll
