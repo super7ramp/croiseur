@@ -134,7 +134,7 @@ public final class CroiseurGuiApplication extends Application {
 
         // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
         final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
-        loadErrorPopup(applicationViewModel, stage);
+        loadErrorPopup(applicationViewModel.errorsViewModel(), stage);
 
         final Presenter presenter = new GuiPresenter(applicationViewModel);
         final CrosswordService crosswordService = CrosswordServiceLoader.load(presenter);
@@ -146,12 +146,10 @@ public final class CroiseurGuiApplication extends Application {
      * Loads the special error popup control logic. Popup can happen on all scenes of the given
      * stage.
      *
-     * @param applicationViewModel the application view model
-     * @param stage                the application stage
+     * @param errorsViewModel the errors view model
+     * @param stage           the application stage
      */
-    private static void loadErrorPopup(final ApplicationViewModel applicationViewModel,
-                                       final Stage stage) {
-        final ErrorsViewModel errorsViewModel = applicationViewModel.errorsViewModel();
+    private static void loadErrorPopup(final ErrorsViewModel errorsViewModel, final Stage stage) {
         errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
             if (newError != null) {
                 final Alert errorAlert = new Alert(Alert.AlertType.ERROR, newError);
