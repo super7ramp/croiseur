@@ -499,6 +499,14 @@ public final class CrosswordEditorPane extends BorderPane {
     }
 
     /**
+     * Resets dictionary and puzzle panes to initial positions (i.e. collapsed).
+     */
+    public void resetLateralPanePositions() {
+        toolbar.puzzleToggleButtonSelectedProperty().set(false);
+        toolbar.dictionariesToggleButtonSelectedProperty().set(false);
+    }
+
+    /**
      * Initializes the control after object hierarchy has been loaded from FXML.
      */
     @FXML

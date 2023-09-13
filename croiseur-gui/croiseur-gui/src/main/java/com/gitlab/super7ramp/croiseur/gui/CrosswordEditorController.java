@@ -297,6 +297,7 @@ final class CrosswordEditorController {
         view.onBackToPuzzleSelectionButtonActionProperty().set(e -> {
             sceneSwitcher.switchToWelcomeScreen();
             applicationViewModel.puzzleEditionViewModel().reset();
+            view.resetLateralPanePositions();
         });
     }
 
