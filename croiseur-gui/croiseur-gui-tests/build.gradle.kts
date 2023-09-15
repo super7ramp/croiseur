@@ -32,6 +32,7 @@ javafx {
 dependencies {
     testImplementation(project(":croiseur-gui:croiseur-gui"))
     testImplementation(sbom.testfx.core)
+    testImplementation(sbom.testfx.hamcrest)
     testImplementation(sbom.testfx.junit)
     testRuntimeOnly(sbom.testfx.monocle)
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
