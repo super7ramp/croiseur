@@ -3,18 +3,18 @@
 
 [versions]
 cargo-plugin = "1.1.0"
-conveyor-plugin = "1.5"
-cucumber = "7.13.0"
-extra-java-module-info = "1.4.1"
+conveyor-plugin = "1.6"
+cucumber = "7.14.0"
+extra-java-module-info = "1.4.2"
 java = "17.0.8"
-javafx-plugin = "0.0.14"
-junit5 = "5.9.3"
-junit5-platform = "1.9.3"
-mockito = "5.4.0"
-native-plugin = "0.9.23"
-openai = "0.15.0"
+javafx-plugin = "0.1.0"
+junit5 = "5.10.0"
+junit5-platform = "1.10.0"
+mockito = "5.5.0"
+native-plugin = "0.9.26"
+openai = "0.16.0"
 picocli = "4.7.4"
-testfx = "4.0.16-alpha"
+testfx = "4.0.17"
 testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
 
 [libraries]
