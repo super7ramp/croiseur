@@ -14,6 +14,7 @@ mockito = "5.5.0"
 native-plugin = "0.9.26"
 openai = "0.16.0"
 picocli = "4.7.4"
+sat4j = "2.3.6"
 testfx = "4.0.17"
 testfx-hamcrest = "2.1"
 testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
@@ -39,6 +40,8 @@ openai = { module = "com.theokanning.openai-gpt3-java:service", version.ref = "o
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
+# Sat4j is a SAT solver
+sat4j-core = { module = "org.ow2.sat4j:org.ow2.sat4j.core", version.ref = "sat4j" }
 # Testing framework for JavaFx application
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }
