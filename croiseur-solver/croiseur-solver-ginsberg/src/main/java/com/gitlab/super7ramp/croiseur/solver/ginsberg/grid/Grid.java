@@ -24,8 +24,7 @@ public interface Grid {
      * @return the new grid
      */
     static Grid create(final PuzzleGrid puzzleGrid) {
-        final GridDataBuilder gridBuilder = new GridDataBuilder();
-        gridBuilder.from(puzzleGrid);
+        final GridDataBuilder gridBuilder = GridDataBuilder.from(puzzleGrid);
         return new GridImpl(gridBuilder.build());
     }
 
@@ -49,8 +48,8 @@ public interface Grid {
     /**
      * Returns the positions owned by the given slot.
      * <p>
-     * The returned set is not backed by the actual grid, hence adding or removing position to
-     * the returned set has no effect. Data can only be modified using {@link #puzzle()}.
+     * The returned set is not backed by the actual grid, hence adding or removing position to the
+     * returned set has no effect. Data can only be modified using {@link #puzzle()}.
      *
      * @param slot the slot
      * @return the positions owned by the given slot

@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * A {@link GridData} builder.
  */
-public final class GridDataBuilder {
+final class GridDataBuilder {
 
     /** The shaded boxes. */
     private final Set<GridPosition> shaded;
@@ -34,9 +34,24 @@ public final class GridDataBuilder {
     /**
      * Constructor.
      */
-    public GridDataBuilder() {
+    GridDataBuilder() {
         shaded = new HashSet<>();
         prefilled = new HashMap<>();
+    }
+
+    /**
+     * Uses a {@link PuzzleGrid} to build the grid.
+     *
+     * @param puzzle the {@link PuzzleGrid}
+     * @return this {@link GridDataBuilder}
+     */
+    static GridDataBuilder from(final PuzzleGrid puzzle) {
+        final var builder = new GridDataBuilder();
+        builder.width = puzzle.width();
+        builder.height = puzzle.height();
+        builder.shaded.addAll(puzzle.shaded());
+        builder.prefilled.putAll(puzzle.filled());
+        return builder;
     }
 
     /**
@@ -45,7 +60,7 @@ public final class GridDataBuilder {
      * @param anHeight the height
      * @return this builder
      */
-    public GridDataBuilder withHeight(final int anHeight) {
+    GridDataBuilder withHeight(final int anHeight) {
         height = anHeight;
         return this;
     }
@@ -56,7 +71,7 @@ public final class GridDataBuilder {
      * @param aWidth the width
      * @return this builder
      */
-    public GridDataBuilder withWidth(final int aWidth) {
+    GridDataBuilder withWidth(final int aWidth) {
         width = aWidth;
         return this;
     }
@@ -67,22 +82,8 @@ public final class GridDataBuilder {
      * @param gridPosition coordinate
      * @return this builder
      */
-    public GridDataBuilder withShaded(final GridPosition gridPosition) {
+    GridDataBuilder withShaded(final GridPosition gridPosition) {
         shaded.add(gridPosition);
-        return this;
-    }
-
-    /**
-     * Use a {@link PuzzleGrid} to build the grid.
-     *
-     * @param puzzle the {@link PuzzleGrid}
-     * @return this {@link GridDataBuilder}
-     */
-    public GridDataBuilder from(final PuzzleGrid puzzle) {
-        width = puzzle.width();
-        height = puzzle.height();
-        shaded.addAll(puzzle.shaded());
-        prefilled.putAll(puzzle.filled());
         return this;
     }
 
@@ -92,7 +93,7 @@ public final class GridDataBuilder {
      * @return the built data
      * @throws IllegalArgumentException if given specifications are not valid
      */
-    public GridData build() {
+    GridData build() {
         validate();
         final BoxData[][] grid = buildGrid();
         return new GridData(grid, buildSlots(grid));
