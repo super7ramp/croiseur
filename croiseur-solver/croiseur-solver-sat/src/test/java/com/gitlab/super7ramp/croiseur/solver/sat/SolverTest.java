@@ -96,4 +96,20 @@ final class SolverTest {
         };
         assertArrayEquals(expectedGrid, outputGrid);
     }
+
+
+    @Test
+    void solve_impossible() {
+        final char[][] inputGrid = new char[][]{
+                {'A', 'B', 'C'},
+                {'.', '.', '.'},
+                {'.', '.', '.'}
+        };
+        final String[] words =
+                new String[]{"AAA", "BBB", "CDF" /* should be CDE */, "ABC", "ABD", "ABE"};
+
+        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+
+        assertArrayEquals(new char[][]{}, outputGrid);
+    }
 }
