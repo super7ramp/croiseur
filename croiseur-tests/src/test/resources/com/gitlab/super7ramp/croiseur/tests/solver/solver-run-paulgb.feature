@@ -68,6 +68,6 @@ Feature: Run Solver - Crossword Composer (paulgb)
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | A | M | T |
-      | B | E | V |
-      | S | E | A |
+      | I | O | T |
+      | T | B | A |
+      | V | I | S |

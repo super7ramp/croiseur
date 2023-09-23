@@ -15,27 +15,16 @@ public final class StringTransformers {
 
     /** Matches accents. */
     private static final Pattern ACCENTS = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-
-    private static final String DOT = ".";
-
-    private static final String HYPHEN = "-";
-
-    private static final String EMPTY = "";
-
-    private static final StringTransformer REMOVE_HYPHEN = in -> in.replace(HYPHEN, EMPTY);
-
     private static final StringTransformer REMOVE_ACCENTUATION = (final String in) -> {
-        final String normalized =
-                Normalizer.normalize(in, Normalizer.Form.NFD);
-        return ACCENTS.matcher(normalized).replaceAll(EMPTY);
+        final String normalized = Normalizer.normalize(in, Normalizer.Form.NFD);
+        return ACCENTS.matcher(normalized).replaceAll("");
     };
 
-    private static final StringTransformer REMOVE_DOT = in -> in.replace(DOT, EMPTY);
-
-    private static final StringTransformer REMOVE_APOSTROPHE = in -> in.replace("'", "");
+    /** Matches punctuation. */
+    private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
+    private static final StringTransformer REMOVE_PUNCTUATION = in -> PUNCTUATION.matcher(in).replaceAll("");
 
     private static final StringTransformer REMOVE_BLANKS = in -> in.replace(" ", "");
-
 
     /**
      * Private constructor to prevent instantiation.
@@ -45,41 +34,23 @@ public final class StringTransformers {
     }
 
     /**
-     * Returns a {@link StringTransformer} which remove hyphens from input string.
+     * Returns a {@link StringTransformer} which replaces accentuated characters by non-accentuated
+     * forms.
      *
-     * @return a {@link StringTransformer} which remove hyphens from input string
-     */
-    public static StringTransformer removeHyphen() {
-        return REMOVE_HYPHEN;
-    }
-
-    /**
-     * Returns a {@link StringTransformer} which replace accentuated characters by
-     * non-accentuated forms.
-     *
-     * @return a {@link StringTransformer} which replace accentuated characters by
-     * * non-accentuated forms
+     * @return a {@link StringTransformer} which replaces accentuated characters by * non-accentuated
+     * forms
      */
     public static StringTransformer removeAccentuation() {
         return REMOVE_ACCENTUATION;
     }
 
     /**
-     * Returns a {@link StringTransformer} which removes dots from input string.
+     * Returns a {@link StringTransformer} which removes punctuation from input string.
      *
-     * @return a {@link StringTransformer} which removes dots from input string
+     * @return a {@link StringTransformer} which removes punctuation from input string
      */
-    public static StringTransformer removeDot() {
-        return REMOVE_DOT;
-    }
-
-    /**
-     * Returns a {@link StringTransformer} which removes accents from input string.
-     *
-     * @return a {@link StringTransformer} which removes accents from input string
-     */
-    public static StringTransformer removeApostrophe() {
-        return REMOVE_APOSTROPHE;
+    public static StringTransformer removePunctuation() {
+        return REMOVE_PUNCTUATION;
     }
 
     /**
@@ -92,11 +63,11 @@ public final class StringTransformers {
     }
 
     /**
-     * Returns a {@link StringTransformer} which converts all the characters in the input String
-     * to upper case.
+     * Returns a {@link StringTransformer} which converts all the characters in the input String to
+     * upper case.
      *
-     * @return a {@link StringTransformer} which converts all the characters in the input String
-     * to upper case.
+     * @return a {@link StringTransformer} which converts all the characters in the input String to
+     * upper case.
      */
     public static StringTransformer toUpperCase() {
         return String::toUpperCase;
@@ -109,11 +80,9 @@ public final class StringTransformers {
      * @return a {@link StringTransformer} applying all known transformations
      */
     public static StringTransformer toAcceptableCrosswordEntry() {
-        return s -> removeBlanks().andThen(removeHyphen())
-                                  .andThen(removeApostrophe())
-                                  .andThen(removeDot())
+        return s -> removeBlanks().andThen(removeAccentuation())
+                                  .andThen(removePunctuation())
                                   .andThen(toUpperCase())
-                                  .andThen(removeAccentuation())
                                   .apply(s);
     }
 }

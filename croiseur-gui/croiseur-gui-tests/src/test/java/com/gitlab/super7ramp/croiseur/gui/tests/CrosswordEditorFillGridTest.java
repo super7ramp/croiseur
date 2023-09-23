@@ -80,9 +80,9 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
         waitForFxEvents();
 
         assertEquals("""
-                     TTT
-                     TAP
-                     TPN
+                     WWW
+                     WAP
+                     WPV
                      """, gridAsString(robot));
     }
 

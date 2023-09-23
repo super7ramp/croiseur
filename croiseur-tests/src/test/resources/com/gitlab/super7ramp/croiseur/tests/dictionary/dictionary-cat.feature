@@ -12,7 +12,7 @@ Feature: Display Dictionary Content
   Scenario: Display Dictionary Content - Local Hunspell Provider, Hunspell Dictionary en_GB.dic
 
     When user requests to display the entries of "Hunspell Dictionary en_GB.dic" provided by "Local Hunspell Provider"
-    Then the application presents 224662 dictionary entries, the first ones being:
+    Then the application presents 224660 dictionary entries, the first ones being:
       | GAINST     |
       | MONGST     |
       | NEATH      |
@@ -38,7 +38,7 @@ Feature: Display Dictionary Content
   Scenario: Display Dictionary Content - Local XML Provider, General British English dictionary
 
     When user requests to display the entries of "General British English dictionary" provided by "Local XML Provider"
-    Then the application presents 224634 dictionary entries, the first ones being:
+    Then the application presents 224632 dictionary entries, the first ones being:
       | ELECTROSTRICTIONS |
       | FROWNING          |
       | UNDERMINING       |

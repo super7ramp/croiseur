@@ -79,6 +79,6 @@ Feature: Run Solver - XWords RS (szunami)
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | B | Y | S |
-      | O | O | O |
-      | B | B | S |
+      | M | I | T |
+      | T | N | O |
+      | V | D | T |

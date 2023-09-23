@@ -79,6 +79,6 @@ Feature: Run Solver - Ginsberg
       |  |  |  |
       |  |  |  |
     Then the application presents the following successful solver result:
-      | T | E | S |
-      | U | S | A |
-      | C | A | Y |
+      | T | A | S |
+      | A | D | S |
+      | S | S | S |
