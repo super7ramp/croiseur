@@ -12,3 +12,8 @@ dependencies {
     // For the test word list
     testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common"))
 }
+
+tasks.test {
+    // Solver uses a lot of memory
+    maxHeapSize = "1g"
+}
