@@ -15,5 +15,5 @@ dependencies {
 
 tasks.test {
     // Solver uses a lot of memory
-    maxHeapSize = "1g"
+    maxHeapSize = "2g"
 }
