@@ -47,6 +47,9 @@ import java.util.List;
  * solver).
  */
 // TODO reduce VecInt allocations (they can be reused once their content has been added to a clause)
+// TODO choose the best type for word list (raw array? List? Collection? SequencedCollection? Iterable?)
+// TODO allow interruption
+// TODO make it faster (no idea how yet except by playing with the different Sat4j solvers)
 public final class Solver {
 
     /** The number of values that a cell of a solved grid can take. */
@@ -68,12 +71,13 @@ public final class Solver {
      * Constructs a solver for the given grid and word list.
      *
      * @param gridArg  the grid
-     * @param wordsArg the word list
+     * @param wordsArg the word list; Only characters of the {@link Alphabet} are supported
      */
     public Solver(final char[][] gridArg, final String[] wordsArg) {
         grid = new Grid(gridArg);
         words = wordsArg;
-        satSolver = new GateTranslator(SolverFactory.newDefault());
+        // Using light solver for now: Default solver takes ages, even on small grids.
+        satSolver = new GateTranslator(SolverFactory.newLight());
     }
 
     /**
@@ -175,7 +179,11 @@ public final class Solver {
         final IVecInt cellLiterals = new VecInt(wordLength);
         for (int i = 0; i < wordLength; i++) {
             final Pos slotPos = slotPositions.get(i);
-            final int letterIndex = Alphabet.letterIndex(word.charAt(i));
+            final char letter = word.charAt(i);
+            final int letterIndex = Alphabet.letterIndex(letter);
+            if (letterIndex < 0) {
+                throw new IllegalStateException("Unsupported character: " + letter);
+            }
             final int cellVar = toCellVariable(slotPos.row(), slotPos.column(), letterIndex);
             cellLiterals.push(cellVar);
         }

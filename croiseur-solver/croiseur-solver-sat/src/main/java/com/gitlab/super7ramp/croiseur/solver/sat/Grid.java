@@ -6,6 +6,7 @@
 package com.gitlab.super7ramp.croiseur.solver.sat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -189,5 +190,12 @@ final class Grid {
      */
     int numberOfSlots() {
         return slots.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Grid{" +
+               "cells=" + Arrays.deepToString(cells) +
+               '}';
     }
 }

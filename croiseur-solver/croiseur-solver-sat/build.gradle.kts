@@ -9,4 +9,6 @@ plugins {
 
 dependencies {
     implementation(sbom.sat4j.core)
+    // For the test word list
+    testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common"))
 }

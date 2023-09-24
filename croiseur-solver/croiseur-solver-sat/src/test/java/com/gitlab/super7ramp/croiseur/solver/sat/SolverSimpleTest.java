@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 /**
- * Tests for {@link Solver}.
+ * Tests for {@link Solver} with small grids and small word lists.
  */
-final class SolverTest {
+final class SolverSimpleTest {
 
     @Test
     void empty() {
