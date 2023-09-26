@@ -8,7 +8,6 @@ package com.gitlab.super7ramp.croiseur.solver.sat;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -67,7 +66,7 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~ 3s at 1GHz
+    // ~ 5s at 1GHz
     @Test
     void empty4x4() {
         final char[][] inputGrid = new char[][]{
@@ -80,10 +79,10 @@ final class SolverComplexTest {
         final char[][] outputGrid = new Solver(inputGrid, words).solve();
 
         final char[][] expectedGrid = new char[][]{
-                {'S', 'K', 'U', 'A'},
-                {'K', 'E', 'R', 'B'},
+                {'P', 'E', 'R', 'V'},
+                {'H', 'U', 'I', 'A'},
                 {'U', 'R', 'E', 'A'},
-                {'A', 'B', 'A', 'C'}
+                {'T', 'O', 'L', 'L'}
         };
         assertArrayEquals(expectedGrid, outputGrid);
     }
@@ -104,14 +103,14 @@ final class SolverComplexTest {
         final char[][] expectedGrid = new char[][]{
                 {'#', '#', 'A', 'A', '#'},
                 {'#', 'T', 'A', 'B', '#'},
-                {'K', 'I', 'R', 'A', 'N'},
+                {'D', 'I', 'R', 'A', 'C'},
                 {'#', 'D', 'O', 'C', '#'},
                 {'#', '#', 'N', '#', '#'}
         };
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~34s at 1GHz
+    // ~16s at 1GHz
     @Test
     void shaded9x9() {
         final char[][] inputGrid = new char[][]{
@@ -129,21 +128,21 @@ final class SolverComplexTest {
         final char[][] outputGrid = new Solver(inputGrid, words).solve();
 
         final char[][] expectedGrid = new char[][]{
-                {'#', '#', '#', 'O', 'E', 'S', '#', '#', '#'},
-                {'#', '#', 'A', 'R', 'L', 'E', 'S', '#', '#'},
-                {'#', 'E', 'N', 'Z', 'Y', 'M', 'E', 'S', '#'},
-                {'C', 'A', 'T', 'O', '#', 'I', 'G', 'A', 'D'},
-                {'U', 'R', 'I', '#', '#', '#', 'G', 'I', 'S'},
-                {'E', 'L', 'B', 'E', '#', 'T', 'A', 'C', 'O'},
-                {'#', 'S', 'E', 'L', 'K', 'I', 'R', 'K', '#'},
-                {'#', '#', 'S', 'M', 'U', 'G', 'S', '#', '#'},
-                {'#', '#', '#', 'O', 'M', 'S', '#', '#', '#'},
+                {'#', '#', '#', 'Z', 'I', 'A', '#', '#', '#'},
+                {'#', '#', 'B', 'E', 'A', 'N', 'S', '#', '#'},
+                {'#', 'T', 'A', 'N', 'N', 'A', 'T', 'E', '#'},
+                {'H', 'O', 'B', 'O', '#', 'N', 'A', 'J', 'A'},
+                {'A', 'R', 'A', '#', '#', '#', 'W', 'E', 'B'},
+                {'N', 'I', 'S', 'I', '#', 'M', 'I', 'C', 'A'},
+                {'#', 'I', 'S', 'S', 'U', 'A', 'N', 'T', '#'},
+                {'#', '#', 'U', 'N', 'D', 'U', 'G', '#', '#'},
+                {'#', '#', '#', 'T', 'O', 'N', '#', '#', '#'},
         };
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
+    // ~48s at 1GHz
     @Test
-    @Disabled("no solution under 3 minutes at 1GHz")
     void shaded13x13() {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
@@ -164,19 +163,19 @@ final class SolverComplexTest {
         final char[][] outputGrid = new Solver(inputGrid, words).solve();
 
         final char[][] expectedGrid = new char[][]{
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.'},
-                {'#', '#', '#', '.', '.', '.', '#', '.', '.', '.', '#', '#', '#'},
-                {'.', '.', '.', '.', '.', '#', '#', '#', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '#', '#', '#', '#', '#', '#', '#', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '#', '#', '#', '.', '.', '.', '.', '.'},
-                {'#', '#', '#', '.', '.', '.', '#', '.', '.', '.', '#', '#', '#'},
-                {'.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
+                {'S', 'C', 'A', 'T', '#', 'G', 'O', 'A', '#', 'O', 'A', 'H', 'U'},
+                {'E', 'I', 'R', 'E', '#', 'R', 'O', 'Z', '#', 'X', 'M', 'A', 'S'},
+                {'E', 'A', 'C', 'H', '#', 'A', 'N', 'T', '#', 'T', 'Y', 'R', 'E'},
+                {'M', 'O', 'H', 'E', 'L', 'S', '#', 'E', 'Y', 'E', 'L', 'I', 'D'},
+                {'#', '#', '#', 'E', 'A', 'S', '#', 'C', 'O', 'R', '#', '#', '#'},
+                {'S', 'N', 'A', 'S', 'H', '#', '#', '#', 'B', 'S', 'I', 'D', 'E'},
+                {'O', 'E', 'R', '#', '#', '#', '#', '#', '#', '#', 'T', 'O', 'M'},
+                {'B', 'O', 'M', 'B', 'O', '#', '#', '#', 'C', 'Z', 'A', 'R', 'S'},
+                {'#', '#', '#', 'A', 'B', 'A', '#', 'J', 'U', 'S', '#', '#', '#'},
+                {'U', 'J', 'A', 'M', 'A', 'A', '#', 'A', 'Z', 'A', 'L', 'E', 'A'},
+                {'M', 'A', 'R', 'A', '#', 'R', 'U', 'C', '#', 'Z', 'I', 'M', 'B'},
+                {'B', 'I', 'L', 'K', '#', 'O', 'N', 'O', '#', 'S', 'K', 'U', 'A'},
+                {'O', 'L', 'E', 'O', '#', 'N', 'A', 'B', '#', 'A', 'E', 'S', 'C'},
         };
         assertArrayEquals(expectedGrid, outputGrid);
     }

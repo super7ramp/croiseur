@@ -42,6 +42,7 @@ picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "pico
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 # Sat4j is a SAT solver
 sat4j-core = { module = "org.ow2.sat4j:org.ow2.sat4j.core", version.ref = "sat4j" }
+sat4j-pb = { module = "org.ow2.sat4j:org.ow2.sat4j.pb", version.ref = "sat4j" }
 # Testing framework for JavaFx application
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }

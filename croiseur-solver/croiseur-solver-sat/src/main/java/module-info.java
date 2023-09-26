@@ -8,5 +8,6 @@
  */
 module com.gitlab.super7ramp.croiseur.solver.sat {
     requires org.ow2.sat4j.core;
+    requires org.ow2.sat4j.pb;
     exports com.gitlab.super7ramp.croiseur.solver.sat;
 }

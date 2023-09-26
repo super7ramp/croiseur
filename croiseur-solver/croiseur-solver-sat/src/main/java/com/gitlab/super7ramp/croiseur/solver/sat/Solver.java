@@ -6,7 +6,8 @@
 package com.gitlab.super7ramp.croiseur.solver.sat;
 
 import org.sat4j.core.VecInt;
-import org.sat4j.minisat.SolverFactory;
+import org.sat4j.pb.IPBSolver;
+import org.sat4j.pb.SolverFactory;
 import org.sat4j.specs.ContradictionException;
 import org.sat4j.specs.IProblem;
 import org.sat4j.specs.IVecInt;
@@ -65,7 +66,7 @@ public final class Solver {
     private final String[] words;
 
     /** The actual solver. */
-    private final GateTranslator satSolver;
+    private final IPBSolver satSolver;
 
     /**
      * Constructs a solver for the given grid and word list.
@@ -76,8 +77,7 @@ public final class Solver {
     public Solver(final char[][] gridArg, final String[] wordsArg) {
         grid = new Grid(gridArg);
         words = wordsArg;
-        // Using light solver for now: Default solver takes ages, even on small grids.
-        satSolver = new GateTranslator(SolverFactory.newLight());
+        satSolver = SolverFactory.newDefault();
     }
 
     /**
@@ -128,14 +128,17 @@ public final class Solver {
         for (int row = 0; row < grid.numberOfRows(); row++) {
             for (int column = 0; column < grid.numberOfColumns(); column++) {
                 final IVecInt literals = new VecInt(NUMBER_OF_VALUES);
+                final IVecInt coefficients = new VecInt(NUMBER_OF_VALUES);
                 for (int letterIndex = 0; letterIndex < Alphabet.numberOfLetters();
                      letterIndex++) {
                     final int letterVariable = toCellVariable(row, column, letterIndex);
                     literals.push(letterVariable);
+                    coefficients.push(1);
                 }
                 final int blockVariable = toCellVariable(row, column, BLOCK_INDEX);
                 literals.push(blockVariable);
-                satSolver.addExactly(literals, 1);
+                coefficients.push(1);
+                satSolver.addExactly(literals, coefficients, 1);
             }
         }
     }
@@ -148,18 +151,20 @@ public final class Solver {
     private void oneWordPerSlot() throws ContradictionException {
         for (final Slot slot : grid.slots()) {
             final IVecInt slotLiterals = new VecInt(words.length);
+            final IVecInt coefficients = new VecInt(words.length);
             for (int wordIndex = 0; wordIndex < words.length; wordIndex++) {
                 final String word = words[wordIndex];
                 if (word.length() == slot.length()) {
                     final int slotVariable = toSlotVariable(slot.index(), wordIndex);
                     addCellLiteralsConjunction(slotVariable, slot, word);
                     slotLiterals.push(slotVariable);
+                    coefficients.push(1);
                 } // else skip this word since it obviously doesn't match the slot
             }
             // The following instruction may raise a ContradictionException if literals is empty,
             // i.e. if a slot has no valid candidate (which means the problem is trivially
             // unsatisfiable).
-            satSolver.addExactly(slotLiterals, 1);
+            satSolver.addExactly(slotLiterals, coefficients, 1);
         }
     }
 
@@ -187,7 +192,7 @@ public final class Solver {
             final int cellVar = toCellVariable(slotPos.row(), slotPos.column(), letterIndex);
             cellLiterals.push(cellVar);
         }
-        satSolver.and(slotVariable, cellLiterals);
+        new GateTranslator(satSolver).and(slotVariable, cellLiterals);
     }
 
     /**
