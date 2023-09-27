@@ -144,7 +144,7 @@ final class SolverComplexTest {
 
     // ~40s at 1GHz
     @Test
-    @Disabled("too slow to run automatically")
+    //@Disabled("too slow to run automatically")
     void shaded13x13() {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},

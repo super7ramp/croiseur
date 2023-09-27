@@ -175,6 +175,15 @@ final class Grid {
     }
 
     /**
+     * The number of cells of the grid (including blocks).
+     *
+     * @return the number of cells of the grid
+     */
+    int numberOfCells() {
+        return numberOfRows() * numberOfColumns();
+    }
+
+    /**
      * The slots of this grid, including one-letter-long slots.
      *
      * @return the slots of this grid
