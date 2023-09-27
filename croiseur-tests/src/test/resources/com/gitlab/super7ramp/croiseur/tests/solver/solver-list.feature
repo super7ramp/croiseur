@@ -10,10 +10,11 @@ Feature: List Solvers
 
     When user requests to list the available solvers
     Then the application presents the following solvers:
-      | Name               | Description                                                                             |
-      | Ginsberg           | A crossword solver based on Ginsberg's papers.                                          |
-      | Crossword Composer | The solver powering the Crossword Composer software. Does not support pre-filled grids. |
-      | XWords RS          | The solver powering the XWords RS tool.                                                 |
+      | Name               | Description                                                                                                                                     |
+      | Ginsberg           | A crossword solver based on Ginsberg's papers.                                                                                                  |
+      | Crossword Composer | The solver powering the Crossword Composer software. Does not support pre-filled grids.                                                         |
+      | SAT                | A crossword solver based on Sat4j default pseudo-boolean SAT solver. Very slow and memory intensive, for small grids and testing purposes only. |
+      | XWords RS          | The solver powering the XWords RS tool.                                                                                                         |
 
   @no-auto-deploy
   Scenario: List Solver - No solver installed

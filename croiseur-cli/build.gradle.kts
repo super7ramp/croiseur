@@ -20,6 +20,7 @@ dependencies {
     runtimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
+    runtimeOnly(project(":croiseur-solver:croiseur-solver-sat-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
@@ -31,7 +32,7 @@ application {
     applicationDefaultJvmArgs = listOf(
         // Memory tuning
         "-Xms64M",                      // initial heap size
-        "-Xmx384M",                     // maximum heap size
+        "-Xmx1g",                       // maximum heap size; SAT solver can consume a lot of memory
 
         // Useful Java debug options
         //"-XX:+PrintCommandLineFlags",

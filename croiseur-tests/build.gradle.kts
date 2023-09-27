@@ -17,12 +17,13 @@ dependencies {
     testRuntimeOnly(project(":croiseur-puzzle:croiseur-puzzle-repository-memory-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
+    testRuntimeOnly(project(":croiseur-solver:croiseur-solver-sat-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-hunspell-data"))
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
-tasks.withType<Test>().configureEach {
+tasks.test {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
 }
