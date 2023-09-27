@@ -88,7 +88,7 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~6s at 1GHz
+    // ~5s at 1GHz
     @Test
     void shaded5x5() {
         final char[][] inputGrid = new char[][]{
@@ -111,7 +111,7 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~16s at 1GHz
+    // ~12s at 1GHz
     @Test
     void shaded9x9() {
         final char[][] inputGrid = new char[][]{
@@ -142,9 +142,9 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~40s at 1GHz
+    // ~34s at 1GHz
     @Test
-    //@Disabled("too slow to run automatically")
+    @Disabled("too slow to run automatically")
     void shaded13x13() {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
@@ -182,7 +182,7 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~48s at 1GHz
+    // ~45s at 1GHz
     @Test
     @Disabled("too slow to run automatically")
     void shaded13x13WithLongWords() {
@@ -222,7 +222,7 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-    // ~2min48s at 1GHz
+    // ~2min24s at 1GHz
     @Test
     @Disabled("too slow to run automatically")
     void shaded15x15() {

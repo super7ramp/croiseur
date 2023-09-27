@@ -35,6 +35,12 @@ import java.util.List;
  */
 final class Constraints {
 
+    /**
+     * The length of the buffer used to store cell literals corresponding to a word in a slot. Most
+     * words/slots should be smaller than this size.
+     */
+    private static final int CELL_LITERALS_BUFFER_LENGTH = 20;
+
     /** The crossword grid. */
     private final Grid grid;
 
@@ -64,17 +70,18 @@ final class Constraints {
      * @param solver the solver to which to add the clauses
      */
     void addOneLetterOrBlockPerCellClausesTo(final IPBSolver solver) throws ContradictionException {
+        final IVecInt literalsBuffer = new VecInt(Variables.NUMBER_OF_CELL_VALUES);
         for (int row = 0; row < grid.numberOfRows(); row++) {
             for (int column = 0; column < grid.numberOfColumns(); column++) {
-                final IVecInt literals = new VecInt(Variables.NUMBER_OF_CELL_VALUES);
                 for (int letterIndex = 0; letterIndex < Alphabet.numberOfLetters();
                      letterIndex++) {
                     final int letterVariable = variables.cell(row, column, letterIndex);
-                    literals.push(letterVariable);
+                    literalsBuffer.push(letterVariable);
                 }
                 final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
-                literals.push(blockVariable);
-                addExactlyOne(solver, literals);
+                literalsBuffer.push(blockVariable);
+                addExactlyOne(solver, literalsBuffer);
+                literalsBuffer.clear();
             }
         }
     }
@@ -88,38 +95,42 @@ final class Constraints {
      */
     void addOneWordPerSlotClausesTo(final IPBSolver solver) throws ContradictionException {
         final GateTranslator gator = new GateTranslator(solver);
+        final IVecInt slotLiteralsBuffer = new VecInt(words.length);
+        final IVecInt cellLiteralsBuffer = new VecInt(CELL_LITERALS_BUFFER_LENGTH);
         for (final Slot slot : grid.slots()) {
-            final IVecInt slotLiterals = new VecInt(words.length);
             for (int wordIndex = 0; wordIndex < words.length; wordIndex++) {
                 final String word = words[wordIndex];
                 if (word.length() == slot.length()) {
                     final int slotVariable = variables.slot(slot.index(), wordIndex);
-                    slotLiterals.push(slotVariable);
-                    final IVecInt cellLiteralsConjunction = cellLiteralsConjunctionOf(slot, word);
-                    gator.and(slotVariable, cellLiteralsConjunction);
+                    slotLiteralsBuffer.push(slotVariable);
+                    fillCellLiteralsConjunction(cellLiteralsBuffer, slot, word);
+                    gator.and(slotVariable, cellLiteralsBuffer);
+                    cellLiteralsBuffer.clear();
                 } // else skip this word since it obviously doesn't match the slot
             }
             // The following instruction may raise a ContradictionException if literals is empty,
             // i.e. if a slot has no valid candidate (which means the problem is trivially
             // unsatisfiable).
-            addExactlyOne(solver, slotLiterals);
+            addExactlyOne(solver, slotLiteralsBuffer);
+            slotLiteralsBuffer.clear();
         }
     }
 
     /**
-     * Returns the cell literals whose conjunction (= and) is equivalent to the slot variable of the
-     * given slot and word.
+     * Fills the given vector with the cell literals whose conjunction (= and) is equivalent to the
+     * slot variable of the given slot and word.
      *
-     * @param slot the slot
-     * @param word the word
-     * @return the cell literals equivalent to the slot variable of the given slot and word
+     * @param cellLiterals the vector to fill  with the cell literals equivalent to the slot
+     *                     variable of the given slot and word
+     * @param slot         the slot
+     * @param word         the word
      * @throws IllegalStateException if the given word contains a letter which is not in the
      *                               {@link Alphabet}
      */
-    private IVecInt cellLiteralsConjunctionOf(final Slot slot, final String word) {
+    private void fillCellLiteralsConjunction(final IVecInt cellLiterals, final Slot slot,
+                                             final String word) {
         final List<Pos> slotPositions = slot.positions();
         final int wordLength = word.length();
-        final IVecInt cellLiterals = new VecInt(wordLength);
         for (int i = 0; i < wordLength; i++) {
             final Pos slotPos = slotPositions.get(i);
             final char letter = word.charAt(i);
@@ -130,7 +141,6 @@ final class Constraints {
             final int cellVar = variables.cell(slotPos.row(), slotPos.column(), letterIndex);
             cellLiterals.push(cellVar);
         }
-        return cellLiterals;
     }
 
     /**
@@ -142,23 +152,24 @@ final class Constraints {
      */
     void addInputGridConstraintsAreSatisfiedClausesTo(final ISolver solver)
             throws ContradictionException {
+        final IVecInt literalsBuffer = new VecInt(1);
         for (int row = 0; row < grid.numberOfRows(); row++) {
             for (int column = 0; column < grid.numberOfColumns(); column++) {
                 final char prefilledLetter = grid.letterAt(row, column);
-                final IVecInt literals;
                 if (prefilledLetter == Grid.EMPTY) {
                     // Disallow solver to create a block
                     final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
-                    literals = new VecInt(new int[]{-blockVariable});
+                    literalsBuffer.push(-blockVariable);
                 } else if (prefilledLetter == Grid.BLOCK) {
                     final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
-                    literals = new VecInt(new int[]{blockVariable});
+                    literalsBuffer.push(blockVariable);
                 } else {
                     final int letterIndex = Alphabet.letterIndex(prefilledLetter);
                     final int letterVariable = variables.cell(row, column, letterIndex);
-                    literals = new VecInt(new int[]{letterVariable});
+                    literalsBuffer.push(letterVariable);
                 }
-                solver.addClause(literals);
+                solver.addClause(literalsBuffer);
+                literalsBuffer.clear();
             }
         }
     }
