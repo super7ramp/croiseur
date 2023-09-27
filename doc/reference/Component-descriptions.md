@@ -36,6 +36,8 @@ Here are the software components of Croiseur:
 | [`croiseur-solver-ginsberg-plugin`][]              | Solver provider adapting `croiseur-solver-ginsberg`                                                                                 |
 | [`croiseur-solver-paulgb`][]                       | Crossword solver library based on paulgb's Crossword Composer                                                                       |
 | [`croiseur-solver-paulgb-plugin`][]                | Solver provider adapting `croiseur-solver-paulgb`                                                                                   |
+| [`croiseur-solver-sat`][]                          | Crossword solver library based on a generic SAT solver                                                                              |
+| [`croiseur-solver-sat-plugin`][]                   | Solver provider adapting `croiseur-solver-sat`                                                                                      |
 | [`croiseur-solver-szunami`][]                      | Crossword solver library based on szunami's xwords-rs                                                                               |
 | [`croiseur-solver-szunami-plugin`][]               | Solver provider adapting `croiseur-solver-szunami`                                                                                  |
 | [`croiseur-spi-clue`][]                            | Interface definition for clue providers                                                                                             |
@@ -53,6 +55,7 @@ In addition to these components, the following external components are used:
 | `javafx`                 | Framework for creating graphical user interface    |
 | `info.picocli`           | Framework for creating command-line user interface |
 | `com.theokanning.openai` | OpenAI Web API Client                              |
+| `org.sat4j.{core,pb}`    | Boolean reasoning library                          | 
 
 ### Dependencies
 
@@ -73,7 +76,7 @@ The following conventions apply to all diagrams:
 
 This diagram represents the main module dependencies, with the following omissions:
 
-- Clue SPI implementations (see [dedicated section](#clue-spi-implementations) below) 
+- Clue SPI implementations (see [dedicated section](#clue-spi-implementations) below)
 - Dictionary SPI implementations (see [dedicated section](#dictionary-spi-implementations) below)
 - Puzzle codec SPI implementations (see [dedicated section](#puzzle-codec-spi-implementations)
   below)
@@ -161,6 +164,10 @@ Refer to the [generated Javadoc](https://super7ramp.gitlab.io/croiseur/).
 [`croiseur-solver-paulgb`]: ../../croiseur-solver/croiseur-solver-paulgb
 
 [`croiseur-solver-paulgb-plugin`]: ../../croiseur-solver/croiseur-solver-paulgb-plugin
+
+[`croiseur-solver-sat`]: ../../croiseur-solver/croiseur-solver-sat
+
+[`croiseur-solver-sat-plugin`]: ../../croiseur-solver/croiseur-solver-sat-plugin
 
 [`croiseur-solver-szunami`]: ../../croiseur-solver/croiseur-solver-szunami
 

@@ -59,11 +59,12 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 ### Solvers
 
-| Name                            | Description                                                                                     |
-|---------------------------------|-------------------------------------------------------------------------------------------------|
-| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                             |
-| [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Written in Rust. Does not support pre-filled grids. |
-| [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust. Generally the fastest solver.      |
+| Name                            | Description                                                                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Ginsberg][]                    | A crossword solver based on [Ginsberg's papers][]. Written in Java.                                                                             |
+| [Crossword Composer (paulgb)][] | The solver powering [Crossword Composer][]. Written in Rust. Does not support pre-filled grids.                                                 |
+| [SAT][]                         | A crossword solver based on Sat4j default pseudo-boolean SAT solver. Very slow and memory intensive, for small grids and testing purposes only. |
+| [XWords RS (szunami)][]         | The solver powering the [XWords RS][] tool. Written in Rust. Generally the fastest solver.                                                      |
 
 <!-- Reference Links -->
 
@@ -102,6 +103,8 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 [memory]: ../../croiseur-puzzle/croiseur-puzzle-repository-memory-plugin
 
 [OpenAI]: ../../croiseur-clue/croiseur-clue-openai-plugin
+
+[SAT]: ../../croiseur-solver/croiseur-solver-sat-plugin
 
 [Service Providers]: ../../croiseur-spi
 

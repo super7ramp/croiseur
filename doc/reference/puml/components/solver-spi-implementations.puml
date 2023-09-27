@@ -8,7 +8,14 @@ digraph "solvers" {
 
   // External dependencies need to be distinguished from the rest
   "java.base" [style=filled fillcolor=lightgray];
+  "org.sat4j.core" [style=filled fillcolor=lightgray]
+  "org.sat4j.pb" [style=filled fillcolor=lightgray]
 
+  "croiseur.solver.sat" -> "org.sat4j.pb"
+  "org.sat4j.pb" -> "org.sat4j.core"
+  "org.sat4j.core" -> "java.base"
+  "croiseur.solver.sat.plugin" -> "croiseur.solver.sat"
+  "croiseur.solver.sat.plugin" -> "croiseur.spi.solver" [label=provides]
   "croiseur.solver.szunami"    -> "java.base";
   "croiseur.solver.szunami.plugin" -> "croiseur.solver.szunami";
   "croiseur.solver.szunami.plugin" -> "croiseur.spi.solver" [label=provides];
