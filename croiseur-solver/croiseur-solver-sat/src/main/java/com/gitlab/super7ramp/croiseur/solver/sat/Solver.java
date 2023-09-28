@@ -41,7 +41,6 @@ import java.util.Objects;
  * solver in Java (basically just a translation in Java of Martin Hořeňovský's example sudoku C++
  * solver).
  */
-// TODO choose the best type for word list (raw array? List? Collection? SequencedCollection? Iterable?)
 // TODO allow interruption
 // TODO make it faster (no idea how yet except by playing with the different Sat4j solvers)
 public final class Solver {

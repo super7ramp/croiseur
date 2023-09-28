@@ -147,7 +147,7 @@ final class Variables {
      * @return the first slot variable
      */
     private int slotVariableOffset() {
-        return grid.numberOfColumns() * grid.numberOfRows() * NUMBER_OF_CELL_VALUES + 1;
+        return cellCount() + 1;
     }
 
     /**
