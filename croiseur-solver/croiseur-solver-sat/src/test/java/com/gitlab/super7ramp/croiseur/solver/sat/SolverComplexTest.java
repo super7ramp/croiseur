@@ -43,7 +43,7 @@ final class SolverComplexTest {
         final var dictionaryPath = Path.of(dictionaryUrl.toURI());
         try (final Stream<String> lines = Files.lines(dictionaryPath)) {
             words = lines.map(StringTransformers.toAcceptableCrosswordEntry())
-                         .filter(StringFilters.isAscii())
+                         .filter(StringFilters.hasOnlyCharactersInRangeAtoZ())
                          .toArray(String[]::new);
         }
     }

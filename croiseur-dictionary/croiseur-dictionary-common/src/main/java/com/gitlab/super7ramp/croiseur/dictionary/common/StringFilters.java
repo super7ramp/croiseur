@@ -5,8 +5,6 @@
 
 package com.gitlab.super7ramp.croiseur.dictionary.common;
 
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.function.Predicate;
 
 import static java.util.function.Predicate.not;
@@ -15,9 +13,6 @@ import static java.util.function.Predicate.not;
  * Common filters applied on dictionaries.
  */
 public final class StringFilters {
-
-    /** US-ASCII encoder. */
-    private static final CharsetEncoder US_ASCII_ENCODER = StandardCharsets.US_ASCII.newEncoder();
 
     /**
      * Private constructor, static utilities only.
@@ -36,11 +31,13 @@ public final class StringFilters {
     }
 
     /**
-     * Returns a filter suitable to exclude dictionary entries containing non-ASCII characters.
+     * Returns a filter suitable to exclude dictionary entries containing characters outside range
+     * A-Z.
      *
-     * @return a filter suitable to exclude dictionary entries containing non-ASCII characters.
+     * @return a filter suitable to exclude dictionary entries containing characters outside range
+     * A-Z.
      */
-    public static Predicate<String> isAscii() {
-        return US_ASCII_ENCODER::canEncode;
+    public static Predicate<String> hasOnlyCharactersInRangeAtoZ() {
+        return s -> s.chars().allMatch(c -> c >= 'A' && c <= 'Z');
     }
 }
