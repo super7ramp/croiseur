@@ -99,6 +99,7 @@ public final class SatSolver implements CrosswordSolver {
         progressListener.onInitialisationEnd();
 
         final char[][] result = solver.solve();
+        progressListener.onSolverProgressUpdate((short) 100);
 
         return new AdaptedSolverResult(result);
     }
