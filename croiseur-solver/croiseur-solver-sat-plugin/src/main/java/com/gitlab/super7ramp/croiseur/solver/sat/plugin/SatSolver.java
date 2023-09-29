@@ -89,9 +89,8 @@ public final class SatSolver implements CrosswordSolver {
     }
 
     @Override
-    // TODO interruption?
     public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) {
+                              final ProgressListener progressListener) throws InterruptedException {
 
         progressListener.onInitialisationStart();
         final char[][] grid = convertToArray(puzzle);

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 final class SolverSimpleTest {
 
     @Test
-    void empty() {
+    void empty() throws InterruptedException {
         final char[][] inputGrid = new char[][]{};
         final String[] words = new String[0];
 
@@ -25,7 +25,7 @@ final class SolverSimpleTest {
     }
 
     @Test
-    void solve_trivial() {
+    void solve_trivial() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.'},
                 {'.', '.', '.'},
@@ -45,7 +45,7 @@ final class SolverSimpleTest {
     }
 
     @Test
-    void solve_partiallyPrefilled_1x2() {
+    void solve_partiallyPrefilled_1x3() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'A', 'B', '.'},
         };
@@ -60,7 +60,7 @@ final class SolverSimpleTest {
     }
 
     @Test
-    void solve_partiallyPrefilled_3x3() {
+    void solve_partiallyPrefilled_3x3() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'A', 'B', 'C'},
                 {'.', '.', '.'},
@@ -79,7 +79,7 @@ final class SolverSimpleTest {
     }
 
     @Test
-    void solve_withBlocks() {
+    void solve_withBlocks() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'A', 'B', 'C'},
                 {'.', '.', '#'},
@@ -97,9 +97,8 @@ final class SolverSimpleTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
-
     @Test
-    void solve_impossible() {
+    void solve_impossible() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'A', 'B', 'C'},
                 {'.', '.', '.'},

@@ -7,6 +7,7 @@ package com.gitlab.super7ramp.croiseur.solver.sat;
 
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringFilters;
 import com.gitlab.super7ramp.croiseur.dictionary.common.StringTransformers;
+import com.gitlab.super7ramp.croiseur.solver.sat.testutil.InterruptionTester;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ final class SolverComplexTest {
 
     // < 1s at 1GHz
     @Test
-    void empty3x3() {
+    void empty3x3() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.'},
                 {'.', '.', '.'},
@@ -69,7 +70,7 @@ final class SolverComplexTest {
 
     // ~ 5s at 1GHz
     @Test
-    void empty4x4() {
+    void empty4x4() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.'},
                 {'.', '.', '.', '.'},
@@ -90,7 +91,7 @@ final class SolverComplexTest {
 
     // ~5s at 1GHz
     @Test
-    void shaded5x5() {
+    void shaded5x5() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'#', '#', '.', '.', '#'},
                 {'#', '.', '.', '.', '#'},
@@ -113,7 +114,7 @@ final class SolverComplexTest {
 
     // ~12s at 1GHz
     @Test
-    void shaded9x9() {
+    void shaded9x9() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'#', '#', '#', '.', '.', '.', '#', '#', '#'},
                 {'#', '#', '.', '.', '.', '.', '.', '#', '#'},
@@ -142,10 +143,34 @@ final class SolverComplexTest {
         assertArrayEquals(expectedGrid, outputGrid);
     }
 
+    /**
+     * Verifies that solver responds to thread interruption.
+     */
+    @Test
+    void shaded9x9_interrupted() {
+        // Input grid is large enough not to be solved before interruption
+        final char[][] inputGrid = new char[][]{
+                {'#', '#', '#', '.', '.', '.', '#', '#', '#'},
+                {'#', '#', '.', '.', '.', '.', '.', '#', '#'},
+                {'#', '.', '.', '.', '.', '.', '.', '.', '#'},
+                {'.', '.', '.', '.', '#', '.', '.', '.', '.'},
+                {'.', '.', '.', '#', '#', '#', '.', '.', '.'},
+                {'.', '.', '.', '.', '#', '.', '.', '.', '.'},
+                {'#', '.', '.', '.', '.', '.', '.', '.', '#'},
+                {'#', '#', '.', '.', '.', '.', '.', '#', '#'},
+                {'#', '#', '#', '.', '.', '.', '#', '#', '#'},
+        };
+        final var interruptionTester = new InterruptionTester(new Solver(inputGrid, words)::solve);
+
+        interruptionTester.interruptThread();
+
+        interruptionTester.assertRunnableThrewInterruptedException(3 /* seconds */);
+    }
+
     // ~34s at 1GHz
     @Test
     @Disabled("too slow to run automatically")
-    void shaded13x13() {
+    void shaded13x13() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
@@ -185,7 +210,7 @@ final class SolverComplexTest {
     // ~45s at 1GHz
     @Test
     @Disabled("too slow to run automatically")
-    void shaded13x13WithLongWords() {
+    void shaded13x13WithLongWords() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
@@ -225,7 +250,7 @@ final class SolverComplexTest {
     // ~2min24s at 1GHz
     @Test
     @Disabled("too slow to run automatically")
-    void shaded15x15() {
+    void shaded15x15() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.'},

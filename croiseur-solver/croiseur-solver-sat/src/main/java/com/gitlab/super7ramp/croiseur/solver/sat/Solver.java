@@ -8,10 +8,12 @@ package com.gitlab.super7ramp.croiseur.solver.sat;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.pb.SolverFactory;
 import org.sat4j.specs.ContradictionException;
-import org.sat4j.specs.IProblem;
-import org.sat4j.specs.TimeoutException;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A SAT solver configured to solve crossword problems.
@@ -41,7 +43,6 @@ import java.util.Objects;
  * solver in Java (basically just a translation in Java of Martin Hořeňovský's example sudoku C++
  * solver).
  */
-// TODO allow interruption
 // TODO make it faster (no idea how yet except by playing with the different Sat4j solvers)
 public final class Solver {
 
@@ -77,13 +78,14 @@ public final class Solver {
      * Method must be called at most once. Behavior upon a second call is undefined.
      *
      * @return the solved grid or an empty grid if no solution is found
+     * @throws InterruptedException if interrupted while solving
      */
-    public char[][] solve() {
+    public char[][] solve() throws InterruptedException {
         try {
             allocateVariables();
             addClauses();
             return findSolution();
-        } catch (final ContradictionException | TimeoutException e) {
+        } catch (final ContradictionException e) {
             return noSolution();
         }
     }
@@ -100,53 +102,53 @@ public final class Solver {
      * Add clauses to the solver.
      *
      * @throws ContradictionException if grid is trivially unsatisfiable
+     * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
-    private void addClauses() throws ContradictionException {
-        addOneLetterOrBlockPerCellClauses();
-        addOneWordPerSlotClauses();
-        addInputGridConstraintsAreSatisfiedClauses();
-        // TODO ideally no word should be duplicated
-    }
-
-    /**
-     * Rule 1: Each cell must contain exactly one letter from the alphabet - or a block.
-     *
-     * @throws ContradictionException should not happen
-     */
-    private void addOneLetterOrBlockPerCellClauses() throws ContradictionException {
+    private void addClauses() throws ContradictionException, InterruptedException {
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
-    }
-
-    /**
-     * Rule 2: Each slot must contain exactly one word from the word list.
-     *
-     * @throws ContradictionException if a slot has no word candidate
-     */
-    private void addOneWordPerSlotClauses() throws ContradictionException {
         constraints.addOneWordPerSlotClausesTo(satSolver);
-    }
-
-    /**
-     * Rule 3: Each prefilled letter/block must be preserved.
-     *
-     * @throws ContradictionException should not happen
-     */
-    private void addInputGridConstraintsAreSatisfiedClauses() throws ContradictionException {
         constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
+        // TODO ideally no word should be duplicated
     }
 
     /**
      * Runs the solver.
      *
      * @return the solution, if any, otherwise an empty array
-     * @throws TimeoutException if no solution is found before timeout
+     * @throws InterruptedException if interrupted while solving
      */
-    private char[][] findSolution() throws TimeoutException {
-        final IProblem problem = satSolver;
-        if (!problem.isSatisfiable()) {
+    private char[][] findSolution() throws InterruptedException {
+        if (!problemIsSatisfiable()) {
             return noSolution();
         }
-        return variables.backToDomain(problem.model());
+        return variables.backToDomain(satSolver.model());
+    }
+
+    /**
+     * Evaluates whether the problem is satisfiable.
+     * <p>
+     * Implementation note: Sat4j solver does not respond to thread interruption. In order to
+     * respond to thread interruption, this method launches the solver in a dedicated thread and
+     * makes the caller thread waits (interruptibly) for a result.
+     */
+    private boolean problemIsSatisfiable() throws InterruptedException {
+        // TODO Java 21: Declare executor as resource of the try block and remove finally
+        //  (since Executor implements AutoCloseable)
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        final Future<Boolean> problemIsSatisfiable =
+                executor.submit(() -> satSolver.isSatisfiable());
+        try {
+            return problemIsSatisfiable.get();
+        } catch (final ExecutionException e) {
+            // Should not happen.
+            throw new IllegalStateException(e);
+        } catch (final InterruptedException e) {
+            // Will stop the solver.
+            satSolver.expireTimeout();
+            throw e;
+        } finally {
+            executor.shutdown();
+        }
     }
 
     /**

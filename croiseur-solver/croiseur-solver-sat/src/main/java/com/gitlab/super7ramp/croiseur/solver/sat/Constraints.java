@@ -68,11 +68,15 @@ final class Constraints {
      * or a block - to the given solver.
      *
      * @param solver the solver to which to add the clauses
+     * @throws ContradictionException should not happen
+     * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
-    void addOneLetterOrBlockPerCellClausesTo(final IPBSolver solver) throws ContradictionException {
+    void addOneLetterOrBlockPerCellClausesTo(final IPBSolver solver)
+            throws ContradictionException, InterruptedException {
         final IVecInt literalsBuffer = new VecInt(Variables.NUMBER_OF_CELL_VALUES);
         for (int row = 0; row < grid.numberOfRows(); row++) {
             for (int column = 0; column < grid.numberOfColumns(); column++) {
+                checkForInterruption();
                 for (int letterIndex = 0; letterIndex < Alphabet.numberOfLetters();
                      letterIndex++) {
                     final int letterVariable = variables.cell(row, column, letterIndex);
@@ -92,13 +96,16 @@ final class Constraints {
      *
      * @param solver the solver to which to add the clauses
      * @throws ContradictionException if a slot has no word candidate
+     * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
-    void addOneWordPerSlotClausesTo(final IPBSolver solver) throws ContradictionException {
+    void addOneWordPerSlotClausesTo(final IPBSolver solver)
+            throws ContradictionException, InterruptedException {
         final GateTranslator gator = new GateTranslator(solver);
         final IVecInt slotLiteralsBuffer = new VecInt(words.length);
         final IVecInt cellLiteralsBuffer = new VecInt(CELL_LITERALS_BUFFER_LENGTH);
         for (final Slot slot : grid.slots()) {
             for (int wordIndex = 0; wordIndex < words.length; wordIndex++) {
+                checkForInterruption();
                 final String word = words[wordIndex];
                 if (word.length() == slot.length()) {
                     final int slotVariable = variables.slot(slot.index(), wordIndex);
@@ -149,12 +156,14 @@ final class Constraints {
      *
      * @param solver the solver to which to add the clauses
      * @throws ContradictionException should not happen
+     * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
     void addInputGridConstraintsAreSatisfiedClausesTo(final ISolver solver)
-            throws ContradictionException {
+            throws ContradictionException, InterruptedException {
         final IVecInt literalsBuffer = new VecInt(1);
         for (int row = 0; row < grid.numberOfRows(); row++) {
             for (int column = 0; column < grid.numberOfColumns(); column++) {
+                checkForInterruption();
                 final char prefilledLetter = grid.letterAt(row, column);
                 if (prefilledLetter == Grid.EMPTY) {
                     // Disallow solver to create a block
@@ -194,5 +203,16 @@ final class Constraints {
             coefficients.push(1);
         }
         solver.addExactly(literals, coefficients, 1);
+    }
+
+    /**
+     * Checks for current thread interruption.
+     *
+     * @throws InterruptedException if current thread is marked as interrupted
+     */
+    private static void checkForInterruption() throws InterruptedException {
+        if (Thread.currentThread().isInterrupted()) {
+            throw new InterruptedException("Interrupted while adding constraints");
+        }
     }
 }
