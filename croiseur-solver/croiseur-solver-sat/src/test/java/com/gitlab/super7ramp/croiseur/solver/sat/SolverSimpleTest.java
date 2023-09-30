@@ -98,7 +98,7 @@ final class SolverSimpleTest {
     }
 
     @Test
-    void solve_impossible() throws InterruptedException {
+    void solve_impossible_noSolution() throws InterruptedException {
         final char[][] inputGrid = new char[][]{
                 {'A', 'B', 'C'},
                 {'.', '.', '.'},
@@ -106,6 +106,20 @@ final class SolverSimpleTest {
         };
         final String[] words =
                 new String[]{"AAA", "BBB", "CDF" /* should be CDE */, "ABC", "ABD", "ABE"};
+
+        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+
+        assertArrayEquals(new char[][]{}, outputGrid);
+    }
+
+    @Test
+    void solve_impossible_noCandidate() throws InterruptedException {
+        final char[][] inputGrid = new char[][]{
+                {'.', '.', '.'},
+                {'.', '.', '.'},
+                {'.', '.', '.'}
+        };
+        final String[] words = new String[0];
 
         final char[][] outputGrid = new Solver(inputGrid, words).solve();
 

@@ -11,6 +11,8 @@ import com.gitlab.super7ramp.croiseur.solver.sat.testutil.InterruptionTester;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -145,9 +147,16 @@ final class SolverComplexTest {
 
     /**
      * Verifies that solver responds to thread interruption.
+     *
+     * @param delay the delay before interruption (in seconds)
+     * @throws InterruptedException if interrupted while waiting before interrupting the solver
+     *                              thread
      */
-    @Test
-    void shaded9x9_interrupted() {
+    @ParameterizedTest
+    // Testing with various delays to (try to) test interruption at different solver phases. Exact
+    // interruption points will vary between different machines.
+    @ValueSource(ints = {0, 1, 2, 3})
+    void shaded9x9_interrupted(final int delay) throws InterruptedException {
         // Input grid is large enough not to be solved before interruption
         final char[][] inputGrid = new char[][]{
                 {'#', '#', '#', '.', '.', '.', '#', '#', '#'},
@@ -162,9 +171,9 @@ final class SolverComplexTest {
         };
         final var interruptionTester = new InterruptionTester(new Solver(inputGrid, words)::solve);
 
-        interruptionTester.interruptThread();
+        interruptionTester.interruptThreadAfter(delay);
 
-        interruptionTester.assertRunnableThrewInterruptedException(3 /* seconds */);
+        interruptionTester.assertRunnableThrewInterruptedExceptionWithin(3 /* seconds */);
     }
 
     // ~34s at 1GHz

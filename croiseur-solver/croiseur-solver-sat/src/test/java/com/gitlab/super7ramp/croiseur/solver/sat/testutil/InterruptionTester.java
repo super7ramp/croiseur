@@ -53,20 +53,24 @@ public final class InterruptionTester {
     }
 
     /**
-     * Interrupts the thread in which the interruptible runnable is supposed to run.
+     * Interrupts the thread in which the interruptible runnable is supposed to run, after the given
+     * delay is elapsed.
+     *
+     * @param delay the delay before interrupting
      */
-    public void interruptThread() {
+    public void interruptThreadAfter(final int delay) throws InterruptedException {
+        Thread.sleep(delay * 1000L);
         executor.shutdownNow();
     }
 
     /**
      * Verifies that the interruptible runnable passed at construction has raised an
-     * {@link InterruptedException} withing timeout. Will always fail if {@link #interruptThread()}
-     * has not been called.
+     * {@link InterruptedException} withing timeout. Will always fail if
+     * {@link #interruptThreadAfter} has not been called.
      *
      * @param timeout the timeout (in seconds)
      */
-    public void assertRunnableThrewInterruptedException(final int timeout) {
+    public void assertRunnableThrewInterruptedExceptionWithin(final int timeout) {
         try {
             assertTrue(runnableInterrupted.get(timeout, TimeUnit.SECONDS),
                        "Runnable terminated without interruption");

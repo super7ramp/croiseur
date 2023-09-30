@@ -26,9 +26,10 @@ cucumber-junit5-engine = { module = "io.cucumber:cucumber-junit-platform-engine"
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
 # A Gradle plugin to modularize dependencies, applied in conventions
 extra-java-module-info = { module = "org.gradlex:extra-java-module-info", version.ref = "extra-java-module-info" }
-# Test libraries, used by all modules by convention
+# Test libraries
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
 junit5-platform-suite = { module = "org.junit.platform:junit-platform-suite", version.ref = "junit5-platform" }
 # Additional test library for mock objects
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }

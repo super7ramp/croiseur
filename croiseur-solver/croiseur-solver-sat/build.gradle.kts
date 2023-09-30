@@ -12,6 +12,7 @@ dependencies {
     implementation(sbom.sat4j.pb)
     // For cleaning/filtering the test word list
     testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common"))
+    testImplementation(sbom.junit5.params)
 }
 
 // UKACD is used as test word list
