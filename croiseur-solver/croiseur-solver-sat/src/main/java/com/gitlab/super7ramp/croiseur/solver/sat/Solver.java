@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * A SAT solver configured to solve crossword problems.
+ * A SAT (actually, pseudo-boolean) solver configured to solve crossword problems.
  * <p>
  * It is a very basic definition of the problem, without any optimization attempt. As such, it is
  * quite slow. The problem definition follows.

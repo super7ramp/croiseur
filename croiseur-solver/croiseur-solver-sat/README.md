@@ -5,11 +5,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## croiseur-solver-sat
 
-`croiseur-solver-sat` is crossword solver based on the default
+`croiseur-solver-sat` is a crossword solver based on the default
 pseudo-boolean [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solver provided
 by the [Sat4j](http://sat4j.org/) library.
 
-It does not embed heuristics specific to the crossword problem and it is quite slow and memory
+It does not embed heuristics specific to the crossword problem, and it is quite slow and memory
 intensive on large grid and/or word lists.
 
 ### Explanations
