@@ -15,6 +15,7 @@ import com.gitlab.super7ramp.croiseur.spi.solver.SolverResult;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -32,28 +33,37 @@ public final class SatSolver implements CrosswordSolver {
     private static final class AdaptedSolverResult implements SolverResult {
 
         /** The raw result. */
-        private final char[][] cells;
+        private final char[][] outputGrid;
+
+        /** The input grid row count. */
+        private final int inputGridRowCount;
+
+        /** The output grid row count. */
+        private final int inputGridColumnCount;
 
         /**
          * Constructs an instance.
          *
-         * @param cellsArg the raw result
+         * @param outputGridArg the output grid
+         * @param inputGrid the input grid
          */
-        AdaptedSolverResult(final char[][] cellsArg) {
-            cells = cellsArg;
+        AdaptedSolverResult(final char[][] outputGridArg, final char[][] inputGrid) {
+            outputGrid = outputGridArg;
+            inputGridRowCount = inputGrid.length;
+            inputGridColumnCount = inputGridRowCount > 0 ? inputGrid[0].length : 0;
         }
 
         @Override
         public Kind kind() {
-            return cells.length == 0 ? Kind.IMPOSSIBLE : Kind.SUCCESS;
+            return outputGrid.length == 0 && inputGridRowCount != 0 ? Kind.IMPOSSIBLE : Kind.SUCCESS;
         }
 
         @Override
         public Map<GridPosition, Character> filledBoxes() {
             final Map<GridPosition, Character> filledBoxes = new HashMap<>();
-            for (int row = 0; row < cells.length; row++) {
-                for (int column = 0; column < cells[row].length; column++) {
-                    final char value = cells[row][column];
+            for (int row = 0; row < outputGrid.length; row++) {
+                for (int column = 0; column < outputGrid[row].length; column++) {
+                    final char value = outputGrid[row][column];
                     if (value != '#') {
                         filledBoxes.put(at(column, row), value);
                     }
@@ -64,8 +74,18 @@ public final class SatSolver implements CrosswordSolver {
 
         @Override
         public Set<GridPosition> unsolvableBoxes() {
-            // SAT solver API does not expose found conflict in case of non-satisfiability
-            return Collections.emptySet();
+            if (kind() == Kind.SUCCESS) {
+                return Collections.emptySet();
+            }
+            // Return all boxes, since solver API does not expose found conflicts in case of
+            // non-satisfiability.
+            final Set<GridPosition> allBoxes = new HashSet<>();
+            for (int row = 0; row < inputGridRowCount; row++) {
+                for (int column = 0; column < inputGridColumnCount; column++) {
+                    allBoxes.add(at(column, row));
+                }
+            }
+            return allBoxes;
         }
     }
 
@@ -93,15 +113,15 @@ public final class SatSolver implements CrosswordSolver {
                               final ProgressListener progressListener) throws InterruptedException {
 
         progressListener.onInitialisationStart();
-        final char[][] grid = convertToArray(puzzle);
+        final char[][] inputGrid = convertToArray(puzzle);
         final String[] words = filterAndConvertToArray(dictionary);
-        final Solver solver = new Solver(grid, words);
+        final Solver solver = new Solver(inputGrid, words);
         progressListener.onInitialisationEnd();
 
-        final char[][] result = solver.solve();
+        final char[][] outputGrid = solver.solve();
         progressListener.onSolverProgressUpdate((short) 100);
 
-        return new AdaptedSolverResult(result);
+        return new AdaptedSolverResult(outputGrid, inputGrid);
     }
 
     /**
