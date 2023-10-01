@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Disclaimer
 
-This is a short, high level and unreviewed explanation of how the solvers available in **croiseur**
+This is a short, high level and unreviewed explanation of how the solvers available in Croiseur
 and elsewhere work. Do not take everything here as necessarily correct. If you are looking for more
 thorough explanations, check out the [reference papers](#references).
 
@@ -25,8 +25,8 @@ here.
 
 ### Approach
 
-Crossword solving is typically a *constraint satisfaction problem (CSP)*: Variables (word slots)
-must be assigned values (words) satisfying a set of constraints (letters shared by slots).
+Crossword solving is a *constraint satisfaction problem (CSP)*: Variables (word slots) must be
+assigned values (words) satisfying a set of constraints (letters shared by slots).
 
 An alternative approach is to consider that the variables are the letter cells, the values are
 the letters and the constraints are that certain groups of letters must form valid words.
@@ -38,7 +38,8 @@ by-word approach in mind but should be transposable to a by-letter approach.
 > — [Jensen97] presents a hybrid, generalised approach where a variable is a _chunk_, which can be a
 > letter or a group of letters, possibly an entire word.
 
-Solvers currently available in Croiseur search for a solution using similar techniques
+Solvers available in Croiseur – at the exception of `croiseur-solver-sat` which works on a more
+generalized form of the problem – search for a solution using similar techniques
 described notably by [Ginsberg90], [Peterson20] and [Jensen97].
 
 This search can be summarised in three steps:
@@ -46,7 +47,8 @@ This search can be summarised in three steps:
 1. Select the next slot to fill;
 2. Choose a value for the selected slot;
 3. If a value is present, assign it and continue search; Otherwise, backtrack to a previously
-   assigned slot, choose another value for it then continue search.
+   assigned slot and unassign it.
+4. Repeat until all slots are assigned or no possibility is left.
 
 Solvers implement these steps using slightly different heuristics, as described in the next section.
 
@@ -455,12 +457,88 @@ Here is a comparison between solvers available in Croiseur:
 
 ### Other Approaches
 
-#### Integer Programming
+#### Integer Programming (or Integer Optimization)
 
-[Wilson89] used Integer Programming but concluded that other approaches may be preferable.
+[Wilson89] used Integer Programming but concluded at that time that other, faster, approaches may be
+preferable.
 
-Another example can be
-found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles.html).
+Another more recent example can be
+found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles.html). An
+interesting point is that it shows that Integer Programming allows to easily express a preference in
+the words to select, which is something apparently desirable for professional grids: Word lists
+often come with a preference score attached to each word.
+
+#### SAT Solving
+
+> — There seems to be a lot of similarities between Integer Programming and SAT solving. SAT
+> problems look like specific cases of Integer Programming problems.
+
+SAT solving refers to solving a boolean satisfiability problem, i.e. a problem that can be expressed
+as a boolean formula.
+
+A typical form for boolean formula is the conjunctive normal form (CNF), which is a conjunction (=
+and) of disjunctions (= or) of boolean variables, e.g.:
+
+```math
+(x_1 \vee \neg x_2) \wedge (\neg x_1 \vee x_2 \vee x_3) \wedge \neg x_1
+```
+
+A crossword problem can be expressed as a boolean formula.
+
+For example, one can define the following variables:
+
+- Cell variables: One for each pair $(cell,value)$ where $cell$ is a cell of the input
+  crossword grid and $value$ is a letter of the alphabet or a block. A variable set to true
+  means that the cell represented by this variable contains the value represented by this
+  variable.
+- Slot variables: One for each pair $(slot,word)$ where $slot$ is a slot of the input crossword
+  grid (i.e. a set of contiguous cells) and $word$ of the input word list. A variable set to
+  true means that the slot represented by this variable contains the word represented by this
+  variable.
+
+And here are the constraints:
+
+- Each cell must contain one and only one letter from the alphabet or a block, i.e. for each cell
+  $c$, assuming a Latin alphabet and $'\#'$ as block character:
+
+```math
+exactlyOne(cellVariable(c,'A'), cellVariable(c, 'B'), ..., cellVariable(c, 'Z'), cellVariable(c, '\#'))
+```
+
+- Each slot must contain one and only one word from the input word list, i.e. for each slot $s$
+  and with the word list $\left\{ w_1,w_2,...,w_n \right\}$:
+
+```math
+exactlyOne(wordVariable(s, w_1), wordVariable(s, w_2), ..., wordVariable(s, w_n))
+```
+
+- Each slot variable is equivalent to a conjunction of cell variables, i.e. for each slot $s$
+  and word $w$ of same length $l$, noting $s[i]$ the i-th cell in slot $s$ and $w[i]$ the i-th
+  letter in word $w$:
+
+```math
+and(wordVariable(s, w), cellVariable(s[1],w[1]), cellVariable(s[2],w[2]), ..., cellVariable(s[l],w[l])
+```
+
+- Prefilled cells must be kept as is, i.e. for each cell $c$ prefilled with a value $v$,
+  $cellVariable(c,v)$ must be true.
+
+Because expressing this directly in CNF is a bit complicated, the previous definitions used the
+following functions:
+
+- $cellVariable(cell,value)$: Returns the variable corresponding to the given $(cell,value)$ pair,
+  implementation detail.
+- $wordVariable(slot,word)$: Returns the variable corresponding to the given $(slot,word)$ pair,
+  implementation detail.
+- $exactlyOne(x_1, x_2, ..., x_n)$: Exactly one literal is true. Transformation to CNF is long.
+- $and(y, x_1, x_2, ..., x_n)$: Make $y$ equivalent to the conjunction of $x_i$, i.e.
+  $y \Leftrightarrow x_1 \wedge x_2 \wedge ... \wedge x_n$. The CNF form is: $(\neg y
+  \vee x_1) \wedge (\neg y \vee x_2) \wedge ... \wedge (\neg y \vee x_n) \wedge (\neg x_1 \vee
+  \neg x_2 \vee ... \vee \neg x_n \vee y)$
+
+`croiseur-solver-sat` feeds a SAT solver provided by Sat4j with such a formula. The selected
+Sat4j solver relies on Conflict Driven Clause Learning (CDCL) and pseudo-boolean solving
+algorithms [Leberre10] to find a solution.
 
 #### Neural Network
 
@@ -483,6 +561,8 @@ crossword grid as it uses clues as inputs.
   of the 14th international joint conference on Artificial intelligence_, Volume 1, 1995, 607–613.
 * [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_,
     1997.
+* [Leberre10]: Daniel Leberre, Anne Parrain. "The Sat4j library, release 2.2". _Journal on
+  Satisfiability, Boolean Modeling and Computation 7_, (2010) 59-64.
 * [Mazlack76]: Lawrence Mazlack. "Computer construction of crossword puzzles using precedence
   relationships". _Artificial Intelligence_, 7:1-19, 1976.
 * [Peterson20]: Otis Peterson and Michael
