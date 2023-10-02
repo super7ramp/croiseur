@@ -52,6 +52,7 @@ tasks.named<JavaCompile>("compileJava") {
             "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Messages," +
             "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Prompt," +
             "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
+            "com.gitlab.super7ramp.croiseur.solver.sat.plugin.Messages," +
             "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
             "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
     options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
