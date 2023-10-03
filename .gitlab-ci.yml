@@ -74,7 +74,6 @@ Build on Windows:
     - choco install -y oracle17jdk
     - choco install -y gradle
     - choco install -y rust
-    - refreshenv
     # Use sparse protocol for faster crate index construction
     - $env:CARGO_REGISTRIES_CRATES_IO_PROTOCOL="sparse"
     # Choose wisely cargo and gradle homes so that they can easily be cached later
