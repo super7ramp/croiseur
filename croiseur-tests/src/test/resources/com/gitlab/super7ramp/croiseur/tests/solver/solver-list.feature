@@ -13,7 +13,7 @@ Feature: List Solvers
       | Name               | Description                                                                                                                                     |
       | Ginsberg           | A crossword solver based on Ginsberg's papers.                                                                                                  |
       | Crossword Composer | The solver powering the Crossword Composer software. Does not support pre-filled grids.                                                         |
-      | SAT                | A crossword solver based on Sat4j default pseudo-boolean SAT solver. Very slow and memory intensive, for small grids and testing purposes only. |
+      | SAT                | A crossword solver based on Sat4j default pseudo-boolean solver. Slow and memory intensive.                                                     |
       | XWords RS          | The solver powering the XWords RS tool.                                                                                                         |
 
   @no-auto-deploy

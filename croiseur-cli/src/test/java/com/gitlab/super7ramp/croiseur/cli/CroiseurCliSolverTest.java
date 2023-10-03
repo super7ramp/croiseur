@@ -43,7 +43,7 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          ----            	-----------                                          \s
                          Ginsberg        \tA crossword solver based on Ginsberg's papers.       \s
                          Crossword Composer\tThe solver powering the Crossword Composer software. Does not support pre-filled grids.
-                         SAT             \tA crossword solver based on Sat4j default pseudo-boolean SAT solver. Very slow and memory intensive, for small grids and testing purposes only.
+                         SAT             \tA crossword solver based on Sat4j default pseudo-boolean solver. Slow and memory intensive.
                          XWords RS       \tThe solver powering the XWords RS tool.              \s
                          """)
                  .and().doesNotWriteToStdErr()
