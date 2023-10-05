@@ -8,5 +8,5 @@
  * to be compatible with the gradle features used by this project.
  */
 tasks.wrapper {
-    gradleVersion = "8.3"
+    gradleVersion = "8.4"
 }
