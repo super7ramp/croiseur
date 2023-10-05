@@ -9,11 +9,6 @@ import com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Objects;
 import java.util.Set;
 
 import static com.gitlab.super7ramp.croiseur.common.puzzle.GridPosition.at;
@@ -74,35 +69,6 @@ final class CrosswordSolverImpossibleGridTest {
         // First column and last rows are impossible: "XYZ" and "ZZZ" are not in dictionary
         final Set<GridPosition> expectedUnsolvableBoxes =
                 Set.of(at(0, 0), at(0, 1), at(0, 2), at(1, 2), at(2, 2));
-        assertEquals(expectedUnsolvableBoxes, result.unsolvableBoxes());
-    }
-
-    @Test
-    void realWorldImpossible() throws URISyntaxException, IOException, InterruptedException {
-        final URL dicUrl =
-                Objects.requireNonNull(CrosswordSolverImpossibleGridTest.class.getResource("/fr" +
-                                                                                           ".dic"));
-        final Path dicPath = Path.of(dicUrl.toURI());
-        final DictionaryMock dictionary = new DictionaryMock(dicPath);
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
-                |O|S|C|I|L|L|A|T|I|O|N|
-                |B|O|A|#| |I| | | | | |
-                |S|U|#| |#|T| | | | | |
-                |E|#| | | |T| | | | | |
-                |D| | | | |O| | | |#| |
-                |A| | | | |R|#| |#| | |
-                |N| | | | |A| |#| | | |
-                |T|R|E|M|B|L|E|M|E|N|T|
-                """);
-
-        final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
-        assertEquals(SolverResult.Kind.IMPOSSIBLE, result.kind());
-
-        // First vertical slot puts too many constraints on lower horizontal slots
-        final Set<GridPosition> expectedUnsolvableBoxes =
-                Set.of(at(0, 0), at(0, 1), at(0, 2), at(0, 3), at(0, 4), at(0, 5), at(0, 6),
-                       at(0, 7));
         assertEquals(expectedUnsolvableBoxes, result.unsolvableBoxes());
     }
 }

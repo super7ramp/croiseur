@@ -8,7 +8,6 @@ package com.gitlab.super7ramp.croiseur.solver.ginsberg;
 import com.gitlab.super7ramp.croiseur.common.puzzle.PuzzleGrid;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -27,11 +26,11 @@ final class CrosswordSolverAsymmetricGridTest {
 
     @BeforeAll
     static void beforeAll() throws IOException, URISyntaxException {
-        final URL dicUrl =
-                Objects.requireNonNull(CrosswordSolverSymmetricGridTest.class.getResource("/fr" +
-                        ".dic"));
-        final Path dicPath = Path.of(dicUrl.toURI());
-        dictionary = new DictionaryMock(dicPath);
+        final URL dictionaryUrl =
+                Objects.requireNonNull(CrosswordSolverAsymmetricGridTest.class.getResource("/UKACD18plus.txt"),
+                                       "Test dictionary not found, verify the test resources.");
+        final Path dictionaryPath = Path.of(dictionaryUrl.toURI());
+        dictionary = new DictionaryMock(dictionaryPath);
     }
 
     @AfterAll
@@ -51,15 +50,14 @@ final class CrosswordSolverAsymmetricGridTest {
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |S|A|R|A|#|T|
-                |A|I|#|A|B|A|
-                |A|N|#|B|A|I|
-                |D|E|#|A|I|N|
+                |S|H|A|T|#|H|
+                |A|A|#|A|I|A|
+                |A|R|#|A|R|E|
+                |B|E|#|L|A|D|
                 """, result);
     }
 
     @Test
-    @Disabled("Solver not performant enough for now / no solution with dictionary?")
     void shaded12x10() throws InterruptedException {
         final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | | | | | | | | | | |
@@ -77,16 +75,16 @@ final class CrosswordSolverAsymmetricGridTest {
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                | | | | | | | | | | | | |
-                | | | | |#| | | | | | | |
-                | | | | | | | | | | |#| |
-                | | | | |#| | | |#| | | |
-                | | | | |#| | | | | | | |
-                | | | | | | | |#| | | | |
-                | | | | | | |#| | | |#| |
-                | | |#| | |#| | | |#| | |
-                | | | |#| | | | |#| | | |
-                | | | | | | | | | | | | |
+                |O|B|T|E|S|T|A|T|I|O|N|S|
+                |P|E|A|N|#|A|R|B|O|R|E|T|
+                |S|L|I|C|K|S|T|O|N|E|#|R|
+                |O|L|L|A|#|S|E|N|#|S|R|I|
+                |M|A|L|M|#|E|R|E|C|T|E|D|
+                |A|D|E|P|T|L|Y|#|H|E|T|E|
+                |N|O|S|E|R|S|#|M|A|S|#|W|
+                |I|N|#|D|I|#|R|A|S|#|F|A|
+                |A|N|A|#|B|A|A|S|#|A|R|Y|
+                |C|A|R|P|E|N|T|A|R|I|A|S|
                 """, result);
     }
 }

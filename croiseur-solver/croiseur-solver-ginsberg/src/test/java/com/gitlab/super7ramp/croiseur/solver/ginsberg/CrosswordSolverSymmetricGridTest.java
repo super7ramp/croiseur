@@ -29,8 +29,9 @@ final class CrosswordSolverSymmetricGridTest {
     @BeforeAll
     static void beforeAll() throws IOException, URISyntaxException {
         final URL dicUrl =
-                Objects.requireNonNull(CrosswordSolverSymmetricGridTest.class.getResource("/fr" +
-                        ".dic"));
+                Objects.requireNonNull(
+                        CrosswordSolverSymmetricGridTest.class.getResource("/UKACD18plus.txt"),
+                        "Test dictionary not found, verify the test resources.");
         final Path dicPath = Path.of(dicUrl.toURI());
         dictionary = new DictionaryMock(dicPath);
     }
@@ -46,22 +47,22 @@ final class CrosswordSolverSymmetricGridTest {
     @Test
     void shaded5x5() throws InterruptedException {
         final PuzzleGrid puzzle = parse("""
-                |#|#| | | |
-                |#| | | | |
-                | | | | | |
-                | | | | |#|
-                | | | |#|#|
-                """);
+                                        |#|#| | | |
+                                        |#| | | | |
+                                        | | | | | |
+                                        | | | | |#|
+                                        | | | |#|#|
+                                        """);
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |#|#|C|O|L|
-                |#|R|A|T|E|
-                |A|G|L|A|E|
-                |B|A|I|N|#|
-                |C|A|N|#|#|
-                """, result);
+                                 |#|#|H|A|T|
+                                 |#|A|I|R|E|
+                                 |A|L|L|I|N|
+                                 |B|O|D|S|#|
+                                 |A|D|A|#|#|
+                                 """, result);
     }
 
     /*
@@ -70,70 +71,70 @@ final class CrosswordSolverSymmetricGridTest {
     @Test
     void shaded9x9() throws InterruptedException {
         final PuzzleGrid puzzle = parse("""
-                |#|#|#| | | |#|#|#|
-                |#|#| | | | | |#|#|
-                |#| | | | | | | |#|
-                | | | | |#| | | | |
-                | | | |#|#|#| | | |
-                | | | | |#| | | | |
-                |#| | | | | | | |#|
-                |#|#| | | | | |#|#|
-                |#|#|#| | | |#|#|#|
-                """);
+                                        |#|#|#| | | |#|#|#|
+                                        |#|#| | | | | |#|#|
+                                        |#| | | | | | | |#|
+                                        | | | | |#| | | | |
+                                        | | | |#|#|#| | | |
+                                        | | | | |#| | | | |
+                                        |#| | | | | | | |#|
+                                        |#|#| | | | | |#|#|
+                                        |#|#|#| | | |#|#|#|
+                                        """);
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |#|#|#|R|G|I|#|#|#|
-                |#|#|M|A|T|E|R|#|#|
-                |#|D|O|L|O|R|E|S|#|
-                |A|I|D|E|#|S|P|E|T|
-                |B|A|I|#|#|#|E|R|E|
-                |A|N|S|E|#|A|N|T|E|
-                |#|A|T|L|A|N|T|E|#|
-                |#|#|E|S|S|A|I|#|#|
-                |#|#|#|A|I|R|#|#|#|
-                """, result);
+                                 |#|#|#|C|A|T|#|#|#|
+                                 |#|#|C|H|I|R|M|#|#|
+                                 |#|A|R|A|L|I|A|S|#|
+                                 |A|B|A|S|#|M|I|N|A|
+                                 |B|A|T|#|#|#|L|E|Y|
+                                 |B|Y|E|S|#|S|M|E|E|
+                                 |#|A|R|A|L|I|A|S|#|
+                                 |#|#|S|A|Y|O|N|#|#|
+                                 |#|#|#|R|E|N|#|#|#|
+                                 """, result);
     }
 
     /*
-     * This takes < 1s to solve at 1 GHz.
+     * This takes < 2s to solve at 1 GHz.
      */
     @Test
     void shaded13x13WithLongWords() throws InterruptedException {
         final PuzzleGrid puzzle = parse("""
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | | | | | | | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | |#|#|#| | | | | |
-                | | | | |#|#|#|#|#| | | | |
-                | | | | | |#|#|#| | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | | | | | | | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                """);
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | | | | | | | | | | |
+                                        |#|#|#| | | |#| | | |#|#|#|
+                                        | | | | | |#|#|#| | | | | |
+                                        | | | | |#|#|#|#|#| | | | |
+                                        | | | | | |#|#|#| | | | | |
+                                        |#|#|#| | | |#| | | |#|#|#|
+                                        | | | | | | | | | | | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        """);
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |S|A|I|D|#|V|I|S|#|P|E|R|L|
-                |A|R|M|E|#|I|E|L|#|E|P|E|E|
-                |N|U|E|R|#|I|R|A|#|R|E|I|N|
-                |A|M|I|N|C|I|S|S|E|M|E|N|T|
-                |#|#|#|I|I|E|#|H|I|E|#|#|#|
-                |A|B|C|E|S|#|#|#|B|A|G|O|U|
-                |B|A|A|R|#|#|#|#|#|B|A|A|R|
-                |A|L|L|E|R|#|#|#|B|I|L|I|E|
-                |#|#|#|S|A|C|#|M|A|L|#|#|#|
-                |I|D|E|N|T|I|T|A|R|I|S|M|E|
-                |M|A|L|E|#|R|A|Z|#|S|O|A|P|
-                |E|L|B|E|#|A|I|D|#|E|U|R|E|
-                |I|I|E|S|#|D|E|A|#|R|I|X|E|
-                 """, result);
+                                 |A|T|A|P|#|A|Y|S|#|A|B|B|A|
+                                 |R|O|N|A|#|B|A|A|#|G|R|A|N|
+                                 |A|L|A|R|#|A|R|Y|#|R|A|F|T|
+                                 |B|A|L|A|N|C|E|S|H|E|E|T|S|
+                                 |#|#|#|B|A|A|#|T|A|E|#|#|#|
+                                 |A|B|B|O|T|#|#|#|S|A|B|R|A|
+                                 |B|A|A|L|#|#|#|#|#|B|O|O|T|
+                                 |C|A|R|A|T|#|#|#|A|L|A|T|E|
+                                 |#|#|#|N|A|S|#|A|R|E|#|#|#|
+                                 |E|N|D|U|R|A|B|L|E|N|E|S|S|
+                                 |A|I|R|S|#|B|O|A|#|E|A|L|E|
+                                 |S|L|A|E|#|R|O|T|#|S|L|A|Y|
+                                 |T|E|W|S|#|A|T|E|#|S|E|E|S|
+                                  """, result);
     }
 
     /*
@@ -142,83 +143,83 @@ final class CrosswordSolverSymmetricGridTest {
     @Test
     void shaded13x13() throws InterruptedException {
         final PuzzleGrid puzzle = parse("""
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | | | |#| | | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | |#|#|#| | | | | |
-                | | | |#|#|#|#|#|#|#| | | |
-                | | | | | |#|#|#| | | | | |
-                |#|#|#| | | |#| | | |#|#|#|
-                | | | | | | |#| | | | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                | | | | |#| | | |#| | | | |
-                """);
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | | | |#| | | | | | |
+                                        |#|#|#| | | |#| | | |#|#|#|
+                                        | | | | | |#|#|#| | | | | |
+                                        | | | |#|#|#|#|#|#|#| | | |
+                                        | | | | | |#|#|#| | | | | |
+                                        |#|#|#| | | |#| | | |#|#|#|
+                                        | | | | | | |#| | | | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        | | | | |#| | | |#| | | | |
+                                        """);
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |T|A|R|A|#|C|R|E|#|A|L|E|P|
-                |A|R|E|C|#|A|I|R|#|D|E|L|L|
-                |T|E|T|E|#|R|A|I|#|O|H|I|O|
-                |A|S|T|R|A|L|#|C|A|N|N|E|T|
-                |#|#|#|B|I|O|#|A|O|I|#|#|#|
-                |A|B|I|E|S|#|#|#|I|S|A|R|D|
-                |B|A|I|#|#|#|#|#|#|#|R|A|I|
-                |A|L|I|A|S|#|#|#|C|H|A|S|E|
-                |#|#|#|B|A|C|#|E|I|O|#|#|#|
-                |A|L|T|A|I|R|#|P|A|C|S|E|R|
-                |M|E|A|T|#|A|R|A|#|H|A|L|O|
-                |O|G|R|E|#|I|I|I|#|E|D|A|M|
-                |S|E|N|E|#|G|S|S|#|R|E|N|E|
-                """, result);
+                                 |R|A|C|A|#|F|R|A|#|A|M|L|A|
+                                 |A|R|U|M|#|A|I|R|#|D|O|E|S|
+                                 |M|U|R|E|#|T|O|E|#|D|A|N|A|
+                                 |A|M|E|B|A|E|#|C|A|E|S|A|R|
+                                 |#|#|#|A|I|S|#|A|I|R|#|#|#|
+                                 |A|B|B|E|S|#|#|#|A|S|A|N|A|
+                                 |B|A|A|#|#|#|#|#|#|#|B|A|G|
+                                 |C|A|R|B|S|#|#|#|D|S|O|M|O|
+                                 |#|#|#|E|A|S|#|B|A|A|#|#|#|
+                                 |A|C|H|A|E|A|#|R|E|A|C|T|S|
+                                 |C|H|A|D|#|B|A|A|#|N|I|U|E|
+                                 |T|I|D|E|#|R|I|N|#|E|A|L|E|
+                                 |A|Z|E|D|#|A|R|T|#|N|O|E|S|
+                                 """, result);
     }
 
 
     /*
-     * This takes < 1.5s s to solve at 1 GHz - which is a bit long.
+     * This takes < 3s s to solve at 1 GHz - which is a bit long.
      */
     @Test
     void shaded15x15() throws InterruptedException {
 
         final PuzzleGrid puzzle = parse("""
-                | | | | |#| | | | | |#| | | | |
-                | | | | |#| | | | | |#| | | | |
-                | | | | |#| | | | | |#| | | | |
-                | | | | | | | | |#| | | | | | |
-                |#|#|#| | | | |#| | | | |#|#|#|
-                | | | | | | |#| | | | | | | | |
-                | | | | | |#| | | | | |#| | | |
-                | | | | |#| | | | | |#| | | | |
-                | | | |#| | | | | |#| | | | | |
-                | | | | | | | | |#| | | | | | |
-                |#|#|#| | | | |#| | | | |#|#|#|
-                | | | | | | |#| | | | | | | | |
-                | | | | |#| | | | | |#| | | | |
-                | | | | |#| | | | | |#| | | | |
-                | | | | |#| | | | | |#| | | | |
-                """);
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | | | | | | |#| | | | | | |
+                                        |#|#|#| | | | |#| | | | |#|#|#|
+                                        | | | | | | |#| | | | | | | | |
+                                        | | | | | |#| | | | | |#| | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | |#| | | | | |#| | | | | |
+                                        | | | | | | | | |#| | | | | | |
+                                        |#|#|#| | | | |#| | | | |#|#|#|
+                                        | | | | | | |#| | | | | | | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        | | | | |#| | | | | |#| | | | |
+                                        """);
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
         Assertions.assertSuccess("""
-                |A|B|L|E|#|C|R|A|I|G|#|A|R|M|E|
-                |I|L|O|T|#|R|E|C|R|E|#|R|A|U|L|
-                |D|O|N|A|#|A|N|T|A|N|#|A|M|E|L|
-                |A|G|E|L|A|S|T|E|#|T|A|C|I|T|E|
-                |#|#|#|A|I|S|E|#|A|I|L|E|#|#|#|
-                |A|L|E|G|R|E|#|A|N|A|P|E|S|T|E|
-                |G|A|L|E|E|#|P|I|G|N|E|#|T|A|U|
-                |N|U|E|R|#|M|A|G|I|E|#|S|I|L|L|
-                |U|R|I|#|M|E|T|R|E|#|B|I|L|L|E|
-                |S|E|S|B|A|N|I|E|#|B|O|M|B|E|R|
-                |#|#|#|E|R|I|N|#|A|U|R|A|#|#|#|
-                |C|A|L|A|I|S|#|A|R|T|E|R|I|E|L|
-                |A|V|E|U|#|C|A|L|O|T|#|U|N|A|U|
-                |L|A|O|N|#|A|B|I|M|E|#|B|R|R|R|
-                |O|R|N|E|#|L|A|M|E|R|#|A|I|L|E|
-                """, result);
+                                 |B|L|A|B|#|M|A|M|E|E|#|C|A|G|E|
+                                 |E|O|R|L|#|A|L|A|R|Y|#|A|M|I|E|
+                                 |M|O|N|A|#|S|O|R|E|E|#|S|A|N|K|
+                                 |A|N|A|B|A|S|E|S|#|D|A|C|H|A|S|
+                                 |#|#|#|B|I|A|S|#|B|R|N|O|#|#|#|
+                                 |A|S|H|E|T|S|#|A|R|O|U|S|A|L|S|
+                                 |L|A|I|R|S|#|N|E|E|P|S|#|R|A|I|
+                                 |A|N|D|S|#|C|A|D|E|S|#|C|O|N|N|
+                                 |N|A|E|#|C|L|A|E|S|#|C|L|A|D|E|
+                                 |G|A|S|M|A|I|N|S|#|G|R|A|D|E|S|
+                                 |#|#|#|I|N|N|S|#|A|R|A|R|#|#|#|
+                                 |A|G|A|S|S|I|#|A|R|A|B|I|S|T|S|
+                                 |B|A|B|S|#|C|A|D|E|T|#|S|A|R|I|
+                                 |B|U|B|A|#|A|C|A|R|I|#|S|A|I|S|
+                                 |S|L|A|Y|#|L|E|R|E|S|#|A|B|E|T|
+                                 """, result);
     }
 }
