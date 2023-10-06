@@ -3,6 +3,12 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.8 – New SAT Solver – 2023/10/06
+
+- Added a new solver based on Sat4j's default pseudo-boolean solver: Slow and memory intensive,
+  for small grids and test purposes only (#48, !127).
+- Minor improvements on existing solver (!127, !128).
+
 ## Version 0.7.1 – Bugfixes – 2023/08/29
 
 - Increase OpenAI clue plugin http timeout (#86, !122)
