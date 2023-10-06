@@ -131,12 +131,9 @@ public final class Solver {
      * makes the caller thread waits (interruptibly) for a result.
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
-        // TODO Java 21: Declare executor as resource of the try block and remove finally
-        //  (since Executor implements AutoCloseable)
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Future<Boolean> problemIsSatisfiable =
-                executor.submit(() -> satSolver.isSatisfiable());
-        try {
+        try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {
+            final Future<Boolean> problemIsSatisfiable =
+                    executor.submit(() -> satSolver.isSatisfiable());
             return problemIsSatisfiable.get();
         } catch (final ExecutionException e) {
             // Should not happen.
@@ -145,8 +142,6 @@ public final class Solver {
             // Will stop the solver.
             satSolver.expireTimeout();
             throw e;
-        } finally {
-            executor.shutdown();
         }
     }
 
