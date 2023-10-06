@@ -11,11 +11,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An {@link AutoCloseableExecutorService} with a simple and quick {@link #close()}
- * implementation - initiate termination, await termination, then interrupt if still not
- * terminated after {@link #SHUTDOWN_TIMEOUT a little while}.
+ * An {@link ExecutorService} with a simple and quick {@link #close()} implementation - initiate
+ * termination, await termination, then interrupt if still not terminated after
+ * {@link #SHUTDOWN_TIMEOUT a little while}.
  */
-final class QuickClosureExecutorService extends AbstractExecutorService implements AutoCloseableExecutorService {
+final class QuickClosureExecutorService extends AbstractExecutorService {
 
     /** The shutdown timeout (in milliseconds). */
     private static final long SHUTDOWN_TIMEOUT = 250L;
@@ -53,7 +53,8 @@ final class QuickClosureExecutorService extends AbstractExecutorService implemen
     }
 
     @Override
-    public boolean awaitTermination(final long timeout, final TimeUnit unit) throws InterruptedException {
+    public boolean awaitTermination(final long timeout, final TimeUnit unit)
+            throws InterruptedException {
         return executorService.awaitTermination(timeout, unit);
     }
 

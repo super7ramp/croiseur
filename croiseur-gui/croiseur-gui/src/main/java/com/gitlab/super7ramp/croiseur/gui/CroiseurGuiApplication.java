@@ -6,8 +6,7 @@
 package com.gitlab.super7ramp.croiseur.gui;
 
 import com.gitlab.super7ramp.croiseur.api.CrosswordService;
-import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutorService;
-import com.gitlab.super7ramp.croiseur.gui.concurrent.AutoCloseableExecutors;
+import com.gitlab.super7ramp.croiseur.gui.concurrent.MoreExecutors;
 import com.gitlab.super7ramp.croiseur.gui.presenter.GuiPresenter;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ApplicationViewModel;
 import com.gitlab.super7ramp.croiseur.gui.view.model.ErrorsViewModel;
@@ -29,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 /**
  * The Croiseur GUI application.
@@ -216,8 +216,8 @@ public final class CroiseurGuiApplication extends Application {
      * @return the executor
      */
     private Executor createExecutor() {
-        final AutoCloseableExecutorService executor =
-                AutoCloseableExecutors.newFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
+        final ExecutorService executor =
+                MoreExecutors.newQuickClosureFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
         return executor;
     }
