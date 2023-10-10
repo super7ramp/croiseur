@@ -18,8 +18,8 @@ import java.util.concurrent.Future;
 /**
  * A SAT (actually, pseudo-boolean) solver configured to solve crossword problems.
  * <p>
- * It is a very basic definition of the problem, without any optimization attempt. As such, it is
- * quite slow. The problem definition follows.
+ * It is a basic definition of the problem, without any optimization attempt. As such, it is quite
+ * slow. The problem definition follows.
  * <h2>Variables</h2>
  * <ul>
  *     <li>Cell variables: For each pair (cell,letter) is associated a variable.
@@ -40,8 +40,7 @@ import java.util.concurrent.Future;
  * Hořeňovský's introduction to SAT solvers</a>. It very clearly explains the basics with the
  * example of the sudoku problem. Associated code is in C++.
  * @see <a href="https://gitlab.com/super7ramp/sudoku4j">Sudoku4j</a>, which is an example sudoku
- * solver in Java (basically just a translation in Java of Martin Hořeňovský's example sudoku C++
- * solver).
+ * solver in Java. (It is a translation in Java of Martin Hořeňovský's example sudoku C++ solver.)
  */
 // TODO make it faster (no idea how yet except by playing with the different Sat4j solvers)
 public final class Solver {
@@ -99,7 +98,7 @@ public final class Solver {
     }
 
     /**
-     * Add clauses to the solver.
+     * Adds clauses to the solver.
      *
      * @throws ContradictionException if grid is trivially unsatisfiable
      * @throws InterruptedException   if interrupted while adding constraints to the solver

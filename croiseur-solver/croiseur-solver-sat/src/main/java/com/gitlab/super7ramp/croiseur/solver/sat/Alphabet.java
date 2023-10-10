@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 /**
  * The acceptable values for crossword cells.
  * <p>
- * Each alphabet letter is given an index between 0 and {@link #numberOfLetters()}.
+ * Each alphabet letter is given an index between 0 and ({@link #numberOfLetters()} - 1).
  */
 final class Alphabet {
 
@@ -50,7 +50,7 @@ final class Alphabet {
      * @param letterIndex the letter index in the alphabet
      * @return the corresponding letter
      * @throws IndexOutOfBoundsException if given letter index is not between 0 and
-     *                                   {@link #numberOfLetters()}
+     *                                   {@link #numberOfLetters()} - 1
      */
     static char letterAt(final int letterIndex) {
         return (char) LETTERS[letterIndex];

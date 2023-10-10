@@ -42,7 +42,7 @@ Solvers available in Croiseur – at the exception of `croiseur-solver-sat` whic
 generalized form of the problem – search for a solution using similar techniques
 described notably by [Ginsberg90], [Peterson20] and [Jensen97].
 
-This search can be summarised in three steps:
+This search can be summarised in four steps:
 
 1. Select the next slot to fill;
 2. Choose a value for the selected slot;
@@ -509,7 +509,7 @@ exactlyOne(cellVariable(c,'A'), cellVariable(c, 'B'), ..., cellVariable(c, 'Z'),
   and with the word list $\left\{ w_1,w_2,...,w_n \right\}$:
 
 ```math
-exactlyOne(wordVariable(s, w_1), wordVariable(s, w_2), ..., wordVariable(s, w_n))
+exactlyOne(slotVariable(s, w_1), slotVariable(s, w_2), ..., slotVariable(s, w_n))
 ```
 
 - Each slot variable is equivalent to a conjunction of cell variables, i.e. for each slot $s$
@@ -517,7 +517,7 @@ exactlyOne(wordVariable(s, w_1), wordVariable(s, w_2), ..., wordVariable(s, w_n)
   letter in word $w$:
 
 ```math
-and(wordVariable(s, w), cellVariable(s[1],w[1]), cellVariable(s[2],w[2]), ..., cellVariable(s[l],w[l])
+and(slotVariable(s, w), cellVariable(s[1],w[1]), cellVariable(s[2],w[2]), ..., cellVariable(s[l],w[l])
 ```
 
 - Prefilled cells must be kept as is, i.e. for each cell $c$ prefilled with a value $v$,
@@ -528,7 +528,7 @@ following functions:
 
 - $cellVariable(cell,value)$: Returns the variable corresponding to the given $(cell,value)$ pair,
   implementation detail.
-- $wordVariable(slot,word)$: Returns the variable corresponding to the given $(slot,word)$ pair,
+- $slotVariable(slot,word)$: Returns the variable corresponding to the given $(slot,word)$ pair,
   implementation detail.
 - $exactlyOne(x_1, x_2, ..., x_n)$: Exactly one literal is true. Transformation to CNF is long.
 - $and(y, x_1, x_2, ..., x_n)$: Make $y$ equivalent to the conjunction of $x_i$, i.e.

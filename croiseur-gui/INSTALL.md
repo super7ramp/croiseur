@@ -20,7 +20,7 @@ Important notes:
 * On Linux, installing the Debian package will add [this APT repository](https://croiseur.belv.re)
   to the system's repository list so that the application can be updated using the system's update
   manager;
-* Packages only contain one crossword solver among the three
+* Packages only contain two crossword solvers among the four
   available (issue [#81](https://gitlab.com/super7ramp/croiseur/-/issues/81)).
 * Packages are not thoroughly tested. Feedbacks are welcome!
 
