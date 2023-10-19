@@ -18,8 +18,7 @@ picocli = "4.7.4"
 sat4j = "2.3.6"
 testfx = "4.0.17"
 testfx-hamcrest = "2.1"
-# TODO update monocle for JavaFx >= 20, when available, https://github.com/TestFX/TestFX/issues/749
-testfx-monocle = "jdk-12.0.1+2" # Last packaged version, seems compatible with 17
+testfx-monocle = "jfx-21"
 
 [libraries]
 # BDD library, for acceptance tests
@@ -50,7 +49,7 @@ sat4j-pb = { module = "org.ow2.sat4j:org.ow2.sat4j.pb", version.ref = "sat4j" }
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }
 testfx-junit = { module = "org.testfx:testfx-junit5", version.ref = "testfx" }
-testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "testfx-monocle" }
+testfx-monocle = { module = "one.jpro:openjfx-monocle", version.ref = "testfx-monocle" }
 
 [plugins]
 # Plugin to help embedding rust code, only used by native solvers
