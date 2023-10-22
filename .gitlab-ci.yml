@@ -7,7 +7,7 @@ variables:
   GIT_SUBMODULE_PATHS: croiseur-solver/croiseur-solver-paulgb/crossword-composer
   # For Linux builds, use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
   # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
-  LINUX_IMAGE: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:25.1
+  LINUX_IMAGE: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:26.1
 
 stages:
   - build
@@ -71,9 +71,11 @@ Build on Windows:
   tags: [ windows ]
   before_script:
     # To be eventually extracted to build a dedicated image, too many limitations on Gitlab side for now
-    - choco install -y oracle17jdk
+    - choco install -y temurin21 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJavaHome"
     - choco install -y gradle
     - choco install -y rust
+    - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+    - refreshenv
     # Use sparse protocol for faster crate index construction
     - $env:CARGO_REGISTRIES_CRATES_IO_PROTOCOL="sparse"
     # Choose wisely cargo and gradle homes so that they can easily be cached later
