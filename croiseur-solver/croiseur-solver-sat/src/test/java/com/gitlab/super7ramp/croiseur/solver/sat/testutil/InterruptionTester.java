@@ -73,7 +73,7 @@ public final class InterruptionTester {
     public void assertRunnableThrewInterruptedExceptionWithin(final int timeout) {
         try {
             assertTrue(runnableInterrupted.get(timeout, TimeUnit.SECONDS),
-                       "Runnable terminated without interruption");
+                       "Runnable terminated with interruption");
         } catch (final ExecutionException | InterruptedException | TimeoutException e) {
             fail("Runnable not interrupted within " + timeout + " seconds: " + e.getMessage());
         }
