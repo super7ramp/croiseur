@@ -3,6 +3,13 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.9 – Upgrade to Java 21 – 2023/10/26
+
+- Upgrade to Java 21 (#87, !131)
+- Upgrade to JavaFx 21 (#88, !132)
+- Fix obsolete Javadoc (!134)
+- Collapse editor's lateral panes when switching back to welcome screen (!125) 
+
 ## Version 0.8 – New SAT Solver – 2023/10/06
 
 - Added a new solver based on Sat4j's default pseudo-boolean solver: Slow and memory intensive,
