@@ -25,19 +25,19 @@ public interface DictionaryProvider {
 
     /**
      * Retrieves the available dictionaries.
+     * <p>
+     * Note for implementers: Actual dictionary location is at the discretion of implementation. For
+     * local filesystem dictionaries, consider visiting the path given by the
+     * {@code com.gitlab.super7ramp.croiseur.dictionary.path} system property.
      *
-     * @return the available dictionaries found in given paths; if no path is given,
-     * implementation may look for available dictionaries at default locations (e.g. built-in
-     * dictionaries, well-known system paths, at the discretion of implementation).
+     * @return the available dictionaries.
      */
     Collection<Dictionary> get();
 
     /**
      * Retrieves the first available dictionary, if any.
      *
-     * @return the first available dictionary, if any, found in given paths; if no path is given,
-     * implementation may look for available dictionaries at default locations (e.g. built-in
-     * dictionaries, well-known system paths, at the discretion of implementation).
+     * @return the first available dictionary, if any
      */
     default Optional<Dictionary> getFirst() {
         final Iterator<Dictionary> it = get().iterator();
