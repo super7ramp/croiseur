@@ -22,7 +22,7 @@
     <center>
         <SplitPane fx:id="centerSplitPane">
             <PuzzlePane fx:id="puzzlePane" visible="false" SplitPane.resizableWithParent="false"/>
-            <ScrollPane>
+            <ScrollPane SplitPane.resizableWithParent="false">
                 <FlowPane id="edition-flow-pane">
                     <StackPane id="grid-enclosing-zone">
                         <CrosswordGridPane fx:id="grid"/>
