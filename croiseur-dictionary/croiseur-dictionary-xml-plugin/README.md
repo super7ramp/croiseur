@@ -11,7 +11,7 @@ in [XML files](../croiseur-dictionary-xml-codec).
 The word lists are exclusively retrieved from:
 
 - `croiseur/dictionaries` directory relative to user home, if any, and;
-- Local path(s) declared in the `com.gitlab.super7ramp.croiseur.dictionary.path` system property,
+- Local path(s) declared in the `re.belv.croiseur.dictionary.path` system property,
   if any, and;
 - `dictionaries` directory relative to installation directory
 

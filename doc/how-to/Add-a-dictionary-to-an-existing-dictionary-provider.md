@@ -34,7 +34,7 @@ Each dictionary provider supports a particular format:
 
 The dictionary path is where `croiseur` dictionary providers are looking for dictionaries. It is
 typically `${INSTALL_ROOT}/data/dictionaries` and is actually set via the system
-property `com.gitlab.super7ramp.croiseur.dictionary.path`.
+property `re.belv.croiseur.dictionary.path`.
 
 Example of `croiseur-gui` distribution:
 
@@ -60,11 +60,11 @@ croiseur-gui/
 
 Simply copy-paste the file(s) to the location determined in previous step.
 
-Alternatively, you may customize the value of the `com.gitlab.super7ramp.croiseur.dictionary.path`
-system property. This can be done by manually modifying the value in the launcher script or by
+Alternatively, you may customize the value of the `re.belv.croiseur.dictionary.path` system
+property. This can be done by manually modifying the value in the launcher script or by
 using the environment variables `CROISEUR_CLI_OPTS` and `CROISEUR_GUI_OPTS`, e.g.:
 
 ```
-export CROISEUR_CLI_OPTS="-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${MY_CUSTOM_DICTIONARIES}"
+export CROISEUR_CLI_OPTS="-Dre.belv.croiseur.dictionary.path=${MY_CUSTOM_DICTIONARIES}"
 ./bin/croiseur-cli
 ```

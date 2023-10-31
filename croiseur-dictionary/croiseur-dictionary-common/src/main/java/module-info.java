@@ -6,8 +6,8 @@
 /**
  * Collection of utility classes useful for implementing dictionary providers.
  */
-module com.gitlab.super7ramp.croiseur.dictionary.common {
-    exports com.gitlab.super7ramp.croiseur.dictionary.common;
-    exports com.gitlab.super7ramp.croiseur.dictionary.common.io;
-    exports com.gitlab.super7ramp.croiseur.dictionary.common.util;
+module re.belv.croiseur.dictionary.common {
+    exports re.belv.croiseur.dictionary.common;
+    exports re.belv.croiseur.dictionary.common.io;
+    exports re.belv.croiseur.dictionary.common.util;
 }

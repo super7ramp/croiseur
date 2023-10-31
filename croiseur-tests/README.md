@@ -35,7 +35,7 @@ providers.
 A `Presenter` mock is used to verify the output of `croiseur`.
 
 For more details on this deployment, check the
-[`DeploymentSteps`](src/test/java/com/gitlab/super7ramp/croiseur/tests/context/DeploymentSteps.java)
+[`DeploymentSteps`](src/test/java/re/belv/croiseur/tests/context/DeploymentSteps.java)
 class.
 
 ### Test Organisation

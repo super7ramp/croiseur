@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.dictionary.xml.plugin.XmlDictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.dictionary.xml.plugin.XmlDictionaryProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * Dictionary provider of local word lists written in XML.
  */
-module com.gitlab.super7ramp.croiseur.dictionary.xml.plugin {
-    requires com.gitlab.super7ramp.croiseur.dictionary.common;
-    requires com.gitlab.super7ramp.croiseur.dictionary.xml.codec;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.dictionary;
+module re.belv.croiseur.dictionary.xml.plugin {
+    requires re.belv.croiseur.dictionary.common;
+    requires re.belv.croiseur.dictionary.xml.codec;
+    requires transitive re.belv.croiseur.spi.dictionary;
     requires java.logging;
 
     provides DictionaryProvider with XmlDictionaryProvider;

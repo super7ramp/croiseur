@@ -48,7 +48,7 @@ Example: `croiseur-dictionary-xml-plugin`.
 Typically, these modules:
 
 * Retrieve the dictionary data - location information may be hard-coded, read from
-  configuration or system property like `com.gitlab.super7ramp.croiseur.dictionary.path`;
+  configuration or system property like `re.belv.croiseur.dictionary.path`;
 * Decode these data using codecs;
 * Expose the decoded data via the `croiseur-spi-dictionary` interface.
 

@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.spi.clue.ClueProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Desktop application, frontend to croiseur.
  */
-module com.gitlab.super7ramp.croiseur.gui {
+module re.belv.croiseur.gui {
 
     // GUI submodules
-    requires com.gitlab.super7ramp.croiseur.gui.controller;
-    requires com.gitlab.super7ramp.croiseur.gui.presenter;
-    requires com.gitlab.super7ramp.croiseur.gui.view;
-    requires com.gitlab.super7ramp.croiseur.gui.view.model;
+    requires re.belv.croiseur.gui.controller;
+    requires re.belv.croiseur.gui.presenter;
+    requires re.belv.croiseur.gui.view;
+    requires re.belv.croiseur.gui.view.model;
     // The main dependency: The core library
-    requires com.gitlab.super7ramp.croiseur;
+    requires re.belv.croiseur;
     // JavaFX stuff
     requires transitive javafx.graphics;
     requires javafx.controls;
@@ -35,6 +35,6 @@ module com.gitlab.super7ramp.croiseur.gui {
     uses PuzzleEncoder;
     uses PuzzleRepository;
 
-    exports com.gitlab.super7ramp.croiseur.gui;
-    opens com.gitlab.super7ramp.croiseur.gui to javafx.fxml;
+    exports re.belv.croiseur.gui;
+    opens re.belv.croiseur.gui to javafx.fxml;
 }

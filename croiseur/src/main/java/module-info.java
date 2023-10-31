@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.spi.clue.ClueProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.spi.presenter.Presenter;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Application core library.
  * <p>
  * This module is a library providing several high-level crossword puzzle use-cases.
  */
-module com.gitlab.super7ramp.croiseur {
+module re.belv.croiseur {
 
     /*
      * Requires plugins.
@@ -24,12 +24,12 @@ module com.gitlab.super7ramp.croiseur {
      * Transitive since plugin implementations can be explicitly passed in factory and hence are
      * visible from client API.
      */
-    requires transitive com.gitlab.super7ramp.croiseur.spi.clue;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.dictionary;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.presenter;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.puzzle.codec;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
-    requires transitive com.gitlab.super7ramp.croiseur.spi.solver;
+    requires transitive re.belv.croiseur.spi.clue;
+    requires transitive re.belv.croiseur.spi.dictionary;
+    requires transitive re.belv.croiseur.spi.presenter;
+    requires transitive re.belv.croiseur.spi.puzzle.codec;
+    requires transitive re.belv.croiseur.spi.puzzle.repository;
+    requires transitive re.belv.croiseur.spi.solver;
 
     // Uses plugins since plugins can be implicitly loaded in factory.
     uses ClueProvider;
@@ -41,13 +41,12 @@ module com.gitlab.super7ramp.croiseur {
     uses PuzzleRepository;
 
     // Exports only API, keeps implementation hidden.
-    exports com.gitlab.super7ramp.croiseur.api;
-    exports com.gitlab.super7ramp.croiseur.api.clue;
-    exports com.gitlab.super7ramp.croiseur.api.dictionary;
-    exports com.gitlab.super7ramp.croiseur.api.puzzle;
-    exports com.gitlab.super7ramp.croiseur.api.puzzle.exporter;
-    exports com.gitlab.super7ramp.croiseur.api.puzzle.importer;
-    exports com.gitlab.super7ramp.croiseur.api.puzzle.persistence;
-    exports com.gitlab.super7ramp.croiseur.api.solver;
-
+    exports re.belv.croiseur.api;
+    exports re.belv.croiseur.api.clue;
+    exports re.belv.croiseur.api.dictionary;
+    exports re.belv.croiseur.api.puzzle;
+    exports re.belv.croiseur.api.puzzle.exporter;
+    exports re.belv.croiseur.api.puzzle.importer;
+    exports re.belv.croiseur.api.puzzle.persistence;
+    exports re.belv.croiseur.api.solver;
 }

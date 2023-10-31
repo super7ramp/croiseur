@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.dictionary-data-conventions")
+    id("re.belv.croiseur.dictionary-data")
 }
 
 fileTree(layout.projectDirectory.dir("libreoffice-dictionaries-edited")) { include("**/*.dic", "**/*.aff") }.forEach {

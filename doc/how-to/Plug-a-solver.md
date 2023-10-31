@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-solver:0.9")
+    api("re.belv:croiseur-spi-solver:0.9")
 }
 ```
 
@@ -86,7 +86,7 @@ Add a `build.gradle.kts` (since `croiseur` uses Gradle as build system) in
 
 ```gradle
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
+    id("re.belv.croiseur.java-library")
 }
 
 dependencies {
@@ -109,7 +109,7 @@ Create a class inside the new plugin project implementing the `CrosswordSolver` 
 in `croiseur-spi-solver`.
 
 A commented example is available in `croiseur-solver-example-plugin`:
-[`ExampleCrosswordSolver`](../../croiseur-solver/croiseur-solver-example-plugin/src/main/java/com/gitlab/super7ramp/croiseur/solver/example/plugin/ExampleCrosswordSolver.java).
+[`ExampleCrosswordSolver`](../../croiseur-solver/croiseur-solver-example-plugin/src/main/java/re/belv/croiseur/solver/example/plugin/ExampleCrosswordSolver.java).
 
 #### 3. Declare the solver plugin
 
@@ -131,23 +131,23 @@ to declare the solver plugin using the second method in addition to the first me
 Create a `module-info.java` file in `src/main/java`. Here is a template of `module-info`:
 
 ```
-import com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-module com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin {
-    requires com.gitlab.super7ramp.croiseur.spi.solver;
+module re.belv.croiseur.solver.<new_solver_name>.plugin {
+    requires re.belv.croiseur.spi.solver;
     provides CrosswordSolver with <NewSolverName>CrosswordSolver;
 }
 ```
 
 ##### 3.2. Using the `META-INF/services` folder
 
-Create the file `com.gitlab.super7ramp.croiseur.solver.spi.CrosswordSolver`
+Create the file `re.belv.croiseur.solver.spi.CrosswordSolver`
 in `src/main/resources/META-INF/services` and add the qualified name of your implementation as
 content, e.g.:
 
 ```
-com.gitlab.super7ramp.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver
+re.belv.croiseur.solver.<new_solver_name>.plugin.<NewSolverName>CrosswordSolver
 ```
 
 #### 4. Install the solver plugin
@@ -233,7 +233,7 @@ runtimeOnly(project(":croiseur-solver:croiseur-solver-<your_solver_name>-plugin"
     - [`croiseur-solver-ginsberg-plugin`](../../croiseur-solver/croiseur-solver-ginsberg-plugin)
     - [`croiseur-solver-paulgb-plugin`](../../croiseur-solver/croiseur-solver-paulgb-plugin)
     - [`croiseur-solver-szunami-plugin`](../../croiseur-solver/croiseur-solver-szunami-plugin)
-- [Solver SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.solver/module-summary.html)
+- [Solver SPI Javadoc](https://super7ramp.gitlab.io/croiseur/re.belv.croiseur.spi.solver/module-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's

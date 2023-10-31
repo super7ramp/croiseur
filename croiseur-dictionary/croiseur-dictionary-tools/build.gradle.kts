@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-conventions")
+    id("re.belv.croiseur.java")
 }
 
 dependencies {
@@ -16,15 +16,15 @@ dependencies {
 tasks.register<JavaExec>("basicScorer") {
     group = "Dictionary"
     description = "Give a score to a given dictionary corresponding to the capability of its words to cross with each other"
-    mainClass.set("com.gitlab.super7ramp.croiseur.dictionary.tools.BasicScorer")
-    mainModule.set("com.gitlab.super7ramp.croiseur.dictionary.tools")
+    mainClass.set("re.belv.croiseur.dictionary.tools.BasicScorer")
+    mainModule.set("re.belv.croiseur.dictionary.tools")
     classpath = sourceSets.getByName("main").runtimeClasspath
 }
 
 tasks.register<JavaExec>("squareSolutionEstimator") {
     group = "Dictionary"
     description = "Give an estimated number of solutions for various square grids for the given dictionary"
-    mainClass.set("com.gitlab.super7ramp.croiseur.dictionary.tools.SquareSolutionEstimator")
-    mainModule.set("com.gitlab.super7ramp.croiseur.dictionary.tools")
+    mainClass.set("re.belv.croiseur.dictionary.tools.SquareSolutionEstimator")
+    mainModule.set("re.belv.croiseur.dictionary.tools")
     classpath = sourceSets.getByName("main").runtimeClasspath
 }

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.solver.example.plugin.ExampleCrosswordSolver;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.solver.example.plugin.ExampleCrosswordSolver;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Example solver plugin module
  */
-module com.gitlab.super7ramp.croiseur.solver.example.plugin {
-    requires com.gitlab.super7ramp.croiseur.spi.solver;
+module re.belv.croiseur.solver.example.plugin {
+    requires re.belv.croiseur.spi.solver;
     provides CrosswordSolver with ExampleCrosswordSolver;
 }

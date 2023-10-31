@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin.HunspellDictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.dictionary.hunspell.plugin.HunspellDictionaryProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * Dictionary provider of local word lists written as Hunspell dictionaries.
  */
-module com.gitlab.super7ramp.croiseur.dictionary.hunspell.plugin {
-    requires com.gitlab.super7ramp.croiseur.dictionary.common;
-    requires com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec;
-    requires com.gitlab.super7ramp.croiseur.spi.dictionary;
+module re.belv.croiseur.dictionary.hunspell.plugin {
+    requires re.belv.croiseur.dictionary.common;
+    requires re.belv.croiseur.dictionary.hunspell.codec;
+    requires re.belv.croiseur.spi.dictionary;
     requires java.logging;
 
     provides DictionaryProvider with HunspellDictionaryProvider;

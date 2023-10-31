@@ -8,8 +8,8 @@
  * <p>
  * A model representing the state of the views, observed and displayed by croiseur-gui-view.
  */
-module com.gitlab.super7ramp.croiseur.gui.view.model {
+module re.belv.croiseur.gui.view.model {
     requires transitive javafx.base; // Requiring only javafx.base for javafx.beans
-    exports com.gitlab.super7ramp.croiseur.gui.view.model;
-    exports com.gitlab.super7ramp.croiseur.gui.view.model.slot;
+    exports re.belv.croiseur.gui.view.model;
+    exports re.belv.croiseur.gui.view.model.slot;
 }

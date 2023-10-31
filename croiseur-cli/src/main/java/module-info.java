@@ -3,27 +3,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.cli.presenter.CliPresenter;
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import re.belv.croiseur.cli.presenter.CliPresenter;
+import re.belv.croiseur.spi.presenter.Presenter;
 
 /**
  * Command-line frontend to croiseur.
  */
-module com.gitlab.super7ramp.croiseur.cli {
+module re.belv.croiseur.cli {
 
-    requires com.gitlab.super7ramp.croiseur;     // Core library
-    requires info.picocli;                       // CLI framework
-    requires java.logging;                       // Base modules
+    requires re.belv.croiseur;     // Core library
+    requires info.picocli;         // CLI framework
+    requires java.logging;         // Base module
 
-    // CLI provides core library with a publisher
+    // CLI provides core library with a presenter
     provides Presenter with CliPresenter;
 
     // Open for reflection to CLI framework
-    opens com.gitlab.super7ramp.croiseur.cli to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller.clue to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller.dictionary to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller.puzzle to info.picocli;
-    opens com.gitlab.super7ramp.croiseur.cli.controller.solver to info.picocli;
+    opens re.belv.croiseur.cli to info.picocli;
+    opens re.belv.croiseur.cli.controller to info.picocli;
+    opens re.belv.croiseur.cli.controller.clue to info.picocli;
+    opens re.belv.croiseur.cli.controller.dictionary to info.picocli;
+    opens re.belv.croiseur.cli.controller.puzzle to info.picocli;
+    opens re.belv.croiseur.cli.controller.solver to info.picocli;
 
 }

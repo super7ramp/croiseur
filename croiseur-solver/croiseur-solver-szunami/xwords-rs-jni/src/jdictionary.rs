@@ -9,7 +9,7 @@ use xwords::trie::Trie;
 
 use crate::jiterable::JIterable;
 
-/// Wrapper for the `com.gitlab.croiseur.solver.szunami.Dictionary` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.szunami.Dictionary` Java object.
 pub struct JDictionary<'a> {
     /// The wrapped Java `Dictionary` object
     value: JObject<'a>,

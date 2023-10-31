@@ -6,7 +6,7 @@
 /**
  * Interface definition for puzzle repositories.
  */
-module com.gitlab.super7ramp.croiseur.spi.puzzle.repository {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    exports com.gitlab.super7ramp.croiseur.spi.puzzle.repository;
+module re.belv.croiseur.spi.puzzle.repository {
+    requires transitive re.belv.croiseur.common;
+    exports re.belv.croiseur.spi.puzzle.repository;
 }

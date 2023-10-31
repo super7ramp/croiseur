@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-application-conventions")
+    id("re.belv.croiseur.java-application")
     alias(sbom.plugins.javafx)
     alias(sbom.plugins.conveyor)
 }
@@ -43,7 +43,7 @@ application {
         "-Xmx1g",                       // maximum heap size; SAT solver can consume a lot of memory
 
         // Useful application debug options
-        //"-Dcom.gitlab.super7ramp.croiseur.puzzle.path=/your/debug/puzzle/path",
+        //"-Dre.belv.croiseur.puzzle.path=/your/debug/puzzle/path",
 
         // Useful Java debug options
         //"-XX:+PrintCommandLineFlags",

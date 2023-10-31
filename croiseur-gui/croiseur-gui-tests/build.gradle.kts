@@ -5,7 +5,7 @@
 import java.nio.file.Files
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-aggregate-coverage-conventions")
+    id("re.belv.croiseur.java-aggregate-coverage")
     alias(sbom.plugins.javafx)
 }
 
@@ -57,8 +57,8 @@ tasks.named<Test>("test") {
     systemProperty("testfx.headless", true)
 
     // Application properties
-    systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath())
-    systemProperty("com.gitlab.super7ramp.croiseur.puzzle.path", testRepoPath())
+    systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
+    systemProperty("re.belv.croiseur.puzzle.path", testRepoPath())
 }
 
 fun resolvedDicPath(): String {

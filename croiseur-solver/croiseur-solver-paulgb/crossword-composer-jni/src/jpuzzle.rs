@@ -9,7 +9,7 @@ use jni::JNIEnv;
 
 use crate::jarray::JArray;
 
-/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Puzzle` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.paulgb.Puzzle` Java object.
 pub struct JPuzzle<'a> {
     /// The wrapped `Puzzle` Java object.
     puzzle: JObject<'a>,

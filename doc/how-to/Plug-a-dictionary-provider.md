@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-dictionary:0.9")
+    api("re.belv:croiseur-spi-dictionary:0.9")
 }
 ```
 
@@ -86,7 +86,7 @@ Add a `build.gradle.kts` (since `croiseur` uses Gradle as build system) in
 
 ```gradle
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
+    id("re.belv.croiseur.java-library")
 }
 
 dependencies {
@@ -109,7 +109,7 @@ Create a class inside the new plugin project implementing the `DictionaryProvide
 in `croiseur-spi-dictionary`.
 
 A commented example is available in `croiseur-dictionary-example-plugin`:
-[`ExampleDictionaryProvider`](../../croiseur-dictionary/croiseur-dictionary-example-plugin/src/main/java/com/gitlab/super7ramp/croiseur/dictionary/example/plugin/ExampleDictionaryProvider.java).
+[`ExampleDictionaryProvider`](../../croiseur-dictionary/croiseur-dictionary-example-plugin/src/main/java/re/belv/croiseur/dictionary/example/plugin/ExampleDictionaryProvider.java).
 
 #### 3. Declare the dictionary provider plugin
 
@@ -131,23 +131,23 @@ to declare the dictionary provider plugin using the second method in addition to
 Create a `module-info.java` file in `src/main/java`. Here is a template of `module-info`:
 
 ```
-import com.gitlab.super7ramp.croiseur.dictionary.<new_dictionary_provider_name>.plugin.<NewDictionaryProviderName>DictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.dictionary.<new_dictionary_provider_name>.plugin.<NewDictionaryProviderName>DictionaryProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-module com.gitlab.super7ramp.croiseur.dictionary.<new_dictionary_provider_name>.plugin {
-    requires com.gitlab.super7ramp.croiseur.spi.dictionary;
+module re.belv.croiseur.dictionary.<new_dictionary_provider_name>.plugin {
+    requires re.belv.croiseur.spi.dictionary;
     provides DictionaryProvider with <NewDictionaryProviderName>DictionaryProvider;
 }
 ```
 
 ##### 3.2. Using the `META-INF/services` folder
 
-Create the file `com.gitlab.super7ramp.croiseur.dictionary.spi.DictionaryProvider`
+Create the file `re.belv.croiseur.dictionary.spi.DictionaryProvider`
 in `src/main/resources/META-INF/services` and add the qualified name of your implementation as
 content, e.g.:
 
 ```
-com.gitlab.super7ramp.croiseur.dictionary.<new_dictionary_provider_name>.plugin.<NewDictionaryProviderName>DictionaryProvider
+re.belv.croiseur.dictionary.<new_dictionary_provider_name>.plugin.<NewDictionaryProviderName>DictionaryProvider
 ```
 
 #### 4. Install the dictionary provider plugin
@@ -234,7 +234,7 @@ runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-<your_dictionary_p
     - [`croiseur-dictionary-hunspell-plugin`](../../croiseur-dictionary/croiseur-dictionary-hunspell-plugin)
     - [`croiseur-dictionary-txt-plugin`](../../croiseur-dictionary/croiseur-dictionary-txt-plugin)
     - [`croiseur-dictionary-xml-plugin`](../../croiseur-dictionary/croiseur-dictionary-xml-plugin)
-- [Dictionary SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.dictionary/com/gitlab/super7ramp/croiseur/spi/dictionary/package-summary.html)
+- [Dictionary SPI Javadoc](https://super7ramp.gitlab.io/croiseur/re.belv.croiseur.spi.dictionary/re/belv/croiseur/spi/dictionary/package-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's

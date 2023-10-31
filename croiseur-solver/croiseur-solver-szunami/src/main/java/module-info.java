@@ -6,6 +6,6 @@
 /**
  * Crossword solver library based on szunami's xwords-rs.
  */
-module com.gitlab.super7ramp.croiseur.solver.szunami {
-    exports com.gitlab.super7ramp.croiseur.solver.szunami;
+module re.belv.croiseur.solver.szunami {
+    exports re.belv.croiseur.solver.szunami;
 }

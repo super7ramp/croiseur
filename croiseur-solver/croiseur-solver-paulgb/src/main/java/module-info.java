@@ -6,6 +6,6 @@
 /**
  * Crossword solver library based on paulgb's Crossword Composer.
  */
-module com.gitlab.super7ramp.croiseur.solver.paulgb {
-    exports com.gitlab.super7ramp.croiseur.solver.paulgb;
+module re.belv.croiseur.solver.paulgb {
+    exports re.belv.croiseur.solver.paulgb;
 }

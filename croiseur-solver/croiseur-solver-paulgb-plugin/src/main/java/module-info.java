@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.CrosswordComposerSolver;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.solver.paulgb.plugin.CrosswordComposerSolver;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Solver provider adapting croiseur-solver-paulgb.
  */
-module com.gitlab.super7ramp.croiseur.solver.paulgb.plugin {
-    requires com.gitlab.super7ramp.croiseur.solver.paulgb;
-    requires com.gitlab.super7ramp.croiseur.spi.solver;
+module re.belv.croiseur.solver.paulgb.plugin {
+    requires re.belv.croiseur.solver.paulgb;
+    requires re.belv.croiseur.spi.solver;
     provides CrosswordSolver with CrosswordComposerSolver;
 }

@@ -22,14 +22,14 @@
 #
 
 function prepare() {
-    cp -r croiseur-common com.gitlab.super7ramp.croiseur.common
-    cp -r croiseur-spi/croiseur-spi-clue com.gitlab.super7ramp.croiseur.spi.clue
-    cp -r croiseur-spi/croiseur-spi-dictionary com.gitlab.super7ramp.croiseur.spi.dictionary
-    cp -r croiseur-spi/croiseur-spi-presenter com.gitlab.super7ramp.croiseur.spi.presenter
-    cp -r croiseur-spi/croiseur-spi-puzzle-codec com.gitlab.super7ramp.croiseur.spi.puzzle.codec
-    cp -r croiseur-spi/croiseur-spi-puzzle-repository com.gitlab.super7ramp.croiseur.spi.puzzle.repository
-    cp -r croiseur-spi/croiseur-spi-solver com.gitlab.super7ramp.croiseur.spi.solver
-    cp -r croiseur com.gitlab.super7ramp.croiseur
+    cp -r croiseur-common re.belv.croiseur.common
+    cp -r croiseur-spi/croiseur-spi-clue re.belv.croiseur.spi.clue
+    cp -r croiseur-spi/croiseur-spi-dictionary re.belv.croiseur.spi.dictionary
+    cp -r croiseur-spi/croiseur-spi-presenter re.belv.croiseur.spi.presenter
+    cp -r croiseur-spi/croiseur-spi-puzzle-codec re.belv.croiseur.spi.puzzle.codec
+    cp -r croiseur-spi/croiseur-spi-puzzle-repository re.belv.croiseur.spi.puzzle.repository
+    cp -r croiseur-spi/croiseur-spi-solver re.belv.croiseur.spi.solver
+    cp -r croiseur re.belv.croiseur
 }
 
 function generate() {
@@ -44,14 +44,14 @@ function cleanup() {
     rm -r $modules
 }
 
-modules="com.gitlab.super7ramp.croiseur.common \
-         com.gitlab.super7ramp.croiseur.spi.clue \
-         com.gitlab.super7ramp.croiseur.spi.dictionary \
-         com.gitlab.super7ramp.croiseur.spi.presenter \
-         com.gitlab.super7ramp.croiseur.spi.puzzle.codec \
-         com.gitlab.super7ramp.croiseur.spi.puzzle.repository \
-         com.gitlab.super7ramp.croiseur.spi.solver \
-         com.gitlab.super7ramp.croiseur"
+modules="re.belv.croiseur.common \
+         re.belv.croiseur.spi.clue \
+         re.belv.croiseur.spi.dictionary \
+         re.belv.croiseur.spi.presenter \
+         re.belv.croiseur.spi.puzzle.codec \
+         re.belv.croiseur.spi.puzzle.repository \
+         re.belv.croiseur.spi.solver \
+         re.belv.croiseur"
 
 destdir="javadoc"
 

@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.dictionary-data-conventions")
+    id("re.belv.croiseur.dictionary-data")
 }
 
 fileTree(layout.projectDirectory) { exclude("build*", "*.md", "**/*.license") }.forEach {

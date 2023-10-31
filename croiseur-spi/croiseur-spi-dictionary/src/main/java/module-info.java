@@ -6,7 +6,7 @@
 /**
  * Interface definition for dictionary providers.
  */
-module com.gitlab.super7ramp.croiseur.spi.dictionary {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    exports com.gitlab.super7ramp.croiseur.spi.dictionary;
+module re.belv.croiseur.spi.dictionary {
+    requires transitive re.belv.croiseur.common;
+    exports re.belv.croiseur.spi.dictionary;
 }

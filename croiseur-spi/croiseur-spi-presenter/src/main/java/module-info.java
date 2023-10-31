@@ -6,11 +6,11 @@
 /**
  * Interface definition for presenters.
  */
-module com.gitlab.super7ramp.croiseur.spi.presenter {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.clue;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.dictionary;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.puzzle;
-    exports com.gitlab.super7ramp.croiseur.spi.presenter.solver;
+module re.belv.croiseur.spi.presenter {
+    requires transitive re.belv.croiseur.common;
+    exports re.belv.croiseur.spi.presenter;
+    exports re.belv.croiseur.spi.presenter.clue;
+    exports re.belv.croiseur.spi.presenter.dictionary;
+    exports re.belv.croiseur.spi.presenter.puzzle;
+    exports re.belv.croiseur.spi.presenter.solver;
 }

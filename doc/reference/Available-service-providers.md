@@ -70,7 +70,7 @@ This page lists the available [Service Providers][] pluggable to croiseur.
 
 [cli]: ../../croiseur-cli
 
-[dummy]: ../../croiseur-spi/croiseur-spi-puzzle-repository/src/main/java/com/gitlab/super7ramp/croiseur/spi/puzzle/repository/DummyPuzzleRepository.java
+[dummy]: ../../croiseur-spi/croiseur-spi-puzzle-repository/src/main/java/re/belv/croiseur/spi/puzzle/repository/DummyPuzzleRepository.java
 
 [Crossword Composer]: https://github.com/paulgb/crossword-composer
 

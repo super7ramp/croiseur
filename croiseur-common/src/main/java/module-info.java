@@ -6,8 +6,8 @@
 /**
  * Common types used as building blocks by all other modules.
  */
-module com.gitlab.super7ramp.croiseur.common {
-    exports com.gitlab.super7ramp.croiseur.common.dictionary;
-    exports com.gitlab.super7ramp.croiseur.common.puzzle;
-    exports com.gitlab.super7ramp.croiseur.common.util;
+module re.belv.croiseur.common {
+    exports re.belv.croiseur.common.dictionary;
+    exports re.belv.croiseur.common.puzzle;
+    exports re.belv.croiseur.common.util;
 }

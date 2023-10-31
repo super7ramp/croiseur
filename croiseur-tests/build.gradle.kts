@@ -4,8 +4,8 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-acceptance-tests-conventions")
-    id("com.gitlab.super7ramp.croiseur.java-aggregate-coverage-conventions")
+    id("re.belv.croiseur.java-acceptance-tests")
+    id("re.belv.croiseur.java-aggregate-coverage")
 }
 
 dependencies {

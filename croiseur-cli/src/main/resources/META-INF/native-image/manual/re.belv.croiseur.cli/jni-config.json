@@ -1,0 +1,80 @@
+[
+    {
+        "name": "re.belv.croiseur.solver.paulgb.Dictionary",
+        "allPublicMethods": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.paulgb.Puzzle",
+        "allPublicMethods": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.paulgb.Solution",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.paulgb.NativePanicException",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "java.util.Optional",
+        "allPublicMethods": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.szunami.Crossword",
+        "allPublicMethods": true,
+        "allPublicConstructors": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.szunami.Dictionary",
+        "allPublicMethods": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.szunami.Result",
+        "allPublicMethods": true
+    },
+    {
+        "name": "re.belv.croiseur.solver.szunami.NativePanicException",
+        "allPublicConstructors": true
+    },
+    {
+        "name": "java.lang.Thread",
+        "methods": [
+            {
+                "name": "currentThread",
+                "parameterTypes": [
+                ]
+            },
+            {
+                "name": "isInterrupted",
+                "parameterTypes": [
+                ]
+            }
+        ]
+    },
+    {
+        "name": "java.lang.Iterable",
+        "methods": [
+            {
+                "name": "iterator",
+                "parameterTypes": [
+                ]
+            }
+        ]
+    },
+    {
+        "name": "java.util.Iterator",
+        "methods": [
+            {
+                "name": "hasNext",
+                "parameterTypes": [
+                ]
+            },
+            {
+                "name": "next",
+                "parameterTypes": [
+                ]
+            }
+        ]
+    }
+]
+

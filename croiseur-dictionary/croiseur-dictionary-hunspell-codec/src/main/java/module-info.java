@@ -6,10 +6,10 @@
 /**
  * Library which allows to read Hunspell dictionaries and generate all word forms from them.
  */
-module com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    requires com.gitlab.super7ramp.croiseur.dictionary.common;
+module re.belv.croiseur.dictionary.hunspell.codec {
+    requires transitive re.belv.croiseur.common;
+    requires re.belv.croiseur.dictionary.common;
     requires java.logging;
 
-    exports com.gitlab.super7ramp.croiseur.dictionary.hunspell.codec;
+    exports re.belv.croiseur.dictionary.hunspell.codec;
 }

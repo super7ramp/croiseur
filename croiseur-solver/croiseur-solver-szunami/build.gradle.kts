@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.jni-rust-conventions")
+    id("re.belv.croiseur.jni-rust")
 }
 
 dependencies {

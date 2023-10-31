@@ -8,7 +8,7 @@ use jni::JNIEnv;
 
 use crate::jarray::JArray;
 
-/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Solution` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.paulgb.Solution` Java object.
 pub struct JSolution<'a> {
     /// The wrapped `Solution` Java object
     solution: JObject<'a>,
@@ -24,7 +24,7 @@ impl<'a> JSolution<'a> {
     pub fn from(chars: Vec<char>, env: &mut JNIEnv<'a>) -> Self {
         let array = JArray::from_vec_chars(chars, env);
         let class = env
-            .find_class("com/gitlab/super7ramp/croiseur/solver/paulgb/Solution")
+            .find_class("re/belv/croiseur/solver/paulgb/Solution")
             .expect("Solution class not found");
         let array_object = array.into_object();
         let array_value = JValue::from(&array_object);

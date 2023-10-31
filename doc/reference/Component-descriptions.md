@@ -65,7 +65,7 @@ significant stuff. -->
 The following conventions apply to all diagrams:
 
 - Components are referenced via their simplified Java module names, which is their component names
-  with the `-` separator replaced by `.`. The module's `com.gitlab.super7ramp.` prefix is omitted
+  with the `-` separator replaced by `.`. The module's `re.belv.` prefix is omitted
   for brevity.
 - Dependencies to `java.logging` are omitted (pervasive across the project).
 - Direct dependencies are omitted when already provided by transitivity (i.e.

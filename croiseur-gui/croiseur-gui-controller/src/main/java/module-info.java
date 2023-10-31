@@ -8,14 +8,14 @@
  * <p>
  * Calls croiseur service upon croiseur-gui-view events.
  */
-module com.gitlab.super7ramp.croiseur.gui.controller {
-    requires transitive com.gitlab.super7ramp.croiseur;
-    requires transitive com.gitlab.super7ramp.croiseur.gui.view.model;
+module re.belv.croiseur.gui.controller {
+    requires transitive re.belv.croiseur;
+    requires transitive re.belv.croiseur.gui.view.model;
     requires java.logging;
     requires javafx.graphics; // for javafx.concurrent
 
-    exports com.gitlab.super7ramp.croiseur.gui.controller.clue;
-    exports com.gitlab.super7ramp.croiseur.gui.controller.dictionary;
-    exports com.gitlab.super7ramp.croiseur.gui.controller.puzzle;
-    exports com.gitlab.super7ramp.croiseur.gui.controller.solver;
+    exports re.belv.croiseur.gui.controller.clue;
+    exports re.belv.croiseur.gui.controller.dictionary;
+    exports re.belv.croiseur.gui.controller.puzzle;
+    exports re.belv.croiseur.gui.controller.solver;
 }

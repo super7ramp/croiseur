@@ -6,8 +6,8 @@
 /**
  * Library which allows to read and write dictionaries in a custom XML format.
  */
-module com.gitlab.super7ramp.croiseur.dictionary.xml.codec {
+module re.belv.croiseur.dictionary.xml.codec {
     requires java.logging;
     requires java.xml;
-    exports com.gitlab.super7ramp.croiseur.dictionary.xml.codec;
+    exports re.belv.croiseur.dictionary.xml.codec;
 }

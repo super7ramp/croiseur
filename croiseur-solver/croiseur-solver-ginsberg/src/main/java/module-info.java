@@ -7,7 +7,7 @@
  * Crossword solver library based on Matt Ginsberg's papers.
  */
 module com.gitlab.super7ramp.croiseur.solver.ginsberg {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
+    requires transitive re.belv.croiseur.common;
     requires java.logging;
-    exports com.gitlab.super7ramp.croiseur.solver.ginsberg;
+    exports re.belv.croiseur.solver.ginsberg;
 }

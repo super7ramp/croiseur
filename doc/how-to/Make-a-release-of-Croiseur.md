@@ -20,7 +20,7 @@ a new release of the project.
 
 - Update version in [`gradle.properties`](../../gradle.properties).
 - Update version
-  in [Croiseur GUI translations](../../croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/WelcomeScreen.properties)
+  in [Croiseur GUI translations](../../croiseur-gui/croiseur-gui/src/main/resources/re/belv/croiseur/gui/WelcomeScreen.properties)
   (check all languages, not only English).
 - Update SPI versions advertised in the documentation:
     - [How To: Plug a Dictionary Provider](../how-to/Plug-a-dictionary-provider.md)

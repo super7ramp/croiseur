@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.solver.szunami.plugin.SzunamiSolver;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.solver.szunami.plugin.SzunamiSolver;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Solver provider adapting croiseur-solver-szunami.
  */
-module com.gitlab.super7ramp.croiseur.solver.szunami.plugin {
-    requires com.gitlab.super7ramp.croiseur.solver.szunami;
-    requires com.gitlab.super7ramp.croiseur.spi.solver;
+module re.belv.croiseur.solver.szunami.plugin {
+    requires re.belv.croiseur.solver.szunami;
+    requires re.belv.croiseur.spi.solver;
     provides CrosswordSolver with SzunamiSolver;
 }

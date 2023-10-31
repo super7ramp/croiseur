@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import re.belv.croiseur.gui.view.SolveSplitMenuButton?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditorToolbar.css"
+         type="ToolBar" xmlns="http://javafx.com/javafx/17">
+    <ToggleButton fx:id="puzzleToggleButton" text="%puzzle-button">
+        <graphic>
+            <ImageView id="show-puzzle-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%puzzle-tooltip"/>
+        </tooltip>
+    </ToggleButton>
+    <Pane fx:id="leftSeparator" HBox.hgrow="ALWAYS"/>
+    <ToggleButton fx:id="resizeGridButton" text="%resize-grid-button">
+        <graphic>
+            <ImageView id="resize-grid-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%resize-grid-tooltip"/>
+        </tooltip>
+    </ToggleButton>
+    <Button fx:id="addRowButton" text="%add-row-button">
+        <graphic>
+            <ImageView id="add-row-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%add-row-tooltip"/>
+        </tooltip>
+    </Button>
+    <Button fx:id="deleteRowButton" text="%delete-row-button">
+        <graphic>
+            <ImageView id="delete-row-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%delete-row-tooltip"/>
+        </tooltip>
+    </Button>
+    <Button fx:id="addColumnButton" text="%add-column-button">
+        <graphic>
+            <ImageView id="add-column-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%add-column-tooltip"/>
+        </tooltip>
+    </Button>
+    <Button fx:id="deleteColumnButton" text="%delete-column-button">
+        <graphic>
+            <ImageView id="delete-column-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%delete-column-tooltip"/>
+        </tooltip>
+    </Button>
+    <Button fx:id="deleteGridButton" text="%delete-grid-button">
+        <graphic>
+            <ImageView id="delete-grid-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%delete-grid-tooltip"/>
+        </tooltip>
+    </Button>
+    <MenuButton fx:id="clearGridMenuButton" text="%clear-grid-button">
+        <items>
+            <MenuItem fx:id="clearGridLettersFilledBySolverMenuItem"
+                      text="%clear-grid-letters-filled-by-solver-menu-item"/>
+            <MenuItem fx:id="clearGridAllLettersMenuItem" text="%clear-grid-all-letters-menu-item"/>
+            <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
+        </items>
+        <graphic>
+            <ImageView id="clear-grid-menu-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%clear-grid-tooltip"/>
+        </tooltip>
+    </MenuButton>
+    <SolveSplitMenuButton fx:id="solveButton"/>
+    <Button fx:id="saveButton" text="%save-button">
+        <graphic>
+            <ImageView id="save-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%save-tooltip"/>
+        </tooltip>
+    </Button>
+    <Pane fx:id="rightSeparator" HBox.hgrow="ALWAYS"/>
+    <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button">
+        <graphic>
+            <ImageView id="show-dictionaries-button-image-view"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="%dictionaries-tooltip"/>
+        </tooltip>
+    </ToggleButton>
+</fx:root>

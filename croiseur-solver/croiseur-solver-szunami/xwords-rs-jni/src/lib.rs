@@ -39,7 +39,7 @@ mod jthread;
 /// * The `Result` Java object (see Java side).
 ///
 #[no_mangle]
-pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_szunami_Filler_fill<'a>(
+pub extern "system" fn Java_re_belv_croiseur_solver_szunami_Filler_fill<'a>(
     mut env: JNIEnv<'a>,
     _java_filler: JObject,
     java_crossword: JObject<'a>,
@@ -90,7 +90,7 @@ fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
         },
     };
     let _ = env.throw_new(
-        "com/gitlab/super7ramp/croiseur/solver/szunami/NativePanicException",
+        "re/belv/croiseur/solver/szunami/NativePanicException",
         error_msg,
     );
     JObject::default().into_raw()

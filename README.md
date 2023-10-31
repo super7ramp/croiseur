@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Croiseur
 
-![Logo](croiseur-gui/croiseur-gui/src/main/resources/com/gitlab/super7ramp/croiseur/gui/application-icon.png)
+![Logo](croiseur-gui/croiseur-gui/src/main/resources/re/belv/croiseur/gui/application-icon.png)
 
 ![](https://gitlab.com/super7ramp/croiseur/-/badges/release.svg?key_text=Latest+Release+(Unstable)&key_width=150)
 

@@ -8,7 +8,7 @@ use jni::sys::jint;
 use jni::JNIEnv;
 use xwords::crossword::Crossword;
 
-/// Wrapper for the `com.gitlab.croiseur.solver.szunami.Crossword` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.szunami.Crossword` Java object.
 pub struct JCrossword<'a> {
     /// The wrapper `Crossword` Java object.
     value: JObject<'a>,
@@ -44,7 +44,7 @@ impl<'a> JCrossword<'a> {
             .expect("Failed to convert width to jint (i32)");
 
         let class = env
-            .find_class("com/gitlab/super7ramp/croiseur/solver/szunami/Crossword")
+            .find_class("re/belv/croiseur/solver/szunami/Crossword")
             .expect("Crossword class not found");
         let value = env
             .new_object(class, "(Ljava/lang/String;II)V", &[contents, width, height])
@@ -82,7 +82,7 @@ impl<'a> JCrossword<'a> {
         self.call_and_unwrap_int(env, "width", "()I", &[])
     }
 
-    /// Calls the specified method of `com.gitlab.super7ramp.croiseur.solver.szunami.Crossword` and
+    /// Calls the specified method of `re.belv.croiseur.solver.szunami.Crossword` and
     /// returns its returned value under the form of a `uzise`.
     fn call_and_unwrap_int(
         &mut self,
@@ -99,7 +99,7 @@ impl<'a> JCrossword<'a> {
             .expect("Failed to convert jsize (i32) to usize (u32 or u64)")
     }
 
-    /// Calls the specified method of `com.gitlab.super7ramp.croiseur.solver.szunami.Crossword` and
+    /// Calls the specified method of `re.belv.croiseur.solver.szunami.Crossword` and
     /// returns its returned value under the form of a `String`.
     fn call_and_unwrap_string(
         &mut self,
@@ -118,7 +118,7 @@ impl<'a> JCrossword<'a> {
             .into()
     }
 
-    /// Calls the specified method of `com.gitlab.super7ramp.croiseur.solver.szunami.Crossword` and
+    /// Calls the specified method of `re.belv.croiseur.solver.szunami.Crossword` and
     /// returns its returned value under the form of a `JValueOwned`.
     fn call(
         &mut self,
@@ -129,6 +129,6 @@ impl<'a> JCrossword<'a> {
     ) -> JValueOwned<'_> {
         let object = &mut self.value;
         env.call_method(object, method, signature, args)
-            .expect("Call to com.gitlab.super7ramp.croiseur.solver.szunami.Crossword method failed")
+            .expect("Call to re.belv.croiseur.solver.szunami.Crossword method failed")
     }
 }

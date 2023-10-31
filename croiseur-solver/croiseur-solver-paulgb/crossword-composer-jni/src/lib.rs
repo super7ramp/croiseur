@@ -41,7 +41,7 @@ mod jthread;
 /// * The `Solution` Java object (see Java side).
 ///
 #[no_mangle]
-pub extern "system" fn Java_com_gitlab_super7ramp_croiseur_solver_paulgb_Solver_solve(
+pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve(
     mut env: JNIEnv,
     _java_solver: JObject,
     java_puzzle: JObject,
@@ -88,7 +88,7 @@ fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
         },
     };
     let _ = env.throw_new(
-        "com/gitlab/super7ramp/croiseur/solver/paulgb/NativePanicException",
+        "re/belv/croiseur/solver/paulgb/NativePanicException",
         error_msg,
     );
     JObject::default().into_raw()

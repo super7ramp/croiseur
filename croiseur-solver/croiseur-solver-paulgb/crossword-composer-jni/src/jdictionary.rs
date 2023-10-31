@@ -9,7 +9,7 @@ use jni::objects::{JObject, JString};
 
 use crate::jiterable::JIterable;
 
-/// Wrapper for the `com.gitlab.super7ramp.crosswords.solver.paulgb.Dictionary` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.paulgb.Dictionary` Java object.
 pub struct JDictionary<'a> {
     /// The wrapped `Dictionary` Java object.
     dic: JObject<'a>,

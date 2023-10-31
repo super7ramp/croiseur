@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-library-conventions")
+    id("re.belv.croiseur.java-library")
     alias(sbom.plugins.javafx)
 }
 

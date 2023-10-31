@@ -6,7 +6,7 @@
 /**
  * Interface definition for puzzle codecs.
  */
-module com.gitlab.super7ramp.croiseur.spi.puzzle.codec {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    exports com.gitlab.super7ramp.croiseur.spi.puzzle.codec;
+module re.belv.croiseur.spi.puzzle.codec {
+    requires transitive re.belv.croiseur.common;
+    exports re.belv.croiseur.spi.puzzle.codec;
 }

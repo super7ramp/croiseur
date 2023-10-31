@@ -9,7 +9,7 @@ use xwords::crossword::Crossword;
 
 use crate::jcrossword::JCrossword;
 
-/// Wrapper for the `com.gitlab.croiseur.solver.szunami.Result` Java object.
+/// Wrapper for the `re.belv.croiseur.solver.szunami.Result` Java object.
 pub struct JResult<'a> {
     /// The wrapper `Result` Java object.
     value: JObject<'a>,
@@ -28,7 +28,7 @@ impl<'a> JResult<'a> {
         let result = Self::call(
             env,
             "err",
-            "(Ljava/lang/String;)Lcom/gitlab/super7ramp/croiseur/solver/szunami/Result;",
+            "(Ljava/lang/String;)Lre/belv/croiseur/solver/szunami/Result;",
             &[j_value],
         );
         Self::new(result)
@@ -40,7 +40,7 @@ impl<'a> JResult<'a> {
         let result = Self::call(
             env,
             "ok",
-            "(Lcom/gitlab/super7ramp/croiseur/solver/szunami/Crossword;)Lcom/gitlab/super7ramp/croiseur/solver/szunami/Result;",
+            "(Lre/belv/croiseur/solver/szunami/Crossword;)Lre/belv/croiseur/solver/szunami/Result;",
             &[JValue::from(&solved_crossword)],
         );
         Self::new(result)
@@ -51,17 +51,17 @@ impl<'a> JResult<'a> {
         self.value
     }
 
-    /// Calls the specified method of `com.gitlab.super7ramp.croiseur.solver.szunami.Result` and
+    /// Calls the specified method of `re.belv.croiseur.solver.szunami.Result` and
     /// returns its returned value under the form of a `JObject`.
     fn call(env: &mut JNIEnv<'a>, method: &str, signature: &str, args: &[JValue]) -> JObject<'a> {
         let optional_class = env
-            .find_class("com/gitlab/super7ramp/croiseur/solver/szunami/Result")
-            .expect("com.gitlab.super7ramp.croiseur.solver.szunami.Result could not be found");
+            .find_class("re/belv/croiseur/solver/szunami/Result")
+            .expect("re.belv.croiseur.solver.szunami.Result could not be found");
         let j_value = env
             .call_static_method(optional_class, method, signature, args)
-            .expect("Call to com.gitlab.super7ramp.croiseur.solver.szunami.Result failed");
+            .expect("Call to re.belv.croiseur.solver.szunami.Result failed");
         j_value
             .l()
-            .expect("Creation of com.gitlab.super7ramp.croiseur.solver.szunami.Result failed")
+            .expect("Creation of re.belv.croiseur.solver.szunami.Result failed")
     }
 }

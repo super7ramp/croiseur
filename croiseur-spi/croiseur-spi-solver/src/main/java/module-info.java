@@ -6,7 +6,7 @@
 /**
  * Interface definition for solvers.
  */
-module com.gitlab.super7ramp.croiseur.spi.solver {
-    requires transitive com.gitlab.super7ramp.croiseur.common;
-    exports com.gitlab.super7ramp.croiseur.spi.solver;
+module re.belv.croiseur.spi.solver {
+    requires transitive re.belv.croiseur.common;
+    exports re.belv.croiseur.spi.solver;
 }

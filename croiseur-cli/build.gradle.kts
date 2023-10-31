@@ -6,8 +6,8 @@
 import java.nio.file.Files;
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-cli-conventions")
-    id("com.gitlab.super7ramp.croiseur.java-aggregate-coverage-conventions")
+    id("re.belv.croiseur.java-cli")
+    id("re.belv.croiseur.java-aggregate-coverage")
 }
 
 dependencies {
@@ -48,26 +48,26 @@ application {
  */
 tasks.named<JavaCompile>("compileJava") {
     options.compilerArgs.add("-Aother.resource.bundles=" +
-            "com.gitlab.super7ramp.croiseur.cli.l10n.Messages," +
-            "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Messages," +
-            "com.gitlab.super7ramp.croiseur.clue.openai.plugin.Prompt," +
-            "com.gitlab.super7ramp.croiseur.solver.ginsberg.plugin.Messages," +
-            "com.gitlab.super7ramp.croiseur.solver.sat.plugin.Messages," +
-            "com.gitlab.super7ramp.croiseur.solver.szunami.plugin.Messages," +
-            "com.gitlab.super7ramp.croiseur.solver.paulgb.plugin.Messages")
+            "re.belv.croiseur.cli.l10n.Messages," +
+            "re.belv.croiseur.clue.openai.plugin.Messages," +
+            "re.belv.croiseur.clue.openai.plugin.Prompt," +
+            "re.belv.croiseur.solver.ginsberg.plugin.Messages," +
+            "re.belv.croiseur.solver.sat.plugin.Messages," +
+            "re.belv.croiseur.solver.szunami.plugin.Messages," +
+            "re.belv.croiseur.solver.paulgb.plugin.Messages")
     options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
 }
 
 /** Configures tests paths. */
 tasks.named<Test>("test") {
-    systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath())
-    systemProperty("com.gitlab.super7ramp.croiseur.puzzle.path", testRepoPath())
+    systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
+    systemProperty("re.belv.croiseur.puzzle.path", testRepoPath())
 }
 
 /** Configures native tests paths. */
 tasks.named<org.graalvm.buildtools.gradle.tasks.NativeRunTask>("nativeTest") {
-    runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.dictionary.path=${resolvedDicPath()}")
-    runtimeArgs.add("-Dcom.gitlab.super7ramp.croiseur.puzzle.path=${testRepoPath()}")
+    runtimeArgs.add("-Dre.belv.croiseur.dictionary.path=${resolvedDicPath()}")
+    runtimeArgs.add("-Dre.belv.croiseur.puzzle.path=${testRepoPath()}")
 }
 
 fun resolvedDicPath(): String {

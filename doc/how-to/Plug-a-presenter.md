@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    api("com.gitlab.super7ramp:croiseur-spi-presenter:0.9")
+    api("re.belv:croiseur-spi-presenter:0.9")
 }
 ```
 
@@ -63,7 +63,7 @@ Create a class inside the new plugin project implementing the `CroiseurPresenter
 in `croiseur-spi-presenter`.
 
 As an example, you may look
-at [`croiseur-cli`'s presenter](../../croiseur-cli/src/main/java/com/gitlab/super7ramp/croiseur/cli/presenter/CliPresenter.java),
+at [`croiseur-cli`'s presenter](../../croiseur-cli/src/main/java/re/belv/croiseur/cli/presenter/CliPresenter.java),
 which just formats the received results and writes it to standard output.
 
 #### 3. Declare the presenter plugin
@@ -76,7 +76,7 @@ In order for `croiseur` to use the plugin at run-time, the implementation needs 
 
 The first method may be more convenient within an application where both controllers and presenters
 share dependencies.
-See [how it is done in `croiseur-gui`](../../croiseur-gui/croiseur-gui/src/main/java/com/gitlab/super7ramp/croiseur/gui/CrosswordServiceLoader.java)
+See [how it is done in `croiseur-gui`](../../croiseur-gui/croiseur-gui/src/main/java/re/belv/croiseur/gui/CrosswordServiceLoader.java)
 for an example.
 
 The rest of this section explains the second method.
@@ -98,17 +98,17 @@ of `module-info`:
 
 ```
 import com.example.app.presenter.<new_presenter_name>.plugin.<NewPresenterName>Presenter;
-import com.gitlab.super7ramp.croiseur.spi.presenter.Presenter;
+import re.belv.croiseur.spi.presenter.Presenter;
 
 module com.example.app.presenter.<new_presenter_name>.plugin {
-    requires com.gitlab.super7ramp.croiseur.spi.presenter;
+    requires re.belv.croiseur.spi.presenter;
     provides Presenter with <NewPresenterName>Presenter;
 }
 ```
 
 ##### 3.2. Using the `META-INF/services` folder
 
-Create the file `com.gitlab.super7ramp.croiseur.presenter.spi.Presenter` in
+Create the file `re.belv.croiseur.presenter.spi.Presenter` in
 presenter's `src/main/resources/META-INF/services` and add the qualified name of
 the implementation as content, e.g.:
 
@@ -183,9 +183,9 @@ At this point, it should be possible to interact with the new presenter.
 ### See also
 
 - Real plugin implementations:
-    - [`croiseur-cli's presenter`](../../croiseur-cli/src/main/java/com/gitlab/super7ramp/croiseur/cli/presenter)
+    - [`croiseur-cli's presenter`](../../croiseur-cli/src/main/java/re/belv/croiseur/cli/presenter)
     - [`croiseur-gui's presenter`](../../croiseur-gui/croiseur-gui-presenter)
-- [Presenter SPI Javadoc](https://super7ramp.gitlab.io/croiseur/com.gitlab.super7ramp.croiseur.spi.presenter/module-summary.html)
+- [Presenter SPI Javadoc](https://super7ramp.gitlab.io/croiseur/re.belv.croiseur.spi.presenter/module-summary.html)
 - [Java's `ServiceLoader` documentation](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html)
   which defines the plugin declaration format used by `croiseur`.
 - [Project Jigsaw homepage](https://openjdk.org/projects/jigsaw/): General information on Java's

@@ -1,0 +1,4 @@
+# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+re.belv.croiseur.cli.presenter.CliPresenter

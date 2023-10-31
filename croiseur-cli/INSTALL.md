@@ -88,7 +88,7 @@ dictionaries nor the saved puzzles out-of-the-box. You need to indicate the path
 
 ```shell
 ./build/native/nativeCompile/croiseur-cli \
-  -Dcom.gitlab.super7ramp.croiseur.dictionary.path=<YOUR_DICTIONARY_PATH> \
-  -Dcom.gitlab.super7ramp.croiseur.puzzle.path=<YOUR_PUZZLE_PATH> \
+  -Dre.belv.croiseur.dictionary.path=<YOUR_DICTIONARY_PATH> \
+  -Dre.belv.croiseur.puzzle.path=<YOUR_PUZZLE_PATH> \
   dictionary ls
 ```
