@@ -22,7 +22,7 @@ repositories {
     gradlePluginPortal()
 }
 
-// This forces compilation of buildSrc with target Java 17, until Kotlin compiler supports Java 21
+// This forces compilation of build files with target Java 17 until Kotlin compiler supports Java 21
 // See https://github.com/gradle/gradle/issues/26543.
 tasks.withType<KotlinJvmCompile>().configureEach {
     compilerOptions {

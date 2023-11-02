@@ -5,6 +5,11 @@
 
 rootProject.name = "croiseur"
 
+// The project's Gradle plugins
+pluginManagement {
+    includeBuild("build-logic")
+}
+
 // The application core library
 include("croiseur")
 
