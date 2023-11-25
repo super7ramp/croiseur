@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import re.belv.croiseur.gui.view.javafx.scene.canvas.CanvasUtil;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 
@@ -71,17 +72,22 @@ public final class SavedPuzzleCard extends HBox {
          */
         GridDrawer(final double width, final double height, final SavedPuzzleViewModel grid) {
             canvas = new Canvas(width, height);
+
             filledBoxes = grid.filledBoxes();
             shadedBoxes = grid.shadedBoxes();
             numberOfColumns = grid.columnCount();
             numberOfRows = grid.rowCount();
+
+            // Reserve one pixel for pixel snapping, otherwise last strokes could be outside canvas
+            final double exploitableWidth = width - CanvasUtil.pixelSize();
+            final double exploitableHeight = height - CanvasUtil.pixelSize();
             final double columnPerRowRatio = ((double) numberOfColumns / (double) numberOfRows);
-            gridWidth = min(width, width * columnPerRowRatio);
-            gridHeight = min(height, height / columnPerRowRatio);
+            gridWidth = min(exploitableWidth, exploitableWidth * columnPerRowRatio);
+            gridHeight = min(exploitableHeight, exploitableHeight / columnPerRowRatio);
             boxWidth = gridWidth / numberOfColumns;
             boxHeight = gridHeight / numberOfRows;
-            horizontalOffset = (canvas.getWidth() - gridWidth) / 2;
-            verticalOffset = (canvas.getHeight() - gridHeight) / 2;
+            horizontalOffset = (exploitableWidth - gridWidth) / 2;
+            verticalOffset = (exploitableHeight - gridHeight) / 2;
         }
 
         /**
@@ -163,7 +169,7 @@ public final class SavedPuzzleCard extends HBox {
          * @return the horizontal position of the given column on the canvas
          */
         private double x(final int columnNumber) {
-            return boxWidth * columnNumber + horizontalOffset;
+            return CanvasUtil.snapToPixel(boxWidth * columnNumber + horizontalOffset);
         }
 
         /**
@@ -173,7 +179,7 @@ public final class SavedPuzzleCard extends HBox {
          * @return the vertical position of the given row on the canvas
          */
         private double y(final int rowNumber) {
-            return boxHeight * rowNumber + verticalOffset;
+            return CanvasUtil.snapToPixel(boxHeight * rowNumber + verticalOffset);
         }
     }
 
