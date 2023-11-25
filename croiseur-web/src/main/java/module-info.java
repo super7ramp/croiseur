@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import com.gitlab.super7ramp.croiseur.spi.clue.ClueProvider;
-import com.gitlab.super7ramp.croiseur.spi.dictionary.DictionaryProvider;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleDecoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.codec.PuzzleEncoder;
-import com.gitlab.super7ramp.croiseur.spi.puzzle.repository.PuzzleRepository;
-import com.gitlab.super7ramp.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.spi.clue.ClueProvider;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
+import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Web API, frontend to croiseur.
  */
-open module com.gitlab.super7ramp.croiseur.web {
+open module re.belv.croiseur.web {
     requires com.fasterxml.jackson.databind;
-    requires com.gitlab.super7ramp.croiseur;
+    requires re.belv.croiseur;
     requires spring.beans;
     requires spring.boot;
     requires spring.boot.autoconfigure;

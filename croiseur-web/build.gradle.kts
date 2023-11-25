@@ -4,7 +4,7 @@
  */
 
 plugins {
-    id("com.gitlab.super7ramp.croiseur.java-application-conventions")
+    id("re.belv.croiseur.java-application")
     alias(sbom.plugins.spring.boot)
     alias(sbom.plugins.spring.deps)
 }
@@ -20,7 +20,7 @@ dependencies {
 }
 
 /** Configures tests paths. */
-tasks.named<Test>("test") {
+tasks.test {
     val resolvedDicPath = configurations.named("dictionaryPath").get().asPath
-    systemProperty("com.gitlab.super7ramp.croiseur.dictionary.path", resolvedDicPath)
+    systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath)
 }
