@@ -110,16 +110,20 @@ public final class SavedPuzzleCard extends HBox {
         /** Draws the columns of the grid. */
         private void drawColumns() {
             final GraphicsContext gc = canvas.getGraphicsContext2D();
+            final double yStart = y(0);
+            final double yEnd = y(numberOfRows);
             for (int column = 0; column < numberOfColumns + 1; column++) {
-                gc.strokeLine(x(column), y(0), x(column), y(numberOfRows));
+                gc.strokeLine(x(column), yStart, x(column), yEnd);
             }
         }
 
         /** Draws the rows of the grid. */
         private void drawRows() {
             final GraphicsContext gc = canvas.getGraphicsContext2D();
+            final double xStart = x(0);
+            final double xEnd = x(numberOfColumns);
             for (int row = 0; row < numberOfRows + 1; row++) {
-                gc.strokeLine(x(0), y(row), x(numberOfColumns), y(row));
+                gc.strokeLine(xStart, y(row), xEnd, y(row));
             }
         }
 
