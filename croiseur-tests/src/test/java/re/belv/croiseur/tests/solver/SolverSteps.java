@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.tests.solver;
 
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.api.solver.SolverService;
@@ -12,8 +14,6 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.tests.context.TestContext;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static re.belv.croiseur.tests.solver.SolverMatchers.impossible;
 import static re.belv.croiseur.tests.solver.SolverMatchers.success;
-import static org.mockito.Mockito.verify;
 
 /**
  * Steps pertaining to the solver service.
@@ -173,11 +175,11 @@ public final class SolverSteps {
 
     @Then("the application presents the following successful solver result:")
     public void thenPresentSolverResultSuccess(final PuzzleGrid solution) {
-        verify(presenterMock).presentSolverResult(success(solution.filled()));
+        verify(presenterMock).presentSolverResult(anyString(), eq(success(solution.filled())));
     }
 
     @Then("the application presents the grid as impossible to solve")
     public void thenPresentSolverResultImpossible() {
-        verify(presenterMock).presentSolverResult(impossible());
+        verify(presenterMock).presentSolverResult(anyString(), eq(impossible()));
     }
 }
