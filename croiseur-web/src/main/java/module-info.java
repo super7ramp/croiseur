@@ -15,6 +15,7 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
  */
 open module re.belv.croiseur.web {
     requires com.fasterxml.jackson.databind;
+    requires io.swagger.v3.oas.annotations;
     requires re.belv.croiseur;
     requires spring.beans;
     requires spring.boot;

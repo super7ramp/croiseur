@@ -5,6 +5,10 @@
 
 package re.belv.croiseur.web.controller.solver;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,46 +70,37 @@ public class SolverController {
         executor = executorArg;
     }
 
-    /**
-     * Lists all available solvers.
-     *
-     * @return all the available solvers
-     */
-    @GetMapping({"", "/"})
+    @GetMapping
+    @Operation(summary = "Lists all available solvers")
+    @ApiResponse(responseCode = "200", description = "All solver runs")
     public Iterable<SolverDescription> getSolvers() {
         solverService.listSolvers();
         return solverRequestResponseModel.solvers();
     }
 
-    /**
-     * Lists all solver runs.
-     *
-     * @return the solver runs
-     */
     @GetMapping("/runs")
+    @Operation(summary = "Lists all solver runs")
+    @ApiResponse(responseCode = "200", description = "All solver runs")
     public Iterable<SolverRun> getSolverRuns() {
         return solverSessionModel.solverRuns();
     }
 
-    /**
-     * Gets the solver run with given name.
-     *
-     * @return the solver run with given name
-     */
     @GetMapping("/runs/{name}")
-    public ResponseEntity<SolverRun> getSolverRun(@PathVariable("name") final String name) {
+    @Operation(summary = "Gets the solver run with given name")
+    @ApiResponse(responseCode = "200", description = "Solver run found")
+    @ApiResponse(responseCode = "404", description = "Solver run not found", content = @Content)
+    public ResponseEntity<SolverRun> getSolverRun(
+            @Parameter(description = "Name of the solver run to search")
+            @PathVariable("name") final String name) {
         final Optional<SolverRun> solverRun = solverSessionModel.solverRun(name);
         return ResponseEntity.of(solverRun);
     }
 
-    /**
-     * Starts a solver run.
-     *
-     * @param grid the grid to solve
-     * @return 201 with the URI to the created solver run resource, or 500 with the error message
-     */
     @PostMapping("/runs")
-    public HttpEntity<Object> run(@RequestBody final PuzzleGrid grid) {
+    @Operation(summary = "Starts a solver run")
+    @ApiResponse(responseCode = "201", description = "The URI to the created solver run resource")
+    public HttpEntity<Object> run(
+            @Parameter(description = "The grid to solve") @RequestBody final PuzzleGrid grid) {
         final var runName = UUID.randomUUID().toString();
         final var solveRequest = new WebSolveRequest(grid, runName);
         asyncRunSolver(solveRequest);
@@ -116,6 +111,8 @@ public class SolverController {
     }
 
     @DeleteMapping("/runs")
+    @Operation(summary = "Deletes all solver runs")
+    @ApiResponse(responseCode = "200", description = "All solver runs deleted")
     public void deleteAll() {
         solverSessionModel.clear();
     }

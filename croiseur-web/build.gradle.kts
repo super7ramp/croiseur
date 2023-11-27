@@ -12,6 +12,7 @@ plugins {
 dependencies {
     implementation(project(":croiseur"))
     implementation(sbom.spring.web)
+    implementation(sbom.springdoc.openapi)
     testImplementation(sbom.spring.tests)
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-ginsberg-plugin"))

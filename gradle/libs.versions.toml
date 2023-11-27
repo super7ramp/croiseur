@@ -18,6 +18,7 @@ sat4j = "2.3.6"
 slf4j-nop = "2.0.9"
 spring-boot-plugin = "3.2.0"
 spring-deps-plugin = "1.1.4"
+springdoc-openapi = "2.2.0"
 testfx = "4.0.17"
 testfx-hamcrest = "2.2"
 testfx-monocle = "jfx-21"
@@ -48,8 +49,9 @@ sat4j-pb = { module = "org.ow2.sat4j:org.ow2.sat4j.pb", version.ref = "sat4j" }
 # A dummy implementation of sl4j-api (pulled transitively), to quiet sl4j-api warning messages
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j-nop" }
 # Spring framework for Web application; Version is managed by Spring plugins
-spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-tests = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc-openapi" }
 # Testing framework for JavaFx application
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }
@@ -63,6 +65,6 @@ cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
 # Plugin for conveyor (to create application package)
 conveyor = { id = "dev.hydraulic.conveyor", version.ref = "conveyor-plugin" }
-# Plugin to pull Spring; only used by web module
+# Spring-related plugins; only used by web module
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }
 spring-deps = { id = "io.spring.dependency-management", version.ref = "spring-deps-plugin" }

@@ -5,6 +5,10 @@
 
 package re.belv.croiseur.web.controller.puzzle;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,42 +52,58 @@ public class PuzzleController {
         puzzleRequestResponseModel = puzzleRequestResponseModelArg;
     }
 
-    /**
-     * Lists all saved puzzles.
-     *
-     * @return all the saved puzzles
-     */
-    @GetMapping({"", "/"})
+    @GetMapping
+    @Operation(description = "Lists all saved puzzles")
+    @ApiResponse(responseCode = "200", description = "All the saved puzzles")
     public Iterable<SavedPuzzle> getPuzzles() {
         puzzlePersistenceService.list();
         return puzzleRequestResponseModel.puzzles();
     }
 
-    /**
-     * Gets the saved puzzle matching given id.
-     *
-     * @param id the id of the puzzle to get
-     * @return the saved puzzle matching id, if any
-     */
     @GetMapping("/{id}")
-    public ResponseEntity<SavedPuzzle> getPuzzle(@PathVariable("id") final long id) {
+    @Operation(description = "Gets the saved puzzle matching the given ID")
+    @ApiResponse(responseCode = "200", description = "Puzzle found")
+    @ApiResponse(responseCode = "400", description = "Puzzle not found", content = @Content)
+    public ResponseEntity<SavedPuzzle> getPuzzle(
+            @Parameter(description = "The ID of the puzzle to get") @PathVariable("id")
+            final long id) {
         puzzlePersistenceService.load(id);
         return ResponseEntity.of(puzzleRequestResponseModel.puzzle());
     }
 
-    /**
-     * Creates a new puzzle.
-     *
-     * @param newPuzzle the new puzzle to save
-     * @return the URI to saved puzzle
-     */
-    @PostMapping(value = {"", "/"})
-    public ResponseEntity<URI> addPuzzle(@RequestBody final Puzzle newPuzzle) {
+    @PostMapping
+    @Operation(description = "Saves a new puzzle")
+    @ApiResponse(responseCode = "201", description = "The URI to the saved puzzle resource")
+    public ResponseEntity<URI> addPuzzle(
+            @Parameter(description = "The new puzzle to save")
+            @RequestBody final Puzzle newPuzzle) {
         puzzlePersistenceService.save(newPuzzle);
         return puzzleRequestResponseModel.puzzle()
                                          .map(puzzle -> ResponseEntity.created(toUri(puzzle)))
                                          .orElseGet(ResponseEntity::internalServerError)
                                          .build();
+    }
+
+    @DeleteMapping
+    @Operation(description = "Deletes all saved puzzles")
+    @ApiResponse(responseCode = "200", description = "All the puzzles deleted", content = @Content)
+    public ResponseEntity<String> deleteAll() {
+        puzzlePersistenceService.deleteAll();
+        return puzzleRequestResponseModel.allPuzzlesDeleted() ? ResponseEntity.ok().build() :
+                ResponseEntity.internalServerError().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(description = "Deletes the saved puzzle matching the given ID")
+    @ApiResponse(responseCode = "200", description = "Puzzle deleted", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Puzzle to delete not found")
+    public ResponseEntity<Object> deletePuzzle(@PathVariable("id") final long id) {
+        puzzlePersistenceService.delete(id);
+        return puzzleRequestResponseModel.deletedPuzzleIds().stream()
+                                         .filter(deletedId -> deletedId.equals(id))
+                                         .map(deletedId -> ResponseEntity.ok().build())
+                                         .findFirst()
+                                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
@@ -98,34 +118,5 @@ public class PuzzleController {
                 .path("/{id}")
                 .buildAndExpand(puzzle.id())
                 .toUri();
-    }
-
-    /**
-     * Deletes all saved puzzles.
-     *
-     * @return 200 if deletion was successful; 500 with body containing details about the error
-     * otherwise
-     */
-    @DeleteMapping({"", "/"})
-    public ResponseEntity<String> deleteAll() {
-        puzzlePersistenceService.deleteAll();
-        return puzzleRequestResponseModel.allPuzzlesDeleted() ? ResponseEntity.ok().build() :
-                ResponseEntity.internalServerError().build();
-    }
-
-    /**
-     * Deletes the saved puzzle matching given id.
-     *
-     * @param id the id of the puzzle to delete
-     * @return 200 if deletion was successful, 404 otherwise
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePuzzle(@PathVariable("id") final long id) {
-        puzzlePersistenceService.delete(id);
-        return puzzleRequestResponseModel.deletedPuzzleIds().stream()
-                                         .filter(deletedId -> deletedId.equals(id))
-                                         .map(deletedId -> ResponseEntity.ok().build())
-                                         .findFirst()
-                                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
