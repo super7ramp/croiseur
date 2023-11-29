@@ -17,7 +17,7 @@ No package of Croiseur CLI has been made yet. This section will be updated when 
 
 In order to build `croiseur-cli` from sources, you need:
 
-- [Gradle](https://gradle.org/) 8.4 or later
+- [Gradle](https://gradle.org/) 8.5 or later
 - [Java](https://adoptium.net/temurin/releases/) 21 or later (this one is required at run-time too)
 - [Rust](https://www.rust-lang.org/tools/install) 2021 or later
 
