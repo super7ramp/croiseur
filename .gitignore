@@ -13,7 +13,7 @@ out
 # Cargo stuff
 .cargo
 
-# Use "gradle wrapper --build-file=wrapper.gradle.kts" to generate a compatible wrapper in your local tree
-# if you'd like but please don't add it to SCM, thanks.
+# Use "gradle wrapper --build-file=gradle/wrapper.gradle.kts" to generate a compatible wrapper in
+# your local tree if you'd like but please don't add it to SCM, thanks.
 gradle/wrapper
 gradlew*
