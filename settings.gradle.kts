@@ -10,6 +10,11 @@ pluginManagement {
     includeBuild("build-logic")
 }
 
+// The project's dependency management custom settings
+dependencyResolutionManagement {
+    defaultLibrariesExtensionName = "sbom"
+}
+
 // The application core library
 include("croiseur")
 
@@ -73,12 +78,3 @@ include("croiseur-gui:croiseur-gui-tests")
 // Acceptance tests
 include("croiseur-tests")
 include("croiseur-tests-coverage")
-
-// Dependency versions
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("sbom") {
-            from(files("sbom.toml"))
-        }
-    }
-}
