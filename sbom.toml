@@ -15,6 +15,8 @@ mockito = "5.7.0"
 native-plugin = "0.9.28"
 openai = "0.18.2"
 picocli = "4.7.5"
+pitest-plugin = "1.15.0"
+pitest-junit5 = "1.2.1"
 sat4j = "2.3.6"
 testfx = "4.0.17"
 testfx-hamcrest = "2.2"
@@ -58,3 +60,5 @@ cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
 # Plugin for conveyor (to create application package)
 conveyor = { id = "dev.hydraulic.conveyor", version.ref = "conveyor-plugin" }
+# Plugin to pull pitest (a mutation testing library)
+pitest = { id = "info.solidsoft.pitest", version.ref = "pitest-plugin"}

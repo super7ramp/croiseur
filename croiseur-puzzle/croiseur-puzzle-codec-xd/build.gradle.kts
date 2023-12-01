@@ -5,4 +5,10 @@
 
 plugins {
     id("re.belv.croiseur.java-library")
+    alias(sbom.plugins.pitest)
+}
+
+pitest {
+    junit5PluginVersion = sbom.versions.pitest.junit5
+    verbose = true
 }
