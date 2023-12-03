@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 xwords = { version = "0.3.1", default-features = false }
-jni = "0.21.0"
+jni = "0.21.1"
 
 [patch.crates-io]
 xwords = { git = "https://github.com/super7ramp/xwords-rs", rev = "62cd3da" }

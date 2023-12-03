@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 crossword = { path = "../crossword-composer" }
-jni = "0.21.0"
+jni = "0.21.1"
 
 [lib]
 crate_type = ["cdylib"]
