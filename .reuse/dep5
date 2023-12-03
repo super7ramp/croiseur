@@ -13,3 +13,8 @@ Source: https://gitlab.com/super7ramp/croiseur
 Files: croiseur-dictionary/croiseur-dictionary-hunspell-codec/src/test/resources/*
 Copyright: 2023 Hunspell Authors
 License: GPL-3.0-or-later
+
+# Renovate Bot json file
+Files: renovate.json
+Copyright: 2023 Antoine Belvire
+License: GPL-3.0-or-later
