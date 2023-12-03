@@ -17,7 +17,7 @@ dependencies {
     api(project(":croiseur-gui:croiseur-gui-view-model"))
 }
 
-tasks.named<ProcessResources>("processResources") {
+tasks.processResources {
     // There is no point to include .license files in jar, nobody is going to read them there
     exclude("**/*.license")
 }

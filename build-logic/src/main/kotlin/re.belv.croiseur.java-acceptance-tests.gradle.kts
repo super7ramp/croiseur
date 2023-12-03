@@ -29,7 +29,7 @@ configurations.register("testDictionaryPath") {
     isCanBeResolved = true
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     systemProperty(
         "re.belv.croiseur.dictionary.path",
         configurations.named("testDictionaryPath").get().asPath

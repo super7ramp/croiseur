@@ -41,14 +41,14 @@ tasks.withType(Test::class).configureEach {
     useJUnitPlatform()
 }
 
-tasks.named<JacocoReport>("jacocoTestReport") {
+tasks.jacocoTestReport {
     // Do not generate reports for individual projects by default.
     enabled = false
 }
 
 // Hack: Extra information for external projects lacking module information
 extraJavaModuleInfo {
-    failOnMissingModuleInfo.set(false)
+    failOnMissingModuleInfo = false
     automaticModule("com.kjetland:mbknor-jackson-jsonschema_2.12", "mbknor.jackson.jsonschema")
     module("io.reactivex.rxjava2:rxjava", "rxjava2") {
         requires("org.reactivestreams")

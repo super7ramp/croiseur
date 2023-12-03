@@ -52,7 +52,7 @@ application {
  * '/usr/share/crosswords/dictionaries' then one has to set the datadir property to
  * 'share/crosswords/dictionaries' and copy the installation tree to '/usr'.
  */
-tasks.named<CreateStartScripts>("startScripts") {
+tasks.startScripts {
     executableDir = project.property("bindir") as String
 
     // $APP_HOME cannot be referenced directly in defaultJvmOpts (template engine escapes it).
@@ -75,7 +75,7 @@ tasks.named<CreateStartScripts>("startScripts") {
 /**
  * Disables distTar. Not used and time-consuming.
  */
-tasks.named<Tar>("distTar") {
+tasks.distTar {
     enabled = false
 }
 

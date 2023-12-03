@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import java.util.Locale
+import java.util.*
 
 /**
  * Conventions for Java libraries relying on JNI implemented in Rust.
@@ -19,21 +19,21 @@ configurations.register("rust") {
     isCanBeResolved = true
 }
 
-tasks.named<ProcessResources>("processResources") {
+tasks.processResources {
     // Copy the native library into the final jar
     from(configurations.named("rust"))
 }
 
-tasks.named<Jar>("jar") {
+tasks.jar {
     /*
      * As jar includes a native library, it is suffixed with the native library operating system
      * identification. It is assumed that native library is not cross-compiled, hence using current
      * system information.
      */
-    archiveClassifier.set(currentOperatingSystemIdentifier())
+    archiveClassifier = currentOperatingSystemIdentifier()
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     // Some settings to ease native code debugging
     environment("RUST_BACKTRACE", "1")
     jvmArgs("-Xcheck:jni")

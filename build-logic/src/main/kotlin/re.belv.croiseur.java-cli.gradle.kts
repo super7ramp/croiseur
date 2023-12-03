@@ -45,13 +45,13 @@ graalvmNative {
             // All locales for which Croiseur has translations should be included
             buildArgs.add("-H:IncludeLocales=en,fr")
             buildArgs.add("-H:+AddAllCharsets")
-            verbose.set(true)
+            verbose = true
         }
         named("test") {
             buildArgs.add("-H:IncludeLocales=en,fr")
             buildArgs.add("-H:+AddAllCharsets")
-            quickBuild.set(true)
-            verbose.set(true)
+            quickBuild = true
+            verbose = true
         }
     }
 }

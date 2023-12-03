@@ -43,6 +43,6 @@ configurations.register("dictionary") {
     isCanBeResolved = false
 }
 
-configurations.named("default") {
+configurations.default {
     extendsFrom(configurations.getByName("dictionary"))
 }

@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Gradle Convention Plugins
 
-This folder gather custom Gradle conventions plugins used by the project.
+This folder gathers custom Gradle convention plugins used by the project.
 
 - [`base`][]: Defines the components group and the repositories. Extended by all other
   convention plugins.

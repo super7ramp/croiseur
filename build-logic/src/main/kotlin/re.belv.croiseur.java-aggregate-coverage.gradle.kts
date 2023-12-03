@@ -12,9 +12,9 @@ plugins {
     id("jacoco-report-aggregation")
 }
 
-configurations.named("jacocoAggregation") {
+configurations.jacocoAggregation {
     // Extend test configurations: Test modules may use test configurations instead of main
     // configuration to reference tested projects.
-    extendsFrom(configurations.getByName("testImplementation"))
-    extendsFrom(configurations.getByName("testRuntimeOnly"))
+    extendsFrom(configurations.testImplementation.get())
+    extendsFrom(configurations.testRuntimeOnly.get())
 }

@@ -10,16 +10,14 @@ plugins {
 }
 
 // TODO Find a way to make gradle-extra-module-info work and remove this block (#84).
-configurations {
-    testRuntimeClasspath {
-        attributes { attribute(Attribute.of("javaModule", Boolean::class.javaObjectType), false) }
-    }
+configurations.testRuntimeClasspath {
+    attributes { attribute(Attribute.of("javaModule", Boolean::class.javaObjectType), false) }
 }
 
 /**
  * The resolvable dictionary path, where the dictionaries come from.
  */
-val testDictionaryPath by configurations.creating {
+val testDictionaryPath: Configuration by configurations.creating {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
@@ -39,7 +37,7 @@ dependencies {
     testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     // Export/open JavaFx internals to TestFx: TestFx relies on them.
     /* TODO uncomment these lines when project is modularized again (#84)
     jvmArgs = listOf(

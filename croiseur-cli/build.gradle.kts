@@ -46,7 +46,7 @@ application {
  * This is used by picocli-codegen to generates the GraalVM configuration under
  * META-INF/native-image/picocli-generated.
  */
-tasks.named<JavaCompile>("compileJava") {
+tasks.compileJava {
     options.compilerArgs.add("-Aother.resource.bundles=" +
             "re.belv.croiseur.cli.l10n.Messages," +
             "re.belv.croiseur.clue.openai.plugin.Messages," +
@@ -59,13 +59,13 @@ tasks.named<JavaCompile>("compileJava") {
 }
 
 /** Configures tests paths. */
-tasks.named<Test>("test") {
+tasks.test {
     systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
     systemProperty("re.belv.croiseur.puzzle.path", testRepoPath())
 }
 
 /** Configures native tests paths. */
-tasks.named<org.graalvm.buildtools.gradle.tasks.NativeRunTask>("nativeTest") {
+tasks.nativeTest {
     runtimeArgs.add("-Dre.belv.croiseur.dictionary.path=${resolvedDicPath()}")
     runtimeArgs.add("-Dre.belv.croiseur.puzzle.path=${testRepoPath()}")
 }
