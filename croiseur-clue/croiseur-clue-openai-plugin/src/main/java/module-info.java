@@ -10,7 +10,7 @@ import re.belv.croiseur.spi.clue.ClueProvider;
  * A clue provider backed by OpenAI Web API.
  */
 module re.belv.croiseur.clue.openai.plugin {
-    requires com.theokanning.openai;
+    requires com.azure.ai.openai;
     requires transitive re.belv.croiseur.spi.clue;
     provides ClueProvider with OpenAiClueProvider;
 }

@@ -5,7 +5,6 @@
 cargo-plugin = "1.1.0"
 conveyor-plugin = "1.6"
 cucumber = "7.14.1"
-extra-java-module-info = "1.6.1"
 java = "21"
 javafx = "21"
 javafx-plugin = "0.1.0"
@@ -13,7 +12,7 @@ junit5 = "5.10.1"
 junit5-platform = "1.10.1"
 mockito = "5.8.0"
 native-plugin = "0.9.28"
-openai = "0.18.2"
+openai = "1.0.0-beta.5"
 picocli = "4.7.5"
 sat4j = "2.3.6"
 testfx = "4.0.17"
@@ -25,8 +24,6 @@ testfx-monocle = "jfx-21"
 cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
 cucumber-junit5-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
-# A Gradle plugin to modularize dependencies, applied in conventions
-extra-java-module-info = { module = "org.gradlex:extra-java-module-info", version.ref = "extra-java-module-info" }
 # Test libraries
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
@@ -38,7 +35,7 @@ mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
 native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "native-plugin" }
 # A client to OpenAI's API, for clues
-openai = { module = "com.theokanning.openai-gpt3-java:service", version.ref = "openai" }
+openai = { module = "com.azure:azure-ai-openai", version.ref = "openai" }
 # Picocli is a framework for building command-line applications; only used by cli module
 picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }

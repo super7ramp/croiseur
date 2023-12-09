@@ -4,12 +4,14 @@
  */
 package re.belv.croiseur.clue.openai.plugin;
 
-import com.theokanning.openai.completion.chat.ChatCompletionChoice;
-import com.theokanning.openai.completion.chat.ChatCompletionRequest;
-import com.theokanning.openai.completion.chat.ChatMessage;
-import com.theokanning.openai.service.OpenAiService;
+import com.azure.ai.openai.OpenAIClient;
+import com.azure.ai.openai.OpenAIClientBuilder;
+import com.azure.ai.openai.models.ChatChoice;
+import com.azure.ai.openai.models.ChatCompletionsOptions;
+import com.azure.ai.openai.models.ChatMessage;
+import com.azure.ai.openai.models.ChatRole;
+import com.azure.core.credential.KeyCredential;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +29,7 @@ final class ClueGenerator {
     private static final String OPENAI_API_KEY = "OPENAI_API_KEY";
 
     /** Access to the OpenAI API. */
-    private final OpenAiService openAiService;
+    private final OpenAIClient openAiService;
 
     /** The model configuration. */
     private final ModelConfiguration config;
@@ -46,7 +48,8 @@ final class ClueGenerator {
      */
     public ClueGenerator() {
         final String token = System.getenv(OPENAI_API_KEY);
-        openAiService = new OpenAiService(token, Duration.ofSeconds(30L));
+        openAiService =
+                new OpenAIClientBuilder().credential(new KeyCredential(token)).buildClient();
         config = new ModelConfiguration();
         final ResourceBundle rb =
                 ResourceBundle.getBundle("re.belv.croiseur.clue.openai.plugin.Prompt");
@@ -63,12 +66,12 @@ final class ClueGenerator {
      * @return the clues extracted from the completion
      */
     private static Map<String, String> extractClues(final List<String> words,
-                                                    final List<ChatCompletionChoice> completion) {
+                                                    final List<ChatChoice> completion) {
         if (completion.isEmpty()) {
             return Collections.emptyMap();
         }
 
-        final String[] payload = completion.get(0).getMessage().getContent().split("\\R");
+        final String[] payload = completion.getFirst().getMessage().getContent().split("\\R");
         if (payload.length != words.size()) {
             return Collections.emptyMap();
         }
@@ -94,20 +97,17 @@ final class ClueGenerator {
      */
     public Map<String, String> generate(final Set<String> words) {
         final List<String> orderedWords = new ArrayList<>(words);
-        final ChatCompletionRequest completionRequest = createRequest(orderedWords);
-        final List<ChatCompletionChoice> choices =
-                openAiService.createChatCompletion(completionRequest).getChoices();
+        final ChatCompletionsOptions completionRequest = createRequest(orderedWords);
+        final List<ChatChoice> choices =
+                openAiService.getChatCompletions(config.model(), completionRequest).getChoices();
         return extractClues(orderedWords, choices);
     }
 
-    private ChatCompletionRequest createRequest(final List<String> words) {
+    private ChatCompletionsOptions createRequest(final List<String> words) {
         final List<ChatMessage> prompt = createPrompt(words);
-        return ChatCompletionRequest.builder()
-                                    .messages(prompt)
-                                    .model(config.model())
-                                    .frequencyPenalty(config.frequencyPenalty())
-                                    .temperature(config.temperature())
-                                    .build();
+        return new ChatCompletionsOptions(prompt).setModel(config.model())
+                                                 .setFrequencyPenalty(config.frequencyPenalty())
+                                                 .setTemperature(config.temperature());
     }
 
     /**
@@ -138,14 +138,14 @@ final class ClueGenerator {
      * @return the prompt to define the given words
      */
     private List<ChatMessage> createPrompt(final List<String> words) {
-        final ChatMessage system = new ChatMessage("system", systemMessage);
-        final ChatMessage userHeader = new ChatMessage("user", userMessageHeader);
+        final ChatMessage system = new ChatMessage(ChatRole.SYSTEM, systemMessage);
+        final ChatMessage userHeader = new ChatMessage(ChatRole.USER, userMessageHeader);
         final StringBuilder userMessageBodyBuilder = new StringBuilder();
         for (final String word : words) {
             userMessageBodyBuilder.append(word).append(':').append(placeholder);
             userMessageBodyBuilder.append(System.lineSeparator());
         }
-        final ChatMessage userBody = new ChatMessage("user",
+        final ChatMessage userBody = new ChatMessage(ChatRole.USER,
                                                      userMessageBodyBuilder.toString());
         return List.of(system, userHeader, userBody);
     }
