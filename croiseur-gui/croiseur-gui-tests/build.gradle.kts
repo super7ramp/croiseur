@@ -9,11 +9,6 @@ plugins {
     alias(sbom.plugins.javafx)
 }
 
-// TODO Find a way to make gradle-extra-module-info work and remove this block (#84).
-configurations.testRuntimeClasspath {
-    attributes { attribute(Attribute.of("javaModule", Boolean::class.javaObjectType), false) }
-}
-
 /**
  * The resolvable dictionary path, where the dictionaries come from.
  */
