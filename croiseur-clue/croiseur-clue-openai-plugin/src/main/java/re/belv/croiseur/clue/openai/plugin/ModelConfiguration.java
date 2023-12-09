@@ -63,7 +63,7 @@ final class ModelConfiguration {
      * API Reference</a>
      */
     double frequencyPenalty() {
-        return floatProperty("frequency_penalty", 0.0);
+        return doubleProperty("frequency_penalty", 0.0);
     }
 
     /**
@@ -78,10 +78,10 @@ final class ModelConfiguration {
      * API Reference</a>
      */
     double temperature() {
-        return floatProperty("temperature", 1.0);
+        return doubleProperty("temperature", 1.0);
     }
 
-    private double floatProperty(final String key, final double defaultValue) {
+    private double doubleProperty(final String key, final double defaultValue) {
         final String stringValue = properties.getProperty(key);
         return stringValue != null ? Double.parseDouble(stringValue) : defaultValue;
     }
