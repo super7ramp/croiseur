@@ -6,11 +6,14 @@
 import java.nio.file.Files;
 
 plugins {
-    id("re.belv.croiseur.java-cli")
+    id("re.belv.croiseur.java-application")
+    id("re.belv.croiseur.java-aot")
     id("re.belv.croiseur.java-aggregate-coverage")
 }
 
 dependencies {
+    annotationProcessor(sbom.picocli.codegen)
+    implementation(sbom.picocli.framework)
     implementation(project(":croiseur"))
     runtimeOnly(project(":croiseur-clue:croiseur-clue-openai-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
@@ -47,6 +50,9 @@ application {
  * META-INF/native-image/picocli-generated.
  */
 tasks.compileJava {
+    val projectId = "${project.group}.${project.name}".replace('-', '.')
+    options.compilerArgs.add("-Aproject=${projectId}")
+    options.compilerArgs.add("-Averbose")
     options.compilerArgs.add("-Aother.resource.bundles=" +
             "re.belv.croiseur.cli.l10n.Messages," +
             "re.belv.croiseur.clue.openai.plugin.Messages," +
@@ -71,7 +77,7 @@ tasks.nativeTest {
 }
 
 fun resolvedDicPath(): String {
-    return configurations.named("dictionaryPath").get().asPath
+    return configurations.getByName("dictionaryPath").asPath
 }
 
 fun testRepoPath(): String {
