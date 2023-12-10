@@ -16,9 +16,9 @@ This folder gathers custom Gradle convention plugins used by the project.
   conventions.
 - [`java-aggregate-coverage-tests`][]: Conventions for modules producing or aggregating test
   coverage on other modules.
+- [`java-aot`][]: Conventions for Java Ahead-of-Time compilation. Adds a pre-configuration for building
+  native images with GraalVM. Extends the `java` conventions.
 - [`java-application`][]: Conventions for Java applications. Extends the `java` convention plugin.
-- [`java-cli`][]: Conventions for Java CLI applications. Adds a dependency on the picocli framework
-  ond a pre-configuration for native images. Extends the `java-application` conventions.
 - [`java-library`][]: General conventions for Java libraries: Adds a publishing configuration.
   Extends the `java` conventions.
 - [`jni-rust`][]: Defines an incoming configuration for defining dependencies on native
@@ -36,9 +36,9 @@ This folder gathers custom Gradle convention plugins used by the project.
 
 [`java-aggregate-coverage-tests`]: src/main/kotlin/re.belv.croiseur.java-aggregate-coverage.gradle.kts
 
-[`java-application`]: src/main/kotlin/re.belv.croiseur.java-application.gradle.kts
+[`java-aot`]: src/main/kotlin/re.belv.croiseur.java-aot.gradle.kts
 
-[`java-cli`]: src/main/kotlin/re.belv.croiseur.java-cli.gradle.kts
+[`java-application`]: src/main/kotlin/re.belv.croiseur.java-application.gradle.kts
 
 [`java`]: src/main/kotlin/re.belv.croiseur.java.gradle.kts
 
