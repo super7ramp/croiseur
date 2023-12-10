@@ -15,6 +15,7 @@ native-plugin = "0.9.28"
 openai = "1.0.0-beta.5"
 picocli = "4.7.5"
 sat4j = "2.3.6"
+slf4j-nop = "2.0.9"
 testfx = "4.0.17"
 testfx-hamcrest = "2.2"
 testfx-monocle = "jfx-21"
@@ -42,6 +43,8 @@ picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 # Sat4j is a SAT solver
 sat4j-core = { module = "org.ow2.sat4j:org.ow2.sat4j.core", version.ref = "sat4j" }
 sat4j-pb = { module = "org.ow2.sat4j:org.ow2.sat4j.pb", version.ref = "sat4j" }
+# A dummy implementation of sl4j-api (pulled transitively), to quiet sl4j-api warning messages
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j-nop" } 
 # Testing framework for JavaFx application
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }

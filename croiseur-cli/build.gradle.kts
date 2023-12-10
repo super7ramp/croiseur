@@ -25,6 +25,9 @@ dependencies {
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-sat-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
+    runtimeOnly(sbom.slf4j.nop) {
+        because("sl4j-api, pulled by a dependency of croiseur-clue-openai-plugin, prints annoying messages otherwise")
+    }
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
     // Don't pull hunspell dictionaries, since they are slower to read and are basically the same
