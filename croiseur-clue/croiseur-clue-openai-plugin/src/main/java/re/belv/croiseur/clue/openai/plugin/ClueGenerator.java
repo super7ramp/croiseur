@@ -8,8 +8,9 @@ import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.ai.openai.models.ChatChoice;
 import com.azure.ai.openai.models.ChatCompletionsOptions;
-import com.azure.ai.openai.models.ChatMessage;
-import com.azure.ai.openai.models.ChatRole;
+import com.azure.ai.openai.models.ChatRequestMessage;
+import com.azure.ai.openai.models.ChatRequestSystemMessage;
+import com.azure.ai.openai.models.ChatRequestUserMessage;
 import com.azure.core.credential.KeyCredential;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ final class ClueGenerator {
     }
 
     private ChatCompletionsOptions createRequest(final List<String> words) {
-        final List<ChatMessage> prompt = createPrompt(words);
+        final List<ChatRequestMessage> prompt = createPrompt(words);
         return new ChatCompletionsOptions(prompt).setModel(config.model())
                                                  .setFrequencyPenalty(config.frequencyPenalty())
                                                  .setTemperature(config.temperature());
@@ -137,16 +138,15 @@ final class ClueGenerator {
      * @param words the words to define
      * @return the prompt to define the given words
      */
-    private List<ChatMessage> createPrompt(final List<String> words) {
-        final ChatMessage system = new ChatMessage(ChatRole.SYSTEM, systemMessage);
-        final ChatMessage userHeader = new ChatMessage(ChatRole.USER, userMessageHeader);
+    private List<ChatRequestMessage> createPrompt(final List<String> words) {
+        final var system = new ChatRequestSystemMessage(systemMessage);
+        final var userHeader = new ChatRequestUserMessage(userMessageHeader);
         final StringBuilder userMessageBodyBuilder = new StringBuilder();
         for (final String word : words) {
             userMessageBodyBuilder.append(word).append(':').append(placeholder);
             userMessageBodyBuilder.append(System.lineSeparator());
         }
-        final ChatMessage userBody = new ChatMessage(ChatRole.USER,
-                                                     userMessageBodyBuilder.toString());
+        final var userBody = new ChatRequestUserMessage(userMessageBodyBuilder.toString());
         return List.of(system, userHeader, userBody);
     }
 }
