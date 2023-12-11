@@ -17,17 +17,14 @@ plugins {
 
 graalvmNative {
     binaries {
-        named("main") {
+        all {
             // All locales for which Croiseur has translations should be included
             buildArgs.add("-H:IncludeLocales=en,fr")
             buildArgs.add("-H:+AddAllCharsets")
             verbose = true
         }
         named("test") {
-            buildArgs.add("-H:IncludeLocales=en,fr")
-            buildArgs.add("-H:+AddAllCharsets")
             quickBuild = true
-            verbose = true
         }
     }
     metadataRepository {
