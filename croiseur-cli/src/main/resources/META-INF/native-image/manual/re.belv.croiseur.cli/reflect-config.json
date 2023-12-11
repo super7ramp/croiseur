@@ -1,240 +1,69 @@
 [
     {
-        "name": "com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
-        "methods": [
-            {
-                "name": "<init>",
-                "parameterTypes": [
-
-                ]
-            }
-        ]
+        "name": "[Lcom.azure.ai.openai.models.ChatMessageContentItem;"
     },
     {
-        "name": "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
-        "methods": [
-            {
-                "name": "<init>",
-                "parameterTypes": [
-
-                ]
-            }
-        ]
+        "name": "com.azure.ai.openai.OpenAIClient"
     },
     {
-        "name": "com.theokanning.openai.Usage",
-        "queryAllDeclaredMethods": true,
-        "allDeclaredFields": true,
-        "queryAllDeclaredConstructors": true,
-        "methods": [
-            {
-                "name": "<init>",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "setCompletionTokens",
-                "parameterTypes": [
-                    "long"
-                ]
-            },
-            {
-                "name": "setPromptTokens",
-                "parameterTypes": [
-                    "long"
-                ]
-            },
-            {
-                "name": "setTotalTokens",
-                "parameterTypes": [
-                    "long"
-                ]
-            }
-        ]
+        "name": "com.azure.ai.openai.OpenAIClientBuilder"
     },
     {
-        "name": "com.theokanning.openai.completion.chat.ChatCompletionChoice",
-        "queryAllDeclaredMethods": true,
-        "allDeclaredFields": true,
-        "queryAllDeclaredConstructors": true,
-        "methods": [
-            {
-                "name": "<init>",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "setFinishReason",
-                "parameterTypes": [
-                    "java.lang.String"
-                ]
-            },
-            {
-                "name": "setIndex",
-                "parameterTypes": [
-                    "java.lang.Integer"
-                ]
-            },
-            {
-                "name": "setMessage",
-                "parameterTypes": [
-                    "com.theokanning.openai.completion.chat.ChatMessage"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "com.theokanning.openai.completion.chat.ChatCompletionRequest",
-        "queryAllDeclaredMethods": true,
-        "allDeclaredFields": true,
-        "queryAllDeclaredConstructors": true,
-        "methods": [
-            {
-                "name": "getFrequencyPenalty",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getFunctionCall",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getFunctions",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getLogitBias",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getMaxTokens",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getMessages",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getModel",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getN",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getPresencePenalty",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getStop",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getStream",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getTemperature",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getTopP",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getUser",
-                "parameterTypes": [
-
-                ]
-            }
-        ]
-    },
-    {
-        "name": "com.theokanning.openai.completion.chat.ChatCompletionResult",
-        "queryAllDeclaredMethods": true,
-        "allDeclaredFields": true,
-        "queryAllDeclaredConstructors": true,
-        "methods": [
-            {
-                "name": "<init>",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "setChoices",
-                "parameterTypes": [
-                    "java.util.List"
-                ]
-            },
-            {
-                "name": "setCreated",
-                "parameterTypes": [
-                    "long"
-                ]
-            },
-            {
-                "name": "setId",
-                "parameterTypes": [
-                    "java.lang.String"
-                ]
-            },
-            {
-                "name": "setModel",
-                "parameterTypes": [
-                    "java.lang.String"
-                ]
-            },
-            {
-                "name": "setObject",
-                "parameterTypes": [
-                    "java.lang.String"
-                ]
-            },
-            {
-                "name": "setUsage",
-                "parameterTypes": [
-                    "com.theokanning.openai.Usage"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "com.theokanning.openai.completion.chat.ChatFunctionCall",
+        "name": "com.azure.ai.openai.models.AzureChatEnhancementConfiguration",
         "queryAllDeclaredMethods": true,
         "allDeclaredFields": true,
         "queryAllDeclaredConstructors": true
     },
     {
-        "name": "com.theokanning.openai.completion.chat.ChatMessage",
+        "name": "com.azure.ai.openai.models.AzureChatEnhancements",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureChatExtensionsMessageContext",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureChatGroundingEnhancementConfiguration",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureChatOCREnhancementConfiguration",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureGroundingEnhancement",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureGroundingEnhancementCoordinatePoint",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureGroundingEnhancementLine",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.AzureGroundingEnhancementLineSpan",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatChoice",
         "queryAllDeclaredMethods": true,
         "allDeclaredFields": true,
         "queryAllDeclaredConstructors": true,
@@ -242,77 +71,192 @@
             {
                 "name": "<init>",
                 "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getContent",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getFunctionCall",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getName",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "getRole",
-                "parameterTypes": [
-
-                ]
-            },
-            {
-                "name": "setContent",
-                "parameterTypes": [
-                    "java.lang.String"
-                ]
-            },
-            {
-                "name": "setRole",
-                "parameterTypes": [
-                    "java.lang.String"
+                    "int",
+                    "com.azure.ai.openai.models.CompletionsFinishReason"
                 ]
             }
         ]
     },
     {
-        "name": "com.theokanning.openai.service.ChatCompletionRequestMixIn",
+        "name": "com.azure.ai.openai.models.ChatCompletions",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    "java.lang.String",
+                    "long",
+                    "java.util.List",
+                    "java.lang.String",
+                    "com.azure.ai.openai.models.CompletionsUsage"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatCompletionsFunctionToolCall",
         "queryAllDeclaredMethods": true,
         "allDeclaredFields": true,
         "queryAllDeclaredConstructors": true
     },
     {
-        "name": "com.theokanning.openai.service.ChatCompletionRequestSerializerAndDeserializer$Serializer",
+        "name": "com.azure.ai.openai.models.ChatCompletionsOptions",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatCompletionsToolCall",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatFinishDetails",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatRequestMessage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatRequestSystemMessage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatRequestUserMessage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ChatResponseMessage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
         "methods": [
             {
                 "name": "<init>",
                 "parameterTypes": [
-
+                    "com.azure.ai.openai.models.ChatRole",
+                    "java.lang.String"
                 ]
             }
         ]
     },
     {
-        "name": "com.theokanning.openai.service.ChatFunctionCallArgumentsSerializerAndDeserializer$Deserializer",
+        "name": "com.azure.ai.openai.models.ChatRole",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
         "methods": [
             {
                 "name": "<init>",
                 "parameterTypes": [
-
+                    
+                ]
+            },
+            {
+                "name": "fromString",
+                "parameterTypes": [
+                    "java.lang.String"
                 ]
             }
         ]
     },
     {
-        "name": "com.theokanning.openai.service.ChatFunctionCallMixIn",
+        "name": "com.azure.ai.openai.models.CompletionsFinishReason",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            },
+            {
+                "name": "fromString",
+                "parameterTypes": [
+                    "java.lang.String"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.azure.ai.openai.models.CompletionsUsage",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true,
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    "int",
+                    "int",
+                    "int"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterBlocklistIdResult",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterCitedDetectionResult",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterDetectionResult",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterResult",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterResultDetailsForPrompt",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterResultsForChoice",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterResultsForPrompt",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.ContentFilterSeverity",
+        "queryAllDeclaredMethods": true,
+        "allDeclaredFields": true,
+        "queryAllDeclaredConstructors": true
+    },
+    {
+        "name": "com.azure.ai.openai.models.FunctionCall",
         "queryAllDeclaredMethods": true,
         "allDeclaredFields": true,
         "queryAllDeclaredConstructors": true
