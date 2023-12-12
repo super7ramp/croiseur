@@ -54,7 +54,7 @@ In addition to these components, the following external components are used:
 | `java`                    | The Java platform                                  |
 | `javafx`                  | Framework for creating graphical user interface    |
 | `info.picocli`            | Framework for creating command-line user interface |
-| `com.theokanning.openai`  | OpenAI Web API Client                              |
+| `com.azure.ai.openai`     | OpenAI Web API Client                              |
 | `org.ow2.sat4j.{core,pb}` | Boolean reasoning library                          | 
 
 ### Dependencies

@@ -7,51 +7,44 @@ digraph "clues" {
   node [shape=component];
 
   // External dependencies need to be distinguished from the rest
-  "java.base" [style=filled fillcolor=lightgray]
-  "com.theokanning.openai" [style=filled fillcolor=lightgray]
-  "com.squareup.retrofit2.adapter.rxjava2" [style=filled fillcolor=lightgray]
-  "io.github.classgraph" [style=filled fillcolor=lightgray]
-  "io.reactivex" [style=filled fillcolor=lightgray]
-  "com.fasterxml.jackson.annotations" [style=filled fillcolor=lightgray]
-  "com.fasterxml.jackson.core" [style=filled fillcolor=lightgray]
-  "com.fasterxml.jackson.databind" [style=filled fillcolor=lightgray]
-  "com.kjetland.jackson.jsonschema" [style=filled fillcolor=lightgray]
-  "com.knuddels.jtokkit" [style=filled fillcolor=lightgray]
-  "com.squareup.okhttp3" [style=filled fillcolor=lightgray]
-  "com.squareup.okio" [style=filled fillcolor=lightgray]
-  "com.squareup.retrofit2" [style=filled fillcolor=lightgray]
-  "com.squareup.retrofit2.converter.jackson" [style=filled fillcolor=lightgray]
+  "com.azure.ai.openai" [style=filled fillcolor=lightgray]
+  "com.azure.http.netty" [style=filled fillcolor=lightgray]
+  "com.azure.core" [style=filled fillcolor=lightgray]
+  "com.azure.json" [style=filled fillcolor=lightgray]
+  "io.netty.*" [style=filled fillcolor=lightgray]
   "org.reactivestreams" [style=filled fillcolor=lightgray]
-  "org.scala" [style=filled fillcolor=lightgray]
   "org.slf4j" [style=filled fillcolor=lightgray]
-  "javax.validation" [style=filled fillcolor=lightgray]
+  "reactor.core" [style=filled fillcolor=lightgray]
+  "com.fasterxml.jackson.datatype.jsr310" [style=filled fillcolor=lightgray]
+  "com.fasterxml.jackson.databind" [style=filled fillcolor=lightgray]
+  "com.fasterxml.jackson.annotation" [style=filled fillcolor=lightgray]
+  "com.fasterxml.jackson.core" [style=filled fillcolor=lightgray]
+  "java.base" [style=filled fillcolor=lightgray]
+  "java.xml" [style=filled fillcolor=lightgray]
 
-  "croiseur.clue.openai.plugin" -> "com.theokanning.openai"
-  "com.squareup.retrofit2" -> "com.squareup.okhttp3"
-  "com.squareup.okhttp3" -> "com.squareup.okio"
-  "com.squareup.okio" -> "java.base"
-  "com.theokanning.openai" -> "com.squareup.retrofit2.converter.jackson"
-  "com.squareup.retrofit2.converter.jackson" -> "com.fasterxml.jackson.databind"
-  "com.fasterxml.jackson.databind" -> "com.fasterxml.jackson.annotations"
-  "com.fasterxml.jackson.annotations" -> "com.fasterxml.jackson.core"
-  "com.fasterxml.jackson.core" -> "java.base"
-  "com.theokanning.openai" -> "com.kjetland.jackson.jsonschema"
-  "com.kjetland.jackson.jsonschema" -> "io.github.classgraph"
-  "io.github.classgraph" -> "java.base"
-  "org.slf4j" -> "java.base"
-  "javax.validation" -> "java.base"
-  "com.kjetland.jackson.jsonschema" -> "org.slf4j"
-  "com.kjetland.jackson.jsonschema" -> "javax.validation"
-  "com.kjetland.jackson.jsonschema" -> "com.fasterxml.jackson.databind"
-  "com.kjetland.jackson.jsonschema" -> "org.scala"
-  "com.theokanning.openai" -> "com.knuddels.jtokkit"
-  "com.knuddels.jtokkit" -> "java.base"
-  "com.theokanning.openai" -> "com.squareup.retrofit2.adapter.rxjava2"
-  "com.squareup.retrofit2.adapter.rxjava2" -> "com.squareup.retrofit2"
-  "com.squareup.retrofit2.adapter.rxjava2" -> "io.reactivex"
-  "io.reactivex" -> "org.reactivestreams"
-  "org.reactivestreams" -> "java.base"
   "croiseur.clue.openai.plugin" -> "croiseur.spi.clue" [label="provides"]
   "croiseur.spi.clue" -> "java.base"
+
+  "org.slf4j"                                        -> "java.base";
+  "com.azure.json"                                   -> "java.base";
+  "com.fasterxml.jackson.databind"                   -> "com.fasterxml.jackson.annotation";
+  "com.fasterxml.jackson.databind"                   -> "com.fasterxml.jackson.core";
+  "com.fasterxml.jackson.databind"                   -> "java.xml";
+  "java.xml"                                         -> "java.base"
+  "org.reactivestreams"                              -> "java.base";
+  "reactor.core"                                     -> "org.reactivestreams";
+  "reactor.core"                                     -> "org.slf4j";
+  "croiseur.clue.openai.plugin"                      -> "com.azure.ai.openai";
+  "com.fasterxml.jackson.annotation"                 -> "java.base";
+  "com.azure.core"                                   -> "com.azure.json";
+  "com.azure.core"                                   -> "com.fasterxml.jackson.datatype.jsr310";
+  "com.azure.core"                                   -> "reactor.core";
+  "com.fasterxml.jackson.core"                       -> "java.base";
+  "com.fasterxml.jackson.datatype.jsr310"            -> "com.fasterxml.jackson.databind";
+  "com.azure.ai.openai"                              -> "com.azure.core";
+
+  // runtime dependencies, let's mention them
+  "com.azure.http.netty" -> "com.azure.core"
+  "com.azure.http.netty" -> "io.netty.*"
 }
 @enddot
