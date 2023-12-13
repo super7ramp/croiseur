@@ -9,14 +9,6 @@ plugins {
     alias(sbom.plugins.javafx)
 }
 
-/**
- * The resolvable dictionary path, where the dictionaries come from.
- */
-val testDictionaryPath: Configuration by configurations.creating {
-    isCanBeConsumed = false
-    isCanBeResolved = true
-}
-
 javafx {
     version = sbom.versions.javafx.asProvider().get()
     modules = listOf("javafx.controls", "javafx.fxml")
@@ -28,8 +20,6 @@ dependencies {
     testImplementation(sbom.testfx.hamcrest)
     testImplementation(sbom.testfx.junit)
     testRuntimeOnly(sbom.testfx.monocle)
-    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
-    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
 tasks.test {
@@ -55,7 +45,7 @@ tasks.test {
 }
 
 fun resolvedDicPath(): String {
-    return configurations.named("testDictionaryPath").get().asPath
+    return project(":croiseur-gui:croiseur-gui").configurations.getByName("dictionaryPath").asPath
 }
 
 fun testRepoPath(): String {
