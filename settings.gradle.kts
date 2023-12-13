@@ -65,7 +65,8 @@ include("croiseur-puzzle:croiseur-puzzle-repository-filesystem-plugin")
 include("croiseur-puzzle:croiseur-puzzle-repository-memory-plugin")
 
 // CLI frontend
-include("croiseur-cli")
+include("croiseur-cli:croiseur-cli")
+include("croiseur-cli:croiseur-cli-tests")
 
 // GUI frontend
 include("croiseur-gui:croiseur-gui")

@@ -9,7 +9,8 @@ plugins {
 
 dependencies {
     // Aggregates relevant leaf projects: Together, they pull all the code to be covered.
-    jacocoAggregation(project(":croiseur-cli"))
+    jacocoAggregation(project(":croiseur-cli:croiseur-cli"))
+    jacocoAggregation(project(":croiseur-cli:croiseur-cli-tests"))
     jacocoAggregation(project(":croiseur-gui:croiseur-gui"))
     jacocoAggregation(project(":croiseur-gui:croiseur-gui-tests"))
     jacocoAggregation(project(":croiseur-tests"))

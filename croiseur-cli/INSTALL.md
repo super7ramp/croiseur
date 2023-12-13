@@ -44,7 +44,7 @@ This will generate a portable distribution of `croiseur-cli` inside `build/insta
 You can then run the executable like this:
 
 ```shell
-./build/install/croiseur-cli/bin/croiseur-cli help
+./croiseur-cli/build/install/croiseur-cli/bin/croiseur-cli help
 ```
 
 Alternatively, you may run the executable directly via Gradle without installation with:
@@ -78,7 +78,7 @@ gradle nativeCompile
 You may then run the executable like this:
 
 ```shell
-./build/native/nativeCompile/croiseur-cli help
+./croiseur-cli/build/native/nativeCompile/croiseur-cli help
 ```
 
 Note that at the moment, on the contrary of [the standard build](#standard-build), no launcher
@@ -87,7 +87,7 @@ dictionaries nor the saved puzzles out-of-the-box. You need to indicate the path
 (e.g. taken from a standard build distribution) using system properties, like the following:
 
 ```shell
-./build/native/nativeCompile/croiseur-cli \
+./croiseur-cli/build/native/nativeCompile/croiseur-cli \
   -Dre.belv.croiseur.dictionary.path=<YOUR_DICTIONARY_PATH> \
   -Dre.belv.croiseur.puzzle.path=<YOUR_PUZZLE_PATH> \
   dictionary ls
