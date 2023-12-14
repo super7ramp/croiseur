@@ -1,0 +1,8 @@
+{
+  "bundles": [
+    {
+      "name": "re.belv.croiseur.solver.sat.plugin.Messages"
+    }
+  ],
+  "resources": []
+}

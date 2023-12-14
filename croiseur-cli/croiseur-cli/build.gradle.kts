@@ -54,13 +54,6 @@ tasks.compileJava {
     val projectId = "${project.group}.${project.name}".replace('-', '.')
     options.compilerArgs.add("-Aproject=${projectId}")
     options.compilerArgs.add("-Averbose")
-    options.compilerArgs.add("-Aother.resource.bundles=" +
-            "re.belv.croiseur.cli.l10n.Messages," +
-            "re.belv.croiseur.clue.openai.plugin.Messages," +
-            "re.belv.croiseur.clue.openai.plugin.Prompt," +
-            "re.belv.croiseur.solver.ginsberg.plugin.Messages," +
-            "re.belv.croiseur.solver.sat.plugin.Messages," +
-            "re.belv.croiseur.solver.szunami.plugin.Messages," +
-            "re.belv.croiseur.solver.paulgb.plugin.Messages")
-    options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties,.*.(dll|dylib|so)")
+    options.compilerArgs.add("-Aother.resource.bundles=re.belv.croiseur.cli.l10n.Messages")
+    options.compilerArgs.add("-Aother.resource.patterns=.*logging.properties")
 }

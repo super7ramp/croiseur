@@ -20,23 +20,6 @@
         "allPublicMethods": true
     },
     {
-        "name": "re.belv.croiseur.solver.szunami.Crossword",
-        "allPublicMethods": true,
-        "allPublicConstructors": true
-    },
-    {
-        "name": "re.belv.croiseur.solver.szunami.Dictionary",
-        "allPublicMethods": true
-    },
-    {
-        "name": "re.belv.croiseur.solver.szunami.Result",
-        "allPublicMethods": true
-    },
-    {
-        "name": "re.belv.croiseur.solver.szunami.NativePanicException",
-        "allPublicConstructors": true
-    },
-    {
         "name": "java.lang.Thread",
         "methods": [
             {

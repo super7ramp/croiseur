@@ -1,0 +1,11 @@
+{
+  "bundles": [
+    {
+      "name": "re.belv.croiseur.clue.openai.plugin.Messages"
+    },
+    {
+      "name": "re.belv.croiseur.clue.openai.plugin.Prompt"
+    }
+  ],
+  "resources": []
+}
