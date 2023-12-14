@@ -90,8 +90,8 @@ final class CroiseurCliDictionaryTest extends FluentTestHelper {
                          Provider        \tDescription                                          \s
                          --------        \t-----------                                          \s
                          Local Hunspell Provider\tProvides access to local dictionaries in the Hunspell format.
-                         Local XML Provider\tProvides access to local dictionaries in an XML format.
                          Local Text Provider\tProvides access to local dictionaries in a simple text format.
+                         Local XML Provider\tProvides access to local dictionaries in an XML format.
                          """).and()
                  .and().doesNotWriteToStdErr()
                  .and().exitsWithCode(SUCCESS);

@@ -13,6 +13,8 @@ import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
+
 /**
  * Lists the dictionary providers.
  */
@@ -46,6 +48,8 @@ final class ListDictionaryProvidersUsecase {
             final List<DictionaryProviderDetails> presentableProviders =
                     dictionaryProviders.stream()
                                        .map(DictionaryProvider::details)
+                                       // Sort for reproducibility
+                                       .sorted(comparing(DictionaryProviderDetails::name))
                                        .toList();
             presenter.presentDictionaryProviders(presentableProviders);
         }
