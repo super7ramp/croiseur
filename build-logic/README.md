@@ -12,8 +12,6 @@ This folder gathers custom Gradle convention plugins used by the project.
 - [`dictionary-data`][]: Defines an outgoing configuration so that dictionaries can be consumed
   elsewhere.
 - [`java`][]: General conventions for Java components: Encoding, test and coverage.
-- [`java-acceptance-tests`][]: Adds a dependency on Cucumber for BDD-style tests. Extends the `java`
-  conventions.
 - [`java-aggregate-coverage-tests`][]: Conventions for modules producing or aggregating test
   coverage on other modules.
 - [`java-aot`][]: Conventions for Java Ahead-of-Time compilation. Adds a pre-configuration for building
@@ -31,8 +29,6 @@ This folder gathers custom Gradle convention plugins used by the project.
 [`base`]: src/main/kotlin/re.belv.croiseur.base.gradle.kts
 
 [`dictionary-data`]: src/main/kotlin/re.belv.croiseur.dictionary-data.gradle.kts
-
-[`java-acceptance-tests`]: src/main/kotlin/re.belv.croiseur.java-acceptance-tests.gradle.kts
 
 [`java-aggregate-coverage-tests`]: src/main/kotlin/re.belv.croiseur.java-aggregate-coverage.gradle.kts
 
