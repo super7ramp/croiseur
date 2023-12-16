@@ -170,16 +170,16 @@ public final class SolverSteps {
 
     @Then("the application presents the solver error {string}")
     public void thenSolverError(final String error) {
-        verify(presenterMock).presentSolverError(error);
+        verify(presenterMock).presentSolverError(anyString(), eq(error));
     }
 
     @Then("the application presents the following successful solver result:")
     public void thenPresentSolverResultSuccess(final PuzzleGrid solution) {
-        verify(presenterMock).presentSolverResult(anyString(), eq(success(solution.filled())));
+        verify(presenterMock).presentSolverResult(anyString(), success(solution.filled()));
     }
 
     @Then("the application presents the grid as impossible to solve")
     public void thenPresentSolverResultImpossible() {
-        verify(presenterMock).presentSolverResult(anyString(), eq(impossible()));
+        verify(presenterMock).presentSolverResult(anyString(), impossible());
     }
 }
