@@ -19,15 +19,10 @@ a new release of the project.
 #### 2. Update version
 
 - Update version in [`gradle.properties`](../../gradle.properties).
-- Update version
-  in [Croiseur GUI translations](../../croiseur-gui/croiseur-gui/src/main/resources/re/belv/croiseur/gui/WelcomeScreen.properties)
-  (check all languages, not only English).
 - Update SPI versions advertised in the documentation:
     - [How To: Plug a Dictionary Provider](../how-to/Plug-a-dictionary-provider.md)
     - [How To: Plug a Solver](../how-to/Plug-a-solver.md)
     - [How To: Plug a Presenter](../how-to/Plug-a-presenter.md)
-
-> Yes, this is bad. Version should be at only one place. To be improved.
 
 #### 3. Update changelog
 

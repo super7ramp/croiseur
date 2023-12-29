@@ -57,3 +57,10 @@ application {
         //"-Dsun.awt.disablegrab=true"  // allow breakpoints on JavaFx application thread
     )
 }
+
+// Allow ${version} to be expanded in resource bundles
+tasks.processResources {
+    filesMatching("**/*.properties") {
+        expand(project.properties)
+    }
+}
