@@ -14,15 +14,15 @@ plugins {
 }
 
 // Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
-val sbom = the<org.gradle.accessors.dm.LibrariesForSbom>()
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 dependencies {
-    testImplementation(sbom.junit5.api)
-    testRuntimeOnly(sbom.junit5.engine)
+    testImplementation(libs.junit5.api)
+    testRuntimeOnly(libs.junit5.engine)
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(sbom.versions.java.get()))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 

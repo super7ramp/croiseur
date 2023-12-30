@@ -10,11 +10,6 @@ pluginManagement {
     includeBuild("build-logic")
 }
 
-// The project's dependency management custom settings
-dependencyResolutionManagement {
-    defaultLibrariesExtensionName = "sbom"
-}
-
 // The application core library
 include("croiseur")
 

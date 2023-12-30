@@ -5,12 +5,12 @@
 
 plugins {
     id("re.belv.croiseur.java-application")
-    alias(sbom.plugins.javafx)
-    alias(sbom.plugins.conveyor)
+    alias(libs.plugins.javafx)
+    alias(libs.plugins.conveyor)
 }
 
 javafx {
-    version = sbom.versions.javafx.asProvider().get()
+    version = libs.versions.javafx.asProvider().get()
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 

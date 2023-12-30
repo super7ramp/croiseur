@@ -10,8 +10,8 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor(sbom.picocli.codegen)
-    implementation(sbom.picocli.framework)
+    annotationProcessor(libs.picocli.codegen)
+    implementation(libs.picocli.framework)
     implementation(project(":croiseur"))
     runtimeOnly(project(":croiseur-clue:croiseur-clue-openai-plugin"))
     runtimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
@@ -23,7 +23,7 @@ dependencies {
     runtimeOnly(project(":croiseur-solver:croiseur-solver-paulgb-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-sat-plugin"))
     runtimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
-    runtimeOnly(sbom.slf4j.nop) {
+    runtimeOnly(libs.slf4j.nop) {
         because("sl4j-api, pulled by a dependency of croiseur-clue-openai-plugin, prints annoying messages otherwise")
     }
     dictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))

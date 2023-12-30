@@ -8,7 +8,7 @@ rootProject.name = "build-logic"
 // Dependency versions
 dependencyResolutionManagement {
     versionCatalogs {
-        create("sbom") {
+        create("libs") {
             from(files("../gradle/libs.versions.toml"))
         }
     }

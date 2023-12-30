@@ -4,7 +4,7 @@
  */
 
 plugins {
-    alias(sbom.plugins.cargo)
+    alias(libs.plugins.cargo)
 }
 
 cargo {

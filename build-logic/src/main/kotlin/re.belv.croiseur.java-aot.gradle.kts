@@ -14,7 +14,6 @@ plugins {
     id("org.graalvm.buildtools.native")
 }
 
-
 graalvmNative {
     binaries {
         all {

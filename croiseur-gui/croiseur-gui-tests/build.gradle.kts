@@ -6,20 +6,20 @@ import java.nio.file.Files
 
 plugins {
     id("re.belv.croiseur.java-aggregate-coverage")
-    alias(sbom.plugins.javafx)
+    alias(libs.plugins.javafx)
 }
 
 javafx {
-    version = sbom.versions.javafx.asProvider().get()
+    version = libs.versions.javafx.asProvider().get()
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
 dependencies {
     testImplementation(project(":croiseur-gui:croiseur-gui"))
-    testImplementation(sbom.testfx.core)
-    testImplementation(sbom.testfx.hamcrest)
-    testImplementation(sbom.testfx.junit)
-    testRuntimeOnly(sbom.testfx.monocle)
+    testImplementation(libs.testfx.core)
+    testImplementation(libs.testfx.hamcrest)
+    testImplementation(libs.testfx.junit)
+    testRuntimeOnly(libs.testfx.monocle)
 }
 
 tasks.test {

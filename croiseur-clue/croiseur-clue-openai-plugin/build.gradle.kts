@@ -9,5 +9,5 @@ plugins {
 
 dependencies {
     api(project(":croiseur-spi:croiseur-spi-clue"))
-    implementation(sbom.openai)
+    implementation(libs.openai)
 }
