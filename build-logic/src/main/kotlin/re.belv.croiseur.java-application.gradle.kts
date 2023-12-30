@@ -23,15 +23,6 @@ configurations.register("dictionaryPath") {
 }
 
 /**
- * The installation dictionary directory, relative to destination directory, basically
- * $(datadir)/dictionaries
- */
-val dictionaryDir = project.property("datadir") as String + File.separator + "dictionaries"
-
-/** Same thing for puzzle directory. */
-var puzzleDir = project.property("datadir") as String + File.separator + "puzzles"
-
-/**
  * Configures application parameters.
  *
  * Note that more parameters could be set here ('executableDir', 'applicationDefaultJvmArgs') but
@@ -41,7 +32,7 @@ var puzzleDir = project.property("datadir") as String + File.separator + "puzzle
 application {
     mainClass.set("${project.group}.${project.name}.Main".replace('-', '.'))
     mainModule.set("${project.group}.${project.name}".replace('-', '.'))
-    applicationDistribution.from(configurations.named("dictionaryPath")).into(dictionaryDir)
+    applicationDistribution.from(configurations.named("dictionaryPath")).into(dictionaryDistDir())
 }
 
 /**
@@ -53,15 +44,15 @@ application {
  * 'share/crosswords/dictionaries' and copy the installation tree to '/usr'.
  */
 tasks.startScripts {
-    executableDir = project.property("bindir") as String
+    executableDir = binaryDistDir()
 
     // $APP_HOME cannot be referenced directly in defaultJvmOpts (template engine escapes it).
     // See https://discuss.gradle.org/t/hack-to-pass-app-home-as-system-property-in-start-scripts-no-longer-working/42870/4.
     val appHome = "APP_HOME_PLACEHOLDER"
     val sep = File.separator
     val byConventionArgs = listOf(
-        "-Dre.belv.croiseur.dictionary.path=${appHome}${sep}${dictionaryDir}${sep}",
-        "-Dre.belv.croiseur.puzzle.path=${appHome}${sep}${puzzleDir}${sep}"
+        "-Dre.belv.croiseur.dictionary.path=${appHome}${sep}${dictionaryDistDir()}${sep}",
+        "-Dre.belv.croiseur.puzzle.path=${appHome}${sep}${puzzleDistDir()}${sep}"
     )
     val appSpecificArgs = application.applicationDefaultJvmArgs
     defaultJvmOpts = appSpecificArgs + byConventionArgs
@@ -72,22 +63,38 @@ tasks.startScripts {
     }
 }
 
-/**
- * Disables distTar. Not used and time-consuming.
- */
+/** Disables distTar. Not used and time-consuming. */
 tasks.distTar {
     enabled = false
 }
 
-/**
- * Configures parameters to be used when launch the application via './gradlew run'.
- */
-afterEvaluate {
-    tasks.named<JavaExec>("run") {
-        val dictionaryPath = configurations.getByName("dictionaryPath").asPath
-        systemProperty("re.belv.croiseur.dictionary.path", dictionaryPath)
-        val tempPuzzlePath = Files.createTempDirectory("croiseur_test_repo_").toFile()
-        tempPuzzlePath.deleteOnExit()
-        systemProperty("re.belv.croiseur.puzzle.path", tempPuzzlePath)
-    }
+/** Configures parameters to be used when launch the application via './gradlew run'. */
+tasks.named<JavaExec>("run") {
+    systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
+    systemProperty("re.belv.croiseur.puzzle.path", testPuzzlePath())
+}
+
+/** Returns the binary directory, relative to destination directory. */
+fun binaryDistDir(): String {
+    return project.property("bindir") as String
+}
+
+/** Returns the puzzle distribution directory, relative to destination directory. */
+fun puzzleDistDir(): String {
+    return project.property("datadir") as String + File.separator + "puzzles"
+}
+
+/** Returns the dictionary distribution directory, relative to destination directory. */
+fun dictionaryDistDir(): String {
+    return project.property("datadir") as String + File.separator + "dictionaries"
+}
+
+fun resolvedDicPath(): String {
+    return configurations.getByName("dictionaryPath").asPath
+}
+
+fun testPuzzlePath(): String {
+    val tempDir = Files.createTempDirectory("croiseur_test_repo_").toFile()
+    tempDir.deleteOnExit()
+    return tempDir.path
 }
