@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -26,15 +26,15 @@ java {
     }
 }
 
-tasks.withType(JavaCompile::class).configureEach {
+tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-tasks.withType(Javadoc::class).configureEach {
+tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
 }
 
-tasks.withType(Test::class).configureEach {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 

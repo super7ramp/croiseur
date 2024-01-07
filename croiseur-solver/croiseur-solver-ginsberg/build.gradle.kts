@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -9,12 +9,13 @@ plugins {
 
 dependencies {
     api(project(":croiseur-common"))
-    // For cleaning/filtering the test word list
-    testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common"))
+    testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common")) {
+        because("It is used to clean/filter the test word list")
+    }
 }
 
 // Additional mock directory for tests
-sourceSets.named("test").configure {
+sourceSets.named("test") {
     java.srcDir("src/test/mock")
 }
 

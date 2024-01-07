@@ -30,10 +30,10 @@ Build on Linux:
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
     - reuse lint
-    - gradle --parallel --build-cache assemble -x distZip
-    - gradle --parallel --build-cache check -x croiseur-gui:croiseur-gui-tests:test
-    - gradle --parallel --build-cache croiseur-gui:croiseur-gui-tests:test
-    - gradle --parallel --build-cache croiseur-tests-coverage:testCodeCoverageReport
+    - gradle assemble -x distZip
+    - gradle check -x croiseur-gui:croiseur-gui-tests:test
+    - gradle croiseur-gui:croiseur-gui-tests:test
+    - gradle croiseur-tests-coverage:testCodeCoverageReport
     # For total coverage: Display html report so that Gitlab can parse it (using the coverage regex defined above).
     - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
     # For detailed coverage: Convert xml report to Cobertura format, as Gitlab doesn't support JaCoCo xml format
@@ -83,8 +83,8 @@ Build on Windows:
     - $env:GRADLE_USER_HOME=(Get-Location).Path + "\.gradle"
   script:
     # Disable Gradle daemon: It prevents the script to be considered as terminated on Windows
-    - gradle --no-daemon --parallel --build-cache assemble -x distZip
-    - gradle --no-daemon --parallel --build-cache check -x croiseur-gui:croiseur-gui-tests:test
+    - gradle --no-daemon assemble -x distZip
+    - gradle --no-daemon check -x croiseur-gui:croiseur-gui-tests:test
   cache:
     key: "${CI_COMMIT_REF_NAME}-windows"
     paths:
@@ -110,10 +110,10 @@ Publish Linux Distribution:
     - export CARGO_HOME="$(pwd)/.cargo"
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
-    - gradle --parallel --build-cache croiseur-tests-coverage:testCodeCoverageReport
+    - gradle croiseur-tests-coverage:testCodeCoverageReport
     - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
-    - gradle --parallel --build-cache distZip
-    - gradle --parallel --build-cache publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
+    - gradle distZip
+    - gradle publish -Pcroiseur.maven.token.name="Job-Token" -Pcroiseur.maven.token.value="${CI_JOB_TOKEN}"
     # Javadoc for consumption by page job, which needs to be separate
     - ./doc/scripts/javadoc.sh
   cache:

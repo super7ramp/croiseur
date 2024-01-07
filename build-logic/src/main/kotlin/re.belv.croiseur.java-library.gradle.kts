@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -42,7 +42,7 @@ publishing {
 }
 
 fun camelCasedProjectName(): String {
-    val pattern: Pattern = Pattern.compile("-([a-z])")
-    val dashLetterMatcher: Matcher = pattern.matcher(project.name)
+    val dashLetterPattern: Pattern = Pattern.compile("-([a-z])")
+    val dashLetterMatcher: Matcher = dashLetterPattern.matcher(project.name)
     return dashLetterMatcher.replaceAll { it.group(1).uppercase() }
 }
