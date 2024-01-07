@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -45,22 +45,22 @@ final class GridTest {
     }
 
     @Test
-    void numberOfRows() {
+    void rowCount() {
         final char[][] cells = new char[][]{
                 {'A'},
                 {'B'}
         };
-        final int numberOfRows = new Grid(cells).numberOfRows();
+        final int numberOfRows = new Grid(cells).rowCount();
         assertEquals(2, numberOfRows);
     }
 
     @Test
-    void numberOfColumns() {
+    void columnCount() {
         final char[][] cells = new char[][]{
                 {'A'},
                 {'B'}
         };
-        final int numberOfColumns = new Grid(cells).numberOfColumns();
+        final int numberOfColumns = new Grid(cells).columnCount();
         assertEquals(1, numberOfColumns);
     }
 

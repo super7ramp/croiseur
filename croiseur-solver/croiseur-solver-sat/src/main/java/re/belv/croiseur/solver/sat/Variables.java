@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -19,26 +19,26 @@ package re.belv.croiseur.solver.sat;
 final class Variables {
 
     /** The number of values that a cell of a solved grid can take. */
-    static final int NUMBER_OF_CELL_VALUES = Alphabet.numberOfLetters() + 1 /* block */;
+    static final int CELL_VALUE_COUNT = Alphabet.letterCount() + 1 /* block */;
 
     /** The numerical representation of a block (the value of a shaded cell). */
-    static final int BLOCK_INDEX = Alphabet.numberOfLetters();
+    static final int BLOCK_INDEX = Alphabet.letterCount();
 
     /** The crossword grid. */
     private final Grid grid;
 
     /** The number of words in the dictionary. */
-    private final int numberOfWords;
+    private final int wordCount;
 
     /**
      * Constructs an instance.
      *
-     * @param gridArg          the grid
-     * @param numberOfWordsArg the number of words in the dictionary
+     * @param gridArg      the grid
+     * @param wordCountArg the number of words in the dictionary
      */
-    Variables(final Grid gridArg, final int numberOfWordsArg) {
+    Variables(final Grid gridArg, final int wordCountArg) {
         grid = gridArg;
-        numberOfWords = numberOfWordsArg;
+        wordCount = wordCountArg;
     }
 
     /**
@@ -56,19 +56,16 @@ final class Variables {
      * @return the number of cell variables
      */
     int cellCount() {
-        return grid.numberOfColumns() * grid.numberOfRows() * NUMBER_OF_CELL_VALUES;
+        return grid.columnCount() * grid.rowCount() * CELL_VALUE_COUNT;
     }
 
     /**
-     * The (maximum) number of slot variables.
-     * <p>
-     * Slot variables may be discarded at constraint construction time, when a dictionary word
-     * obviously doesn't match a slot, hence the "maximum".
+     * The number of slot variables.
      *
      * @return the number of slot variables
      */
     int slotCount() {
-        return grid.numberOfSlots() * numberOfWords;
+        return grid.slotCount() * wordCount;
     }
 
     /**
@@ -90,8 +87,8 @@ final class Variables {
      *     <td>29</td>
      *     <td>30</td>
      *     <td>...</td>
+     *     <td>53</td>
      *     <td>54</td>
-     *     <td>55</td>
      *     <th>etc.</th>
      *   </tr>
      *   <tr>
@@ -119,8 +116,8 @@ final class Variables {
      * @return the variable associated to the given value of the given cell
      */
     int cell(final int row, final int column, final int value) {
-        return row * grid.numberOfColumns() * NUMBER_OF_CELL_VALUES +
-               column * NUMBER_OF_CELL_VALUES +
+        return row * grid.columnCount() * CELL_VALUE_COUNT +
+               column * CELL_VALUE_COUNT +
                value +
                1; // variable must be strictly positive
     }
@@ -135,19 +132,10 @@ final class Variables {
      * @return the variable associated to the given word of the given slot
      */
     int slot(final int slotIndex, final int wordIndex) {
-        return slotVariableOffset() + slotIndex * numberOfWords + wordIndex;
-    }
-
-    /**
-     * The first slot variable.
-     * <p>
-     * Slot variable are put after cell variables, so first slot variable corresponds to the number
-     * of cell variables (plus 1 because variables start at 1).
-     *
-     * @return the first slot variable
-     */
-    private int slotVariableOffset() {
-        return cellCount() + 1;
+        return cellCount() // last cell variable
+               + slotIndex * wordCount
+               + wordIndex
+               + 1;
     }
 
     /**
@@ -157,10 +145,10 @@ final class Variables {
      * @return a crossword grid
      */
     char[][] backToDomain(final int[] model) {
-        final char[][] outGrid = new char[grid.numberOfRows()][grid.numberOfColumns()];
-        for (int row = 0; row < grid.numberOfRows(); row++) {
-            for (int column = 0; column < grid.numberOfColumns(); column++) {
-                for (int value = 0; value < NUMBER_OF_CELL_VALUES; value++) {
+        final char[][] outGrid = new char[grid.rowCount()][grid.columnCount()];
+        for (int row = 0; row < grid.rowCount(); row++) {
+            for (int column = 0; column < grid.columnCount(); column++) {
+                for (int value = 0; value < CELL_VALUE_COUNT; value++) {
                     final int variable = cell(row, column, value) - 1;
                     if (model[variable] > 0) {
                         outGrid[row][column] =

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 /**
  * The acceptable values for crossword cells.
  * <p>
- * Each alphabet letter is given an index between 0 and ({@link #numberOfLetters()} - 1).
+ * Each alphabet letter is given an index between 0 and ({@link #letterCount()} - 1).
  */
 final class Alphabet {
 
@@ -50,7 +50,7 @@ final class Alphabet {
      * @param letterIndex the letter index in the alphabet
      * @return the corresponding letter
      * @throws IndexOutOfBoundsException if given letter index is not between 0 and
-     *                                   {@link #numberOfLetters()} - 1
+     *                                   {@link #letterCount()} - 1
      */
     static char letterAt(final int letterIndex) {
         return (char) LETTERS[letterIndex];
@@ -61,7 +61,7 @@ final class Alphabet {
      *
      * @return the number of letters of the alphabet
      */
-    static int numberOfLetters() {
+    static int letterCount() {
         return LETTERS.length;
     }
 }

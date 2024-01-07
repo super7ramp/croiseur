@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -161,7 +161,7 @@ final class Grid {
      *
      * @return the number of rows of the grid
      */
-    int numberOfRows() {
+    int rowCount() {
         return cells.length;
     }
 
@@ -170,7 +170,7 @@ final class Grid {
      *
      * @return the number of columns of the grid
      */
-    int numberOfColumns() {
+    int columnCount() {
         return cells.length == 0 ? 0 : cells[0].length;
     }
 
@@ -188,7 +188,7 @@ final class Grid {
      *
      * @return the number of slots
      */
-    int numberOfSlots() {
+    int slotCount() {
         return slots.size();
     }
 

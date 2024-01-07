@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -73,11 +73,11 @@ final class Constraints {
      */
     void addOneLetterOrBlockPerCellClausesTo(final IPBSolver solver)
             throws ContradictionException, InterruptedException {
-        final IVecInt literalsBuffer = new VecInt(Variables.NUMBER_OF_CELL_VALUES);
-        for (int row = 0; row < grid.numberOfRows(); row++) {
-            for (int column = 0; column < grid.numberOfColumns(); column++) {
+        final IVecInt literalsBuffer = new VecInt(Variables.CELL_VALUE_COUNT);
+        for (int row = 0; row < grid.rowCount(); row++) {
+            for (int column = 0; column < grid.columnCount(); column++) {
                 checkForInterruption();
-                for (int letterIndex = 0; letterIndex < Alphabet.numberOfLetters();
+                for (int letterIndex = 0; letterIndex < Alphabet.letterCount();
                      letterIndex++) {
                     final int letterVariable = variables.cell(row, column, letterIndex);
                     literalsBuffer.push(letterVariable);
@@ -161,8 +161,8 @@ final class Constraints {
     void addInputGridConstraintsAreSatisfiedClausesTo(final ISolver solver)
             throws ContradictionException, InterruptedException {
         final IVecInt literalsBuffer = new VecInt(1);
-        for (int row = 0; row < grid.numberOfRows(); row++) {
-            for (int column = 0; column < grid.numberOfColumns(); column++) {
+        for (int row = 0; row < grid.rowCount(); row++) {
+            for (int column = 0; column < grid.columnCount(); column++) {
                 checkForInterruption();
                 final char prefilledLetter = grid.letterAt(row, column);
                 if (prefilledLetter == Grid.EMPTY) {
