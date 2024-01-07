@@ -8,6 +8,7 @@ plugins {
 }
 
 cargo {
+    arguments = listOf("--verbose")
     outputs = mapOf("" to System.mapLibraryName("xwords_rs_jni"))
     profile = "release"
 }

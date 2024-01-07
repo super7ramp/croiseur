@@ -8,6 +8,7 @@ plugins {
 }
 
 cargo {
+    arguments = listOf("--verbose")
     outputs = mapOf("" to System.mapLibraryName("crossword_composer_jni"))
     profile = "release"
 }
