@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -12,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import re.belv.croiseur.dictionary.common.StringFilters;
 import re.belv.croiseur.dictionary.common.StringTransformers;
-import re.belv.croiseur.solver.sat.testutil.InterruptionTester;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

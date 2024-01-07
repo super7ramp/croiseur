@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package re.belv.croiseur.solver.sat.testutil;
+package re.belv.croiseur.solver.sat;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.fail;
  * }
  * </pre>
  */
-public final class InterruptionTester {
+final class InterruptionTester {
 
-    public interface InterruptibleRunnable {
+    interface InterruptibleRunnable {
         void run() throws InterruptedException;
     }
 
@@ -40,7 +40,7 @@ public final class InterruptionTester {
      *
      * @param runnable the interruptible runnable to test
      */
-    public InterruptionTester(final InterruptibleRunnable runnable) {
+    InterruptionTester(final InterruptibleRunnable runnable) {
         executor = Executors.newSingleThreadExecutor();
         runnableInterrupted = executor.submit(() -> {
             try {
@@ -58,7 +58,7 @@ public final class InterruptionTester {
      *
      * @param delay the delay before interrupting
      */
-    public void interruptThreadAfter(final int delay) throws InterruptedException {
+    void interruptThreadAfter(final int delay) throws InterruptedException {
         Thread.sleep(delay * 1000L);
         executor.shutdownNow();
     }
@@ -70,7 +70,7 @@ public final class InterruptionTester {
      *
      * @param timeout the timeout (in seconds)
      */
-    public void assertRunnableThrewInterruptedExceptionWithin(final int timeout) {
+    void assertRunnableThrewInterruptedExceptionWithin(final int timeout) {
         try {
             assertTrue(runnableInterrupted.get(timeout, TimeUnit.SECONDS),
                        "Runnable terminated with interruption");
