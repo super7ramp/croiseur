@@ -20,5 +20,5 @@ Solver plugins are libraries implementing the `croiseur` solver provider interfa
 `croiseur-spi-solver` and thus usable by the `croiseur` library. Their names are suffixed
 with `-plugin`.
 
-Typically, plugins contain no logic: They simply adapt the complex standalone solver libraries to
-the interface defined in `croiseur-spi-solver`.
+Typically, plugins contain no logic: They simply adapt the interface of standalone solver libraries
+to the interface defined in `croiseur-spi-solver`.

@@ -462,11 +462,18 @@ Here is a comparison between solvers available in Croiseur:
 [Wilson89] used Integer Programming but concluded at that time that other, faster, approaches may be
 preferable.
 
-Another more recent example can be
-found [in this blog post](https://stmorse.github.io/journal/IP-Crossword-puzzles.html). An
-interesting point is that it shows that Integer Programming allows to easily express a preference in
-the words to select, which is something apparently desirable for professional grids: Word lists
-often come with a preference score attached to each word.
+This approach has been revisited recently.
+
+An example can be found in [Morse23]. An interesting point is that it shows that Integer Programming
+allows to easily express a preference in the words to select, which is something apparently
+desirable for professional grids: Word lists often come with a preference score attached to each
+word.
+
+In the same vein, [Olivier23] shows in great depth the mental process for modelling the problem and
+configuring the solver.
+
+Finally, [Solvermax24] discusses the speed improvements of both hardware and software solvers
+since Wilson's 1989 article, then presents their own models and results.
 
 #### SAT Solving
 
@@ -492,7 +499,7 @@ For example, one can define the following variables:
   means that the cell represented by this variable contains the value represented by this
   variable.
 - Slot variables: One for each pair $(slot,word)$ where $slot$ is a slot of the input crossword
-  grid (i.e. a set of contiguous cells) and $word$ of the input word list. A variable set to
+  grid (i.e. a set of contiguous cells) and $word$ a word of the input word list. A variable set to
   true means that the slot represented by this variable contains the word represented by this
   variable.
 
@@ -530,11 +537,18 @@ following functions:
   implementation detail.
 - $slotVariable(slot,word)$: Returns the variable corresponding to the given $(slot,word)$ pair,
   implementation detail.
-- $exactlyOne(x_1, x_2, ..., x_n)$: Exactly one literal is true. Transformation to CNF is long.
+- $exactlyOne(x_1, x_2, ..., x_n)$: Exactly one literal is true. The CNF form is:
+
+```math
+\left(\bigvee_{i \in 1..n} x_i \right) \wedge \left(\bigwedge_{i \in 1..n,j \in 1..n, i < j } \neg x_i \vee \neg x_j \right)
+```
+
 - $and(y, x_1, x_2, ..., x_n)$: Make $y$ equivalent to the conjunction of $x_i$, i.e.
-  $y \Leftrightarrow x_1 \wedge x_2 \wedge ... \wedge x_n$. The CNF form is: $(\neg y
-  \vee x_1) \wedge (\neg y \vee x_2) \wedge ... \wedge (\neg y \vee x_n) \wedge (\neg x_1 \vee
-  \neg x_2 \vee ... \vee \neg x_n \vee y)$
+  $y \Leftrightarrow x_1 \wedge x_2 \wedge ... \wedge x_n$. The CNF form is:
+
+```math
+(\neg y \vee x_1) \wedge (\neg y \vee x_2) \wedge ... \wedge (\neg y \vee x_n) \wedge (\neg x_1 \vee \neg x_2 \vee ... \vee \neg x_n \vee y)
+```
 
 `croiseur-solver-sat` feeds a SAT solver provided by Sat4j with such a formula. The selected
 Sat4j solver relies on Conflict Driven Clause Learning (CDCL) and pseudo-boolean solving
@@ -559,16 +573,24 @@ crossword grid as it uses clues as inputs.
   CSPs", _Journal of Artificial Intelligence Research_, 42 (2011) 851-886.
 * [Harvey95]: William Harvey, Matthew Ginsberg, "Limited Discrepancy Search", _IJCAI'95: Proceedings
   of the 14th international joint conference on Artificial intelligence_, Volume 1, 1995, 607–613.
-* [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_,
-    1997.
+* [Jensen97]: Sik Cambon Jensen, _Design and Implementation of Crossword Compilation Programs_, 1997.
 * [Leberre10]: Daniel Leberre, Anne Parrain. "The Sat4j library, release 2.2". _Journal on
   Satisfiability, Boolean Modeling and Computation 7_, (2010) 59-64.
 * [Mazlack76]: Lawrence Mazlack. "Computer construction of crossword puzzles using precedence
   relationships". _Artificial Intelligence_, 7:1-19, 1976.
+* [Morse23]: Steven Morse,
+  [Making crossword puzzles with integer programming](https://stmorse.github.io/journal/IP-Crossword-puzzles.html),
+  blog post, 2023.
+* [Olivier23], Philippe
+  Olivier, [Generating Crossword Grids Using Constraint Programming](https://pedtsr.ca/2023/generating-crossword-grids-using-constraint-programming.html),
+  blog post, 2023.
 * [Peterson20]: Otis Peterson and Michael
   Wehar [crosswordconstruction.com](https://www.crosswordconstruction.com/).
 * [Posser99]: Patrick Posser. "Hybrid Algorithms for the Constraint Satisfaction Problem",
   _Computational Intelligence_, Volume 9, Number 3, 1999.
+* [Solvermax24]: Solver Max,
+  [Solver performance: 1989 vs 2024](https://www.solvermax.com/blog/crossword-milp-model-1),
+  blog post, 2024.
 * [Wallace22]: Eric Wallace, Nicholas Tomlin, Albert Xu, Kevin Yang, Eshaan Pathak, Matthew
   Ginsberg, Dan Klein. "Automated Crossword Solving", _arXiv:2205.09665_, 2022.
 * [Wilson89]: J.M. Wilson, _Crossword Compilation using Integer Programming_, 1989.
