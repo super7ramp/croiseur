@@ -16,7 +16,7 @@ openai = "1.0.0-beta.6"
 picocli = "4.7.5"
 sat4j = "2.3.6"
 slf4j-nop = "2.0.12"
-testfx = "4.0.17"
+testfx = "4.0.18"
 testfx-hamcrest = "2.2"
 testfx-monocle = "jfx-21"
 
