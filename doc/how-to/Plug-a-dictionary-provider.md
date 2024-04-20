@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    api("re.belv:croiseur-spi-dictionary:0.9")
+    api("re.belv:croiseur-spi-dictionary:0.10")
 }
 ```
 

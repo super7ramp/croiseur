@@ -3,6 +3,14 @@ SPDX-FileCopyrightText: 2023 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+## Version 0.10 - Under the hood improvements - 2024/04/21
+
+- GUI: Fix button directions (!171).
+- GUI: Make crossword grid thumbnail crisper (!138).
+- Shorten rdns name (!136).
+- Publish ARM binaries.
+- Update dependencies.
+
 ## Version 0.9 – Upgrade to Java 21 – 2023/10/26
 
 - Upgrade to Java 21 (#87, !131)

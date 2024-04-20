@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    api("re.belv:croiseur-spi-presenter:0.9")
+    api("re.belv:croiseur-spi-presenter:0.10")
 }
 ```
 
