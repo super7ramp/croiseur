@@ -17,7 +17,7 @@ picocli = "4.7.6"
 sat4j = "2.3.6"
 slf4j-nop = "2.0.16"
 testfx = "4.0.18"
-testfx-hamcrest = "2.2"
+testfx-hamcrest = "3.0"
 testfx-monocle = "jfx-21"
 
 [libraries]
