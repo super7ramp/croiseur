@@ -36,11 +36,6 @@ Build on Linux:
     - gradle croiseur-tests-coverage:testCodeCoverageReport
     # For total coverage: Display html report so that Gitlab can parse it (using the coverage regex defined above).
     - cat croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/html/index.html
-    # For detailed coverage: Convert xml report to Cobertura format, as Gitlab doesn't support JaCoCo xml format
-    # (gl#gitlab-org/gitlab#227345).
-    - src_dirs=$(find $CI_PROJECT_DIR -type d -path "*/src/main/java")
-    - jacoco_report=croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
-    - cover2cover.py $jacoco_report $src_dirs > cobertura.xml
   cache:
     key: "${CI_COMMIT_REF_NAME}-linux"
     fallback_keys: [ master-cache-linux ] # Use master cache for first build on branch
@@ -54,8 +49,8 @@ Build on Linux:
     reports:
       junit: "**/TEST-*.xml"
       coverage_report:
-        coverage_format: cobertura
-        path: "cobertura.xml"
+        coverage_format: jacoco
+        path: "croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml"
 
 ##
 # Builds croiseur on a Windows machine.
