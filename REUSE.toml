@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 Antoine Belvire
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version = 1
+SPDX-PackageName = "croiseur"
+SPDX-PackageSupplier = "Antoine Belvire <antoine.belvire@opensuse.org>"
+SPDX-PackageDownloadLocation = "https://gitlab.com/super7ramp/croiseur"
+
+[[annotations]]
+path = "croiseur-dictionary/croiseur-dictionary-hunspell-codec/src/test/resources/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Hunspell Authors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "renovate.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Antoine Belvire"
+SPDX-License-Identifier = "GPL-3.0-or-later"
