@@ -79,10 +79,10 @@ final class Constraints {
                 checkForInterruption();
                 for (int letterIndex = 0; letterIndex < Alphabet.letterCount();
                      letterIndex++) {
-                    final int letterVariable = variables.cell(row, column, letterIndex);
+                    final int letterVariable = variables.representingCell(row, column, letterIndex);
                     literalsBuffer.push(letterVariable);
                 }
-                final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
+                final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
                 literalsBuffer.push(blockVariable);
                 addExactlyOne(solver, literalsBuffer);
                 literalsBuffer.clear();
@@ -108,7 +108,7 @@ final class Constraints {
                 checkForInterruption();
                 final String word = words[wordIndex];
                 if (word.length() == slot.length()) {
-                    final int slotVariable = variables.slot(slot.index(), wordIndex);
+                    final int slotVariable = variables.representingSlot(slot.index(), wordIndex);
                     slotLiteralsBuffer.push(slotVariable);
                     fillCellLiteralsConjunction(cellLiteralsBuffer, slot, word);
                     gator.and(slotVariable, cellLiteralsBuffer);
@@ -145,7 +145,7 @@ final class Constraints {
             if (letterIndex < 0) {
                 throw new IllegalStateException("Unsupported character: " + letter);
             }
-            final int cellVar = variables.cell(slotPos.row(), slotPos.column(), letterIndex);
+            final int cellVar = variables.representingCell(slotPos.row(), slotPos.column(), letterIndex);
             cellLiterals.push(cellVar);
         }
     }
@@ -167,14 +167,14 @@ final class Constraints {
                 final char prefilledLetter = grid.letterAt(row, column);
                 if (prefilledLetter == Grid.EMPTY) {
                     // Disallow solver to create a block
-                    final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
+                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
                     literalsBuffer.push(-blockVariable);
                 } else if (prefilledLetter == Grid.BLOCK) {
-                    final int blockVariable = variables.cell(row, column, Variables.BLOCK_INDEX);
+                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
                     literalsBuffer.push(blockVariable);
                 } else {
                     final int letterIndex = Alphabet.letterIndex(prefilledLetter);
-                    final int letterVariable = variables.cell(row, column, letterIndex);
+                    final int letterVariable = variables.representingCell(row, column, letterIndex);
                     literalsBuffer.push(letterVariable);
                 }
                 solver.addClause(literalsBuffer);

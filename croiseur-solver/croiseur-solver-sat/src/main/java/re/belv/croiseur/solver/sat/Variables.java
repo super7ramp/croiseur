@@ -10,10 +10,10 @@ package re.belv.croiseur.solver.sat;
  * <p>
  * There are two kinds of variables:
  * <ul>
- *     <li>Cell variables: For each pair (cell,letter) is associated a variable. See
- *     {@link #cell(int, int, int)} for the translation.
- *     <li>Slot variables: For each pair (slot,word) is associated a variable. They are placed
- *     "after" the cell variables in the model. See {@link #slot(int, int)} for the translation.
+ *     <li>Variables representing cells: For each pair (cell,letter) is associated a variable. See
+ *     {@link #representingCell(int, int, int)} for the translation.
+ *     <li>Variables representing slots: For each pair (slot,word) is associated a variable. They are placed
+ *     "after" the cell variables in the model. See {@link #representingSlot(int, int)} for the translation.
  * </ul>
  */
 final class Variables {
@@ -47,24 +47,24 @@ final class Variables {
      * @return the number of variables
      */
     int count() {
-        return cellCount() + slotCount();
+        return representingCellCount() + representingSlotCount();
     }
 
     /**
-     * The number of cell variables.
+     * The number of variables representing cells.
      *
-     * @return the number of cell variables
+     * @return the number of variables representing cells
      */
-    int cellCount() {
+    int representingCellCount() {
         return grid.columnCount() * grid.rowCount() * CELL_VALUE_COUNT;
     }
 
     /**
-     * The number of slot variables.
+     * The number of variables representing slots.
      *
-     * @return the number of slot variables
+     * @return the number of variables representing slots
      */
-    int slotCount() {
+    int representingSlotCount() {
         return grid.slotCount() * wordCount;
     }
 
@@ -115,7 +115,7 @@ final class Variables {
      * @param value  the numerical representation of the cell value
      * @return the variable associated to the given value of the given cell
      */
-    int cell(final int row, final int column, final int value) {
+    int representingCell(final int row, final int column, final int value) {
         return row * grid.columnCount() * CELL_VALUE_COUNT +
                column * CELL_VALUE_COUNT +
                value +
@@ -131,8 +131,8 @@ final class Variables {
      * @param wordIndex the word index in the word list
      * @return the variable associated to the given word of the given slot
      */
-    int slot(final int slotIndex, final int wordIndex) {
-        return cellCount() // last cell variable
+    int representingSlot(final int slotIndex, final int wordIndex) {
+        return representingCellCount() // last cell variable
                + slotIndex * wordCount
                + wordIndex
                + 1;
@@ -149,7 +149,7 @@ final class Variables {
         for (int row = 0; row < grid.rowCount(); row++) {
             for (int column = 0; column < grid.columnCount(); column++) {
                 for (int value = 0; value < CELL_VALUE_COUNT; value++) {
-                    final int variable = cell(row, column, value) - 1;
+                    final int variable = representingCell(row, column, value) - 1;
                     if (model[variable] > 0) {
                         outGrid[row][column] =
                                 value == BLOCK_INDEX ? Grid.BLOCK : Alphabet.letterAt(value);

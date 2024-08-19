@@ -25,34 +25,34 @@ final class VariablesTest {
     }
 
     @Test
-    void cell() {
-        assertEquals(1, variables.cell(0,0,0));
-        assertEquals(2, variables.cell(0,0,1));
-        assertEquals(27, variables.cell(0,0,26));
-        assertEquals(28, variables.cell(0,1,0));
-        assertEquals(29, variables.cell(0,1,1));
-        assertEquals(54, variables.cell(0,1,26));
-        assertEquals(243, variables.cell(2,2,26));
+    void representingCell() {
+        assertEquals(1, variables.representingCell(0,0,0));
+        assertEquals(2, variables.representingCell(0,0,1));
+        assertEquals(27, variables.representingCell(0,0,26));
+        assertEquals(28, variables.representingCell(0,1,0));
+        assertEquals(29, variables.representingCell(0,1,1));
+        assertEquals(54, variables.representingCell(0,1,26));
+        assertEquals(243, variables.representingCell(2,2,26));
     }
 
     @Test
-    void slot() {
-        assertEquals(244, variables.slot(0, 0));
-        assertEquals(245, variables.slot(0, 1));
-        assertEquals(100_243, variables.slot(0, 99_999));
-        assertEquals(100_244, variables.slot(1, 0));
-        assertEquals(100_245, variables.slot(1, 1));
-        assertEquals(600_243, variables.slot(5, 99_999));
+    void representingSlot() {
+        assertEquals(244, variables.representingSlot(0, 0));
+        assertEquals(245, variables.representingSlot(0, 1));
+        assertEquals(100_243, variables.representingSlot(0, 99_999));
+        assertEquals(100_244, variables.representingSlot(1, 0));
+        assertEquals(100_245, variables.representingSlot(1, 1));
+        assertEquals(600_243, variables.representingSlot(5, 99_999));
     }
 
     @Test
-    void cellCount() {
-        assertEquals(243, variables.cellCount());
+    void representingCellCount() {
+        assertEquals(243, variables.representingCellCount());
     }
 
     @Test
-    void slotCount() {
-        assertEquals(600_000, variables.slotCount());
+    void representingSlotCount() {
+        assertEquals(600_000, variables.representingSlotCount());
     }
 
     @Test
