@@ -16,6 +16,7 @@ openai = "1.0.0-beta.6"
 picocli = "4.7.6"
 sat4j = "2.3.6"
 slf4j-nop = "2.0.16"
+spotless = "6.25.0"
 testfx = "4.0.18"
 testfx-hamcrest = "3.0"
 testfx-monocle = "jfx-21"
@@ -44,7 +45,9 @@ picocli-framework = { module = "info.picocli:picocli", version.ref = "picocli" }
 sat4j-core = { module = "org.ow2.sat4j:org.ow2.sat4j.core", version.ref = "sat4j" }
 sat4j-pb = { module = "org.ow2.sat4j:org.ow2.sat4j.pb", version.ref = "sat4j" }
 # A dummy implementation of sl4j-api (pulled transitively), to quiet sl4j-api warning messages
-slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j-nop" } 
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j-nop" }
+# Plugin to format code. It should be in the plugin section but somehow gradle doesn't recognize it in buildSrc
+spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 # Testing framework for JavaFx application
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "testfx-hamcrest" }

@@ -9,6 +9,7 @@
 
 plugins {
     id("re.belv.croiseur.base")
+    id("com.diffplug.spotless")
     java
     jacoco
 }
@@ -41,4 +42,10 @@ tasks.withType<Test> {
 tasks.jacocoTestReport {
     // Do not generate reports for individual projects by default.
     enabled = false
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+    }
 }
