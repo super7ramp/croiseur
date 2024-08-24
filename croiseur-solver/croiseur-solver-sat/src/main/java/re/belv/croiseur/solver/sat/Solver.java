@@ -42,7 +42,6 @@ import java.util.concurrent.Future;
  * @see <a href="https://gitlab.com/super7ramp/sudoku4j">Sudoku4j</a>, which is an example sudoku
  * solver in Java. (It is a translation in Java of Martin Hořeňovský's example sudoku C++ solver.)
  */
-// TODO make it faster (no idea how yet except by playing with the different Sat4j solvers)
 public final class Solver {
 
     /** The actual solver. */
@@ -107,7 +106,6 @@ public final class Solver {
         constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
         constraints.addOneWordPerSlotClausesTo(satSolver);
-        // TODO ideally no word should be duplicated
     }
 
     /**
