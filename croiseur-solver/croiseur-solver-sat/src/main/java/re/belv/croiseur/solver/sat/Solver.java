@@ -104,9 +104,9 @@ public final class Solver {
      * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
     private void addClauses() throws ContradictionException, InterruptedException {
+        constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
         constraints.addOneWordPerSlotClausesTo(satSolver);
-        constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
         // TODO ideally no word should be duplicated
     }
 
