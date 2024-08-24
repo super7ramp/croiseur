@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.solver.sat;
 
+import org.sat4j.core.Vec;
 import org.sat4j.core.VecInt;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.specs.ContradictionException;
@@ -12,6 +13,7 @@ import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.tools.GateTranslator;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -198,11 +200,8 @@ final class Constraints {
      */
     private void addExactlyOne(final IPBSolver solver, final IVecInt literals)
             throws ContradictionException {
-        final IVecInt coefficients = new VecInt(literals.size());
-        for (int i = 0; i < literals.size(); i++) {
-            coefficients.push(1);
-        }
-        solver.addExactly(literals, coefficients, 1);
+        final var coefficients = new Vec<>(literals.size(), BigInteger.ONE);
+        solver.addExactly(literals, coefficients, BigInteger.ONE);
     }
 
     /**
