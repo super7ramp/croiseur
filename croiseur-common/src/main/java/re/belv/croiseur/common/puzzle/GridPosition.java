@@ -81,5 +81,4 @@ public record GridPosition(int x, int y) {
     public String toString() {
         return "GridPosition{" + "x=" + x + ", y=" + y + '}';
     }
-
 }

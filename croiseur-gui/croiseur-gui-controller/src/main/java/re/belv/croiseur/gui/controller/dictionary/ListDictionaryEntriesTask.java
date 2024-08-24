@@ -27,8 +27,8 @@ final class ListDictionaryEntriesTask extends Task<Void> {
      * @param dictionaryViewModelArg the dictionary view model
      * @param dictionaryServiceArg   the dictionary service
      */
-    ListDictionaryEntriesTask(final DictionaryViewModel dictionaryViewModelArg,
-                              final DictionaryService dictionaryServiceArg) {
+    ListDictionaryEntriesTask(
+            final DictionaryViewModel dictionaryViewModelArg, final DictionaryService dictionaryServiceArg) {
         listDictionaryEntriesRequest = new ListDictionaryEntriesRequestImpl(dictionaryViewModelArg);
         dictionaryService = dictionaryServiceArg;
     }
@@ -38,5 +38,4 @@ final class ListDictionaryEntriesTask extends Task<Void> {
         dictionaryService.listEntries(listDictionaryEntriesRequest);
         return null;
     }
-
 }

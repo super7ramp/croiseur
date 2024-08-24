@@ -20,8 +20,7 @@ import java.util.Optional;
  * @param copyright the copyright
  * @param date      the date
  */
-public record PuzzleDetails(String title, String author, String editor, String copyright,
-                            Optional<LocalDate> date) {
+public record PuzzleDetails(String title, String author, String editor, String copyright, Optional<LocalDate> date) {
 
     /** An empty instance. */
     private static final PuzzleDetails EMPTY = new PuzzleDetails("", "", "", "", Optional.empty());
@@ -38,8 +37,7 @@ public record PuzzleDetails(String title, String author, String editor, String c
     public PuzzleDetails {
         Objects.requireNonNull(title, "Puzzle title shall not be null, use an empty String.");
         Objects.requireNonNull(editor, "Puzzle editor shall not be null, use an empty String.");
-        Objects.requireNonNull(copyright,
-                               "Puzzle copyright shall not be null, use an empty String.");
+        Objects.requireNonNull(copyright, "Puzzle copyright shall not be null, use an empty String.");
         Objects.requireNonNull(date, "Puzzle date shall not be null, use an empty Optional.");
     }
 

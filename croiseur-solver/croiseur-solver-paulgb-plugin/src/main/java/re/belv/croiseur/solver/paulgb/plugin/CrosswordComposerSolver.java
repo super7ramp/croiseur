@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.solver.paulgb.plugin;
 
+import java.util.Optional;
+import java.util.ResourceBundle;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.paulgb.Puzzle;
 import re.belv.croiseur.solver.paulgb.Solution;
@@ -13,9 +15,6 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting {@link Solver paulgb's Crossword Composer}
@@ -53,8 +52,7 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
      * @param result the raw result
      * @return a result for when the grid is impossible to solve
      */
-    private static SolverResult success(final NumberedPuzzleDefinition puzzle,
-                                        final Solution result) {
+    private static SolverResult success(final NumberedPuzzleDefinition puzzle, final Solution result) {
         return AdaptedSolverResult.success(puzzle.idToPosition(), result);
     }
 
@@ -65,28 +63,24 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return ResourceBundle
-                .getBundle("re.belv.croiseur.solver.paulgb.plugin.Messages")
+        return ResourceBundle.getBundle("re.belv.croiseur.solver.paulgb.plugin.Messages")
                 .getString("description");
     }
 
     @Override
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) throws InterruptedException {
+    public SolverResult solve(
+            final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener)
+            throws InterruptedException {
 
         final NumberedPuzzleDefinition numberedPuzzle = new NumberedPuzzleDefinition(puzzle);
         if (!numberedPuzzle.filled().isEmpty()) {
-            throw new UnsupportedOperationException(
-                    "Crossword Composer solver does not support pre-filled grids");
+            throw new UnsupportedOperationException("Crossword Composer solver does not support pre-filled grids");
         }
-        final re.belv.croiseur.solver.paulgb.Dictionary adaptedDictionary =
-                DictionaryAdapter.adapt(dictionary);
+        final re.belv.croiseur.solver.paulgb.Dictionary adaptedDictionary = DictionaryAdapter.adapt(dictionary);
         final Puzzle adaptedPuzzle = PuzzleAdapter.adapt(numberedPuzzle);
 
         final Optional<Solution> optResult = solver.solve(adaptedPuzzle, adaptedDictionary);
 
-        return optResult.map(result -> success(numberedPuzzle, result))
-                        .orElseGet(() -> impossible(numberedPuzzle));
+        return optResult.map(result -> success(numberedPuzzle, result)).orElseGet(() -> impossible(numberedPuzzle));
     }
-
 }

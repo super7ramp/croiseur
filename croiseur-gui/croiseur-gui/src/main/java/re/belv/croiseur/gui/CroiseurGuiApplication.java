@@ -5,6 +5,14 @@
 
 package re.belv.croiseur.gui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -18,15 +26,6 @@ import re.belv.croiseur.gui.presenter.GuiPresenter;
 import re.belv.croiseur.gui.view.model.ApplicationViewModel;
 import re.belv.croiseur.gui.view.model.ErrorsViewModel;
 import re.belv.croiseur.spi.presenter.Presenter;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 
 /**
  * The Croiseur GUI application.
@@ -104,8 +103,7 @@ public final class CroiseurGuiApplication extends Application {
      * @throws NullPointerException if icon is not found
      */
     private static Image loadIcon() {
-        final InputStream iconLocation =
-                CroiseurGuiApplication.class.getResourceAsStream(ICON_NAME);
+        final InputStream iconLocation = CroiseurGuiApplication.class.getResourceAsStream(ICON_NAME);
         Objects.requireNonNull(iconLocation, "Application icon not found");
         return new Image(iconLocation);
     }
@@ -129,8 +127,8 @@ public final class CroiseurGuiApplication extends Application {
      * @param executor      the background task executor
      * @throws IOException if loading from FXML files fails
      */
-    private static void loadComponents(final Stage stage, final SceneSwitcher sceneSwitcher,
-                                       final Executor executor) throws IOException {
+    private static void loadComponents(final Stage stage, final SceneSwitcher sceneSwitcher, final Executor executor)
+            throws IOException {
 
         // Dependencies for construction: view model <- presenter <- use-cases <- controllers/views
         final ApplicationViewModel applicationViewModel = new ApplicationViewModel();
@@ -169,16 +167,19 @@ public final class CroiseurGuiApplication extends Application {
      * @param executor             the background task executor
      * @throws IOException if loading from FXML file fails
      */
-    private static void loadWelcomeScreen(final ApplicationViewModel applicationViewModel,
-                                          final CrosswordService crosswordService,
-                                          final SceneSwitcher sceneSwitcher,
-                                          final Executor executor) throws IOException {
-        final var welcomeScreenController =
-                new WelcomeScreenController(applicationViewModel.puzzleSelectionViewModel(),
-                                            applicationViewModel.puzzleEditionViewModel(),
-                                            applicationViewModel.puzzleCodecsViewModel(),
-                                            crosswordService.puzzleService(), sceneSwitcher,
-                                            executor);
+    private static void loadWelcomeScreen(
+            final ApplicationViewModel applicationViewModel,
+            final CrosswordService crosswordService,
+            final SceneSwitcher sceneSwitcher,
+            final Executor executor)
+            throws IOException {
+        final var welcomeScreenController = new WelcomeScreenController(
+                applicationViewModel.puzzleSelectionViewModel(),
+                applicationViewModel.puzzleEditionViewModel(),
+                applicationViewModel.puzzleCodecsViewModel(),
+                crosswordService.puzzleService(),
+                sceneSwitcher,
+                executor);
         final Parent parent = ViewLoader.load(welcomeScreenController);
         sceneSwitcher.registerScene(SceneSwitcher.SceneId.WELCOME_SCREEN, new Scene(parent));
     }
@@ -191,13 +192,14 @@ public final class CroiseurGuiApplication extends Application {
      * @param sceneSwitcher        the scene switcher
      * @param executor             the executor
      */
-    private static void loadCrosswordEditor(final ApplicationViewModel applicationViewModel,
-                                            final CrosswordService crosswordService,
-                                            final SceneSwitcher sceneSwitcher,
-                                            final Executor executor) throws IOException {
+    private static void loadCrosswordEditor(
+            final ApplicationViewModel applicationViewModel,
+            final CrosswordService crosswordService,
+            final SceneSwitcher sceneSwitcher,
+            final Executor executor)
+            throws IOException {
         final var editorController =
-                new CrosswordEditorController(crosswordService, applicationViewModel, sceneSwitcher,
-                                              executor);
+                new CrosswordEditorController(crosswordService, applicationViewModel, sceneSwitcher, executor);
         final Parent parent = ViewLoader.load(editorController);
         sceneSwitcher.registerScene(SceneSwitcher.SceneId.CROSSWORD_EDITOR, new Scene(parent));
     }
@@ -209,8 +211,7 @@ public final class CroiseurGuiApplication extends Application {
      * @return the executor
      */
     private Executor createExecutor() {
-        final ExecutorService executor =
-                MoreExecutors.newQuickClosureFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
+        final ExecutorService executor = MoreExecutors.newQuickClosureFixedThreadPool(NUMBER_OF_BACKGROUND_THREADS);
         resources.add(executor);
         return executor;
     }

@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.gui.view.javafx.scene.control;
 
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
-
-import java.util.Set;
 
 /**
  * A {@link TextArea} which auto-resizes its height according to its text content.

@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Implementation of {@link Slot}.
@@ -36,8 +35,7 @@ final class SlotImpl implements InternalSlot {
      * @param anUid    a {@link SlotIdentifier}
      * @param someData raw data access
      */
-    SlotImpl(final SlotIdentifier anUid, final SlotData someData,
-             final Connectivity connectivityArg) {
+    SlotImpl(final SlotIdentifier anUid, final SlotData someData, final Connectivity connectivityArg) {
         uid = anUid;
         data = someData;
         connectivity = connectivityArg;
@@ -106,20 +104,19 @@ final class SlotImpl implements InternalSlot {
     @Override
     public String unassign() {
 
-        final String clearedValue = value().orElseThrow(() -> new IllegalStateException("Illegal " +
-                "unassignment of non-instantiated variable"));
+        final String clearedValue = value().orElseThrow(
+                        () -> new IllegalStateException("Illegal " + "unassignment of non-instantiated variable"));
 
         /*
          * Unassign only the boxes that are not part of a connected instantiated slot to avoid
          * unassignment of connected slots by side effect.
          */
         final SlotDefinition definition = data.definition();
-        final Set<Integer> boxesToKeep =
-                connectivity.connectedSlots(uid)
-                            .filter(Slot::isInstantiated)
-                            .map(connectedSlot ->
-                                    definition.connectionWith(connectedSlot.definition()))
-                            .collect(toSet());
+        final Set<Integer> boxesToKeep = connectivity
+                .connectedSlots(uid)
+                .filter(Slot::isInstantiated)
+                .map(connectedSlot -> definition.connectionWith(connectedSlot.definition()))
+                .collect(toSet());
 
         data.clearExcept(boxesToKeep);
 

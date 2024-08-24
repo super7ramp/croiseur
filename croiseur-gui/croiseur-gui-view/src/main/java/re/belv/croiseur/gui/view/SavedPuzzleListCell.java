@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,8 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
-
-import java.util.ResourceBundle;
 
 /**
  * A specialized {@link ListCell} for displaying saved puzzles.
@@ -71,5 +70,4 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
             setText(null);
         }
     }
-
 }

@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.spi.presenter.puzzle;
 
+import java.util.List;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
-
-import java.util.List;
 
 /**
  * Puzzle-related presentation services.

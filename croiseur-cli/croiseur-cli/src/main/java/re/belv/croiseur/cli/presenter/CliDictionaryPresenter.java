@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.cli.presenter;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
@@ -12,10 +15,6 @@ import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * CLI implementation of {@link DictionaryPresenter}.
@@ -46,17 +45,17 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     }
 
     @Override
-    public void presentDictionaryProviders(
-            final Collection<DictionaryProviderDetails> providers) {
+    public void presentDictionaryProviders(final Collection<DictionaryProviderDetails> providers) {
         final String providerHeader = $("provider");
         final String descriptionHeader = $("description");
 
         System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
-        System.out.printf(PROVIDERS_FORMAT, CliPresenterUtil.lineOf(providerHeader.length()),
-                          CliPresenterUtil.lineOf(descriptionHeader.length()));
+        System.out.printf(
+                PROVIDERS_FORMAT,
+                CliPresenterUtil.lineOf(providerHeader.length()),
+                CliPresenterUtil.lineOf(descriptionHeader.length()));
 
-        providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
-                                                        provider.description()));
+        providers.forEach(provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(), provider.description()));
     }
 
     @Override
@@ -66,13 +65,18 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
         final String localeHeader = $("locale");
 
         System.out.printf(LIST_FORMAT, providerHeader, nameHeader, localeHeader);
-        System.out.printf(LIST_FORMAT, CliPresenterUtil.lineOf(providerHeader.length()), CliPresenterUtil.lineOf(nameHeader.length()),
-                          CliPresenterUtil.lineOf(localeHeader.length()));
+        System.out.printf(
+                LIST_FORMAT,
+                CliPresenterUtil.lineOf(providerHeader.length()),
+                CliPresenterUtil.lineOf(nameHeader.length()),
+                CliPresenterUtil.lineOf(localeHeader.length()));
 
         for (final ProvidedDictionaryDetails providedDictionary : dictionaries) {
-            System.out.printf(LIST_FORMAT, providedDictionary.providerName(),
-                              providedDictionary.dictionaryName(),
-                              providedDictionary.dictionaryLocale().getDisplayName());
+            System.out.printf(
+                    LIST_FORMAT,
+                    providedDictionary.providerName(),
+                    providedDictionary.dictionaryName(),
+                    providedDictionary.dictionaryLocale().getDisplayName());
         }
     }
 
@@ -88,9 +92,11 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
 
     @Override
     public void presentDefaultDictionary(final ProvidedDictionaryDetails defaultDictionary) {
-        System.out.printf($("preferred.format"), defaultDictionary.dictionaryName(),
-                          defaultDictionary.dictionaryLocale().getDisplayName(),
-                          defaultDictionary.providerName());
+        System.out.printf(
+                $("preferred.format"),
+                defaultDictionary.dictionaryName(),
+                defaultDictionary.dictionaryLocale().getDisplayName(),
+                defaultDictionary.providerName());
     }
 
     @Override

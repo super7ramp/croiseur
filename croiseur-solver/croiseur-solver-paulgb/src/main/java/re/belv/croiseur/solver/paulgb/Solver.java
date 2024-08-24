@@ -31,5 +31,4 @@ public final class Solver {
      */
     public native Optional<Solution> solve(final Puzzle puzzle, final Dictionary dictionary)
             throws InterruptedException;
-
 }

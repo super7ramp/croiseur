@@ -9,8 +9,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
 final class InconsistentNumberOfRules extends ParserException {
 
-    private static final String MESSAGE =
-            "Number of parsed rules is inconsistent with header information";
+    private static final String MESSAGE = "Number of parsed rules is inconsistent with header information";
 
     InconsistentNumberOfRules() {
         super(MESSAGE);

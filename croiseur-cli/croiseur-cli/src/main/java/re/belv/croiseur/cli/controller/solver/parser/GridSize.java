@@ -43,8 +43,7 @@ public record GridSize(int width, int height) {
     public static GridSize valueOf(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                    ", was " + text);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() + ", was " + text);
         }
         final int width = Integer.parseInt(matcher.group("width"));
         final int height = Integer.parseInt(matcher.group("height"));

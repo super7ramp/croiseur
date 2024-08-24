@@ -36,9 +36,11 @@ public final class SavedPuzzleGridViewModel {
      * @param shadedArg      the shaded boxes
      * @param filledArg      the filled boxes
      */
-    SavedPuzzleGridViewModel(final int columnCountArg, final int rowCountArg,
-                             final Set<GridCoord> shadedArg,
-                             final Map<GridCoord, Character> filledArg) {
+    SavedPuzzleGridViewModel(
+            final int columnCountArg,
+            final int rowCountArg,
+            final Set<GridCoord> shadedArg,
+            final Map<GridCoord, Character> filledArg) {
         columnCount = columnCountArg;
         rowCount = rowCountArg;
         shaded = new HashSet<>(shadedArg);

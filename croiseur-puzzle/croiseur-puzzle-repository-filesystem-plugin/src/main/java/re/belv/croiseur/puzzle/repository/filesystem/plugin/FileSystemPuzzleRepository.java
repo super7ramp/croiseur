@@ -5,12 +5,6 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
-import re.belv.croiseur.common.puzzle.ChangedPuzzle;
-import re.belv.croiseur.common.puzzle.Puzzle;
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
-import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import re.belv.croiseur.common.puzzle.ChangedPuzzle;
+import re.belv.croiseur.common.puzzle.Puzzle;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
 /**
  * A {@link PuzzleRepository} implemented by files on disk, written in the xd format.
@@ -32,17 +31,14 @@ import java.util.stream.Stream;
 public final class FileSystemPuzzleRepository implements PuzzleRepository {
 
     /** The logger. */
-    private static final Logger LOGGER =
-            Logger.getLogger(FileSystemPuzzleRepository.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FileSystemPuzzleRepository.class.getName());
 
     /** The names that files should have. Example: "42.xd" (42 is the crossword identifier). */
     private static final Pattern SUPPORTED_FILES_PATTERN = Pattern.compile("\\d+.xd");
 
     /** A predicate for {@link Files#find}. */
-    private static final BiPredicate<Path, BasicFileAttributes> SUPPORTED_FILES =
-            (path, attr) -> attr.isRegularFile() &&
-                            SUPPORTED_FILES_PATTERN.matcher(path.getFileName().toString())
-                                                   .matches();
+    private static final BiPredicate<Path, BasicFileAttributes> SUPPORTED_FILES = (path, attr) -> attr.isRegularFile()
+            && SUPPORTED_FILES_PATTERN.matcher(path.getFileName().toString()).matches();
 
     /** The repository path. */
     private final Path repositoryPath;
@@ -70,8 +66,7 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
 
     @Override
     public SavedPuzzle create(final Puzzle puzzle) throws WriteException {
-        final long id = nextId().orElseThrow(
-                () -> new WriteException("Repository is full, no more id available"));
+        final long id = nextId().orElseThrow(() -> new WriteException("Repository is full, no more id available"));
         final SavedPuzzle savedPuzzle = new SavedPuzzle(id, puzzle, 1);
         writer.write(savedPuzzle, pathOf(id));
         return savedPuzzle;
@@ -81,15 +76,15 @@ public final class FileSystemPuzzleRepository implements PuzzleRepository {
     public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
         final long id = changedPuzzle.id();
 
-        final SavedPuzzle original = query(id).orElseThrow(() -> new WriteException(
-                "Cannot updated puzzle with id " + id + ": Puzzle doesn't exist."));
+        final SavedPuzzle original = query(id)
+                .orElseThrow(
+                        () -> new WriteException("Cannot updated puzzle with id " + id + ": Puzzle doesn't exist."));
         if (original.data().equals(changedPuzzle.data())) {
             // No need to write, no change
             return original;
         }
 
-        final SavedPuzzle updated =
-                new SavedPuzzle(id, changedPuzzle.data(), original.revision() + 1);
+        final SavedPuzzle updated = new SavedPuzzle(id, changedPuzzle.data(), original.revision() + 1);
         writer.write(updated, pathOf(id));
         return updated;
     }

@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.cli.tests;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Locale;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import re.belv.croiseur.cli.CroiseurCliApplication;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Locale;
 
 /**
  * A simple helper test class managing application runtime during tests.

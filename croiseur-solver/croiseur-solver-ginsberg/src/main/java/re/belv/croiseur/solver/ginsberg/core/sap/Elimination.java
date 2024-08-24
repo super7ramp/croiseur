@@ -14,7 +14,6 @@ import java.util.Collection;
  * @param <EliminationReasonT> the elimination reasons
  */
 // FIXME EliminationReasonT should be VariableT, clarify Slot vs. SlotIdentifier usage
-public record Elimination<VariableT, EliminationReasonT>(VariableT eliminated,
-                                                         Collection<EliminationReasonT> reasons) {
+public record Elimination<VariableT, EliminationReasonT>(VariableT eliminated, Collection<EliminationReasonT> reasons) {
     // Nothing to add
 }

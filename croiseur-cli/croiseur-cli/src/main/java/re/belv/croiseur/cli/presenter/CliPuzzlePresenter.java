@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.cli.presenter;
 
+import java.time.LocalDate;
+import java.util.List;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * CLI implementation of {@link PuzzlePresenter}.
@@ -56,17 +55,21 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
         final String authorHeader = $("author");
         final String dateHeader = $("date");
 
-        System.out.printf(PUZZLE_LIST_FORMAT, idHeader, revisionHeader, titleHeader, authorHeader,
-                          dateHeader);
-        System.out.printf(PUZZLE_LIST_FORMAT, CliPresenterUtil.lineOf(idHeader.length()),
-                          CliPresenterUtil.lineOf(revisionHeader.length()), CliPresenterUtil.lineOf(titleHeader.length()),
-                          CliPresenterUtil.lineOf(authorHeader.length()), CliPresenterUtil.lineOf(dateHeader.length()));
-        puzzles.forEach(
-                puzzle -> System.out.printf(PUZZLE_LIST_FORMAT, puzzle.id(), puzzle.revision(),
-                                            puzzle.details().title(),
-                                            puzzle.details().author(),
-                                            puzzle.details().date().map(
-                                                    LocalDate::toString).orElse("")));
+        System.out.printf(PUZZLE_LIST_FORMAT, idHeader, revisionHeader, titleHeader, authorHeader, dateHeader);
+        System.out.printf(
+                PUZZLE_LIST_FORMAT,
+                CliPresenterUtil.lineOf(idHeader.length()),
+                CliPresenterUtil.lineOf(revisionHeader.length()),
+                CliPresenterUtil.lineOf(titleHeader.length()),
+                CliPresenterUtil.lineOf(authorHeader.length()),
+                CliPresenterUtil.lineOf(dateHeader.length()));
+        puzzles.forEach(puzzle -> System.out.printf(
+                PUZZLE_LIST_FORMAT,
+                puzzle.id(),
+                puzzle.revision(),
+                puzzle.details().title(),
+                puzzle.details().author(),
+                puzzle.details().date().map(LocalDate::toString).orElse("")));
     }
 
     @Override
@@ -85,8 +88,7 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         final String confirmation = $("save.success");
         final String formattedPuzzle = PuzzleFormatter.formatSavedPuzzle(puzzle);
-        System.out.println(
-                confirmation + System.lineSeparator() + System.lineSeparator() + formattedPuzzle);
+        System.out.println(confirmation + System.lineSeparator() + System.lineSeparator() + formattedPuzzle);
     }
 
     @Override
@@ -139,14 +141,16 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
         final String descriptionHeader = $("codec.description");
         final String supportedFormatsHeader = $("codec.formats");
 
-        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, nameHeader, descriptionHeader,
-                          supportedFormatsHeader);
-        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, CliPresenterUtil.lineOf(nameHeader.length()),
-                          CliPresenterUtil.lineOf(descriptionHeader.length()),
-                          CliPresenterUtil.lineOf(supportedFormatsHeader.length()));
-        codecs.forEach(
-                codec -> System.out.printf(PUZZLE_CODEC_LIST_FORMAT, codec.name(),
-                                           codec.description(),
-                                           String.join(", ", codec.supportedFormats())));
+        System.out.printf(PUZZLE_CODEC_LIST_FORMAT, nameHeader, descriptionHeader, supportedFormatsHeader);
+        System.out.printf(
+                PUZZLE_CODEC_LIST_FORMAT,
+                CliPresenterUtil.lineOf(nameHeader.length()),
+                CliPresenterUtil.lineOf(descriptionHeader.length()),
+                CliPresenterUtil.lineOf(supportedFormatsHeader.length()));
+        codecs.forEach(codec -> System.out.printf(
+                PUZZLE_CODEC_LIST_FORMAT,
+                codec.name(),
+                codec.description(),
+                String.join(", ", codec.supportedFormats())));
     }
 }

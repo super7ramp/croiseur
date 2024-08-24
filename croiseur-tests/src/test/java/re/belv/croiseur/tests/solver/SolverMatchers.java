@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.tests.solver;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.spi.presenter.solver.SolverResult;
-import org.mockito.ArgumentMatcher;
+import static org.mockito.ArgumentMatchers.argThat;
 
 import java.util.Map;
-
-import static org.mockito.ArgumentMatchers.argThat;
+import org.mockito.ArgumentMatcher;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
 /**
  * Allows creating custom {@link ArgumentMatcher}s related to solver result presentation.
@@ -23,14 +22,14 @@ final class SolverMatchers {
      *
      * @param solution the expected solution
      */
-    private record SuccessSolverResultMatcher(
-            Map<GridPosition, Character> solution) implements ArgumentMatcher<SolverResult> {
+    private record SuccessSolverResultMatcher(Map<GridPosition, Character> solution)
+            implements ArgumentMatcher<SolverResult> {
 
         @Override
         public boolean matches(final SolverResult actual) {
-            return actual.isSuccess() &&
-                   actual.unsolvableBoxes().isEmpty() &&
-                   actual.filledBoxes().equals(solution);
+            return actual.isSuccess()
+                    && actual.unsolvableBoxes().isEmpty()
+                    && actual.filledBoxes().equals(solution);
         }
     }
 

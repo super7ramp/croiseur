@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.cli;
 
+import java.util.function.Function;
 import picocli.CommandLine.ITypeConverter;
 import picocli.CommandLine.TypeConversionException;
-
-import java.util.function.Function;
 
 /**
  * A {@link ITypeConverter} generic implementation.

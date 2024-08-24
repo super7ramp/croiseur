@@ -5,20 +5,19 @@
 
 package re.belv.croiseur.tests.context;
 
-import re.belv.croiseur.common.puzzle.ChangedPuzzle;
-import re.belv.croiseur.common.puzzle.Puzzle;
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
-import re.belv.croiseur.spi.puzzle.repository.WriteException;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import re.belv.croiseur.common.puzzle.ChangedPuzzle;
+import re.belv.croiseur.common.puzzle.Puzzle;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
 /**
  * James Bond's retirement.
@@ -92,9 +91,7 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyCreation(final SavedPuzzle expected) {
         final boolean removed = creations.remove(expected);
-        assertTrue(removed,
-                   () -> "No creation of " + expected + " recorded. Recorded creations are: " +
-                         creations);
+        assertTrue(removed, () -> "No creation of " + expected + " recorded. Recorded creations are: " + creations);
     }
 
     /**
@@ -105,8 +102,7 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyUpdate(final SavedPuzzle expected) {
         final boolean removed = updates.remove(expected);
-        assertTrue(removed, () -> "No update of " + expected + " recorded. Recorded updates are: " +
-                                  updates);
+        assertTrue(removed, () -> "No update of " + expected + " recorded. Recorded updates are: " + updates);
     }
 
     /**
@@ -117,9 +113,7 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      */
     public void verifyDeletion(final long expected) {
         final boolean removed = deletions.remove(expected);
-        assertTrue(removed,
-                   () -> "No update of " + expected + " recorded. Recorded deletions are: " +
-                         deletions);
+        assertTrue(removed, () -> "No update of " + expected + " recorded. Recorded deletions are: " + deletions);
     }
 
     /**
@@ -128,12 +122,10 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
      * @throws AssertionError if verification fails
      */
     public void verifyNoMoreInteractions() {
-        assertAll(() -> assertTrue(creations.isEmpty(),
-                                   () -> "Unverified puzzle repository creation(s): " + creations),
-                  () -> assertTrue(updates.isEmpty(),
-                                   () -> "Unverified puzzle repository update(s): " + updates),
-                  () -> assertTrue(deletions.isEmpty(),
-                                   () -> "Unverified puzzle repository deletion(s): " + deletions));
+        assertAll(
+                () -> assertTrue(creations.isEmpty(), () -> "Unverified puzzle repository creation(s): " + creations),
+                () -> assertTrue(updates.isEmpty(), () -> "Unverified puzzle repository update(s): " + updates),
+                () -> assertTrue(deletions.isEmpty(), () -> "Unverified puzzle repository deletion(s): " + deletions));
     }
 
     /**

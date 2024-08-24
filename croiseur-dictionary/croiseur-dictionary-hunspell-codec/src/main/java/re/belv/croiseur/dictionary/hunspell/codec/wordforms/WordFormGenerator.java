@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
-
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
 
 /**
  * Generate word forms.
@@ -38,5 +37,4 @@ public interface WordFormGenerator extends Supplier<Stream<String>> {
      * @return all the valid forms
      */
     Stream<String> generate();
-
 }

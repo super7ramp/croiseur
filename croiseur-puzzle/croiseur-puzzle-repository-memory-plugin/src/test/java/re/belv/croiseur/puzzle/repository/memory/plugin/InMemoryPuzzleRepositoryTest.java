@@ -5,6 +5,14 @@
 
 package re.belv.croiseur.puzzle.repository.memory.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
@@ -14,15 +22,6 @@ import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link InMemoryPuzzleRepository}.
@@ -75,8 +74,7 @@ final class InMemoryPuzzleRepositoryTest {
     void update_noChange() throws WriteException {
         final Puzzle firstPuzzle = puzzleOfSize(4, 3);
         final SavedPuzzle initialSavedPuzzle = repo.create(firstPuzzle);
-        final ChangedPuzzle notReallyChangedPuzzle =
-                initialSavedPuzzle.modifiedWith(firstPuzzle);
+        final ChangedPuzzle notReallyChangedPuzzle = initialSavedPuzzle.modifiedWith(firstPuzzle);
 
         final SavedPuzzle updatedSavedPuzzle = repo.update(notReallyChangedPuzzle);
 
@@ -143,13 +141,14 @@ final class InMemoryPuzzleRepositoryTest {
         final Collection<SavedPuzzle> puzzles = repo.list();
 
         assertEquals(3, puzzles.size());
-        assertTrue(puzzles.containsAll(
-                List.of(firstSavedPuzzle, secondSavedPuzzle, thirdSavedPuzzle)));
+        assertTrue(puzzles.containsAll(List.of(firstSavedPuzzle, secondSavedPuzzle, thirdSavedPuzzle)));
     }
 
     private static Puzzle puzzleOfSize(final int numberOfColumns, final int numberOfRows) {
-        final var grid =
-                new PuzzleGrid.Builder().height(numberOfRows).width(numberOfColumns).build();
+        final var grid = new PuzzleGrid.Builder()
+                .height(numberOfRows)
+                .width(numberOfColumns)
+                .build();
         return new Puzzle(PuzzleDetails.empty(), grid, PuzzleClues.empty());
     }
 }

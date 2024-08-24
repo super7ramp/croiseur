@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
+import static re.belv.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
 
 import java.util.Objects;
-
-import static re.belv.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
+import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
 /**
  * Parses text to {@link XdGrid}.

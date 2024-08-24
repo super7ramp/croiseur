@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.solver.szunami.plugin;
 
+import java.util.ResourceBundle;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Crossword;
 import re.belv.croiseur.solver.szunami.Filler;
@@ -13,8 +14,6 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.ResourceBundle;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting {@link Filler szunami's xwords-rs solver}.
@@ -41,16 +40,15 @@ public final class SzunamiSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return ResourceBundle
-                .getBundle("re.belv.croiseur.solver.szunami.plugin.Messages")
+        return ResourceBundle.getBundle("re.belv.croiseur.solver.szunami.plugin.Messages")
                 .getString("description");
     }
 
     @Override
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) throws InterruptedException {
-        final re.belv.croiseur.solver.szunami.Dictionary adaptedDictionary =
-                DictionaryAdapter.adapt(dictionary);
+    public SolverResult solve(
+            final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener)
+            throws InterruptedException {
+        final re.belv.croiseur.solver.szunami.Dictionary adaptedDictionary = DictionaryAdapter.adapt(dictionary);
         final Crossword crossword = PuzzleAdapter.adapt(puzzle);
 
         final Result result = filler.fill(crossword, adaptedDictionary);

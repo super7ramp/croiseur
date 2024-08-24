@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.impl.solver.prerun;
 
+import java.util.EnumMap;
+import java.util.Map;
 import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.solver.ProgressListener;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 /**
  * A {@link ProgressListener} factory.
@@ -50,7 +49,6 @@ public final class ProgressListenerFactory {
         public void onSolverProgressUpdate(final short completionPercentage) {
             presenter.presentSolverProgress(new SolverProgress(completionPercentage));
         }
-
     }
 
     /** Listeners. */
@@ -62,12 +60,10 @@ public final class ProgressListenerFactory {
      * @param solverPresenterArg the solver presenter instance
      */
     public ProgressListenerFactory(final SolverPresenter solverPresenterArg) {
-        listeners =
-                new EnumMap<>(SolveRequest.SolverProgressNotificationMethod.class);
-        listeners.put(SolveRequest.SolverProgressNotificationMethod.NONE,
-                ProgressListener.DUMMY_LISTENER);
-        listeners.put(SolveRequest.SolverProgressNotificationMethod.PERIODICAL,
-                new ProgressListenerImpl(solverPresenterArg));
+        listeners = new EnumMap<>(SolveRequest.SolverProgressNotificationMethod.class);
+        listeners.put(SolveRequest.SolverProgressNotificationMethod.NONE, ProgressListener.DUMMY_LISTENER);
+        listeners.put(
+                SolveRequest.SolverProgressNotificationMethod.PERIODICAL, new ProgressListenerImpl(solverPresenterArg));
     }
 
     /**
@@ -79,5 +75,4 @@ public final class ProgressListenerFactory {
     public ProgressListener from(final SolveRequest.SolverProgressNotificationMethod kind) {
         return listeners.get(kind);
     }
-
 }

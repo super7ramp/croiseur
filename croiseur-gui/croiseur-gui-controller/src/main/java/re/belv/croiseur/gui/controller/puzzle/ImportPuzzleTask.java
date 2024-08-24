@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.gui.controller.puzzle;
 
-import javafx.concurrent.Task;
-import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import javafx.concurrent.Task;
+import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 
 /**
  * The 'import puzzle' task.
@@ -33,8 +32,10 @@ final class ImportPuzzleTask extends Task<Void> {
      * @param selectedFormatArg      the selected puzzle format
      * @param puzzleImportServiceArg the puzzle service to call
      */
-    ImportPuzzleTask(final File selectedFileArg, final String selectedFormatArg,
-                     final PuzzleImportService puzzleImportServiceArg) {
+    ImportPuzzleTask(
+            final File selectedFileArg,
+            final String selectedFormatArg,
+            final PuzzleImportService puzzleImportServiceArg) {
         selectedFile = selectedFileArg;
         selectedFormat = selectedFormatArg;
         puzzleImportService = puzzleImportServiceArg;
@@ -47,5 +48,4 @@ final class ImportPuzzleTask extends Task<Void> {
         }
         return null;
     }
-
 }

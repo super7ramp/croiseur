@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.solver.ginsberg.dictionary;
 
+import java.util.Collection;
 import re.belv.croiseur.solver.ginsberg.Dictionary;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
-
-import java.util.Collection;
 
 /**
  * Write access to the {@link CachedDictionary}.
@@ -24,8 +23,8 @@ public interface CachedDictionaryWriter extends CachedDictionary {
      * @param eliminationSpace the eliminated candidates
      * @return the new {@link CachedDictionaryWriter}
      */
-    static CachedDictionaryWriter create(final Dictionary dictionary, final Collection<Slot> slots,
-                                         final EliminationSpace eliminationSpace) {
+    static CachedDictionaryWriter create(
+            final Dictionary dictionary, final Collection<Slot> slots, final EliminationSpace eliminationSpace) {
         return new CachedDictionaryImpl(dictionary, slots, eliminationSpace);
     }
 
@@ -37,5 +36,4 @@ public interface CachedDictionaryWriter extends CachedDictionary {
      * @param modifiedSlot the assigned/unassigned slot
      */
     void invalidateCacheCount(final Slot modifiedSlot);
-
 }

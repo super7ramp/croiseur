@@ -5,6 +5,18 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -15,19 +27,6 @@ import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Tests for {@link FileSystemPuzzleRepository}.
@@ -72,8 +71,7 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void create() throws WriteException {
-        final PuzzleDetails details =
-                new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
+        final PuzzleDetails details = new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
         final PuzzleClues clues = PuzzleClues.empty();
         final Puzzle puzzle = new Puzzle(details, grid, clues);
@@ -87,23 +85,20 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void create_consistencyWithQuery() throws WriteException {
-        final PuzzleDetails details =
-                new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
+        final PuzzleDetails details = new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
         final PuzzleClues clues = PuzzleClues.empty();
         final Puzzle puzzle = new Puzzle(details, grid, clues);
 
         final SavedPuzzle savedPuzzle = repo.create(puzzle);
-        final SavedPuzzle queriedPuzzle =
-                repo.query(savedPuzzle.id()).orElseThrow(AssertionError::new);
+        final SavedPuzzle queriedPuzzle = repo.query(savedPuzzle.id()).orElseThrow(AssertionError::new);
 
         assertEquals(savedPuzzle, queriedPuzzle);
     }
 
     @Test
     void update() throws WriteException {
-        final PuzzleDetails details =
-                new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
+        final PuzzleDetails details = new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
         final PuzzleClues clues = PuzzleClues.empty();
         final Puzzle puzzle = new Puzzle(details, grid, clues);
@@ -122,8 +117,7 @@ final class FileSystemPuzzleRepositoryTest {
 
     @Test
     void update_noRealChange() throws WriteException {
-        final PuzzleDetails details =
-                new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
+        final PuzzleDetails details = new PuzzleDetails("A Title", "An author", "", "", Optional.empty());
         final PuzzleGrid grid = new PuzzleGrid.Builder().width(2).height(2).build();
         final PuzzleClues clues = PuzzleClues.empty();
         final Puzzle puzzle = new Puzzle(details, grid, clues);
@@ -226,5 +220,4 @@ final class FileSystemPuzzleRepositoryTest {
 
         assertEquals(Collections.emptyList(), puzzles);
     }
-
 }

@@ -14,5 +14,7 @@ module re.belv.croiseur.puzzle.repository.filesystem.plugin {
     requires re.belv.croiseur.puzzle.codec.xd;
     requires re.belv.croiseur.spi.puzzle.repository;
     requires java.logging;
-    provides PuzzleRepository with FileSystemPuzzleRepository;
+
+    provides PuzzleRepository with
+            FileSystemPuzzleRepository;
 }

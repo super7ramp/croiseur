@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.dic;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
 /**
  * Parses {@link DicEntry}.
@@ -19,11 +18,10 @@ import java.util.regex.Pattern;
 final class DicEntryParser {
 
     /** The pattern of a dictionary entry. */
-    private static final Pattern PATTERN = Pattern.compile("^(?<forbidden>\\*)?" +
-            "(?<word>[^ /\t]+)" +
-            "(/(?<flags>[^ /\t]+))?" +
-            "([\t| ]+(?<morphology>.+))?" +
-            "[ \t]*$"); // trailing spaces or tabs should not cause parsing failure
+    private static final Pattern PATTERN = Pattern.compile("^(?<forbidden>\\*)?" + "(?<word>[^ /\t]+)"
+            + "(/(?<flags>[^ /\t]+))?"
+            + "([\t| ]+(?<morphology>.+))?"
+            + "[ \t]*$"); // trailing spaces or tabs should not cause parsing failure
 
     /**
      * Private constructor to prevent instantiation, static methods only.

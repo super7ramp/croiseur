@@ -50,5 +50,4 @@ public interface SolverPresenter {
      */
     // TODO error should be a dedicated type
     void presentSolverError(final String error);
-
 }

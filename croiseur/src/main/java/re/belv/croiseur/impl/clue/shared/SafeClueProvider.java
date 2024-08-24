@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.impl.clue.shared;
 
-import re.belv.croiseur.impl.clue.error.ClueErrorMessages;
-import re.belv.croiseur.spi.clue.ClueProvider;
-import re.belv.croiseur.spi.presenter.clue.CluePresenter;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import re.belv.croiseur.impl.clue.error.ClueErrorMessages;
+import re.belv.croiseur.spi.clue.ClueProvider;
+import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 
 /**
  * A wrapper around {@link ClueProvider} which handles common errors.
@@ -34,8 +33,7 @@ public final class SafeClueProvider {
      * @param clueProvidersArg the clue providers
      * @param cluePresenterArg the clue presenter
      */
-    public SafeClueProvider(final Collection<ClueProvider> clueProvidersArg,
-                            final CluePresenter cluePresenterArg) {
+    public SafeClueProvider(final Collection<ClueProvider> clueProvidersArg, final CluePresenter cluePresenterArg) {
         clueProviders = clueProvidersArg;
         cluePresenter = cluePresenterArg;
     }
@@ -78,9 +76,9 @@ public final class SafeClueProvider {
      */
     private Optional<ClueProvider> selectClueProvider(final String providerName) {
         return clueProviders.stream()
-                            .filter(clueProvider -> providerName == null ||
-                                                    clueProvider.name().equals(providerName))
-                            .findFirst();
+                .filter(clueProvider ->
+                        providerName == null || clueProvider.name().equals(providerName))
+                .findFirst();
     }
 
     /**
@@ -90,8 +88,7 @@ public final class SafeClueProvider {
      * @param words        the words for which to get clues
      * @return the clues indexed by the defined words
      */
-    private Map<String, String> safeGetClues(final ClueProvider clueProvider,
-                                             final Set<String> words) {
+    private Map<String, String> safeGetClues(final ClueProvider clueProvider, final Set<String> words) {
         try {
             return clueProvider.define(words);
         } catch (final Exception e) {
@@ -100,8 +97,7 @@ public final class SafeClueProvider {
              * clue provider plugin, it should not stop the whole application or print a stacktrace.
              */
             final String error =
-                    String.format(ClueErrorMessages.CLUE_PROVIDER_FAILED, clueProvider.name(),
-                                  e.getMessage());
+                    String.format(ClueErrorMessages.CLUE_PROVIDER_FAILED, clueProvider.name(), e.getMessage());
             cluePresenter.presentClueError(error);
             return Collections.emptyMap();
         }

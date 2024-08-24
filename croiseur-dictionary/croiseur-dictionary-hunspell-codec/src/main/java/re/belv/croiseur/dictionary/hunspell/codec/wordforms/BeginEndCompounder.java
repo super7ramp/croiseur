@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-import re.belv.croiseur.dictionary.hunspell.codec.util.Pair;
+import static java.util.stream.Collectors.toSet;
+import static re.belv.croiseur.dictionary.hunspell.codec.util.MoreCollections.pairs;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
-import static re.belv.croiseur.dictionary.hunspell.codec.util.MoreCollections.pairs;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
+import re.belv.croiseur.dictionary.hunspell.codec.util.Pair;
 
 /**
  * Creates compounds based on the compound flag option.
@@ -36,18 +35,16 @@ final class BeginEndCompounder implements Compounder {
      * @param compoundFlagArg the compound flag
      * @param affixerArg      the affixer
      */
-    BeginEndCompounder(final Flag compoundFlagArg,
-                       final Affixer affixerArg) {
+    BeginEndCompounder(final Flag compoundFlagArg, final Affixer affixerArg) {
         compoundFlag = compoundFlagArg;
         affixer = affixerArg;
     }
 
     @Override
     public Stream<String> apply(final Collection<DicEntry> entries) {
-        final Set<DicEntry> compoundableEntries =
-                entries.stream()
-                       .filter(entry -> entry.isFlaggedWith(compoundFlag))
-                       .collect(toSet());
+        final Set<DicEntry> compoundableEntries = entries.stream()
+                .filter(entry -> entry.isFlaggedWith(compoundFlag))
+                .collect(toSet());
 
         return pairs(compoundableEntries).stream().mapMulti((compoundParts, accumulator) -> {
             final BeginEndCompound compound = compound(compoundParts, accumulator);
@@ -64,10 +61,9 @@ final class BeginEndCompounder implements Compounder {
      * @param accumulator   the accumulator where the compound is added
      * @return the created compound
      */
-    private BeginEndCompound compound(final Pair<DicEntry, DicEntry> compoundParts,
-                                      final Consumer<String> accumulator) {
-        final BeginEndCompound compound = new BeginEndCompound(compoundParts.left(),
-                compoundParts.right());
+    private BeginEndCompound compound(
+            final Pair<DicEntry, DicEntry> compoundParts, final Consumer<String> accumulator) {
+        final BeginEndCompound compound = new BeginEndCompound(compoundParts.left(), compoundParts.right());
         accumulator.accept(compound.word());
         return compound;
     }
@@ -81,5 +77,4 @@ final class BeginEndCompounder implements Compounder {
     private void applyAffixes(final BeginEndCompound compound, final Consumer<String> accumulator) {
         affixer.apply(compound).forEach(accumulator);
     }
-
 }

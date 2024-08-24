@@ -5,7 +5,7 @@
 
 package re.belv.croiseur.solver.ginsberg;
 
-import re.belv.croiseur.dictionary.common.StringTransformers;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +15,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toCollection;
+import re.belv.croiseur.dictionary.common.StringTransformers;
 
 /**
  * Mock for {@link Dictionary}.
@@ -37,7 +36,7 @@ final class DictionaryMock implements Dictionary {
     DictionaryMock(final Path dictionaryPath) throws IOException {
         try (final Stream<String> lines = Files.lines(dictionaryPath)) {
             words = lines.map(StringTransformers.toAcceptableCrosswordEntry())
-                         .collect(toCollection(LinkedHashSet::new));
+                    .collect(toCollection(LinkedHashSet::new));
         }
     }
 

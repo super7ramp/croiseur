@@ -28,9 +28,7 @@ public final class ChangeEventCounter<T> {
         return count;
     }
 
-    private void changed(final ObservableValue<? extends T> observable, final T oldValue,
-                         final T newValue) {
+    private void changed(final ObservableValue<? extends T> observable, final T oldValue, final T newValue) {
         count++;
     }
-
 }

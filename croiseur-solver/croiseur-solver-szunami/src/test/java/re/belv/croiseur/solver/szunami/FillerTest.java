@@ -5,7 +5,9 @@
 
 package re.belv.croiseur.solver.szunami;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,10 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Filler}.
@@ -33,10 +32,12 @@ final class FillerTest {
     void failureNullCrossword() {
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
-        final NativePanicException exception = assertThrows(NativePanicException.class,
-                () -> new Filler().fill(null, emptyDictionary));
-        assertEquals("Call to re.belv.croiseur.solver.szunami.Crossword method " +
-                "failed: NullPtr(\"call_method obj argument\")", exception.getMessage());
+        final NativePanicException exception =
+                assertThrows(NativePanicException.class, () -> new Filler().fill(null, emptyDictionary));
+        assertEquals(
+                "Call to re.belv.croiseur.solver.szunami.Crossword method "
+                        + "failed: NullPtr(\"call_method obj argument\")",
+                exception.getMessage());
     }
 
     /**
@@ -46,23 +47,25 @@ final class FillerTest {
      */
     @Test
     void possible3x3() throws InterruptedException {
-        final Crossword crossword = new Crossword("""
+        final Crossword crossword = new Crossword(
+                """
                 \s\s\s
                 \s\s\s
                 \s\s\s
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
-                "ABE"));
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD", "ABE"));
 
         final Result result = new Filler().fill(crossword, dictionary);
 
         assertTrue(result.isOk());
         final Crossword solution = result.solution();
-        assertEquals("""
+        assertEquals(
+                """
                 ABC
                 ABD
                 ABE
-                """, solution.contents());
+                """,
+                solution.contents());
         assertEquals(3, solution.width());
         assertEquals(3, solution.height());
     }
@@ -74,23 +77,26 @@ final class FillerTest {
      */
     @Test
     void possible3x3PreFilled() throws InterruptedException {
-        final Crossword crossword = new Crossword("""
+        final Crossword crossword = new Crossword(
+                """
                 \s\sC
                 \s\s*
                 \s\sE
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "ABC", "AB", "ABE", "C"
-                , "E")); // solver considers 1-character slot, hence "C" and "E"
+        final Dictionary dictionary = new Dictionary(List.of(
+                "AAA", "BBB", "ABC", "AB", "ABE", "C", "E")); // solver considers 1-character slot, hence "C" and "E"
 
         final Result result = new Filler().fill(crossword, dictionary);
 
         assertTrue(result.isOk());
         final Crossword solution = result.solution();
-        assertEquals("""
+        assertEquals(
+                """
                 ABC
                 AB*
                 ABE
-                """, solution.contents());
+                """,
+                solution.contents());
         assertEquals(3, solution.width());
         assertEquals(3, solution.height());
     }
@@ -102,7 +108,8 @@ final class FillerTest {
      */
     @Test
     void impossible3x3() throws InterruptedException {
-        final Crossword crossword = new Crossword("""
+        final Crossword crossword = new Crossword(
+                """
                 \s\s\s
                 \s\s\s
                 \s\s\s
@@ -115,7 +122,6 @@ final class FillerTest {
         assertEquals("We failed" /* :) */, result.error());
     }
 
-
     /**
      * Verifies that an {@link InterruptedException} is thrown when filler is interrupted.
      *
@@ -125,13 +131,13 @@ final class FillerTest {
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {
-        final Crossword crossword = new Crossword("""
+        final Crossword crossword = new Crossword(
+                """
                 \s\s\s
                 \s\s\s
                 \s\s\s
                 """, 3, 3);
-        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
-                "ABE"));
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD", "ABE"));
 
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Future<Result> result = executor.submit(() -> {

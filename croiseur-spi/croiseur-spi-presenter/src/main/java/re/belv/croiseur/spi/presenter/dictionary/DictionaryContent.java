@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.spi.presenter.dictionary;
 
-import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
-
 import java.util.Set;
+import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 /**
  * The words of a dictionary for presentation purposes.

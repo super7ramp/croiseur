@@ -5,15 +5,12 @@
 
 package re.belv.croiseur.solver.sat;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests for {@link Slot}.
- */
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+/** Tests for {@link Slot}. */
 final class SlotTest {
 
     @Test

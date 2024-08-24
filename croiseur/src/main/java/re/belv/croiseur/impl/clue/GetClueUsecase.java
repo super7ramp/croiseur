@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.impl.clue;
 
+import java.util.Collection;
+import java.util.Map;
 import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.impl.clue.shared.SafeClueProvider;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * Implementation of the 'get clue' usecase.
@@ -30,8 +29,7 @@ final class GetClueUsecase {
      * @param clueProvidersArg the clue providers
      * @param cluePresenterArg the clue presenter
      */
-    GetClueUsecase(final Collection<ClueProvider> clueProvidersArg,
-                   final CluePresenter cluePresenterArg) {
+    GetClueUsecase(final Collection<ClueProvider> clueProvidersArg, final CluePresenter cluePresenterArg) {
         clueRetriever = new SafeClueProvider(clueProvidersArg, cluePresenterArg);
         cluePresenter = cluePresenterArg;
     }

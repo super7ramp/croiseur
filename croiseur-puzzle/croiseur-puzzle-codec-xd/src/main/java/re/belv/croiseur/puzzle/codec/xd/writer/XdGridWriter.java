@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.puzzle.codec.xd.writer;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
-
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
 /**
  * Encodes {@link XdGrid} to its textual representation.

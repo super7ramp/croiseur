@@ -45,8 +45,7 @@ public record Clue(int number, String content) {
     public static Clue valueOf(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                                               ", was " + text);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() + ", was " + text);
         }
         final int number = Integer.parseInt(matcher.group("number"));
         final String content = matcher.group("content");

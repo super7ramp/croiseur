@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.model.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * Represents a parsed affix rule.
@@ -21,9 +20,13 @@ import java.util.Optional;
  * @param continuationClasses the affix classes that can be applied on the affixed word
  * @param condition           pattern that the base word must match to be eligible to the affix rule
  */
-public record AffixRule(AffixKind kind, Flag flag, Optional<String> strippingCharacters,
-                        String affix, Collection<Flag> continuationClasses,
-                        Optional<String> condition) {
+public record AffixRule(
+        AffixKind kind,
+        Flag flag,
+        Optional<String> strippingCharacters,
+        String affix,
+        Collection<Flag> continuationClasses,
+        Optional<String> condition) {
 
     /**
      * Performs some null checks.

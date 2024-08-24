@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.solver.ginsberg.heuristics.iteration;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.sap.VariableIterator;
-import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import static java.util.function.Predicate.not;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
-
-import static java.util.function.Predicate.not;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.sap.VariableIterator;
+import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 
 /**
  * Implementation of {@link VariableIterator}.
@@ -41,10 +40,10 @@ public final class SlotIteratorImpl implements VariableIterator<Slot> {
      * If the two slots also have the same ratio of empty boxes, then the slot identifier is
      * used for the sake of reproducibility.
      */
-    private static final Comparator<NumberOfCandidatesPerSlot> BY_OPENNESS =
-            Comparator.comparingLong(NumberOfCandidatesPerSlot::numberOfCandidates)
-                      .thenComparingInt(pair -> pair.slot.emptyBoxRatio())
-                      .thenComparingInt(pair -> pair.slot.uid().id());
+    private static final Comparator<NumberOfCandidatesPerSlot> BY_OPENNESS = Comparator.comparingLong(
+                    NumberOfCandidatesPerSlot::numberOfCandidates)
+            .thenComparingInt(pair -> pair.slot.emptyBoxRatio())
+            .thenComparingInt(pair -> pair.slot.uid().id());
 
     /** A predicate that matches not instantiated slots. */
     private static final Predicate<Slot> NOT_INSTANTIATED = not(Slot::isInstantiated);
@@ -74,12 +73,10 @@ public final class SlotIteratorImpl implements VariableIterator<Slot> {
     @Override
     public Slot next() {
         return variables.stream()
-                        .filter(NOT_INSTANTIATED)
-                        .map(slot -> new NumberOfCandidatesPerSlot(slot,
-                                dictionary.cachedCandidatesCount(slot)))
-                        .min(BY_OPENNESS)
-                        .map(NumberOfCandidatesPerSlot::slot)
-                        .orElseThrow(NoSuchElementException::new);
+                .filter(NOT_INSTANTIATED)
+                .map(slot -> new NumberOfCandidatesPerSlot(slot, dictionary.cachedCandidatesCount(slot)))
+                .min(BY_OPENNESS)
+                .map(NumberOfCandidatesPerSlot::slot)
+                .orElseThrow(NoSuchElementException::new);
     }
-
 }

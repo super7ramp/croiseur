@@ -5,6 +5,13 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
@@ -13,14 +20,6 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFl
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * {@link Aff} builder.
@@ -152,10 +151,8 @@ final class AffBuilder {
             affixClasses.add(affixClassBuilder.build());
         }
         final Optional<Flag> optCompoundFlag = Optional.ofNullable(compoundFlag);
-        final Optional<ThreePartsCompoundFlags> optThreePartsCompoundFlags =
-                threePartsCompoundFlagsBuilder.build();
-        return new Aff(encoding, flagType, affixClasses, optCompoundFlag,
-                optThreePartsCompoundFlags);
+        final Optional<ThreePartsCompoundFlags> optThreePartsCompoundFlags = threePartsCompoundFlagsBuilder.build();
+        return new Aff(encoding, flagType, affixClasses, optCompoundFlag, optThreePartsCompoundFlags);
     }
 
     /**
@@ -182,5 +179,4 @@ final class AffBuilder {
     private AffixClassBuilder affixClassBuilder(final Flag affixName) {
         return affixClassBuilders.computeIfAbsent(affixName, name -> new AffixClassBuilder());
     }
-
 }

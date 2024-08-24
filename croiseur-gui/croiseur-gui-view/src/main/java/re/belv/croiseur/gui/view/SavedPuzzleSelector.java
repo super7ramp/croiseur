@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -21,10 +24,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
-
-import java.util.ResourceBundle;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * A puzzle selector, allowing to search, open existing or new puzzles.
@@ -60,12 +59,9 @@ public final class SavedPuzzleSelector extends VBox {
      * Constructs an instance.
      */
     public SavedPuzzleSelector() {
-        recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles",
-                                                 FXCollections.observableArrayList());
-        onOpenSelectedPuzzleButtonAction =
-                new SimpleObjectProperty<>(this, "onEditSelectedPuzzleButtonAction");
-        onDeleteSelectedPuzzleButtonAction =
-                new SimpleObjectProperty<>(this, "onDeleteSelectedPuzzleButtonAction");
+        recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles", FXCollections.observableArrayList());
+        onOpenSelectedPuzzleButtonAction = new SimpleObjectProperty<>(this, "onEditSelectedPuzzleButtonAction");
+        onDeleteSelectedPuzzleButtonAction = new SimpleObjectProperty<>(this, "onDeleteSelectedPuzzleButtonAction");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -159,8 +155,8 @@ public final class SavedPuzzleSelector extends VBox {
      */
     private void initializeListViewSearch() {
         final var filteredPuzzles = new FilteredList<>(recentPuzzles);
-        final var searchPredicate = Bindings.createObjectBinding(this::createSearchPredicate,
-                                                                 searchTextField.textProperty());
+        final var searchPredicate =
+                Bindings.createObjectBinding(this::createSearchPredicate, searchTextField.textProperty());
         filteredPuzzles.predicateProperty().bind(searchPredicate);
         recentPuzzleListView.setItems(filteredPuzzles);
     }
@@ -176,9 +172,8 @@ public final class SavedPuzzleSelector extends VBox {
         return puzzle -> {
             // Convert everything to lowercase so that search is case-insensitive
             final String searchText = searchTextField.getText().toLowerCase();
-            return Stream.of(puzzle.title(), puzzle.author(), puzzle.editor(),
-                             puzzle.copyright(), puzzle.date())
-                         .anyMatch(text -> text.toLowerCase().contains(searchText));
+            return Stream.of(puzzle.title(), puzzle.author(), puzzle.editor(), puzzle.copyright(), puzzle.date())
+                    .anyMatch(text -> text.toLowerCase().contains(searchText));
         };
     }
 }

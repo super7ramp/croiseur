@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Stores a crossword puzzle data.
@@ -46,7 +45,9 @@ final class GridData {
         for (final Map.Entry<SlotIdentifier, SlotData> oneSlot : someSlots.entrySet()) {
             final Set<SlotIdentifier> connectedSlots = new LinkedHashSet<>();
             for (final Map.Entry<SlotIdentifier, SlotData> anotherSlot : someSlots.entrySet()) {
-                if (oneSlot.getValue().definition().isConnected(anotherSlot.getValue().definition())) {
+                if (oneSlot.getValue()
+                        .definition()
+                        .isConnected(anotherSlot.getValue().definition())) {
                     connectedSlots.add(anotherSlot.getKey());
                 }
             }

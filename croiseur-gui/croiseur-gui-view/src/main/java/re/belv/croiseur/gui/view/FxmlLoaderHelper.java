@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.view;
 
-import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
 
 /**
  * Common boilerplate code to load object hierarchies from FXML files.
@@ -50,8 +49,7 @@ final class FxmlLoaderHelper {
     static void load(final Object object, final ResourceBundle resourceBundle) {
         final Class<?> clazz = object.getClass();
         final String fxmlName = clazz.getSimpleName() + ".fxml";
-        final URL location =
-                Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
+        final URL location = Objects.requireNonNull(clazz.getResource(fxmlName), "Failed to locate " + fxmlName);
         final FXMLLoader fxmlLoader = new FXMLLoader(location, resourceBundle);
         fxmlLoader.setRoot(object);
         fxmlLoader.setController(object);

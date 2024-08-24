@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.model.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.Objects;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * An affix class header as parsed from an ".aff" file.

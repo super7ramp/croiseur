@@ -10,6 +10,7 @@
  */
 module re.belv.croiseur.gui.view.model {
     requires transitive javafx.base; // Requiring only javafx.base for javafx.beans
+
     exports re.belv.croiseur.gui.view.model;
     exports re.belv.croiseur.gui.view.model.slot;
 }

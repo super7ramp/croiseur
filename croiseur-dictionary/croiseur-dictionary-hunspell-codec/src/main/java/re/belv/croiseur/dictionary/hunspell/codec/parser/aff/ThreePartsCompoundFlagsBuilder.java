@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.Objects;
 import java.util.Optional;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * Builder for {@link ThreePartsCompoundFlags}.
@@ -41,8 +40,7 @@ final class ThreePartsCompoundFlagsBuilder {
      */
     ThreePartsCompoundFlagsBuilder setBeginFlag(final Flag beginArg) {
         if (begin != null) {
-            throw new IllegalStateException("Illegal attempt to set COMPOUNDBEGIN value a second " +
-                    "time");
+            throw new IllegalStateException("Illegal attempt to set COMPOUNDBEGIN value a second " + "time");
         }
         begin = Objects.requireNonNull(beginArg);
         return this;
@@ -57,8 +55,7 @@ final class ThreePartsCompoundFlagsBuilder {
      */
     ThreePartsCompoundFlagsBuilder setMiddleFlag(final Flag middleArg) {
         if (middle != null) {
-            throw new IllegalStateException("Illegal attempt to set COMPOUNDMIDDLE value a second" +
-                    " time");
+            throw new IllegalStateException("Illegal attempt to set COMPOUNDMIDDLE value a second" + " time");
         }
         middle = Objects.requireNonNull(middleArg);
         return this;
@@ -73,8 +70,7 @@ final class ThreePartsCompoundFlagsBuilder {
      */
     ThreePartsCompoundFlagsBuilder setEndFlag(final Flag endArg) {
         if (end != null) {
-            throw new IllegalStateException("Illegal attempt to set COMPOUNDEND value a second" +
-                    " time");
+            throw new IllegalStateException("Illegal attempt to set COMPOUNDEND value a second" + " time");
         }
         end = Objects.requireNonNull(endArg);
         return this;

@@ -8,6 +8,7 @@
  */
 module re.belv.croiseur.spi.presenter {
     requires transitive re.belv.croiseur.common;
+
     exports re.belv.croiseur.spi.presenter;
     exports re.belv.croiseur.spi.presenter.clue;
     exports re.belv.croiseur.spi.presenter.dictionary;

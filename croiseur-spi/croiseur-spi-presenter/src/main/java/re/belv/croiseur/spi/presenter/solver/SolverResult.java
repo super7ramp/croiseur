@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.spi.presenter.solver;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * A presentable solver result.

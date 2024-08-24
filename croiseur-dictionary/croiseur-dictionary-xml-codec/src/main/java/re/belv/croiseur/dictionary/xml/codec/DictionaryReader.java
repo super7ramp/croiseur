@@ -5,14 +5,14 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-import javax.xml.XMLConstants;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
 
 /**
  * A dictionary reader.
@@ -60,14 +60,14 @@ public final class DictionaryReader {
         final InputStreamSupplier dictionaryStream = Objects.requireNonNull(dictionaryStreamArg);
         final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
 
-        // See https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#xmlinputfactory-a-stax-parser
+        // See
+        // https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#xmlinputfactory-a-stax-parser
         xmlInputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
         xmlInputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
         xmlInputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 
-        xmlInputFactory.setXMLReporter((message, errorType, relatedInformation, location) ->
-                LOGGER.warning("Error " + errorType + " while parsing XML dictionary at location "
-                        + location + ": " + message));
+        xmlInputFactory.setXMLReporter((message, errorType, relatedInformation, location) -> LOGGER.warning(
+                "Error " + errorType + " while parsing XML dictionary at location " + location + ": " + message));
 
         dictionaryHeaderReader = new DictionaryHeaderReader(xmlInputFactory, dictionaryStream);
         dictionaryWordsReader = new DictionaryWordsReader(xmlInputFactory, dictionaryStream);
@@ -106,5 +106,4 @@ public final class DictionaryReader {
             LOGGER.fine(() -> "Read words in " + (System.currentTimeMillis() - before) + " ms");
         }
     }
-
 }

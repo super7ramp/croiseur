@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.gui.controller.clue;
 
-import re.belv.croiseur.api.clue.GetClueRequest;
-import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
-
 import java.util.Optional;
 import java.util.Set;
+import re.belv.croiseur.api.clue.GetClueRequest;
+import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 
 /**
  * Implementation of {@link GetClueRequest}.
@@ -27,8 +26,7 @@ final class GetClueRequestImpl implements GetClueRequest {
     GetClueRequestImpl(final CrosswordGridViewModel crosswordGridViewModel) {
         word = crosswordGridViewModel.currentSlotContent();
         if (word.isEmpty() || word.contains(".")) {
-            throw new IllegalArgumentException(
-                    "Current slot is not filled, cannot get a clue for it");
+            throw new IllegalArgumentException("Current slot is not filled, cannot get a clue for it");
         }
     }
 

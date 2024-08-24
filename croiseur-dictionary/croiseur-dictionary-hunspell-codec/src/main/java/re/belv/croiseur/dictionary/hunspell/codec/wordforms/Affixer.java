@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
 /**
  * Applies all the appropriate affix classes to a dic entry.
@@ -34,16 +33,16 @@ final class Affixer implements Function<DicEntry, Stream<String>> {
         affixClasses = affixClassesArg;
         affixClassApplicators = new HashMap<>();
         for (final AffixClass affixClass : affixClasses) {
-            affixClassApplicators.put(affixClass.flag(), new AffixClassApplicator(affixClass,
-                    affixClasses));
+            affixClassApplicators.put(affixClass.flag(), new AffixClassApplicator(affixClass, affixClasses));
         }
     }
 
     @Override
     public Stream<String> apply(final DicEntry entry) {
-        return affixClasses.referencedBy(entry.flags())
-                           .map(cls -> affixClassApplicators.get(cls.flag()))
-                           .flatMap(affixClassApplicator -> affixClassApplicator.apply(entry));
+        return affixClasses
+                .referencedBy(entry.flags())
+                .map(cls -> affixClassApplicators.get(cls.flag()))
+                .flatMap(affixClassApplicator -> affixClassApplicator.apply(entry));
     }
 
     /**
@@ -68,20 +67,20 @@ final class Affixer implements Function<DicEntry, Stream<String>> {
         final DicEntry prefixablePseudoDicEntry =
                 new DicEntry(false, compoundedForm, compound.endFlags() /* for cross-product
                 suffix on prefixed form. */);
-        final Stream<String> prefixed =
-                affixClasses.referencedBy(compound.beginFlags())
-                            .filter(cls -> cls.kind().isPrefix())
-                            .map(cls -> affixClassApplicators.get(cls.flag()))
-                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
+        final Stream<String> prefixed = affixClasses
+                .referencedBy(compound.beginFlags())
+                .filter(cls -> cls.kind().isPrefix())
+                .map(cls -> affixClassApplicators.get(cls.flag()))
+                .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
 
         final DicEntry suffixablePseudoDicEntry =
                 new DicEntry(false, compoundedForm, compound.beginFlags() /* for cross-product
                 prefix on suffixed form*/);
-        final Stream<String> suffixed =
-                affixClasses.referencedBy(compound.endFlags())
-                            .filter(cls -> cls.kind().isSuffix())
-                            .map(cls -> affixClassApplicators.get(cls.flag()))
-                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));
+        final Stream<String> suffixed = affixClasses
+                .referencedBy(compound.endFlags())
+                .filter(cls -> cls.kind().isSuffix())
+                .map(cls -> affixClassApplicators.get(cls.flag()))
+                .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));
 
         return Stream.concat(prefixed, suffixed);
     }
@@ -99,22 +98,21 @@ final class Affixer implements Function<DicEntry, Stream<String>> {
         final DicEntry prefixablePseudoDicEntry =
                 new DicEntry(false, compoundedForm, compound.endFlags() /* for cross-product
                 suffix on prefixed form. */);
-        final Stream<String> prefixed =
-                affixClasses.referencedBy(compound.beginFlags())
-                            .filter(cls -> cls.kind().isPrefix())
-                            .map(cls -> affixClassApplicators.get(cls.flag()))
-                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
+        final Stream<String> prefixed = affixClasses
+                .referencedBy(compound.beginFlags())
+                .filter(cls -> cls.kind().isPrefix())
+                .map(cls -> affixClassApplicators.get(cls.flag()))
+                .flatMap(affixClassApplicator -> affixClassApplicator.apply(prefixablePseudoDicEntry));
 
         final DicEntry suffixablePseudoDicEntry =
                 new DicEntry(false, compoundedForm, compound.beginFlags() /* for cross-product
                 prefix on suffixed form*/);
-        final Stream<String> suffixed =
-                affixClasses.referencedBy(compound.endFlags())
-                            .filter(cls -> cls.kind().isSuffix())
-                            .map(cls -> affixClassApplicators.get(cls.flag()))
-                            .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));
+        final Stream<String> suffixed = affixClasses
+                .referencedBy(compound.endFlags())
+                .filter(cls -> cls.kind().isSuffix())
+                .map(cls -> affixClassApplicators.get(cls.flag()))
+                .flatMap(affixClassApplicator -> affixClassApplicator.apply(suffixablePseudoDicEntry));
 
         return Stream.concat(prefixed, suffixed);
     }
 }
-

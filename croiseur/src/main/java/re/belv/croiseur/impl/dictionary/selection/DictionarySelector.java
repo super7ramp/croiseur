@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.impl.dictionary.selection;
 
-import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
-import re.belv.croiseur.common.util.Either;
-import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
-import re.belv.croiseur.spi.dictionary.Dictionary;
-import re.belv.croiseur.spi.dictionary.DictionaryProvider;
+import static java.util.Comparator.comparing;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static java.util.Comparator.comparing;
+import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
+import re.belv.croiseur.common.util.Either;
+import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
+import re.belv.croiseur.spi.dictionary.Dictionary;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * Select dictionaries.
@@ -52,8 +51,7 @@ public final class DictionarySelector {
     private static Either<String, SelectedDictionary> ambiguousRequestError(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {
         final String errorMessage =
-                DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" +
-                selectedDictionaryProviders + ")";
+                DictionaryErrorMessages.AMBIGUOUS_REQUEST_ERROR_MESSAGE + " (" + selectedDictionaryProviders + ")";
         return Either.leftOf(errorMessage);
     }
 
@@ -88,8 +86,7 @@ public final class DictionarySelector {
      * @param dictionaryIdentifier the dictionary identifier
      * @return either a unique matching dictionary or an error message
      */
-    public Either<String, SelectedDictionary> select(
-            final DictionaryIdentifier dictionaryIdentifier) {
+    public Either<String, SelectedDictionary> select(final DictionaryIdentifier dictionaryIdentifier) {
 
         final Collection<DictionaryProvider> selectedDictionaryProviders =
                 DictionaryProviderFilter.byId(dictionaryIdentifier).apply(dictionaryProviders);
@@ -105,9 +102,9 @@ public final class DictionarySelector {
                     selectedDictionaryProviders.iterator().next();
             final Optional<Dictionary> dictionaryOpt = dictionaryProvider.getFirst();
 
-            result = dictionaryOpt.map(dictionary -> success(dictionaryProvider, dictionary))
-                                  .orElseGet(DictionarySelector::noDictionaryError);
-
+            result = dictionaryOpt
+                    .map(dictionary -> success(dictionaryProvider, dictionary))
+                    .orElseGet(DictionarySelector::noDictionaryError);
         }
 
         return result;
@@ -120,14 +117,13 @@ public final class DictionarySelector {
      * @return dictionaries with given IDs
      */
     public List<SelectedDictionary> select(final Collection<DictionaryIdentifier> ids) {
-        final DictionaryProviderFilter selection =
-                ids.stream()
-                   .map(DictionaryProviderFilter::byId)
-                   .reduce(DictionaryProviderFilter.none(), DictionaryProviderFilter::or);
-        final Collection<DictionaryProvider> selectedDictionaryProviders =
-                selection.apply(dictionaryProviders);
-        return selectedDictionaryProviders.stream().flatMap(DictionarySelector::dictionariesOf)
-                                          .toList();
+        final DictionaryProviderFilter selection = ids.stream()
+                .map(DictionaryProviderFilter::byId)
+                .reduce(DictionaryProviderFilter.none(), DictionaryProviderFilter::or);
+        final Collection<DictionaryProvider> selectedDictionaryProviders = selection.apply(dictionaryProviders);
+        return selectedDictionaryProviders.stream()
+                .flatMap(DictionarySelector::dictionariesOf)
+                .toList();
     }
 
     /**
@@ -137,8 +133,7 @@ public final class DictionarySelector {
      */
     public Optional<SelectedDictionary> selectDefault() {
         return dictionaryProviders.stream()
-                                  .flatMap(DictionarySelector::dictionariesOf)
-                                  .min(comparing(SelectedDictionary::details,
-                                                 new DictionaryComparator()));
+                .flatMap(DictionarySelector::dictionariesOf)
+                .min(comparing(SelectedDictionary::details, new DictionaryComparator()));
     }
 }

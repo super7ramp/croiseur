@@ -5,7 +5,10 @@
 
 package re.belv.croiseur.solver.paulgb;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Solver}.
@@ -51,11 +50,12 @@ final class SolverTest {
      */
     @Test
     void impossible3x3() throws InterruptedException {
-        final Puzzle puzzle = new Puzzle(new int[][]{
-                // horizontal slots
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-                // vertical slots
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
+        final Puzzle puzzle = new Puzzle(new int[][] {
+            // horizontal slots
+            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+            // vertical slots
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}
+        });
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
         final Optional<Solution> solution = new Solver().solve(puzzle, emptyDictionary);
@@ -70,20 +70,20 @@ final class SolverTest {
      */
     @Test
     void possible3x3() throws InterruptedException {
-        final Puzzle puzzle = new Puzzle(new int[][]{
-                // horizontal slots
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-                // vertical slots
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
-        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD",
-                "ABE"));
+        final Puzzle puzzle = new Puzzle(new int[][] {
+            // horizontal slots
+            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+            // vertical slots
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}
+        });
+        final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD", "ABE"));
 
         final Optional<Solution> solution = new Solver().solve(puzzle, dictionary);
 
         assertTrue(solution.isPresent());
         final char[] cells = solution.get().cells();
         assertEquals(9, cells.length);
-        assertArrayEquals(new char[]{'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
+        assertArrayEquals(new char[] {'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
     }
 
     /**
@@ -92,10 +92,9 @@ final class SolverTest {
      */
     @Test
     void failureNullPuzzle() {
-        final NativePanicException solverError = assertThrows(NativePanicException.class,
-                () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
-        assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")",
-                solverError.getMessage());
+        final NativePanicException solverError = assertThrows(
+                NativePanicException.class, () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
+        assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")", solverError.getMessage());
     }
 
     /**
@@ -104,10 +103,10 @@ final class SolverTest {
      */
     @Test
     void failureNullDictionary() {
-        final NativePanicException solverError = assertThrows(NativePanicException.class,
-                () -> new Solver().solve(new Puzzle(new int[0][]), null));
-        assertEquals("Failed to retrieve dictionary words: NullPtr(\"call_method obj argument\")"
-                , solverError.getMessage());
+        final NativePanicException solverError =
+                assertThrows(NativePanicException.class, () -> new Solver().solve(new Puzzle(new int[0][]), null));
+        assertEquals(
+                "Failed to retrieve dictionary words: NullPtr(\"call_method obj argument\")", solverError.getMessage());
     }
 
     /**
@@ -119,13 +118,13 @@ final class SolverTest {
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {
-        final Puzzle puzzle = new Puzzle(new int[][]{
-                // horizontal slots
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-                // vertical slots
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}});
-        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "CDE", "ABC", "ABD",
-                "ABE"));
+        final Puzzle puzzle = new Puzzle(new int[][] {
+            // horizontal slots
+            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+            // vertical slots
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}
+        });
+        final Dictionary dictionary = new Dictionary(Set.of("AAA", "BBB", "CDE", "ABC", "ABD", "ABE"));
 
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Future<Optional<Solution>> solution = executor.submit(() -> {

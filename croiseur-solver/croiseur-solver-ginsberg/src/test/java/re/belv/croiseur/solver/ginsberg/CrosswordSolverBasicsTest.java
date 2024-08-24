@@ -25,7 +25,8 @@ final class CrosswordSolverBasicsTest {
     @Test
     @Disabled("Assess whether preventing values to be re-used actually is worth it")
     void empty3x3() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
+                """
                 | | | |
                 | | | |
                 | | | |
@@ -34,31 +35,35 @@ final class CrosswordSolverBasicsTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess("""
+        Assertions.assertSuccess(
+                """
                 |A|B|C|
                 |A|B|D|
                 |A|B|E|
-                """, result);
+                """,
+                result);
     }
 
     @Test
     void empty3x4() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
+                """
                 | | | |
                 | | | |
                 | | | |
                 | | | |
                 """);
-        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD",
-                "ABCE", "ABCF");
+        final Dictionary dictionary = new DictionaryMock("AAA", "BBB", "CCC", "DEF", "ABCD", "ABCE", "ABCF");
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess("""
+        Assertions.assertSuccess(
+                """
                 |A|A|A|
                 |B|B|B|
                 |C|C|C|
                 |D|E|F|
-                """, result);
+                """,
+                result);
     }
 }

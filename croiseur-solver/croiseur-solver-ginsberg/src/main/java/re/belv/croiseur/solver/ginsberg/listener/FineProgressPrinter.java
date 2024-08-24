@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.solver.ginsberg.listener;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.grid.Grid;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.grid.Grid;
 
 /**
  * Prints fine progress information about the solver.

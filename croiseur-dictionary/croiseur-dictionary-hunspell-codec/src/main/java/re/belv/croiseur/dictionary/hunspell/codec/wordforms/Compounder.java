@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
 /**
  * Creates compounds from the given entries.

@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
 /**
  * Parses {@link AffixRule}.
@@ -22,13 +21,11 @@ import java.util.regex.Pattern;
 final class AffixRuleParser {
 
     /** The pattern of an affix header. */
-    private static final Pattern PATTERN =
-            Pattern.compile("^(?<kind>(PFX|SFX)) +" +
-                    "(?<flag>[^ /]+) +(0|" +
-                    "(?<strippingCharacters>[^ /]+)) +" +
-                    "(?<affix>[^ /]+)" +
-                    "(/(?<continuationClasses>[^ /]+))? +" +
-                    "(\\.|(?<condition>[^ /]+)) *$");
+    private static final Pattern PATTERN = Pattern.compile("^(?<kind>(PFX|SFX)) +" + "(?<flag>[^ /]+) +(0|"
+            + "(?<strippingCharacters>[^ /]+)) +"
+            + "(?<affix>[^ /]+)"
+            + "(/(?<continuationClasses>[^ /]+))? +"
+            + "(\\.|(?<condition>[^ /]+)) *$");
 
     /**
      * Parses an affix rule, using the default flag type to split the continuation classes.
@@ -55,20 +52,17 @@ final class AffixRuleParser {
 
         final AffixKind kind = AffixKind.valueOf(matcher.group("kind"));
         final Flag flag = new Flag(matcher.group("flag"));
-        final Optional<String> strippingCharacters = Optional.ofNullable(matcher.group(
-                "strippingCharacters"));
+        final Optional<String> strippingCharacters = Optional.ofNullable(matcher.group("strippingCharacters"));
         final String affix = matcher.group("affix");
         final Collection<Flag> continuationClasses = parseContinuationClasses(matcher, flagType);
         final Optional<String> condition = Optional.ofNullable(matcher.group("condition"));
 
-        return new AffixRule(kind, flag, strippingCharacters, affix, continuationClasses,
-                condition);
+        return new AffixRule(kind, flag, strippingCharacters, affix, continuationClasses, condition);
     }
 
-    private static Collection<Flag> parseContinuationClasses(final Matcher matcher,
-                                                             final FlagType flagType) {
+    private static Collection<Flag> parseContinuationClasses(final Matcher matcher, final FlagType flagType) {
         return Optional.ofNullable(matcher.group("continuationClasses"))
-                       .map(flagType::split)
-                       .orElseGet(Collections::emptyList);
+                .map(flagType::split)
+                .orElseGet(Collections::emptyList);
     }
 }

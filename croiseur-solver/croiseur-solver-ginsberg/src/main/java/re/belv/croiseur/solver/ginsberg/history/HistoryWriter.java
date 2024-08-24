@@ -34,5 +34,4 @@ public interface HistoryWriter extends History {
      * @param variable the unassigned variable
      */
     void removeAssignmentRecord(final Slot variable);
-
 }

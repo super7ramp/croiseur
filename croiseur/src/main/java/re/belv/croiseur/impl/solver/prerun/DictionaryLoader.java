@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.impl.solver.prerun;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.solver.Dictionary;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Dictionary loader.
@@ -45,9 +44,8 @@ public final class DictionaryLoader {
         final List<SelectedDictionary> selectedDictionaries;
         if (dictionaries.isEmpty()) {
             // As per SolveRequest spec, no given dictionary means default dictionary
-            selectedDictionaries = selector.selectDefault()
-                                           .map(Collections::singletonList)
-                                           .orElseGet(Collections::emptyList);
+            selectedDictionaries =
+                    selector.selectDefault().map(Collections::singletonList).orElseGet(Collections::emptyList);
         } else {
             selectedDictionaries = selector.select(dictionaries);
         }

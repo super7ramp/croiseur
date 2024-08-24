@@ -12,7 +12,6 @@ import com.azure.ai.openai.models.ChatRequestMessage;
 import com.azure.ai.openai.models.ChatRequestSystemMessage;
 import com.azure.ai.openai.models.ChatRequestUserMessage;
 import com.azure.core.credential.KeyCredential;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,8 +51,7 @@ final class ClueGenerator {
         openAiService =
                 new OpenAIClientBuilder().credential(new KeyCredential(token)).buildClient();
         config = new ModelConfiguration();
-        final ResourceBundle rb =
-                ResourceBundle.getBundle("re.belv.croiseur.clue.openai.plugin.Prompt");
+        final ResourceBundle rb = ResourceBundle.getBundle("re.belv.croiseur.clue.openai.plugin.Prompt");
         systemMessage = rb.getString("system");
         userMessageHeader = rb.getString("user");
         placeholder = rb.getString("placeholder");
@@ -66,8 +64,7 @@ final class ClueGenerator {
      * @param completion the completion
      * @return the clues extracted from the completion
      */
-    private static Map<String, String> extractClues(final List<String> words,
-                                                    final List<ChatChoice> completion) {
+    private static Map<String, String> extractClues(final List<String> words, final List<ChatChoice> completion) {
         if (completion.isEmpty()) {
             return Collections.emptyMap();
         }
@@ -80,11 +77,12 @@ final class ClueGenerator {
         final Map<String, String> clues = new HashMap<>();
         for (int i = 0; i < words.size(); i++) {
             final String word = words.get(i);
-            final String clue = payload[i].trim()
-                                          // Model sometimes adds quotes to clue
-                                          .replace("\"", "")
-                                          // Model sometimes repeats given word despite instructions
-                                          .replaceFirst("^" + word + "\\s*(:\\s*)?", "");
+            final String clue = payload[i]
+                    .trim()
+                    // Model sometimes adds quotes to clue
+                    .replace("\"", "")
+                    // Model sometimes repeats given word despite instructions
+                    .replaceFirst("^" + word + "\\s*(:\\s*)?", "");
             clues.put(word, clue);
         }
         return clues;
@@ -99,16 +97,18 @@ final class ClueGenerator {
     public Map<String, String> generate(final Set<String> words) {
         final List<String> orderedWords = new ArrayList<>(words);
         final ChatCompletionsOptions completionRequest = createRequest(orderedWords);
-        final List<ChatChoice> choices =
-                openAiService.getChatCompletions(config.model(), completionRequest).getChoices();
+        final List<ChatChoice> choices = openAiService
+                .getChatCompletions(config.model(), completionRequest)
+                .getChoices();
         return extractClues(orderedWords, choices);
     }
 
     private ChatCompletionsOptions createRequest(final List<String> words) {
         final List<ChatRequestMessage> prompt = createPrompt(words);
-        return new ChatCompletionsOptions(prompt).setModel(config.model())
-                                                 .setFrequencyPenalty(config.frequencyPenalty())
-                                                 .setTemperature(config.temperature());
+        return new ChatCompletionsOptions(prompt)
+                .setModel(config.model())
+                .setFrequencyPenalty(config.frequencyPenalty())
+                .setTemperature(config.temperature());
     }
 
     /**

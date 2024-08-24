@@ -5,22 +5,21 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Locale;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests on {@link DictionaryWriter}.
@@ -46,17 +45,18 @@ final class DictionaryWriterTest {
                 .setLocale(Locale.ENGLISH)
                 .addName(Locale.ENGLISH, "Dictionary example")
                 .addName(Locale.FRANCE, "Exemple de dictionnaire")
-                .addDescription(Locale.ENGLISH, "An example of XML " +
-                                                "dictionary. Useful for discovery and testing purposes.")
-                .addDescription(Locale.FRANCE, "Un exemple de dictionnaire. Utile à des fins de " +
-                                               "découverte et de tests.")
+                .addDescription(
+                        Locale.ENGLISH, "An example of XML " + "dictionary. Useful for discovery and testing purposes.")
+                .addDescription(
+                        Locale.FRANCE, "Un exemple de dictionnaire. Utile à des fins de " + "découverte et de tests.")
                 .build();
         final List<String> words = List.of("Hello", "World");
         final Dictionary dictionary = new Dictionary(header, words);
 
         DictionaryWriter.write(outputStream, dictionary);
 
-        assertEquals("""
+        assertEquals(
+                """
                      <?xml version="1.0" encoding="UTF-8"?>\
                      <tns:dictionary xmlns:tns="http://www.example.org/dictionary" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dictionary dictionary.xsd">
                          <locale>en</locale>
@@ -69,7 +69,7 @@ final class DictionaryWriterTest {
                              <word>World</word>
                          </words>
                      </tns:dictionary>
-                     """, formatXml(outputStream.toString()));
+                     """,
+                formatXml(outputStream.toString()));
     }
-
 }

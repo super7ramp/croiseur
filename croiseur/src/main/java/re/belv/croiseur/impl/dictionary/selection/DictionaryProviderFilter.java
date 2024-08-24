@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.impl.dictionary.selection;
 
-import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
-import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
-import re.belv.croiseur.spi.dictionary.Dictionary;
-import re.belv.croiseur.spi.dictionary.DictionaryProvider;
-
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
+import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
+import re.belv.croiseur.spi.dictionary.Dictionary;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * Filters dictionary providers using conditions on both the provider details and its dictionaries.
@@ -40,10 +39,11 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
          * @param actualArg           the actual dictionary provider
          * @param dictionaryFilterArg the filter on dictionary
          */
-        FilteredDictionaryProvider(final DictionaryProvider actualArg,
-                                   final Predicate<Dictionary> dictionaryFilterArg) {
+        FilteredDictionaryProvider(
+                final DictionaryProvider actualArg, final Predicate<Dictionary> dictionaryFilterArg) {
             actual = actualArg;
-            filteredDictionaries = actualArg.get().stream().filter(dictionaryFilterArg).toList();
+            filteredDictionaries =
+                    actualArg.get().stream().filter(dictionaryFilterArg).toList();
         }
 
         @Override
@@ -69,8 +69,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * @param providerFilterArg   the filter on dictionary provider
      * @param dictionaryFilterArg the filter on dictionary
      */
-    private DictionaryProviderFilter(final Predicate<DictionaryProvider> providerFilterArg,
-                                     final Predicate<Dictionary> dictionaryFilterArg) {
+    private DictionaryProviderFilter(
+            final Predicate<DictionaryProvider> providerFilterArg, final Predicate<Dictionary> dictionaryFilterArg) {
         providerFilter = providerFilterArg;
         dictionaryFilter = dictionaryFilterArg;
     }
@@ -83,8 +83,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * given name
      */
     public static DictionaryProviderFilter byName(final String desiredDictionaryName) {
-        return new DictionaryProviderFilter(satisfied(), dictionary -> dictionary.details().name()
-                                                                                 .equals(desiredDictionaryName));
+        return new DictionaryProviderFilter(
+                satisfied(), dictionary -> dictionary.details().name().equals(desiredDictionaryName));
     }
 
     /**
@@ -99,8 +99,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
         if (desiredDictionaryLocale.getCountry().isEmpty()) {
             return byLanguage(desiredDictionaryLocale.getLanguage());
         }
-        return new DictionaryProviderFilter(satisfied(), dictionary -> dictionary.details().locale()
-                                                                                 .equals(desiredDictionaryLocale));
+        return new DictionaryProviderFilter(
+                satisfied(), dictionary -> dictionary.details().locale().equals(desiredDictionaryLocale));
     }
 
     /**
@@ -112,11 +112,9 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * the given language
      */
     public static DictionaryProviderFilter byLanguage(final String desiredDictionaryLanguage) {
-        return new DictionaryProviderFilter(satisfied(),
-                dictionary -> dictionary.details()
-                                        .locale()
-                                        .getLanguage()
-                                        .equals(desiredDictionaryLanguage));
+        return new DictionaryProviderFilter(
+                satisfied(),
+                dictionary -> dictionary.details().locale().getLanguage().equals(desiredDictionaryLanguage));
     }
 
     /**
@@ -127,8 +125,7 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * the given locale, or any locale if given locale is {@link Optional#empty()}
      */
     public static DictionaryProviderFilter byOptionalLocale(final Optional<Locale> desiredDictionaryLocale) {
-        return desiredDictionaryLocale.map(DictionaryProviderFilter::byLocale)
-                                      .orElseGet(DictionaryProviderFilter::any);
+        return desiredDictionaryLocale.map(DictionaryProviderFilter::byLocale).orElseGet(DictionaryProviderFilter::any);
     }
 
     /**
@@ -139,8 +136,7 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * matches the given provider name, or any if given provider name is {@link Optional#empty()}
      */
     public static DictionaryProviderFilter byOptionalProvider(final Optional<String> desiredProviderName) {
-        return desiredProviderName.map(DictionaryProviderFilter::byProvider)
-                                  .orElseGet(DictionaryProviderFilter::any);
+        return desiredProviderName.map(DictionaryProviderFilter::byProvider).orElseGet(DictionaryProviderFilter::any);
     }
 
     /**
@@ -151,9 +147,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * matches the given provider name
      */
     public static DictionaryProviderFilter byProvider(final String desiredProviderName) {
-        return new DictionaryProviderFilter(provider -> provider.details().name()
-                                                                .equals(desiredProviderName),
-                                            satisfied());
+        return new DictionaryProviderFilter(
+                provider -> provider.details().name().equals(desiredProviderName), satisfied());
     }
 
     /**
@@ -201,8 +196,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * @return the logical "and" between this {@link DictionaryProviderFilter} and the given one
      */
     public DictionaryProviderFilter and(final DictionaryProviderFilter other) {
-        return new DictionaryProviderFilter(providerFilter.and(other.providerFilter),
-                                            dictionaryFilter.and(other.dictionaryFilter));
+        return new DictionaryProviderFilter(
+                providerFilter.and(other.providerFilter), dictionaryFilter.and(other.dictionaryFilter));
     }
 
     /**
@@ -212,17 +207,16 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * @return the logical "or" between this {@link DictionaryProviderFilter} and the given one
      */
     public DictionaryProviderFilter or(final DictionaryProviderFilter other) {
-        return new DictionaryProviderFilter(providerFilter.or(other.providerFilter),
-                                            dictionaryFilter.or(other.dictionaryFilter));
+        return new DictionaryProviderFilter(
+                providerFilter.or(other.providerFilter), dictionaryFilter.or(other.dictionaryFilter));
     }
 
     @Override
     public Collection<DictionaryProvider> apply(final Collection<DictionaryProvider> providers) {
         return providers.stream()
-                        .filter(providerFilter)
-                        .map(provider -> new FilteredDictionaryProvider(provider, dictionaryFilter))
-                        .filter(provider -> !provider.get().isEmpty())
-                        .collect(Collectors.toUnmodifiableList());
+                .filter(providerFilter)
+                .map(provider -> new FilteredDictionaryProvider(provider, dictionaryFilter))
+                .filter(provider -> !provider.get().isEmpty())
+                .collect(Collectors.toUnmodifiableList());
     }
 }
-

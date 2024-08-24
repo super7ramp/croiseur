@@ -12,8 +12,8 @@ public interface ProgressListener {
 
     /** A no-op listener. */
     ProgressListener DUMMY_LISTENER = new ProgressListener() {
-        // No overridden methods
-    };
+                // No overridden methods
+            };
 
     /**
      * Solver has started its initialization.
@@ -41,5 +41,4 @@ public interface ProgressListener {
     default void onSolverProgressUpdate(final short completionPercentage) {
         // Do nothing per default
     }
-
 }

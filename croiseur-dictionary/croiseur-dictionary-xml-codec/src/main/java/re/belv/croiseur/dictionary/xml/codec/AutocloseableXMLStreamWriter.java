@@ -37,8 +37,8 @@ final class AutocloseableXMLStreamWriter implements XMLStreamWriter, AutoCloseab
     }
 
     @Override
-    public void writeStartElement(final String prefix, final String localName,
-                                  final String namespaceURI) throws XMLStreamException {
+    public void writeStartElement(final String prefix, final String localName, final String namespaceURI)
+            throws XMLStreamException {
         writer.writeStartElement(prefix, localName, namespaceURI);
     }
 
@@ -48,8 +48,8 @@ final class AutocloseableXMLStreamWriter implements XMLStreamWriter, AutoCloseab
     }
 
     @Override
-    public void writeEmptyElement(final String prefix, final String localName,
-                                  final String namespaceURI) throws XMLStreamException {
+    public void writeEmptyElement(final String prefix, final String localName, final String namespaceURI)
+            throws XMLStreamException {
         writer.writeEmptyElement(prefix, localName, namespaceURI);
     }
 
@@ -84,14 +84,15 @@ final class AutocloseableXMLStreamWriter implements XMLStreamWriter, AutoCloseab
     }
 
     @Override
-    public void writeAttribute(final String prefix, final String namespaceURI,
-                               final String localName, final String value) throws XMLStreamException {
+    public void writeAttribute(
+            final String prefix, final String namespaceURI, final String localName, final String value)
+            throws XMLStreamException {
         writer.writeAttribute(prefix, namespaceURI, localName, value);
     }
 
     @Override
-    public void writeAttribute(final String namespaceURI, final String localName,
-                               final String value) throws XMLStreamException {
+    public void writeAttribute(final String namespaceURI, final String localName, final String value)
+            throws XMLStreamException {
         writer.writeAttribute(namespaceURI, localName, value);
     }
 

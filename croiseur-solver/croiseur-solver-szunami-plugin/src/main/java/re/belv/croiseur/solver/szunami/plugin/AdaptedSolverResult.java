@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.solver.szunami.plugin;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.solver.szunami.Result;
-import re.belv.croiseur.spi.solver.SolverResult;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.solver.szunami.Result;
+import re.belv.croiseur.spi.solver.SolverResult;
 
 /**
  * Adapts xwords-rs filler {@link Result} into {@link SolverResult}.
@@ -85,10 +84,9 @@ final class AdaptedSolverResult implements SolverResult {
 
     @Override
     public String toString() {
-        return "AdaptedSolverResult{" +
-                "kind=" + kind +
-                ", filledBoxes=" + filledBoxes +
-                ", unsolvableBoxes=" + unsolvableBoxes +
-                '}';
+        return "AdaptedSolverResult{" + "kind="
+                + kind + ", filledBoxes="
+                + filledBoxes + ", unsolvableBoxes="
+                + unsolvableBoxes + '}';
     }
 }

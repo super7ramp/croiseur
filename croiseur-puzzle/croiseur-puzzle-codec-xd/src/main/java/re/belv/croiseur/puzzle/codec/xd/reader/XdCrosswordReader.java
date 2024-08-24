@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
-import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
-import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
-import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
+import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
+import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
+import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 /**
  * Parses text to {@link XdCrossword}.
@@ -106,8 +105,7 @@ public final class XdCrosswordReader {
      * @return the {@link Sections} of the crossword
      * @throws XdCrosswordReadException if the actual number of sections is not 3 or 4
      */
-    private static Sections splitSections(final String rawCrossword)
-            throws XdCrosswordReadException {
+    private static Sections splitSections(final String rawCrossword) throws XdCrosswordReadException {
         final String[] sections = rawCrossword.split("\n\n\n");
         if (sections.length != 3 && sections.length != 4 /* a 4th "notes" section may exist. */) {
             throw new XdCrosswordReadException("Failed to recognize crossword sections");

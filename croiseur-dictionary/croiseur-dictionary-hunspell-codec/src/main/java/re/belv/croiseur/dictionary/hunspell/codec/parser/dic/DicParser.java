@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.dic;
 
+import java.util.Iterator;
+import java.util.regex.Pattern;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
-
-import java.util.Iterator;
-import java.util.regex.Pattern;
 
 /**
  * Parses a Hunspell ".dic" file.
@@ -44,7 +43,8 @@ public final class DicParser {
      * @throws MissingEstimatedNumberOfEntriesException if the estimated number of entries is
      *                                                  missing
      */
-    private static int readEstimatedNumberOfEntries(final Iterator<String> lines) throws MissingEstimatedNumberOfEntriesException {
+    private static int readEstimatedNumberOfEntries(final Iterator<String> lines)
+            throws MissingEstimatedNumberOfEntriesException {
         if (!lines.hasNext()) {
             throw new MissingEstimatedNumberOfEntriesException();
         }
@@ -85,7 +85,8 @@ public final class DicParser {
      * @return the {@link Dic} model
      * @throws InvalidDicEntryException if an invalid entry is encountered
      */
-    private Dic readEntries(final int estimatedNumberOfEntries, final Iterator<String> lines) throws InvalidDicEntryException {
+    private Dic readEntries(final int estimatedNumberOfEntries, final Iterator<String> lines)
+            throws InvalidDicEntryException {
         final DicBuilder builder = new DicBuilder(estimatedNumberOfEntries);
         while (lines.hasNext()) {
             final String line = lines.next();

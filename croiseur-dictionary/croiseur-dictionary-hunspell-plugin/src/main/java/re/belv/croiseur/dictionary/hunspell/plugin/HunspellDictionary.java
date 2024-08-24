@@ -5,19 +5,18 @@
 
 package re.belv.croiseur.dictionary.hunspell.plugin;
 
+import static java.util.stream.Collectors.toCollection;
+
+import java.net.URL;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import re.belv.croiseur.common.dictionary.DictionaryDetails;
 import re.belv.croiseur.dictionary.common.StringFilters;
 import re.belv.croiseur.dictionary.common.StringTransformers;
 import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.dictionary.hunspell.codec.HunspellDictionaryReader;
 import re.belv.croiseur.spi.dictionary.Dictionary;
-
-import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import static java.util.stream.Collectors.toCollection;
 
 /**
  * Adapts {@link HunspellDictionaryReader} to
@@ -41,9 +40,9 @@ final class HunspellDictionary implements Dictionary {
         final HunspellDictionaryReader dictionary = new HunspellDictionaryReader(aDicURL);
         details = Lazy.of(dictionary::details);
         words = Lazy.of(() -> dictionary.stream()
-                                        .filter(StringFilters.notEmpty())
-                                        .map(StringTransformers.toAcceptableCrosswordEntry())
-                                        .collect(toCollection(LinkedHashSet::new)));
+                .filter(StringFilters.notEmpty())
+                .map(StringTransformers.toAcceptableCrosswordEntry())
+                .collect(toCollection(LinkedHashSet::new)));
     }
 
     @Override

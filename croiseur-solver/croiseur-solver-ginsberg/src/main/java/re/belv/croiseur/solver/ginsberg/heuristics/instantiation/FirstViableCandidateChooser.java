@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.solver.ginsberg.heuristics.instantiation;
 
+import java.util.Optional;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 import re.belv.croiseur.solver.ginsberg.lookahead.Assignment;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
-
-import java.util.Optional;
 
 /**
  * An {@link CandidateChooser} which selects the first value resulting in a viable grid (i.e. a grid
@@ -31,17 +30,17 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
      * @param probePuzzleArg the puzzle copy to use when evaluating candidates
      * @param dictionaryArg   the dictionary to pick candidates from
      */
-    FirstViableCandidateChooser(final ProbePuzzle probePuzzleArg,
-                                final CachedDictionary dictionaryArg) {
+    FirstViableCandidateChooser(final ProbePuzzle probePuzzleArg, final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
         probePuzzle = probePuzzleArg;
     }
 
     @Override
     public Optional<String> find(final Slot wordVariable) {
-        return dictionary.candidates(wordVariable)
-                         .filter(candidate -> isViable(wordVariable, candidate))
-                         .findFirst();
+        return dictionary
+                .candidates(wordVariable)
+                .filter(candidate -> isViable(wordVariable, candidate))
+                .findFirst();
     }
 
     /**

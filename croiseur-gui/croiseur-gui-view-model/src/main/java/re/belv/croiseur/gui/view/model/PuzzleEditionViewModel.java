@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import java.util.List;
+import java.util.stream.IntStream;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import re.belv.croiseur.gui.view.model.slot.SlotOutline;
-
-import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Puzzle edition view model.
@@ -46,23 +45,22 @@ public final class PuzzleEditionViewModel {
         final List<ClueViewModel> acrossClues = cluesViewModel.acrossCluesProperty();
         acrossSlots.forEach(slot -> acrossClues.add(new ClueViewModel()));
         acrossSlots.addListener(this::updateAcrossClues);
-        cluesViewModel.selectedAcrossClueIndexProperty()
-                      .addListener(observable -> updateCurrentAcrossSlot(
-                              cluesViewModel.selectedAcrossClueIndex()));
+        cluesViewModel
+                .selectedAcrossClueIndexProperty()
+                .addListener(observable -> updateCurrentAcrossSlot(cluesViewModel.selectedAcrossClueIndex()));
 
         // Bind down clues to down slots
         final ObservableList<SlotOutline> downSlots = crosswordGridViewModel.longDownSlots();
         final List<ClueViewModel> downClues = cluesViewModel.downCluesProperty();
         downSlots.forEach(slot -> downClues.add(new ClueViewModel()));
         downSlots.addListener(this::updateDownClues);
-        cluesViewModel.selectedDownClueIndexProperty()
-                      .addListener(observable -> updateCurrentDownSlot(
-                              cluesViewModel.selectedDownClueIndex()));
+        cluesViewModel
+                .selectedDownClueIndexProperty()
+                .addListener(observable -> updateCurrentDownSlot(cluesViewModel.selectedDownClueIndex()));
 
         // Bind current slot to current clue
-        crosswordGridViewModel.currentSlotPositionsProperty().addListener(
-                (InvalidationListener) observable -> updateCurrentClue(
-                        crosswordGridViewModel.currentSlotPositions()));
+        crosswordGridViewModel.currentSlotPositionsProperty().addListener((InvalidationListener)
+                observable -> updateCurrentClue(crosswordGridViewModel.currentSlotPositions()));
     }
 
     /**
@@ -123,13 +121,14 @@ public final class PuzzleEditionViewModel {
         while (c.next()) {
             final var acrossClues = cluesViewModel.acrossCluesProperty();
             if (c.wasReplaced()) {
-                IntStream.range(c.getFrom(), c.getTo()).forEach(i -> acrossClues.get(i).reset());
+                IntStream.range(c.getFrom(), c.getTo())
+                        .forEach(i -> acrossClues.get(i).reset());
             } else if (c.wasRemoved()) {
                 acrossClues.remove(c.getFrom(), c.getFrom() + c.getRemovedSize());
             } else if (c.wasAdded()) {
                 final var newClues = c.getAddedSubList().stream()
-                                      .map(slot -> new ClueViewModel())
-                                      .toList();
+                        .map(slot -> new ClueViewModel())
+                        .toList();
                 acrossClues.addAll(c.getFrom(), newClues);
             }
         }
@@ -144,13 +143,14 @@ public final class PuzzleEditionViewModel {
         while (c.next()) {
             final var downClues = cluesViewModel.downCluesProperty();
             if (c.wasReplaced()) {
-                IntStream.range(c.getFrom(), c.getTo()).forEach(i -> downClues.get(i).reset());
+                IntStream.range(c.getFrom(), c.getTo())
+                        .forEach(i -> downClues.get(i).reset());
             } else if (c.wasRemoved()) {
                 downClues.remove(c.getFrom(), c.getFrom() + c.getRemovedSize());
             } else if (c.wasAdded()) {
                 final var newClues = c.getAddedSubList().stream()
-                                      .map(slot -> new ClueViewModel())
-                                      .toList();
+                        .map(slot -> new ClueViewModel())
+                        .toList();
                 downClues.addAll(c.getFrom(), newClues);
             }
         }
@@ -163,10 +163,10 @@ public final class PuzzleEditionViewModel {
      */
     private void updateCurrentDownSlot(final int selectedDownClueIndex) {
         if (selectedDownClueIndex >= 0) {
-            final List<GridCoord> slotPositions =
-                    crosswordGridViewModel.longDownSlots()
-                                          .get(selectedDownClueIndex)
-                                          .boxPositions();
+            final List<GridCoord> slotPositions = crosswordGridViewModel
+                    .longDownSlots()
+                    .get(selectedDownClueIndex)
+                    .boxPositions();
             crosswordGridViewModel.currentSlotVertical();
             if (!slotPositions.contains(crosswordGridViewModel.currentBoxPosition())) {
                 crosswordGridViewModel.currentBoxPosition(slotPositions.get(0));
@@ -181,10 +181,10 @@ public final class PuzzleEditionViewModel {
      */
     private void updateCurrentAcrossSlot(final int selectedAcrossClueIndex) {
         if (selectedAcrossClueIndex >= 0) {
-            final List<GridCoord> slotPositions =
-                    crosswordGridViewModel.longAcrossSlots()
-                                          .get(selectedAcrossClueIndex)
-                                          .boxPositions();
+            final List<GridCoord> slotPositions = crosswordGridViewModel
+                    .longAcrossSlots()
+                    .get(selectedAcrossClueIndex)
+                    .boxPositions();
             crosswordGridViewModel.currentSlotHorizontal();
             if (!slotPositions.contains(crosswordGridViewModel.currentBoxPosition())) {
                 crosswordGridViewModel.currentBoxPosition(slotPositions.get(0));
@@ -202,14 +202,13 @@ public final class PuzzleEditionViewModel {
             cluesViewModel.deselectAcrossClue();
             cluesViewModel.deselectDownClue();
         } else if (crosswordGridViewModel.currentSlotVerticalProperty().get()) {
-            crosswordGridViewModel.indexOfLongDownSlotContaining(currentSlotPositions.get(0))
-                                  .ifPresentOrElse(cluesViewModel::selectedDownClueIndex,
-                                                   cluesViewModel::deselectDownClue);
+            crosswordGridViewModel
+                    .indexOfLongDownSlotContaining(currentSlotPositions.get(0))
+                    .ifPresentOrElse(cluesViewModel::selectedDownClueIndex, cluesViewModel::deselectDownClue);
         } else {
-            crosswordGridViewModel.indexOfLongAcrossSlotContaining(currentSlotPositions.get(0))
-                                  .ifPresentOrElse(cluesViewModel::selectedAcrossClueIndex,
-                                                   cluesViewModel::deselectAcrossClue);
+            crosswordGridViewModel
+                    .indexOfLongAcrossSlotContaining(currentSlotPositions.get(0))
+                    .ifPresentOrElse(cluesViewModel::selectedAcrossClueIndex, cluesViewModel::deselectAcrossClue);
         }
     }
-
 }

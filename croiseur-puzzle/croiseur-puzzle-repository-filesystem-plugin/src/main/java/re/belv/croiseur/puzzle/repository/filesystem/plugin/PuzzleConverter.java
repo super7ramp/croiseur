@@ -5,6 +5,13 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
+
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleClues;
@@ -16,14 +23,6 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
-
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Converts crossword from/to persistence format (xd).
@@ -92,20 +91,16 @@ final class PuzzleConverter {
      * @return the domain grid model
      * @throws PuzzleConversionException if conversion fails
      */
-    private static PuzzleGrid toDomain(final XdGrid persistenceGridModel)
-            throws PuzzleConversionException {
+    private static PuzzleGrid toDomain(final XdGrid persistenceGridModel) throws PuzzleConversionException {
         if (!persistenceGridModel.spaces().isEmpty()) {
-            throw new PuzzleConversionException(
-                    "Cannot convert grid with spaces: This is not supported by Croiseur.");
+            throw new PuzzleConversionException("Cannot convert grid with spaces: This is not supported by Croiseur.");
         }
         final PuzzleGrid.Builder builder = new PuzzleGrid.Builder();
-        persistenceGridModel.blocks().stream().map(PuzzleConverter::toDomain)
-                            .forEach(builder::shade);
-        persistenceGridModel.filled()
-                            .forEach((index, letter) -> builder.fill(toDomain(index),
-                                                                     letter.charAt(0)));
-        return builder.width(width(persistenceGridModel)).height(height(persistenceGridModel))
-                      .build();
+        persistenceGridModel.blocks().stream().map(PuzzleConverter::toDomain).forEach(builder::shade);
+        persistenceGridModel.filled().forEach((index, letter) -> builder.fill(toDomain(index), letter.charAt(0)));
+        return builder.width(width(persistenceGridModel))
+                .height(height(persistenceGridModel))
+                .build();
     }
 
     /**
@@ -115,11 +110,12 @@ final class PuzzleConverter {
      * @return the domain metadata model
      */
     private static PuzzleDetails toDomain(final XdMetadata persistenceMetadataModel) {
-        return new PuzzleDetails(persistenceMetadataModel.title().orElse(""),
-                                 persistenceMetadataModel.author().orElse(""),
-                                 persistenceMetadataModel.editor().orElse(""),
-                                 persistenceMetadataModel.copyright().orElse(""),
-                                 persistenceMetadataModel.date());
+        return new PuzzleDetails(
+                persistenceMetadataModel.title().orElse(""),
+                persistenceMetadataModel.author().orElse(""),
+                persistenceMetadataModel.editor().orElse(""),
+                persistenceMetadataModel.copyright().orElse(""),
+                persistenceMetadataModel.date());
     }
 
     /**
@@ -176,13 +172,14 @@ final class PuzzleConverter {
      * @return the max value of the given dimension of the given grid
      * @throws PuzzleConversionException if grid is empty
      */
-    private static int maxDimension(final XdGrid persistedGrid,
-                                    final Function<XdGrid.Index, Integer> dimension)
+    private static int maxDimension(final XdGrid persistedGrid, final Function<XdGrid.Index, Integer> dimension)
             throws PuzzleConversionException {
-        return 1 + Stream.of(persistedGrid.blocks(), persistedGrid.filled().keySet(),
-                             persistedGrid.nonFilled()).flatMap(Collection::stream).map(dimension)
-                         .max(Comparator.naturalOrder())
-                         .orElseThrow(() -> new PuzzleConversionException("Invalid empty grid"));
+        return 1
+                + Stream.of(persistedGrid.blocks(), persistedGrid.filled().keySet(), persistedGrid.nonFilled())
+                        .flatMap(Collection::stream)
+                        .map(dimension)
+                        .max(Comparator.naturalOrder())
+                        .orElseThrow(() -> new PuzzleConversionException("Invalid empty grid"));
     }
 
     /**

@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.solver.sat;
 
+import java.math.BigInteger;
+import java.util.List;
 import org.sat4j.core.Vec;
 import org.sat4j.core.VecInt;
 import org.sat4j.pb.IPBSolver;
@@ -12,9 +14,6 @@ import org.sat4j.specs.ContradictionException;
 import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.tools.GateTranslator;
-
-import java.math.BigInteger;
-import java.util.List;
 
 /**
  * Where crossword problem constraints are built.
@@ -79,8 +78,7 @@ final class Constraints {
         for (int row = 0; row < grid.rowCount(); row++) {
             for (int column = 0; column < grid.columnCount(); column++) {
                 checkForInterruption();
-                for (int letterIndex = 0; letterIndex < Alphabet.letterCount();
-                     letterIndex++) {
+                for (int letterIndex = 0; letterIndex < Alphabet.letterCount(); letterIndex++) {
                     final int letterVariable = variables.representingCell(row, column, letterIndex);
                     literalsBuffer.push(letterVariable);
                 }
@@ -100,8 +98,7 @@ final class Constraints {
      * @throws ContradictionException if a slot has no word candidate
      * @throws InterruptedException   if interrupted while adding constraints to the solver
      */
-    void addOneWordPerSlotClausesTo(final IPBSolver solver)
-            throws ContradictionException, InterruptedException {
+    void addOneWordPerSlotClausesTo(final IPBSolver solver) throws ContradictionException, InterruptedException {
         final GateTranslator gator = new GateTranslator(solver);
         final IVecInt slotLiteralsBuffer = new VecInt(words.length);
         final IVecInt cellLiteralsBuffer = new VecInt(CELL_LITERALS_BUFFER_LENGTH);
@@ -136,8 +133,7 @@ final class Constraints {
      * @throws IllegalStateException if the given word contains a letter which is not in the
      *                               {@link Alphabet}
      */
-    private void fillCellLiteralsConjunction(final IVecInt cellLiterals, final Slot slot,
-                                             final String word) {
+    private void fillCellLiteralsConjunction(final IVecInt cellLiterals, final Slot slot, final String word) {
         final List<Pos> slotPositions = slot.positions();
         final int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {
@@ -198,8 +194,7 @@ final class Constraints {
      * @param literals the literals to add
      * @throws ContradictionException should not happen
      */
-    private void addExactlyOne(final IPBSolver solver, final IVecInt literals)
-            throws ContradictionException {
+    private void addExactlyOne(final IPBSolver solver, final IVecInt literals) throws ContradictionException {
         final var coefficients = new Vec<>(literals.size(), BigInteger.ONE);
         solver.addExactly(literals, coefficients, BigInteger.ONE);
     }

@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.cli.presenter;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
@@ -17,10 +20,6 @@ import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * CLI implementation of {@link Presenter}.
@@ -55,8 +54,7 @@ public final class CliPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         cliSolverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 

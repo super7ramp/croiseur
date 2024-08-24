@@ -15,7 +15,7 @@ module re.belv.croiseur.gui.presenter {
     requires javafx.graphics; // for Platform.runLater()
 
     exports re.belv.croiseur.gui.presenter;
-    // The following 'provides' should exist but GuiPresenter has no default constructor: The
-    // view model it operates on is passed in constructor (for now).
-    // provides Presenter with GuiPresenter;
+// The following 'provides' should exist but GuiPresenter has no default constructor: The
+// view model it operates on is passed in constructor (for now).
+// provides Presenter with GuiPresenter;
 }

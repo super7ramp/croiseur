@@ -124,8 +124,7 @@ public final class XdClues {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final XdClues xdClues)) return false;
-        return Objects.equals(acrossClues, xdClues.acrossClues) &&
-               Objects.equals(downClues, xdClues.downClues);
+        return Objects.equals(acrossClues, xdClues.acrossClues) && Objects.equals(downClues, xdClues.downClues);
     }
 
     @Override
@@ -135,9 +134,6 @@ public final class XdClues {
 
     @Override
     public String toString() {
-        return "XdClues{" +
-               "acrossClues=" + acrossClues +
-               ", downClues=" + downClues +
-               '}';
+        return "XdClues{" + "acrossClues=" + acrossClues + ", downClues=" + downClues + '}';
     }
 }

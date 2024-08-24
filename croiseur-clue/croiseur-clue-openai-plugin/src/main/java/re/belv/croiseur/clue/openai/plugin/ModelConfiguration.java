@@ -25,15 +25,13 @@ final class ModelConfiguration {
      */
     ModelConfiguration() {
         properties = new Properties();
-        try (final InputStream is = ModelConfiguration.class.getResourceAsStream("config" +
-                                                                                 ".properties")) {
+        try (final InputStream is = ModelConfiguration.class.getResourceAsStream("config" + ".properties")) {
             if (is == null) {
                 throw new ModelConfigurationException("Missing plugin configuration");
             }
             properties.load(is);
             if (!properties.containsKey("model")) {
-                throw new ModelConfigurationException(
-                        "Incomplete plugin configuration: Field 'model' is mandatory");
+                throw new ModelConfigurationException("Incomplete plugin configuration: Field 'model' is mandatory");
             }
         } catch (final IOException e) {
             throw new ModelConfigurationException("Failed to read plugin configuration", e);

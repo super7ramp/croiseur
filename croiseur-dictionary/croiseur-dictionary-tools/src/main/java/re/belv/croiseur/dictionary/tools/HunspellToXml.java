@@ -31,8 +31,8 @@ public final class HunspellToXml {
         }
 
         final String tmpTxtFile = args[0].replace(".dic", ".txt");
-        HunspellToText.main(new String[]{args[0], tmpTxtFile});
-        TextToXml.main(new String[]{tmpTxtFile, args[1]});
+        HunspellToText.main(new String[] {args[0], tmpTxtFile});
+        TextToXml.main(new String[] {tmpTxtFile, args[1]});
 
         Files.delete(Path.of(tmpTxtFile));
     }

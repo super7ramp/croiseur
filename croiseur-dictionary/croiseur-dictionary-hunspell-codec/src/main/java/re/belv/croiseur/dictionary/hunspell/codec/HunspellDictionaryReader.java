@@ -5,16 +5,6 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec;
 
-import re.belv.croiseur.common.dictionary.DictionaryDetails;
-import re.belv.croiseur.dictionary.common.SegmentableUrl;
-import re.belv.croiseur.dictionary.common.io.BomInputStream;
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.aff.AffParser;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.dic.DicParser;
-import re.belv.croiseur.dictionary.hunspell.codec.wordforms.WordFormGenerator;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +19,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import re.belv.croiseur.common.dictionary.DictionaryDetails;
+import re.belv.croiseur.dictionary.common.SegmentableUrl;
+import re.belv.croiseur.dictionary.common.io.BomInputStream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.aff.AffParser;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.dic.DicParser;
+import re.belv.croiseur.dictionary.hunspell.codec.wordforms.WordFormGenerator;
 
 /**
  * Dictionary relying on local text files in Hunspell format.
@@ -71,8 +70,7 @@ public final class HunspellDictionaryReader {
     }
 
     private static Stream<String> streamer(URL url, Charset charset) throws IOException {
-        return new BufferedReader(new InputStreamReader(new BomInputStream(url.openStream()),
-                                                        charset)).lines();
+        return new BufferedReader(new InputStreamReader(new BomInputStream(url.openStream()), charset)).lines();
     }
 
     /**
@@ -153,8 +151,8 @@ public final class HunspellDictionaryReader {
     private URL affUrl() {
         try {
             final String affUrlExternalForm = Pattern.compile(DIC_EXTENSION + "$")
-                                                     .matcher(dicURL.toExternalForm())
-                                                     .replaceFirst(AFF_EXTENSION);
+                    .matcher(dicURL.toExternalForm())
+                    .replaceFirst(AFF_EXTENSION);
             return new URL(affUrlExternalForm);
         } catch (final MalformedURLException e) {
             throw new IllegalArgumentException(e);

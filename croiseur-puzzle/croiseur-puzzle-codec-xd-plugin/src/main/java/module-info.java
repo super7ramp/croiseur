@@ -15,6 +15,9 @@ module re.belv.croiseur.puzzle.codec.xd.plugin {
     requires re.belv.croiseur.common;
     requires re.belv.croiseur.puzzle.codec.xd;
     requires re.belv.croiseur.spi.puzzle.codec;
-    provides PuzzleDecoder with XdDecoder;
-    provides PuzzleEncoder with XdEncoder;
+
+    provides PuzzleDecoder with
+            XdDecoder;
+    provides PuzzleEncoder with
+            XdEncoder;
 }

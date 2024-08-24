@@ -20,8 +20,8 @@ public interface SearchDictionaryEntriesRequest {
      *                             regular expression
      * @return a new {@link SearchDictionaryEntriesRequest}
      */
-    static SearchDictionaryEntriesRequest of(final DictionaryIdentifier dictionaryIdentifier,
-                                             final String searchExpression) {
+    static SearchDictionaryEntriesRequest of(
+            final DictionaryIdentifier dictionaryIdentifier, final String searchExpression) {
         Objects.requireNonNull(dictionaryIdentifier);
         Objects.requireNonNull(searchExpression);
         return new SearchDictionaryEntriesRequest() {
@@ -54,5 +54,4 @@ public interface SearchDictionaryEntriesRequest {
      * @see java.util.regex.Pattern
      */
     String searchExpression();
-
 }

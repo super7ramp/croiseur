@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
 final class FlagTypeParser {
 
@@ -38,11 +37,10 @@ final class FlagTypeParser {
      * @return the parsed {@link FlagType}
      */
     static FlagType parse(final String line) {
-        return PATTERNS.entrySet()
-                       .stream()
-                       .filter(entry -> entry.getValue().matcher(line).matches())
-                       .findFirst()
-                       .map(Map.Entry::getKey)
-                       .orElseThrow(IllegalArgumentException::new);
+        return PATTERNS.entrySet().stream()
+                .filter(entry -> entry.getValue().matcher(line).matches())
+                .findFirst()
+                .map(Map.Entry::getKey)
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.cli.controller.solver.parser;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.common.puzzle.GridPosition;
 
 /**
  * A parsed pre-filled box information.
@@ -19,10 +18,7 @@ import java.util.regex.Pattern;
 public record PrefilledBox(GridPosition gridPosition, char value) {
 
     /** Textual representation pattern. */
-    private static final Pattern PATTERN = Pattern.compile("\\(" +
-            "(?<coordinate>.+)," +
-            "(?<value>[a-zA-Z])" +
-            "\\)");
+    private static final Pattern PATTERN = Pattern.compile("\\(" + "(?<coordinate>.+)," + "(?<value>[a-zA-Z])" + "\\)");
 
     /**
      * Creates a new {@link PrefilledBox} from its textual representation.
@@ -33,11 +29,9 @@ public record PrefilledBox(GridPosition gridPosition, char value) {
     public static PrefilledBox valueOf(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                    ", was " + text);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() + ", was " + text);
         }
-        final GridPosition parsedGridPosition = GridPositionParser.parse(matcher.group(
-                "coordinate"));
+        final GridPosition parsedGridPosition = GridPositionParser.parse(matcher.group("coordinate"));
         final char parsedValue = Character.toUpperCase(matcher.group("value").charAt(0));
         return new PrefilledBox(parsedGridPosition, parsedValue);
     }

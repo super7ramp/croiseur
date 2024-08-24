@@ -5,10 +5,10 @@
 
 package re.belv.croiseur.tests.puzzle.persistence;
 
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-import org.mockito.ArgumentMatcher;
-
 import static org.mockito.ArgumentMatchers.argThat;
+
+import org.mockito.ArgumentMatcher;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
 /**
  * Allows creating custom {@link ArgumentMatcher}s related to puzzles.

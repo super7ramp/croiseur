@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.puzzle.codec.xd.writer;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
-
 import java.util.Objects;
+import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 /**
  * Encodes {@link XdMetadata} to its textual representation.

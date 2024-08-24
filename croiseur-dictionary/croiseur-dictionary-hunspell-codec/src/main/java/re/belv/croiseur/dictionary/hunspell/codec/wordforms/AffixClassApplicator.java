@@ -5,11 +5,6 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +12,10 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
 /**
  * Applies an affix class to a word.
@@ -46,9 +45,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
 
     @Override
     public Stream<String> apply(final DicEntry entry) {
-        return affixClass.rules()
-                         .stream()
-                         .mapMulti((rule, accumulator) -> applyRule(rule, entry, accumulator));
+        return affixClass.rules().stream().mapMulti((rule, accumulator) -> applyRule(rule, entry, accumulator));
     }
 
     /**
@@ -59,8 +56,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      * @param entry       the dictionary entry
      * @param accumulator the accumulator where to add new affixed forms
      */
-    private void applyRule(final AffixRule affixRule, final DicEntry entry,
-                           final Consumer<String> accumulator) {
+    private void applyRule(final AffixRule affixRule, final DicEntry entry, final Consumer<String> accumulator) {
 
         final Optional<String> optAffixedForm = applyAffixRule(affixRule, entry.word());
 
@@ -82,11 +78,11 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      * @param affixedForm the word affixed using the given affix rule
      * @param accumulator the accumulator where to add new affixed forms
      */
-    private void applyContinuationAffixRules(final AffixRule affixRule, final String affixedForm,
-                                             final Consumer<String> accumulator) {
-        affixRulesOf(affixRule.continuationClasses()).flatMap(rule -> applyAffixRule(rule,
-                                                             affixedForm).stream())
-                                                     .forEach(accumulator);
+    private void applyContinuationAffixRules(
+            final AffixRule affixRule, final String affixedForm, final Consumer<String> accumulator) {
+        affixRulesOf(affixRule.continuationClasses())
+                .flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
+                .forEach(accumulator);
     }
 
     /**
@@ -110,10 +106,11 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      * @param affixedForm the word affixed using the given affix rule
      * @param accumulator the accumulator where to add new affixed forms
      */
-    private void applyCrossProductAffixRules(final DicEntry entry, final String affixedForm,
-                                             final Consumer<String> accumulator) {
-        crossProductAffixRulesOf(entry).flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
-                                       .forEach(accumulator);
+    private void applyCrossProductAffixRules(
+            final DicEntry entry, final String affixedForm, final Consumer<String> accumulator) {
+        crossProductAffixRulesOf(entry)
+                .flatMap(rule -> applyAffixRule(rule, affixedForm).stream())
+                .forEach(accumulator);
     }
 
     /**
@@ -125,8 +122,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      * @return the corresponding {@link AffixRuleApplicator}
      */
     private AffixRuleApplicator applicatorOf(final AffixRule affixRule) {
-        return affixApplicators.computeIfAbsent(affixRule,
-                rule -> AffixRuleApplicators.ofRule(affixRule));
+        return affixApplicators.computeIfAbsent(affixRule, rule -> AffixRuleApplicators.ofRule(affixRule));
     }
 
     /**
@@ -158,13 +154,13 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     private Stream<AffixRule> crossProductAffixRulesOf(final DicEntry entry) {
         final Stream<AffixRule> crossProductAffixRules;
         if (affixClass.crossProduct()) {
-            crossProductAffixRules = affixClasses.referencedBy(entry.flags())
-                                                 .filter(cls -> cls.crossProduct() && cls.kind() != affixClass.kind())
-                                                 .flatMap(cls -> cls.rules().stream());
+            crossProductAffixRules = affixClasses
+                    .referencedBy(entry.flags())
+                    .filter(cls -> cls.crossProduct() && cls.kind() != affixClass.kind())
+                    .flatMap(cls -> cls.rules().stream());
         } else {
             crossProductAffixRules = Stream.empty();
         }
         return crossProductAffixRules;
     }
-
 }

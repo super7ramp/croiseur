@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import static java.util.Comparator.comparing;
+
+import java.util.Collection;
+import java.util.List;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
-
-import java.util.Collection;
-import java.util.List;
-
-import static java.util.Comparator.comparing;
 
 /**
  * Lists the dictionary providers.
@@ -32,8 +31,8 @@ final class ListDictionaryProvidersUsecase {
      * @param dictionaryProvidersArg the dictionary providers
      * @param presenterArg           the presenter
      */
-    ListDictionaryProvidersUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
-                                   final DictionaryPresenter presenterArg) {
+    ListDictionaryProvidersUsecase(
+            final Collection<DictionaryProvider> dictionaryProvidersArg, final DictionaryPresenter presenterArg) {
         dictionaryProviders = dictionaryProvidersArg;
         presenter = presenterArg;
     }
@@ -45,12 +44,11 @@ final class ListDictionaryProvidersUsecase {
         if (dictionaryProviders.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            final List<DictionaryProviderDetails> presentableProviders =
-                    dictionaryProviders.stream()
-                                       .map(DictionaryProvider::details)
-                                       // Sort for reproducibility
-                                       .sorted(comparing(DictionaryProviderDetails::name))
-                                       .toList();
+            final List<DictionaryProviderDetails> presentableProviders = dictionaryProviders.stream()
+                    .map(DictionaryProvider::details)
+                    // Sort for reproducibility
+                    .sorted(comparing(DictionaryProviderDetails::name))
+                    .toList();
             presenter.presentDictionaryProviders(presentableProviders);
         }
     }

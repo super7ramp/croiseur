@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.controller.puzzle;
 
-import javafx.concurrent.Task;
-import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
-import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javafx.concurrent.Task;
+import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
+import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
 
 /**
  * The 'export puzzle' task.
@@ -38,9 +37,11 @@ final class ExportPuzzleTask extends Task<Void> {
      * @param selectedFormatArg      the export format
      * @param puzzleExportServiceArg the export service
      */
-    ExportPuzzleTask(final PuzzleEditionViewModel puzzleEditionViewModel,
-                     final File selectedFileArg, final String selectedFormatArg,
-                     final PuzzleExportService puzzleExportServiceArg) {
+    ExportPuzzleTask(
+            final PuzzleEditionViewModel puzzleEditionViewModel,
+            final File selectedFileArg,
+            final String selectedFormatArg,
+            final PuzzleExportService puzzleExportServiceArg) {
         puzzleId = puzzleEditionViewModel.puzzleDetailsViewModel().id();
         selectedFile = selectedFileArg;
         selectedFormat = selectedFormatArg;

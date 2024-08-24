@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.spi.dictionary;
 
-import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 
 /**
  * {@link Dictionary} provider.

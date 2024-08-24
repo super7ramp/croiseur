@@ -46,12 +46,11 @@ public final class ApplicationViewModel {
         errorsViewModel = new ErrorsViewModel();
 
         // Initializes special bindings between dictionary and grid view models.
-        final CrosswordGridViewModel crosswordGridViewModel =
-                puzzleEditionViewModel.crosswordGridViewModel();
-        dictionariesViewModel.suggestionFilterProperty()
-                             .bind(crosswordGridViewModel.currentSlotContentProperty());
-        crosswordGridViewModel.currentSlotUnsolvableProperty()
-                              .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
+        final CrosswordGridViewModel crosswordGridViewModel = puzzleEditionViewModel.crosswordGridViewModel();
+        dictionariesViewModel.suggestionFilterProperty().bind(crosswordGridViewModel.currentSlotContentProperty());
+        crosswordGridViewModel
+                .currentSlotUnsolvableProperty()
+                .bind(dictionariesViewModel.suggestionsProperty().emptyProperty());
     }
 
     /**

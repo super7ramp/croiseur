@@ -5,10 +5,10 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link SolverProgressViewModel}.

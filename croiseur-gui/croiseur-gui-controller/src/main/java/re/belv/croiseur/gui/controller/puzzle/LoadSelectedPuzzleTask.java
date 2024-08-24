@@ -26,8 +26,9 @@ final class LoadSelectedPuzzleTask extends Task<Void> {
      * @param puzzleSelectionViewModelArg the puzzle selection view model
      * @param puzzlePersistenceServiceArg            the puzzle service
      */
-    LoadSelectedPuzzleTask(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                           final PuzzlePersistenceService puzzlePersistenceServiceArg) {
+    LoadSelectedPuzzleTask(
+            final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+            final PuzzlePersistenceService puzzlePersistenceServiceArg) {
         puzzlePersistenceService = puzzlePersistenceServiceArg;
         selectedPuzzleId = puzzleSelectionViewModelArg.selectedPuzzle().id();
     }

@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.impl.dictionary.selection;
 
+import java.util.Set;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.spi.dictionary.Dictionary;
-
-import java.util.Set;
 
 /**
  * Just another dictionary type gathering provider details, dictionary details and dictionary words.

@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.impl.clue;
 
+import java.util.Collection;
+import java.util.List;
 import re.belv.croiseur.impl.clue.error.ClueErrorMessages;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Implementation of the 'list clue providers' usecase.
@@ -30,8 +29,7 @@ final class ListClueProvidersUsecase {
      * @param clueProvidersArg the clue providers
      * @param cluePresenterArg the clue-related presenter
      */
-    ListClueProvidersUsecase(final Collection<ClueProvider> clueProvidersArg,
-                             final CluePresenter cluePresenterArg) {
+    ListClueProvidersUsecase(final Collection<ClueProvider> clueProvidersArg, final CluePresenter cluePresenterArg) {
         clueProviders = clueProvidersArg;
         cluePresenter = cluePresenterArg;
     }
@@ -40,11 +38,9 @@ final class ListClueProvidersUsecase {
      * Processes the 'list providers' event.
      */
     void process() {
-        final List<ClueProviderDescription> descriptions =
-                clueProviders.stream()
-                             .map(clueProvider -> new ClueProviderDescription(clueProvider.name(),
-                                     clueProvider.description()))
-                             .toList();
+        final List<ClueProviderDescription> descriptions = clueProviders.stream()
+                .map(clueProvider -> new ClueProviderDescription(clueProvider.name(), clueProvider.description()))
+                .toList();
         if (descriptions.isEmpty()) {
             cluePresenter.presentClueError(ClueErrorMessages.NO_CLUE_PROVIDER);
         } else {

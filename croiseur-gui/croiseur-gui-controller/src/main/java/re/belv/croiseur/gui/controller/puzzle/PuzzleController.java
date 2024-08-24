@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.gui.controller.puzzle;
 
-import javafx.concurrent.Task;
-import re.belv.croiseur.api.puzzle.PuzzleService;
-import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
-import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
-
 import java.io.File;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
+import re.belv.croiseur.api.puzzle.PuzzleService;
+import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
+import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 
 /**
  * Controls calls to the puzzle service.
@@ -43,9 +42,11 @@ public final class PuzzleController {
      * @param puzzleServiceArg            the puzzle service
      * @param executorArg                 the worker executing the puzzle tasks
      */
-    public PuzzleController(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                            final PuzzleEditionViewModel puzzleEditionViewModelArg,
-                            final PuzzleService puzzleServiceArg, final Executor executorArg) {
+    public PuzzleController(
+            final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+            final PuzzleEditionViewModel puzzleEditionViewModelArg,
+            final PuzzleService puzzleServiceArg,
+            final Executor executorArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleEditionViewModel = puzzleEditionViewModelArg;
         puzzleService = puzzleServiceArg;
@@ -82,8 +83,7 @@ public final class PuzzleController {
     public void loadSelectedPuzzle() {
         // It is artificial because we have all information to load the grid now but let's prevent
         // the controller to modify the view model directly.
-        final var task =
-                new LoadSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService.persistence());
+        final var task = new LoadSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService.persistence());
         execute(task);
     }
 
@@ -91,8 +91,7 @@ public final class PuzzleController {
      * Starts the 'delete puzzle' task.
      */
     public void deleteSelectedPuzzle() {
-        final var task =
-                new DeleteSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService.persistence());
+        final var task = new DeleteSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService.persistence());
         execute(task);
     }
 
@@ -111,8 +110,7 @@ public final class PuzzleController {
      * @param selectedFormat the puzzle format of the file to import
      */
     public void importPuzzle(final File selectedFile, final String selectedFormat) {
-        final var task =
-                new ImportPuzzleTask(selectedFile, selectedFormat, puzzleService.importer());
+        final var task = new ImportPuzzleTask(selectedFile, selectedFormat, puzzleService.importer());
         execute(task);
     }
 
@@ -124,8 +122,7 @@ public final class PuzzleController {
      */
     public void exportPuzzle(final File selectedFile, final String selectedFormat) {
         final var task =
-                new ExportPuzzleTask(puzzleEditionViewModel, selectedFile, selectedFormat,
-                                     puzzleService.exporter());
+                new ExportPuzzleTask(puzzleEditionViewModel, selectedFile, selectedFormat, puzzleService.exporter());
         execute(task);
     }
 
@@ -135,8 +132,7 @@ public final class PuzzleController {
      * @param task the task to execute
      */
     private void execute(final Task<Void> task) {
-        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Puzzle task failed.",
-                                             task.getException()));
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Puzzle task failed.", task.getException()));
         executor.execute(task);
     }
 }

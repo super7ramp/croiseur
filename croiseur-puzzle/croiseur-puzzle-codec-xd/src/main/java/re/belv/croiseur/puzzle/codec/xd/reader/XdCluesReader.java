@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
-
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 
 /**
  * Parses text to {@link XdClues}.
@@ -50,18 +49,15 @@ final class XdCluesReader {
             }
             final Matcher m = CLUE_REGEX.matcher(clue);
             if (!m.matches()) {
-                throw new XdClueReadException("Invalid clue: '" + clue +
-                                              "'. Expected format is: " + CLUE_REGEX.pattern() +
-                                              "'.");
+                throw new XdClueReadException(
+                        "Invalid clue: '" + clue + "'. Expected format is: " + CLUE_REGEX.pattern() + "'.");
             }
             final boolean isAcross = m.group("orientation").equals("A");
             if (parsingAcrossClues && !isAcross) {
-                throw new XdClueReadException("Invalid clue: '" + clue +
-                                              "'. Expected across clue but was down clue.");
+                throw new XdClueReadException("Invalid clue: '" + clue + "'. Expected across clue but was down clue.");
             }
             if (!parsingAcrossClues && isAcross) {
-                throw new XdClueReadException("Invalid clue: '" + clue +
-                                              "'. Expected down clue but was across clue.");
+                throw new XdClueReadException("Invalid clue: '" + clue + "'. Expected down clue but was across clue.");
             }
             final int number = Integer.parseInt(m.group("number"));
             final String actualClue = m.group("clue");

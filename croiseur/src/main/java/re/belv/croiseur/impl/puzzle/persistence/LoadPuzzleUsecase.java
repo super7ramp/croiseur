@@ -25,8 +25,7 @@ final class LoadPuzzleUsecase {
      * @param repositoryArg the puzzle repository
      * @param presenterArg  the presenter
      */
-    LoadPuzzleUsecase(final SafePuzzleRepository repositoryArg,
-                      final PuzzlePresenter presenterArg) {
+    LoadPuzzleUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
         presenter = presenterArg;
     }
@@ -37,9 +36,11 @@ final class LoadPuzzleUsecase {
      * @param puzzleId the id of the puzzle to load
      */
     void process(final long puzzleId) {
-        repository.query(puzzleId)
-                  .ifPresentOrElse(presenter::presentLoadedPuzzle,
-                                   () -> presenter.presentPuzzleRepositoryError(
-                                           "Cannot load requested puzzle: Puzzle does not exist"));
+        repository
+                .query(puzzleId)
+                .ifPresentOrElse(
+                        presenter::presentLoadedPuzzle,
+                        () -> presenter.presentPuzzleRepositoryError(
+                                "Cannot load requested puzzle: Puzzle does not exist"));
     }
 }

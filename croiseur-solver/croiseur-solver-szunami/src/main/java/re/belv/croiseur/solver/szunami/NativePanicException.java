@@ -19,5 +19,4 @@ public final class NativePanicException extends RuntimeException {
     public NativePanicException(final String message) {
         super(message);
     }
-
 }

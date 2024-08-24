@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.model.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
 /**
  * Represents a parsed ".aff" file.
@@ -22,9 +21,12 @@ import java.util.Optional;
  * @param compoundFlag            the compound flag, if any
  * @param threePartsCompoundFlags the compound begin/middle/end flags, if any
  */
-public record Aff(Charset encoding, FlagType flagType, Collection<AffixClass> affixClasses,
-                  Optional<Flag> compoundFlag,
-                  Optional<ThreePartsCompoundFlags> threePartsCompoundFlags) {
+public record Aff(
+        Charset encoding,
+        FlagType flagType,
+        Collection<AffixClass> affixClasses,
+        Optional<Flag> compoundFlag,
+        Optional<ThreePartsCompoundFlags> threePartsCompoundFlags) {
 
     /**
      * Performs some null checks.
@@ -42,5 +44,4 @@ public record Aff(Charset encoding, FlagType flagType, Collection<AffixClass> af
         Objects.requireNonNull(compoundFlag);
         Objects.requireNonNull(threePartsCompoundFlags);
     }
-
 }

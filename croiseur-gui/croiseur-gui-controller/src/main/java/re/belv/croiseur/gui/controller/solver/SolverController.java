@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.gui.controller.solver;
 
+import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.api.solver.SolverService;
 import re.belv.croiseur.gui.view.model.ApplicationViewModel;
-
-import java.util.Random;
-import java.util.concurrent.Executor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Controls calls to the solver service.
@@ -50,8 +49,10 @@ public final class SolverController {
      * @param solverServiceArg     the solver service
      * @param executorArg          the backing executor
      */
-    public SolverController(final ApplicationViewModel applicationViewModel,
-                            final SolverService solverServiceArg, final Executor executorArg) {
+    public SolverController(
+            final ApplicationViewModel applicationViewModel,
+            final SolverService solverServiceArg,
+            final Executor executorArg) {
 
         executor = executorArg;
         solverService = solverServiceArg;
@@ -59,10 +60,12 @@ public final class SolverController {
         solver = new Service<>() {
             @Override
             protected Task<Void> createTask() {
-                return new SolveTask(applicationViewModel.crosswordGridViewModel(),
-                                     applicationViewModel.dictionaryViewModel(),
-                                     applicationViewModel.solverConfigurationViewModel(),
-                                     solverService, RANDOM);
+                return new SolveTask(
+                        applicationViewModel.crosswordGridViewModel(),
+                        applicationViewModel.dictionaryViewModel(),
+                        applicationViewModel.solverConfigurationViewModel(),
+                        solverService,
+                        RANDOM);
             }
         };
         solver.setExecutor(executor);
@@ -70,15 +73,15 @@ public final class SolverController {
         solver.setOnRunning(e -> LOGGER.info("Solving"));
         solver.setOnCancelled(e -> LOGGER.info("Solver cancelled"));
         solver.setOnSucceeded(e -> LOGGER.info("Solver finished"));
-        solver.setOnFailed(e -> LOGGER.log(Level.WARNING, "Solver failed",
-                                           e.getSource().getException()));
+        solver.setOnFailed(
+                e -> LOGGER.log(Level.WARNING, "Solver failed", e.getSource().getException()));
 
         applicationViewModel.solverRunning().bind(solver.runningProperty());
         // Solver service may fill clues if requested; Assume it is always the case to avoid any
         // concurrent modification.
-        applicationViewModel.solverRunning().addListener(
-                (observable, oldValue, newValue) -> applicationViewModel.clueServiceIsRunning()
-                                                                        .set(newValue));
+        applicationViewModel.solverRunning().addListener((observable, oldValue, newValue) -> applicationViewModel
+                .clueServiceIsRunning()
+                .set(newValue));
     }
 
     /**
@@ -104,8 +107,8 @@ public final class SolverController {
      */
     public void listSolvers() {
         final ListSolversTask listSolversTask = new ListSolversTask(solverService);
-        listSolversTask.setOnFailed(e -> LOGGER.log(Level.WARNING, "Failed to list solvers",
-                                                    e.getSource().getException()));
+        listSolversTask.setOnFailed(e -> LOGGER.log(
+                Level.WARNING, "Failed to list solvers", e.getSource().getException()));
         executor.execute(listSolversTask);
     }
 }

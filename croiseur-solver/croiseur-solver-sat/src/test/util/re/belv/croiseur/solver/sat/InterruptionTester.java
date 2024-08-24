@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.solver.sat;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,18 +15,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
 /**
  * Test util to verify thread interruption.
- * <p> Usage:
+ *
+ * <p>Usage:
+ *
  * <pre>{@code
  * final var interruptionTester = new InterruptionTester(myInterruptibleRunnable);
  * interruptionTester.interruptThread();
  * interruptionTester.assertRunnableThrewInterruptedException();
- * }
- * </pre>
+ * }</pre>
  */
 final class InterruptionTester {
 
@@ -64,16 +65,15 @@ final class InterruptionTester {
     }
 
     /**
-     * Verifies that the interruptible runnable passed at construction has raised an
-     * {@link InterruptedException} withing timeout. Will always fail if
-     * {@link #interruptThreadAfter} has not been called.
+     * Verifies that the interruptible runnable passed at construction has raised an {@link
+     * InterruptedException} withing timeout. Will always fail if {@link #interruptThreadAfter} has
+     * not been called.
      *
      * @param timeout the timeout (in seconds)
      */
     void assertRunnableThrewInterruptedExceptionWithin(final int timeout) {
         try {
-            assertTrue(runnableInterrupted.get(timeout, TimeUnit.SECONDS),
-                       "Runnable terminated with interruption");
+            assertTrue(runnableInterrupted.get(timeout, TimeUnit.SECONDS), "Runnable terminated with interruption");
         } catch (final ExecutionException | InterruptedException | TimeoutException e) {
             fail("Runnable not interrupted within " + timeout + " seconds: " + e.getMessage());
         }

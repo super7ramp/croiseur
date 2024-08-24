@@ -29,5 +29,4 @@ public interface ListDictionaryEntriesRequest {
      * @return the identifier of the desired dictionary
      */
     DictionaryIdentifier dictionaryIdentifier();
-
 }

@@ -5,14 +5,7 @@
 
 package re.belv.croiseur.dictionary.xml.plugin;
 
-import re.belv.croiseur.common.dictionary.DictionaryDetails;
-import re.belv.croiseur.dictionary.common.StringFilters;
-import re.belv.croiseur.dictionary.common.StringTransformers;
-import re.belv.croiseur.dictionary.common.util.Lazy;
-import re.belv.croiseur.dictionary.xml.codec.DictionaryHeader;
-import re.belv.croiseur.dictionary.xml.codec.DictionaryReadException;
-import re.belv.croiseur.dictionary.xml.codec.DictionaryReader;
-import re.belv.croiseur.spi.dictionary.Dictionary;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +17,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static java.util.stream.Collectors.toCollection;
+import re.belv.croiseur.common.dictionary.DictionaryDetails;
+import re.belv.croiseur.dictionary.common.StringFilters;
+import re.belv.croiseur.dictionary.common.StringTransformers;
+import re.belv.croiseur.dictionary.common.util.Lazy;
+import re.belv.croiseur.dictionary.xml.codec.DictionaryHeader;
+import re.belv.croiseur.dictionary.xml.codec.DictionaryReadException;
+import re.belv.croiseur.dictionary.xml.codec.DictionaryReader;
+import re.belv.croiseur.spi.dictionary.Dictionary;
 
 /**
  * An XML dictionary.
@@ -62,8 +61,7 @@ final class XmlDictionary implements Dictionary {
      */
     private static String extractName(final DictionaryHeader header) {
         final Map<Locale, String> names = header.names();
-        return Objects.requireNonNullElseGet(names.get(Locale.getDefault()),
-                                             () -> names.get(Locale.ENGLISH));
+        return Objects.requireNonNullElseGet(names.get(Locale.getDefault()), () -> names.get(Locale.ENGLISH));
     }
 
     /**
@@ -76,8 +74,8 @@ final class XmlDictionary implements Dictionary {
      */
     private static String extractDescription(final DictionaryHeader header) {
         final Map<Locale, String> descriptions = header.descriptions();
-        return Objects.requireNonNullElseGet(descriptions.get(Locale.getDefault()),
-                                             () -> descriptions.get(Locale.ENGLISH));
+        return Objects.requireNonNullElseGet(
+                descriptions.get(Locale.getDefault()), () -> descriptions.get(Locale.ENGLISH));
     }
 
     /**
@@ -108,9 +106,9 @@ final class XmlDictionary implements Dictionary {
     private static Set<String> readWords(final DictionaryReader reader) {
         try {
             return reader.readWords()
-                         .filter(StringFilters.notEmpty())
-                         .map(StringTransformers.toAcceptableCrosswordEntry())
-                         .collect(toCollection(LinkedHashSet::new));
+                    .filter(StringFilters.notEmpty())
+                    .map(StringTransformers.toAcceptableCrosswordEntry())
+                    .collect(toCollection(LinkedHashSet::new));
         } catch (final DictionaryReadException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary words");
             return Collections.emptySet();

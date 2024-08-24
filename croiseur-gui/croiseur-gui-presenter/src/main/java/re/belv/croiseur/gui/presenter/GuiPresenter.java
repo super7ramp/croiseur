@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.presenter;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
@@ -18,10 +21,6 @@ import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * GUI implementation of {@link Presenter}.
@@ -46,21 +45,22 @@ public final class GuiPresenter implements Presenter {
      * @param applicationViewModel the view model
      */
     public GuiPresenter(final ApplicationViewModel applicationViewModel) {
-        dictionaryPresenter =
-                new GuiDictionaryPresenter(applicationViewModel.dictionaryViewModel(),
-                                           applicationViewModel.errorsViewModel());
-        solverPresenter =
-                new GuiSolverPresenter(applicationViewModel.crosswordGridViewModel(),
-                                       applicationViewModel.solverConfigurationViewModel(),
-                                       applicationViewModel.solverProgressViewModel(),
-                                       applicationViewModel.errorsViewModel());
-        cluePresenter = new GuiCluePresenter(applicationViewModel.cluesViewModel(),
-                                             applicationViewModel.crosswordGridViewModel(),
-                                             applicationViewModel.errorsViewModel());
-        puzzlePresenter = new GuiPuzzlePresenter(applicationViewModel.puzzleSelectionViewModel(),
-                                                 applicationViewModel.puzzleEditionViewModel(),
-                                                 applicationViewModel.puzzleCodecsViewModel(),
-                                                 applicationViewModel.errorsViewModel());
+        dictionaryPresenter = new GuiDictionaryPresenter(
+                applicationViewModel.dictionaryViewModel(), applicationViewModel.errorsViewModel());
+        solverPresenter = new GuiSolverPresenter(
+                applicationViewModel.crosswordGridViewModel(),
+                applicationViewModel.solverConfigurationViewModel(),
+                applicationViewModel.solverProgressViewModel(),
+                applicationViewModel.errorsViewModel());
+        cluePresenter = new GuiCluePresenter(
+                applicationViewModel.cluesViewModel(),
+                applicationViewModel.crosswordGridViewModel(),
+                applicationViewModel.errorsViewModel());
+        puzzlePresenter = new GuiPuzzlePresenter(
+                applicationViewModel.puzzleSelectionViewModel(),
+                applicationViewModel.puzzleEditionViewModel(),
+                applicationViewModel.puzzleCodecsViewModel(),
+                applicationViewModel.errorsViewModel());
     }
 
     @Override
@@ -69,8 +69,7 @@ public final class GuiPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         solverPresenter.presentSolverInitialisationState(solverInitialisationState);
     }
 

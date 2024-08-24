@@ -11,5 +11,4 @@ final class WordFormGeneratorSimpleTest extends WordFormGeneratorTestCase {
     String name() {
         return "simple";
     }
-
 }

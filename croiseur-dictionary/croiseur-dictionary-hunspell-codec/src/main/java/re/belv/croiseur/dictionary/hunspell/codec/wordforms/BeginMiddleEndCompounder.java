@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-import re.belv.croiseur.dictionary.hunspell.codec.util.MoreCollections;
-import re.belv.croiseur.dictionary.hunspell.codec.util.Triplet;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
+import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
+import re.belv.croiseur.dictionary.hunspell.codec.util.MoreCollections;
+import re.belv.croiseur.dictionary.hunspell.codec.util.Triplet;
 
 /**
  * Creates compounds based on the compound begin/middle/end flag options.
@@ -51,7 +50,6 @@ final class BeginMiddleEndCompounder implements Compounder {
         affixer = affixerArg;
     }
 
-
     @Override
     public Stream<String> apply(final Collection<DicEntry> dicEntries) {
 
@@ -61,18 +59,15 @@ final class BeginMiddleEndCompounder implements Compounder {
         final Set<DicEntry> middles = compoundableEntries.get(middleFlag);
         final Set<DicEntry> ends = compoundableEntries.get(endFlag);
 
-        return MoreCollections.triplets(beginnings, middles, ends)
-                              .stream()
-                              .mapMulti((compoundParts, accumulator) -> {
-                    final BeginMiddleEndCompound compound = compound(compoundParts, accumulator);
-                    applyAffixes(compound, accumulator);
-                });
-
+        return MoreCollections.triplets(beginnings, middles, ends).stream().mapMulti((compoundParts, accumulator) -> {
+            final BeginMiddleEndCompound compound = compound(compoundParts, accumulator);
+            applyAffixes(compound, accumulator);
+        });
     }
 
     private Map<Flag, Set<DicEntry>> groupCompoundableEntries(final Collection<DicEntry> dicEntries) {
-        final Map<Flag, Set<DicEntry>> compoundableParts = Map.of(beginFlag, new HashSet<>(),
-                middleFlag, new HashSet<>(), endFlag, new HashSet<>());
+        final Map<Flag, Set<DicEntry>> compoundableParts =
+                Map.of(beginFlag, new HashSet<>(), middleFlag, new HashSet<>(), endFlag, new HashSet<>());
         for (final DicEntry dicEntry : dicEntries) {
             if (dicEntry.isFlaggedWith(beginFlag)) {
                 compoundableParts.get(beginFlag).add(dicEntry);
@@ -96,9 +91,10 @@ final class BeginMiddleEndCompounder implements Compounder {
      * @param accumulator   the accumulator where the compound is added
      * @return the created compound
      */
-    private BeginMiddleEndCompound compound(final Triplet<DicEntry, DicEntry, DicEntry> compoundParts, final Consumer<String> accumulator) {
-        final BeginMiddleEndCompound compound = new BeginMiddleEndCompound(compoundParts.left(),
-                compoundParts.middle(), compoundParts.right());
+    private BeginMiddleEndCompound compound(
+            final Triplet<DicEntry, DicEntry, DicEntry> compoundParts, final Consumer<String> accumulator) {
+        final BeginMiddleEndCompound compound =
+                new BeginMiddleEndCompound(compoundParts.left(), compoundParts.middle(), compoundParts.right());
         accumulator.accept(compound.word());
         return compound;
     }
@@ -109,9 +105,7 @@ final class BeginMiddleEndCompounder implements Compounder {
      * @param compound    the compound
      * @param accumulator the accumulator where the compound is added.
      */
-    private void applyAffixes(final BeginMiddleEndCompound compound,
-                              final Consumer<String> accumulator) {
+    private void applyAffixes(final BeginMiddleEndCompound compound, final Consumer<String> accumulator) {
         affixer.apply(compound).forEach(accumulator);
     }
-
 }

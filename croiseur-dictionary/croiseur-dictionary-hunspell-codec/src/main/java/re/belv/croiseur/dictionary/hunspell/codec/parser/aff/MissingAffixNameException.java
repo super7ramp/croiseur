@@ -15,4 +15,3 @@ final class MissingAffixNameException extends ParserException {
         super(MESSAGE);
     }
 }
-

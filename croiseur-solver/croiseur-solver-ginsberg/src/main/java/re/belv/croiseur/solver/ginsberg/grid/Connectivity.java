@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Connectivity between slots.
@@ -22,5 +21,4 @@ interface Connectivity extends BiPredicate<SlotIdentifier, SlotIdentifier> {
      * @return the slots connected to the given slot
      */
     Stream<InternalSlot> connectedSlots(final SlotIdentifier slot);
-
 }

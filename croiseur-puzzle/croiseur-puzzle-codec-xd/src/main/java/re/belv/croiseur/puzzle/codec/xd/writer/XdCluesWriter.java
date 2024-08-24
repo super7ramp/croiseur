@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.puzzle.codec.xd.writer;
 
+import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClue;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
-
-import java.util.Objects;
 
 /**
  * Encodes {@link XdClues} to its textual representation.
@@ -46,11 +45,11 @@ final class XdCluesWriter {
      */
     private static void append(final StringBuilder sb, final boolean across, final XdClue clue) {
         sb.append(across ? 'A' : 'D')
-          .append(clue.number())
-          .append(". ")
-          .append(clue.clue())
-          .append(" ~ ")
-          .append(clue.answer())
-          .append('\n');
+                .append(clue.number())
+                .append(". ")
+                .append(clue.clue())
+                .append(" ~ ")
+                .append(clue.answer())
+                .append('\n');
     }
 }

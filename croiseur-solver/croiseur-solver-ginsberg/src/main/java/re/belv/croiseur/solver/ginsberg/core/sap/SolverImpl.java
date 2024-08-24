@@ -48,10 +48,11 @@ final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver 
      * @param aCandidateChooser the candidate choice heuristics
      * @param aBacktracker      the backtracking heuristics
      */
-    SolverImpl(final ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> aProblem,
-               final Iterator<VariableT> aVariableIterator, final CandidateChooser<VariableT,
-            ValueT> aCandidateChooser,
-               final Backtracker<VariableT, EliminationReasonT> aBacktracker) {
+    SolverImpl(
+            final ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> aProblem,
+            final Iterator<VariableT> aVariableIterator,
+            final CandidateChooser<VariableT, ValueT> aCandidateChooser,
+            final Backtracker<VariableT, EliminationReasonT> aBacktracker) {
         problem = Objects.requireNonNull(aProblem);
         variableIterator = Objects.requireNonNull(aVariableIterator);
         candidateChooser = Objects.requireNonNull(aCandidateChooser);
@@ -62,8 +63,7 @@ final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver 
     public boolean solve() throws InterruptedException {
 
         boolean hasSolution = true;
-        while (!Thread.currentThread()
-                      .isInterrupted() && variableIterator.hasNext() && hasSolution) {
+        while (!Thread.currentThread().isInterrupted() && variableIterator.hasNext() && hasSolution) {
 
             final VariableT variable = variableIterator.next();
             final Optional<ValueT> candidate = candidateChooser.find(variable);
@@ -71,8 +71,7 @@ final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver 
             if (candidate.isPresent()) {
                 problem.assign(variable, candidate.get());
             } else {
-                final List<Elimination<VariableT, EliminationReasonT>> toUnassign =
-                        backtracker.backtrackFrom(variable);
+                final List<Elimination<VariableT, EliminationReasonT>> toUnassign = backtracker.backtrackFrom(variable);
                 if (toUnassign.isEmpty()) {
                     hasSolution = false;
                 } else {

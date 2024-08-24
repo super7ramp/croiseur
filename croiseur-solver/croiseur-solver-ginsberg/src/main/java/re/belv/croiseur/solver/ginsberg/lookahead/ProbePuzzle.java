@@ -5,11 +5,7 @@
 
 package re.belv.croiseur.solver.ginsberg.lookahead;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
-import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
-import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
+import static java.util.function.Predicate.not;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,8 +16,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.util.function.Predicate.not;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
+import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
+import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
+import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
 
 /**
  * A {@link Puzzle} with additional lookahead functions.
@@ -47,8 +46,7 @@ public final class ProbePuzzle implements Puzzle {
      * @param dictionaryArg a dictionary
      * @param elsArg        an elimination space
      */
-    public ProbePuzzle(final Puzzle puzzleArg, final CachedDictionary dictionaryArg,
-                       final EliminationSpace elsArg) {
+    public ProbePuzzle(final Puzzle puzzleArg, final CachedDictionary dictionaryArg, final EliminationSpace elsArg) {
         puzzle = puzzleArg.copy();
         dictionary = dictionaryArg;
         els = elsArg;
@@ -99,11 +97,12 @@ public final class ProbePuzzle implements Puzzle {
                 .connectedSlots()
                 .reduce(
                         BigInteger.ONE, // default value if no connected slot
-                        (previous, slot) ->
-                                previous.signum() == 0 ? previous : // already 0, don't probe
-                                previous.multiply(BigInteger.valueOf(dictionary.candidates(slot).count())),
-                        BigInteger::multiply
-                );
+                        (previous, slot) -> previous.signum() == 0
+                                ? previous
+                                : // already 0, don't probe
+                                previous.multiply(BigInteger.valueOf(
+                                        dictionary.candidates(slot).count())),
+                        BigInteger::multiply);
         // @formatter:on
         probedSlot.unassign();
         return numberOfSolutions;
@@ -131,15 +130,13 @@ public final class ProbePuzzle implements Puzzle {
      * @return whether after performing the given unassignment the given unassignable slot would
      * become assignable again
      */
-    public boolean hasSolutionAfter(final List<Unassignment> unassignments,
-                                    final Slot unassignable) {
+    public boolean hasSolutionAfter(final List<Unassignment> unassignments, final Slot unassignable) {
         final List<String> unassignedValues = unassign(unassignments);
         final Set<String> probedEliminations = probeEliminationSpace(unassignments, unassignable);
 
         final Slot probedSlot = puzzle.slot(unassignable.uid());
         final boolean hasSolution =
-                dictionary.reevaluatedCandidates(probedSlot)
-                          .anyMatch(not(probedEliminations::contains));
+                dictionary.reevaluatedCandidates(probedSlot).anyMatch(not(probedEliminations::contains));
 
         reassign(unassignedValues, unassignments);
         return hasSolution;
@@ -166,8 +163,7 @@ public final class ProbePuzzle implements Puzzle {
      * @param unassignedValues the unassigned values
      * @param unassignments the unassignments (in same order as unassigned values)
      */
-    private void reassign(final List<String> unassignedValues,
-                          final List<Unassignment> unassignments) {
+    private void reassign(final List<String> unassignedValues, final List<Unassignment> unassignments) {
         for (int i = 0; i < unassignments.size(); i++) {
             puzzle.slot(unassignments.get(i).slotUid()).assign(unassignedValues.get(i));
         }
@@ -180,8 +176,7 @@ public final class ProbePuzzle implements Puzzle {
      * @param unassignable  the unassignable slot
      * @return the set of eliminated values for the unassignable variable
      */
-    private Set<String> probeEliminationSpace(final Collection<Unassignment> unassignments,
-                                              final Slot unassignable) {
+    private Set<String> probeEliminationSpace(final Collection<Unassignment> unassignments, final Slot unassignable) {
         // TODO that would be simpler if elimination space provided a deep copy method like puzzle
         final List<SlotIdentifier> modifiedVariables =
                 unassignments.stream().map(Unassignment::slotUid).toList();
@@ -198,5 +193,4 @@ public final class ProbePuzzle implements Puzzle {
         }
         return refreshedEliminations.keySet();
     }
-
 }

@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.writer.XdCrosswordWriter;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 /**
  * Writes {@link SavedPuzzle}s to disk.

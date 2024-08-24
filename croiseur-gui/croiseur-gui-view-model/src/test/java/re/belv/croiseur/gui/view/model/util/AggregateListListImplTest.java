@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.view.model.util;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link AggregateListImpl}.
@@ -32,7 +31,6 @@ final class AggregateListListImplTest {
     void getListOfEmptyList() {
         final List<Object> list = new AggregateListImpl<>(Collections.emptyList());
 
-
         assertEquals(0, list.size());
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
     }
@@ -40,7 +38,6 @@ final class AggregateListListImplTest {
     @Test
     void getOneList() {
         final List<Integer> list = new AggregateListImpl<>(List.of(1, 2, 3));
-
 
         assertEquals(3, list.size());
         assertEquals(1, list.get(0));
@@ -50,8 +47,7 @@ final class AggregateListListImplTest {
 
     @Test
     void getThreeLists() {
-        final List<Integer> list = new AggregateListImpl<>(List.of(1, 2, 3),
-                List.of(4, 5), List.of(6, 7, 8, 9));
+        final List<Integer> list = new AggregateListImpl<>(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8, 9));
 
         assertEquals(9, list.size());
         assertEquals(1, list.get(0));
@@ -64,9 +60,13 @@ final class AggregateListListImplTest {
 
     @Test
     void getEmptyAndNonEmptyLists() {
-        final List<Integer> list = new AggregateListImpl<>(List.of(1, 2, 3),
-                Collections.emptyList(), Collections.emptyList(),
-                List.of(4, 5), Collections.emptyList(), List.of(6, 7, 8, 9));
+        final List<Integer> list = new AggregateListImpl<>(
+                List.of(1, 2, 3),
+                Collections.emptyList(),
+                Collections.emptyList(),
+                List.of(4, 5),
+                Collections.emptyList(),
+                List.of(6, 7, 8, 9));
 
         assertEquals(9, list.size());
         assertEquals(1, list.get(0));

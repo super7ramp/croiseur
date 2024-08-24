@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.solver.sat;
 
-import org.sat4j.pb.IPBSolver;
-import org.sat4j.pb.SolverFactory;
-import org.sat4j.specs.ContradictionException;
-
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.sat4j.pb.IPBSolver;
+import org.sat4j.pb.SolverFactory;
+import org.sat4j.specs.ContradictionException;
 
 /**
  * A SAT (actually, pseudo-boolean) solver configured to solve crossword problems.
@@ -130,8 +129,7 @@ public final class Solver {
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
         try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {
-            final Future<Boolean> problemIsSatisfiable =
-                    executor.submit(() -> satSolver.isSatisfiable());
+            final Future<Boolean> problemIsSatisfiable = executor.submit(() -> satSolver.isSatisfiable());
             return problemIsSatisfiable.get();
         } catch (final ExecutionException e) {
             // Should not happen.
@@ -149,6 +147,6 @@ public final class Solver {
      * @return a new empty 2D array
      */
     private static char[][] noSolution() {
-        return new char[][]{};
+        return new char[][] {};
     }
 }

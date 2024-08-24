@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.solver.szunami.plugin;
 
+import java.util.Map;
+import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Crossword;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Adapts {@link PuzzleGrid} into xwords-rs' {@link Crossword}.
@@ -52,5 +51,4 @@ final class PuzzleAdapter {
 
         return new Crossword(contentsBuilder.toString(), width, height);
     }
-
 }

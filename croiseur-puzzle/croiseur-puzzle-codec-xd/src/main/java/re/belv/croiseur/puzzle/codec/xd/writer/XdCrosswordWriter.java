@@ -5,8 +5,6 @@
 
 package re.belv.croiseur.puzzle.codec.xd.writer;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -14,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 
 /**
  * Encodes {@link XdCrossword} to its textual representation.
@@ -50,9 +49,11 @@ public final class XdCrosswordWriter {
      */
     public String write(final XdCrossword crossword) {
         Objects.requireNonNull(crossword);
-        return metadataWriter.write(crossword.metadata()) + SECTION_DELIMITER +
-               gridWriter.write(crossword.grid()) + SECTION_DELIMITER +
-               cluesWriter.write(crossword.clues());
+        return metadataWriter.write(crossword.metadata())
+                + SECTION_DELIMITER
+                + gridWriter.write(crossword.grid())
+                + SECTION_DELIMITER
+                + cluesWriter.write(crossword.clues());
     }
 
     /**

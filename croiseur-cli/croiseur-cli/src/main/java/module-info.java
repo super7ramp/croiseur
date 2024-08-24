@@ -10,23 +10,28 @@ import re.belv.croiseur.spi.presenter.Presenter;
  * Command-line frontend to croiseur.
  */
 module re.belv.croiseur.cli {
-
-    requires re.belv.croiseur;     // Core library
-    requires info.picocli;         // CLI framework
-    requires java.logging;         // Base module
+    requires re.belv.croiseur; // Core library
+    requires info.picocli; // CLI framework
+    requires java.logging; // Base module
 
     // CLI provides core library with a presenter
-    provides Presenter with CliPresenter;
+    provides Presenter with
+            CliPresenter;
 
     // Expose root package, mainly for testing
     exports re.belv.croiseur.cli;
 
     // Open for reflection to CLI framework
-    opens re.belv.croiseur.cli to info.picocli;
-    opens re.belv.croiseur.cli.controller to info.picocli;
-    opens re.belv.croiseur.cli.controller.clue to info.picocli;
-    opens re.belv.croiseur.cli.controller.dictionary to info.picocli;
-    opens re.belv.croiseur.cli.controller.puzzle to info.picocli;
-    opens re.belv.croiseur.cli.controller.solver to info.picocli;
-
+    opens re.belv.croiseur.cli to
+            info.picocli;
+    opens re.belv.croiseur.cli.controller to
+            info.picocli;
+    opens re.belv.croiseur.cli.controller.clue to
+            info.picocli;
+    opens re.belv.croiseur.cli.controller.dictionary to
+            info.picocli;
+    opens re.belv.croiseur.cli.controller.puzzle to
+            info.picocli;
+    opens re.belv.croiseur.cli.controller.solver to
+            info.picocli;
 }

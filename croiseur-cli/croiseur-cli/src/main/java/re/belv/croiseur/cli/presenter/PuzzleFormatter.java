@@ -5,13 +5,6 @@
 
 package re.belv.croiseur.cli.presenter;
 
-import picocli.CommandLine;
-import re.belv.croiseur.cli.l10n.ResourceBundles;
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleDetails;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +12,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import picocli.CommandLine;
+import re.belv.croiseur.cli.l10n.ResourceBundles;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleDetails;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
 /**
  * Formats crossword puzzles.
@@ -56,16 +55,16 @@ final class PuzzleFormatter {
     static String formatSavedPuzzle(final SavedPuzzle savedPuzzle) {
         final PuzzleDetails details = savedPuzzle.details();
         // @formatter:off
-        return $("identifier")   + ": "                 + savedPuzzle.id()                                         + LINE_SEPARATOR +
-               $("revision")     + ": "                 + savedPuzzle.revision()                                   + LINE_SEPARATOR +
-               $("title")        + ": "                 + details.title()                                          + LINE_SEPARATOR +
-               $("author")       + ": "                 + details.author()                                         + LINE_SEPARATOR +
-               $("editor")       + ": "                 + details.editor()                                         + LINE_SEPARATOR +
-               $("copyright")    + ": "                 + details.copyright()                                      + LINE_SEPARATOR +
-               $("date")         + ": "                 + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR +
-               $("grid")         + ":" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid())                     + LINE_SEPARATOR +
-               $("clues.across") + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().across()) +
-               $("clues.down")   + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().down());
+        return $("identifier") + ": " + savedPuzzle.id() + LINE_SEPARATOR + $("revision")
+                + ": " + savedPuzzle.revision() + LINE_SEPARATOR + $("title")
+                + ": " + details.title() + LINE_SEPARATOR + $("author")
+                + ": " + details.author() + LINE_SEPARATOR + $("editor")
+                + ": " + details.editor() + LINE_SEPARATOR + $("copyright")
+                + ": " + details.copyright() + LINE_SEPARATOR + $("date")
+                + ": " + details.date().map(LocalDate::toString).orElse("") + LINE_SEPARATOR + $("grid")
+                + ":" + LINE_SEPARATOR + formatPuzzleGrid(savedPuzzle.grid()) + LINE_SEPARATOR + $("clues.across")
+                + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().across()) + $("clues.down")
+                + ":" + LINE_SEPARATOR + formatClues(savedPuzzle.clues().down());
         // @formatter:on
     }
 
@@ -117,10 +116,8 @@ final class PuzzleFormatter {
                 } else {
                     value = filledBoxes.getOrDefault(position, EMPTY);
                 }
-                final String format =
-                        unsolvableBoxes.contains(position) ? UNSOLVABLE_FORMAT : DEFAULT_FORMAT;
-                final String box =
-                        CommandLine.Help.Ansi.AUTO.string("@|" + format + " " + value + "|@");
+                final String format = unsolvableBoxes.contains(position) ? UNSOLVABLE_FORMAT : DEFAULT_FORMAT;
+                final String box = CommandLine.Help.Ansi.AUTO.string("@|" + format + " " + value + "|@");
                 sb.append(box);
                 sb.append(COLUMN_SEPARATOR);
             }
@@ -135,14 +132,16 @@ final class PuzzleFormatter {
         return positions.stream()
                         .map(GridPosition::x)
                         .max(Comparator.naturalOrder())
-                        .orElse(-1) + 1;
+                        .orElse(-1)
+                + 1;
     }
 
     private static int height(final Set<GridPosition> positions) {
         return positions.stream()
                         .map(GridPosition::y)
                         .max(Comparator.naturalOrder())
-                        .orElse(-1) + 1;
+                        .orElse(-1)
+                + 1;
     }
 
     /**

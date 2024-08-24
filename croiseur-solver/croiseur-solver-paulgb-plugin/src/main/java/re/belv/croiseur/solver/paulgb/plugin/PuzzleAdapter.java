@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.solver.paulgb.plugin;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.solver.paulgb.Puzzle;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.solver.paulgb.Puzzle;
 
 /**
  * Adapts {@link PuzzleGrid} into Crossword Composer's {@link Puzzle}.
@@ -37,8 +36,7 @@ final class PuzzleAdapter {
     static Puzzle adapt(final NumberedPuzzleDefinition puzzleDefinition) {
 
         if (!puzzleDefinition.filled().isEmpty()) {
-            throw new UnsupportedOperationException("paulgb's solver doesn't support pre-filled " +
-                    "grid");
+            throw new UnsupportedOperationException("paulgb's solver doesn't support pre-filled " + "grid");
         }
 
         final int width = puzzleDefinition.width();
@@ -46,31 +44,32 @@ final class PuzzleAdapter {
         final Set<GridPosition> shaded = puzzleDefinition.shaded();
 
         final Map<GridPosition, Integer> labeledBoxes = puzzleDefinition.positionToId();
-        final List<List<Integer>> horizontalSlots = identifyHorizontalSlots(labeledBoxes, width,
-                height, shaded);
-        final List<List<Integer>> verticalSlots = identifyVerticalSlots(labeledBoxes, width,
-                height, shaded);
+        final List<List<Integer>> horizontalSlots = identifyHorizontalSlots(labeledBoxes, width, height, shaded);
+        final List<List<Integer>> verticalSlots = identifyVerticalSlots(labeledBoxes, width, height, shaded);
 
         final int[][] slots = concatSlots(horizontalSlots, verticalSlots);
 
         return new Puzzle(slots);
     }
 
-    private static int[][] concatSlots(final List<List<Integer>> horizontalSlots,
-                                       final List<List<Integer>> verticalSlots) {
+    private static int[][] concatSlots(
+            final List<List<Integer>> horizontalSlots, final List<List<Integer>> verticalSlots) {
         return Stream.concat(horizontalSlots.stream(), verticalSlots.stream())
-                     .map(slot -> slot.stream().mapToInt(Integer::intValue).toArray())
-                     .toArray(int[][]::new);
+                .map(slot -> slot.stream().mapToInt(Integer::intValue).toArray())
+                .toArray(int[][]::new);
     }
 
-    private static List<List<Integer>> identifyVerticalSlots(final Map<GridPosition, Integer> labeledBoxes
-            , final int width, final int height, final Set<GridPosition> shaded) {
+    private static List<List<Integer>> identifyVerticalSlots(
+            final Map<GridPosition, Integer> labeledBoxes,
+            final int width,
+            final int height,
+            final Set<GridPosition> shaded) {
         final List<List<Integer>> verticalSlots = new ArrayList<>();
         for (int column = 0; column < width; column++) {
-            for (int startRow = 0, endRow = nextShadedOnColumn(column, 0, height, shaded); startRow < height; startRow =
-                    nextVerticalSlot(column, endRow, height, shaded), endRow =
-                    nextShadedOnColumn(column, startRow,
-                            height, shaded)) {
+            for (int startRow = 0, endRow = nextShadedOnColumn(column, 0, height, shaded);
+                    startRow < height;
+                    startRow = nextVerticalSlot(column, endRow, height, shaded),
+                            endRow = nextShadedOnColumn(column, startRow, height, shaded)) {
                 if (endRow - startRow > 1) {
                     final List<Integer> verticalSlot = new ArrayList<>();
                     for (int row = startRow; row < endRow; row++) {
@@ -84,15 +83,17 @@ final class PuzzleAdapter {
         return verticalSlots;
     }
 
-    private static List<List<Integer>> identifyHorizontalSlots(final Map<GridPosition, Integer> labeledBoxes,
-                                                               final int width, final int height,
-                                                               final Set<GridPosition> shaded) {
+    private static List<List<Integer>> identifyHorizontalSlots(
+            final Map<GridPosition, Integer> labeledBoxes,
+            final int width,
+            final int height,
+            final Set<GridPosition> shaded) {
         final List<List<Integer>> horizontalSlots = new ArrayList<>();
         for (int row = 0; row < height; row++) {
-            for (int startColumn = 0, endColumn = nextShadedOnLine(row, 0, width, shaded); startColumn < width; startColumn =
-                    nextHorizontalSlot(row, endColumn, width, shaded), endColumn =
-                    nextShadedOnLine(row, startColumn,
-                            width, shaded)) {
+            for (int startColumn = 0, endColumn = nextShadedOnLine(row, 0, width, shaded);
+                    startColumn < width;
+                    startColumn = nextHorizontalSlot(row, endColumn, width, shaded),
+                            endColumn = nextShadedOnLine(row, startColumn, width, shaded)) {
                 if (endColumn - startColumn > 1) {
                     final List<Integer> horizontalSlot = new ArrayList<>();
                     for (int column = startColumn; column < endColumn; column++) {
@@ -106,8 +107,8 @@ final class PuzzleAdapter {
         return horizontalSlots;
     }
 
-    private static int nextShadedOnLine(final int row, final int startColumn, final int width,
-                                        final Set<GridPosition> shaded) {
+    private static int nextShadedOnLine(
+            final int row, final int startColumn, final int width, final Set<GridPosition> shaded) {
         for (int column = startColumn; column < width; column++) {
             if (shaded.contains(new GridPosition(column, row))) {
                 return column;
@@ -116,8 +117,8 @@ final class PuzzleAdapter {
         return width;
     }
 
-    private static int nextShadedOnColumn(final int column, final int startRow, final int height,
-                                          final Set<GridPosition> shaded) {
+    private static int nextShadedOnColumn(
+            final int column, final int startRow, final int height, final Set<GridPosition> shaded) {
         for (int row = startRow; row < height; row++) {
             if (shaded.contains(new GridPosition(column, row))) {
                 return row;
@@ -126,8 +127,8 @@ final class PuzzleAdapter {
         return height;
     }
 
-    private static int nextVerticalSlot(final int column, final int startRow, final int height,
-                                        final Set<GridPosition> shaded) {
+    private static int nextVerticalSlot(
+            final int column, final int startRow, final int height, final Set<GridPosition> shaded) {
         for (int row = startRow; row < height; row++) {
             if (!shaded.contains(new GridPosition(column, row))) {
                 return row;
@@ -136,8 +137,8 @@ final class PuzzleAdapter {
         return height;
     }
 
-    private static int nextHorizontalSlot(final int row, final int startColumn, final int width,
-                                          final Set<GridPosition> shaded) {
+    private static int nextHorizontalSlot(
+            final int row, final int startColumn, final int width, final Set<GridPosition> shaded) {
         for (int column = startColumn; column < width; column++) {
             if (!shaded.contains(new GridPosition(column, row))) {
                 return column;

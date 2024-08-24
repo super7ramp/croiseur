@@ -12,5 +12,7 @@ import re.belv.croiseur.spi.clue.ClueProvider;
 module re.belv.croiseur.clue.openai.plugin {
     requires com.azure.ai.openai;
     requires transitive re.belv.croiseur.spi.clue;
-    provides ClueProvider with OpenAiClueProvider;
+
+    provides ClueProvider with
+            OpenAiClueProvider;
 }

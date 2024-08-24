@@ -11,5 +11,7 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
  */
 module re.belv.croiseur.solver.example.plugin {
     requires re.belv.croiseur.spi.solver;
-    provides CrosswordSolver with ExampleCrosswordSolver;
+
+    provides CrosswordSolver with
+            ExampleCrosswordSolver;
 }

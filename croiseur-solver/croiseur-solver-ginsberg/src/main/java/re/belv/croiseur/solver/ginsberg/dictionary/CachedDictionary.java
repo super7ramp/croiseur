@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.solver.ginsberg.dictionary;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-
 import java.util.stream.Stream;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
 
 /**
  * A dictionary caching results of potentially slow external dictionary and taking into account

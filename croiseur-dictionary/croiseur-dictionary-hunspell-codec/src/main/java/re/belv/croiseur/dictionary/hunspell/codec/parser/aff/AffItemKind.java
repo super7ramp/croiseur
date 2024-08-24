@@ -62,8 +62,8 @@ enum AffItemKind {
     /** General option: Two-fold prefix stripping. */
     GENERAL_COMPLEX_PREFIXES("^COMPLEXPREFIXES$"),
     /** General option: Character encoding of words and morphemes in affix and dictionary files. */
-    GENERAL_ENCODING("^SET (UTF-8|ISO-?8859-1|ISO-?8859-10|ISO-?8859-13|ISO-?8859-15|KOI8-R|KOI8" +
-            "-U|microsoft-cp1251|ISCII-DEVANAGARI)$"),
+    GENERAL_ENCODING("^SET (UTF-8|ISO-?8859-1|ISO-?8859-10|ISO-?8859-13|ISO-?8859-15|KOI8-R|KOI8"
+            + "-U|microsoft-cp1251|ISCII-DEVANAGARI)$"),
     /** General option: Flag type. */
     GENERAL_FLAG_TYPE("^FLAG (UTF-8|long|num)$"),
     /** General option: Languages specific code. */
@@ -156,8 +156,8 @@ enum AffItemKind {
      */
     static Optional<AffItemKind> identify(final String line) {
         return Arrays.stream(ALL_ITEM_KINDS)
-                     .filter(affItemKind -> affItemKind.matches(line))
-                     .findFirst();
+                .filter(affItemKind -> affItemKind.matches(line))
+                .findFirst();
     }
 
     /**
@@ -169,5 +169,4 @@ enum AffItemKind {
     private boolean matches(final String line) {
         return identificationPattern.matcher(line).matches();
     }
-
 }

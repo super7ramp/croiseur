@@ -5,11 +5,7 @@
 
 package re.belv.croiseur.dictionary.txt.plugin;
 
-import re.belv.croiseur.common.dictionary.DictionaryDetails;
-import re.belv.croiseur.dictionary.common.StringFilters;
-import re.belv.croiseur.dictionary.common.StringTransformers;
-import re.belv.croiseur.dictionary.common.util.Lazy;
-import re.belv.croiseur.spi.dictionary.Dictionary;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +20,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toCollection;
+import re.belv.croiseur.common.dictionary.DictionaryDetails;
+import re.belv.croiseur.dictionary.common.StringFilters;
+import re.belv.croiseur.dictionary.common.StringTransformers;
+import re.belv.croiseur.dictionary.common.util.Lazy;
+import re.belv.croiseur.spi.dictionary.Dictionary;
 
 /**
  * Dictionary backed by simple text file.
@@ -61,8 +60,8 @@ final class TxtDictionary implements Dictionary {
     private static Set<String> readWords(final File file) {
         try (final Stream<String> lines = Files.lines(file.toPath())) {
             return lines.filter(StringFilters.notEmpty())
-                        .map(StringTransformers.toAcceptableCrosswordEntry())
-                        .collect(toCollection(LinkedHashSet::new));
+                    .map(StringTransformers.toAcceptableCrosswordEntry())
+                    .collect(toCollection(LinkedHashSet::new));
         } catch (final IOException e) {
             LOGGER.log(Level.WARNING, e, () -> "Failed to read dictionary words");
             return Collections.emptySet();

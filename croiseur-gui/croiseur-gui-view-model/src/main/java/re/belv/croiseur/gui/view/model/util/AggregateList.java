@@ -28,8 +28,7 @@ public interface AggregateList<T> extends List<T> {
      * @return the created {@link AggregateList}
      */
     @SafeVarargs
-    static <T> AggregateList<T> of(final Collection<T> collection,
-                                   final Collection<T>... otherCollections) {
+    static <T> AggregateList<T> of(final Collection<T> collection, final Collection<T>... otherCollections) {
         return new AggregateListImpl<>(collection, otherCollections);
     }
 
@@ -80,5 +79,4 @@ public interface AggregateList<T> extends List<T> {
      * @return the number of aggregated collections
      */
     int aggregateCount();
-
 }

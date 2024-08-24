@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.api.puzzle.persistence;
 
+import java.util.List;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
-
-import java.util.List;
 
 /**
  * Services pertaining to puzzle persistence.
@@ -91,5 +90,4 @@ public interface PuzzlePersistenceService {
      * PuzzlePresenter#presentSavedPuzzle(SavedPuzzle)
      */
     void save(final long puzzleId, final PuzzlePatch patch);
-
 }

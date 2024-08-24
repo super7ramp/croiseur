@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -23,8 +24,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.layout.HBox;
 import re.belv.croiseur.gui.view.model.ClueViewModel;
-
-import java.util.ResourceBundle;
 
 /**
  * Clues pane.
@@ -64,10 +63,8 @@ public final class CluesPane extends HBox {
      * Constructs an instance.
      */
     public CluesPane() {
-        acrossClues =
-                new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList());
-        downClues =
-                new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
+        acrossClues = new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList());
+        downClues = new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
         selectedAcrossClueIndex = new SimpleIntegerProperty(this, "selectedAcrossClue", -1);
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClue", -1);
         onFillClueButtonAction = new SimpleObjectProperty<>(this, "onFillClueButtonAction");
@@ -163,12 +160,13 @@ public final class CluesPane extends HBox {
         acrossClueListView.setCellFactory(l -> newClueListCell());
         acrossClues.addListener(this::clearAcrossViewSelectionUponItemDeletion);
         acrossClueListView.setItems(acrossClues);
-        selectedAcrossClueIndex.addListener(
-                this::updateViewAcrossSelectionUponModelSelectionIndexChange);
+        selectedAcrossClueIndex.addListener(this::updateViewAcrossSelectionUponModelSelectionIndexChange);
 
         // view -> model
-        acrossClueListView.getSelectionModel().selectedIndexProperty().addListener(
-                this::updateAcrossModelSelectionUponViewSelectionIndexChange);
+        acrossClueListView
+                .getSelectionModel()
+                .selectedIndexProperty()
+                .addListener(this::updateAcrossModelSelectionUponViewSelectionIndexChange);
     }
 
     /**
@@ -179,12 +177,13 @@ public final class CluesPane extends HBox {
         downClueListView.setCellFactory(l -> newClueListCell());
         downClues.addListener(this::clearDownSelectionUponItemDeletion);
         downClueListView.setItems(downClues);
-        selectedDownClueIndex.addListener(
-                this::updateViewDownSelectionUponModelSelectionIndexChange);
+        selectedDownClueIndex.addListener(this::updateViewDownSelectionUponModelSelectionIndexChange);
 
         // view -> model
-        downClueListView.getSelectionModel().selectedIndexProperty().addListener(
-                this::updateDownModelSelectionUponViewSelectionIndexChange);
+        downClueListView
+                .getSelectionModel()
+                .selectedIndexProperty()
+                .addListener(this::updateDownModelSelectionUponViewSelectionIndexChange);
     }
 
     /**
@@ -207,8 +206,7 @@ public final class CluesPane extends HBox {
      * @param c the model change
      * @see #clearViewSelectionUponItemDeletion
      */
-    private void clearAcrossViewSelectionUponItemDeletion(
-            final ListChangeListener.Change<? extends ClueViewModel> c) {
+    private void clearAcrossViewSelectionUponItemDeletion(final ListChangeListener.Change<? extends ClueViewModel> c) {
         clearViewSelectionUponItemDeletion(c, acrossClueListView.getSelectionModel());
     }
 
@@ -218,8 +216,7 @@ public final class CluesPane extends HBox {
      * @param c the model change
      * @see #clearViewSelectionUponItemDeletion
      */
-    private void clearDownSelectionUponItemDeletion(
-            final ListChangeListener.Change<? extends ClueViewModel> c) {
+    private void clearDownSelectionUponItemDeletion(final ListChangeListener.Change<? extends ClueViewModel> c) {
         clearViewSelectionUponItemDeletion(c, downClueListView.getSelectionModel());
     }
 
@@ -248,8 +245,8 @@ public final class CluesPane extends HBox {
         while (c.next()) {
             final boolean removedWithoutReplacement = c.wasRemoved() && !c.wasAdded();
             final int selectedIndex = viewSelection.getSelectedIndex();
-            final boolean selectionRemoved = selectedIndex >= c.getFrom() &&
-                                             selectedIndex < c.getFrom() + c.getRemovedSize();
+            final boolean selectionRemoved =
+                    selectedIndex >= c.getFrom() && selectedIndex < c.getFrom() + c.getRemovedSize();
             if (removedWithoutReplacement && selectionRemoved) {
                 viewSelection.clearSelection();
             }
@@ -261,10 +258,9 @@ public final class CluesPane extends HBox {
      *
      * @param observable the model observable
      */
-    private void updateViewAcrossSelectionUponModelSelectionIndexChange(
-            final Observable observable) {
-        updateViewSelectionUponModelSelectionIndexChange(selectedAcrossClueIndex.get(),
-                                                         acrossClueListView.getSelectionModel());
+    private void updateViewAcrossSelectionUponModelSelectionIndexChange(final Observable observable) {
+        updateViewSelectionUponModelSelectionIndexChange(
+                selectedAcrossClueIndex.get(), acrossClueListView.getSelectionModel());
     }
 
     /**
@@ -273,8 +269,8 @@ public final class CluesPane extends HBox {
      * @param observable the model observable
      */
     private void updateViewDownSelectionUponModelSelectionIndexChange(final Observable observable) {
-        updateViewSelectionUponModelSelectionIndexChange(selectedDownClueIndex.get(),
-                                                         downClueListView.getSelectionModel());
+        updateViewSelectionUponModelSelectionIndexChange(
+                selectedDownClueIndex.get(), downClueListView.getSelectionModel());
     }
 
     /**
@@ -284,8 +280,7 @@ public final class CluesPane extends HBox {
      * @param viewSelection         the view selection
      */
     private void updateViewSelectionUponModelSelectionIndexChange(
-            final int modelNewSelectedIndex,
-            final SelectionModel<ClueViewModel> viewSelection) {
+            final int modelNewSelectedIndex, final SelectionModel<ClueViewModel> viewSelection) {
         if (modelNewSelectedIndex < 0) {
             viewSelection.clearSelection();
         } else {
@@ -298,11 +293,9 @@ public final class CluesPane extends HBox {
      *
      * @param observable the view selection observable
      */
-    private void updateAcrossModelSelectionUponViewSelectionIndexChange(
-            final Observable observable) {
-        updateModelSelectionUponViewSelectionIndexChange(selectedAcrossClueIndex,
-                                                         acrossClueListView.getSelectionModel(),
-                                                         downClueListView.getSelectionModel());
+    private void updateAcrossModelSelectionUponViewSelectionIndexChange(final Observable observable) {
+        updateModelSelectionUponViewSelectionIndexChange(
+                selectedAcrossClueIndex, acrossClueListView.getSelectionModel(), downClueListView.getSelectionModel());
     }
 
     /**
@@ -311,9 +304,8 @@ public final class CluesPane extends HBox {
      * @param observable the view selection observable
      */
     private void updateDownModelSelectionUponViewSelectionIndexChange(final Observable observable) {
-        updateModelSelectionUponViewSelectionIndexChange(selectedDownClueIndex,
-                                                         downClueListView.getSelectionModel(),
-                                                         acrossClueListView.getSelectionModel());
+        updateModelSelectionUponViewSelectionIndexChange(
+                selectedDownClueIndex, downClueListView.getSelectionModel(), acrossClueListView.getSelectionModel());
     }
 
     /**

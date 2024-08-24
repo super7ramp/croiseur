@@ -5,6 +5,14 @@
 
 package re.belv.croiseur.gui.view.model.slot;
 
+import static re.belv.croiseur.gui.view.model.GridCoord.at;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.function.Predicate;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.value.ObservableIntegerValue;
@@ -14,15 +22,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.function.Predicate;
-
-import static re.belv.croiseur.gui.view.model.GridCoord.at;
 
 /**
  * The slots view model.
@@ -65,18 +64,16 @@ public final class SlotsViewModel {
      * @param columnCount the grid column count
      * @param rowCount    the grid row count
      */
-    public SlotsViewModel(final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes,
-                          final ObservableIntegerValue columnCount,
-                          final ObservableIntegerValue rowCount) {
-        acrossSlots =
-                new ReadOnlyListWrapper<>(this, "acrossSlots",
-                                          initialAcrossSlots(boxes, columnCount.get(),
-                                                             rowCount.get()));
+    public SlotsViewModel(
+            final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes,
+            final ObservableIntegerValue columnCount,
+            final ObservableIntegerValue rowCount) {
+        acrossSlots = new ReadOnlyListWrapper<>(
+                this, "acrossSlots", initialAcrossSlots(boxes, columnCount.get(), rowCount.get()));
         longAcrossSlots = acrossSlots.getReadOnlyProperty().filtered(AT_LEAST_TWO_BOXES);
 
-        downSlots = new ReadOnlyListWrapper<>(this, "downSlots",
-                                              initialDownSlots(boxes, columnCount.get(),
-                                                               rowCount.get()));
+        downSlots = new ReadOnlyListWrapper<>(
+                this, "downSlots", initialDownSlots(boxes, columnCount.get(), rowCount.get()));
         longDownSlots = downSlots.getReadOnlyProperty().filtered(AT_LEAST_TWO_BOXES);
 
         acrossSlotsShadedBoxProcessor = new AcrossSlotShadedBoxProcessor(acrossSlots);
@@ -84,9 +81,7 @@ public final class SlotsViewModel {
         acrossSlotsLightenedBoxProcessor = new AcrossSlotsLightenedBoxProcessor(acrossSlots);
         downSlotsLightenedBoxProcessor = new DownSlotsLightenedBoxProcessor(downSlots);
 
-        boxes.forEach(
-                (coord, box) -> box.shadedProperty()
-                                   .addListener(observable -> onBoxShadingChange(box, coord)));
+        boxes.forEach((coord, box) -> box.shadedProperty().addListener(observable -> onBoxShadingChange(box, coord)));
         boxes.addListener((MapChangeListener<GridCoord, CrosswordBoxViewModel>) change -> {
             if (change.wasAdded()) {
                 final GridCoord coord = change.getKey();
@@ -95,16 +90,13 @@ public final class SlotsViewModel {
             }
         });
 
-        final var columnCountChangeProcessor =
-                new ColumnCountChangeProcessor(downSlots, acrossSlots);
-        columnCount.addListener(
-                (observable, oldCount, newCount) -> columnCountChangeProcessor.process(
-                        oldCount.intValue(), newCount.intValue(), rowCount.get()));
+        final var columnCountChangeProcessor = new ColumnCountChangeProcessor(downSlots, acrossSlots);
+        columnCount.addListener((observable, oldCount, newCount) ->
+                columnCountChangeProcessor.process(oldCount.intValue(), newCount.intValue(), rowCount.get()));
 
         final var rowCountChangeProcessor = new RowCountChangeProcessor(downSlots, acrossSlots);
-        rowCount.addListener(
-                (observable, oldCount, newCount) -> rowCountChangeProcessor.process(
-                        oldCount.intValue(), newCount.intValue(), columnCount.get()));
+        rowCount.addListener((observable, oldCount, newCount) ->
+                rowCountChangeProcessor.process(oldCount.intValue(), newCount.intValue(), columnCount.get()));
     }
 
     /**
@@ -124,9 +116,9 @@ public final class SlotsViewModel {
      */
     public Optional<SlotOutline> acrossSlotContaining(final GridCoord coord) {
         return acrossSlots.stream()
-                          .takeWhile(s -> s.offset <= coord.row())
-                          .filter(s -> s.contains(coord))
-                          .findFirst();
+                .takeWhile(s -> s.offset <= coord.row())
+                .filter(s -> s.contains(coord))
+                .findFirst();
     }
 
     /**
@@ -151,8 +143,7 @@ public final class SlotsViewModel {
             if (slot.contains(coord)) {
                 return OptionalInt.of(it.previousIndex());
             }
-            if (slot.offset > coord.row() ||
-                slot.offset == coord.row() && slot.end > coord.column()) {
+            if (slot.offset > coord.row() || slot.offset == coord.row() && slot.end > coord.column()) {
                 break;
             }
         }
@@ -176,9 +167,9 @@ public final class SlotsViewModel {
      */
     public Optional<SlotOutline> downSlotContaining(final GridCoord coord) {
         return downSlots.stream()
-                        .takeWhile(s -> s.offset <= coord.column())
-                        .filter(s -> s.contains(coord))
-                        .findFirst();
+                .takeWhile(s -> s.offset <= coord.column())
+                .filter(s -> s.contains(coord))
+                .findFirst();
     }
 
     /**
@@ -203,8 +194,7 @@ public final class SlotsViewModel {
             if (slot.contains(coord)) {
                 return OptionalInt.of(it.previousIndex());
             }
-            if (slot.offset > coord.column() ||
-                slot.offset == coord.column() && slot.end > coord.row()) {
+            if (slot.offset > coord.column() || slot.offset == coord.column() && slot.end > coord.row()) {
                 break;
             }
         }
@@ -220,8 +210,7 @@ public final class SlotsViewModel {
      * @return the initial across slot list
      */
     private static ObservableList<SlotOutline> initialAcrossSlots(
-            final Map<GridCoord, CrosswordBoxViewModel> boxes, final int columnCount,
-            final int rowCount) {
+            final Map<GridCoord, CrosswordBoxViewModel> boxes, final int columnCount, final int rowCount) {
         final List<SlotOutline> initialAcrossSlots = new LinkedList<>();
         for (int row = 0; row < rowCount; row++) {
             int columnStart = 0;
@@ -249,8 +238,7 @@ public final class SlotsViewModel {
      * @return the initial down slot list
      */
     private static ObservableList<SlotOutline> initialDownSlots(
-            final Map<GridCoord, CrosswordBoxViewModel> boxes,
-            final int columnCount, final int rowCount) {
+            final Map<GridCoord, CrosswordBoxViewModel> boxes, final int columnCount, final int rowCount) {
         final List<SlotOutline> initialDownSlots = new LinkedList<>();
         for (int column = 0; column < columnCount; column++) {
             int rowStart = 0;

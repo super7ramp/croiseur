@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.solver.paulgb.plugin;
 
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.solver.paulgb.Solution;
-import re.belv.croiseur.spi.solver.SolverResult;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.solver.paulgb.Solution;
+import re.belv.croiseur.spi.solver.SolverResult;
 
 /**
  * Tests for {@link AdaptedSolverResult}.
@@ -45,7 +44,7 @@ final class AdaptedSolverResultTest {
         idToPosition.put(1, position1);
         final GridPosition position2 = new GridPosition(0, 2);
         idToPosition.put(2, position2);
-        final Solution solution = new Solution(new char[]{'A', 'B', 'C'});
+        final Solution solution = new Solution(new char[] {'A', 'B', 'C'});
 
         final SolverResult result = AdaptedSolverResult.success(idToPosition, solution);
 

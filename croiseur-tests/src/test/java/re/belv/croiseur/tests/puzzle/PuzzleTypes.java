@@ -5,6 +5,19 @@
 
 package re.belv.croiseur.tests.puzzle;
 
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
+
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.ParameterType;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePatch;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.GridPosition;
@@ -15,20 +28,6 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.tests.context.PuzzleRepositorySpy;
 import re.belv.croiseur.tests.context.TestContext;
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.DataTableType;
-import io.cucumber.java.ParameterType;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Datatable and parameter types pertaining to puzzle service.
@@ -78,8 +77,7 @@ public final class PuzzleTypes {
         final long id;
         if (idVariableMatcher.matches()) {
             final int variableNumber =
-                    idVariableMatcher.groupCount() > 1 ?
-                            Integer.parseInt(idVariableMatcher.group(1)) : 0;
+                    idVariableMatcher.groupCount() > 1 ? Integer.parseInt(idVariableMatcher.group(1)) : 0;
             id = puzzleRepositorySpy.idVariableValue(variableNumber).orElseThrow();
         } else {
             id = Integer.parseInt(idOrIdVariable);
@@ -111,8 +109,7 @@ public final class PuzzleTypes {
     public Puzzle puzzle(final Map<String, String> table) {
         final PuzzleDetails details = puzzleDetails(table);
         final PuzzleGrid grid = puzzleGrid(table.get("Grid (rows)"));
-        final PuzzleClues clues =
-                puzzleClues(table.get("Clues (across)"), table.get("Clues (down)"));
+        final PuzzleClues clues = puzzleClues(table.get("Clues (across)"), table.get("Clues (down)"));
         return new Puzzle(details, grid, clues);
     }
 
@@ -123,12 +120,11 @@ public final class PuzzleTypes {
     }
 
     private List<String> splitClues(final String rawClues) {
-        final String[] splitClues = Optional.ofNullable(rawClues)
-                                            .map(s -> s.split(CLUE_SEPARATOR))
-                                            .orElseGet(() -> new String[]{});
+        final String[] splitClues =
+                Optional.ofNullable(rawClues).map(s -> s.split(CLUE_SEPARATOR)).orElseGet(() -> new String[] {});
         return Arrays.stream(splitClues)
-                     .map(clue -> clue.replace("(empty)", ""))
-                     .toList();
+                .map(clue -> clue.replace("(empty)", ""))
+                .toList();
     }
 
     @ParameterType(".*")
@@ -160,9 +156,7 @@ public final class PuzzleTypes {
         final String editor = Optional.ofNullable(table.get("Editor")).orElse("");
         final String copyright = Optional.ofNullable(table.get("Copyright")).orElse("");
         final Optional<LocalDate> date = Optional.ofNullable(table.get("Date"))
-                                                 .map(dateText -> "$today".equals(dateText) ?
-                                                         LocalDate.now() :
-                                                         LocalDate.parse(dateText));
+                .map(dateText -> "$today".equals(dateText) ? LocalDate.now() : LocalDate.parse(dateText));
         return new PuzzleDetails(title, author, editor, copyright, date);
     }
 
@@ -186,8 +180,7 @@ public final class PuzzleTypes {
                 if (cellContent.equals("#")) {
                     gridBuilder.shade(new GridPosition(columnIndex, rowIndex));
                 } else {
-                    gridBuilder.fill(new GridPosition(columnIndex, rowIndex),
-                                     cellContent.charAt(0));
+                    gridBuilder.fill(new GridPosition(columnIndex, rowIndex), cellContent.charAt(0));
                 }
             }
         }
@@ -209,8 +202,7 @@ public final class PuzzleTypes {
 
         if (!workTable.isEmpty()) {
             throw new IllegalArgumentException(
-                    "Unused fields detected while creating puzzle patch: " + workTable +
-                    ". Have you misspelled them?");
+                    "Unused fields detected while creating puzzle patch: " + workTable + ". Have you misspelled them?");
         }
 
         return new PuzzlePatch() {

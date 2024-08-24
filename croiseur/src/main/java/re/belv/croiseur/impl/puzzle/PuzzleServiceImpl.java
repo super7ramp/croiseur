@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.impl.puzzle;
 
+import java.util.Collection;
 import re.belv.croiseur.api.puzzle.PuzzleService;
 import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
 import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
@@ -17,8 +18,6 @@ import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
-
-import java.util.Collection;
 
 /**
  * Implementation of {@link PuzzleService}.
@@ -42,10 +41,11 @@ public final class PuzzleServiceImpl implements PuzzleService {
      * @param encoders      the puzzle encoders
      * @param presenter     the puzzle presenter
      */
-    public PuzzleServiceImpl(final PuzzleRepository repositoryArg,
-                             final Collection<PuzzleDecoder> decoders,
-                             final Collection<PuzzleEncoder> encoders,
-                             final PuzzlePresenter presenter) {
+    public PuzzleServiceImpl(
+            final PuzzleRepository repositoryArg,
+            final Collection<PuzzleDecoder> decoders,
+            final Collection<PuzzleEncoder> encoders,
+            final PuzzlePresenter presenter) {
         final var repository = new SafePuzzleRepository(repositoryArg, presenter);
         persistence = new PuzzlePersistenceServiceImpl(repository, presenter);
         importer = new PuzzleImportServiceImpl(repository, decoders, presenter);

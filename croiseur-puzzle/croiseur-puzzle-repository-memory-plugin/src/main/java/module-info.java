@@ -11,5 +11,7 @@ import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
  */
 module re.belv.croiseur.puzzle.repository.memory.plugin {
     requires re.belv.croiseur.spi.puzzle.repository;
-    provides PuzzleRepository with InMemoryPuzzleRepository;
+
+    provides PuzzleRepository with
+            InMemoryPuzzleRepository;
 }

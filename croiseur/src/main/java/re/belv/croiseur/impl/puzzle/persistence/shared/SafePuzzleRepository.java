@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.impl.puzzle.persistence.shared;
 
+import java.util.Collection;
+import java.util.Optional;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into
@@ -36,8 +35,7 @@ public final class SafePuzzleRepository {
      * @param repositoryArg the actual repository
      * @param presenterArg  the presenter
      */
-    public SafePuzzleRepository(final PuzzleRepository repositoryArg,
-                                final PuzzlePresenter presenterArg) {
+    public SafePuzzleRepository(final PuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
         presenter = presenterArg;
     }
@@ -123,5 +121,4 @@ public final class SafePuzzleRepository {
     public Collection<SavedPuzzle> list() {
         return repository.list();
     }
-
 }

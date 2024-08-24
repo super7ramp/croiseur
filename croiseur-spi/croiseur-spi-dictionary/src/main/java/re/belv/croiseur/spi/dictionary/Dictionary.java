@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.spi.dictionary;
 
-import re.belv.croiseur.common.dictionary.DictionaryDetails;
-
 import java.util.Set;
+import re.belv.croiseur.common.dictionary.DictionaryDetails;
 
 /**
  * A dictionary.
@@ -41,5 +40,4 @@ public interface Dictionary {
      * better than Set the expected behaviour of the returned collection
      */
     Set<String> words();
-
 }

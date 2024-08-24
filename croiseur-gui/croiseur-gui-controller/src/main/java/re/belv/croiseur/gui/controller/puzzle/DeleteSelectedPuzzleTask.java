@@ -26,8 +26,9 @@ final class DeleteSelectedPuzzleTask extends Task<Void> {
      * @param puzzleSelectionViewModel the puzzle selection view model
      * @param puzzlePersistenceServiceArg         the puzzle service
      */
-    public DeleteSelectedPuzzleTask(final PuzzleSelectionViewModel puzzleSelectionViewModel,
-                                    final PuzzlePersistenceService puzzlePersistenceServiceArg) {
+    public DeleteSelectedPuzzleTask(
+            final PuzzleSelectionViewModel puzzleSelectionViewModel,
+            final PuzzlePersistenceService puzzlePersistenceServiceArg) {
         puzzleId = puzzleSelectionViewModel.selectedPuzzle().id();
         puzzlePersistenceService = puzzlePersistenceServiceArg;
     }

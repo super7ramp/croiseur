@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link AffixRule}.

@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.cli.presenter;
 
+import static re.belv.croiseur.cli.presenter.CliPresenterUtil.lineOf;
+
+import java.util.List;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.spi.presenter.solver.SolverDescription;
@@ -12,10 +15,6 @@ import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
-
-import java.util.List;
-
-import static re.belv.croiseur.cli.presenter.CliPresenterUtil.lineOf;
 
 /**
  * CLI implementation of {@link SolverPresenter}.
@@ -54,11 +53,10 @@ final class CliSolverPresenter implements SolverPresenter {
         final String descriptionHeader = $("description");
 
         System.out.printf(SOLVER_LIST_FORMAT, nameHeader, descriptionHeader);
-        System.out.printf(SOLVER_LIST_FORMAT, lineOf(nameHeader.length()),
-                lineOf(descriptionHeader.length()));
+        System.out.printf(SOLVER_LIST_FORMAT, lineOf(nameHeader.length()), lineOf(descriptionHeader.length()));
 
-        solverDescriptions.forEach(solver ->
-                System.out.printf(SOLVER_LIST_FORMAT, solver.name(), solver.description()));
+        solverDescriptions.forEach(
+                solver -> System.out.printf(SOLVER_LIST_FORMAT, solver.name(), solver.description()));
     }
 
     @Override
@@ -93,5 +91,4 @@ final class CliSolverPresenter implements SolverPresenter {
         System.err.println(error);
         Status.setGeneralApplicativeError();
     }
-
 }

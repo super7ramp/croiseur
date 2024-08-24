@@ -5,6 +5,10 @@
 
 package re.belv.croiseur.spi.presenter;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
@@ -17,11 +21,6 @@ import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * A {@link Presenter} which encapsulates other {@link Presenter}s and forwards method calls to all
@@ -39,8 +38,8 @@ final class BroadcastingPresenter implements Presenter {
      * @throws NullPointerException if given presenters iterable is {@code null}
      */
     BroadcastingPresenter(final Iterable<? extends Presenter> presentersArg) {
-        presenters = Objects.requireNonNull(presentersArg,
-                                            "Iterable passed to broadcasting presenter shall not be null");
+        presenters =
+                Objects.requireNonNull(presentersArg, "Iterable passed to broadcasting presenter shall not be null");
     }
 
     @Override
@@ -79,8 +78,7 @@ final class BroadcastingPresenter implements Presenter {
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         presenters.forEach(p -> p.presentSolverInitialisationState(solverInitialisationState));
     }
 

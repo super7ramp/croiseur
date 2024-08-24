@@ -5,10 +5,17 @@
 
 package re.belv.croiseur.tests.context;
 
+import static org.mockito.Mockito.mock;
+
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import re.belv.croiseur.api.CrosswordService;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
@@ -17,14 +24,6 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.ServiceLoader;
-import java.util.function.Supplier;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * Technical steps related to deploying the test environment.
@@ -73,9 +72,14 @@ public final class DeploymentSteps {
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
-               puzzleRepositorySpy,
-               presenterMock);
+        deploy(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepositorySpy,
+                presenterMock);
     }
 
     @Given("an application deployed without solver")
@@ -87,8 +91,14 @@ public final class DeploymentSteps {
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
-               puzzleRepositorySpy, presenterMock);
+        deploy(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepositorySpy,
+                presenterMock);
     }
 
     /**
@@ -103,8 +113,14 @@ public final class DeploymentSteps {
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepositorySpy puzzleRepositorySpy = loadRepositorySpy();
         final Presenter presenterMock = mock(Presenter.class);
-        deploy(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
-               puzzleRepositorySpy, presenterMock);
+        deploy(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepositorySpy,
+                presenterMock);
     }
 
     /**
@@ -115,10 +131,7 @@ public final class DeploymentSteps {
      * @return all the implementations of the given service class
      */
     private static <T> Collection<T> load(final Class<T> clazz) {
-        return ServiceLoader.load(clazz)
-                            .stream()
-                            .map(Supplier::get)
-                            .toList();
+        return ServiceLoader.load(clazz).stream().map(Supplier::get).toList();
     }
 
     /**
@@ -127,22 +140,29 @@ public final class DeploymentSteps {
      * @return the puzzle repository spy
      */
     private static PuzzleRepositorySpy loadRepositorySpy() {
-        final PuzzleRepository puzzleRepository =
-                load(PuzzleRepository.class).stream().findFirst().orElseThrow(
-                        () -> new IllegalStateException(
-                                "No puzzle repository implementation found, check your tests setup"));
+        final PuzzleRepository puzzleRepository = load(PuzzleRepository.class).stream()
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException("No puzzle repository implementation found, check your tests setup"));
         return new PuzzleRepositorySpy(puzzleRepository);
     }
 
-    private void deploy(final Collection<DictionaryProvider> dictionaryProviders,
-                        final Collection<CrosswordSolver> solvers,
-                        final Collection<ClueProvider> clueProviders,
-                        final Collection<PuzzleDecoder> puzzleDecoders,
-                        final Collection<PuzzleEncoder> puzzleEncoders,
-                        final PuzzleRepositorySpy puzzleRepository, final Presenter presenter) {
-        final CrosswordService crosswordService =
-                CrosswordService.create(dictionaryProviders, solvers, clueProviders, puzzleDecoders,
-                                        puzzleEncoders, puzzleRepository, presenter);
+    private void deploy(
+            final Collection<DictionaryProvider> dictionaryProviders,
+            final Collection<CrosswordSolver> solvers,
+            final Collection<ClueProvider> clueProviders,
+            final Collection<PuzzleDecoder> puzzleDecoders,
+            final Collection<PuzzleEncoder> puzzleEncoders,
+            final PuzzleRepositorySpy puzzleRepository,
+            final Presenter presenter) {
+        final CrosswordService crosswordService = CrosswordService.create(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepository,
+                presenter);
         testContext.deploy(crosswordService, puzzleRepository, presenter);
     }
 

@@ -5,7 +5,8 @@
 
 package re.belv.croiseur.dictionary.tools;
 
-import re.belv.croiseur.dictionary.common.StringTransformers;
+import static java.lang.Math.pow;
+import static java.lang.Math.round;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,9 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import static java.lang.Math.pow;
-import static java.lang.Math.round;
+import re.belv.croiseur.dictionary.common.StringTransformers;
 
 /**
  * Estimates the number of solutions for a square grid of given size n and a given dictionary.
@@ -29,8 +28,7 @@ import static java.lang.Math.round;
  *     <li>p = f(a)^2 + f(b)^2 + ... + f(z)^2 where f(*) is the frequency of letter * in the word list.
  * </ul>
  */
-public final class SquareSolutionEstimator
-        implements Callable<SquareSolutionEstimator.EstimationSummary> {
+public final class SquareSolutionEstimator implements Callable<SquareSolutionEstimator.EstimationSummary> {
 
     /**
      * The summary of the estimation of the number of solutions for a square grid.
@@ -40,13 +38,12 @@ public final class SquareSolutionEstimator
      * @param numberOfWords             the number of words in the dictionary (W)
      * @param letterFrequenciesPowerSum the power sum of letter frequencies in dictionary (p)
      */
-    public record EstimationSummary(long estimation, int squareSize,
-                                    int numberOfWords, double letterFrequenciesPowerSum) {
+    public record EstimationSummary(
+            long estimation, int squareSize, int numberOfWords, double letterFrequenciesPowerSum) {
         @Override
         public String toString() {
             final String format = "Square Grid Estimation for n = %d: %d (W = %d; p = %f)";
-            return String.format(format, squareSize, estimation, numberOfWords,
-                                 letterFrequenciesPowerSum);
+            return String.format(format, squareSize, estimation, numberOfWords, letterFrequenciesPowerSum);
         }
     }
 
@@ -63,9 +60,10 @@ public final class SquareSolutionEstimator
      * @param sizeArg  the size of the square grid
      */
     SquareSolutionEstimator(final List<String> wordsArg, final int sizeArg) {
-        words = wordsArg.stream().map(StringTransformers.toAcceptableCrosswordEntry())
-                        .filter(word -> word.length() == sizeArg)
-                        .toList();
+        words = wordsArg.stream()
+                .map(StringTransformers.toAcceptableCrosswordEntry())
+                .filter(word -> word.length() == sizeArg)
+                .toList();
         n = sizeArg;
     }
 
@@ -98,9 +96,7 @@ public final class SquareSolutionEstimator
 
     private double frequenciesPowerSum() {
         final Map<Character, Double> frequencies = computeLetterFrequencies();
-        return frequencies.values().stream()
-                          .mapToDouble(f -> f * f)
-                          .sum();
+        return frequencies.values().stream().mapToDouble(f -> f * f).sum();
     }
 
     /**
@@ -120,8 +116,7 @@ public final class SquareSolutionEstimator
         try {
             final List<String> words = Files.readAllLines(wordListPath);
             for (int squareSize = 5; squareSize <= 7; squareSize++) {
-                final EstimationSummary result =
-                        new SquareSolutionEstimator(words, squareSize).call();
+                final EstimationSummary result = new SquareSolutionEstimator(words, squareSize).call();
                 System.out.println(result);
             }
         } catch (final IOException e) {

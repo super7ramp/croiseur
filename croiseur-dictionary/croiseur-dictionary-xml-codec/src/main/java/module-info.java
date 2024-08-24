@@ -9,5 +9,6 @@
 module re.belv.croiseur.dictionary.xml.codec {
     requires java.logging;
     requires java.xml;
+
     exports re.belv.croiseur.dictionary.xml.codec;
 }

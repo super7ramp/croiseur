@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.gui.controller.dictionary;
 
-import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
-
 import java.util.Locale;
 import java.util.Optional;
+import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 
 /**
  * Implementation of {@link ListDictionariesRequest}.

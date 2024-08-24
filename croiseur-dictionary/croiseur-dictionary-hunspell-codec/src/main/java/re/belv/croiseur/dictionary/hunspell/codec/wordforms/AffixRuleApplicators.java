@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
-
 import java.util.Optional;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 
 final class AffixRuleApplicators {
 
@@ -44,5 +43,4 @@ final class AffixRuleApplicators {
 
         return affixRuleApplicator;
     }
-
 }

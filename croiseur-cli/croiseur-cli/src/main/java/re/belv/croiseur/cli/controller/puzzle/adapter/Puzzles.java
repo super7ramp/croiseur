@@ -5,6 +5,13 @@
 
 package re.belv.croiseur.cli.controller.puzzle.adapter;
 
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePatch;
 import re.belv.croiseur.cli.controller.puzzle.parser.Clue;
 import re.belv.croiseur.common.puzzle.GridPosition;
@@ -12,14 +19,6 @@ import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleClues;
 import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
 /**
  * Conversions from command-line to domain puzzle types.
@@ -44,15 +43,21 @@ public final class Puzzles {
      * @param downClues   the down clues
      * @return the corresponding {@link Puzzle}
      */
-    public static Puzzle puzzleFrom(final Optional<String> title, final Optional<String> author,
-                                    final Optional<String> editor, final Optional<String> copyright,
-                                    final Optional<LocalDate> date, final String gridRows,
-                                    final List<Clue> acrossClues, final List<Clue> downClues) {
-        final PuzzleDetails details =
-                new PuzzleDetails(title.orElse(""), author.orElse(System.getProperty("user.name")),
-                                  editor.orElse(""),
-                                  copyright.orElse(""),
-                                  date.or(() -> Optional.of(LocalDate.now())));
+    public static Puzzle puzzleFrom(
+            final Optional<String> title,
+            final Optional<String> author,
+            final Optional<String> editor,
+            final Optional<String> copyright,
+            final Optional<LocalDate> date,
+            final String gridRows,
+            final List<Clue> acrossClues,
+            final List<Clue> downClues) {
+        final PuzzleDetails details = new PuzzleDetails(
+                title.orElse(""),
+                author.orElse(System.getProperty("user.name")),
+                editor.orElse(""),
+                copyright.orElse(""),
+                date.or(() -> Optional.of(LocalDate.now())));
         final PuzzleGrid grid = puzzleGridFrom(gridRows);
         final PuzzleClues clues = puzzleCluesFrom(acrossClues, downClues);
         return new Puzzle(details, grid, clues);
@@ -71,14 +76,15 @@ public final class Puzzles {
      * @param downClues   the modified down clues, if any
      * @return the created {@link PuzzlePatch}
      */
-    public static PuzzlePatch puzzlePatchFrom(final Optional<String> title,
-                                              final Optional<String> author,
-                                              final Optional<String> editor,
-                                              final Optional<String> copyright,
-                                              final Optional<LocalDate> date,
-                                              final Optional<String> gridRows,
-                                              final List<Clue> acrossClues,
-                                              final List<Clue> downClues) {
+    public static PuzzlePatch puzzlePatchFrom(
+            final Optional<String> title,
+            final Optional<String> author,
+            final Optional<String> editor,
+            final Optional<String> copyright,
+            final Optional<LocalDate> date,
+            final Optional<String> gridRows,
+            final List<Clue> acrossClues,
+            final List<Clue> downClues) {
         return new PuzzlePatch() {
             @Override
             public Optional<String> modifiedTitle() {
@@ -140,8 +146,7 @@ public final class Puzzles {
         return gridBuilder.width(rows[0].length()).height(rows.length).build();
     }
 
-    private static PuzzleClues puzzleCluesFrom(final List<Clue> acrossClues,
-                                               final List<Clue> downClues) {
+    private static PuzzleClues puzzleCluesFrom(final List<Clue> acrossClues, final List<Clue> downClues) {
         final List<String> domainAcrossClues = domainCluesFrom(acrossClues);
         final List<String> domainDownClues = domainCluesFrom(downClues);
         return new PuzzleClues(domainAcrossClues, domainDownClues);
@@ -160,5 +165,4 @@ public final class Puzzles {
         }
         return domainClues;
     }
-
 }

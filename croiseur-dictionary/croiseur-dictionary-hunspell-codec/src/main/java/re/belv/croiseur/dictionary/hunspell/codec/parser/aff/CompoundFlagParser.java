@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * Compound flag parser.

@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.solver.paulgb.plugin;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.solver.paulgb.Solution;
-import re.belv.croiseur.spi.solver.SolverResult;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.solver.paulgb.Solution;
+import re.belv.croiseur.spi.solver.SolverResult;
 
 /**
  * Adapts Crossword Composer solver result into {@link SolverResult}.
@@ -35,8 +34,7 @@ final class AdaptedSolverResult implements SolverResult {
      * @param idToPosition association between indexes and grid positions
      * @param solution     the solution
      */
-    private AdaptedSolverResult(final Map<Integer, GridPosition> idToPosition,
-                                final Solution solution) {
+    private AdaptedSolverResult(final Map<Integer, GridPosition> idToPosition, final Solution solution) {
         final char[] filledCells = solution.cells();
         if (idToPosition.size() != filledCells.length) {
             throw new IllegalArgumentException("Solver result inconsistent with input grid");
@@ -61,8 +59,7 @@ final class AdaptedSolverResult implements SolverResult {
         return new AdaptedSolverResult(positions);
     }
 
-    static AdaptedSolverResult success(final Map<Integer, GridPosition> idToPosition,
-                                       final Solution solution) {
+    static AdaptedSolverResult success(final Map<Integer, GridPosition> idToPosition, final Solution solution) {
         return new AdaptedSolverResult(idToPosition, solution);
     }
 
@@ -83,10 +80,9 @@ final class AdaptedSolverResult implements SolverResult {
 
     @Override
     public String toString() {
-        return "AdaptedSolverResult{" +
-                "kind=" + kind +
-                ", filledBoxes=" + filledBoxes +
-                ", unsolvableBoxes=" + unsolvableBoxes +
-                '}';
+        return "AdaptedSolverResult{" + "kind="
+                + kind + ", filledBoxes="
+                + filledBoxes + ", unsolvableBoxes="
+                + unsolvableBoxes + '}';
     }
 }

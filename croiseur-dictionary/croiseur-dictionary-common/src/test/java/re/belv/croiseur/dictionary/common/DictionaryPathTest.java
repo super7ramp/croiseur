@@ -5,10 +5,8 @@
 
 package re.belv.croiseur.dictionary.common;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static java.util.stream.Collectors.toSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests on {@link DictionaryPath}.
@@ -44,7 +43,7 @@ final class DictionaryPathTest {
         final String p2 = Path.of("d", "e", "f").toString();
         final String p3 = Path.of("g", "h").toString();
         // "/a/b/c:/d/e/f:/g/h/" on Unix
-        final String path = String.join(File.pathSeparator, new String[]{p1, p2, p3});
+        final String path = String.join(File.pathSeparator, new String[] {p1, p2, p3});
 
         final DictionaryPath dictionaryPath = DictionaryPath.of(path);
         final List<String> paths = dictionaryPath.split();

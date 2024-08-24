@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.tests.puzzle.exporter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.io.OutputStream;
+import java.util.List;
 import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.tests.context.TestContext;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.io.OutputStream;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
 
 /**
  * Steps pertaining to the {@link PuzzleExportService}.
@@ -67,5 +66,4 @@ public final class PuzzleExportSteps {
     public void thenPresentExportError(final String error) {
         verify(presenterMock).presentPuzzleExportError(error);
     }
-
 }

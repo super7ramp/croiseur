@@ -177,10 +177,10 @@ public final class DictionaryPath {
      */
     public List<File> list() {
         return split().stream()
-                      .map(File::new)
-                      .filter(f -> f.exists() && !Files.isSymbolicLink(f.toPath()))
-                      .flatMap(DictionaryPath::expandDirectory)
-                      .toList();
+                .map(File::new)
+                .filter(f -> f.exists() && !Files.isSymbolicLink(f.toPath()))
+                .flatMap(DictionaryPath::expandDirectory)
+                .toList();
     }
 
     @Override

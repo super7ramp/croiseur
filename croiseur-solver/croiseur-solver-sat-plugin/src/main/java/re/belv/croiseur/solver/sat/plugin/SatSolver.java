@@ -5,13 +5,7 @@
 
 package re.belv.croiseur.solver.sat.plugin;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.solver.sat.Solver;
-import re.belv.croiseur.spi.solver.CrosswordSolver;
-import re.belv.croiseur.spi.solver.Dictionary;
-import re.belv.croiseur.spi.solver.ProgressListener;
-import re.belv.croiseur.spi.solver.SolverResult;
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,8 +13,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.solver.sat.Solver;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
+import re.belv.croiseur.spi.solver.Dictionary;
+import re.belv.croiseur.spi.solver.ProgressListener;
+import re.belv.croiseur.spi.solver.SolverResult;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting croiseur-solver-sat's solver.
@@ -103,14 +102,14 @@ public final class SatSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return ResourceBundle
-                .getBundle("re.belv.croiseur.solver.sat.plugin.Messages")
+        return ResourceBundle.getBundle("re.belv.croiseur.solver.sat.plugin.Messages")
                 .getString("description");
     }
 
     @Override
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) throws InterruptedException {
+    public SolverResult solve(
+            final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener)
+            throws InterruptedException {
 
         progressListener.onInitialisationStart();
         final char[][] inputGrid = convertToArray(puzzle);
@@ -158,7 +157,7 @@ public final class SatSolver implements CrosswordSolver {
      */
     private static String[] filterAndConvertToArray(final Dictionary dictionary) {
         return dictionary.words().stream()
-                         .filter(word -> word.chars().allMatch(c -> c >= 'A' && c <= 'Z'))
-                         .toArray(String[]::new);
+                .filter(word -> word.chars().allMatch(c -> c >= 'A' && c <= 'Z'))
+                .toArray(String[]::new);
     }
 }

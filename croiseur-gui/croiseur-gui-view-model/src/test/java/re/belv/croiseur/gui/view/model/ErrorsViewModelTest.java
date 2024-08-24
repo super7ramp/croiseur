@@ -5,13 +5,13 @@
 
 package re.belv.croiseur.gui.view.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ErrorsViewModel}.
@@ -97,8 +97,9 @@ final class ErrorsViewModelTest {
      */
     @Test
     void acknowledgeError_noop() {
-        errorsViewModel.currentErrorProperty()
-                       .addListener(observable -> fail("Should not have modified current error"));
+        errorsViewModel
+                .currentErrorProperty()
+                .addListener(observable -> fail("Should not have modified current error"));
         errorsViewModel.acknowledgeError();
 
         assertNull(errorsViewModel.currentErrorProperty().get());

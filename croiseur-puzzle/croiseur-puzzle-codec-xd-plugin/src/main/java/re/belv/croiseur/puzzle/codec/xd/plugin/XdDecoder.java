@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.puzzle.codec.xd.plugin;
 
+import java.io.InputStream;
+import java.util.List;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
@@ -12,9 +14,6 @@ import re.belv.croiseur.puzzle.codec.xd.reader.XdCrosswordReader;
 import re.belv.croiseur.puzzle.codec.xd.reader.XdReadException;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecodingException;
-
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * {@link PuzzleDecoder} implementation for the xd format.

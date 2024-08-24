@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.gui.view.model;
 
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.ReadOnlyStringWrapper;
-
 import java.util.LinkedList;
 import java.util.Objects;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
 
 /**
  * Errors view model.

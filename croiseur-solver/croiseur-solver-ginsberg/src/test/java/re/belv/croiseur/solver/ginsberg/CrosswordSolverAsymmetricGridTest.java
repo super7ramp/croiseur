@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.solver.ginsberg;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * Tests on some asymmetric French grids.
@@ -26,9 +25,9 @@ final class CrosswordSolverAsymmetricGridTest {
 
     @BeforeAll
     static void beforeAll() throws IOException, URISyntaxException {
-        final URL dictionaryUrl =
-                Objects.requireNonNull(CrosswordSolverAsymmetricGridTest.class.getResource("/UKACD18plus.txt"),
-                                       "Test dictionary not found, verify the test resources.");
+        final URL dictionaryUrl = Objects.requireNonNull(
+                CrosswordSolverAsymmetricGridTest.class.getResource("/UKACD18plus.txt"),
+                "Test dictionary not found, verify the test resources.");
         final Path dictionaryPath = Path.of(dictionaryUrl.toURI());
         dictionary = new DictionaryMock(dictionaryPath);
     }
@@ -40,7 +39,8 @@ final class CrosswordSolverAsymmetricGridTest {
 
     @Test
     void shaded6x4() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
+                """
                 | | | | |#| |
                 | | |#| | | |
                 | | |#| | | |
@@ -49,17 +49,20 @@ final class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess("""
+        Assertions.assertSuccess(
+                """
                 |S|H|A|T|#|H|
                 |A|A|#|A|I|A|
                 |A|R|#|A|R|E|
                 |B|E|#|L|A|D|
-                """, result);
+                """,
+                result);
     }
 
     @Test
     void shaded12x10() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
+        final PuzzleGrid puzzle = PuzzleGridParser.parse(
+                """
                 | | | | | | | | | | | | |
                 | | | | |#| | | | | | | |
                 | | | | | | | | | | |#| |
@@ -74,7 +77,8 @@ final class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess("""
+        Assertions.assertSuccess(
+                """
                 |O|B|T|E|S|T|A|T|I|O|N|S|
                 |P|E|A|N|#|A|R|B|O|R|E|T|
                 |S|L|I|C|K|S|T|O|N|E|#|R|
@@ -85,6 +89,7 @@ final class CrosswordSolverAsymmetricGridTest {
                 |I|N|#|D|I|#|R|A|S|#|F|A|
                 |A|N|A|#|B|A|A|S|#|A|R|Y|
                 |C|A|R|P|E|N|T|A|R|I|A|S|
-                """, result);
+                """,
+                result);
     }
 }

@@ -30,5 +30,4 @@ public interface ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> {
      * @param elimination the variable to unassign and its reasons
      */
     void unassign(final Elimination<VariableT, EliminationReasonT> elimination);
-
 }

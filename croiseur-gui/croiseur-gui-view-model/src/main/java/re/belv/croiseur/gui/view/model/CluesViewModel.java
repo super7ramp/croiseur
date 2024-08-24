@@ -42,16 +42,13 @@ public final class CluesViewModel {
      * Constructs an instance.
      */
     CluesViewModel() {
-        clueProviders = new SimpleListProperty<>(this, "clueProviders",
-                                                 FXCollections.observableArrayList());
+        clueProviders = new SimpleListProperty<>(this, "clueProviders", FXCollections.observableArrayList());
 
         final Callback<ClueViewModel, Observable[]> extractor =
-                entry -> new Observable[]{entry.userContentProperty(), entry.systemContentProperty()};
-        acrossClues = new SimpleListProperty<>(this, "acrossClues",
-                                               FXCollections.observableArrayList(extractor));
+                entry -> new Observable[] {entry.userContentProperty(), entry.systemContentProperty()};
+        acrossClues = new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList(extractor));
         selectedAcrossClueIndex = new SimpleIntegerProperty(this, "selectedAcrossClueIndex", -1);
-        downClues = new SimpleListProperty<>(this, "downClues",
-                                             FXCollections.observableArrayList(extractor));
+        downClues = new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList(extractor));
         selectedDownClueIndex = new SimpleIntegerProperty(this, "selectedDownClueIndex", -1);
 
         clueServiceIsRunning = new SimpleBooleanProperty(this, "clueServiceIsRunning");

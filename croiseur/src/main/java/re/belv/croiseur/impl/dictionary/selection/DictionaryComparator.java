@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.impl.dictionary.selection;
 
-import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
-
 import java.util.Comparator;
 import java.util.Locale;
+import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 /**
  * Compares dictionaries by preference.
@@ -66,21 +65,21 @@ public final class DictionaryComparator implements Comparator<ProvidedDictionary
                 return 1;
             }
             // At this point: Both locales are not default system locale.
-            if (left.getLanguage().equals(defaultSystemLanguage) &&
-                !right.getLanguage().equals(defaultSystemLanguage)) {
+            if (left.getLanguage().equals(defaultSystemLanguage)
+                    && !right.getLanguage().equals(defaultSystemLanguage)) {
                 return -1;
             }
-            if (!left.getLanguage().equals(defaultSystemLanguage) &&
-                right.getLanguage().equals(defaultSystemLanguage)) {
+            if (!left.getLanguage().equals(defaultSystemLanguage)
+                    && right.getLanguage().equals(defaultSystemLanguage)) {
                 return 1;
             }
             // At this point: Both languages are not default system language.
-            if (left.getLanguage().equals(ENGLISH_LANGUAGE) &&
-                !right.getLanguage().equals(ENGLISH_LANGUAGE)) {
+            if (left.getLanguage().equals(ENGLISH_LANGUAGE)
+                    && !right.getLanguage().equals(ENGLISH_LANGUAGE)) {
                 return -1;
             }
-            if (!left.getLanguage().equals(ENGLISH_LANGUAGE) &&
-                right.getLanguage().equals(ENGLISH_LANGUAGE)) {
+            if (!left.getLanguage().equals(ENGLISH_LANGUAGE)
+                    && right.getLanguage().equals(ENGLISH_LANGUAGE)) {
                 return 1;
             }
             // Use a default criterion
@@ -131,22 +130,18 @@ public final class DictionaryComparator implements Comparator<ProvidedDictionary
     }
 
     @Override
-    public int compare(final ProvidedDictionaryDetails left,
-                       final ProvidedDictionaryDetails right) {
+    public int compare(final ProvidedDictionaryDetails left, final ProvidedDictionaryDetails right) {
 
-        final int localeComparison =
-                localeComparator.compare(left.dictionaryLocale(), right.dictionaryLocale());
+        final int localeComparison = localeComparator.compare(left.dictionaryLocale(), right.dictionaryLocale());
         if (localeComparison != 0) {
             return localeComparison;
         }
 
-        final int providerComparison =
-                providerNameComparator.compare(left.providerName(), right.providerName());
+        final int providerComparison = providerNameComparator.compare(left.providerName(), right.providerName());
         if (providerComparison != 0) {
             return providerComparison;
         }
 
-        return (left.providerName() + left.dictionaryName()).compareTo(
-                right.providerName() + right.dictionaryName());
+        return (left.providerName() + left.dictionaryName()).compareTo(right.providerName() + right.dictionaryName());
     }
 }

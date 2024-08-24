@@ -5,6 +5,11 @@
 
 package re.belv.croiseur.cli;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import java.util.Random;
+import java.util.logging.LogManager;
 import picocli.CommandLine;
 import picocli.CommandLine.HelpCommand;
 import re.belv.croiseur.api.CrosswordService;
@@ -25,12 +30,6 @@ import re.belv.croiseur.cli.controller.solver.parser.RandomParser;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Random;
-import java.util.logging.LogManager;
-
 /**
  * The CLI Application.
  */
@@ -50,32 +49,29 @@ public final class CroiseurCliApplication {
         final CrosswordService crosswordService = CrosswordService.create();
 
         command.addSubcommand(new HelpCommand())
-               .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
-               .addSubcommand(new CommandLine(
-                       new SolverCommand(crosswordService.solverService())).addSubcommand(
-                       new SolverRunCommand(crosswordService.solverService())))
-               .addSubcommand(new ClueCommand(crosswordService.clueService()))
-               .addSubcommand(new PuzzleCommand(crosswordService.puzzleService()))
-               .setResourceBundle(ResourceBundles.messages());
+                .addSubcommand(new DictionaryCommand(crosswordService.dictionaryService()))
+                .addSubcommand(new CommandLine(new SolverCommand(crosswordService.solverService()))
+                        .addSubcommand(new SolverRunCommand(crosswordService.solverService())))
+                .addSubcommand(new ClueCommand(crosswordService.clueService()))
+                .addSubcommand(new PuzzleCommand(crosswordService.puzzleService()))
+                .setResourceBundle(ResourceBundles.messages());
 
-        command.registerConverter(DictionaryIdentifier.class,
-                                  TypeConverter.wrap(DictionaryIdentifierParser::parse))
-               .registerConverter(GridPosition.class, TypeConverter.wrap(GridPositionParser::parse))
-               .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
-               .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
-               .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
-               .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf))
-               .registerConverter(Random.class, TypeConverter.wrap(RandomParser::parse))
-               .registerConverter(Clue.class, TypeConverter.wrap(Clue::valueOf));
+        command.registerConverter(DictionaryIdentifier.class, TypeConverter.wrap(DictionaryIdentifierParser::parse))
+                .registerConverter(GridPosition.class, TypeConverter.wrap(GridPositionParser::parse))
+                .registerConverter(GridSize.class, TypeConverter.wrap(GridSize::valueOf))
+                .registerConverter(Locale.class, TypeConverter.wrap(Locale::forLanguageTag))
+                .registerConverter(PrefilledBox.class, TypeConverter.wrap(PrefilledBox::valueOf))
+                .registerConverter(PrefilledSlot.class, TypeConverter.wrap(PrefilledSlot::valueOf))
+                .registerConverter(Random.class, TypeConverter.wrap(RandomParser::parse))
+                .registerConverter(Clue.class, TypeConverter.wrap(Clue::valueOf));
     }
 
     /**
      * Load the logging configuration.
      */
     private static void loadLoggingConfiguration() {
-        try (final InputStream is = CroiseurCliApplication.class.getClassLoader()
-                                                                .getResourceAsStream(
-                                                                        "logging.properties")) {
+        try (final InputStream is =
+                CroiseurCliApplication.class.getClassLoader().getResourceAsStream("logging.properties")) {
             LogManager.getLogManager().readConfiguration(is);
         } catch (final IOException e) {
             System.err.println("Failed to load logging parameters: " + e.getMessage());

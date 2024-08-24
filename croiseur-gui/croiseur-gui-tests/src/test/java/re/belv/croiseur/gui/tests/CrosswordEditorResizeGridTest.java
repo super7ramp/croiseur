@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.gui.tests;
 
-import org.junit.jupiter.api.Test;
-import org.testfx.api.FxRobot;
-
-import java.util.concurrent.TimeoutException;
-
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasChildren;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+
+import java.util.concurrent.TimeoutException;
+import org.junit.jupiter.api.Test;
+import org.testfx.api.FxRobot;
 
 /**
  * Tests on the editor view: Resize grid.
@@ -39,8 +38,7 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
     private void step1_GoToEditorView(final FxRobot robot) {
         robot.clickOn("#newPuzzleButton");
         verifyThat("#crossword-grid", isVisible());
-        verifyThat("#crossword-grid",
-                   hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
+        verifyThat("#crossword-grid", hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
         verifyThat("#solveButton", isEnabled());
     }
 
@@ -50,11 +48,8 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step2_AddRow(final FxRobot robot) {
-        robot.clickOn("#resizeGridButton")
-             .clickOn("#addRowButton")
-             .clickOn("#resizeGridButton");
-        verifyThat("#crossword-grid",
-                   hasChildren(48 /* 6 columns, 8 rows */, ".crossword-box-text"));
+        robot.clickOn("#resizeGridButton").clickOn("#addRowButton").clickOn("#resizeGridButton");
+        verifyThat("#crossword-grid", hasChildren(48 /* 6 columns, 8 rows */, ".crossword-box-text"));
     }
 
     /**
@@ -63,11 +58,8 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step3_AddColumn(final FxRobot robot) {
-        robot.clickOn("#resizeGridButton")
-             .clickOn("#addColumnButton")
-             .clickOn("#resizeGridButton");
-        verifyThat("#crossword-grid",
-                   hasChildren(56 /* 7 columns, 8 rows */, ".crossword-box-text"));
+        robot.clickOn("#resizeGridButton").clickOn("#addColumnButton").clickOn("#resizeGridButton");
+        verifyThat("#crossword-grid", hasChildren(56 /* 7 columns, 8 rows */, ".crossword-box-text"));
     }
 
     /**
@@ -76,11 +68,8 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step4_DeleteRow(final FxRobot robot) {
-        robot.clickOn("#resizeGridButton")
-             .clickOn("#deleteRowButton")
-             .clickOn("#resizeGridButton");
-        verifyThat("#crossword-grid",
-                   hasChildren(49 /* 7 columns, 7 rows */, ".crossword-box-text"));
+        robot.clickOn("#resizeGridButton").clickOn("#deleteRowButton").clickOn("#resizeGridButton");
+        verifyThat("#crossword-grid", hasChildren(49 /* 7 columns, 7 rows */, ".crossword-box-text"));
     }
 
     /**
@@ -89,11 +78,8 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step5_DeleteColumn(final FxRobot robot) {
-        robot.clickOn("#resizeGridButton")
-             .clickOn("#deleteColumnButton")
-             .clickOn("#resizeGridButton");
-        verifyThat("#crossword-grid",
-                   hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
+        robot.clickOn("#resizeGridButton").clickOn("#deleteColumnButton").clickOn("#resizeGridButton");
+        verifyThat("#crossword-grid", hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
     }
 
     /**
@@ -102,9 +88,7 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step6_DeleteGrid(final FxRobot robot) throws TimeoutException {
-        robot.clickOn("#resizeGridButton")
-             .clickOn("#deleteGridButton")
-             .clickOn("#resizeGridButton");
+        robot.clickOn("#resizeGridButton").clickOn("#deleteGridButton").clickOn("#resizeGridButton");
         verifyThat("#crossword-grid", hasChildren(0, ".crossword-box-text"));
         verifyThat("#placeholder", isVisible());
         verifyThat("#solveButton", isDisabled());

@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.cli.controller.dictionary;
 
+import java.util.Locale;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -14,8 +15,6 @@ import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import re.belv.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import re.belv.croiseur.cli.status.Status;
-
-import java.util.Locale;
 
 /**
  * "dictionary" subcommand: List and print available dictionaries.
@@ -42,9 +41,7 @@ public final class DictionaryCommand {
      * @return the error status
      */
     @Command
-    int cat(
-            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY")
-            final DictionaryIdentifier dictionaryId) {
+    int cat(@Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId) {
         final ListDictionaryEntriesRequest request = ListDictionaryEntriesRequest.of(dictionaryId);
         dictionaryService.listEntries(request);
         return Status.getAndReset();
@@ -68,11 +65,9 @@ public final class DictionaryCommand {
      */
     @Command(aliases = {"search"})
     int grep(
-            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY")
-            final DictionaryIdentifier dictionaryId,
+            @Parameters(index = "0", paramLabel = "PROVIDER:DICTIONARY") final DictionaryIdentifier dictionaryId,
             @Parameters(index = "1", paramLabel = "PATTERN") final String pattern) {
-        final SearchDictionaryEntriesRequest request =
-                SearchDictionaryEntriesRequest.of(dictionaryId, pattern);
+        final SearchDictionaryEntriesRequest request = SearchDictionaryEntriesRequest.of(dictionaryId, pattern);
         dictionaryService.searchEntries(request);
         return Status.getAndReset();
     }
@@ -85,8 +80,15 @@ public final class DictionaryCommand {
      * @return the error status
      */
     @Command(aliases = {"ls"})
-    int list(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
-             @Option(names = {"-l", "--locale"}, paramLabel = "LOCALE") final Locale locale) {
+    int list(
+            @Option(
+                            names = {"-p", "--provider"},
+                            paramLabel = "PROVIDER")
+                    final String provider,
+            @Option(
+                            names = {"-l", "--locale"},
+                            paramLabel = "LOCALE")
+                    final Locale locale) {
         final ListDictionariesRequest request = ListDictionariesRequest.of(locale, provider);
         dictionaryService.listDictionaries(request);
         return Status.getAndReset();
@@ -102,5 +104,4 @@ public final class DictionaryCommand {
         dictionaryService.listProviders();
         return Status.getAndReset();
     }
-
 }

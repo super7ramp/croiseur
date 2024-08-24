@@ -118,10 +118,10 @@ final class Variables {
      * @return the variable associated to the given value of the given cell
      */
     int representingCell(final int row, final int column, final int value) {
-        return row * grid.columnCount() * CELL_VALUE_COUNT +
-               column * CELL_VALUE_COUNT +
-               value +
-               1; // variable must be strictly positive
+        return row * grid.columnCount() * CELL_VALUE_COUNT
+                + column * CELL_VALUE_COUNT
+                + value
+                + 1; // variable must be strictly positive
     }
 
     /**
@@ -135,9 +135,9 @@ final class Variables {
      */
     int representingSlot(final int slotIndex, final int wordIndex) {
         return representingCellCount() // last cell variable
-               + slotIndex * wordCount
-               + wordIndex
-               + 1;
+                + slotIndex * wordCount
+                + wordIndex
+                + 1;
     }
 
     /**

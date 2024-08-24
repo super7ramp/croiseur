@@ -7,12 +7,11 @@ package re.belv.croiseur.tests.dictionary;
 
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
+import java.util.Locale;
+import java.util.Map;
 import re.belv.croiseur.common.dictionary.DictionaryDetails;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
-
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * Datatable and parameter types pertaining to dictionary service.
@@ -39,10 +38,8 @@ public final class DictionaryTypes {
     @DataTableType
     public ProvidedDictionaryDetails providedDictionaryDetails(final Map<String, String> entry) {
         final String providerName = entry.get("Provider");
-        final DictionaryDetails dictionaryDetails =
-                new DictionaryDetails(entry.get("Name"),
-                                      Locale.forLanguageTag(entry.get("Locale")),
-                                      entry.get("Description"));
+        final DictionaryDetails dictionaryDetails = new DictionaryDetails(
+                entry.get("Name"), Locale.forLanguageTag(entry.get("Locale")), entry.get("Description"));
         return new ProvidedDictionaryDetails(providerName, dictionaryDetails);
     }
 }

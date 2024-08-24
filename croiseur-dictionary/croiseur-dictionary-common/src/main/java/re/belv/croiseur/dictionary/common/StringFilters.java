@@ -5,9 +5,9 @@
 
 package re.belv.croiseur.dictionary.common;
 
-import java.util.function.Predicate;
-
 import static java.util.function.Predicate.not;
+
+import java.util.function.Predicate;
 
 /**
  * Common filters applied on dictionaries.

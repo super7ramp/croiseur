@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -19,8 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.util.ResourceBundle;
 
 /**
  * A pane to edit puzzle details.

@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.solver.ginsberg;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
 
 /**
  * Puzzle solving result.

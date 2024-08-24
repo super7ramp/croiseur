@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.spi.puzzle.repository;
 
-import re.belv.croiseur.common.puzzle.ChangedPuzzle;
-import re.belv.croiseur.common.puzzle.Puzzle;
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import re.belv.croiseur.common.puzzle.ChangedPuzzle;
+import re.belv.croiseur.common.puzzle.Puzzle;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
 /**
  * A dummy repository that always rejects writes. Can be used when repository services are not
@@ -32,8 +31,7 @@ public final class DummyPuzzleRepository implements PuzzleRepository {
     }
 
     @Override
-    public SavedPuzzle update(final ChangedPuzzle changedPuzzle)
-            throws WriteException {
+    public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
         throw new WriteException("Cannot update puzzle: No repository defined.");
     }
 

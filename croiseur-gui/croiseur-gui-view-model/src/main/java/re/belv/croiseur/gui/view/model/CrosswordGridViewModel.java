@@ -5,6 +5,16 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import static java.util.function.Predicate.not;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.OptionalInt;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -27,17 +37,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import re.belv.croiseur.gui.view.model.slot.SlotOutline;
 import re.belv.croiseur.gui.view.model.slot.SlotsViewModel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.OptionalInt;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import static java.util.function.Predicate.not;
 
 /**
  * The crossword grid view model.
@@ -70,8 +69,7 @@ public final class CrosswordGridViewModel {
 
             @Override
             public void invalidated(final Observable observable) {
-                if (!inhibitContentChangeEvents &&
-                    currentSlotPositions.contains(listenedBoxCoordinate)) {
+                if (!inhibitContentChangeEvents && currentSlotPositions.contains(listenedBoxCoordinate)) {
                     recomputeCurrentSlotContent();
                 }
             }
@@ -106,8 +104,8 @@ public final class CrosswordGridViewModel {
          */
         WorkingArea() {
             currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition");
-            currentSlotPositions = new ReadOnlyListWrapper<>(this, "currentSlotPositions",
-                                                             FXCollections.observableArrayList());
+            currentSlotPositions =
+                    new ReadOnlyListWrapper<>(this, "currentSlotPositions", FXCollections.observableArrayList());
             currentSlotContent = new ReadOnlyStringWrapper(this, "currentSlotContent", "");
             currentSlotVertical = new SimpleBooleanProperty(this, "currentSlotVertical");
             currentSlotUnsolvable = new SimpleBooleanProperty(this, "currentSlotUnsolvable");
@@ -132,8 +130,7 @@ public final class CrosswordGridViewModel {
                 final MapChangeListener.Change<? extends GridCoord, ? extends CrosswordBoxViewModel> change) {
             if (change.wasAdded()) {
                 if (change.getValueRemoved() != null) {
-                    throw new UnsupportedOperationException(
-                            "Replacing box models is not supported");
+                    throw new UnsupportedOperationException("Replacing box models is not supported");
                 }
                 onBoxAdded(change.getKey(), change.getValueAdded());
             } else {
@@ -161,9 +158,10 @@ public final class CrosswordGridViewModel {
          * @param oldBoxPosition the previous box position
          * @param newBoxPosition the current box position
          */
-        private void onCurrentBoxChange(final ObservableValue<? extends GridCoord> observable,
-                                        final GridCoord oldBoxPosition,
-                                        final GridCoord newBoxPosition) {
+        private void onCurrentBoxChange(
+                final ObservableValue<? extends GridCoord> observable,
+                final GridCoord oldBoxPosition,
+                final GridCoord newBoxPosition) {
             if (!currentSlotPositions.contains(newBoxPosition)) {
                 recomputeCurrentSlotPositions();
             } else {
@@ -178,8 +176,10 @@ public final class CrosswordGridViewModel {
          * @param newDimension the new value
          * @param oldDimension the old value
          */
-        private void onDimensionChange(final ObservableValue<? extends Number> observable,
-                                       final Number oldDimension, final Number newDimension) {
+        private void onDimensionChange(
+                final ObservableValue<? extends Number> observable,
+                final Number oldDimension,
+                final Number newDimension) {
             resetCurrentBoxPositionIfRemoved();
         }
 
@@ -199,8 +199,7 @@ public final class CrosswordGridViewModel {
          *
          * @param change the change
          */
-        private void onHorizontalSlotsChange(
-                final ListChangeListener.Change<? extends SlotOutline> change) {
+        private void onHorizontalSlotsChange(final ListChangeListener.Change<? extends SlotOutline> change) {
 
             // Force current box update because slot changes are processed before dimension changes
             resetCurrentBoxPositionIfRemoved();
@@ -212,7 +211,7 @@ public final class CrosswordGridViewModel {
 
             while (change.next()) {
                 if (Stream.concat(change.getAddedSubList().stream(), change.getRemoved().stream())
-                          .anyMatch(s -> s.contains(current))) {
+                        .anyMatch(s -> s.contains(current))) {
                     recomputeCurrentSlotPositions();
                     break;
                 }
@@ -224,8 +223,7 @@ public final class CrosswordGridViewModel {
          *
          * @param change the change
          */
-        private void onVerticalSlotsChange(
-                final ListChangeListener.Change<? extends SlotOutline> change) {
+        private void onVerticalSlotsChange(final ListChangeListener.Change<? extends SlotOutline> change) {
 
             // Force current box update because slot changes are processed before dimension changes
             resetCurrentBoxPositionIfRemoved();
@@ -237,7 +235,7 @@ public final class CrosswordGridViewModel {
 
             while (change.next()) {
                 if (Stream.concat(change.getAddedSubList().stream(), change.getRemoved().stream())
-                          .anyMatch(s -> s.contains(current))) {
+                        .anyMatch(s -> s.contains(current))) {
                     recomputeCurrentSlotPositions();
                     break;
                 }
@@ -262,10 +260,10 @@ public final class CrosswordGridViewModel {
          */
         private void recomputeCurrentHorizontalSlotPositions() {
             final var current = currentBoxPosition.get();
-            slotsViewModel.acrossSlotContaining(current)
-                          .map(SlotOutline::boxPositions)
-                          .ifPresentOrElse(currentSlotPositions::setAll,
-                                           currentSlotPositions::clear);
+            slotsViewModel
+                    .acrossSlotContaining(current)
+                    .map(SlotOutline::boxPositions)
+                    .ifPresentOrElse(currentSlotPositions::setAll, currentSlotPositions::clear);
         }
 
         /**
@@ -273,10 +271,10 @@ public final class CrosswordGridViewModel {
          */
         private void recomputeVerticalCurrentSlotPositions() {
             final var current = currentBoxPosition.get();
-            slotsViewModel.downSlotContaining(current)
-                          .map(SlotOutline::boxPositions)
-                          .ifPresentOrElse(currentSlotPositions::setAll,
-                                           currentSlotPositions::clear);
+            slotsViewModel
+                    .downSlotContaining(current)
+                    .map(SlotOutline::boxPositions)
+                    .ifPresentOrElse(currentSlotPositions::setAll, currentSlotPositions::clear);
         }
 
         /**
@@ -297,28 +295,25 @@ public final class CrosswordGridViewModel {
          *
          * @param change the current slot positions change
          */
-        private void onCurrentSlotPositionsChange(
-                final ListChangeListener.Change<? extends GridCoord> change) {
+        private void onCurrentSlotPositionsChange(final ListChangeListener.Change<? extends GridCoord> change) {
             while (change.next()) {
                 change.getRemoved().stream()
-                      .map(boxes::get)
-                      .filter(Objects::nonNull) // Box may have been removed from grid
-                      .forEach(box -> {
-                          box.deselect();
-                          box.unsolvableProperty().unbind();
-                          /*
-                           * Clear the unsolvable status to avoid the information to become obsolete
-                           * when crossing slots are modified: There is nothing to update the status
-                           * of a non-selected slot.
-                           */
-                          box.solvable();
-                      });
-                change.getAddedSubList().stream()
-                      .map(boxes::get)
-                      .forEach(box -> {
-                          box.select();
-                          box.unsolvableProperty().bind(currentSlotUnsolvable);
-                      });
+                        .map(boxes::get)
+                        .filter(Objects::nonNull) // Box may have been removed from grid
+                        .forEach(box -> {
+                            box.deselect();
+                            box.unsolvableProperty().unbind();
+                            /*
+                             * Clear the unsolvable status to avoid the information to become obsolete
+                             * when crossing slots are modified: There is nothing to update the status
+                             * of a non-selected slot.
+                             */
+                            box.solvable();
+                        });
+                change.getAddedSubList().stream().map(boxes::get).forEach(box -> {
+                    box.select();
+                    box.unsolvableProperty().bind(currentSlotUnsolvable);
+                });
                 recomputeCurrentSlotContent();
             }
         }
@@ -361,11 +356,10 @@ public final class CrosswordGridViewModel {
      * @param columnCountArg grid column count
      * @param rowCountArg    the grid row count
      */
-    private CrosswordGridViewModel(final Map<GridCoord, CrosswordBoxViewModel> boxesArg,
-                                   final int columnCountArg, final int rowCountArg) {
+    private CrosswordGridViewModel(
+            final Map<GridCoord, CrosswordBoxViewModel> boxesArg, final int columnCountArg, final int rowCountArg) {
         boxes = FXCollections.observableMap(boxesArg);
-        boxesProperty = new ReadOnlyMapWrapper<>(this, "boxes",
-                                                 FXCollections.unmodifiableObservableMap(boxes));
+        boxesProperty = new ReadOnlyMapWrapper<>(this, "boxes", FXCollections.unmodifiableObservableMap(boxes));
         columnCount = new ReadOnlyIntegerWrapper(this, "columnCount", columnCountArg);
         rowCount = new ReadOnlyIntegerWrapper(this, "rowCount", rowCountArg);
         slotsViewModel = new SlotsViewModel(boxes, columnCount, rowCount);
@@ -622,8 +616,7 @@ public final class CrosswordGridViewModel {
         }
         inhibitContentChangeEvents = true;
         for (int i = 0; i < value.length(); i++) {
-            boxes.get(workingArea.currentSlotPositions.get(i))
-                 .userContent(value.substring(i, i + 1));
+            boxes.get(workingArea.currentSlotPositions.get(i)).userContent(value.substring(i, i + 1));
         }
         inhibitContentChangeEvents = false;
         workingArea.recomputeCurrentSlotContent();
@@ -763,8 +756,7 @@ public final class CrosswordGridViewModel {
     public void resizeTo(final int desiredColumnCount, final int desiredRowCount) {
         if (desiredColumnCount < 0 || desiredRowCount < 0) {
             throw new IllegalArgumentException(
-                    "Invalid negative resize dimension: " + desiredColumnCount + "x" +
-                    desiredRowCount);
+                    "Invalid negative resize dimension: " + desiredColumnCount + "x" + desiredRowCount);
         }
         while (columnCount.get() < desiredColumnCount) {
             addColumn();
@@ -805,8 +797,7 @@ public final class CrosswordGridViewModel {
         for (final SlotOutline slot : slots) {
             for (final GridCoord pos : slot.boxPositions()) {
                 final CrosswordBoxViewModel box = boxes.get(pos);
-                final String content =
-                        box.userContent().isEmpty() ? box.solverContent() : box.userContent();
+                final String content = box.userContent().isEmpty() ? box.solverContent() : box.userContent();
                 sb.append(content);
             }
             contents.add(sb.toString());
@@ -839,9 +830,7 @@ public final class CrosswordGridViewModel {
      * @param predicate filters the boxes to be reset
      */
     private void resetContent(final Predicate<CrosswordBoxViewModel> predicate) {
-        boxes.values().stream()
-             .filter(predicate)
-             .forEach(this::resetBox);
+        boxes.values().stream().filter(predicate).forEach(this::resetBox);
     }
 
     /**

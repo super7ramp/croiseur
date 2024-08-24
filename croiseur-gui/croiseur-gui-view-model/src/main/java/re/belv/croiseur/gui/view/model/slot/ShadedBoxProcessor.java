@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.gui.view.model.slot;
 
-import re.belv.croiseur.gui.view.model.GridCoord;
-
 import java.util.List;
+import re.belv.croiseur.gui.view.model.GridCoord;
 
 /**
  * Updates a list of slots after a box has been shaded, with the minimal number of modifications.
@@ -34,9 +33,10 @@ abstract sealed class ShadedBoxProcessor {
      * @param shadedBoxCoordinates the coordinates of the shaded box
      */
     final void process(final GridCoord shadedBoxCoordinates) {
-        final SlotOutline slot =
-                slots.stream().filter(s -> s.contains(shadedBoxCoordinates)).findFirst()
-                     .orElseThrow();
+        final SlotOutline slot = slots.stream()
+                .filter(s -> s.contains(shadedBoxCoordinates))
+                .findFirst()
+                .orElseThrow();
         final int slotIndex = slots.indexOf(slot);
         final int shadedBoxIndex = varyingCoordinateOf(shadedBoxCoordinates);
 

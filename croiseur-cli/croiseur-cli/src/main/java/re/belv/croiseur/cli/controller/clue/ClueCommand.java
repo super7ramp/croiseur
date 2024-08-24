@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.cli.controller.clue;
 
+import java.util.Optional;
+import java.util.Set;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.cli.status.Status;
-
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * The 'clue' command.
@@ -39,7 +38,11 @@ public final class ClueCommand {
     }
 
     @Command
-    int get(@Option(names = {"-p", "--provider"}, paramLabel = "PROVIDER") final String provider,
+    int get(
+            @Option(
+                            names = {"-p", "--provider"},
+                            paramLabel = "PROVIDER")
+                    final String provider,
             @Parameters(arity = "1..*", paramLabel = "WORD [WORD...]") final String[] words) {
         final GetClueRequest request = new GetClueRequest() {
             @Override

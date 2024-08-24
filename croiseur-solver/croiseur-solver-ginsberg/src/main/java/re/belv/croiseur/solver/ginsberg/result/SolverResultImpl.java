@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.solver.ginsberg.result;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.solver.ginsberg.SolverResult;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.solver.ginsberg.SolverResult;
 
 /**
  * Implementation of {@link SolverResult}.
@@ -48,9 +47,11 @@ final class SolverResultImpl implements SolverResult {
      * @param unsolvableBoxesArg the unsolvable boxes, if any
      * @param statisticsArg      the resolution statistics
      */
-    private SolverResultImpl(final Kind kindArg, final Map<GridPosition, Character> filledBoxesArg,
-                             final Set<GridPosition> unsolvableBoxesArg,
-                             final Statistics statisticsArg) {
+    private SolverResultImpl(
+            final Kind kindArg,
+            final Map<GridPosition, Character> filledBoxesArg,
+            final Set<GridPosition> unsolvableBoxesArg,
+            final Statistics statisticsArg) {
         filledBoxes = filledBoxesArg;
         unsolvableBoxes = unsolvableBoxesArg;
         kind = kindArg;
@@ -64,8 +65,7 @@ final class SolverResultImpl implements SolverResult {
      * @param statistics  the resolution statistics
      * @return a {@link SolverResultImpl} denoting a successful resolution
      */
-    static SolverResultImpl success(final Map<GridPosition, Character> solvedBoxes,
-                                    final Statistics statistics) {
+    static SolverResultImpl success(final Map<GridPosition, Character> solvedBoxes, final Statistics statistics) {
         return new SolverResultImpl(Kind.SUCCESS, solvedBoxes, Collections.emptySet(), statistics);
     }
 
@@ -77,9 +77,10 @@ final class SolverResultImpl implements SolverResult {
      * @param statistics      the resolution statistics
      * @return a {@link SolverResultImpl} denoting the impossibility to solve the problem
      */
-    static SolverResultImpl impossible(final Map<GridPosition, Character> filledBoxes,
-                                       final Set<GridPosition> unsolvableBoxes,
-                                       final Statistics statistics) {
+    static SolverResultImpl impossible(
+            final Map<GridPosition, Character> filledBoxes,
+            final Set<GridPosition> unsolvableBoxes,
+            final Statistics statistics) {
         return new SolverResultImpl(Kind.IMPOSSIBLE, filledBoxes, unsolvableBoxes, statistics);
     }
 
@@ -105,17 +106,15 @@ final class SolverResultImpl implements SolverResult {
 
     @Override
     public String toString() {
-        final int width = filledBoxes.keySet()
-                                     .stream()
-                                     .map(coordinate -> coordinate.x() + 1)
-                                     .max(Comparator.naturalOrder())
-                                     .orElse(0);
+        final int width = filledBoxes.keySet().stream()
+                .map(coordinate -> coordinate.x() + 1)
+                .max(Comparator.naturalOrder())
+                .orElse(0);
 
-        final int height = filledBoxes.keySet()
-                                      .stream()
-                                      .map(coordinate -> coordinate.y() + 1)
-                                      .max(Comparator.naturalOrder())
-                                      .orElse(0);
+        final int height = filledBoxes.keySet().stream()
+                .map(coordinate -> coordinate.y() + 1)
+                .max(Comparator.naturalOrder())
+                .orElse(0);
 
         final StringBuilder sb = new StringBuilder();
         sb.append("Result: ").append(kind).append(LINE_SEPARATOR);

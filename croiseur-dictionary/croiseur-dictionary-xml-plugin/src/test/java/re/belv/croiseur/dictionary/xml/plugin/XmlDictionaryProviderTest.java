@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.dictionary.xml.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.dictionary.common.DictionaryPath;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
-
-import java.util.Collection;
-import java.util.Locale;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests on {@link XmlDictionaryProvider}.
@@ -37,8 +36,9 @@ final class XmlDictionaryProviderTest {
 
     @Test
     void get() {
-        System.setProperty(DictionaryPath.SYSTEM_PROPERTY, System.getProperty("user.dir") + "/src" +
-                "/test/resources/dictionaries");
+        System.setProperty(
+                DictionaryPath.SYSTEM_PROPERTY,
+                System.getProperty("user.dir") + "/src" + "/test/resources/dictionaries");
         final DictionaryProvider xmlDictionaryProvider = new XmlDictionaryProvider();
 
         final Collection<Dictionary> dictionaries = xmlDictionaryProvider.get();

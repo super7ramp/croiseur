@@ -5,16 +5,6 @@
 
 package re.belv.croiseur.gui.tests;
 
-import javafx.scene.Node;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import org.junit.jupiter.api.Test;
-import org.testfx.api.FxRobot;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasChildren;
@@ -22,6 +12,15 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import org.junit.jupiter.api.Test;
+import org.testfx.api.FxRobot;
 
 /**
  * Tests on the editor view: Fill grid.
@@ -43,8 +42,7 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
     private void step1_GoToEditorView(final FxRobot robot) {
         robot.clickOn("#newPuzzleButton");
         verifyThat("#crossword-grid", isVisible());
-        verifyThat("#crossword-grid",
-                   hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
+        verifyThat("#crossword-grid", hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
         verifyThat("#solveButton", isEnabled());
     }
 
@@ -55,15 +53,14 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
      */
     private void step2_ResizeTo3x3(final FxRobot robot) {
         robot.clickOn("#resizeGridButton")
-             .clickOn("#deleteGridButton")
-             .clickOn("#addColumnButton") // implicitly creates the first row
-             .clickOn("#addColumnButton")
-             .clickOn("#addColumnButton")
-             .clickOn("#addRowButton")
-             .clickOn("#addRowButton")
-             .clickOn("#resizeGridButton");
-        verifyThat("#crossword-grid",
-                   hasChildren(9 /* 3 columns, 3 rows */, ".crossword-box-text"));
+                .clickOn("#deleteGridButton")
+                .clickOn("#addColumnButton") // implicitly creates the first row
+                .clickOn("#addColumnButton")
+                .clickOn("#addColumnButton")
+                .clickOn("#addRowButton")
+                .clickOn("#addRowButton")
+                .clickOn("#resizeGridButton");
+        verifyThat("#crossword-grid", hasChildren(9 /* 3 columns, 3 rows */, ".crossword-box-text"));
     }
 
     /**
@@ -79,11 +76,13 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
         waitFor(3L, TimeUnit.SECONDS, grid.disabledProperty().not());
         waitForFxEvents();
 
-        assertEquals("""
+        assertEquals(
+                """
                      WWW
                      WAP
                      WPV
-                     """, gridAsString(robot));
+                     """,
+                gridAsString(robot));
     }
 
     /**
@@ -108,5 +107,4 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
         }
         return sb.toString();
     }
-
 }

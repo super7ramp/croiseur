@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.gui;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.util.EnumMap;
 import java.util.Map;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Utility class to switch between scenes.

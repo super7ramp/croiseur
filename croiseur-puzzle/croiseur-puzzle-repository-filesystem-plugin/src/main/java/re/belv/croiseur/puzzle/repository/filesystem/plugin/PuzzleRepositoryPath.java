@@ -28,8 +28,7 @@ final class PuzzleRepositoryPath {
     }
 
     private static Optional<String> systemProperty() {
-        return Optional.ofNullable(
-                System.getProperty("re.belv.croiseur.puzzle.path"));
+        return Optional.ofNullable(System.getProperty("re.belv.croiseur.puzzle.path"));
     }
 
     private static String directoryUnderUserHome() {

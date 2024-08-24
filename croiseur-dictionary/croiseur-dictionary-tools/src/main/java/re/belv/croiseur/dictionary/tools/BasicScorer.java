@@ -5,8 +5,6 @@
 
 package re.belv.croiseur.dictionary.tools;
 
-import re.belv.croiseur.dictionary.common.StringTransformers;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.common.StringTransformers;
 
 /**
  * For a given word list, computes a score corresponding to the capability of the words to cross
@@ -108,8 +107,7 @@ public final class BasicScorer implements Callable<Double> {
         final Path wordListPath = Path.of(args[0]);
         try (final Stream<String> lines = Files.lines(wordListPath)) {
             final List<String> words =
-                    lines.map(StringTransformers.toAcceptableCrosswordEntry())
-                         .toList();
+                    lines.map(StringTransformers.toAcceptableCrosswordEntry()).toList();
             final Double result = new BasicScorer(words).call();
             System.out.printf("%.2f%n", result);
         } catch (final IOException e) {

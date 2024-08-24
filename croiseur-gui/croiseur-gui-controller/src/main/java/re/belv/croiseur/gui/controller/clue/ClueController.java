@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.gui.controller.clue;
 
+import java.util.concurrent.Executor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.gui.view.model.CluesViewModel;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
-
-import java.util.concurrent.Executor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Controls calls to the clue service.
@@ -42,10 +41,11 @@ public final class ClueController {
      * @param clueServiceArg            the clue service to call
      * @param executorArg               the worker executing the clue tasks.
      */
-    public ClueController(final CluesViewModel cluesViewModelArg,
-                          final CrosswordGridViewModel crosswordGridViewModelArg,
-                          final ClueService clueServiceArg,
-                          final Executor executorArg) {
+    public ClueController(
+            final CluesViewModel cluesViewModelArg,
+            final CrosswordGridViewModel crosswordGridViewModelArg,
+            final ClueService clueServiceArg,
+            final Executor executorArg) {
         cluesViewModel = cluesViewModelArg;
         crosswordGridViewModel = crosswordGridViewModelArg;
         clueService = clueServiceArg;
@@ -72,8 +72,7 @@ public final class ClueController {
      * @param task the task to execute
      */
     private void execute(final Task<Void> task) {
-        task.setOnFailed(
-                event -> LOGGER.log(Level.WARNING, "Clue task failed.", task.getException()));
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Clue task failed.", task.getException()));
         executor.execute(task);
     }
 }

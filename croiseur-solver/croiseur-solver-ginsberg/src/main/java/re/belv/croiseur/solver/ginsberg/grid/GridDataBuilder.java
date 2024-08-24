@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * A {@link GridData} builder.
@@ -104,11 +103,13 @@ final class GridDataBuilder {
         int id = 1;
         for (int x = 0; x < width; x++) {
             // Vertical slots
-            for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0); yStart < height; yStart =
-                    nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
+            for (int yStart = 0, yEnd = nextShadedOnColumn(x, 0);
+                    yStart < height;
+                    yStart = nextVerticalSlot(x, yEnd), yEnd = nextShadedOnColumn(x, yStart), id++) {
                 if (yEnd - yStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotData(new SlotDefinition(x, yStart,
-                            yEnd, SlotDefinition.Type.VERTICAL), grid));
+                    slots.put(
+                            new SlotIdentifier(id),
+                            new SlotData(new SlotDefinition(x, yStart, yEnd, SlotDefinition.Type.VERTICAL), grid));
                 } else {
                     // Ignore empty slot (row starting by a shaded box) or single-letter slot
                 }
@@ -116,11 +117,13 @@ final class GridDataBuilder {
         }
         for (int y = 0; y < height; y++) {
             // Horizontal slots
-            for (int xStart = 0, xEnd = nextShadedOnLine(y, 0); xStart < width; xStart =
-                    nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
+            for (int xStart = 0, xEnd = nextShadedOnLine(y, 0);
+                    xStart < width;
+                    xStart = nextHorizontalSlot(y, xEnd), xEnd = nextShadedOnLine(y, xStart), id++) {
                 if (xEnd - xStart > 1) {
-                    slots.put(new SlotIdentifier(id), new SlotData(new SlotDefinition(y, xStart,
-                            xEnd, SlotDefinition.Type.HORIZONTAL), grid));
+                    slots.put(
+                            new SlotIdentifier(id),
+                            new SlotData(new SlotDefinition(y, xStart, xEnd, SlotDefinition.Type.HORIZONTAL), grid));
                 } else {
                     // Ignore empty slot (line starting by a shaded box) or single-letter slot
                 }
@@ -187,8 +190,7 @@ final class GridDataBuilder {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Invalid dimensions");
         }
-        if (shaded.stream()
-                  .anyMatch(s -> s.x() < 0 || s.x() >= width || s.y() < 0 || s.y() >= height)) {
+        if (shaded.stream().anyMatch(s -> s.x() < 0 || s.x() >= width || s.y() < 0 || s.y() >= height)) {
             throw new IllegalArgumentException("Invalid shaded definitions");
         }
     }

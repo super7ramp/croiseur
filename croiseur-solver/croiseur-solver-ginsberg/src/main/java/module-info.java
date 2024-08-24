@@ -9,5 +9,6 @@
 module com.gitlab.super7ramp.croiseur.solver.ginsberg {
     requires transitive re.belv.croiseur.common;
     requires java.logging;
+
     exports re.belv.croiseur.solver.ginsberg;
 }

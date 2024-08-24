@@ -5,19 +5,18 @@
 
 package re.belv.croiseur.tests.clue;
 
+import static org.mockito.Mockito.verify;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import re.belv.croiseur.api.clue.ClueService;
-import re.belv.croiseur.api.clue.GetClueRequest;
-import re.belv.croiseur.spi.presenter.clue.CluePresenter;
-import re.belv.croiseur.tests.context.TestContext;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.mockito.Mockito.verify;
+import re.belv.croiseur.api.clue.ClueService;
+import re.belv.croiseur.api.clue.GetClueRequest;
+import re.belv.croiseur.spi.presenter.clue.CluePresenter;
+import re.belv.croiseur.tests.context.TestContext;
 
 /**
  * Steps pertaining to the {@link ClueService}.
@@ -66,5 +65,4 @@ public final class ClueSteps {
     public void thenClueError(final String error) {
         verify(presenterMock).presentClueError(error);
     }
-
 }

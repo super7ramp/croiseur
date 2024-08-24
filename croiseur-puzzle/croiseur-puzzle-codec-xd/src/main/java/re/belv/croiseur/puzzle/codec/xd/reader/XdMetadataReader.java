@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
+import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 /**
  * Parses text to {@link XdMetadata}.
@@ -88,8 +87,8 @@ final class XdMetadataReader {
         }
         final String[] keyValue = line.split(PROPERTY_SEPARATOR);
         if (keyValue.length != 2) {
-            throw new XdMetadataReadException("Invalid property '" + line +
-                                              "'. Property must respect the format 'Key: Value'.");
+            throw new XdMetadataReadException(
+                    "Invalid property '" + line + "'. Property must respect the format 'Key: Value'.");
         }
         return keyValue;
     }

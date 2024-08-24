@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.gui.view.model.util;
 
-import javafx.collections.ObservableListBase;
-
 import java.util.Collection;
 import java.util.List;
+import javafx.collections.ObservableListBase;
 
 /**
  * Implementation of {@link ObservableAggregateList}.

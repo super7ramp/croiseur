@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
+import java.util.Map;
+import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Access to the problem.

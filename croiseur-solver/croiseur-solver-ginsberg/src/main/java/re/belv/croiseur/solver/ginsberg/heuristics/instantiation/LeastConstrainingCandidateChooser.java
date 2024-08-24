@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.solver.ginsberg.heuristics.instantiation;
 
+import java.math.BigInteger;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Predicate;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 import re.belv.croiseur.solver.ginsberg.lookahead.Assignment;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
-
-import java.math.BigInteger;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 /**
  * Implementation of {@link CandidateChooser}.
@@ -41,9 +40,9 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      * Compare candidates by their estimated number of puzzle solutions.<p> The secondary comparator
      * by lexicographic order on candidate is for reproducibility.
      */
-    private static final Comparator<NumberOfSolutionsPerCandidate> BY_NUMBER_OF_SOLUTIONS =
-            Comparator.comparing(NumberOfSolutionsPerCandidate::numberOfSolutions)
-                      .thenComparing(NumberOfSolutionsPerCandidate::candidate);
+    private static final Comparator<NumberOfSolutionsPerCandidate> BY_NUMBER_OF_SOLUTIONS = Comparator.comparing(
+                    NumberOfSolutionsPerCandidate::numberOfSolutions)
+            .thenComparing(NumberOfSolutionsPerCandidate::candidate);
 
     /** Filter candidates with at least one puzzle solution. */
     private static final Predicate<NumberOfSolutionsPerCandidate> WITH_SOLUTION =
@@ -61,20 +60,20 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      * @param probePuzzleArg the puzzle to solve
      * @param dictionaryArg   the dictionary to pick candidates from
      */
-    LeastConstrainingCandidateChooser(final ProbePuzzle probePuzzleArg,
-                                      final CachedDictionary dictionaryArg) {
+    LeastConstrainingCandidateChooser(final ProbePuzzle probePuzzleArg, final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
         probePuzzle = probePuzzleArg;
     }
 
     @Override
     public Optional<String> find(final Slot wordVariable) {
-        return dictionary.candidates(wordVariable)
-                         .map(candidate -> probe(wordVariable, candidate))
-                         .filter(WITH_SOLUTION)
-                         .limit(MAX_NUMBER_OF_CANDIDATES_TO_COMPARE)
-                         .max(BY_NUMBER_OF_SOLUTIONS)
-                         .map(NumberOfSolutionsPerCandidate::candidate);
+        return dictionary
+                .candidates(wordVariable)
+                .map(candidate -> probe(wordVariable, candidate))
+                .filter(WITH_SOLUTION)
+                .limit(MAX_NUMBER_OF_CANDIDATES_TO_COMPARE)
+                .max(BY_NUMBER_OF_SOLUTIONS)
+                .map(NumberOfSolutionsPerCandidate::candidate);
     }
 
     /**
@@ -88,9 +87,7 @@ final class LeastConstrainingCandidateChooser implements CandidateChooser<Slot, 
      */
     private NumberOfSolutionsPerCandidate probe(final Slot wordVariable, final String candidate) {
         final BigInteger numberOfSolutions =
-                probePuzzle.computeNumberOfLocalSolutionsAfter(Assignment.of(wordVariable.uid(),
-                                                                             candidate));
+                probePuzzle.computeNumberOfLocalSolutionsAfter(Assignment.of(wordVariable.uid(), candidate));
         return new NumberOfSolutionsPerCandidate(candidate, numberOfSolutions);
     }
-
 }

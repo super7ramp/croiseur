@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.cli.controller.solver.parser;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.common.puzzle.GridPosition;
 
 /**
  * Parser for {@link GridPosition}.
@@ -33,8 +32,7 @@ public final class GridPositionParser {
     public static GridPosition parse(final String value) {
         final Matcher matcher = PATTERN.matcher(value);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                    ", was " + value);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() + ", was " + value);
         }
 
         final int x = Integer.parseInt(matcher.group("x"));

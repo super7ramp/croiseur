@@ -33,5 +33,4 @@ final class Assertions {
         assertTrue(result.unsolvableBoxes().isEmpty());
         // statistics ignored
     }
-
 }

@@ -36,5 +36,7 @@ module re.belv.croiseur.gui {
     uses PuzzleRepository;
 
     exports re.belv.croiseur.gui;
-    opens re.belv.croiseur.gui to javafx.fxml;
+
+    opens re.belv.croiseur.gui to
+            javafx.fxml;
 }

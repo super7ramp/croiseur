@@ -67,7 +67,7 @@ final class BundledNativeLibLoader {
         }
 
         try (final InputStream libraryInputStream =
-                     BundledNativeLibLoader.class.getResourceAsStream("/" + platformLibraryName)) {
+                BundledNativeLibLoader.class.getResourceAsStream("/" + platformLibraryName)) {
 
             if (libraryInputStream == null) {
                 throw new UnsatisfiedLinkError("No bundled native library named " + platformLibraryName);
@@ -89,8 +89,8 @@ final class BundledNativeLibLoader {
      * @return the extracted library file
      * @throws IOException if temporary directory creation or read from the input stream fails
      */
-    private static File extractLibrary(final InputStream libraryInputStream,
-                                       final String libraryFilename) throws IOException {
+    private static File extractLibrary(final InputStream libraryInputStream, final String libraryFilename)
+            throws IOException {
         final File temporaryDir = createTemporaryDirectory();
         final File library = new File(temporaryDir, libraryFilename);
         library.deleteOnExit();

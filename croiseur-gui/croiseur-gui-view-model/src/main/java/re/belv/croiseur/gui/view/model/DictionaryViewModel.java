@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import java.util.Locale;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-
-import java.util.Locale;
 
 /**
  * A dictionary list view entry.
@@ -38,8 +37,8 @@ public final class DictionaryViewModel {
      * @param localeArg      the dictionary locale
      * @param descriptionArg the dictionary description
      */
-    public DictionaryViewModel(final String providerArg, final String nameArg,
-                               final Locale localeArg, final String descriptionArg) {
+    public DictionaryViewModel(
+            final String providerArg, final String nameArg, final Locale localeArg, final String descriptionArg) {
         selected = new SimpleBooleanProperty(this, "selected", false);
         provider = providerArg;
         name = nameArg;
@@ -117,13 +116,11 @@ public final class DictionaryViewModel {
 
     @Override
     public String toString() {
-        return "Dictionary{" +
-               "selected=" + selected.get() +
-               ", locale='" + locale + '\'' +
-               ", provider='" + provider + '\'' +
-               ", name='" + name + '\'' +
-               ", description='" + description + '\'' +
-               '}';
+        return "Dictionary{" + "selected="
+                + selected.get() + ", locale='"
+                + locale + '\'' + ", provider='"
+                + provider + '\'' + ", name='"
+                + name + '\'' + ", description='"
+                + description + '\'' + '}';
     }
-
 }

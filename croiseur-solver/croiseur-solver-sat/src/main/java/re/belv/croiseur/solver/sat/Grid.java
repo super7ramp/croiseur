@@ -58,9 +58,8 @@ final class Grid {
         for (int row = 0; row < cells.length; row++) {
             final int numberOfColumns = cells[row].length;
             if (numberOfColumns != firstRowNumberOfColumns) {
-                throw new IllegalArgumentException(
-                        "Inconsistent number of columns: Row #" + row + " has " + numberOfColumns +
-                        " columns but row #0 has " + firstRowNumberOfColumns);
+                throw new IllegalArgumentException("Inconsistent number of columns: Row #" + row + " has "
+                        + numberOfColumns + " columns but row #0 has " + firstRowNumberOfColumns);
             }
             for (int column = 0; column < numberOfColumns; column++) {
                 final char value = cells[row][column];
@@ -194,8 +193,6 @@ final class Grid {
 
     @Override
     public String toString() {
-        return "Grid{" +
-               "cells=" + Arrays.deepToString(cells) +
-               '}';
+        return "Grid{" + "cells=" + Arrays.deepToString(cells) + '}';
     }
 }

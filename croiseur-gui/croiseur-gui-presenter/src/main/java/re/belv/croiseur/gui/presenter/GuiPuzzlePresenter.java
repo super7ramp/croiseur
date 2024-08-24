@@ -5,6 +5,12 @@
 
 package re.belv.croiseur.gui.presenter;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleClues;
@@ -25,13 +31,6 @@ import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
-
 /**
  * GUI implementation of {@link PuzzlePresenter}.
  */
@@ -41,8 +40,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     private static final Logger LOGGER = Logger.getLogger(GuiPuzzlePresenter.class.getName());
 
     /** The date time formatter - assuming locale is constant during application run-time. */
-    private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
     /** The puzzle selection view model. */
     private final PuzzleSelectionViewModel puzzleSelectionViewModel;
@@ -70,10 +68,11 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * @param puzzleCodecsViewModelArg    the puzzle codecs view model
      * @param errorsViewModelArg          the errors view model
      */
-    GuiPuzzlePresenter(final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
-                       final PuzzleEditionViewModel puzzleEditionViewModelArg,
-                       final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
-                       final ErrorsViewModel errorsViewModelArg) {
+    GuiPuzzlePresenter(
+            final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
+            final PuzzleEditionViewModel puzzleEditionViewModelArg,
+            final PuzzleCodecsViewModel puzzleCodecsViewModelArg,
+            final ErrorsViewModel errorsViewModelArg) {
         puzzleSelectionViewModel = puzzleSelectionViewModelArg;
         puzzleDetailsViewModel = puzzleEditionViewModelArg.puzzleDetailsViewModel();
         crosswordGridViewModel = puzzleEditionViewModelArg.crosswordGridViewModel();
@@ -87,8 +86,8 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
         LOGGER.info(() -> "Received available puzzles: " + puzzles);
         final List<SavedPuzzleViewModel> savedPuzzleViewModels =
                 puzzles.stream().map(GuiPuzzlePresenter::convertToViewModel).toList();
-        Platform.runLater(() -> puzzleSelectionViewModel.availablePuzzlesProperty()
-                                                        .setAll(savedPuzzleViewModels));
+        Platform.runLater(
+                () -> puzzleSelectionViewModel.availablePuzzlesProperty().setAll(savedPuzzleViewModels));
     }
 
     @Override
@@ -111,17 +110,17 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     public void presentSavedPuzzle(final SavedPuzzle puzzle) {
         LOGGER.info(() -> "Received saved puzzle: " + puzzle);
         final SavedPuzzleViewModel savedPuzzleViewModel = convertToViewModel(puzzle);
-        Platform.runLater(
-                () -> {
-                    puzzleSelectionViewModel.updateAvailablePuzzlesWith(savedPuzzleViewModel);
-                    puzzleDetailsViewModel.id(puzzle.id());
-                    puzzleDetailsViewModel.revision(puzzle.revision());
-                });
+        Platform.runLater(() -> {
+            puzzleSelectionViewModel.updateAvailablePuzzlesWith(savedPuzzleViewModel);
+            puzzleDetailsViewModel.id(puzzle.id());
+            puzzleDetailsViewModel.revision(puzzle.revision());
+        });
     }
 
     @Override
     public void presentDeletedAllPuzzles() {
-        Platform.runLater(() -> puzzleSelectionViewModel.availablePuzzlesProperty().clear());
+        Platform.runLater(
+                () -> puzzleSelectionViewModel.availablePuzzlesProperty().clear());
     }
 
     @Override
@@ -165,20 +164,18 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      */
     private static SavedPuzzleViewModel convertToViewModel(final SavedPuzzle puzzle) {
         final PuzzleDetails details = puzzle.details();
-        final var builder =
-                new SavedPuzzleViewModel.Builder().id(puzzle.id()).revision(puzzle.revision())
-                                                  .title(details.title())
-                                                  .author(details.author())
-                                                  .editor(details.editor())
-                                                  .copyright(details.copyright())
-                                                  .date(details.date()
-                                                               .map(DATE_FORMATTER::format)
-                                                               .orElse(""))
-                                                  .numberOfColumns(puzzle.grid().width())
-                                                  .numberOfRows(puzzle.grid().height());
+        final var builder = new SavedPuzzleViewModel.Builder()
+                .id(puzzle.id())
+                .revision(puzzle.revision())
+                .title(details.title())
+                .author(details.author())
+                .editor(details.editor())
+                .copyright(details.copyright())
+                .date(details.date().map(DATE_FORMATTER::format).orElse(""))
+                .numberOfColumns(puzzle.grid().width())
+                .numberOfRows(puzzle.grid().height());
         puzzle.grid().shaded().forEach(pos -> builder.shaded(gridCoordFrom(pos)));
-        puzzle.grid().filled()
-              .forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
+        puzzle.grid().filled().forEach((pos, letter) -> builder.filled(gridCoordFrom(pos), letter));
         return builder.build();
     }
 
@@ -201,8 +198,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * @param revision the puzzle revision
      * @param details  the other puzzle details
      */
-    private void fillDetailsViewModelWith(final long id, final int revision,
-                                          final PuzzleDetails details) {
+    private void fillDetailsViewModelWith(final long id, final int revision, final PuzzleDetails details) {
         puzzleDetailsViewModel.id(id);
         puzzleDetailsViewModel.revision(revision);
         puzzleDetailsViewModel.title(details.title());
@@ -225,8 +221,7 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
 
         grid.filled().forEach((position, letter) -> {
             positionsToUpdate.remove(gridCoordFrom(position));
-            final CrosswordBoxViewModel box =
-                    crosswordGridViewModel.box(gridCoordFrom(position));
+            final CrosswordBoxViewModel box = crosswordGridViewModel.box(gridCoordFrom(position));
             box.lighten();
             box.userContent(String.valueOf(letter));
         });

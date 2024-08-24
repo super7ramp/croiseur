@@ -5,6 +5,14 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
@@ -20,15 +28,6 @@ import javafx.collections.transformation.FilteredList;
 import re.belv.croiseur.gui.view.model.util.MoreFXCollections;
 import re.belv.croiseur.gui.view.model.util.ObservableAggregateList;
 import re.belv.croiseur.gui.view.model.util.SortedByCopyList;
-
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The dictionary view model.
@@ -63,20 +62,17 @@ public final class DictionariesViewModel {
      * Constructs an instance.
      */
     public DictionariesViewModel() {
-        dictionaries = new SimpleListProperty<>(this, "dictionaries",
-                                                FXCollections.observableArrayList(
-                                                        entry -> new Observable[]{entry.selectedProperty()}));
+        dictionaries = new SimpleListProperty<>(this, "dictionaries", FXCollections.observableArrayList(entry ->
+                new Observable[] {entry.selectedProperty()}));
 
-        selectedDictionaries = new ReadOnlyListWrapper<>(this, "selectedDictionaries",
-                                                         new FilteredList<>(dictionaries,
-                                                                            DictionaryViewModel::isSelected));
+        selectedDictionaries = new ReadOnlyListWrapper<>(
+                this, "selectedDictionaries", new FilteredList<>(dictionaries, DictionaryViewModel::isSelected));
 
         backingAggregateWordList = MoreFXCollections.observableAggregateList();
 
         // TODO uniq
-        words = new ReadOnlyListWrapper<>(this, "words",
-                                          new SortedByCopyList<>(backingAggregateWordList,
-                                                                 Comparator.naturalOrder()));
+        words = new ReadOnlyListWrapper<>(
+                this, "words", new SortedByCopyList<>(backingAggregateWordList, Comparator.naturalOrder()));
 
         suggestionFilter = new SimpleStringProperty(this, "suggestionFilter", "");
 
@@ -154,7 +150,8 @@ public final class DictionariesViewModel {
      * @param addedWords the words
      */
     public void addWords(final DictionaryKey key, final Collection<String> addedWords) {
-        if (selectedDictionaries.stream().anyMatch(dictionary -> dictionary.key().equals(key))) {
+        if (selectedDictionaries.stream()
+                .anyMatch(dictionary -> dictionary.key().equals(key))) {
             final int aggregateNumber = backingAggregateWordList.aggregateCount();
             backingAggregateWordList.aggregate(addedWords);
             dictionaryToWordAggregateIndex.put(key, aggregateNumber);
@@ -186,7 +183,8 @@ public final class DictionariesViewModel {
              * - Matcher reset: Check if word obviously doesn't match first
              */
             final Matcher matcher = Pattern.compile(regex).matcher("");
-            predicate = word -> word.length() == regex.length() && matcher.reset(word).matches();
+            predicate = word ->
+                    word.length() == regex.length() && matcher.reset(word).matches();
         }
         return predicate;
     }
@@ -198,8 +196,7 @@ public final class DictionariesViewModel {
      *
      * @param change the dictionary selection change
      */
-    private void onSelectedDictionaryChange(
-            final ListChangeListener.Change<? extends DictionaryViewModel> change) {
+    private void onSelectedDictionaryChange(final ListChangeListener.Change<? extends DictionaryViewModel> change) {
         while (change.next()) {
             if (change.wasRemoved()) {
                 final List<? extends DictionaryViewModel> removedDictionaries = change.getRemoved();
@@ -223,8 +220,7 @@ public final class DictionariesViewModel {
      * @param removedAggregateIndex the aggregate word list index that has been removed
      */
     private void refreshAggregateIndexes(final Integer removedAggregateIndex) {
-        for (final Map.Entry<DictionaryKey, Integer> remainingEntry :
-                dictionaryToWordAggregateIndex.entrySet()) {
+        for (final Map.Entry<DictionaryKey, Integer> remainingEntry : dictionaryToWordAggregateIndex.entrySet()) {
             final Integer remainingAggregateIndex = remainingEntry.getValue();
             if (remainingAggregateIndex > removedAggregateIndex) {
                 final int newRemainingAggregateIndex = remainingAggregateIndex - 1;

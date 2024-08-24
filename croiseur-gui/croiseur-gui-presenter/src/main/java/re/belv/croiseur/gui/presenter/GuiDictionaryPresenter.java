@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.presenter;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
@@ -15,10 +18,6 @@ import re.belv.croiseur.gui.view.model.ErrorsViewModel;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * GUI implementation of {@link DictionaryPresenter}.
@@ -40,8 +39,8 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
      * @param dictionariesViewModelArg the dictionaries view model
      * @param errorsViewModelArg       the errors view model
      */
-    GuiDictionaryPresenter(final DictionariesViewModel dictionariesViewModelArg,
-                           final ErrorsViewModel errorsViewModelArg) {
+    GuiDictionaryPresenter(
+            final DictionariesViewModel dictionariesViewModelArg, final ErrorsViewModel errorsViewModelArg) {
         dictionariesViewModel = dictionariesViewModelArg;
         errorsViewModel = errorsViewModelArg;
     }
@@ -54,23 +53,21 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
     @Override
     public void presentDictionaries(final List<ProvidedDictionaryDetails> providedDictionaries) {
         LOGGER.info(() -> "Received dictionaries: " + providedDictionaries);
-        final List<DictionaryViewModel> presentedDictionaries =
-                providedDictionaries.stream().map(GuiDictionaryPresenter::dictionaryViewModelFrom)
-                                    .toList();
+        final List<DictionaryViewModel> presentedDictionaries = providedDictionaries.stream()
+                .map(GuiDictionaryPresenter::dictionaryViewModelFrom)
+                .toList();
         // The first dictionary is the default one, automatically select it
         if (!presentedDictionaries.isEmpty()) {
             presentedDictionaries.get(0).select();
         }
-        Platform.runLater(() -> dictionariesViewModel.dictionariesProperty()
-                                                     .setAll(presentedDictionaries));
+        Platform.runLater(() -> dictionariesViewModel.dictionariesProperty().setAll(presentedDictionaries));
     }
 
     @Override
     public void presentDictionaryEntries(final DictionaryContent content) {
-        LOGGER.info(() -> "Received entries of dictionary " + content.details() + ": " +
-                          content.words().size() + " words");
-        Platform.runLater(() -> dictionariesViewModel.addWords(dictionaryKeyFrom(content.details()),
-                                                               content.words()));
+        LOGGER.info(() -> "Received entries of dictionary " + content.details() + ": "
+                + content.words().size() + " words");
+        Platform.runLater(() -> dictionariesViewModel.addWords(dictionaryKeyFrom(content.details()), content.words()));
     }
 
     @Override
@@ -89,14 +86,13 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
         Platform.runLater(() -> errorsViewModel.addError(error));
     }
 
-    private static DictionaryViewModel dictionaryViewModelFrom(
-            final ProvidedDictionaryDetails details) {
-        return new DictionaryViewModel(details.providerName(), details.dictionaryName(),
-                                       details.dictionaryLocale(), details.dictionaryDescription());
+    private static DictionaryViewModel dictionaryViewModelFrom(final ProvidedDictionaryDetails details) {
+        return new DictionaryViewModel(
+                details.providerName(), details.dictionaryName(),
+                details.dictionaryLocale(), details.dictionaryDescription());
     }
 
     private static DictionaryKey dictionaryKeyFrom(final ProvidedDictionaryDetails details) {
-        return new DictionaryKey(details.providerName(), details.dictionaryName(),
-                                 details.dictionaryLocale());
+        return new DictionaryKey(details.providerName(), details.dictionaryName(), details.dictionaryLocale());
     }
 }

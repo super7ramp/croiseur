@@ -11,5 +11,4 @@ final class WordFormGeneratorCompoundAffixTest extends WordFormGeneratorTestCase
     String name() {
         return "compoundaffix";
     }
-
 }

@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import java.util.Collection;
 import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
@@ -12,8 +13,6 @@ import re.belv.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.Presenter;
-
-import java.util.Collection;
 
 /**
  * Implementation of {@link DictionaryService}.
@@ -41,17 +40,14 @@ public final class DictionaryServiceImpl implements DictionaryService {
      * @param dictionaryProvidersArg the dictionary providers
      * @param presenterArg           the presenter
      */
-    public DictionaryServiceImpl(final Collection<DictionaryProvider> dictionaryProvidersArg,
-                                 final Presenter presenterArg) {
-        listDictionaryProvidersUsecase =
-                new ListDictionaryProvidersUsecase(dictionaryProvidersArg, presenterArg);
+    public DictionaryServiceImpl(
+            final Collection<DictionaryProvider> dictionaryProvidersArg, final Presenter presenterArg) {
+        listDictionaryProvidersUsecase = new ListDictionaryProvidersUsecase(dictionaryProvidersArg, presenterArg);
         listDictionariesUsecase = new ListDictionariesUsecase(dictionaryProvidersArg, presenterArg);
         final var dictionarySelector = new DictionarySelector(dictionaryProvidersArg);
         listDictionaryEntries = new ListDictionaryEntriesUsecase(dictionarySelector, presenterArg);
-        searchDictionaryEntries =
-                new SearchDictionaryEntriesUsecase(dictionarySelector, presenterArg);
-        getDefaultDictionaryUsecase =
-                new GetDefaultDictionaryUsecase(dictionarySelector, presenterArg);
+        searchDictionaryEntries = new SearchDictionaryEntriesUsecase(dictionarySelector, presenterArg);
+        getDefaultDictionaryUsecase = new GetDefaultDictionaryUsecase(dictionarySelector, presenterArg);
     }
 
     @Override

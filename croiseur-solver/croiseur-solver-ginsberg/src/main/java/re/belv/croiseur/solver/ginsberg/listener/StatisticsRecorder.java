@@ -47,10 +47,9 @@ public final class StatisticsRecorder implements SolverListener {
 
         @Override
         public String toString() {
-            return "{" +
-                    "numberOfUnassignments=" + numberOfUnassignments +
-                    ", numberOfAssignments=" + numberOfAssignments +
-                    '}';
+            return "{" + "numberOfUnassignments="
+                    + numberOfUnassignments + ", numberOfAssignments="
+                    + numberOfAssignments + '}';
         }
     }
 

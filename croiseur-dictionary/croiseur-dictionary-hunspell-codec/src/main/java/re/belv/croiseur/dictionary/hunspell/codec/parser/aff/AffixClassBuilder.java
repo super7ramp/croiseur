@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
+import java.util.ArrayList;
+import java.util.List;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Builds an {@link AffixClass}.

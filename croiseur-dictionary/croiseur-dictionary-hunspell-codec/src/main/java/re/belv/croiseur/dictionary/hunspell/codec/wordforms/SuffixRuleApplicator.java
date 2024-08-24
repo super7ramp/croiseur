@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
-
 import java.util.Optional;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 
 /**
  * Implementation of {@link AffixRuleApplicator} for prefix.

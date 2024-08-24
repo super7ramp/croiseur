@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.dictionary.common.io;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link BomInputStream}.
@@ -26,7 +25,7 @@ final class BomInputStreamTest {
      */
     private static String decode(final byte[] encoded) throws IOException {
         try (final ByteArrayInputStream bytesStream = new ByteArrayInputStream(encoded);
-             final BomInputStream filteredStream = new BomInputStream(bytesStream)) {
+                final BomInputStream filteredStream = new BomInputStream(bytesStream)) {
             return new String(filteredStream.readAllBytes());
         }
     }

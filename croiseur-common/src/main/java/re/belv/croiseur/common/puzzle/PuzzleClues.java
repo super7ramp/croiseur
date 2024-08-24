@@ -19,8 +19,7 @@ import java.util.Objects;
 public record PuzzleClues(List<String> across, List<String> down) {
 
     /** Empty clues unique instance. */
-    private static final PuzzleClues EMPTY =
-            new PuzzleClues(Collections.emptyList(), Collections.emptyList());
+    private static final PuzzleClues EMPTY = new PuzzleClues(Collections.emptyList(), Collections.emptyList());
 
     /**
      * Validates fields.
@@ -41,11 +40,12 @@ public record PuzzleClues(List<String> across, List<String> down) {
      * @return a new {@link PuzzleClues}
      */
     public static PuzzleClues from(final Map<String, String> clues, final PuzzleGrid grid) {
-        final List<String> across =
-                grid.acrossSlotContents().stream().map(word -> clues.getOrDefault(word, ""))
-                    .toList();
-        final List<String> down =
-                grid.downSlotContents().stream().map(word -> clues.getOrDefault(word, "")).toList();
+        final List<String> across = grid.acrossSlotContents().stream()
+                .map(word -> clues.getOrDefault(word, ""))
+                .toList();
+        final List<String> down = grid.downSlotContents().stream()
+                .map(word -> clues.getOrDefault(word, ""))
+                .toList();
         return new PuzzleClues(across, down);
     }
 

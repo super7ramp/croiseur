@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -22,9 +24,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 import re.belv.croiseur.gui.view.model.SolverItemViewModel;
-
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * A toolbar to edit a crossword grid.
@@ -111,8 +110,7 @@ public final class CrosswordEditorToolbar extends ToolBar {
      * Constructs an instance.
      */
     public CrosswordEditorToolbar() {
-        gridEditionButtonsDisableProperty =
-                new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty");
+        gridEditionButtonsDisableProperty = new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
@@ -131,11 +129,18 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     private void initializeNonResizeButtons() {
         final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
-        List.of(puzzleToggleButton, leftSeparator, clearGridMenuButton, solveButton,
-                saveButton, dictionariesToggleButton, rightSeparator).forEach(button -> {
-            button.visibleProperty().bind(resizeMode.not());
-            button.managedProperty().bind(resizeMode.not());
-        });
+        List.of(
+                        puzzleToggleButton,
+                        leftSeparator,
+                        clearGridMenuButton,
+                        solveButton,
+                        saveButton,
+                        dictionariesToggleButton,
+                        rightSeparator)
+                .forEach(button -> {
+                    button.visibleProperty().bind(resizeMode.not());
+                    button.managedProperty().bind(resizeMode.not());
+                });
     }
 
     /**
@@ -143,11 +148,11 @@ public final class CrosswordEditorToolbar extends ToolBar {
      */
     private void initializeResizeButtons() {
         final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
-        List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
-                deleteGridButton).forEach(button -> {
-            button.visibleProperty().bind(resizeMode);
-            button.managedProperty().bind(resizeMode);
-        });
+        List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton, deleteGridButton)
+                .forEach(button -> {
+                    button.visibleProperty().bind(resizeMode);
+                    button.managedProperty().bind(resizeMode);
+                });
     }
 
     /**
@@ -155,9 +160,16 @@ public final class CrosswordEditorToolbar extends ToolBar {
      * {@link #editionButtonsDisableProperty()} value is {@code true}.
      */
     private void initializeEditionButtons() {
-        List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton,
-                deleteGridButton, saveButton, clearGridMenuButton, resizeGridButton)
-            .forEach(button -> button.disableProperty().bind(gridEditionButtonsDisableProperty));
+        List.of(
+                        addColumnButton,
+                        addRowButton,
+                        deleteColumnButton,
+                        deleteRowButton,
+                        deleteGridButton,
+                        saveButton,
+                        clearGridMenuButton,
+                        resizeGridButton)
+                .forEach(button -> button.disableProperty().bind(gridEditionButtonsDisableProperty));
     }
 
     /**

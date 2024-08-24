@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.gui.view.model.slot;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static re.belv.croiseur.gui.view.model.GridCoord.at;
+
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests on {@link DownSlotOutlineTest}.

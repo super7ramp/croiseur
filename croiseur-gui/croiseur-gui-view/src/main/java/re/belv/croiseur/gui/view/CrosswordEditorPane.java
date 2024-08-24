@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.Set;
+import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -31,9 +33,6 @@ import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SolverItemViewModel;
-
-import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * An entire crossword editor view, based on {@link BorderPane}.
@@ -522,9 +521,8 @@ public final class CrosswordEditorPane extends BorderPane {
      * Binds the puzzle pane properties to toolbar ones.
      */
     private void initializeToolbarPuzzlePaneBindings() {
-        final BooleanBinding puzzleToggleButtonSelectedProperty =
-                toolbar.puzzleToggleButtonSelectedProperty()
-                       .and(toolbar.resizeModeProperty().not());
+        final BooleanBinding puzzleToggleButtonSelectedProperty = toolbar.puzzleToggleButtonSelectedProperty()
+                .and(toolbar.resizeModeProperty().not());
         puzzlePane.visibleProperty().bind(puzzleToggleButtonSelectedProperty);
         puzzlePane.managedProperty().bind(puzzleToggleButtonSelectedProperty);
     }
@@ -542,7 +540,7 @@ public final class CrosswordEditorPane extends BorderPane {
     private void initializeToolbarDictionariesPaneBindings() {
         final BooleanBinding dictionariesToggleButtonSelectedProperty =
                 toolbar.dictionariesToggleButtonSelectedProperty()
-                       .and(toolbar.resizeModeProperty().not());
+                        .and(toolbar.resizeModeProperty().not());
         dictionariesPane.visibleProperty().bind(dictionariesToggleButtonSelectedProperty);
         dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
     }
@@ -594,9 +592,8 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     private void updateLeftDividerPosition() {
         final boolean puzzlePaneVisible = puzzlePane.isVisible();
-        centerSplitPane.setDividerPosition(LEFT_DIVIDER_ID,
-                                           puzzlePaneVisible ? LEFT_DIVIDER_IDEAL_POSITION :
-                                                   LEFT_DIVIDER_COLLAPSED_POSITION);
+        centerSplitPane.setDividerPosition(
+                LEFT_DIVIDER_ID, puzzlePaneVisible ? LEFT_DIVIDER_IDEAL_POSITION : LEFT_DIVIDER_COLLAPSED_POSITION);
     }
 
     /**
@@ -646,9 +643,9 @@ public final class CrosswordEditorPane extends BorderPane {
      */
     private void updateRightDividerPosition() {
         final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
-        centerSplitPane.setDividerPosition(RIGHT_DIVIDER_ID,
-                                           dictionariesPaneVisible ? RIGHT_DIVIDER_IDEAL_POSITION :
-                                                   RIGHT_DIVIDER_COLLAPSED_POSITION);
+        centerSplitPane.setDividerPosition(
+                RIGHT_DIVIDER_ID,
+                dictionariesPaneVisible ? RIGHT_DIVIDER_IDEAL_POSITION : RIGHT_DIVIDER_COLLAPSED_POSITION);
     }
 
     /**
@@ -667,10 +664,13 @@ public final class CrosswordEditorPane extends BorderPane {
         final Set<Node> dividers = centerSplitPane.lookupAll(DIVIDER_SELECTOR);
         final double normalizedX = centerSplitPane.getDividerPositions()[dividerId];
         final double x = getScene().getWidth() * normalizedX;
-        return dividers.stream().filter(node -> {
-            final Bounds boundsInLocal = node.getBoundsInLocal();
-            final Bounds boundsInScene = node.localToScene(boundsInLocal);
-            return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
-        }).findFirst().orElseThrow();
+        return dividers.stream()
+                .filter(node -> {
+                    final Bounds boundsInLocal = node.getBoundsInLocal();
+                    final Bounds boundsInScene = node.localToScene(boundsInLocal);
+                    return boundsInScene.getMinX() <= x && x <= boundsInScene.getMaxX();
+                })
+                .findFirst()
+                .orElseThrow();
     }
 }

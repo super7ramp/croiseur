@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.solver.ginsberg.listener;
 
-import re.belv.croiseur.solver.ginsberg.ProgressListener;
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import re.belv.croiseur.solver.ginsberg.ProgressListener;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
 
 /**
  * A {@link SolverListener} decorator that notifies progress to an external
@@ -37,8 +36,7 @@ public final class ProgressNotifier implements SolverListener {
      * @param someSlots         the variables
      * @param aProgressListener the notification callback
      */
-    public ProgressNotifier(final Collection<Slot> someSlots,
-                            final ProgressListener aProgressListener) {
+    public ProgressNotifier(final Collection<Slot> someSlots, final ProgressListener aProgressListener) {
         slots = Collections.unmodifiableCollection(someSlots);
         progressListener = aProgressListener;
         lastProgressNotificationTime = Instant.EPOCH;
@@ -67,11 +65,9 @@ public final class ProgressNotifier implements SolverListener {
      */
     private void refresh() {
         final Instant now = Instant.now();
-        if (Duration.between(lastProgressNotificationTime, now)
-                    .compareTo(PROGRESS_NOTIFICATION_INTERVAL) >= 0) {
+        if (Duration.between(lastProgressNotificationTime, now).compareTo(PROGRESS_NOTIFICATION_INTERVAL) >= 0) {
             lastProgressNotificationTime = now;
             progressListener.onSolverProgressUpdate(completionPercentage());
         }
     }
-
 }

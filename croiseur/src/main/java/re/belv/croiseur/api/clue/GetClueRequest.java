@@ -29,5 +29,4 @@ public interface GetClueRequest {
      * @return the words for which to get clues
      */
     Set<String> words();
-
 }

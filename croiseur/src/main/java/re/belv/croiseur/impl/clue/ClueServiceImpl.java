@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.impl.clue;
 
+import java.util.Collection;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
-
-import java.util.Collection;
 
 /**
  * Implementation of {@link ClueService}.
@@ -29,8 +28,7 @@ public final class ClueServiceImpl implements ClueService {
      * @param clueProviders the clue providers
      * @param cluePresenter the clue presenter
      */
-    public ClueServiceImpl(final Collection<ClueProvider> clueProviders,
-                           final CluePresenter cluePresenter) {
+    public ClueServiceImpl(final Collection<ClueProvider> clueProviders, final CluePresenter cluePresenter) {
         listClueProvidersUseCase = new ListClueProvidersUsecase(clueProviders, cluePresenter);
         getClueUsecase = new GetClueUsecase(clueProviders, cluePresenter);
     }

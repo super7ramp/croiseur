@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.impl.puzzle.persistence;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePatch;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
@@ -14,10 +17,6 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * The 'patch and save' puzzle usecase.
@@ -36,8 +35,7 @@ final class PatchAndSavePuzzleUsecase {
      * @param repositoryArg the puzzle repository
      * @param presenterArg  the presenter
      */
-    PatchAndSavePuzzleUsecase(final SafePuzzleRepository repositoryArg,
-                              final PuzzlePresenter presenterArg) {
+    PatchAndSavePuzzleUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         presenter = presenterArg;
         repository = repositoryArg;
     }
@@ -51,8 +49,7 @@ final class PatchAndSavePuzzleUsecase {
     void process(final long id, final PuzzlePatch patch) {
         final Optional<SavedPuzzle> optSavedPuzzle = repository.query(id);
         if (optSavedPuzzle.isEmpty()) {
-            presenter.presentPuzzleRepositoryError(
-                    "Failed to update puzzle: Cannot find saved puzzle with id " + id);
+            presenter.presentPuzzleRepositoryError("Failed to update puzzle: Cannot find saved puzzle with id " + id);
             return;
         }
         final ChangedPuzzle changedPuzzle = patch(patch, optSavedPuzzle.get());
@@ -67,8 +64,7 @@ final class PatchAndSavePuzzleUsecase {
      * @param modification the patch to apply
      * @return the patched puzzle as a {@link ChangedPuzzle}
      */
-    private static ChangedPuzzle patch(final PuzzlePatch modification,
-                                       final SavedPuzzle savedPuzzle) {
+    private static ChangedPuzzle patch(final PuzzlePatch modification, final SavedPuzzle savedPuzzle) {
         final PuzzleDetails details = patch(savedPuzzle.details(), modification);
         final PuzzleGrid grid = modification.modifiedGrid().orElseGet(savedPuzzle::grid);
         final PuzzleClues clues = patch(savedPuzzle.clues(), modification);

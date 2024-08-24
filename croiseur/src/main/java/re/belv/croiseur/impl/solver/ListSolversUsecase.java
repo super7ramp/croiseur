@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.impl.solver;
 
-import re.belv.croiseur.spi.presenter.solver.SolverDescription;
-import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
-import re.belv.croiseur.spi.solver.CrosswordSolver;
+import static java.util.Comparator.comparing;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import static java.util.Comparator.comparing;
+import re.belv.croiseur.spi.presenter.solver.SolverDescription;
+import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
+import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * The list-solvers usecase.
@@ -68,13 +67,11 @@ final class ListSolversUsecase {
      * @param solversArg   the solvers
      * @param presenterArg the presenter
      */
-    ListSolversUsecase(final Collection<CrosswordSolver> solversArg,
-                       final SolverPresenter presenterArg) {
+    ListSolversUsecase(final Collection<CrosswordSolver> solversArg, final SolverPresenter presenterArg) {
         solvers = solversArg.stream()
-                            .map(solver -> new SolverDescription(solver.name(),
-                                    solver.description()))
-                            .sorted(comparing(SolverDescription::name, new SolverNameComparator()))
-                            .toList();
+                .map(solver -> new SolverDescription(solver.name(), solver.description()))
+                .sorted(comparing(SolverDescription::name, new SolverNameComparator()))
+                .toList();
         presenter = presenterArg;
     }
 

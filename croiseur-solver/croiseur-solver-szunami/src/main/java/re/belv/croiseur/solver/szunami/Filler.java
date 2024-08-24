@@ -24,5 +24,4 @@ public final class Filler {
      * @throws NativePanicException if native code panics
      */
     public native Result fill(final Crossword crossword, final Dictionary dictionary) throws InterruptedException;
-
 }

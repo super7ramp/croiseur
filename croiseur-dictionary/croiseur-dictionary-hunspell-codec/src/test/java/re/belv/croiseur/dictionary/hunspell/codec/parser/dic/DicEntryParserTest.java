@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.dic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class DicEntryParserTest {
 
@@ -57,8 +56,7 @@ final class DicEntryParserTest {
 
     @Test
     void parseMorphology() throws InvalidDicEntryException {
-        final DicEntry entry = DicEntryParser.parse("Tetrapoda\tTaxonomic superclass",
-                FlagType.SINGLE_ASCII);
+        final DicEntry entry = DicEntryParser.parse("Tetrapoda\tTaxonomic superclass", FlagType.SINGLE_ASCII);
 
         assertFalse(entry.isForbidden());
         assertEquals("Tetrapoda", entry.word());

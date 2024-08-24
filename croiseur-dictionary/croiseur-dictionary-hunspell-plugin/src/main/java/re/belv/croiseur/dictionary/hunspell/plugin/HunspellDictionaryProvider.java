@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.dictionary.hunspell.plugin;
 
-import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
-import re.belv.croiseur.dictionary.common.DictionaryPath;
-import re.belv.croiseur.dictionary.common.util.Lazy;
-import re.belv.croiseur.spi.dictionary.Dictionary;
-import re.belv.croiseur.spi.dictionary.DictionaryProvider;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Stream;
+import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
+import re.belv.croiseur.dictionary.common.DictionaryPath;
+import re.belv.croiseur.dictionary.common.util.Lazy;
+import re.belv.croiseur.spi.dictionary.Dictionary;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * Hunspell dictionary provider.
@@ -33,10 +32,10 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
      * Constructor.
      */
     public HunspellDictionaryProvider() {
-        details = new DictionaryProviderDetails("Local Hunspell Provider",
-                                                "Provides access to local dictionaries in the Hunspell format.");
-        dictionaries =
-                Lazy.of(() -> dictionaryFiles().<Dictionary>map(HunspellDictionary::new).toList());
+        details = new DictionaryProviderDetails(
+                "Local Hunspell Provider", "Provides access to local dictionaries in the Hunspell format.");
+        dictionaries = Lazy.of(
+                () -> dictionaryFiles().<Dictionary>map(HunspellDictionary::new).toList());
     }
 
     /**
@@ -46,9 +45,9 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
      */
     private static Stream<URL> dictionaryFiles() {
         return DictionaryPath.getDefault().list().stream()
-                             .filter(f -> f.getName().endsWith(".dic"))
-                             .map(HunspellDictionaryProvider::urlFrom)
-                             .filter(Objects::nonNull);
+                .filter(f -> f.getName().endsWith(".dic"))
+                .map(HunspellDictionaryProvider::urlFrom)
+                .filter(Objects::nonNull);
     }
 
     /**
@@ -77,5 +76,4 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     public Collection<Dictionary> get() {
         return dictionaries.get();
     }
-
 }

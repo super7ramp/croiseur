@@ -11,5 +11,4 @@ final class WordFormGeneratorCompoundTest extends WordFormGeneratorTestCase {
     String name() {
         return "compound";
     }
-
 }

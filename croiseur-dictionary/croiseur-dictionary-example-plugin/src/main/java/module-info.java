@@ -11,5 +11,7 @@ import re.belv.croiseur.spi.dictionary.DictionaryProvider;
  */
 module re.belv.croiseur.dictionary.example.plugin {
     requires re.belv.croiseur.spi.dictionary;
-    provides DictionaryProvider with ExampleDictionaryProvider;
+
+    provides DictionaryProvider with
+            ExampleDictionaryProvider;
 }

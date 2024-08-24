@@ -27,11 +27,9 @@ final class SolverResultFormatter {
         final boolean success = result.isSuccess();
         final String resultHeaderKey = $("result.header");
         final String resultHeaderValue = $(success ? "result.success" : "result.impossible");
-        final String formattedPuzzle =
-                PuzzleFormatter.formatPuzzleGrid(result.grid(), result.unsolvableBoxes());
+        final String formattedPuzzle = PuzzleFormatter.formatPuzzleGrid(result.grid(), result.unsolvableBoxes());
         final String lineSeparator = System.lineSeparator();
-        return resultHeaderKey + resultHeaderValue + lineSeparator + lineSeparator +
-               formattedPuzzle + lineSeparator;
+        return resultHeaderKey + resultHeaderValue + lineSeparator + lineSeparator + formattedPuzzle + lineSeparator;
     }
 
     /**

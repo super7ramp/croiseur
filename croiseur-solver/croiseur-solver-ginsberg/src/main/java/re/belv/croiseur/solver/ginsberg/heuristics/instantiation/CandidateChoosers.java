@@ -27,8 +27,8 @@ public final class CandidateChoosers {
      * @param dictionary   the dictionary
      * @return the default {@link CandidateChooser}
      */
-    public static CandidateChooser<Slot, String> byDefault(final ProbePuzzle probePuzzle,
-                                                           final CachedDictionary dictionary) {
+    public static CandidateChooser<Slot, String> byDefault(
+            final ProbePuzzle probePuzzle, final CachedDictionary dictionary) {
         return leastConstraining(probePuzzle, dictionary);
     }
 
@@ -39,8 +39,8 @@ public final class CandidateChoosers {
      * @param dictionary   the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
-    public static CandidateChooser<Slot, String> firstViable(final ProbePuzzle probePuzzle,
-                                                             final CachedDictionary dictionary) {
+    public static CandidateChooser<Slot, String> firstViable(
+            final ProbePuzzle probePuzzle, final CachedDictionary dictionary) {
         return new FirstViableCandidateChooser(probePuzzle, dictionary);
     }
 
@@ -54,9 +54,8 @@ public final class CandidateChoosers {
      * @param dictionary   the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
-    public static CandidateChooser<Slot, String> leastConstraining(final ProbePuzzle probePuzzle,
-                                                                   final CachedDictionary dictionary) {
+    public static CandidateChooser<Slot, String> leastConstraining(
+            final ProbePuzzle probePuzzle, final CachedDictionary dictionary) {
         return new LeastConstrainingCandidateChooser(probePuzzle, dictionary);
     }
-
 }

@@ -35,5 +35,4 @@ final class ListDictionariesTask extends Task<Void> {
         dictionaryService.listDictionaries(listDictionariesRequest);
         return null;
     }
-
 }

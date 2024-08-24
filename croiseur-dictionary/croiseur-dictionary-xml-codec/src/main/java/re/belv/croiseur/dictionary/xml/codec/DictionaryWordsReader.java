@@ -5,13 +5,13 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.stream.Stream;
 import javax.xml.stream.StreamFilter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.stream.Stream;
 
 /**
  * Reader dedicated to the {@code <word>} elements.
@@ -34,8 +34,7 @@ final class DictionaryWordsReader {
      * @param xmlInputFactoryArg  the XML input factory
      * @param dictionaryStreamArg the dictionary input stream supplier
      */
-    DictionaryWordsReader(final XMLInputFactory xmlInputFactoryArg,
-                          final InputStreamSupplier dictionaryStreamArg) {
+    DictionaryWordsReader(final XMLInputFactory xmlInputFactoryArg, final InputStreamSupplier dictionaryStreamArg) {
         xmlInputFactory = xmlInputFactoryArg;
         dictionaryStream = dictionaryStreamArg;
     }
@@ -49,7 +48,7 @@ final class DictionaryWordsReader {
      */
     Stream<String> read() throws IOException, XMLStreamException {
         try (final InputStream inputStream = dictionaryStream.get();
-             final AutoCloseableXMLStreamReader reader = createReader(inputStream)) {
+                final AutoCloseableXMLStreamReader reader = createReader(inputStream)) {
             final Stream.Builder<String> streamBuilder = Stream.builder();
             while (reader.hasNext()) {
                 final String word = reader.getElementText();
@@ -67,10 +66,8 @@ final class DictionaryWordsReader {
      * @throws XMLStreamException if read fails
      */
     private AutoCloseableXMLStreamReader createReader(final InputStream is) throws XMLStreamException {
-        final XMLStreamReader baseReader =
-                xmlInputFactory.createXMLStreamReader(is);
-        final XMLStreamReader filteredReader =
-                xmlInputFactory.createFilteredReader(baseReader, WORDS_STREAM_FILTER);
+        final XMLStreamReader baseReader = xmlInputFactory.createXMLStreamReader(is);
+        final XMLStreamReader filteredReader = xmlInputFactory.createFilteredReader(baseReader, WORDS_STREAM_FILTER);
         return new AutoCloseableXMLStreamReader(filteredReader);
     }
 }

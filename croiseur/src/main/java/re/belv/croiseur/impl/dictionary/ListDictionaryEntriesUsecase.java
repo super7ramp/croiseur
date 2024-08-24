@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import java.util.Set;
 import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.common.util.Either;
@@ -12,8 +13,6 @@ import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
-
-import java.util.Set;
 
 /**
  * Lists the dictionary entries.
@@ -32,8 +31,8 @@ final class ListDictionaryEntriesUsecase {
      * @param dictionarySelectorArg the dictionary selector
      * @param presenterArg          the presenter
      */
-    ListDictionaryEntriesUsecase(final DictionarySelector dictionarySelectorArg,
-                                 final DictionaryPresenter presenterArg) {
+    ListDictionaryEntriesUsecase(
+            final DictionarySelector dictionarySelectorArg, final DictionaryPresenter presenterArg) {
         dictionarySelector = dictionarySelectorArg;
         presenter = presenterArg;
     }
@@ -59,8 +58,7 @@ final class ListDictionaryEntriesUsecase {
         final Either<String, SelectedDictionary> dictionarySelection =
                 dictionarySelector.select(request.dictionaryIdentifier());
         if (dictionarySelection.isRight()) {
-            final DictionaryContent dictionaryContent =
-                    readContent(dictionarySelection.right());
+            final DictionaryContent dictionaryContent = readContent(dictionarySelection.right());
             presenter.presentDictionaryEntries(dictionaryContent);
         } else {
             presenter.presentDictionaryError(dictionarySelection.left());

@@ -15,6 +15,9 @@ module re.belv.croiseur.gui.view {
 
     exports re.belv.croiseur.gui.view;
     exports re.belv.croiseur.gui.view.javafx.scene.control;
-    opens re.belv.croiseur.gui.view to javafx.fxml;
-    opens re.belv.croiseur.gui.view.javafx.scene.control to javafx.fxml;
+
+    opens re.belv.croiseur.gui.view to
+            javafx.fxml;
+    opens re.belv.croiseur.gui.view.javafx.scene.control to
+            javafx.fxml;
 }

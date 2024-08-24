@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.cli.presenter;
 
+import static re.belv.croiseur.cli.presenter.CliPresenterUtil.lineOf;
+
+import java.util.List;
+import java.util.Map;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.spi.presenter.Presenter;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
-
-import java.util.List;
-import java.util.Map;
-
-import static re.belv.croiseur.cli.presenter.CliPresenterUtil.lineOf;
 
 /**
  * CLI implementation of {@link Presenter}.
@@ -46,12 +45,10 @@ final class CliCluePresenter implements CluePresenter {
         final String descriptionHeader = $("description");
 
         System.out.printf(PROVIDERS_FORMAT, providerHeader, descriptionHeader);
-        System.out.printf(PROVIDERS_FORMAT, lineOf(providerHeader.length()),
-                          lineOf(descriptionHeader.length()));
+        System.out.printf(PROVIDERS_FORMAT, lineOf(providerHeader.length()), lineOf(descriptionHeader.length()));
 
         clueProviderDescriptions.forEach(
-                provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(),
-                                              provider.description()));
+                provider -> System.out.printf(PROVIDERS_FORMAT, provider.name(), provider.description()));
     }
 
     @Override

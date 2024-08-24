@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import java.util.regex.Pattern;
 import re.belv.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import re.belv.croiseur.common.util.Either;
 import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
-
-import java.util.regex.Pattern;
 
 /**
  * Searches dictionary entries.
@@ -31,8 +30,8 @@ final class SearchDictionaryEntriesUsecase {
      * @param dictionarySelectorArg  the dictionary selector
      * @param dictionaryPresenterArg the dictionary presenter
      */
-    SearchDictionaryEntriesUsecase(final DictionarySelector dictionarySelectorArg,
-                                   final DictionaryPresenter dictionaryPresenterArg) {
+    SearchDictionaryEntriesUsecase(
+            final DictionarySelector dictionarySelectorArg, final DictionaryPresenter dictionaryPresenterArg) {
         dictionarySelector = dictionarySelectorArg;
         presenter = dictionaryPresenterArg;
     }
@@ -52,11 +51,11 @@ final class SearchDictionaryEntriesUsecase {
         } else {
             final SelectedDictionary selectedDictionary = dictionarySelection.right();
             final var regex = Pattern.compile(request.searchExpression()).asMatchPredicate();
-            final var foundWords = selectedDictionary.words().stream().filter(regex).toList();
+            final var foundWords =
+                    selectedDictionary.words().stream().filter(regex).toList();
             final var searchResult = new DictionarySearchResult(foundWords);
 
             presenter.presentDictionarySearchResult(searchResult);
         }
     }
-
 }

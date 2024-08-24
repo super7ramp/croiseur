@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.impl.puzzle.exporter;
 
+import java.util.Collection;
+import java.util.List;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * The 'list puzzle encoders' usecase.
@@ -29,8 +28,7 @@ final class ListPuzzleEncodersUsecase {
      * @param encodersArg  the encoders
      * @param presenterArg the presenter
      */
-    ListPuzzleEncodersUsecase(final Collection<PuzzleEncoder> encodersArg,
-                              final PuzzlePresenter presenterArg) {
+    ListPuzzleEncodersUsecase(final Collection<PuzzleEncoder> encodersArg, final PuzzlePresenter presenterArg) {
         encoders = encodersArg.stream().map(PuzzleEncoder::details).toList();
         presenter = presenterArg;
     }

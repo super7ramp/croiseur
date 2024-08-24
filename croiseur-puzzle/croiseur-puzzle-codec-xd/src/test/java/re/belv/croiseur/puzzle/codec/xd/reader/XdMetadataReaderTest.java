@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 /**
  * Tests for {@link XdMetadataReader}.
@@ -37,7 +36,8 @@ final class XdMetadataReaderTest {
         final XdMetadata xdMetadata = reader.read(rawMetadata);
 
         assertTrue(xdMetadata.title().isPresent());
-        assertEquals("New York Times, Saturday, January 1, 1955", xdMetadata.title().get());
+        assertEquals(
+                "New York Times, Saturday, January 1, 1955", xdMetadata.title().get());
         assertTrue(xdMetadata.author().isPresent());
         assertEquals("Anthony Morse", xdMetadata.author().get());
         assertTrue(xdMetadata.editor().isPresent());
@@ -80,9 +80,11 @@ final class XdMetadataReaderTest {
 
         final XdMetadata xdMetadata = reader.read(rawMetadata);
 
-        assertEquals(Map.of("Extra", "Field",
-                            "Extra Extra", "Field Field"),
-                     xdMetadata.otherProperties());
+        assertEquals(
+                Map.of(
+                        "Extra", "Field",
+                        "Extra Extra", "Field Field"),
+                xdMetadata.otherProperties());
         assertTrue(xdMetadata.title().isEmpty());
         assertTrue(xdMetadata.author().isEmpty());
         assertTrue(xdMetadata.editor().isEmpty());
@@ -91,8 +93,7 @@ final class XdMetadataReaderTest {
 
     @Test
     void malformedField_missingColon() {
-        final var rawMetadata =
-                """
+        final var rawMetadata = """
                 Author Anthony Morse
                 """;
 
@@ -111,7 +112,7 @@ final class XdMetadataReaderTest {
         final String rawMetadata =
                 """
                 Title: New York Times, Saturday, January 1, 1955
-                                
+
                 Author: Anthony Morse
                 """;
 

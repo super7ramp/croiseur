@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.controller.solver;
 
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Random;
 import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.common.puzzle.GridPosition;
@@ -13,10 +16,6 @@ import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 import re.belv.croiseur.gui.view.model.DictionariesViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SolverConfigurationViewModel;
-
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Random;
 
 /**
  * Implementation of {@link SolveRequest}, adapting {@link CrosswordGridViewModel}.
@@ -46,10 +45,11 @@ final class SolveRequestImpl implements SolveRequest {
      * @param solverConfigurationViewModel the solver configuration model
      * @param randomArg                    the source of randomness
      */
-    SolveRequestImpl(final CrosswordGridViewModel crosswordGridViewModel,
-                     final DictionariesViewModel dictionariesViewModel,
-                     final SolverConfigurationViewModel solverConfigurationViewModel,
-                     final Random randomArg) {
+    SolveRequestImpl(
+            final CrosswordGridViewModel crosswordGridViewModel,
+            final DictionariesViewModel dictionariesViewModel,
+            final SolverConfigurationViewModel solverConfigurationViewModel,
+            final Random randomArg) {
 
         final var pdb = new PuzzleGrid.Builder();
         final var boxes = crosswordGridViewModel.boxesProperty();
@@ -65,9 +65,8 @@ final class SolveRequestImpl implements SolveRequest {
 
         puzzle = pdb.build();
         dictionaries = dictionariesViewModel.selectedDictionariesProperty().stream()
-                                            .map(entry -> new DictionaryIdentifier(entry.provider(),
-                                                                                   entry.name()))
-                                            .toList();
+                .map(entry -> new DictionaryIdentifier(entry.provider(), entry.name()))
+                .toList();
 
         selectedSolver = solverConfigurationViewModel.selectedSolver();
         random = randomArg;

@@ -5,12 +5,12 @@
 
 package re.belv.croiseur.gui.tests;
 
-import org.junit.jupiter.api.Test;
-
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.ListViewMatchers.isEmpty;
 import static org.testfx.matcher.control.TextMatchers.hasText;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests on welcome screen.

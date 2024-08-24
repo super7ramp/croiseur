@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.gui.presenter;
 
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import re.belv.croiseur.gui.view.model.CluesViewModel;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 import re.belv.croiseur.gui.view.model.ErrorsViewModel;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
-
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * GUI implementation of {@link CluePresenter}
@@ -40,9 +39,10 @@ final class GuiCluePresenter implements CluePresenter {
      * @param gridViewModelArg   the crossword grid view model
      * @param errorsViewModelArg the errors view model
      */
-    GuiCluePresenter(final CluesViewModel cluesViewModelArg,
-                     final CrosswordGridViewModel gridViewModelArg,
-                     final ErrorsViewModel errorsViewModelArg) {
+    GuiCluePresenter(
+            final CluesViewModel cluesViewModelArg,
+            final CrosswordGridViewModel gridViewModelArg,
+            final ErrorsViewModel errorsViewModelArg) {
         cluesViewModel = cluesViewModelArg;
         gridViewModel = gridViewModelArg;
         errorsViewModel = errorsViewModelArg;
@@ -57,8 +57,9 @@ final class GuiCluePresenter implements CluePresenter {
     @Override
     public void presentClueProviders(final List<ClueProviderDescription> clueProviderDescriptions) {
         LOGGER.info(() -> "Received clue providers: " + clueProviderDescriptions);
-        final List<String> clueProviderNames =
-                clueProviderDescriptions.stream().map(ClueProviderDescription::name).toList();
+        final List<String> clueProviderNames = clueProviderDescriptions.stream()
+                .map(ClueProviderDescription::name)
+                .toList();
         Platform.runLater(() -> cluesViewModel.clueProvidersProperty().setAll(clueProviderNames));
     }
 

@@ -5,6 +5,12 @@
 
 package re.belv.croiseur.gui.view;
 
+import static java.lang.Math.min;
+
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
@@ -21,13 +27,6 @@ import javafx.scene.text.TextAlignment;
 import re.belv.croiseur.gui.view.javafx.scene.canvas.CanvasUtil;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
-
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static java.lang.Math.min;
 
 /**
  * A puzzle identity card.
@@ -136,9 +135,7 @@ public final class SavedPuzzleCard extends HBox {
         /** Draws the shaded boxes. Does nothing if no shaded box. */
         private void drawShadedBoxes() {
             final GraphicsContext gc = canvas.getGraphicsContext2D();
-            shadedBoxes.forEach(
-                    position -> gc.fillRect(x(position.column()), y(position.row()), boxWidth,
-                                            boxHeight));
+            shadedBoxes.forEach(position -> gc.fillRect(x(position.column()), y(position.row()), boxWidth, boxHeight));
         }
 
         /** Draws the filled boxes. Does nothing if no filled box. */
@@ -147,10 +144,8 @@ public final class SavedPuzzleCard extends HBox {
             gc.setTextAlign(TextAlignment.CENTER);
             gc.setTextBaseline(VPos.CENTER);
             gc.setFont(Font.font(FONT_FAMILY, boxHeight / FONT_SIZE_MAGIC));
-            filledBoxes.forEach((position, letter) ->
-                                        gc.fillText(String.valueOf(letter),
-                                                    x(position.column()) + boxWidth / 2,
-                                                    y(position.row()) + boxHeight / 2));
+            filledBoxes.forEach((position, letter) -> gc.fillText(
+                    String.valueOf(letter), x(position.column()) + boxWidth / 2, y(position.row()) + boxHeight / 2));
         }
 
         /** Snapshots the canvas into an image. */
@@ -249,5 +244,4 @@ public final class SavedPuzzleCard extends HBox {
         final GridDrawer gridDrawer = new GridDrawer(imageWidth, imageHeight, grid);
         return gridDrawer.draw();
     }
-
 }

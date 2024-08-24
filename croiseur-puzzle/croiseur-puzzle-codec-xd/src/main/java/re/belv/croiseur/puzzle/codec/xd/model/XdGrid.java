@@ -200,10 +200,10 @@ public final class XdGrid {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final XdGrid xdGrid)) return false;
-        return Objects.equals(blocks, xdGrid.blocks) &&
-               Objects.equals(spaces, xdGrid.spaces) &&
-               Objects.equals(nonFilled, xdGrid.nonFilled) &&
-               Objects.equals(filled, xdGrid.filled);
+        return Objects.equals(blocks, xdGrid.blocks)
+                && Objects.equals(spaces, xdGrid.spaces)
+                && Objects.equals(nonFilled, xdGrid.nonFilled)
+                && Objects.equals(filled, xdGrid.filled);
     }
 
     @Override
@@ -213,11 +213,10 @@ public final class XdGrid {
 
     @Override
     public String toString() {
-        return "XdGrid{" +
-               "blocks=" + blocks +
-               ", spaces=" + spaces +
-               ", nonFilled=" + nonFilled +
-               ", filled=" + filled +
-               '}';
+        return "XdGrid{" + "blocks="
+                + blocks + ", spaces="
+                + spaces + ", nonFilled="
+                + nonFilled + ", filled="
+                + filled + '}';
     }
 }

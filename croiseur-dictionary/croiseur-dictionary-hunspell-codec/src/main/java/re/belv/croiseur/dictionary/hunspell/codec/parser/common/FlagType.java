@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.common;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * An affix flag type.

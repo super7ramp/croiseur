@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.common.puzzle;
 
+import static re.belv.croiseur.common.puzzle.GridPosition.at;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,8 +17,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static re.belv.croiseur.common.puzzle.GridPosition.at;
-
 /**
  * Definition of the grid of a crossword puzzle.
  *
@@ -25,8 +25,7 @@ import static re.belv.croiseur.common.puzzle.GridPosition.at;
  * @param shaded coordinates of the shaded boxes
  * @param filled prefilled boxes
  */
-public record PuzzleGrid(int width, int height, Set<GridPosition> shaded,
-                         Map<GridPosition, Character> filled) {
+public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<GridPosition, Character> filled) {
 
     /**
      * A {@link PuzzleGrid} builder.

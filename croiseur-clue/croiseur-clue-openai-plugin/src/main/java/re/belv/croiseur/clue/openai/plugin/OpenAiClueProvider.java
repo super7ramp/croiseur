@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.clue.openai.plugin;
 
-import re.belv.croiseur.spi.clue.ClueProvider;
-
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import re.belv.croiseur.spi.clue.ClueProvider;
 
 /**
  * {@link ClueProvider} implementation for {@link ClueGenerator}.
@@ -36,8 +35,7 @@ public final class OpenAiClueProvider implements ClueProvider {
 
     @Override
     public String description() {
-        return ResourceBundle
-                .getBundle("re.belv.croiseur.clue.openai.plugin.Messages")
+        return ResourceBundle.getBundle("re.belv.croiseur.clue.openai.plugin.Messages")
                 .getString("description");
     }
 

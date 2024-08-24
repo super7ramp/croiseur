@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
+import java.util.Collection;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
-import java.util.Collection;
 
 /**
  * Read/write access to crossword puzzle model.

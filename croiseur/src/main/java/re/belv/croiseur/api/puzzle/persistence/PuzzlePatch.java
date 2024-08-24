@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.api.puzzle.persistence;
 
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * Modifications to be applied on a puzzle.

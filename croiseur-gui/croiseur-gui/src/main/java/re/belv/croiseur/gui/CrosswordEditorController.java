@@ -5,6 +5,10 @@
 
 package re.belv.croiseur.gui;
 
+import java.io.File;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.Executor;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -34,11 +38,6 @@ import re.belv.croiseur.gui.view.model.PuzzleCodecsViewModel;
 import re.belv.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import re.belv.croiseur.gui.view.model.SolverConfigurationViewModel;
 import re.belv.croiseur.gui.view.model.SolverProgressViewModel;
-
-import java.io.File;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.Executor;
 
 /**
  * The crossword editor controller.
@@ -82,20 +81,23 @@ final class CrosswordEditorController {
      * @param sceneSwitcherArg        the scene switcher
      * @param executor                the executor allowing to run background tasks
      */
-    CrosswordEditorController(final CrosswordService crosswordService,
-                              final ApplicationViewModel applicationViewModelArg,
-                              final SceneSwitcher sceneSwitcherArg, final Executor executor) {
-        dictionaryController =
-                new DictionaryController(crosswordService.dictionaryService(), executor);
-        solverController =
-                new SolverController(applicationViewModelArg, crosswordService.solverService(),
-                                     executor);
-        clueController = new ClueController(applicationViewModelArg.cluesViewModel(),
-                                            applicationViewModelArg.crosswordGridViewModel(),
-                                            crosswordService.clueService(), executor);
-        puzzleController = new PuzzleController(applicationViewModelArg.puzzleSelectionViewModel(),
-                                                applicationViewModelArg.puzzleEditionViewModel(),
-                                                crosswordService.puzzleService(), executor);
+    CrosswordEditorController(
+            final CrosswordService crosswordService,
+            final ApplicationViewModel applicationViewModelArg,
+            final SceneSwitcher sceneSwitcherArg,
+            final Executor executor) {
+        dictionaryController = new DictionaryController(crosswordService.dictionaryService(), executor);
+        solverController = new SolverController(applicationViewModelArg, crosswordService.solverService(), executor);
+        clueController = new ClueController(
+                applicationViewModelArg.cluesViewModel(),
+                applicationViewModelArg.crosswordGridViewModel(),
+                crosswordService.clueService(),
+                executor);
+        puzzleController = new PuzzleController(
+                applicationViewModelArg.puzzleSelectionViewModel(),
+                applicationViewModelArg.puzzleEditionViewModel(),
+                crosswordService.puzzleService(),
+                executor);
         applicationViewModel = applicationViewModelArg;
         fileChooser = new FileChooser();
         sceneSwitcher = sceneSwitcherArg;
@@ -136,23 +138,19 @@ final class CrosswordEditorController {
     private void initializePuzzleExportBindings() {
         fileChooser.setTitle(resources.getString("export-filechooser-title"));
 
-        final PuzzleCodecsViewModel puzzleCodecsViewModel =
-                applicationViewModel.puzzleCodecsViewModel();
+        final PuzzleCodecsViewModel puzzleCodecsViewModel = applicationViewModel.puzzleCodecsViewModel();
         puzzleCodecsViewModel.encodersProperty().addListener((InvalidationListener) observable -> {
-            final List<FileChooser.ExtensionFilter> extensionFilters =
-                    puzzleCodecsViewModel.encodersProperty().stream()
-                                         .map(codec -> new FileChooser.ExtensionFilter(
-                                                 codec.name(), codec.extensions())).toList();
+            final List<FileChooser.ExtensionFilter> extensionFilters = puzzleCodecsViewModel.encodersProperty().stream()
+                    .map(codec -> new FileChooser.ExtensionFilter(codec.name(), codec.extensions()))
+                    .toList();
             fileChooser.getExtensionFilters().setAll(extensionFilters);
         });
         view.onExportPuzzleButtonActionProperty().set(e -> onExportButtonAction());
 
         // Export button exports last saved puzzle; Disable it if puzzle hasn't been saved yet
-        final PuzzleDetailsViewModel puzzleDetailsViewModel =
-                applicationViewModel.puzzleDetailsViewModel();
-        final BooleanExpression puzzleNotSavedYet =
-                Bindings.createBooleanBinding(() -> puzzleDetailsViewModel.id() == null,
-                                              puzzleDetailsViewModel.idProperty());
+        final PuzzleDetailsViewModel puzzleDetailsViewModel = applicationViewModel.puzzleDetailsViewModel();
+        final BooleanExpression puzzleNotSavedYet = Bindings.createBooleanBinding(
+                () -> puzzleDetailsViewModel.id() == null, puzzleDetailsViewModel.idProperty());
         view.puzzleExportButtonDisableProperty().bind(puzzleNotSavedYet);
     }
 
@@ -164,8 +162,7 @@ final class CrosswordEditorController {
         if (selectedFile != null) {
             final List<String> selectedExtensions =
                     fileChooser.getSelectedExtensionFilter().getExtensions();
-            final String selectedFormat =
-                    selectedExtensions.isEmpty() ? "unknown" : selectedExtensions.get(0);
+            final String selectedFormat = selectedExtensions.isEmpty() ? "unknown" : selectedExtensions.get(0);
             puzzleController.exportPuzzle(selectedFile, selectedFormat);
         } // else do nothing since no file has been chosen
     }
@@ -177,21 +174,20 @@ final class CrosswordEditorController {
         final CrosswordGridViewModel viewModel = applicationViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().set(viewModel.boxesProperty());
         view.gridCurrentBoxProperty().bindBidirectional(viewModel.currentBoxPositionProperty());
-        view.gridCurrentSlotOrientationVerticalProperty()
-            .bindBidirectional(viewModel.currentSlotVerticalProperty());
+        view.gridCurrentSlotOrientationVerticalProperty().bindBidirectional(viewModel.currentSlotVerticalProperty());
         view.onAddRowActionButtonProperty().set(event -> viewModel.addRow());
         view.onAddColumnActionButtonProperty().set(event -> viewModel.addColumn());
         view.onDeleteColumnActionButtonProperty().set(event -> viewModel.deleteLastColumn());
         view.onDeleteRowActionButtonProperty().set(event -> viewModel.deleteLastRow());
-        view.onClearGridAllLettersMenuItemActionProperty()
-            .set(event -> viewModel.resetContentLettersOnly());
+        view.onClearGridAllLettersMenuItemActionProperty().set(event -> viewModel.resetContentLettersOnly());
         view.onClearGridLettersFilledBySolverMenuItemActionProperty()
-            .set(event -> viewModel.resetContentLettersFilledBySolverOnly());
+                .set(event -> viewModel.resetContentLettersFilledBySolverOnly());
         view.onClearGridContentMenuItemActionProperty().set(event -> viewModel.resetContentAll());
         view.onDeleteGridActionProperty().set(event -> viewModel.clear());
-        final BooleanBinding editionAllowed =
-                applicationViewModel.puzzleIsBeingSaved().or(applicationViewModel.solverRunning())
-                                    .not();
+        final BooleanBinding editionAllowed = applicationViewModel
+                .puzzleIsBeingSaved()
+                .or(applicationViewModel.solverRunning())
+                .not();
         view.onSuggestionSelected().set(suggestion -> {
             if (editionAllowed.get()) {
                 viewModel.currentSlotContent(suggestion);
@@ -215,8 +211,7 @@ final class CrosswordEditorController {
      *
      * @param change the dictionary selection change
      */
-    private void onSelectedDictionaryChange(
-            final ListChangeListener.Change<? extends DictionaryViewModel> change) {
+    private void onSelectedDictionaryChange(final ListChangeListener.Change<? extends DictionaryViewModel> change) {
         while (change.next()) {
             if (change.wasAdded()) {
                 change.getAddedSubList().forEach(dictionaryController::listDictionaryEntries);
@@ -229,8 +224,7 @@ final class CrosswordEditorController {
      * model.
      */
     private void initializeSolverConfigurationBindings() {
-        final SolverConfigurationViewModel viewModel =
-                applicationViewModel.solverConfigurationViewModel();
+        final SolverConfigurationViewModel viewModel = applicationViewModel.solverConfigurationViewModel();
         view.solversProperty().set(viewModel.availableSolversProperty());
         viewModel.selectedSolverProperty().bind(view.selectedSolverProperty());
         viewModel.fillCluesOnSuccessProperty().bind(view.fillClueOnSolverSuccessProperty());
@@ -240,12 +234,9 @@ final class CrosswordEditorController {
      * Initializes bindings between the solver progress view and the solver progress view models.
      */
     private void initializeSolverProgressBindings() {
-        final SolverProgressViewModel solverProgressViewModel =
-                applicationViewModel.solverProgressViewModel();
-        view.solverProgressIndicatorVisibleProperty()
-            .bind(solverProgressViewModel.solverRunningProperty());
-        view.solverProgressIndicatorValueProperty()
-            .bind(solverProgressViewModel.solverProgressProperty());
+        final SolverProgressViewModel solverProgressViewModel = applicationViewModel.solverProgressViewModel();
+        view.solverProgressIndicatorVisibleProperty().bind(solverProgressViewModel.solverRunningProperty());
+        view.solverProgressIndicatorValueProperty().bind(solverProgressViewModel.solverProgressProperty());
     }
 
     /**
@@ -257,12 +248,13 @@ final class CrosswordEditorController {
         final BooleanProperty clueServiceIsRunning = applicationViewModel.clueServiceIsRunning();
         final BooleanProperty puzzleIsBeingSaved = applicationViewModel.puzzleIsBeingSaved();
         view.gridEditionDisableProperty()
-            .bind(solverRunning.or(puzzleIsBeingSaved).or(clueServiceIsRunning));
+                .bind(solverRunning.or(puzzleIsBeingSaved).or(clueServiceIsRunning));
 
         // Solver button text shall be consistent with the solver state
         view.solveButtonTextProperty()
-            .bind(new When(solverRunning).then(resources.getString("stop-solving-button"))
-                                         .otherwise(resources.getString("start-solving-button")));
+                .bind(new When(solverRunning)
+                        .then(resources.getString("stop-solving-button"))
+                        .otherwise(resources.getString("start-solving-button")));
 
         // Solver button action shall allow control the start and stop of the solver
         view.onSolveButtonActionProperty().set(event -> onSolveButtonAction());
@@ -274,9 +266,12 @@ final class CrosswordEditorController {
         final ReadOnlyMapProperty<GridCoord, CrosswordBoxViewModel> grid =
                 applicationViewModel.crosswordGridViewModel().boxesProperty();
         view.solveButtonDisableProperty()
-            .bind(solverRunning.not()
-                               .and(selectedDictionaries.emptyProperty().or(grid.emptyProperty())
-                                                        .or(clueServiceIsRunning)));
+                .bind(solverRunning
+                        .not()
+                        .and(selectedDictionaries
+                                .emptyProperty()
+                                .or(grid.emptyProperty())
+                                .or(clueServiceIsRunning)));
     }
 
     /**
@@ -309,21 +304,18 @@ final class CrosswordEditorController {
                 applicationViewModel.puzzleEditionViewModel().cluesViewModel();
         view.acrossCluesProperty().set(cluesViewModel.acrossCluesProperty());
         view.downCluesProperty().set(cluesViewModel.downCluesProperty());
-        view.selectedAcrossClueIndexProperty()
-            .bindBidirectional(cluesViewModel.selectedAcrossClueIndexProperty());
-        view.selectedDownClueIndexProperty()
-            .bindBidirectional(cluesViewModel.selectedDownClueIndexProperty());
+        view.selectedAcrossClueIndexProperty().bindBidirectional(cluesViewModel.selectedAcrossClueIndexProperty());
+        view.selectedDownClueIndexProperty().bindBidirectional(cluesViewModel.selectedDownClueIndexProperty());
         view.onFillClueButtonActionProperty().set(event -> clueController.getClueForCurrentSlot());
 
         view.clueEditionDisableProperty().bind(cluesViewModel.clueServiceIsRunningProperty());
         view.fillClueButtonHideProperty()
-            .bind(cluesViewModel.clueProvidersProperty().emptyProperty());
+                .bind(cluesViewModel.clueProvidersProperty().emptyProperty());
         final ReadOnlyStringProperty slotContentProperty =
                 applicationViewModel.crosswordGridViewModel().currentSlotContentProperty();
         final BooleanBinding slotEmpty = slotContentProperty.isEmpty();
         final BooleanBinding slotPartiallyFilled =
-                Bindings.createBooleanBinding(() -> slotContentProperty.get().contains("."),
-                                              slotContentProperty);
+                Bindings.createBooleanBinding(() -> slotContentProperty.get().contains("."), slotContentProperty);
         view.fillClueButtonDisableProperty().bind(slotEmpty.or(slotPartiallyFilled));
     }
 
@@ -336,5 +328,4 @@ final class CrosswordEditorController {
         clueController.listClueProviders();
         puzzleController.listPuzzleEncoders();
     }
-
 }

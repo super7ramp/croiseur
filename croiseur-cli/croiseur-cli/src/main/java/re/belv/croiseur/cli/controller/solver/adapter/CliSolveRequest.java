@@ -5,13 +5,8 @@
 
 package re.belv.croiseur.cli.controller.solver.adapter;
 
-import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
-import re.belv.croiseur.api.solver.SolveRequest;
-import re.belv.croiseur.cli.controller.solver.parser.GridSize;
-import re.belv.croiseur.cli.controller.solver.parser.PrefilledBox;
-import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,9 +16,13 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
+import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
+import re.belv.croiseur.api.solver.SolveRequest;
+import re.belv.croiseur.cli.controller.solver.parser.GridSize;
+import re.belv.croiseur.cli.controller.solver.parser.PrefilledBox;
+import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * Adapts command line arguments into a {@link SolveRequest}.
@@ -183,17 +182,15 @@ public final class CliSolveRequest implements SolveRequest {
          */
         public CliSolveRequest build() {
 
-            final var puzzleGrid = new PuzzleGrid(size.width(), size.height(),
-                                                  Arrays.stream(shadedBoxes).collect(toSet()),
-                                                  mergePrefilledBoxes());
+            final var puzzleGrid = new PuzzleGrid(
+                    size.width(), size.height(), Arrays.stream(shadedBoxes).collect(toSet()), mergePrefilledBoxes());
 
             final Collection<DictionaryIdentifier> dictionaries = Arrays.asList(dictionaryIds);
 
-            final var solverProgress = progress ? SolverProgressNotificationMethod.PERIODICAL :
-                    SolverProgressNotificationMethod.NONE;
+            final var solverProgress =
+                    progress ? SolverProgressNotificationMethod.PERIODICAL : SolverProgressNotificationMethod.NONE;
 
-            return new CliSolveRequest(solver, puzzleGrid, dictionaries, random, solverProgress,
-                                       clues, save);
+            return new CliSolveRequest(solver, puzzleGrid, dictionaries, random, solverProgress, clues, save);
         }
 
         /**
@@ -213,32 +210,19 @@ public final class CliSolveRequest implements SolveRequest {
             };
 
             final Map<GridPosition, Character> singleBoxes =
-                    Arrays.stream(prefilledBoxes)
-                          .collect(toMap(PrefilledBox::gridPosition, PrefilledBox::value));
+                    Arrays.stream(prefilledBoxes).collect(toMap(PrefilledBox::gridPosition, PrefilledBox::value));
 
-            final Map<GridPosition, Character> horizontalSlots =
-                    Arrays.stream(prefilledHorizontalSlots)
-                          .flatMap(slot ->
-                                           OrientedPrefilledSlot.horizontal(slot)
-                                                                .toMap()
-                                                                .entrySet()
-                                                                .stream())
-                          .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
+            final Map<GridPosition, Character> horizontalSlots = Arrays.stream(prefilledHorizontalSlots)
+                    .flatMap(slot -> OrientedPrefilledSlot.horizontal(slot).toMap().entrySet().stream())
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
 
-            final Map<GridPosition, Character> verticalSlots =
-                    Arrays.stream(prefilledVerticalSlots)
-                          .flatMap(slot ->
-                                           OrientedPrefilledSlot.vertical(slot)
-                                                                .toMap()
-                                                                .entrySet()
-                                                                .stream())
-                          .collect(toMap(Map.Entry::getKey,
-                                         Map.Entry::getValue,
-                                         mergeFunction));
+            final Map<GridPosition, Character> verticalSlots = Arrays.stream(prefilledVerticalSlots)
+                    .flatMap(slot -> OrientedPrefilledSlot.vertical(slot).toMap().entrySet().stream())
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
 
             return Stream.of(singleBoxes, horizontalSlots, verticalSlots)
-                         .flatMap(map -> map.entrySet().stream())
-                         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
+                    .flatMap(map -> map.entrySet().stream())
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
         }
     }
 
@@ -261,13 +245,14 @@ public final class CliSolveRequest implements SolveRequest {
      * @param cluesArg        whether to generate clues for result slot words
      * @param saveArg         whether given grid shall be saved
      */
-    private CliSolveRequest(final String solverArg,
-                            final PuzzleGrid puzzleGridArg,
-                            final Collection<DictionaryIdentifier> dictionaryIdArg,
-                            final Random randomArg,
-                            final SolverProgressNotificationMethod progressArg,
-                            final boolean cluesArg,
-                            final boolean saveArg) {
+    private CliSolveRequest(
+            final String solverArg,
+            final PuzzleGrid puzzleGridArg,
+            final Collection<DictionaryIdentifier> dictionaryIdArg,
+            final Random randomArg,
+            final SolverProgressNotificationMethod progressArg,
+            final boolean cluesArg,
+            final boolean saveArg) {
         solver = solverArg;
         puzzleGrid = puzzleGridArg;
         dictionaryIds = dictionaryIdArg;

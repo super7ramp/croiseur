@@ -24,8 +24,7 @@ abstract sealed class DimensionChangeProcessor {
      * @param collinearSlotsArg  the slots collinear to the added/removed slot(s)
      * @param orthogonalSlotsArg the slots orthogonal to the added/removed slot(s)
      */
-    DimensionChangeProcessor(final List<SlotOutline> collinearSlotsArg,
-                             final List<SlotOutline> orthogonalSlotsArg) {
+    DimensionChangeProcessor(final List<SlotOutline> collinearSlotsArg, final List<SlotOutline> orthogonalSlotsArg) {
         collinearSlots = collinearSlotsArg;
         orthogonalSlots = orthogonalSlotsArg;
     }
@@ -101,8 +100,7 @@ final class ColumnCountChangeProcessor extends DimensionChangeProcessor {
      * @param downSlots   the down slots
      * @param acrossSlots the across slots
      */
-    ColumnCountChangeProcessor(final List<SlotOutline> downSlots,
-                               final List<SlotOutline> acrossSlots) {
+    ColumnCountChangeProcessor(final List<SlotOutline> downSlots, final List<SlotOutline> acrossSlots) {
         super(downSlots, acrossSlots);
     }
 
@@ -128,8 +126,7 @@ final class RowCountChangeProcessor extends DimensionChangeProcessor {
      * @param downSlots   the down slots
      * @param acrossSlots the across slots
      */
-    RowCountChangeProcessor(final List<SlotOutline> downSlots,
-                            final List<SlotOutline> acrossSlots) {
+    RowCountChangeProcessor(final List<SlotOutline> downSlots, final List<SlotOutline> acrossSlots) {
         super(acrossSlots, downSlots);
     }
 

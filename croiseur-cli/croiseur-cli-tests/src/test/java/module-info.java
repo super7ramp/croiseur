@@ -9,5 +9,7 @@
 module re.belv.croiseur.cli.tests {
     requires org.junit.jupiter.api;
     requires re.belv.croiseur.cli;
-    opens re.belv.croiseur.cli.tests to org.junit.platform.commons;
+
+    opens re.belv.croiseur.cli.tests to
+            org.junit.platform.commons;
 }

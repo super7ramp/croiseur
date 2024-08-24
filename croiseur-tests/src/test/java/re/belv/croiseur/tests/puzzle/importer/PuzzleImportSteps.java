@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.tests.puzzle.importer;
 
+import static org.mockito.Mockito.verify;
+
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.tests.context.TestContext;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Steps pertaining to {@link PuzzleImportService}.

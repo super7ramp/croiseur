@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.solver.paulgb.plugin;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * A wrapper of {@link PuzzleGrid} adding to each cell a unique integer identifier.
@@ -34,15 +33,12 @@ final class NumberedPuzzleDefinition {
      */
     NumberedPuzzleDefinition(final PuzzleGrid puzzleGridArg) {
         puzzleGrid = puzzleGridArg;
-        positionToId = createPositionToIdMap(puzzleGridArg.width(),
-                                             puzzleGridArg.height(),
-                                             puzzleGridArg.shaded());
+        positionToId = createPositionToIdMap(puzzleGridArg.width(), puzzleGridArg.height(), puzzleGridArg.shaded());
         idToPosition = createIdToPositionMap(positionToId);
     }
 
-    private static Map<GridPosition, Integer> createPositionToIdMap(final int width,
-                                                                    final int height,
-                                                                    final Set<GridPosition> shaded) {
+    private static Map<GridPosition, Integer> createPositionToIdMap(
+            final int width, final int height, final Set<GridPosition> shaded) {
         final Map<GridPosition, Integer> labeledBoxes = new HashMap<>();
         for (int row = 0, id = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {

@@ -46,8 +46,7 @@ final class SlotData {
      * @param aGrid          the whole grid data
      * @param anInstantiated whether the slot has been instantiated
      */
-    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid,
-             final boolean anInstantiated) {
+    SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid, final boolean anInstantiated) {
         definition = aDefinition;
         grid = aGrid;
         instantiated = anInstantiated;
@@ -105,8 +104,7 @@ final class SlotData {
         for (int i = 0; i < definition.length(); i++) {
             final BoxData box = boxAt(i);
             if (box.isEmpty()) {
-                throw new IllegalStateException("Detected blank in an assigned word, check your " +
-                        "dictionary");
+                throw new IllegalStateException("Detected blank in an assigned word, check your " + "dictionary");
             }
             readValue[i] = box.value();
         }

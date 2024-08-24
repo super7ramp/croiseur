@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import java.util.Optional;
 import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
 import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
-
-import java.util.Optional;
 
 /**
  * The 'get default dictionary' usecase.
@@ -29,8 +28,8 @@ final class GetDefaultDictionaryUsecase {
      * @param dictionarySelectorArg the dictionary selector
      * @param presenterArg          the presenter
      */
-    GetDefaultDictionaryUsecase(final DictionarySelector dictionarySelectorArg,
-                                final DictionaryPresenter presenterArg) {
+    GetDefaultDictionaryUsecase(
+            final DictionarySelector dictionarySelectorArg, final DictionaryPresenter presenterArg) {
         dictionarySelector = dictionarySelectorArg;
         presenter = presenterArg;
     }

@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.solver.ginsberg.elimination;
 
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * The eliminated candidates.

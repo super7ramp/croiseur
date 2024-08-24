@@ -5,14 +5,14 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link AffixClassHeader}.

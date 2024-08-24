@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.puzzle.repository.memory.plugin;
 
-import re.belv.croiseur.common.puzzle.ChangedPuzzle;
-import re.belv.croiseur.common.puzzle.Puzzle;
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
-import re.belv.croiseur.spi.puzzle.repository.WriteException;
-
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import re.belv.croiseur.common.puzzle.ChangedPuzzle;
+import re.belv.croiseur.common.puzzle.Puzzle;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
+import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
+import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
 /**
  * An implementation of {@link PuzzleRepository} whose storage is purely in memory.
@@ -48,14 +47,12 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     public SavedPuzzle update(final ChangedPuzzle changedPuzzle) throws WriteException {
         final long id = changedPuzzle.id();
         final SavedPuzzle oldSavedPuzzle =
-                query(id).orElseThrow(
-                        () -> new WriteException("Cannot find saved puzzle with id " + id));
+                query(id).orElseThrow(() -> new WriteException("Cannot find saved puzzle with id " + id));
         if (oldSavedPuzzle.data().equals(changedPuzzle.data())) {
             // No need to update
             return oldSavedPuzzle;
         }
-        final SavedPuzzle newSavedPuzzle =
-                new SavedPuzzle(id, changedPuzzle.data(), oldSavedPuzzle.revision() + 1);
+        final SavedPuzzle newSavedPuzzle = new SavedPuzzle(id, changedPuzzle.data(), oldSavedPuzzle.revision() + 1);
         puzzles.put(id, newSavedPuzzle);
         return newSavedPuzzle;
     }

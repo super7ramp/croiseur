@@ -63,11 +63,11 @@ public final class MoreCollections {
      * @return all the triplets of elements
      * @throws NullPointerException if given collection is {@code null}
      */
-    public static <L, M, R> Collection<Triplet<L, M, R>> triplets(final Collection<? extends L> lefts,
-                                                                  final Collection<? extends M> middles,
-                                                                  final Collection<? extends R> rights) {
-        final Collection<Triplet<L, M, R>> triplets =
-                new ArrayList<>(lefts.size() * middles.size() * rights.size());
+    public static <L, M, R> Collection<Triplet<L, M, R>> triplets(
+            final Collection<? extends L> lefts,
+            final Collection<? extends M> middles,
+            final Collection<? extends R> rights) {
+        final Collection<Triplet<L, M, R>> triplets = new ArrayList<>(lefts.size() * middles.size() * rights.size());
         for (final L left : lefts) {
             for (final M middle : middles) {
                 for (final R right : rights) {

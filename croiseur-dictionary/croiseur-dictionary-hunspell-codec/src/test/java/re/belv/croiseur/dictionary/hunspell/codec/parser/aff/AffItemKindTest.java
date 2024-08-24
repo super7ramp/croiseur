@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link AffItemKind}.
@@ -85,7 +84,6 @@ final class AffItemKindTest {
         assertTrue(optKind.isPresent());
         assertEquals(AffItemKind.AFFIX_HEADER, optKind.get());
     }
-
 
     @Test
     void identifyValidAffixRuleWithoutContinuation() {

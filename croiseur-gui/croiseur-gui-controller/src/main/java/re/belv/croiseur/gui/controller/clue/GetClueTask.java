@@ -29,13 +29,14 @@ final class GetClueTask extends Task<Void> {
      * @param crosswordGridViewModel the crossword grid view model
      * @param clueServiceArg         the service to call
      */
-    public GetClueTask(final CluesViewModel cluesViewModel,
-                       final CrosswordGridViewModel crosswordGridViewModel,
-                       final ClueService clueServiceArg) {
+    public GetClueTask(
+            final CluesViewModel cluesViewModel,
+            final CrosswordGridViewModel crosswordGridViewModel,
+            final ClueService clueServiceArg) {
         request = new GetClueRequestImpl(crosswordGridViewModel);
         clueService = clueServiceArg;
-        runningProperty().addListener(
-                (observable, oldValue, newValue) -> cluesViewModel.clueServiceIsRunning(newValue));
+        runningProperty()
+                .addListener((observable, oldValue, newValue) -> cluesViewModel.clueServiceIsRunning(newValue));
     }
 
     @Override

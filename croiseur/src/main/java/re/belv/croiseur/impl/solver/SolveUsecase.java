@@ -5,6 +5,14 @@
 
 package re.belv.croiseur.impl.solver;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
@@ -26,15 +34,6 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-
-import static java.util.stream.Collectors.toMap;
 
 /**
  * Solve usecase.
@@ -66,11 +65,12 @@ final class SolveUsecase {
      * @param dictionaryProvidersArg the dictionary providers
      * @param presenterArg           the presenter
      */
-    SolveUsecase(final Collection<CrosswordSolver> solversArg,
-                 final Collection<DictionaryProvider> dictionaryProvidersArg,
-                 final Collection<ClueProvider> clueProvidersArg,
-                 final PuzzleRepository puzzleRepositoryArg,
-                 final Presenter presenterArg) {
+    SolveUsecase(
+            final Collection<CrosswordSolver> solversArg,
+            final Collection<DictionaryProvider> dictionaryProvidersArg,
+            final Collection<ClueProvider> clueProvidersArg,
+            final PuzzleRepository puzzleRepositoryArg,
+            final Presenter presenterArg) {
         solvers = solversArg.stream().collect(toMap(CrosswordSolver::name, Function.identity()));
         clueProvider = new SafeClueProvider(clueProvidersArg, presenterArg);
         puzzleRepository = new SafePuzzleRepository(puzzleRepositoryArg, presenterArg);
@@ -102,13 +102,11 @@ final class SolveUsecase {
 
         final Dictionary dictionary = optionallyShuffledDictionary(event, optDictionary.get());
         final ProgressListener progressListener = progressListenerFactory.from(event.progress());
-        final Optional<SolverResult> optResult =
-                runSolver(optSolver.get(), event.grid(), dictionary, progressListener);
+        final Optional<SolverResult> optResult = runSolver(optSolver.get(), event.grid(), dictionary, progressListener);
 
         if (optResult.isPresent()) {
             final SolverResult solverResult = optResult.get();
-            final re.belv.croiseur.spi.presenter.solver.SolverResult
-                    presentableResult =
+            final re.belv.croiseur.spi.presenter.solver.SolverResult presentableResult =
                     SolverResultConverter.toPresentable(solverResult, event.grid());
             presenter.presentSolverResult(presentableResult);
             final Map<String, String> clues = optionallyGetClues(event, presentableResult);
@@ -137,8 +135,7 @@ final class SolveUsecase {
         if (!solveRequest.savePuzzle()) {
             return Optional.empty();
         }
-        final Puzzle puzzleToSave =
-                new Puzzle(PuzzleDetails.emptyOfToday(), solveRequest.grid(), PuzzleClues.empty());
+        final Puzzle puzzleToSave = new Puzzle(PuzzleDetails.emptyOfToday(), solveRequest.grid(), PuzzleClues.empty());
         return puzzleRepository.create(puzzleToSave);
     }
 
@@ -151,11 +148,10 @@ final class SolveUsecase {
      * @return the dictionary shuffled with the request's randomness source, if any, otherwise
      * returns the given dictionary as is.
      */
-    private static Dictionary optionallyShuffledDictionary(final SolveRequest event,
-                                                           final Dictionary dictionary) {
+    private static Dictionary optionallyShuffledDictionary(final SolveRequest event, final Dictionary dictionary) {
         return event.dictionariesShuffle()
-                    .<Dictionary>map(random -> new ShuffledSolverDictionary(dictionary, random))
-                    .orElse(dictionary);
+                .<Dictionary>map(random -> new ShuffledSolverDictionary(dictionary, random))
+                .orElse(dictionary);
     }
 
     /**
@@ -166,9 +162,11 @@ final class SolveUsecase {
      * @param dictionary       the dictionary to use
      * @param progressListener the progress listener
      */
-    private Optional<SolverResult> runSolver(final CrosswordSolver solver, final PuzzleGrid puzzle,
-                                             final Dictionary dictionary,
-                                             final ProgressListener progressListener) {
+    private Optional<SolverResult> runSolver(
+            final CrosswordSolver solver,
+            final PuzzleGrid puzzle,
+            final Dictionary dictionary,
+            final ProgressListener progressListener) {
         try {
             final SolverResult result = solver.solve(puzzle, dictionary, progressListener);
             return Optional.of(result);
@@ -193,8 +191,8 @@ final class SolveUsecase {
      * @param presentableResult the solver result
      * @return the clues, if any requested and found; otherwise, an empty map
      */
-    private Map<String, String> optionallyGetClues(final SolveRequest event,
-                                                   final re.belv.croiseur.spi.presenter.solver.SolverResult presentableResult) {
+    private Map<String, String> optionallyGetClues(
+            final SolveRequest event, final re.belv.croiseur.spi.presenter.solver.SolverResult presentableResult) {
         final Map<String, String> clues;
         if (event.withClues() && presentableResult.isSuccess()) {
             final Set<String> words = presentableResult.grid().slotContents();
@@ -223,9 +221,10 @@ final class SolveUsecase {
      * @param presentableResult the solver presentable result
      * @param clues             the clues
      */
-    private void optionallyUpdateSavedPuzzle(final Optional<SavedPuzzle> savedPuzzleOpt,
-                                             final re.belv.croiseur.spi.presenter.solver.SolverResult presentableResult,
-                                             final Map<String, String> clues) {
+    private void optionallyUpdateSavedPuzzle(
+            final Optional<SavedPuzzle> savedPuzzleOpt,
+            final re.belv.croiseur.spi.presenter.solver.SolverResult presentableResult,
+            final Map<String, String> clues) {
         if (savedPuzzleOpt.isPresent() && presentableResult.isSuccess()) {
             final SavedPuzzle savedPuzzle = savedPuzzleOpt.get();
             final PuzzleGrid newGrid = presentableResult.grid();

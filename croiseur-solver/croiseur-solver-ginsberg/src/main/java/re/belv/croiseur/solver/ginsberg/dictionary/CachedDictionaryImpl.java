@@ -5,19 +5,18 @@
 
 package re.belv.croiseur.solver.ginsberg.dictionary;
 
-import re.belv.croiseur.solver.ginsberg.Dictionary;
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.groupingBy;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import static java.util.function.Predicate.not;
-import static java.util.stream.Collectors.groupingBy;
+import re.belv.croiseur.solver.ginsberg.Dictionary;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
+import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
 
 /**
  * Implementation of {@link CachedDictionary}.
@@ -48,8 +47,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
      * @param dictionary a dictionary
      * @param slots      the slots
      */
-    CachedDictionaryImpl(final Dictionary dictionary, final Collection<Slot> slots,
-                         final EliminationSpace eliminationSpace) {
+    CachedDictionaryImpl(
+            final Dictionary dictionary, final Collection<Slot> slots, final EliminationSpace eliminationSpace) {
         els = eliminationSpace;
         initialCandidates = createInitialCandidates(dictionary, slots);
         wordsByPattern = new SizedMap<>(slots.size() * CACHED_PATTERNS_PER_SLOT);
@@ -63,8 +62,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
      * @param slots the slots
      * @return the initial candidates tries
      */
-    private static Map<SlotIdentifier, Trie> createInitialCandidates(final Dictionary dictionary,
-                                                                     final Collection<Slot> slots) {
+    private static Map<SlotIdentifier, Trie> createInitialCandidates(
+            final Dictionary dictionary, final Collection<Slot> slots) {
 
         // Group slot per patterns: Each group of slots will have the same initial candidates.
         final Collection<List<Slot>> slotGroups =
@@ -89,27 +88,24 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
     @Override
     public Stream<String> candidates(final Slot slot) {
-        return wordsFromPattern(slot).stream()
-                                     .filter(not(els.eliminatedValues(slot.uid())::contains));
+        return wordsFromPattern(slot).stream().filter(not(els.eliminatedValues(slot.uid())::contains));
     }
 
     @Override
     public long cachedCandidatesCount(final Slot slot) {
-        return currentCandidatesCount.computeIfAbsent(slot.uid(),
-                                                      k -> candidates(slot).count());
+        return currentCandidatesCount.computeIfAbsent(
+                slot.uid(), k -> candidates(slot).count());
     }
 
     @Override
     public Stream<String> reevaluatedCandidates(final Slot slot) {
-        return initialCandidates.get(slot.uid())
-                                .streamMatching(slot.asPattern());
+        return initialCandidates.get(slot.uid()).streamMatching(slot.asPattern());
     }
 
     @Override
     public void invalidateCacheCount(final Slot modifiedSlot) {
         currentCandidatesCount.remove(modifiedSlot.uid());
-        modifiedSlot.connectedSlots()
-                    .forEach(slot -> currentCandidatesCount.remove(slot.uid()));
+        modifiedSlot.connectedSlots().forEach(slot -> currentCandidatesCount.remove(slot.uid()));
     }
 
     /**
@@ -122,9 +118,9 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
      */
     private List<String> wordsFromPattern(final Slot slot) {
         final String slotPattern = slot.asPattern();
-        return wordsByPattern.computeIfAbsent(slotPattern,
-                                              k -> initialCandidates.get(slot.uid())
-                                                                    .streamMatching(slotPattern)
-                                                                    .toList());
+        return wordsByPattern.computeIfAbsent(slotPattern, k -> initialCandidates
+                .get(slot.uid())
+                .streamMatching(slotPattern)
+                .toList());
     }
 }

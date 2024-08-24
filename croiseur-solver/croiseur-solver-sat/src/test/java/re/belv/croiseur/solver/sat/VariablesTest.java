@@ -5,14 +5,12 @@
 
 package re.belv.croiseur.solver.sat;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-/**
- * Tests for {@link Variables}.
- */
+/** Tests for {@link Variables}. */
 final class VariablesTest {
 
     /** The variables under tests. */
@@ -20,19 +18,19 @@ final class VariablesTest {
 
     @BeforeEach
     void setup() {
-        final var grid = new Grid(new char[][]{{'.', '.', '.'}, {'.', '.', '.'}, {'.', '.', '.'}});
+        final var grid = new Grid(new char[][] {{'.', '.', '.'}, {'.', '.', '.'}, {'.', '.', '.'}});
         variables = new Variables(grid, 100_000);
     }
 
     @Test
     void representingCell() {
-        assertEquals(1, variables.representingCell(0,0,0));
-        assertEquals(2, variables.representingCell(0,0,1));
-        assertEquals(27, variables.representingCell(0,0,26));
-        assertEquals(28, variables.representingCell(0,1,0));
-        assertEquals(29, variables.representingCell(0,1,1));
-        assertEquals(54, variables.representingCell(0,1,26));
-        assertEquals(243, variables.representingCell(2,2,26));
+        assertEquals(1, variables.representingCell(0, 0, 0));
+        assertEquals(2, variables.representingCell(0, 0, 1));
+        assertEquals(27, variables.representingCell(0, 0, 26));
+        assertEquals(28, variables.representingCell(0, 1, 0));
+        assertEquals(29, variables.representingCell(0, 1, 1));
+        assertEquals(54, variables.representingCell(0, 1, 26));
+        assertEquals(243, variables.representingCell(2, 2, 26));
     }
 
     @Test

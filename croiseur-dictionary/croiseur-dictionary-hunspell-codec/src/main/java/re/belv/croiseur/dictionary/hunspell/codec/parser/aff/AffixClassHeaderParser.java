@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Parses {@link AffixClassHeader}.
@@ -18,10 +17,8 @@ import java.util.regex.Pattern;
 final class AffixClassHeaderParser {
 
     /** The pattern of an affix header. */
-    private static final Pattern PATTERN = Pattern.compile("^(?<kind>(PFX|SFX)) +" +
-            "(?<flag>[^ /]+) +" +
-            "(?<crossProduct>[YN]) +" +
-            "(?<numberOfRules>[0-9]+)$");
+    private static final Pattern PATTERN = Pattern.compile(
+            "^(?<kind>(PFX|SFX)) +" + "(?<flag>[^ /]+) +" + "(?<crossProduct>[YN]) +" + "(?<numberOfRules>[0-9]+)$");
 
     /**
      * Private constructor to prevent instantiation, static methods only.

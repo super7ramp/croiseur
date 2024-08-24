@@ -41,5 +41,4 @@ public final class Status {
     public static void setNoSolutionFound() {
         status = StatusCodes.NO_SOLUTION_FOUND;
     }
-
 }

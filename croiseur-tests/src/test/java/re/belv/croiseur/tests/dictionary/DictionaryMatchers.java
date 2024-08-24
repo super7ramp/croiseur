@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.tests.dictionary;
 
-import org.mockito.ArgumentMatcher;
-import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
-import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
+import static org.mockito.ArgumentMatchers.argThat;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
-
-import static org.mockito.ArgumentMatchers.argThat;
+import org.mockito.ArgumentMatcher;
+import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
+import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
 /**
  * Allows creating custom {@link ArgumentMatcher}s related to dictionary presentation.
@@ -28,8 +27,8 @@ final class DictionaryMatchers {
      * @param <T>               the matched argument type
      * @param <U>               the matched property type
      */
-    private record HasProperty<T, U>(Function<T, U> propertyExtractor,
-            ArgumentMatcher<U> propertyMatcher) implements ArgumentMatcher<T> {
+    private record HasProperty<T, U>(Function<T, U> propertyExtractor, ArgumentMatcher<U> propertyMatcher)
+            implements ArgumentMatcher<T> {
 
         @Override
         public boolean matches(final T argument) {
@@ -49,12 +48,12 @@ final class DictionaryMatchers {
      * @param size the size of the word collection
      * @param head the beginning of the word collection
      */
-    private record HasWords(int size, Collection<String> head) implements
-            ArgumentMatcher<Collection<String>> {
+    private record HasWords(int size, Collection<String> head) implements ArgumentMatcher<Collection<String>> {
 
         @Override
         public boolean matches(final Collection<String> words) {
-            return size == words.size() && head.equals(words.stream().limit(head.size()).toList());
+            return size == words.size()
+                    && head.equals(words.stream().limit(head.size()).toList());
         }
 
         @Override
@@ -75,8 +74,7 @@ final class DictionaryMatchers {
      * @param firstEntries    the expected first entries
      * @return {@code null}
      */
-    static DictionaryContent dictionaryContentWith(final int numberOfEntries,
-                                                   final List<String> firstEntries) {
+    static DictionaryContent dictionaryContentWith(final int numberOfEntries, final List<String> firstEntries) {
         final Function<DictionaryContent, Collection<String>> property = DictionaryContent::words;
         final var hasWords = new HasWords(numberOfEntries, firstEntries);
         return hasPropertyThat(property, hasWords);
@@ -89,10 +87,8 @@ final class DictionaryMatchers {
      * @param firstMatches    the expected first matches
      * @return {@code null}
      */
-    static DictionarySearchResult searchResultWith(final int numberOfMatches,
-                                                   final List<String> firstMatches) {
-        final Function<DictionarySearchResult, Collection<String>> property =
-                DictionarySearchResult::words;
+    static DictionarySearchResult searchResultWith(final int numberOfMatches, final List<String> firstMatches) {
+        final Function<DictionarySearchResult, Collection<String>> property = DictionarySearchResult::words;
         final var hasWords = new HasWords(numberOfMatches, firstMatches);
         return hasPropertyThat(property, hasWords);
     }
@@ -106,8 +102,8 @@ final class DictionaryMatchers {
      * @param <U>               the matched property type
      * @return {@code null}
      */
-    private static <T, U> T hasPropertyThat(final Function<T, U> propertyExtractor,
-                                            final ArgumentMatcher<U> propertyPredicate) {
+    private static <T, U> T hasPropertyThat(
+            final Function<T, U> propertyExtractor, final ArgumentMatcher<U> propertyPredicate) {
         final var hasProperty = new HasProperty<>(propertyExtractor, propertyPredicate);
         return argThat(hasProperty);
     }

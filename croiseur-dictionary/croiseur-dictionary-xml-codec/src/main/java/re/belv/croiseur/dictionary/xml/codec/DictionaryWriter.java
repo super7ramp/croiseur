@@ -5,9 +5,6 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,6 +12,9 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 /**
  * A stateless dictionary writer.
@@ -33,7 +33,8 @@ public final class DictionaryWriter {
      * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
-    private static void writeHeader(final DictionaryHeader header, final XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeHeader(final DictionaryHeader header, final XMLStreamWriter writer)
+            throws XMLStreamException {
         writeLocale(header.locale(), writer);
         for (final Map.Entry<Locale, String> entry : header.names().entrySet()) {
             writeName(entry.getKey(), entry.getValue(), writer);
@@ -51,8 +52,8 @@ public final class DictionaryWriter {
      * @param writer      the writer to use
      * @throws XMLStreamException if write fails
      */
-    private static void writeDescription(final Locale lang, final String description,
-                                         final XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeDescription(final Locale lang, final String description, final XMLStreamWriter writer)
+            throws XMLStreamException {
         writer.writeStartElement(ElementNames.DESCRIPTION);
         if (!lang.equals(Locale.ENGLISH)) {
             writer.writeAttribute("xml:lang", lang.toLanguageTag());
@@ -69,8 +70,8 @@ public final class DictionaryWriter {
      * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
-    private static void writeName(final Locale lang, final String name,
-                                  final XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeName(final Locale lang, final String name, final XMLStreamWriter writer)
+            throws XMLStreamException {
         writer.writeStartElement(ElementNames.NAME);
         if (!lang.equals(Locale.ENGLISH)) {
             writer.writeAttribute("xml:lang", lang.toLanguageTag());
@@ -129,7 +130,7 @@ public final class DictionaryWriter {
      */
     public static void write(final OutputStream os, final Dictionary dictionary) throws DictionaryWriteException {
         try (final OutputStream bufferedOutputStream = new BufferedOutputStream(os);
-             final AutocloseableXMLStreamWriter writer = createWriter(bufferedOutputStream)) {
+                final AutocloseableXMLStreamWriter writer = createWriter(bufferedOutputStream)) {
 
             writer.writeStartDocument();
 
@@ -155,8 +156,7 @@ public final class DictionaryWriter {
         writer.writeStartElement("tns", "dictionary", "http://www.example.org/dictionary");
         writer.writeAttribute("xmlns", "", "tns", "http://www.example.org/dictionary");
         writer.writeAttribute("xmlns", "", "xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.writeAttribute("xsi", "", "schemaLocation", "http://www.example.org/dictionary" +
-                " dictionary.xsd");
+        writer.writeAttribute("xsi", "", "schemaLocation", "http://www.example.org/dictionary" + " dictionary.xsd");
     }
 
     /**

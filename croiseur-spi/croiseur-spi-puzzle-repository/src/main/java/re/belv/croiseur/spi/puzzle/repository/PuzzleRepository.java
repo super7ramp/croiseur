@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.spi.puzzle.repository;
 
+import java.util.Collection;
+import java.util.Optional;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
-
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * A puzzle repository.

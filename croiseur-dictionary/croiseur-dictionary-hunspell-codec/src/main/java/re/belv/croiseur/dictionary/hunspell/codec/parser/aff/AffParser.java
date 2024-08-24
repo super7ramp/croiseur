@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
 /**
  * Parses a Hunspell ".aff" file.
@@ -24,8 +23,7 @@ public final class AffParser {
     private interface Parser extends BiConsumer<AffBuilder, String> {
 
         /** A dummy parser for ignored items. */
-        Parser DUMMY = (model, event) -> {
-        };
+        Parser DUMMY = (model, event) -> {};
 
         /**
          * Modify the given model according to the given string.
@@ -46,23 +44,26 @@ public final class AffParser {
 
     static {
         PARSERS = new EnumMap<>(AffItemKind.class);
-        PARSERS.put(AffItemKind.AFFIX_HEADER,
+        PARSERS.put(
+                AffItemKind.AFFIX_HEADER,
                 (builder, line) -> builder.addAffixClassHeader(AffixClassHeaderParser.parse(line)));
-        PARSERS.put(AffItemKind.AFFIX_RULE,
-                (builder, line) -> builder.addAffixRule(AffixRuleParser.parse(line,
-                        builder.flagType())));
-        PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDFLAG,
+        PARSERS.put(
+                AffItemKind.AFFIX_RULE,
+                (builder, line) -> builder.addAffixRule(AffixRuleParser.parse(line, builder.flagType())));
+        PARSERS.put(
+                AffItemKind.COMPOUNDING_COMPOUNDFLAG,
                 (builder, line) -> builder.setCompoundFlag(CompoundFlagParser.COMPOUNDFLAG.parse(line)));
-        PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDBEGIN,
+        PARSERS.put(
+                AffItemKind.COMPOUNDING_COMPOUNDBEGIN,
                 (builder, line) -> builder.setCompoundBeginFlag(CompoundFlagParser.COMPOUNDBEGIN.parse(line)));
-        PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDMIDDLE,
+        PARSERS.put(
+                AffItemKind.COMPOUNDING_COMPOUNDMIDDLE,
                 (builder, line) -> builder.setCompoundMiddleFlag(CompoundFlagParser.COMPOUNDMIDDLE.parse(line)));
-        PARSERS.put(AffItemKind.COMPOUNDING_COMPOUNDEND,
+        PARSERS.put(
+                AffItemKind.COMPOUNDING_COMPOUNDEND,
                 (builder, line) -> builder.setCompoundEndFlag(CompoundFlagParser.COMPOUNDEND.parse(line)));
-        PARSERS.put(AffItemKind.GENERAL_ENCODING,
-                (builder, line) -> builder.setEncoding(EncodingParser.parse(line)));
-        PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE,
-                (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
+        PARSERS.put(AffItemKind.GENERAL_ENCODING, (builder, line) -> builder.setEncoding(EncodingParser.parse(line)));
+        PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE, (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
     }
 
     /**
@@ -103,8 +104,8 @@ public final class AffParser {
         for (int i = 1; i <= ENCODING_OPTION_SEARCH_LIMIT; i++) {
             final String line = lines.next();
             if (AffItemKind.identify(line)
-                           .filter(AffItemKind.GENERAL_ENCODING::equals)
-                           .isPresent()) {
+                    .filter(AffItemKind.GENERAL_ENCODING::equals)
+                    .isPresent()) {
                 return EncodingParser.parse(line);
             }
         }
@@ -124,8 +125,7 @@ public final class AffParser {
 
         while (lines.hasNext()) {
             final String line = lines.next();
-            final AffItemKind kind = AffItemKind.identify(line)
-                                                .orElseThrow(() -> new UnknownAffItemException(line));
+            final AffItemKind kind = AffItemKind.identify(line).orElseThrow(() -> new UnknownAffItemException(line));
             parser(kind).parse(modelBuilder, line);
         }
 

@@ -47,5 +47,4 @@ public record ProvidedDictionaryDetails(String providerName, DictionaryDetails d
     public String dictionaryDescription() {
         return dictionary.description();
     }
-
 }

@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.impl.puzzle.importer;
 
+import java.util.Collection;
+import java.util.List;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * The 'list puzzle decoders' usecase.

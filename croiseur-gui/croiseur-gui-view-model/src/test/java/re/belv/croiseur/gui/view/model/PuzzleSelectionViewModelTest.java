@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.gui.view.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link PuzzleSelectionViewModel}.
@@ -53,6 +52,10 @@ final class PuzzleSelectionViewModelTest {
     }
 
     private static SavedPuzzleViewModel newPuzzleWithId(final long id) {
-        return new SavedPuzzleViewModel.Builder().numberOfColumns(1).numberOfRows(1).id(id).build();
+        return new SavedPuzzleViewModel.Builder()
+                .numberOfColumns(1)
+                .numberOfRows(1)
+                .id(id)
+                .build();
     }
 }

@@ -5,7 +5,6 @@
 
 package re.belv.croiseur.impl.solver.postrun;
 
-
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
@@ -29,13 +28,11 @@ public final class SolverResultConverter {
      * @param originalGrid the original grid, before the solving process started
      */
     public static SolverResult toPresentable(
-            final re.belv.croiseur.spi.solver.SolverResult solverResult, final
-    PuzzleGrid originalGrid) {
-        final PuzzleGrid updatedGrid =
-                new PuzzleGrid(originalGrid.width(), originalGrid.height(),
-                               originalGrid.shaded(), solverResult.filledBoxes());
-        final boolean isSuccess = solverResult.kind() ==
-                                  re.belv.croiseur.spi.solver.SolverResult.Kind.SUCCESS;
+            final re.belv.croiseur.spi.solver.SolverResult solverResult, final PuzzleGrid originalGrid) {
+        final PuzzleGrid updatedGrid = new PuzzleGrid(
+                originalGrid.width(), originalGrid.height(),
+                originalGrid.shaded(), solverResult.filledBoxes());
+        final boolean isSuccess = solverResult.kind() == re.belv.croiseur.spi.solver.SolverResult.Kind.SUCCESS;
         return new SolverResult(isSuccess, updatedGrid, solverResult.unsolvableBoxes());
     }
 }

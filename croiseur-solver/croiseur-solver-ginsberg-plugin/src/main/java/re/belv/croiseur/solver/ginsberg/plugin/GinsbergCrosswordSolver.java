@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.solver.ginsberg.plugin;
 
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * Implementation of {@link CrosswordSolver} adapting
@@ -26,8 +25,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
      * Adapts a {@link ProgressListener} to
      * {@link re.belv.croiseur.solver.ginsberg.ProgressListener}.
      */
-    private static final class AdaptedProgressListener implements
-            re.belv.croiseur.solver.ginsberg.ProgressListener {
+    private static final class AdaptedProgressListener implements re.belv.croiseur.solver.ginsberg.ProgressListener {
 
         /** The adapted listener. */
         private final ProgressListener adapted;
@@ -115,14 +113,14 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
 
     @Override
     public String description() {
-        return ResourceBundle
-                .getBundle("re.belv.croiseur.solver.ginsberg.plugin.Messages")
+        return ResourceBundle.getBundle("re.belv.croiseur.solver.ginsberg.plugin.Messages")
                 .getString("description");
     }
 
     @Override
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) throws InterruptedException {
+    public SolverResult solve(
+            final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener)
+            throws InterruptedException {
         final re.belv.croiseur.solver.ginsberg.Dictionary adaptedDictionary = dictionary::words;
         final re.belv.croiseur.solver.ginsberg.ProgressListener adaptedProgressListener =
                 new AdaptedProgressListener(progressListener);

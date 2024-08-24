@@ -45,5 +45,4 @@ public final class PuzzleCodecsViewModel {
     public ListProperty<PuzzleCodec> encodersProperty() {
         return encoders;
     }
-
 }

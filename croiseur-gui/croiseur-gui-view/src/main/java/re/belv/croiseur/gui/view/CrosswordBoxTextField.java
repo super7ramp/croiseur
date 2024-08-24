@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.function.UnaryOperator;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.StringExpression;
@@ -13,8 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyEvent;
 import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
-
-import java.util.function.UnaryOperator;
 
 /**
  * A crossword box control.
@@ -47,19 +46,17 @@ public final class CrosswordBoxTextField extends TextField {
     private static final String SHADE_KEY = " ";
 
     /** Filters input so that text field contains only the last character typed, in upper case. */
-    private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE =
-            change -> {
-                final String newText = change.getControlNewText();
-                final int newTextLength = newText.length();
-                if (newTextLength > 1) {
-                    final String lastCharacter = newText.substring(newTextLength - 1,
-                                                                   newTextLength);
-                    change.setText(lastCharacter);
-                    change.setRange(0, 1);
-                }
-                change.setText(change.getText().toUpperCase());
-                return change;
-            };
+    private static final UnaryOperator<TextFormatter.Change> LAST_CHARACTER_TO_UPPER_CASE = change -> {
+        final String newText = change.getControlNewText();
+        final int newTextLength = newText.length();
+        if (newTextLength > 1) {
+            final String lastCharacter = newText.substring(newTextLength - 1, newTextLength);
+            change.setText(lastCharacter);
+            change.setRange(0, 1);
+        }
+        change.setText(change.getText().toUpperCase());
+        return change;
+    };
 
     /** The box model. */
     private final CrosswordBoxViewModel model;
@@ -77,12 +74,9 @@ public final class CrosswordBoxTextField extends TextField {
         pseudoClassStateChanged(SHADED, model.isShaded());
         pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable());
         pseudoClassStateChanged(SELECTED, model.isSelected());
-        model.shadedProperty()
-             .addListener(e -> pseudoClassStateChanged(SHADED, model.isShaded()));
-        model.unsolvableProperty()
-             .addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable()));
-        model.selectedProperty()
-             .addListener(e -> pseudoClassStateChanged(SELECTED, model.isSelected()));
+        model.shadedProperty().addListener(e -> pseudoClassStateChanged(SHADED, model.isShaded()));
+        model.unsolvableProperty().addListener(e -> pseudoClassStateChanged(UNSOLVABLE, model.isUnsolvable()));
+        model.selectedProperty().addListener(e -> pseudoClassStateChanged(SELECTED, model.isSelected()));
         editableProperty().bind(model.shadedProperty().not());
 
         // Configure text content
@@ -92,8 +86,7 @@ public final class CrosswordBoxTextField extends TextField {
 
         // Auto-scale font
         final DoubleBinding scaledFontSize = heightProperty().divide(2.2 /* empirical value. */);
-        final StringExpression scaledFontSizeCss =
-                Bindings.concat("-fx-font-size: ", scaledFontSize.asString());
+        final StringExpression scaledFontSizeCss = Bindings.concat("-fx-font-size: ", scaledFontSize.asString());
         styleProperty().bind(scaledFontSizeCss);
 
         // Listen to user inputs

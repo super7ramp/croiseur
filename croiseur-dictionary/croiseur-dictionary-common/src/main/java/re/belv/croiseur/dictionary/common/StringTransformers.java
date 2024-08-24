@@ -15,6 +15,7 @@ public final class StringTransformers {
 
     /** Matches accents. */
     private static final Pattern ACCENTS = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
     private static final StringTransformer REMOVE_ACCENTUATION = (final String in) -> {
         final String normalized = Normalizer.normalize(in, Normalizer.Form.NFD);
         return ACCENTS.matcher(normalized).replaceAll("");
@@ -22,7 +23,9 @@ public final class StringTransformers {
 
     /** Matches punctuation. */
     private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
-    private static final StringTransformer REMOVE_PUNCTUATION = in -> PUNCTUATION.matcher(in).replaceAll("");
+
+    private static final StringTransformer REMOVE_PUNCTUATION =
+            in -> PUNCTUATION.matcher(in).replaceAll("");
 
     private static final StringTransformer REMOVE_BLANKS = in -> in.replace(" ", "");
 
@@ -80,9 +83,10 @@ public final class StringTransformers {
      * @return a {@link StringTransformer} applying all known transformations
      */
     public static StringTransformer toAcceptableCrosswordEntry() {
-        return s -> removeBlanks().andThen(removeAccentuation())
-                                  .andThen(removePunctuation())
-                                  .andThen(toUpperCase())
-                                  .apply(s);
+        return s -> removeBlanks()
+                .andThen(removeAccentuation())
+                .andThen(removePunctuation())
+                .andThen(toUpperCase())
+                .apply(s);
     }
 }

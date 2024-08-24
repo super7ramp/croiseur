@@ -62,9 +62,6 @@ public final class ChangedPuzzle {
 
     @Override
     public String toString() {
-        return "ChangedPuzzle{" +
-               "id=" + id +
-               ", data=" + data +
-               '}';
+        return "ChangedPuzzle{" + "id=" + id + ", data=" + data + '}';
     }
 }

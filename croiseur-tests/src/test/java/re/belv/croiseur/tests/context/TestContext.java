@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.tests.context;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.Objects;
 import org.mockito.Mockito;
 import re.belv.croiseur.api.CrosswordService;
 import re.belv.croiseur.api.clue.ClueService;
@@ -12,10 +15,6 @@ import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.api.puzzle.PuzzleService;
 import re.belv.croiseur.api.solver.SolverService;
 import re.belv.croiseur.spi.presenter.Presenter;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.util.Objects;
 
 /**
  * Test context.
@@ -41,8 +40,8 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public DictionaryService dictionaryService() {
-        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                                                 "called a deployment step?");
+        Objects.requireNonNull(
+                crosswordService, "Crossword service not initialized, have you " + "called a deployment step?");
         return crosswordService.dictionaryService();
     }
 
@@ -53,8 +52,8 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public SolverService solverService() {
-        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                                                 "called a deployment step?");
+        Objects.requireNonNull(
+                crosswordService, "Crossword service not initialized, have you " + "called a deployment step?");
         return crosswordService.solverService();
     }
 
@@ -65,8 +64,8 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public ClueService clueService() {
-        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                                                 "called a deployment step?");
+        Objects.requireNonNull(
+                crosswordService, "Crossword service not initialized, have you " + "called a deployment step?");
         return crosswordService.clueService();
     }
 
@@ -77,8 +76,8 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public PuzzleService puzzleService() {
-        Objects.requireNonNull(crosswordService, "Crossword service not initialized, have you " +
-                                                 "called a deployment step?");
+        Objects.requireNonNull(
+                crosswordService, "Crossword service not initialized, have you " + "called a deployment step?");
         return crosswordService.puzzleService();
     }
 
@@ -89,8 +88,8 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public Presenter presenterMock() {
-        Objects.requireNonNull(presenterMock, "Presenter mock not initialized, have you called a " +
-                                              "deployment step?");
+        Objects.requireNonNull(
+                presenterMock, "Presenter mock not initialized, have you called a " + "deployment step?");
         return presenterMock;
     }
 
@@ -101,12 +100,10 @@ public final class TestContext {
      * @throws NullPointerException if test context is not initialised
      */
     public PuzzleRepositorySpy puzzleRepositorySpy() {
-        Objects.requireNonNull(puzzleRepositorySpy,
-                               "Puzzle repository not initialized, have you called a " +
-                               "deployment step?");
+        Objects.requireNonNull(
+                puzzleRepositorySpy, "Puzzle repository not initialized, have you called a " + "deployment step?");
         return puzzleRepositorySpy;
     }
-
 
     /**
      * Returns the puzzle export stream.
@@ -114,8 +111,8 @@ public final class TestContext {
      * @return the puzzle export stream
      */
     public OutputStream exportStream() {
-        Objects.requireNonNull(exportStream,
-                               "Puzzle export stream not initialized, have you called a deployment step?");
+        Objects.requireNonNull(
+                exportStream, "Puzzle export stream not initialized, have you called a deployment step?");
         return exportStream;
     }
 
@@ -127,12 +124,13 @@ public final class TestContext {
      * @param presenterMockArg       the mocked presenter
      * @throws IllegalStateException if test context is already initialised
      */
-    void deploy(final CrosswordService crosswordServiceArg,
-                final PuzzleRepositorySpy puzzleRepositorySpyArg,
-                final Presenter presenterMockArg) {
+    void deploy(
+            final CrosswordService crosswordServiceArg,
+            final PuzzleRepositorySpy puzzleRepositorySpyArg,
+            final Presenter presenterMockArg) {
         if (crosswordService != null || puzzleRepositorySpy != null || presenterMock != null) {
-            throw new IllegalStateException("Already deployed, did you try to instantiate " +
-                                            "application twice in the same test?");
+            throw new IllegalStateException(
+                    "Already deployed, did you try to instantiate " + "application twice in the same test?");
         }
         crosswordService = crosswordServiceArg;
         puzzleRepositorySpy = puzzleRepositorySpyArg;

@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.impl.puzzle.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The 'list puzzles' usecase.
@@ -29,8 +28,7 @@ final class ListPuzzlesUsecase {
      * @param repositoryArg the puzzle repository
      * @param presenterArg  the puzzle presenter
      */
-    ListPuzzlesUsecase(final SafePuzzleRepository repositoryArg,
-                       final PuzzlePresenter presenterArg) {
+    ListPuzzlesUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
         presenter = presenterArg;
     }

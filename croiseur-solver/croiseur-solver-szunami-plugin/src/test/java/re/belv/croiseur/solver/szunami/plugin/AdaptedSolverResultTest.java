@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.solver.szunami.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Crossword;
 import re.belv.croiseur.solver.szunami.Result;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link AdaptedSolverResult}.
@@ -32,7 +31,8 @@ final class AdaptedSolverResultTest {
                 .shade(new GridPosition(1, 2))
                 .fill(new GridPosition(1, 1), 'A')
                 .build();
-        final Crossword solvedCrossword = new Crossword("""
+        final Crossword solvedCrossword =
+                new Crossword("""
                 XX
                 AA
                 B*
@@ -41,11 +41,19 @@ final class AdaptedSolverResultTest {
 
         final SolverResult solverResult = new AdaptedSolverResult(result, originalPuzzle);
 
-
         assertEquals(SolverResult.Kind.SUCCESS, solverResult.kind());
-        assertEquals(Map.of(new GridPosition(0, 0), 'X', new GridPosition(1, 0), 'X'
-                        , new GridPosition(0, 1), 'A', new GridPosition(1, 1), 'A',
-                        new GridPosition(0, 2), 'B'),
+        assertEquals(
+                Map.of(
+                        new GridPosition(0, 0),
+                        'X',
+                        new GridPosition(1, 0),
+                        'X',
+                        new GridPosition(0, 1),
+                        'A',
+                        new GridPosition(1, 1),
+                        'A',
+                        new GridPosition(0, 2),
+                        'B'),
                 solverResult.filledBoxes());
         assertTrue(solverResult.unsolvableBoxes().isEmpty());
     }
@@ -65,7 +73,13 @@ final class AdaptedSolverResultTest {
 
         assertEquals(SolverResult.Kind.IMPOSSIBLE, solverResult.kind());
         assertTrue(solverResult.filledBoxes().isEmpty());
-        assertEquals(Set.of(new GridPosition(0, 0), new GridPosition(1, 0), new GridPosition(0, 1)
-                , new GridPosition(1, 1), new GridPosition(0, 2)), solverResult.unsolvableBoxes());
+        assertEquals(
+                Set.of(
+                        new GridPosition(0, 0),
+                        new GridPosition(1, 0),
+                        new GridPosition(0, 1),
+                        new GridPosition(1, 1),
+                        new GridPosition(0, 2)),
+                solverResult.unsolvableBoxes());
     }
 }

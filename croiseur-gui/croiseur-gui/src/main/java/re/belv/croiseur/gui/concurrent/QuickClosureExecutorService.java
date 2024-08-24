@@ -53,8 +53,7 @@ final class QuickClosureExecutorService extends AbstractExecutorService {
     }
 
     @Override
-    public boolean awaitTermination(final long timeout, final TimeUnit unit)
-            throws InterruptedException {
+    public boolean awaitTermination(final long timeout, final TimeUnit unit) throws InterruptedException {
         return executorService.awaitTermination(timeout, unit);
     }
 

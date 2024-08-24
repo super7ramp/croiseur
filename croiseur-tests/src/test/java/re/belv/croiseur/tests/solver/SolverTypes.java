@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.tests.solver;
 
-import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import io.cucumber.java.DataTableType;
-
 import java.util.Map;
+import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 
 /**
  * Datatable and parameter types pertaining to solver service.
@@ -26,5 +25,4 @@ public final class SolverTypes {
     public SolverDescription solverDescription(final Map<String, String> entry) {
         return new SolverDescription(entry.get("Name"), entry.get("Description"));
     }
-
 }

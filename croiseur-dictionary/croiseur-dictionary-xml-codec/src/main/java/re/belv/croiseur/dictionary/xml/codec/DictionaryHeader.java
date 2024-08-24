@@ -17,8 +17,7 @@ import java.util.Objects;
  * @param names        the names of the dictionary in various languages
  * @param descriptions the descriptions of the dictionary in various languages
  */
-public record DictionaryHeader(Locale locale, Map<Locale, String> names,
-                               Map<Locale, String> descriptions) {
+public record DictionaryHeader(Locale locale, Map<Locale, String> names, Map<Locale, String> descriptions) {
 
     /**
      * A classic builder.
@@ -87,15 +86,12 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names,
          * @return the dictionary header
          */
         DictionaryHeader build() {
-            Objects.requireNonNull(locale, "Locale not parsed, cannot build dictionary header " +
-                    "model");
+            Objects.requireNonNull(locale, "Locale not parsed, cannot build dictionary header " + "model");
             if (names.isEmpty()) {
-                throw new IllegalArgumentException("No name parsed, cannot build dictionary " +
-                        "header model");
+                throw new IllegalArgumentException("No name parsed, cannot build dictionary " + "header model");
             }
             if (descriptions.isEmpty()) {
-                throw new IllegalArgumentException("No description parsed, cannot build " +
-                        "dictionary header model");
+                throw new IllegalArgumentException("No description parsed, cannot build " + "dictionary header model");
             }
             return new DictionaryHeader(locale, names, descriptions);
         }

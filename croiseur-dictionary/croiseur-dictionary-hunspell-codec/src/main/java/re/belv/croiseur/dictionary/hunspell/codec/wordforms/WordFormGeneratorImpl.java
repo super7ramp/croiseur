@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
+import java.util.stream.Stream;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-
-import java.util.stream.Stream;
 
 /**
  * Pure Java implementation of {@link WordFormGenerator}.
@@ -42,14 +41,13 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     WordFormGeneratorImpl(final Aff affArg, final Dic dicArg) {
         dic = dicArg;
         affixer = new Affixer(new AffixClasses(affArg));
-        beginEndCompounder =
-                affArg.compoundFlag()
-                      .<Compounder>map(flag -> new BeginEndCompounder(flag, affixer))
-                      .orElse(dicEntries -> Stream.empty());
-        beginMiddleEndCompounder =
-                affArg.threePartsCompoundFlags()
-                      .<Compounder>map(compoundBeginMiddleEndFlags -> new BeginMiddleEndCompounder(compoundBeginMiddleEndFlags, affixer))
-                      .orElse(dicEntries -> Stream.empty());
+        beginEndCompounder = affArg.compoundFlag()
+                .<Compounder>map(flag -> new BeginEndCompounder(flag, affixer))
+                .orElse(dicEntries -> Stream.empty());
+        beginMiddleEndCompounder = affArg.threePartsCompoundFlags()
+                .<Compounder>map(compoundBeginMiddleEndFlags ->
+                        new BeginMiddleEndCompounder(compoundBeginMiddleEndFlags, affixer))
+                .orElse(dicEntries -> Stream.empty());
     }
 
     @Override
@@ -61,19 +59,15 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
 
     private Stream<String> applyCompounds() {
         final Stream<String> beginEndCompounds = beginEndCompounder.apply(dic.entries());
-        final Stream<String> beginMiddleEndCompounds =
-                beginMiddleEndCompounder.apply(dic.entries());
+        final Stream<String> beginMiddleEndCompounds = beginMiddleEndCompounder.apply(dic.entries());
         return Stream.concat(beginEndCompounds, beginMiddleEndCompounds);
     }
 
     private Stream<String> applyAffixes() {
-        return dic.entries()
-                  .stream()
-                  .flatMap((final DicEntry entry) -> {
-                      final Stream<String> nonAffixedForm = Stream.of(entry.word());
-                      final Stream<String> affixedForms = affixer.apply(entry);
-                      return Stream.concat(nonAffixedForm, affixedForms);
-                  });
+        return dic.entries().stream().flatMap((final DicEntry entry) -> {
+            final Stream<String> nonAffixedForm = Stream.of(entry.word());
+            final Stream<String> affixedForms = affixer.apply(entry);
+            return Stream.concat(nonAffixedForm, affixedForms);
+        });
     }
-
 }

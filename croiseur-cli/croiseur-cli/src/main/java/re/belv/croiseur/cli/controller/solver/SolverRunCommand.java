@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.cli.controller.solver;
 
+import java.util.Random;
+import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -18,13 +20,12 @@ import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-import java.util.Random;
-import java.util.concurrent.Callable;
-
 /**
  * "solver run" subcommand: Solves a crossword puzzle.
  */
-@Command(name = "run", aliases = {"solve"})
+@Command(
+        name = "run",
+        aliases = {"solve"})
 public final class SolverRunCommand implements Callable<Integer> {
 
     /** Solver service. */
@@ -35,37 +36,53 @@ public final class SolverRunCommand implements Callable<Integer> {
     private String solver;
 
     /** The grid dimensions. */
-    @Option(names = {"-s", "--size"}, paramLabel = "INTEGERxINTEGER", arity = "1", required =
-            true)
+    @Option(
+            names = {"-s", "--size"},
+            paramLabel = "INTEGERxINTEGER",
+            arity = "1",
+            required = true)
     private GridSize size;
 
     /** The identifiers of the dictionary to use for solving. */
-    @Option(names = {"-d", "--dictionary", "--dictionaries"}, paramLabel = "PROVIDER:DICTIONARY",
+    @Option(
+            names = {"-d", "--dictionary", "--dictionaries"},
+            paramLabel = "PROVIDER:DICTIONARY",
             arity = "1..*")
     private DictionaryIdentifier[] dictionaryIds = {};
 
     /** The definition of the shaded boxes. */
-    @Option(names = {"-B", "--shaded-box", "--shaded-boxes"}, arity = "1..*", paramLabel =
-            "COORDINATE ")
+    @Option(
+            names = {"-B", "--shaded-box", "--shaded-boxes"},
+            arity = "1..*",
+            paramLabel = "COORDINATE ")
     private GridPosition[] shadedBoxes = {};
 
     /** The definition of the pre-filled boxes. */
-    @Option(names = {"-b", "--box", "--boxes"}, arity = "1..*", paramLabel = "(COORDINATE," +
-                                                                             "LETTER)")
+    @Option(
+            names = {"-b", "--box", "--boxes"},
+            arity = "1..*",
+            paramLabel = "(COORDINATE," + "LETTER)")
     private PrefilledBox[] prefilledBoxes = {};
 
     /** The definition of the pre-filled horizontal slots. */
-    @Option(names = {"-H", "--horizontal", "--across"}, arity = "1..*", paramLabel = "(COORDINATE,WORD)")
-
+    @Option(
+            names = {"-H", "--horizontal", "--across"},
+            arity = "1..*",
+            paramLabel = "(COORDINATE,WORD)")
     private PrefilledSlot[] prefilledHorizontalSlots = {};
 
     /** The definition of the pre-filled vertical slots. */
-    @Option(names = {"-V", "--vertical", "--down"}, arity = "1..*", paramLabel = "(COORDINATE," +
-                                                                                 "WORD)")
+    @Option(
+            names = {"-V", "--vertical", "--down"},
+            arity = "1..*",
+            paramLabel = "(COORDINATE," + "WORD)")
     private PrefilledSlot[] prefilledVerticalSlots = {};
 
     /** The randomness source for shuffling dictionary. */
-    @Option(names = {"-r", "--random", "--shuffle"}, arity = "0..1", paramLabel = "SEED")
+    @Option(
+            names = {"-r", "--random", "--shuffle"},
+            arity = "0..1",
+            paramLabel = "SEED")
     private Random random;
 
     /** Flag to show solver progress. */
@@ -91,21 +108,20 @@ public final class SolverRunCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        final SolveRequest request =
-                new CliSolveRequest.Builder().solver(solver)
-                                             .size(size)
-                                             .shadedBoxes(shadedBoxes)
-                                             .prefilledBoxes(prefilledBoxes)
-                                             .prefilledHorizontalSlots(prefilledHorizontalSlots)
-                                             .prefilledVerticalSlots(prefilledVerticalSlots)
-                                             .dictionaryIds(dictionaryIds)
-                                             .random(random)
-                                             .progress(progress)
-                                             .clues(clues)
-                                             .save(save)
-                                             .build();
+        final SolveRequest request = new CliSolveRequest.Builder()
+                .solver(solver)
+                .size(size)
+                .shadedBoxes(shadedBoxes)
+                .prefilledBoxes(prefilledBoxes)
+                .prefilledHorizontalSlots(prefilledHorizontalSlots)
+                .prefilledVerticalSlots(prefilledVerticalSlots)
+                .dictionaryIds(dictionaryIds)
+                .random(random)
+                .progress(progress)
+                .clues(clues)
+                .save(save)
+                .build();
         solverService.solve(request);
         return Status.getAndReset();
     }
-
 }

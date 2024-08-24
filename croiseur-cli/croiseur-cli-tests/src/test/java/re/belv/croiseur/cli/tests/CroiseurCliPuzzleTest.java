@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.cli.tests;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests on 'croiseur-cli puzzle *' commands.
@@ -23,9 +22,11 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void puzzle() {
         whenOneRunsCli("puzzle");
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr(
-                         """
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr(
+                        """
                          Missing required subcommand
                          Usage: croiseur-cli puzzle COMMAND
                          Manage saved puzzles
@@ -42,24 +43,28 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                            list-encoders  List puzzle encoders
                            update         Update a saved puzzle
                          """)
-                 .and().exitsWithCode(INPUT_ERROR);
+                .and()
+                .exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void create() {
-        whenOneRunsCli("puzzle", "create",
-                       "--title", "Example Grid",
-                       "--author", "Me",
-                       "--editor", "Nobody",
-                       "--copyright", "CC-0",
-                       "--date", "2023-06-21",
-                       "--rows", "...,ABC,#D.",
-                       "--across-clue", "2,Some Very.",
-                       "--down-clue", "1,Dummy.",
-                       "--down-clue", "3,Clues.");
-        thenCli().writesToStdOut("""
+        whenOneRunsCli(
+                "puzzle", "create",
+                "--title", "Example Grid",
+                "--author", "Me",
+                "--editor", "Nobody",
+                "--copyright", "CC-0",
+                "--date", "2023-06-21",
+                "--rows", "...,ABC,#D.",
+                "--across-clue", "2,Some Very.",
+                "--down-clue", "1,Dummy.",
+                "--down-clue", "3,Clues.");
+        thenCli()
+                .writesToStdOut(
+                        """
                                  Saved puzzle.
-                                                                           
+
                                  Identifier: 1
                                  Revision: 1
                                  Title: Example Grid
@@ -78,23 +83,26 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  3. Clues.
 
                                  """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void update() {
-        givenOneHasRunCli("puzzle", "create",
-                          "--author", "Me",
-                          "--date", "2023-06-22",
-                          "--rows", "...,ABC,#D.");
-        whenOneRunsCli("puzzle", "update", "1",
-                       "--title", "Example",
-                       "--rows", "XYZ,ABC,#D.",
-                       "--across-clue", "1,A clue.");
-        thenCli().writesToStdOut("""
+        givenOneHasRunCli(
+                "puzzle", "create",
+                "--author", "Me",
+                "--date", "2023-06-22",
+                "--rows", "...,ABC,#D.");
+        whenOneRunsCli(
+                "puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.", "--across-clue", "1,A clue.");
+        thenCli()
+                .writesToStdOut(
+                        """
                                  Saved puzzle.
-                                                                           
+
                                  Identifier: 1
                                  Revision: 2
                                  Title: Example
@@ -111,26 +119,33 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  Down:
 
                                  """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void update_missing() {
         whenOneRunsCli("puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.");
-        thenCli().doesNotWriteToStdOut()
-                 .and()
-                 .writesToStdErr("Failed to update puzzle: Cannot find saved puzzle with id 1\n")
-                 .and().exitsWithCode(APPLICATIVE_ERROR);
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr("Failed to update puzzle: Cannot find saved puzzle with id 1\n")
+                .and()
+                .exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
     void delete() {
         givenOneHasRunCli("puzzle", "create", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "delete", "1");
-        thenCli().writesToStdOut("Deleted puzzle #1.\n")
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+        thenCli()
+                .writesToStdOut("Deleted puzzle #1.\n")
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -140,18 +155,21 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
         whenOneRunsCli("puzzle", "delete-all");
 
-        thenCli().writesToStdOut("Deleted all puzzles.\n")
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+        thenCli()
+                .writesToStdOut("Deleted all puzzles.\n")
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void cat() {
-        givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows",
-                          "...,ABC,#D.");
+        givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "cat", "1");
-        thenCli().writesToStdOut(
-                         """                                                                     
+        thenCli()
+                .writesToStdOut(
+                        """
                          Identifier: 1
                          Revision: 1
                          Title:\s
@@ -165,35 +183,45 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          |#|D| |
                          Across:
                          Down:
-                                                                   
+
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void list() {
-        givenOneHasRunCli("puzzle", "create",
-                          "--title", "First Example",
-                          "--author", "Me",
-                          "--date", "2023-06-21",
-                          "--rows", "...,ABC,#D.");
+        givenOneHasRunCli(
+                "puzzle", "create",
+                "--title", "First Example",
+                "--author", "Me",
+                "--date", "2023-06-21",
+                "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "list");
-        thenCli().writesToStdOut("""
+        thenCli()
+                .writesToStdOut(
+                        """
                                  Id  	Rev 	Title           	Author          	Date           \s
                                  --  	--- 	-----           	------          	----           \s
                                  1   	1   	First Example   	Me              	2023-06-21     \s
                                  """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void list_empty() {
         whenOneRunsCli("puzzle", "list");
-        thenCli().writesToStdOut("No saved puzzle.\n")
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+        thenCli()
+                .writesToStdOut("No saved puzzle.\n")
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -204,28 +232,36 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
         whenOneRunsCli("puzzle", "list");
 
-        thenCli().writesToStdOut("No saved puzzle.\n")
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+        thenCli()
+                .writesToStdOut("No saved puzzle.\n")
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void listDecoders() {
         whenOneRunsCli("puzzle", "list-decoders");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Name            	Description                     	Supported formats
                          ----            	-----------                     	-----------------
                          xd              	xd format decoder               	*.xd           \s
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void importPuzzle(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example.xd");
-        givenPuzzle(example, """
+        givenPuzzle(
+                example,
+                """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -246,8 +282,9 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                              D3. Clues. ~ CFI
                              """);
         whenOneRunsCli("puzzle", "import", example.toString());
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Saved puzzle.
 
                          Identifier: 1
@@ -271,8 +308,10 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          3. Clues.
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     /**
@@ -289,7 +328,9 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void importPuzzle_formatOption(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example");
-        givenPuzzle(example, """
+        givenPuzzle(
+                example,
+                """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -310,8 +351,9 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                              D3. Clues. ~ CFI
                              """);
         whenOneRunsCli("puzzle", "import", "--format", "*.xd", example.toString());
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Saved puzzle.
 
                          Identifier: 1
@@ -335,14 +377,18 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          3. Clues.
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void importPuzzle_unknownFormatOption(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example");
-        givenPuzzle(example, """
+        givenPuzzle(
+                example,
+                """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -363,30 +409,39 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                              D3. Clues. ~ CFI
                              """);
         whenOneRunsCli("puzzle", "import", "--format", "unknown", example.toString());
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr("No suitable decoder found for format 'unknown'\n")
-                 .and().exitsWithCode(APPLICATIVE_ERROR);
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr("No suitable decoder found for format 'unknown'\n")
+                .and()
+                .exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
     void importPuzzle_noSuchFile() {
         whenOneRunsCli("puzzle", "import", "404.xd");
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr("File not found.\n")
-                 .and().exitsWithCode(IO_ERROR);
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr("File not found.\n")
+                .and()
+                .exitsWithCode(IO_ERROR);
     }
 
     @Test
     void listEncoders() {
         whenOneRunsCli("puzzle", "list-encoders");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Name            	Description                     	Supported formats
                          ----            	-----------                     	-----------------
                          xd              	xd format encoder               	*.xd           \s
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -394,15 +449,19 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         final Path exampleXdPath = tempDir.resolve("example.xd");
         final String exampleXd = exampleXdPath.toString();
 
-        givenOneHasRunCli("puzzle", "create",
-                          "--title", "Example Grid",
-                          "--author", "Me",
-                          "--editor", "Myself",
-                          "--copyright", "Public Domain",
-                          "--date", "2023-07-19",
-                          "--rows", "...,ABC,#D.");
+        givenOneHasRunCli(
+                "puzzle", "create",
+                "--title", "Example Grid",
+                "--author", "Me",
+                "--editor", "Myself",
+                "--copyright", "Public Domain",
+                "--date", "2023-07-19",
+                "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "export", "1", exampleXd);
-        thenCli().writesToFile(exampleXdPath, """
+        thenCli()
+                .writesToFile(
+                        exampleXdPath,
+                        """
                                               Title: Example Grid
                                               Author: Me
                                               Editor: Myself
@@ -413,13 +472,16 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                               ...
                                               ABC
                                               #D.
-                                                                   
-                                                                   
-                                                                   
+
+
+
                                               """)
-                 .and().doesNotWriteToStdOut()
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdOut()
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -427,19 +489,22 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         final Path examplePath = tempDir.resolve("example");
         final String example = examplePath.toString();
 
-        givenOneHasRunCli("puzzle", "create",
-                          "--title", "Example Grid",
-                          "--author", "Me",
-                          "--editor", "Myself",
-                          "--copyright", "Public Domain",
-                          "--date", "2023-07-19",
-                          "--rows", "...,ABC,#D.");
+        givenOneHasRunCli(
+                "puzzle", "create",
+                "--title", "Example Grid",
+                "--author", "Me",
+                "--editor", "Myself",
+                "--copyright", "Public Domain",
+                "--date", "2023-07-19",
+                "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "export", "--format", "unknown", "1", example);
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr("No suitable encoder found for format 'unknown'\n")
-                 .and().exitsWithCode(APPLICATIVE_ERROR);
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr("No suitable encoder found for format 'unknown'\n")
+                .and()
+                .exitsWithCode(APPLICATIVE_ERROR);
     }
-
 
     @AfterEach
     void cleanRepository() {
@@ -448,5 +513,4 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
         assertEquals("", err());
         assertEquals(SUCCESS, exitCode());
     }
-
 }

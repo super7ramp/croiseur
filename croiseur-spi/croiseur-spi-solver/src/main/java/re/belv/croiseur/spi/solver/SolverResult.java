@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.spi.solver;
 
-import re.belv.croiseur.common.puzzle.GridPosition;
-
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.common.puzzle.GridPosition;
 
 /**
  * Puzzle solving result.
@@ -60,5 +59,4 @@ public interface SolverResult {
      * @return the boxes for which no solution could be found
      */
     Set<GridPosition> unsolvableBoxes();
-
 }

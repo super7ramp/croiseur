@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
@@ -22,10 +25,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
-
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * A pane to browse dictionaries and dictionary entries.
@@ -64,11 +63,9 @@ public final class DictionariesPane extends Accordion {
      * Constructs an instance.
      */
     public DictionariesPane() {
-        dictionaries = new SimpleListProperty<>(this, "dictionaries",
-                                                FXCollections.observableArrayList());
+        dictionaries = new SimpleListProperty<>(this, "dictionaries", FXCollections.observableArrayList());
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
-        suggestions =
-                new SimpleListProperty<>(this, "suggestions", FXCollections.observableArrayList());
+        suggestions = new SimpleListProperty<>(this, "suggestions", FXCollections.observableArrayList());
         onSuggestionSelected = new SimpleObjectProperty<>(this, "onSuggestionSelected");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
@@ -120,9 +117,8 @@ public final class DictionariesPane extends Accordion {
      */
     private void initializeWordsListView() {
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
-        final ObservableValue<Predicate<String>> searchPredicate =
-                Bindings.createObjectBinding(() -> matchesSearch, searchTextField.textProperty(),
-                                             dictionariesListView.itemsProperty());
+        final ObservableValue<Predicate<String>> searchPredicate = Bindings.createObjectBinding(
+                () -> matchesSearch, searchTextField.textProperty(), dictionariesListView.itemsProperty());
         final FilteredList<String> searchedWords = new FilteredList<>(words);
         searchedWords.predicateProperty().bind(searchPredicate);
         wordsListView.setItems(searchedWords);
@@ -185,5 +181,4 @@ public final class DictionariesPane extends Accordion {
     public ObjectProperty<Consumer<String>> onSuggestionSelected() {
         return onSuggestionSelected;
     }
-
 }

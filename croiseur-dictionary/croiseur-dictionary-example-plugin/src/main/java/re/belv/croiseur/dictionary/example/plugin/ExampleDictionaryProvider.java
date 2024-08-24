@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.dictionary.example.plugin;
 
-import re.belv.croiseur.common.dictionary.DictionaryDetails;
-import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
-import re.belv.croiseur.spi.dictionary.Dictionary;
-import re.belv.croiseur.spi.dictionary.DictionaryProvider;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import re.belv.croiseur.common.dictionary.DictionaryDetails;
+import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
+import re.belv.croiseur.spi.dictionary.Dictionary;
+import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
 /**
  * An example dictionary provider plugin.
@@ -34,8 +33,7 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
 
         @Override
         public DictionaryDetails details() {
-            return new DictionaryDetails("Example Dictionary", Locale.ENGLISH,
-                                         "An example dictionary");
+            return new DictionaryDetails("Example Dictionary", Locale.ENGLISH, "An example dictionary");
         }
 
         @Override

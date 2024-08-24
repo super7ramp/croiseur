@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.ResourceBundle;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import java.util.ResourceBundle;
 
 /**
  * A placeholder for the crossword grid.

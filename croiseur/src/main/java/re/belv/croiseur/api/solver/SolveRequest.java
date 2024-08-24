@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.api.solver;
 
-import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
-import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
+import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
+import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 
 /**
  * A request to solve a crossword puzzle.

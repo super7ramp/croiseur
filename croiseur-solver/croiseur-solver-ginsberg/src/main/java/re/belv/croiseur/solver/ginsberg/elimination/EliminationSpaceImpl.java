@@ -5,8 +5,6 @@
 
 package re.belv.croiseur.solver.ginsberg.elimination;
 
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Stores the no-goods encountered during backtrack.
@@ -56,14 +55,15 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
     }
 
     @Override
-    public void eliminate(final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons,
-                          final String eliminated) {
+    public void eliminate(
+            final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons, final String eliminated) {
 
         eliminationReasons(unassigned, eliminated).addAll(reasons);
 
         // Unassigned slot is not a valid elimination reasons any more
         for (final Map<String, Set<SlotIdentifier>> entry : eliminations.values()) {
-            final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it = entry.entrySet().iterator();
+            final Iterator<Map.Entry<String, Set<SlotIdentifier>>> it =
+                    entry.entrySet().iterator();
             while (it.hasNext()) {
                 final Set<SlotIdentifier> previousReasons = it.next().getValue();
                 if (previousReasons.contains(unassigned)) {
@@ -90,8 +90,7 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
      * @param eliminatedValue the eliminated value
      * @return the elimination reasons
      */
-    private Set<SlotIdentifier> eliminationReasons(final SlotIdentifier slot,
-                                                   final String eliminatedValue) {
+    private Set<SlotIdentifier> eliminationReasons(final SlotIdentifier slot, final String eliminatedValue) {
         return initialisedEliminations(slot).computeIfAbsent(eliminatedValue, k -> new HashSet<>());
     }
 

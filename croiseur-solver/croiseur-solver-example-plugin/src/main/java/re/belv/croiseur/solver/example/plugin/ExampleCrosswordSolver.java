@@ -5,17 +5,16 @@
 
 package re.belv.croiseur.solver.example.plugin;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * An example crossword solver plugin.
@@ -43,8 +42,8 @@ public final class ExampleCrosswordSolver implements CrosswordSolver {
     }
 
     @Override
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                              final ProgressListener progressListener) {
+    public SolverResult solve(
+            final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener) {
 
         /*
          * Here you can put the logic to solve the puzzle.

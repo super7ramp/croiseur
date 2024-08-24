@@ -8,5 +8,6 @@
  */
 module re.belv.croiseur.spi.puzzle.codec {
     requires transitive re.belv.croiseur.common;
+
     exports re.belv.croiseur.spi.puzzle.codec;
 }

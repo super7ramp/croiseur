@@ -5,7 +5,9 @@
 
 package re.belv.croiseur.cli.tests;
 
-import org.junit.jupiter.api.function.Executable;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,10 +15,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.function.Executable;
 
 /**
  * A helper test class providing a fluent API over {@link TestRuntime} for writing simple BDD-like
@@ -70,9 +69,8 @@ abstract class FluentTestHelper extends TestRuntime {
          * @return this expectation, for method chaining
          */
         WriteExpectation aTotalOf(final int expected) {
-            final Executable assertion =
-                    () -> assertEquals(expected, actual.get().lines().count(),
-                                       "Number of lines written to " + streamName);
+            final Executable assertion = () ->
+                    assertEquals(expected, actual.get().lines().count(), "Number of lines written to " + streamName);
             assertions.add(assertion);
             return this;
         }
@@ -93,10 +91,8 @@ abstract class FluentTestHelper extends TestRuntime {
          * @return this expectation, for method chaining
          */
         WriteExpectation startingWith(final String expected) {
-            final Executable assertion =
-                    () -> assertEquals(expected,
-                                       actual.get().substring(0, expected.length()),
-                                       "Start of " + streamName);
+            final Executable assertion = () ->
+                    assertEquals(expected, actual.get().substring(0, expected.length()), "Start of " + streamName);
             assertions.add(assertion);
             return this;
         }
@@ -153,9 +149,10 @@ abstract class FluentTestHelper extends TestRuntime {
          * @param errSupplier      the supplier of the standard error output content
          * @param exitCodeSupplier the supplier of the exit code
          */
-        private AssertionBuilder(final Supplier<String> outSupplier,
-                                 final Supplier<String> errSupplier,
-                                 final Supplier<Integer> exitCodeSupplier) {
+        private AssertionBuilder(
+                final Supplier<String> outSupplier,
+                final Supplier<String> errSupplier,
+                final Supplier<Integer> exitCodeSupplier) {
             out = outSupplier;
             err = errSupplier;
             exitCode = exitCodeSupplier;
@@ -275,8 +272,7 @@ abstract class FluentTestHelper extends TestRuntime {
          * @param expected the expected exit code
          */
         void exitsWithCode(final int expected) {
-            final Executable exitCodeAssertion =
-                    () -> assertEquals(expected, exitCode.get(), "Exit code");
+            final Executable exitCodeAssertion = () -> assertEquals(expected, exitCode.get(), "Exit code");
             assertions.add(exitCodeAssertion);
             andThatIsIt();
         }

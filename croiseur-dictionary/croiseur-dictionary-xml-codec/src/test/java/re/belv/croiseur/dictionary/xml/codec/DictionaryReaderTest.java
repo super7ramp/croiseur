@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests on {@link DictionaryReader}.
@@ -29,7 +28,6 @@ final class DictionaryReaderTest {
         assertEquals("Dictionary example", header.names().get(Locale.ENGLISH));
         assertEquals("Exemple de dictionnaire", header.names().get(Locale.FRANCE));
     }
-
 
     @Test
     void readWords() throws DictionaryReadException {

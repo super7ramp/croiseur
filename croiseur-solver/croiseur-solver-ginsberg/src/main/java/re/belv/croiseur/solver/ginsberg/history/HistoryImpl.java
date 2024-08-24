@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.solver.ginsberg.history;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.HashMap;
 import java.util.Map;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Implementation of {@link History}.
@@ -43,5 +42,4 @@ final class HistoryImpl implements HistoryWriter {
     public long assignmentNumber(final SlotIdentifier slotId) {
         return assignmentNumbers.getOrDefault(slotId, Long.MAX_VALUE);
     }
-
 }

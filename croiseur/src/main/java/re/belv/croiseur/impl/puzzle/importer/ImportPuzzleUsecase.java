@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.impl.puzzle.importer;
 
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.Optional;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecodingException;
-
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * The 'import puzzle' usecase.
@@ -36,9 +35,10 @@ final class ImportPuzzleUsecase {
      * @param repositoryArg the puzzle repository
      * @param presenterArg  the puzzle presenter
      */
-    ImportPuzzleUsecase(final Collection<PuzzleDecoder> decodersArg,
-                        final SafePuzzleRepository repositoryArg,
-                        final PuzzlePresenter presenterArg) {
+    ImportPuzzleUsecase(
+            final Collection<PuzzleDecoder> decodersArg,
+            final SafePuzzleRepository repositoryArg,
+            final PuzzlePresenter presenterArg) {
         decoders = decodersArg;
         repository = repositoryArg;
         presenter = presenterArg;
@@ -54,8 +54,7 @@ final class ImportPuzzleUsecase {
 
         final Optional<PuzzleDecoder> selectedDecoder = selectDecoder(format);
         if (selectedDecoder.isEmpty()) {
-            presenter.presentPuzzleImportError(
-                    "No suitable decoder found for format '" + format + "'");
+            presenter.presentPuzzleImportError("No suitable decoder found for format '" + format + "'");
             return;
         }
 
@@ -76,7 +75,7 @@ final class ImportPuzzleUsecase {
      */
     private Optional<PuzzleDecoder> selectDecoder(final String format) {
         return decoders.stream()
-                       .filter(decoder -> decoder.details().supportedFormats().contains(format))
-                       .findFirst();
+                .filter(decoder -> decoder.details().supportedFormats().contains(format))
+                .findFirst();
     }
 }

@@ -5,11 +5,11 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.aff;
 
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
 final class FlagTypeParserTest {
 

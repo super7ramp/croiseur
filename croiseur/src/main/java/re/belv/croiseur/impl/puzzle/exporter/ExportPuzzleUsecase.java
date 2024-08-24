@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.impl.puzzle.exporter;
 
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Optional;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncodingException;
-
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * The 'export puzzle' usecase.
@@ -37,9 +36,10 @@ final class ExportPuzzleUsecase {
      * @param encodersArg   the puzzle encoders
      * @param presenterArg  the puzzle presenter
      */
-    ExportPuzzleUsecase(final SafePuzzleRepository repositoryArg,
-                        final Collection<PuzzleEncoder> encodersArg,
-                        final PuzzlePresenter presenterArg) {
+    ExportPuzzleUsecase(
+            final SafePuzzleRepository repositoryArg,
+            final Collection<PuzzleEncoder> encodersArg,
+            final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
         encoders = encodersArg;
         presenter = presenterArg;
@@ -56,8 +56,7 @@ final class ExportPuzzleUsecase {
 
         final Optional<PuzzleEncoder> encoder = selectEncoder(format);
         if (encoder.isEmpty()) {
-            presenter.presentPuzzleExportError(
-                    "No suitable encoder found for format '" + format + "'");
+            presenter.presentPuzzleExportError("No suitable encoder found for format '" + format + "'");
             return;
         }
 
@@ -83,7 +82,7 @@ final class ExportPuzzleUsecase {
      */
     private Optional<PuzzleEncoder> selectEncoder(final String format) {
         return encoders.stream()
-                       .filter(encoder -> encoder.details().supportedFormats().contains(format))
-                       .findFirst();
+                .filter(encoder -> encoder.details().supportedFormats().contains(format))
+                .findFirst();
     }
 }

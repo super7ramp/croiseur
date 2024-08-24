@@ -5,10 +5,6 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
-import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +12,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
+import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * Access to all the affix classes.

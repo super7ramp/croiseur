@@ -47,8 +47,7 @@ public final class PuzzlePersistenceServiceImpl implements PuzzlePersistenceServ
      * @param repository the puzzle repository
      * @param presenter  the puzzle presenter
      */
-    public PuzzlePersistenceServiceImpl(final SafePuzzleRepository repository,
-                                        final PuzzlePresenter presenter) {
+    public PuzzlePersistenceServiceImpl(final SafePuzzleRepository repository, final PuzzlePresenter presenter) {
         listPuzzlesUsecase = new ListPuzzlesUsecase(repository, presenter);
         deletePuzzleUsecase = new DeletePuzzleUsecase(repository);
         deleteAllPuzzlesUsecase = new DeleteAllPuzzlesUsecase(repository);

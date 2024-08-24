@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.impl;
 
+import java.util.Collection;
 import re.belv.croiseur.api.CrosswordService;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.api.dictionary.DictionaryService;
@@ -21,8 +22,6 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
-
-import java.util.Collection;
 
 /**
  * Implementation of {@link CrosswordService}.
@@ -52,20 +51,18 @@ public final class CrosswordServiceImpl implements CrosswordService {
      * @param puzzleRepository    the puzzle repository
      * @param presenter           the publisher
      */
-    public CrosswordServiceImpl(final Collection<DictionaryProvider> dictionaryProviders,
-                                final Collection<CrosswordSolver> solvers,
-                                final Collection<ClueProvider> clueProviders,
-                                final Collection<PuzzleDecoder> puzzleDecoders,
-                                final Collection<PuzzleEncoder> puzzleEncoders,
-                                final PuzzleRepository puzzleRepository,
-                                final Presenter presenter) {
+    public CrosswordServiceImpl(
+            final Collection<DictionaryProvider> dictionaryProviders,
+            final Collection<CrosswordSolver> solvers,
+            final Collection<ClueProvider> clueProviders,
+            final Collection<PuzzleDecoder> puzzleDecoders,
+            final Collection<PuzzleEncoder> puzzleEncoders,
+            final PuzzleRepository puzzleRepository,
+            final Presenter presenter) {
         dictionaryService = new DictionaryServiceImpl(dictionaryProviders, presenter);
-        solverService =
-                new SolverServiceImpl(solvers, dictionaryProviders, clueProviders, puzzleRepository,
-                                      presenter);
+        solverService = new SolverServiceImpl(solvers, dictionaryProviders, clueProviders, puzzleRepository, presenter);
         clueService = new ClueServiceImpl(clueProviders, presenter);
-        puzzleService =
-                new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);
+        puzzleService = new PuzzleServiceImpl(puzzleRepository, puzzleDecoders, puzzleEncoders, presenter);
     }
 
     @Override

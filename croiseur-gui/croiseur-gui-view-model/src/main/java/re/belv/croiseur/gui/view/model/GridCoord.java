@@ -121,5 +121,4 @@ public record GridCoord(int column, int row) {
     public String toString() {
         return "GridCoord{" + "column=" + column + ", row=" + row + '}';
     }
-
 }

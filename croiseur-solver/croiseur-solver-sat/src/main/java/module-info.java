@@ -9,5 +9,6 @@
 module re.belv.croiseur.solver.sat {
     requires org.ow2.sat4j.core;
     requires org.ow2.sat4j.pb;
+
     exports re.belv.croiseur.solver.sat;
 }

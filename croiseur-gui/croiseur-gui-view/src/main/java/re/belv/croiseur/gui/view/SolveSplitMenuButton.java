@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
@@ -21,9 +23,6 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import re.belv.croiseur.gui.view.model.SolverItemViewModel;
-
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * A start/stop solve button with additional menu to select solver and behaviour upon solver
@@ -51,8 +50,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
      * Constructs an instance.
      */
     public SolveSplitMenuButton() {
-        availableSolvers = new SimpleListProperty<>(this, "availableSolvers",
-                                                    FXCollections.observableArrayList());
+        availableSolvers = new SimpleListProperty<>(this, "availableSolvers", FXCollections.observableArrayList());
         selectedSolver = new ReadOnlyStringWrapper(this, "selectedSolver");
         toggleGroup = new ToggleGroup();
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));

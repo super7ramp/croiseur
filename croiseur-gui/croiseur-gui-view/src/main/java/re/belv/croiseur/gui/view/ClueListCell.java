@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,9 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import re.belv.croiseur.gui.view.model.ClueViewModel;
-
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * A clue list cell.
@@ -50,7 +49,8 @@ final class ClueListCell extends ListCell<ClueViewModel> {
 
     /** The ways to format the cell index. */
     private enum IndexFormat {
-        ARABIC, ROMAN
+        ARABIC,
+        ROMAN
     }
 
     /** Styleable property factory. */
@@ -59,8 +59,8 @@ final class ClueListCell extends ListCell<ClueViewModel> {
 
     /** The index format CSS metadata. */
     private static final CssMetaData<ClueListCell, IndexFormat> INDEX_FORMAT_CSS_METADATA =
-            FACTORY.createEnumCssMetaData(IndexFormat.class, "-index-format", s -> s.indexFormat,
-                                          IndexFormat.ARABIC, false);
+            FACTORY.createEnumCssMetaData(
+                    IndexFormat.class, "-index-format", s -> s.indexFormat, IndexFormat.ARABIC, false);
 
     /** The index format styleable property. */
     private final StyleableObjectProperty<IndexFormat> indexFormat;
@@ -92,8 +92,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     ClueListCell() {
         indexFormat =
-                new SimpleStyleableObjectProperty<>(INDEX_FORMAT_CSS_METADATA, this, "indexFormat",
-                                                    IndexFormat.ARABIC);
+                new SimpleStyleableObjectProperty<>(INDEX_FORMAT_CSS_METADATA, this, "indexFormat", IndexFormat.ARABIC);
         indexFormat.addListener(observable -> updateItem(getItem(), isEmpty()));
 
         hideFillButton = new SimpleBooleanProperty(this, "hideFillButton");
@@ -227,9 +226,9 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     private String itemToPromptText() {
         final String itemSystemContent = getItem().systemContent();
-        return itemSystemContent.isEmpty() ?
-                ResourceBundle.getBundle(ClueListCell.class.getName()).getString("clue.none") :
-                itemSystemContent;
+        return itemSystemContent.isEmpty()
+                ? ResourceBundle.getBundle(ClueListCell.class.getName()).getString("clue.none")
+                : itemSystemContent;
     }
 
     // Index format methods
@@ -242,9 +241,9 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     private String formattedIndex() {
         final int index = getIndex() + 1;
         return switch (indexFormat.getValue()) {
-            case ARABIC -> arabicFormat(index);
-            case ROMAN -> romanFormat(index);
-        } + ".";
+                    case ARABIC -> arabicFormat(index);
+                    case ROMAN -> romanFormat(index);
+                } + ".";
     }
 
     /**
@@ -265,18 +264,19 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     private static String romanFormat(final int index) {
         // Not the most efficient implementation, but definitely one of the coolest.
-        return "I".repeat(index)
-                  .replace("IIIII", "V")
-                  .replace("IIII", "IV")
-                  .replace("VV", "X")
-                  .replace("VIV", "IX")
-                  .replace("XXXXX", "L")
-                  .replace("XXXX", "XL")
-                  .replace("LL", "C")
-                  .replace("LXL", "XC")
-                  .replace("CCCCC", "D")
-                  .replace("CCCC", "CD")
-                  .replace("DD", "M")
-                  .replace("DCD", "CM");
+        return "I"
+                .repeat(index)
+                .replace("IIIII", "V")
+                .replace("IIII", "IV")
+                .replace("VV", "X")
+                .replace("VIV", "IX")
+                .replace("XXXXX", "L")
+                .replace("XXXX", "XL")
+                .replace("LL", "C")
+                .replace("LXL", "XC")
+                .replace("CCCCC", "D")
+                .replace("CCCC", "CD")
+                .replace("DD", "M")
+                .replace("DCD", "CM");
     }
 }

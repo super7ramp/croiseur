@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.model.dic;
 
-import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
-
 import java.util.Collection;
+import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
 /**
  * A dictionary entry.

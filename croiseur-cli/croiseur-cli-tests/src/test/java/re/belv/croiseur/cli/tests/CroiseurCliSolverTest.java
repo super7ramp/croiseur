@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.cli.tests;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests on 'croiseur-cli solver *' commands.
@@ -20,9 +19,11 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
     @Test
     void solver() {
         whenOneRunsCli("solver");
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr(
-                         """
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr(
+                        """
                          Missing required subcommand
                          Usage: croiseur-cli solver COMMAND
                          Solve crosswords and list available solvers
@@ -31,14 +32,16 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                            list, ls    List available solvers
                            run, solve  Solve a crossword puzzle
                          """)
-                 .and().exitsWithCode(INPUT_ERROR);
+                .and()
+                .exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void solverList() {
         whenOneRunsCli("solver", "list");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Name            \tDescription                                          \s
                          ----            	-----------                                          \s
                          Ginsberg        \tA crossword solver based on Ginsberg's papers.       \s
@@ -46,16 +49,20 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          SAT             \tA crossword solver based on Sat4j default pseudo-boolean solver. Slow and memory intensive.
                          XWords RS       \tThe solver powering the XWords RS tool.              \s
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRun() {
         whenOneRunsCli("solver", "run");
-        thenCli().doesNotWriteToStdOut()
-                 .and().writesToStdErr(
-                         """
+        thenCli()
+                .doesNotWriteToStdOut()
+                .and()
+                .writesToStdErr(
+                        """
                          Missing required option: '--size=INTEGERxINTEGER'
                          Usage: croiseur-cli solver run [-cpS] [-r[=SEED]] -s=INTEGERxINTEGER [-b=
                                                         (COORDINATE,LETTER)...]... [-B=COORDINATE...]...
@@ -87,24 +94,24 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                                               ((5,0),world)...'
 
                          Example:
-                                                  
+
                          The following command asks Croiseur to solve a grid of 6 columns and 7 rows,
                          with blocks and pre-filled boxes.
-                                                  
+
                          		croiseur-cli solver run \\
                          		--size 6x7  \\
                          		--shaded-boxes '(1,1)' '(2,2)' '(3,5')' '(5,4)' \\
                          		--down '((1,2),cross)' \\
                          		--across '((0,4),words)' \\
-                                                  
+
                          Note that the index of the boxes starts at 0 and not at 1. Also note that the
                          command does not define a particular solver or a dictionary: Therefore Croiseur
                          will select them for you.
-                                                  
+
                          The command command quickly produces a result such as the one below:
-                                                  
+
                          	Result: SUCCESS
-                                                  
+
                          	|C|R|O|S|S|S|
                          	|A|#|M|I|T|O|
                          	|T|C|#|D|E|W|
@@ -112,18 +119,20 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          	|W|O|R|D|S|#|
                          	|B|S|A|#|O|T|
                          	|A|S|T|O|N|S|
-                                                  
+
                          Numerous options exist, notably --random which allows to produce a different
                          result for each invocation. Don't hesitate to explore them!
                          """)
-                 .and().exitsWithCode(INPUT_ERROR);
+                .and()
+                .exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void solverRunSize4x4Success() {
         whenOneRunsCli("solver", "run", "--size", "4x4");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Result: SUCCESS
 
                          |F|T|P|S|
@@ -132,15 +141,18 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |C|R|A|G|
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunAndSaveSize4x4Success() {
         cli("solver", "run", "--size", "4x4", "--save");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Saved puzzle.
 
                          Identifier: 1
@@ -179,21 +191,20 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          Across:
                          Down:
 
-                         """.replace("$TODAY", LocalDate.now().toString()))
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                         """
+                                .replace("$TODAY", LocalDate.now().toString()))
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunSize4x4PrefilledSlot() {
-        whenOneRunsCli(
-                "solver", "run",
-                "--size", "4x4",
-                "--down", "((0,0),LOLA)",
-                "--shaded-boxes", "(1,0)", "(2,1)"
-        );
-        thenCli().writesToStdOut(
-                         """
+        whenOneRunsCli("solver", "run", "--size", "4x4", "--down", "((0,0),LOLA)", "--shaded-boxes", "(1,0)", "(2,1)");
+        thenCli()
+                .writesToStdOut(
+                        """
                          Result: SUCCESS
 
                          |L|#|N|T|
@@ -202,36 +213,53 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |A|C|T|S|
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunSize4x4PrefilledSlotInconsistent() {
         whenOneRunsCli(
-                "solver", "run",
-                "--size", "4x4",
-                "--down", "((0,0),LOLA)",
-                "--across", "((0,0),STOP)", // S != L at (0,0)
-                "--shaded-boxes", "(1,0)", "(2,1)"
-        );
-        thenCli().doesNotWriteToStdOut()
-                 // TODO improve error - printing an exception is not great
-                 .and().writes(toStdErr().startingWith(
-                         "java.lang.IllegalArgumentException: Conflict in prefilled boxes"))
-                 .and().exitsWithCode(APPLICATIVE_ERROR);
+                "solver",
+                "run",
+                "--size",
+                "4x4",
+                "--down",
+                "((0,0),LOLA)",
+                "--across",
+                "((0,0),STOP)", // S != L at (0,0)
+                "--shaded-boxes",
+                "(1,0)",
+                "(2,1)");
+        thenCli()
+                .doesNotWriteToStdOut()
+                // TODO improve error - printing an exception is not great
+                .and()
+                .writes(toStdErr().startingWith("java.lang.IllegalArgumentException: Conflict in prefilled boxes"))
+                .and()
+                .exitsWithCode(APPLICATIVE_ERROR);
     }
 
     @Test
     void solverRunSize4x4PrefilledBoxes() {
         whenOneRunsCli(
-                "solver", "run",
-                "--size", "4x4",
-                "--boxes", "((0,0),L)", "((0,1),O)", "((0,2),L)", "((0,3),A)",
-                "--shaded-boxes", "(1,0)", "(2,1)"
-        );
-        thenCli().writesToStdOut(
-                         """
+                "solver",
+                "run",
+                "--size",
+                "4x4",
+                "--boxes",
+                "((0,0),L)",
+                "((0,1),O)",
+                "((0,2),L)",
+                "((0,3),A)",
+                "--shaded-boxes",
+                "(1,0)",
+                "(2,1)");
+        thenCli()
+                .writesToStdOut(
+                        """
                          Result: SUCCESS
 
                          |L|#|N|T|
@@ -240,20 +268,27 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |A|C|T|S|
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunSize4x4NoSolution() {
         whenOneRunsCli(
-                "solver", "run",
-                "--size", "4x4",
-                "--down", "((0,0),BBBB)", // "BBBB" not in dictionary
-                "--shaded-boxes", "(1,0)", "(2,1)"
-        );
-        thenCli().writesToStdOut(
-                         """
+                "solver",
+                "run",
+                "--size",
+                "4x4",
+                "--down",
+                "((0,0),BBBB)", // "BBBB" not in dictionary
+                "--shaded-boxes",
+                "(1,0)",
+                "(2,1)");
+        thenCli()
+                .writesToStdOut(
+                        """
                          Result: IMPOSSIBLE
 
                          |B|#| |
@@ -262,21 +297,28 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |B| | |
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(NO_SOLUTION_FOUND);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(NO_SOLUTION_FOUND);
     }
 
     @Test
     void solverRunAndSaveSize4x4NoSolution() {
         whenOneRunsCli(
-                "solver", "run",
-                "--size", "4x4",
-                "--down", "((0,0),BBBB)", // "BBBB" not in dictionary
-                "--shaded-boxes", "(1,0)", "(2,1)",
-                "--save"
-        );
-        thenCli().writesToStdOut(
-                         """
+                "solver",
+                "run",
+                "--size",
+                "4x4",
+                "--down",
+                "((0,0),BBBB)", // "BBBB" not in dictionary
+                "--shaded-boxes",
+                "(1,0)",
+                "(2,1)",
+                "--save");
+        thenCli()
+                .writesToStdOut(
+                        """
                          Saved puzzle.
 
                          Identifier: 1
@@ -301,16 +343,20 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |B| | |
                          |B| | |
 
-                         """.replace("$TODAY", LocalDate.now().toString()))
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(NO_SOLUTION_FOUND);
+                         """
+                                .replace("$TODAY", LocalDate.now().toString()))
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(NO_SOLUTION_FOUND);
     }
 
     @Test
     void solverRunXWordsRsSize3x3() {
         whenOneRunsCli("solver", "run", "XWords RS", "--size", "3x3");
-        thenCli().writesToStdOut(
-                         """
+        thenCli()
+                .writesToStdOut(
+                        """
                          Result: SUCCESS
 
                          |Z|U|Z|
@@ -318,14 +364,17 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                          |Z|U|G|
 
                          """)
-                 .and().doesNotWriteToStdErr()
-                 .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunCrosswordComposerSize3x3() {
         whenOneRunsCli("solver", "run", "Crossword Composer", "--size", "3x3")
-                .thenCli().writesToStdOut(
+                .thenCli()
+                .writesToStdOut(
                         """
                         Result: SUCCESS
 
@@ -334,14 +383,17 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                         |C|M|D|
 
                         """)
-                .and().doesNotWriteToStdErr()
-                .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @Test
     void solverRunSatSize3x3() {
         whenOneRunsCli("solver", "run", "SAT", "--size", "3x3")
-                .thenCli().writesToStdOut(
+                .thenCli()
+                .writesToStdOut(
                         """
                         Result: SUCCESS
 
@@ -350,8 +402,10 @@ final class CroiseurCliSolverTest extends FluentTestHelper {
                         |A|I|D|
 
                         """)
-                .and().doesNotWriteToStdErr()
-                .and().exitsWithCode(SUCCESS);
+                .and()
+                .doesNotWriteToStdErr()
+                .and()
+                .exitsWithCode(SUCCESS);
     }
 
     @AfterEach

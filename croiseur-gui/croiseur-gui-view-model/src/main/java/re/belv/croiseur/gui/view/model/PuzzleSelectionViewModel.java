@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import java.util.stream.IntStream;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-
-import java.util.stream.IntStream;
 
 /**
  * Puzzle selection view model.
@@ -28,8 +27,7 @@ public final class PuzzleSelectionViewModel {
      * Constructs an instance.
      */
     PuzzleSelectionViewModel() {
-        availablePuzzles = new SimpleListProperty<>(this, "availablePuzzles",
-                                                    FXCollections.observableArrayList());
+        availablePuzzles = new SimpleListProperty<>(this, "availablePuzzles", FXCollections.observableArrayList());
         selectedPuzzle = new SimpleObjectProperty<>(this, "selectedPuzzle");
     }
 
@@ -52,10 +50,9 @@ public final class PuzzleSelectionViewModel {
      */
     public void updateAvailablePuzzlesWith(final SavedPuzzleViewModel puzzle) {
         IntStream.range(0, availablePuzzles.size())
-                 .filter(i -> availablePuzzles.get(i).id() == puzzle.id())
-                 .findFirst()
-                 .ifPresentOrElse(i -> availablePuzzles.set(i, puzzle),
-                                  () -> availablePuzzles.add(puzzle));
+                .filter(i -> availablePuzzles.get(i).id() == puzzle.id())
+                .findFirst()
+                .ifPresentOrElse(i -> availablePuzzles.set(i, puzzle), () -> availablePuzzles.add(puzzle));
     }
 
     /**

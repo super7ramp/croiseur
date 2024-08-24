@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.gui.controller.dictionary;
 
-import javafx.concurrent.Task;
-import re.belv.croiseur.api.dictionary.DictionaryService;
-import re.belv.croiseur.gui.view.model.DictionaryViewModel;
-
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
+import re.belv.croiseur.api.dictionary.DictionaryService;
+import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 
 /**
  * Controls calls to the dictionary service.
@@ -33,8 +32,7 @@ public final class DictionaryController {
      * @param dictionaryServiceArg the dictionary service
      * @param executorArg          the worker executing the dictionary tasks
      */
-    public DictionaryController(final DictionaryService dictionaryServiceArg,
-                                final Executor executorArg) {
+    public DictionaryController(final DictionaryService dictionaryServiceArg, final Executor executorArg) {
         dictionaryService = dictionaryServiceArg;
         executor = executorArg;
     }
@@ -61,9 +59,7 @@ public final class DictionaryController {
      * @param task the task to execute
      */
     private void execute(final Task<Void> task) {
-        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Dictionary task failed.",
-                task.getException()));
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Dictionary task failed.", task.getException()));
         executor.execute(task);
     }
-
 }

@@ -5,6 +5,13 @@
 
 package re.belv.croiseur.cli.controller.puzzle;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -18,14 +25,6 @@ import re.belv.croiseur.cli.controller.puzzle.parser.Clue;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.cli.status.StatusCodes;
 import re.belv.croiseur.common.puzzle.Puzzle;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * The 'puzzle' command: Manage the puzzle repository.
@@ -94,9 +93,12 @@ public final class PuzzleCommand {
      * @return the error status
      */
     @Command(name = "import")
-    int importPuzzle(@Parameters(arity = "1", paramLabel = "FILE") final File file,
-                     @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
-                     final Optional<String> format) {
+    int importPuzzle(
+            @Parameters(arity = "1", paramLabel = "FILE") final File file,
+            @Option(
+                            names = {"-f", "--format"},
+                            paramLabel = "FORMAT")
+                    final Optional<String> format) {
         try (final var fis = new FileInputStream(file)) {
             puzzleImportService.importPuzzle(format.orElseGet(() -> inferFormatFrom(file)), fis);
             return Status.getAndReset();
@@ -115,13 +117,15 @@ public final class PuzzleCommand {
      * @return the error status
      */
     @Command(name = "export")
-    int exportPuzzle(@Parameters(arity = "1", paramLabel = "ID") final long id,
-                     @Parameters(arity = "1", paramLabel = "FILE") final File file,
-                     @Option(names = {"-f", "--format"}, paramLabel = "FORMAT")
-                     final Optional<String> format) {
+    int exportPuzzle(
+            @Parameters(arity = "1", paramLabel = "ID") final long id,
+            @Parameters(arity = "1", paramLabel = "FILE") final File file,
+            @Option(
+                            names = {"-f", "--format"},
+                            paramLabel = "FORMAT")
+                    final Optional<String> format) {
         try (final var fos = new FileOutputStream(file)) {
-            puzzleExportService.exportPuzzle(id, format.orElseGet(() -> inferFormatFrom(file)),
-                                             fos);
+            puzzleExportService.exportPuzzle(id, format.orElseGet(() -> inferFormatFrom(file)), fos);
             return Status.getAndReset();
         } catch (final IOException e) {
             System.err.println("Could not write export file.");
@@ -154,23 +158,41 @@ public final class PuzzleCommand {
      */
     @Command
     int create(
-            @Option(names = {"-t", "--title"}, paramLabel = "TITLE") final Optional<String> title,
-            @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR")
-            final Optional<String> author,
-            @Option(names = {"-e", "--editor"}, paramLabel = "EDITOR")
-            final Optional<String> editor,
-            @Option(names = {"-c", "--copyright"}, paramLabel = "COPYRIGHT")
-            final Optional<String> copyright,
-            @Option(names = {"-d", "--date"}, paramLabel = "DATE") final Optional<LocalDate> date,
-            @Option(names = {"-r", "--rows"}, paramLabel = "ROWS", required = true)
-            final String gridRows,
-            @Option(names = {"-h", "--horizontal-clue", "--across-clue"}, paramLabel = "CLUE")
-            final List<Clue> acrossClues,
-            @Option(names = {"-v", "--vertical-clue", "--down-clue"}, paramLabel = "CLUE")
-            final List<Clue> downClues) {
+            @Option(
+                            names = {"-t", "--title"},
+                            paramLabel = "TITLE")
+                    final Optional<String> title,
+            @Option(
+                            names = {"-a", "--author"},
+                            paramLabel = "AUTHOR")
+                    final Optional<String> author,
+            @Option(
+                            names = {"-e", "--editor"},
+                            paramLabel = "EDITOR")
+                    final Optional<String> editor,
+            @Option(
+                            names = {"-c", "--copyright"},
+                            paramLabel = "COPYRIGHT")
+                    final Optional<String> copyright,
+            @Option(
+                            names = {"-d", "--date"},
+                            paramLabel = "DATE")
+                    final Optional<LocalDate> date,
+            @Option(
+                            names = {"-r", "--rows"},
+                            paramLabel = "ROWS",
+                            required = true)
+                    final String gridRows,
+            @Option(
+                            names = {"-h", "--horizontal-clue", "--across-clue"},
+                            paramLabel = "CLUE")
+                    final List<Clue> acrossClues,
+            @Option(
+                            names = {"-v", "--vertical-clue", "--down-clue"},
+                            paramLabel = "CLUE")
+                    final List<Clue> downClues) {
         final Puzzle puzzle =
-                Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows, acrossClues,
-                                   downClues);
+                Puzzles.puzzleFrom(title, author, editor, copyright, date, gridRows, acrossClues, downClues);
         puzzlePersistenceService.save(puzzle);
         return Status.getAndReset();
     }
@@ -188,26 +210,42 @@ public final class PuzzleCommand {
      * @return the error status
      */
     @Command
-    int update(@Parameters(arity = "1", paramLabel = "ID") final long id,
-               @Option(names = {"-t", "--title"}, paramLabel = "TITLE")
-               final Optional<String> title,
-               @Option(names = {"-a", "--author"}, paramLabel = "AUTHOR")
-               final Optional<String> author,
-               @Option(names = {"-e", "--editor"}, paramLabel = "EDITOR")
-               final Optional<String> editor,
-               @Option(names = {"-c", "--copyright"}, paramLabel = "COPYRIGHT")
-               final Optional<String> copyright,
-               @Option(names = {"-d", "--date"}, paramLabel = "DATE")
-               final Optional<LocalDate> date,
-               @Option(names = {"-r", "--rows"}, paramLabel = "ROWS")
-               final Optional<String> gridRows,
-               @Option(names = {"-h", "--horizontal-clue", "--across-clue"}, paramLabel = "CLUE")
-               final List<Clue> acrossClues,
-               @Option(names = {"-v", "--vertical-clue", "--down-clue"}, paramLabel = "CLUE")
-               final List<Clue> downClues) {
+    int update(
+            @Parameters(arity = "1", paramLabel = "ID") final long id,
+            @Option(
+                            names = {"-t", "--title"},
+                            paramLabel = "TITLE")
+                    final Optional<String> title,
+            @Option(
+                            names = {"-a", "--author"},
+                            paramLabel = "AUTHOR")
+                    final Optional<String> author,
+            @Option(
+                            names = {"-e", "--editor"},
+                            paramLabel = "EDITOR")
+                    final Optional<String> editor,
+            @Option(
+                            names = {"-c", "--copyright"},
+                            paramLabel = "COPYRIGHT")
+                    final Optional<String> copyright,
+            @Option(
+                            names = {"-d", "--date"},
+                            paramLabel = "DATE")
+                    final Optional<LocalDate> date,
+            @Option(
+                            names = {"-r", "--rows"},
+                            paramLabel = "ROWS")
+                    final Optional<String> gridRows,
+            @Option(
+                            names = {"-h", "--horizontal-clue", "--across-clue"},
+                            paramLabel = "CLUE")
+                    final List<Clue> acrossClues,
+            @Option(
+                            names = {"-v", "--vertical-clue", "--down-clue"},
+                            paramLabel = "CLUE")
+                    final List<Clue> downClues) {
         final PuzzlePatch puzzlePatch =
-                Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows,
-                                        acrossClues, downClues);
+                Puzzles.puzzlePatchFrom(title, author, editor, copyright, date, gridRows, acrossClues, downClues);
         puzzlePersistenceService.save(id, puzzlePatch);
         return Status.getAndReset();
     }

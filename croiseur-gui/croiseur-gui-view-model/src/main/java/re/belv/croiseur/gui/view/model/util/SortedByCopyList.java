@@ -5,14 +5,13 @@
 
 package re.belv.croiseur.gui.view.model.util;
 
-import javafx.collections.ListChangeListener;
-import javafx.collections.ModifiableObservableListBase;
-import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ModifiableObservableListBase;
+import javafx.collections.ObservableList;
 
 /**
  * A sorted view of an {@link ObservableList} similar to

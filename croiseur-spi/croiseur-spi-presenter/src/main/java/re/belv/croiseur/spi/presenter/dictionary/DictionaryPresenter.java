@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.spi.presenter.dictionary;
 
-import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
-import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
-
 import java.util.Collection;
 import java.util.List;
+import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
+import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 /**
  * Dictionary-related presentation services.

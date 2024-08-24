@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.impl.solver.prerun;
 
-import re.belv.croiseur.spi.solver.Dictionary;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import re.belv.croiseur.spi.solver.Dictionary;
 
 /**
  * A dictionary shuffled once with given randomness source.

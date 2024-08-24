@@ -15,6 +15,7 @@ module re.belv.croiseur.dictionary.xml.plugin {
     requires transitive re.belv.croiseur.spi.dictionary;
     requires java.logging;
 
-    provides DictionaryProvider with XmlDictionaryProvider;
-    // No API exposed, only a provider
+    provides DictionaryProvider with
+            XmlDictionaryProvider;
+// No API exposed, only a provider
 }

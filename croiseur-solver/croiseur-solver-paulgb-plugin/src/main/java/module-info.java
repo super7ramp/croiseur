@@ -12,5 +12,7 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 module re.belv.croiseur.solver.paulgb.plugin {
     requires re.belv.croiseur.solver.paulgb;
     requires re.belv.croiseur.spi.solver;
-    provides CrosswordSolver with CrosswordComposerSolver;
+
+    provides CrosswordSolver with
+            CrosswordComposerSolver;
 }

@@ -5,18 +5,17 @@
 
 package re.belv.croiseur.gui.view.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.gui.view.model.testutil.ChangeEventCounter;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static re.belv.croiseur.gui.view.model.GridCoord.at;
+
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.gui.view.model.testutil.ChangeEventCounter;
 
 /**
  * Tests for {@link CrosswordGridViewModel}.
@@ -137,9 +136,9 @@ final class CrosswordGridViewModelTest {
      */
     @Test
     void boxes_unmodifiable() {
-        assertThrows(UnsupportedOperationException.class,
-                     () -> crosswordGridViewModel.boxesProperty()
-                                                 .put(at(0, 0), new CrosswordBoxViewModel()));
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> crosswordGridViewModel.boxesProperty().put(at(0, 0), new CrosswordBoxViewModel()));
     }
 
     /**
@@ -161,8 +160,7 @@ final class CrosswordGridViewModelTest {
 
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
-        assertEquals(List.of(at(0, 0), at(1, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 0), at(1, 0)), crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -183,8 +181,7 @@ final class CrosswordGridViewModelTest {
 
         crosswordGridViewModel.currentBoxPosition(at(2, 0));
 
-        assertEquals(List.of(at(2, 0), at(3, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(2, 0), at(3, 0)), crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -207,9 +204,9 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.box(at(1, 0)).lighten();
         crosswordGridViewModel.box(at(4, 0)).lighten();
 
-        assertEquals(List.of(at(0, 0), at(1, 0), at(2, 0), at(3, 0),
-                             at(4, 0), at(5, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(
+                List.of(at(0, 0), at(1, 0), at(2, 0), at(3, 0), at(4, 0), at(5, 0)),
+                crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -232,8 +229,7 @@ final class CrosswordGridViewModelTest {
 
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
-        assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2)), crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -260,8 +256,7 @@ final class CrosswordGridViewModelTest {
 
         crosswordGridViewModel.currentBoxPosition(at(0, 2));
 
-        assertEquals(List.of(at(0, 2), at(0, 3)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 2), at(0, 3)), crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -294,8 +289,9 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.box(at(0, 1)).lighten();
         crosswordGridViewModel.box(at(0, 4)).lighten();
 
-        assertEquals(List.of(at(0, 0), at(0, 1), at(0, 2), at(0, 3), at(0, 4), at(0, 5)),
-                     crosswordGridViewModel.currentSlotPositionsProperty().get());
+        assertEquals(
+                List.of(at(0, 0), at(0, 1), at(0, 2), at(0, 3), at(0, 4), at(0, 5)),
+                crosswordGridViewModel.currentSlotPositionsProperty().get());
     }
 
     /**
@@ -335,8 +331,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.currentBoxPosition(at(0, 2));
-        assertEquals(List.of(at(0, 2), at(1, 2)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 2), at(1, 2)), crosswordGridViewModel.currentSlotPositionsProperty());
 
         // Remove last line
         crosswordGridViewModel.deleteLastRow();
@@ -372,8 +367,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.currentSlotVertical();
         crosswordGridViewModel.currentBoxPosition(at(1, 0));
-        assertEquals(List.of(at(1, 0), at(1, 1), at(1, 2)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(1, 0), at(1, 1), at(1, 2)), crosswordGridViewModel.currentSlotPositionsProperty());
 
         // Remove last column
         crosswordGridViewModel.deleteLastColumn();
@@ -431,8 +425,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.box(at(0, 1)).shade();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
-        assertEquals(List.of(at(0, 0), at(1, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 0), at(1, 0)), crosswordGridViewModel.currentSlotPositionsProperty());
 
         crosswordGridViewModel.currentBoxPosition(at(0, 1));
 
@@ -462,8 +455,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.addRow();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
-        assertEquals(List.of(at(0, 0), at(1, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 0), at(1, 0)), crosswordGridViewModel.currentSlotPositionsProperty());
 
         crosswordGridViewModel.box(at(0, 0)).shade();
 
@@ -498,8 +490,7 @@ final class CrosswordGridViewModelTest {
 
         crosswordGridViewModel.box(at(0, 0)).lighten();
 
-        assertEquals(List.of(at(0, 0), at(1, 0)),
-                     crosswordGridViewModel.currentSlotPositionsProperty());
+        assertEquals(List.of(at(0, 0), at(1, 0)), crosswordGridViewModel.currentSlotPositionsProperty());
     }
 
     /**
@@ -761,8 +752,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
-        final var changeEventCounter =
-                new ChangeEventCounter<>(crosswordGridViewModel.currentSlotContentProperty());
+        final var changeEventCounter = new ChangeEventCounter<>(crosswordGridViewModel.currentSlotContentProperty());
 
         crosswordGridViewModel.currentSlotContent("ABC");
 
@@ -776,8 +766,7 @@ final class CrosswordGridViewModelTest {
      */
     @Test
     void setCurrentSlot_null() {
-        assertThrows(NullPointerException.class,
-                     () -> crosswordGridViewModel.currentSlotContent(null));
+        assertThrows(NullPointerException.class, () -> crosswordGridViewModel.currentSlotContent(null));
     }
 
     /**
@@ -791,8 +780,7 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel.addColumn();
         crosswordGridViewModel.currentBoxPosition(at(0, 0));
 
-        assertThrows(IllegalArgumentException.class,
-                     () -> crosswordGridViewModel.currentSlotContent("ABCD"));
+        assertThrows(IllegalArgumentException.class, () -> crosswordGridViewModel.currentSlotContent("ABCD"));
     }
 
     /**

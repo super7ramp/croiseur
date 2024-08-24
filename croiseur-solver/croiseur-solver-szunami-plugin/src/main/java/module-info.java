@@ -12,5 +12,7 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 module re.belv.croiseur.solver.szunami.plugin {
     requires re.belv.croiseur.solver.szunami;
     requires re.belv.croiseur.spi.solver;
-    provides CrosswordSolver with SzunamiSolver;
+
+    provides CrosswordSolver with
+            SzunamiSolver;
 }

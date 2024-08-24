@@ -15,5 +15,6 @@ module re.belv.croiseur.dictionary.hunspell.plugin {
     requires re.belv.croiseur.spi.dictionary;
     requires java.logging;
 
-    provides DictionaryProvider with HunspellDictionaryProvider;
+    provides DictionaryProvider with
+            HunspellDictionaryProvider;
 }

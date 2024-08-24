@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.api;
 
+import java.util.Collection;
+import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.api.puzzle.PuzzleService;
@@ -18,10 +21,6 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.DummyPuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
-
-import java.util.Collection;
-import java.util.ServiceLoader;
-import java.util.function.Supplier;
 
 /**
  * Crossword services.
@@ -43,15 +42,22 @@ public interface CrosswordService {
      * @param presenter           the presenter
      * @return a new instance of {@link CrosswordService}
      */
-    static CrosswordService create(final Collection<DictionaryProvider> dictionaryProviders,
-                                   final Collection<CrosswordSolver> solvers,
-                                   final Collection<ClueProvider> clueProviders,
-                                   final Collection<PuzzleDecoder> puzzleDecoders,
-                                   final Collection<PuzzleEncoder> puzzleEncoders,
-                                   final PuzzleRepository puzzleRepository,
-                                   final Presenter presenter) {
-        return new CrosswordServiceImpl(dictionaryProviders, solvers, clueProviders, puzzleDecoders,
-                                        puzzleEncoders, puzzleRepository, presenter);
+    static CrosswordService create(
+            final Collection<DictionaryProvider> dictionaryProviders,
+            final Collection<CrosswordSolver> solvers,
+            final Collection<ClueProvider> clueProviders,
+            final Collection<PuzzleDecoder> puzzleDecoders,
+            final Collection<PuzzleEncoder> puzzleEncoders,
+            final PuzzleRepository puzzleRepository,
+            final Presenter presenter) {
+        return new CrosswordServiceImpl(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepository,
+                presenter);
     }
 
     /**
@@ -69,15 +75,19 @@ public interface CrosswordService {
         final Collection<PuzzleDecoder> puzzleDecoders = load(PuzzleDecoder.class);
         final Collection<PuzzleEncoder> puzzleEncoders = load(PuzzleEncoder.class);
         final PuzzleRepository puzzleRepository =
-                load(PuzzleRepository.class).stream().findFirst().orElseGet(
-                        DummyPuzzleRepository::new);
+                load(PuzzleRepository.class).stream().findFirst().orElseGet(DummyPuzzleRepository::new);
         final Collection<Presenter> presenters = load(Presenter.class);
         if (presenters.isEmpty()) {
-            throw new IllegalStateException(
-                    "Failed to instantiate crossword service: No presenter found");
+            throw new IllegalStateException("Failed to instantiate crossword service: No presenter found");
         }
-        return create(dictionaryProviders, solvers, clueProviders, puzzleDecoders, puzzleEncoders,
-                      puzzleRepository, Presenter.broadcastingTo(presenters));
+        return create(
+                dictionaryProviders,
+                solvers,
+                clueProviders,
+                puzzleDecoders,
+                puzzleEncoders,
+                puzzleRepository,
+                Presenter.broadcastingTo(presenters));
     }
 
     /**

@@ -5,16 +5,15 @@
 
 package re.belv.croiseur.solver.ginsberg.state;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 import re.belv.croiseur.solver.ginsberg.core.sap.Elimination;
 import re.belv.croiseur.solver.ginsberg.core.sap.ProblemStateUpdater;
 import re.belv.croiseur.solver.ginsberg.listener.SolverListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Updates crossword problem state.

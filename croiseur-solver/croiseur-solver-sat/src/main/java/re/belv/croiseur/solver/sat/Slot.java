@@ -44,15 +44,13 @@ final class Slot {
      * @param isDownArg whether this is a down slot (= vertical)
      * @throws IllegalArgumentException if length is less than {@value #MIN_LENGTH}
      */
-    Slot(final int indexArg, final int startArg, final int endArg, final int offsetArg,
-         final boolean isDownArg) {
+    Slot(final int indexArg, final int startArg, final int endArg, final int offsetArg, final boolean isDownArg) {
         if (endArg - startArg < MIN_LENGTH) {
             // Technically this shouldn't happen since it is a purely internal class called by
             // another purely internal and hopefully bug-free class. Let's make this class
             // self-consistent though, in case the library API changes.
-            throw new IllegalArgumentException(
-                    "Invalid slot length: Slot must be at least " + MIN_LENGTH +
-                    " cells-long, given slot length is " + (endArg - startArg));
+            throw new IllegalArgumentException("Invalid slot length: Slot must be at least " + MIN_LENGTH
+                    + " cells-long, given slot length is " + (endArg - startArg));
         }
         index = indexArg;
         start = startArg;
@@ -69,8 +67,7 @@ final class Slot {
      * @param endColumn   the end column
      * @param row         the row
      */
-    static Slot across(final int index, final int startColumn, final int endColumn,
-                       final int row) {
+    static Slot across(final int index, final int startColumn, final int endColumn, final int row) {
         return new Slot(index, startColumn, endColumn, row, false);
     }
 
@@ -93,8 +90,8 @@ final class Slot {
      */
     List<Pos> positions() {
         return IntStream.range(start, end)
-                        .mapToObj(i -> isDown ? new Pos(offset, i) : new Pos(i, offset))
-                        .toList();
+                .mapToObj(i -> isDown ? new Pos(offset, i) : new Pos(i, offset))
+                .toList();
     }
 
     /**
@@ -119,9 +116,11 @@ final class Slot {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final Slot slot)) return false;
-        return index == slot.index && start == slot.start && end == slot.end &&
-               offset == slot.offset &&
-               isDown == slot.isDown;
+        return index == slot.index
+                && start == slot.start
+                && end == slot.end
+                && offset == slot.offset
+                && isDown == slot.isDown;
     }
 
     @Override
@@ -131,12 +130,11 @@ final class Slot {
 
     @Override
     public String toString() {
-        return "Slot{" +
-               "index=" + index +
-               ", start=" + start +
-               ", end=" + end +
-               ", offset=" + offset +
-               ", isDown=" + isDown +
-               '}';
+        return "Slot{" + "index="
+                + index + ", start="
+                + start + ", end="
+                + end + ", offset="
+                + offset + ", isDown="
+                + isDown + '}';
     }
 }

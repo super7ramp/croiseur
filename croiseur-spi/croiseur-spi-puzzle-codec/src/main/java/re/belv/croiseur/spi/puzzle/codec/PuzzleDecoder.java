@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.spi.puzzle.codec;
 
+import java.io.InputStream;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
-
-import java.io.InputStream;
 
 /**
  * A puzzle decoder.

@@ -20,8 +20,7 @@ final class DictionaryListCell extends CheckBoxListCell<DictionaryViewModel> {
      * Converts a {@link DictionaryViewModel} to a {@link String} to be used as title of a
      * {@link ListCell}.
      */
-    private static final StringConverter<DictionaryViewModel>
-            DICTIONARY_LIST_CELL_STRING_CONVERTER =
+    private static final StringConverter<DictionaryViewModel> DICTIONARY_LIST_CELL_STRING_CONVERTER =
             new StringConverter<>() {
                 @Override
                 public String toString(final DictionaryViewModel dictionaryViewModel) {

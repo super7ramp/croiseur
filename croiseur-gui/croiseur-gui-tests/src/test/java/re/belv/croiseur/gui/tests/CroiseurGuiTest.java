@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.gui.tests;
 
+import static org.testfx.framework.junit5.ApplicationTest.launch;
+
+import java.util.Locale;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import re.belv.croiseur.gui.CroiseurGuiApplication;
-
-import java.util.Locale;
-
-import static org.testfx.framework.junit5.ApplicationTest.launch;
 
 /**
  * Base class for Croiseur GUI end-to-end tests.

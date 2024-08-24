@@ -5,14 +5,10 @@
 
 package re.belv.croiseur.solver.ginsberg.heuristics.backtrack;
 
-import re.belv.croiseur.solver.ginsberg.core.Slot;
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-import re.belv.croiseur.solver.ginsberg.core.sap.Backtracker;
-import re.belv.croiseur.solver.ginsberg.core.sap.Elimination;
-import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
-import re.belv.croiseur.solver.ginsberg.history.History;
-import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
-import re.belv.croiseur.solver.ginsberg.lookahead.Unassignment;
+import static java.util.Comparator.comparingLong;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,11 +20,14 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-
-import static java.util.Comparator.comparingLong;
-import static java.util.function.Predicate.not;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toSet;
+import re.belv.croiseur.solver.ginsberg.core.Slot;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
+import re.belv.croiseur.solver.ginsberg.core.sap.Backtracker;
+import re.belv.croiseur.solver.ginsberg.core.sap.Elimination;
+import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
+import re.belv.croiseur.solver.ginsberg.history.History;
+import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
+import re.belv.croiseur.solver.ginsberg.lookahead.Unassignment;
 
 /**
  * A dynamic backtracker, inspired by the "Dynamic Backtracking" paper.
@@ -54,8 +53,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * @param probePuzzleArg the copy of the puzzle used for look-ahead
      * @param historyArg     the history
      */
-    DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg,
-                       final History historyArg) {
+    DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg, final History historyArg) {
         probePuzzle = probePuzzleArg;
         puzzle = puzzleArg;
         history = historyArg;
@@ -66,8 +64,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
         LOGGER.fine(() -> variable + " is not assignable, looking for a backtrack point");
         final Set<SlotIdentifier> candidates = candidatesFrom(variable);
         final List<SlotIdentifier> chosen = choose(candidates, variable);
-        final List<Elimination<Slot, SlotIdentifier>> eliminations = eliminationsFrom(candidates,
-                                                                                      chosen);
+        final List<Elimination<Slot, SlotIdentifier>> eliminations = eliminationsFrom(candidates, chosen);
         LOGGER.fine(() -> "Backtrack gave the following eliminations: " + eliminations);
         return eliminations;
     }
@@ -82,24 +79,24 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      */
     private Set<SlotIdentifier> candidatesFrom(final Slot unassignable) {
         // direct candidates
-        final Stream<SlotIdentifier> directCandidates
-                = unassignable.connectedSlots()
-                              .filter(Slot::isInstantiated)
-                              .map(Slot::uid)
-                              .sorted(comparingLong(history::assignmentNumber).reversed());
+        final Stream<SlotIdentifier> directCandidates = unassignable
+                .connectedSlots()
+                .filter(Slot::isInstantiated)
+                .map(Slot::uid)
+                .sorted(comparingLong(history::assignmentNumber).reversed());
 
         // candidates at distance 2
-        final Stream<SlotIdentifier> indirectCandidates =
-                unassignable.connectedSlots()
-                            .filter(not(Slot::isInstantiated))
-                            .flatMap(Slot::connectedSlots)
-                            .filter(Slot::isInstantiated)
-                            .map(Slot::uid)
-                            .sorted(comparingLong(history::assignmentNumber).reversed());
+        final Stream<SlotIdentifier> indirectCandidates = unassignable
+                .connectedSlots()
+                .filter(not(Slot::isInstantiated))
+                .flatMap(Slot::connectedSlots)
+                .filter(Slot::isInstantiated)
+                .map(Slot::uid)
+                .sorted(comparingLong(history::assignmentNumber).reversed());
 
         return Stream.of(directCandidates, indirectCandidates)
-                     .flatMap(Function.identity())
-                     .collect(toCollection(LinkedHashSet::new));
+                .flatMap(Function.identity())
+                .collect(toCollection(LinkedHashSet::new));
     }
 
     /**
@@ -109,13 +106,10 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * @param unassignable the unassignable variable that lead to backtrack
      * @return the chosen eliminated slots
      */
-    List<SlotIdentifier> choose(final Set<SlotIdentifier> candidates,
-                                final Slot unassignable) {
-        final Optional<SlotIdentifier> eliminated =
-                candidates.stream()
-                          .filter(candidate -> probePuzzle.hasSolutionAfter(
-                                  Unassignment.of(candidate), unassignable))
-                          .findFirst();
+    List<SlotIdentifier> choose(final Set<SlotIdentifier> candidates, final Slot unassignable) {
+        final Optional<SlotIdentifier> eliminated = candidates.stream()
+                .filter(candidate -> probePuzzle.hasSolutionAfter(Unassignment.of(candidate), unassignable))
+                .findFirst();
 
         final List<SlotIdentifier> eliminatedSlots;
         if (eliminated.isEmpty()) {
@@ -162,10 +156,9 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
                 LOGGER.info("No reason found, adding global reason.");
                 reasons.add(new SlotIdentifier(-1));
             }
-            eliminations =
-                    chosen.stream()
-                          .map(eliminated -> new Elimination<>(puzzle.slot(eliminated), reasons))
-                          .toList();
+            eliminations = chosen.stream()
+                    .map(eliminated -> new Elimination<>(puzzle.slot(eliminated), reasons))
+                    .toList();
         } else {
             eliminations = Collections.emptyList();
         }

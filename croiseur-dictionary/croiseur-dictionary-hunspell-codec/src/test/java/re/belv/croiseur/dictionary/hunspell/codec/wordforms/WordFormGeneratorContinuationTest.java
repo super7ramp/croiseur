@@ -11,5 +11,4 @@ final class WordFormGeneratorContinuationTest extends WordFormGeneratorTestCase 
     String name() {
         return "continuation";
     }
-
 }

@@ -5,14 +5,14 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-import javax.xml.stream.StreamFilter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Optional;
+import javax.xml.stream.StreamFilter;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 /**
  * Parses the header part of the dictionary: {@code <locale>}, {@code <name>} and {@code
@@ -25,17 +25,16 @@ final class DictionaryHeaderReader {
      * <p>
      * Also filters on {@code <words>} start event (i.e. the end of the header).
      */
-    private static final StreamFilter DICTIONARY_HEADER_STREAM_FILTER =
-            (final XMLStreamReader reader) -> {
-                if (!reader.isStartElement()) {
-                    return false;
-                }
-                final String elementName = reader.getLocalName();
-                return ElementNames.LOCALE.equals(elementName)
-                        || ElementNames.NAME.equals(elementName)
-                        || ElementNames.DESCRIPTION.equals(elementName)
-                        || ElementNames.WORDS.equals(elementName);
-            };
+    private static final StreamFilter DICTIONARY_HEADER_STREAM_FILTER = (final XMLStreamReader reader) -> {
+        if (!reader.isStartElement()) {
+            return false;
+        }
+        final String elementName = reader.getLocalName();
+        return ElementNames.LOCALE.equals(elementName)
+                || ElementNames.NAME.equals(elementName)
+                || ElementNames.DESCRIPTION.equals(elementName)
+                || ElementNames.WORDS.equals(elementName);
+    };
 
     /** The XML input factory. */
     private final XMLInputFactory xmlInputFactory;
@@ -49,8 +48,7 @@ final class DictionaryHeaderReader {
      * @param xmlInputFactoryArg  the XML input factory
      * @param dictionaryStreamArg the dictionary input stream supplier
      */
-    DictionaryHeaderReader(final XMLInputFactory xmlInputFactoryArg,
-                           final InputStreamSupplier dictionaryStreamArg) {
+    DictionaryHeaderReader(final XMLInputFactory xmlInputFactoryArg, final InputStreamSupplier dictionaryStreamArg) {
         xmlInputFactory = xmlInputFactoryArg;
         dictionaryStream = dictionaryStreamArg;
     }
@@ -62,12 +60,12 @@ final class DictionaryHeaderReader {
      * @param headerBuilder   the header builder
      * @throws XMLStreamException if read fails
      */
-    private static void parseDescription(final XMLStreamReader xmlStreamReader,
-                                         final DictionaryHeader.Builder headerBuilder) throws XMLStreamException {
-        final Locale lang =
-                Optional.ofNullable(xmlStreamReader.getAttributeValue(0))
-                        .map(Locale::forLanguageTag)
-                        .orElse(Locale.ENGLISH);
+    private static void parseDescription(
+            final XMLStreamReader xmlStreamReader, final DictionaryHeader.Builder headerBuilder)
+            throws XMLStreamException {
+        final Locale lang = Optional.ofNullable(xmlStreamReader.getAttributeValue(0))
+                .map(Locale::forLanguageTag)
+                .orElse(Locale.ENGLISH);
         final String content = xmlStreamReader.getElementText();
         headerBuilder.addDescription(lang, content);
     }
@@ -79,12 +77,11 @@ final class DictionaryHeaderReader {
      * @param headerBuilder   the header builder
      * @throws XMLStreamException if read fails
      */
-    private static void parseName(final XMLStreamReader xmlStreamReader,
-                                  final DictionaryHeader.Builder headerBuilder) throws XMLStreamException {
-        final Locale lang =
-                Optional.ofNullable(xmlStreamReader.getAttributeValue(0))
-                        .map(Locale::forLanguageTag)
-                        .orElse(Locale.ENGLISH);
+    private static void parseName(final XMLStreamReader xmlStreamReader, final DictionaryHeader.Builder headerBuilder)
+            throws XMLStreamException {
+        final Locale lang = Optional.ofNullable(xmlStreamReader.getAttributeValue(0))
+                .map(Locale::forLanguageTag)
+                .orElse(Locale.ENGLISH);
         final String content = xmlStreamReader.getElementText();
         headerBuilder.addName(lang, content);
     }
@@ -96,8 +93,8 @@ final class DictionaryHeaderReader {
      * @param headerBuilder   the header builder
      * @throws XMLStreamException if read fails
      */
-    private static void parseLocale(final XMLStreamReader xmlStreamReader,
-                                    final DictionaryHeader.Builder headerBuilder) throws XMLStreamException {
+    private static void parseLocale(final XMLStreamReader xmlStreamReader, final DictionaryHeader.Builder headerBuilder)
+            throws XMLStreamException {
         final Locale locale = Locale.forLanguageTag(xmlStreamReader.getElementText());
         headerBuilder.setLocale(locale);
     }
@@ -111,7 +108,7 @@ final class DictionaryHeaderReader {
      */
     DictionaryHeader read() throws XMLStreamException, IOException {
         try (final InputStream is = dictionaryStream.get();
-             final AutoCloseableXMLStreamReader reader = createReader(is)) {
+                final AutoCloseableXMLStreamReader reader = createReader(is)) {
             final DictionaryHeader.Builder headerBuilder = new DictionaryHeader.Builder();
             boolean headerEndReached = false;
             while (!headerEndReached && reader.hasNext()) {
@@ -140,10 +137,9 @@ final class DictionaryHeaderReader {
      * @throws XMLStreamException if read fails
      */
     private AutoCloseableXMLStreamReader createReader(final InputStream is) throws XMLStreamException {
-        final XMLStreamReader baseReader =
-                xmlInputFactory.createXMLStreamReader(is);
-        final XMLStreamReader filteredReader = xmlInputFactory.createFilteredReader(baseReader,
-                DICTIONARY_HEADER_STREAM_FILTER);
+        final XMLStreamReader baseReader = xmlInputFactory.createXMLStreamReader(is);
+        final XMLStreamReader filteredReader =
+                xmlInputFactory.createFilteredReader(baseReader, DICTIONARY_HEADER_STREAM_FILTER);
         return new AutoCloseableXMLStreamReader(filteredReader);
     }
 }

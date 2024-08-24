@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.impl.dictionary;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
@@ -12,10 +15,6 @@ import re.belv.croiseur.impl.dictionary.selection.DictionaryComparator;
 import re.belv.croiseur.impl.dictionary.selection.DictionaryProviderFilter;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * The 'list dictionaries' use case.
@@ -34,8 +33,8 @@ final class ListDictionariesUsecase {
      * @param dictionaryProvidersArg the dictionary providers
      * @param presenterArg           the presenter
      */
-    ListDictionariesUsecase(final Collection<DictionaryProvider> dictionaryProvidersArg,
-                            final DictionaryPresenter presenterArg) {
+    ListDictionariesUsecase(
+            final Collection<DictionaryProvider> dictionaryProvidersArg, final DictionaryPresenter presenterArg) {
         dictionaryProviders = dictionaryProvidersArg;
         presenter = presenterArg;
     }
@@ -47,12 +46,10 @@ final class ListDictionariesUsecase {
      * @param provider the dictionary provider
      * @return a stream of {@link ProvidedDictionaryDetails}s
      */
-    private static Stream<ProvidedDictionaryDetails> toDictionaryDetailsStream(
-            final DictionaryProvider provider) {
-        return provider.get()
-                       .stream()
-                       .map(dictionary -> new ProvidedDictionaryDetails(
-                               provider.details().name(), dictionary.details()));
+    private static Stream<ProvidedDictionaryDetails> toDictionaryDetailsStream(final DictionaryProvider provider) {
+        return provider.get().stream()
+                .map(dictionary ->
+                        new ProvidedDictionaryDetails(provider.details().name(), dictionary.details()));
     }
 
     /**
@@ -66,10 +63,9 @@ final class ListDictionariesUsecase {
     private static List<ProvidedDictionaryDetails> orderDictionaries(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {
         return selectedDictionaryProviders.stream()
-                                          .flatMap(
-                                                  ListDictionariesUsecase::toDictionaryDetailsStream)
-                                          .sorted(new DictionaryComparator())
-                                          .toList();
+                .flatMap(ListDictionariesUsecase::toDictionaryDetailsStream)
+                .sorted(new DictionaryComparator())
+                .toList();
     }
 
     /**
@@ -78,14 +74,12 @@ final class ListDictionariesUsecase {
      * @param request the event to process
      */
     void process(final ListDictionariesRequest request) {
-        final Collection<DictionaryProvider> selectedDictionaryProviders =
-                selectDictionaryProviders(request);
+        final Collection<DictionaryProvider> selectedDictionaryProviders = selectDictionaryProviders(request);
 
         if (selectedDictionaryProviders.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);
         } else {
-            final List<ProvidedDictionaryDetails> dictionaries =
-                    orderDictionaries(selectedDictionaryProviders);
+            final List<ProvidedDictionaryDetails> dictionaries = orderDictionaries(selectedDictionaryProviders);
             presenter.presentDictionaries(dictionaries);
         }
     }
@@ -96,11 +90,9 @@ final class ListDictionariesUsecase {
      * @param request the {@link ListDictionariesRequest} to use as filter
      * @return the selected dictionary providers
      */
-    private Collection<DictionaryProvider> selectDictionaryProviders(
-            final ListDictionariesRequest request) {
+    private Collection<DictionaryProvider> selectDictionaryProviders(final ListDictionariesRequest request) {
         return DictionaryProviderFilter.byOptionalProvider(request.provider())
-                                       .and(DictionaryProviderFilter.byOptionalLocale(
-                                               request.locale()))
-                                       .apply(dictionaryProviders);
+                .and(DictionaryProviderFilter.byOptionalLocale(request.locale()))
+                .apply(dictionaryProviders);
     }
 }

@@ -5,11 +5,11 @@
 
 package re.belv.croiseur.puzzle.codec.xd.writer;
 
-import org.junit.jupiter.api.Test;
-import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static re.belv.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
+
+import org.junit.jupiter.api.Test;
+import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
 /**
  * Tests for {@link XdGridWriter}.
@@ -18,18 +18,23 @@ final class XdGridWriterTest {
 
     @Test
     void write() {
-        final XdGrid model =
-                new XdGrid.Builder().filled(at(0, 0), 'A').nonFilled(at(1, 0))
-                                    .space(at(0, 1)).block(at(1, 1))
-                                    .filled(at(0, 2), 'B').nonFilled(at(1, 2))
-                                    .build();
+        final XdGrid model = new XdGrid.Builder()
+                .filled(at(0, 0), 'A')
+                .nonFilled(at(1, 0))
+                .space(at(0, 1))
+                .block(at(1, 1))
+                .filled(at(0, 2), 'B')
+                .nonFilled(at(1, 2))
+                .build();
         final XdGridWriter writer = new XdGridWriter();
 
         final String text = writer.write(model);
-        assertEquals("""
+        assertEquals(
+                """
                      A.
                      _#
                      B.
-                     """, text);
+                     """,
+                text);
     }
 }

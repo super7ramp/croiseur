@@ -32,8 +32,7 @@ public final class SolverConfigurationViewModel {
      */
     public SolverConfigurationViewModel() {
         selectedSolverName = new SimpleStringProperty(this, "selectedSolver");
-        availableSolvers = new SimpleListProperty<>(this, "availableSolvers",
-                                                    FXCollections.observableArrayList());
+        availableSolvers = new SimpleListProperty<>(this, "availableSolvers", FXCollections.observableArrayList());
         fillCluesOnSuccess = new SimpleBooleanProperty(this, "fillCluesOnSuccess");
     }
 

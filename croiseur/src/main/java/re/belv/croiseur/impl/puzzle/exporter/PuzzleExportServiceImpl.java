@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.impl.puzzle.exporter;
 
+import java.io.OutputStream;
+import java.util.Collection;
 import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
-
-import java.io.OutputStream;
-import java.util.Collection;
 
 /**
  * Implementation of {@link PuzzleExportService}.
@@ -31,9 +30,10 @@ public final class PuzzleExportServiceImpl implements PuzzleExportService {
      * @param encoders   the puzzle encoders
      * @param presenter  the puzzle presenter
      */
-    public PuzzleExportServiceImpl(final SafePuzzleRepository repository,
-                                   final Collection<PuzzleEncoder> encoders,
-                                   final PuzzlePresenter presenter) {
+    public PuzzleExportServiceImpl(
+            final SafePuzzleRepository repository,
+            final Collection<PuzzleEncoder> encoders,
+            final PuzzlePresenter presenter) {
         listPuzzleEncodersUsecase = new ListPuzzleEncodersUsecase(encoders, presenter);
         exportPuzzleUsecase = new ExportPuzzleUsecase(repository, encoders, presenter);
     }

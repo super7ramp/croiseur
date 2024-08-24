@@ -50,7 +50,6 @@ public interface CrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary,
-                       final ProgressListener progressListener) throws InterruptedException;
-
+    SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary, final ProgressListener progressListener)
+            throws InterruptedException;
 }

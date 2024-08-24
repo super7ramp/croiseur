@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.gui.view.model;
 
+import java.util.Objects;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import java.util.Objects;
 
 /**
  * The clues view model: Represents a single clue in the grid.
@@ -63,8 +62,7 @@ public final class ClueViewModel {
      * @throws NullPointerException if given clue is {@code null}
      */
     public void userContent(final String value) {
-        Objects.requireNonNull(value,
-                               "Clue user content shall be non null; Use empty string in absence of value");
+        Objects.requireNonNull(value, "Clue user content shall be non null; Use empty string in absence of value");
         userContent.set(value);
     }
 
@@ -93,8 +91,7 @@ public final class ClueViewModel {
      * @throws NullPointerException if given clue is {@code null}
      */
     public void systemContent(final String value) {
-        Objects.requireNonNull(value,
-                               "Clue system content shall be non null; Use empty string in absence of value");
+        Objects.requireNonNull(value, "Clue system content shall be non null; Use empty string in absence of value");
         systemContent.set(value);
     }
 
@@ -110,8 +107,8 @@ public final class ClueViewModel {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final ClueViewModel that)) return false;
-        return Objects.equals(userContent.get(), that.userContent.get()) &&
-               Objects.equals(systemContent.get(), that.systemContent.get());
+        return Objects.equals(userContent.get(), that.userContent.get())
+                && Objects.equals(systemContent.get(), that.systemContent.get());
     }
 
     @Override
@@ -121,9 +118,6 @@ public final class ClueViewModel {
 
     @Override
     public String toString() {
-        return "ClueViewModel{" +
-               "userContent=" + userContent.get() +
-               ", systemContent=" + systemContent.get() +
-               '}';
+        return "ClueViewModel{" + "userContent=" + userContent.get() + ", systemContent=" + systemContent.get() + '}';
     }
 }

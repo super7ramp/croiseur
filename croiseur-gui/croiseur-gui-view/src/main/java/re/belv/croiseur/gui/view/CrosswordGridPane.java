@@ -5,6 +5,9 @@
 
 package re.belv.croiseur.gui.view;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
@@ -30,10 +33,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
-
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A standalone crossword grid control.
@@ -64,13 +63,14 @@ public final class CrosswordGridPane extends StackPane {
                 final int col = GridPane.getColumnIndex(focused);
                 final int row = GridPane.getRowIndex(focused);
                 final GridCoord currentCoordinate = new GridCoord(col, row);
-                final GridCoord nextCoordinate = switch (event.getCode()) {
-                    case LEFT -> currentCoordinate.left();
-                    case RIGHT -> currentCoordinate.right();
-                    case UP -> currentCoordinate.up();
-                    case DOWN -> currentCoordinate.down();
-                    default -> currentCoordinate;
-                };
+                final GridCoord nextCoordinate =
+                        switch (event.getCode()) {
+                            case LEFT -> currentCoordinate.left();
+                            case RIGHT -> currentCoordinate.right();
+                            case UP -> currentCoordinate.up();
+                            case DOWN -> currentCoordinate.down();
+                            default -> currentCoordinate;
+                        };
                 final Node nextNode = boxNodes.get(nextCoordinate);
                 if (nextNode != null) {
                     nextNode.requestFocus();
@@ -100,8 +100,9 @@ public final class CrosswordGridPane extends StackPane {
 
         @Override
         public void handle(final InputEvent event) {
-            if (enterKeyPressed(event) || doublePrimaryClick(event) ||
-                arrowKeyPressedOrthogonalToSlotOrientation(event)) {
+            if (enterKeyPressed(event)
+                    || doublePrimaryClick(event)
+                    || arrowKeyPressedOrthogonalToSlotOrientation(event)) {
                 currentSlotVertical.set(!currentSlotVertical.get());
             }
         }
@@ -113,8 +114,7 @@ public final class CrosswordGridPane extends StackPane {
          * @return {@code true} if given event is the enter key being pressed
          */
         private static boolean enterKeyPressed(final InputEvent event) {
-            return event.getEventType() == KeyEvent.KEY_PRESSED &&
-                   ((KeyEvent) event).getCode() == KeyCode.ENTER;
+            return event.getEventType() == KeyEvent.KEY_PRESSED && ((KeyEvent) event).getCode() == KeyCode.ENTER;
         }
 
         /**
@@ -125,9 +125,9 @@ public final class CrosswordGridPane extends StackPane {
          * button
          */
         private static boolean doublePrimaryClick(final InputEvent event) {
-            return event.getEventType() == MouseEvent.MOUSE_CLICKED &&
-                   ((MouseEvent) event).getButton() == MouseButton.PRIMARY &&
-                   ((MouseEvent) event).getClickCount() == 2;
+            return event.getEventType() == MouseEvent.MOUSE_CLICKED
+                    && ((MouseEvent) event).getButton() == MouseButton.PRIMARY
+                    && ((MouseEvent) event).getClickCount() == 2;
         }
 
         /**
@@ -142,12 +142,12 @@ public final class CrosswordGridPane extends StackPane {
          * orthogonal to the current slot orientation
          */
         private boolean arrowKeyPressedOrthogonalToSlotOrientation(final InputEvent event) {
-            return event.getEventType() == KeyEvent.KEY_PRESSED &&
-                   switch (((KeyEvent) event).getCode()) {
-                       case UP, DOWN -> !currentSlotVertical.get();
-                       case LEFT, RIGHT -> currentSlotVertical.get();
-                       default -> false;
-                   };
+            return event.getEventType() == KeyEvent.KEY_PRESSED
+                    && switch (((KeyEvent) event).getCode()) {
+                        case UP, DOWN -> !currentSlotVertical.get();
+                        case LEFT, RIGHT -> currentSlotVertical.get();
+                        default -> false;
+                    };
         }
     }
 
@@ -158,8 +158,7 @@ public final class CrosswordGridPane extends StackPane {
      * tab key. Otherwise, navigation follows node insertion order, which may be erratic.
      */
     private static final Comparator<Node> BOX_COMPARATOR =
-            Comparator.comparingInt(GridPane::getRowIndex)
-                      .thenComparingInt(GridPane::getColumnIndex);
+            Comparator.comparingInt(GridPane::getRowIndex).thenComparingInt(GridPane::getColumnIndex);
 
     /** The boxes of the view. */
     private final MapProperty<GridCoord, CrosswordBoxViewModel> boxModels;
@@ -246,8 +245,8 @@ public final class CrosswordGridPane extends StackPane {
      *
      * @param change the model change
      */
-    private void onModelUpdate(final MapChangeListener.Change<? extends GridCoord, ?
-            extends CrosswordBoxViewModel> change) {
+    private void onModelUpdate(
+            final MapChangeListener.Change<? extends GridCoord, ? extends CrosswordBoxViewModel> change) {
         if (change.wasAdded()) {
             if (change.getValueRemoved() != null) {
                 throw new UnsupportedOperationException("Replacing box models is not supported");
@@ -309,8 +308,7 @@ public final class CrosswordGridPane extends StackPane {
      * @param removedCoordinate coordinate of the removed box
      */
     private void maybeRemoveColumnConstraint(final GridCoord removedCoordinate) {
-        if (boxNodes.keySet().stream()
-                    .noneMatch(coord -> coord.column() >= removedCoordinate.column())) {
+        if (boxNodes.keySet().stream().noneMatch(coord -> coord.column() >= removedCoordinate.column())) {
             grid.getColumnConstraints().remove(removedCoordinate.column());
         }
     }
@@ -413,27 +411,21 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void initializeGridConstraints() {
 
-        final DoubleBinding paddingWidth =
-                Bindings.createDoubleBinding(() -> getPadding().getLeft() + getPadding().getRight(),
-                                             paddingProperty());
-        final DoubleBinding paddingHeight =
-                Bindings.createDoubleBinding(() -> getPadding().getTop() + getPadding().getBottom(),
-                                             paddingProperty());
+        final DoubleBinding paddingWidth = Bindings.createDoubleBinding(
+                () -> getPadding().getLeft() + getPadding().getRight(), paddingProperty());
+        final DoubleBinding paddingHeight = Bindings.createDoubleBinding(
+                () -> getPadding().getTop() + getPadding().getBottom(), paddingProperty());
 
-        final NumberBinding smallerSideContentSize =
-                Bindings.min(widthProperty().subtract(paddingWidth),
-                             heightProperty().subtract(paddingHeight));
+        final NumberBinding smallerSideContentSize = Bindings.min(
+                widthProperty().subtract(paddingWidth), heightProperty().subtract(paddingHeight));
 
-        final DoubleBinding columnPerRowRatio =
-                Bindings.createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints(),
-                                             grid.getRowConstraints());
+        final DoubleBinding columnPerRowRatio = Bindings.createDoubleBinding(
+                this::columnPerRowRatio, grid.getColumnConstraints(), grid.getRowConstraints());
 
         grid.maxHeightProperty()
-            .bind(Bindings.min(smallerSideContentSize,
-                               smallerSideContentSize.divide(columnPerRowRatio)));
+                .bind(Bindings.min(smallerSideContentSize, smallerSideContentSize.divide(columnPerRowRatio)));
         grid.maxWidthProperty()
-            .bind(Bindings.min(smallerSideContentSize,
-                               smallerSideContentSize.multiply(columnPerRowRatio)));
+                .bind(Bindings.min(smallerSideContentSize, smallerSideContentSize.multiply(columnPerRowRatio)));
     }
 
     /**

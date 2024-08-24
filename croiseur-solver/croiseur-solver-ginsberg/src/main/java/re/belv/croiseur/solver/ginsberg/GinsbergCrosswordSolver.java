@@ -5,6 +5,13 @@
 
 package re.belv.croiseur.solver.ginsberg;
 
+import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.logging.Logger;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
@@ -21,14 +28,6 @@ import re.belv.croiseur.solver.ginsberg.listener.StatisticsRecorder;
 import re.belv.croiseur.solver.ginsberg.result.SolverResultFactory;
 import re.belv.croiseur.solver.ginsberg.state.Crossword;
 import re.belv.croiseur.solver.ginsberg.state.CrosswordUpdater;
-
-import java.math.BigInteger;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.Locale;
-import java.util.logging.Logger;
 
 /**
  * A crossword solver.
@@ -53,10 +52,10 @@ public final class GinsbergCrosswordSolver {
      * @param statisticsRecorder another listener for stats
      * @return the created solver
      */
-    private static Solver newSolver(final Crossword problem,
-                                    final ProgressListener progressListener,
-                                    final StatisticsRecorder statisticsRecorder) {
-
+    private static Solver newSolver(
+            final Crossword problem,
+            final ProgressListener progressListener,
+            final StatisticsRecorder statisticsRecorder) {
 
         final Collection<Slot> slots = problem.grid().puzzle().slots();
 
@@ -65,8 +64,7 @@ public final class GinsbergCrosswordSolver {
         final CandidateChooser<Slot, String> candidateChooser =
                 CandidateChoosers.byDefault(problem.probePuzzle(), problem.dictionary());
         final Backtracker<Slot, SlotIdentifier> backtracker =
-                Backtrackers.byDefault(problem.grid().puzzle(), problem.probePuzzle(),
-                                       problem.history());
+                Backtrackers.byDefault(problem.grid().puzzle(), problem.probePuzzle(), problem.history());
 
         // A listener to advertise progress to library user
         final ProgressNotifier progressNotifier = new ProgressNotifier(slots, progressListener);
@@ -76,8 +74,7 @@ public final class GinsbergCrosswordSolver {
 
         // The internal state updater
         final CrosswordUpdater crosswordUpdater =
-                new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder,
-                                                            fineProgressPrinter);
+                new CrosswordUpdater(problem).withListeners(progressNotifier, statisticsRecorder, fineProgressPrinter);
 
         // Finally, instantiate the solver
         return Solver.create(crosswordUpdater, slotChooser, candidateChooser, backtracker);
@@ -91,15 +88,11 @@ public final class GinsbergCrosswordSolver {
     private static void printPuzzleInsights(final Crossword crossword) {
         final CachedDictionary dictionary = crossword.dictionary();
         final Collection<Slot> slots = crossword.grid().puzzle().slots();
-        final BigInteger branches =
-                slots.stream()
-                     .map(s -> BigInteger.valueOf(dictionary.cachedCandidatesCount(s)))
-                     .reduce(BigInteger.ONE, BigInteger::multiply);
-        final NumberFormat formatter = new DecimalFormat("0.######E0",
-                                                         DecimalFormatSymbols.getInstance(
-                                                                 Locale.ROOT));
-        LOGGER.info(
-                () -> "Total branches (slot variables, pre-pruned): " + formatter.format(branches));
+        final BigInteger branches = slots.stream()
+                .map(s -> BigInteger.valueOf(dictionary.cachedCandidatesCount(s)))
+                .reduce(BigInteger.ONE, BigInteger::multiply);
+        final NumberFormat formatter = new DecimalFormat("0.######E0", DecimalFormatSymbols.getInstance(Locale.ROOT));
+        LOGGER.info(() -> "Total branches (slot variables, pre-pruned): " + formatter.format(branches));
     }
 
     /**
@@ -111,9 +104,9 @@ public final class GinsbergCrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    public SolverResult solve(final PuzzleGrid puzzleGrid,
-                              final Dictionary externalDictionary,
-                              final ProgressListener progressListener) throws InterruptedException {
+    public SolverResult solve(
+            final PuzzleGrid puzzleGrid, final Dictionary externalDictionary, final ProgressListener progressListener)
+            throws InterruptedException {
 
         progressListener.onInitialisationStart();
 
@@ -139,9 +132,7 @@ public final class GinsbergCrosswordSolver {
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
-    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary)
-            throws InterruptedException {
+    public SolverResult solve(final PuzzleGrid puzzle, final Dictionary dictionary) throws InterruptedException {
         return solve(puzzle, dictionary, ProgressListener.DUMMY_LISTENER);
     }
-
 }

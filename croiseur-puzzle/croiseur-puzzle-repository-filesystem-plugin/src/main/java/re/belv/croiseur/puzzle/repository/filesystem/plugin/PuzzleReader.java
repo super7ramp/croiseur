@@ -5,15 +5,14 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
-import re.belv.croiseur.common.puzzle.SavedPuzzle;
-import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
-import re.belv.croiseur.puzzle.codec.xd.reader.XdCrosswordReader;
-import re.belv.croiseur.puzzle.codec.xd.reader.XdReadException;
-
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import re.belv.croiseur.common.puzzle.SavedPuzzle;
+import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
+import re.belv.croiseur.puzzle.codec.xd.reader.XdCrosswordReader;
+import re.belv.croiseur.puzzle.codec.xd.reader.XdReadException;
 
 /**
  * Reads puzzles from disk and converts them to domain {@link SavedPuzzle}s.
@@ -43,8 +42,7 @@ final class PuzzleReader {
         try {
             final XdCrossword persistedCrosswordModel = reader.read(path);
             final int id = idFrom(path);
-            final SavedPuzzle domainCrosswordModel =
-                    PuzzleConverter.toDomain(id, persistedCrosswordModel);
+            final SavedPuzzle domainCrosswordModel = PuzzleConverter.toDomain(id, persistedCrosswordModel);
             return Optional.of(domainCrosswordModel);
         } catch (final XdReadException | PuzzleConversionException e) {
             LOGGER.warning(() -> "Failed to read " + path + ": " + e.getMessage());

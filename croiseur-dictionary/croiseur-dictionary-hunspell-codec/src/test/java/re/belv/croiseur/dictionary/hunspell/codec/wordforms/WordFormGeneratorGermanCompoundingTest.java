@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
-import org.junit.jupiter.api.Disabled;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Disabled;
 
 @Disabled("compounding from continuation not implemented")
 final class WordFormGeneratorGermanCompoundingTest extends WordFormGeneratorTestCase {

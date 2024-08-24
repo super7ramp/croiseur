@@ -5,6 +5,10 @@
 
 package re.belv.croiseur.gui.presenter;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
@@ -19,11 +23,6 @@ import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * GUI implementation of {@link SolverPresenter}.
@@ -52,10 +51,11 @@ final class GuiSolverPresenter implements SolverPresenter {
      * @param solverConfigurationViewModelArg the solver selection view model
      * @param errorsViewModelArg          the errors view model
      */
-    GuiSolverPresenter(final CrosswordGridViewModel crosswordGridViewModelArg,
-                       final SolverConfigurationViewModel solverConfigurationViewModelArg,
-                       final SolverProgressViewModel solverProgressViewModelArg,
-                       final ErrorsViewModel errorsViewModelArg) {
+    GuiSolverPresenter(
+            final CrosswordGridViewModel crosswordGridViewModelArg,
+            final SolverConfigurationViewModel solverConfigurationViewModelArg,
+            final SolverProgressViewModel solverProgressViewModelArg,
+            final ErrorsViewModel errorsViewModelArg) {
         crosswordGridViewModel = crosswordGridViewModelArg;
         solverConfigurationViewModel = solverConfigurationViewModelArg;
         solverProgressViewModel = solverProgressViewModelArg;
@@ -65,19 +65,15 @@ final class GuiSolverPresenter implements SolverPresenter {
     @Override
     public void presentAvailableSolvers(final List<SolverDescription> solverDescriptions) {
         LOGGER.info(() -> "Received solver descriptions: " + solverDescriptions);
-        final List<SolverItemViewModel> solverNames =
-                solverDescriptions.stream()
-                                  .map(s -> new SolverItemViewModel(s.name(),
-                                                                    s.description()))
-                                  .toList();
-        Platform.runLater(() ->
-                                  solverConfigurationViewModel.availableSolversProperty()
-                                                              .addAll(solverNames));
+        final List<SolverItemViewModel> solverNames = solverDescriptions.stream()
+                .map(s -> new SolverItemViewModel(s.name(), s.description()))
+                .toList();
+        Platform.runLater(
+                () -> solverConfigurationViewModel.availableSolversProperty().addAll(solverNames));
     }
 
     @Override
-    public void presentSolverInitialisationState(
-            final SolverInitialisationState solverInitialisationState) {
+    public void presentSolverInitialisationState(final SolverInitialisationState solverInitialisationState) {
         LOGGER.info(() -> "Received solver initialisation state: " + solverInitialisationState);
         // No specific presentation for initialisation progress
     }
@@ -85,8 +81,7 @@ final class GuiSolverPresenter implements SolverPresenter {
     @Override
     public void presentSolverProgress(final SolverProgress solverProgress) {
         LOGGER.info(() -> "Received solver progress: " + solverProgress);
-        final double normalizedSolverProgress =
-                ((double) solverProgress.completionPercentage()) / 100.0;
+        final double normalizedSolverProgress = ((double) solverProgress.completionPercentage()) / 100.0;
         Platform.runLater(() -> solverProgressViewModel.solverProgress(normalizedSolverProgress));
     }
 
@@ -114,11 +109,9 @@ final class GuiSolverPresenter implements SolverPresenter {
      * @param result the solver result
      */
     private void updateBoxSolvableState(final SolverResult result) {
-        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes =
-                crosswordGridViewModel.boxesProperty();
+        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes = crosswordGridViewModel.boxesProperty();
         final Set<GridPosition> unsolvableBoxes = result.unsolvableBoxes();
-        for (final Map.Entry<GridCoord, CrosswordBoxViewModel> entry :
-                viewModelBoxes.entrySet()) {
+        for (final Map.Entry<GridCoord, CrosswordBoxViewModel> entry : viewModelBoxes.entrySet()) {
             final CrosswordBoxViewModel box = entry.getValue();
             if (!box.isSelected()) {
                 final GridPosition position = gridPositionFrom(entry.getKey());
@@ -141,8 +134,7 @@ final class GuiSolverPresenter implements SolverPresenter {
      */
     private void updateBoxContent(final SolverResult result) {
         final Map<GridPosition, Character> resultBoxes = result.filledBoxes();
-        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes =
-                crosswordGridViewModel.boxesProperty();
+        final Map<GridCoord, CrosswordBoxViewModel> viewModelBoxes = crosswordGridViewModel.boxesProperty();
         for (final Map.Entry<GridPosition, Character> entry : resultBoxes.entrySet()) {
             final GridPosition position = entry.getKey();
             final CrosswordBoxViewModel box = viewModelBoxes.get(gridCoordFrom(position));

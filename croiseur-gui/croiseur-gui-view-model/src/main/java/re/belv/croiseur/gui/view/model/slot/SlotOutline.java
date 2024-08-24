@@ -5,11 +5,10 @@
 
 package re.belv.croiseur.gui.view.model.slot;
 
-import re.belv.croiseur.gui.view.model.GridCoord;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import re.belv.croiseur.gui.view.model.GridCoord;
 
 /**
  * Slot outline base class.
@@ -99,8 +98,9 @@ public abstract sealed class SlotOutline {
      * @return the positions that this slot represents.
      */
     public final List<GridCoord> boxPositions() {
-        return IntStream.range(start, end).mapToObj(varying -> coordOf(varying, offset))
-                        .toList();
+        return IntStream.range(start, end)
+                .mapToObj(varying -> coordOf(varying, offset))
+                .toList();
     }
 
     /**
@@ -112,9 +112,9 @@ public abstract sealed class SlotOutline {
      * @return {@code true} iff the given coordinates belong to this slot
      */
     public final boolean contains(final GridCoord coord) {
-        return offsetCoordinateOf(coord) == offset &&
-               varyingCoordinateOf(coord) >= start &&
-               varyingCoordinateOf(coord) < end;
+        return offsetCoordinateOf(coord) == offset
+                && varyingCoordinateOf(coord) >= start
+                && varyingCoordinateOf(coord) < end;
     }
 
     /**
@@ -173,11 +173,7 @@ final class AcrossSlotOutline extends SlotOutline {
 
     @Override
     public String toString() {
-        return "AcrossSlotOutline{" +
-               "columnStart=" + start +
-               ", columnEnd=" + end +
-               ", row=" + offset +
-               '}';
+        return "AcrossSlotOutline{" + "columnStart=" + start + ", columnEnd=" + end + ", row=" + offset + '}';
     }
 
     @Override
@@ -226,11 +222,7 @@ final class DownSlotOutline extends SlotOutline {
 
     @Override
     public String toString() {
-        return "DownSlotOutline{" +
-               "rowStart=" + start +
-               ", rowEnd=" + end +
-               ", column=" + offset +
-               '}';
+        return "DownSlotOutline{" + "rowStart=" + start + ", rowEnd=" + end + ", column=" + offset + '}';
     }
 
     @Override

@@ -25,8 +25,8 @@ final class ListClueProviderTask extends Task<Void> {
      */
     ListClueProviderTask(final CluesViewModel cluesViewModel, final ClueService clueServiceArg) {
         clueService = clueServiceArg;
-        runningProperty().addListener(
-                (observable, oldValue, newValue) -> cluesViewModel.clueServiceIsRunning(newValue));
+        runningProperty()
+                .addListener((observable, oldValue, newValue) -> cluesViewModel.clueServiceIsRunning(newValue));
     }
 
     @Override

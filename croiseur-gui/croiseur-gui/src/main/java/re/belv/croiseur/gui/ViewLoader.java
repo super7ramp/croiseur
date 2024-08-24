@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.gui;
 
-import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
 
 /**
  * A utility class to load the application views.
@@ -42,8 +41,7 @@ final class ViewLoader {
         final Class<?> clazz = controller.getClass();
 
         final String viewName = clazz.getSimpleName().replace("Controller", "View") + ".fxml";
-        final URL fxmlLocation =
-                Objects.requireNonNull(clazz.getResource(viewName), "Failed to locate " + viewName);
+        final URL fxmlLocation = Objects.requireNonNull(clazz.getResource(viewName), "Failed to locate " + viewName);
 
         final String resourceBundleName = clazz.getName().replace("Controller", "");
         final ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName);

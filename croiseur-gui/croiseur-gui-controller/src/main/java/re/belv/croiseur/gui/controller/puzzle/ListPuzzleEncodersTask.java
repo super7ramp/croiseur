@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-
 package re.belv.croiseur.gui.controller.puzzle;
 
 import javafx.concurrent.Task;

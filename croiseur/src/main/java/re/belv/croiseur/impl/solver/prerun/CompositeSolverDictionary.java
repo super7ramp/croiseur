@@ -5,13 +5,12 @@
 
 package re.belv.croiseur.impl.solver.prerun;
 
-import re.belv.croiseur.spi.solver.Dictionary;
+import static java.util.stream.Collectors.toCollection;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-
-import static java.util.stream.Collectors.toCollection;
+import re.belv.croiseur.spi.solver.Dictionary;
 
 /**
  * A dictionary collecting results of several dictionaries.
@@ -32,8 +31,8 @@ final class CompositeSolverDictionary implements Dictionary {
             words = dictionaries.get(0).words();
         } else {
             words = dictionaries.stream()
-                                .flatMap(dictionary -> dictionary.words().stream())
-                                .collect(toCollection(LinkedHashSet::new));
+                    .flatMap(dictionary -> dictionary.words().stream())
+                    .collect(toCollection(LinkedHashSet::new));
         }
     }
 

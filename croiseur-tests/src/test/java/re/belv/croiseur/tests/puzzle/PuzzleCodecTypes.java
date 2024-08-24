@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.tests.puzzle;
 
-import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import io.cucumber.java.DataTableType;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 
 /**
  * Datatable and parameter types pertaining to puzzle codec service.

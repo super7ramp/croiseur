@@ -5,12 +5,11 @@
 
 package re.belv.croiseur.cli.controller.solver.adapter;
 
-import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
-import re.belv.croiseur.common.puzzle.GridPosition;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
+import re.belv.croiseur.common.puzzle.GridPosition;
 
 /**
  * An oriented pre-filled slot.
@@ -29,8 +28,9 @@ final class OrientedPrefilledSlot {
      * @param aCoordinateOffset the offset function
      * @param aNonOrientedSlot  the non-oriented data
      */
-    private OrientedPrefilledSlot(final BiFunction<GridPosition, Integer, GridPosition> aCoordinateOffset,
-                                  final PrefilledSlot aNonOrientedSlot) {
+    private OrientedPrefilledSlot(
+            final BiFunction<GridPosition, Integer, GridPosition> aCoordinateOffset,
+            final PrefilledSlot aNonOrientedSlot) {
         coordinateOffset = aCoordinateOffset;
         nonOrientedSlot = aNonOrientedSlot;
     }
@@ -63,7 +63,8 @@ final class OrientedPrefilledSlot {
     Map<GridPosition, Character> toMap() {
         final Map<GridPosition, Character> map = new HashMap<>();
         for (int i = 0; i < nonOrientedSlot.value().length(); i++) {
-            map.put(coordinateOffset.apply(nonOrientedSlot.startGridPosition(), i),
+            map.put(
+                    coordinateOffset.apply(nonOrientedSlot.startGridPosition(), i),
                     nonOrientedSlot.value().charAt(i));
         }
         return map;

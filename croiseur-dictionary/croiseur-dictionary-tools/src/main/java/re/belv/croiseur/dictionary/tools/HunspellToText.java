@@ -5,7 +5,7 @@
 
 package re.belv.croiseur.dictionary.tools;
 
-import re.belv.croiseur.dictionary.hunspell.codec.HunspellDictionaryReader;
+import static java.util.stream.Collectors.toSet;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +15,7 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static java.util.stream.Collectors.toSet;
+import re.belv.croiseur.dictionary.hunspell.codec.HunspellDictionaryReader;
 
 /**
  * A tool to deflate a Hunspell dictionary into a big text file containing all valid forms;

@@ -210,11 +210,9 @@ public final class SavedPuzzleViewModel {
             details.editor(editor);
             details.copyright(copyright);
             details.date(date);
-            final var grid =
-                    new SavedPuzzleGridViewModel(numberOfColumns, numberOfRows, shaded, filled);
+            final var grid = new SavedPuzzleGridViewModel(numberOfColumns, numberOfRows, shaded, filled);
             return new SavedPuzzleViewModel(details, grid);
         }
-
     }
 
     /** The puzzle details. */
@@ -229,8 +227,7 @@ public final class SavedPuzzleViewModel {
      * @param detailsArg the puzzle details
      * @param gridArg    the puzzle grid
      */
-    public SavedPuzzleViewModel(final PuzzleDetailsViewModel detailsArg,
-                                final SavedPuzzleGridViewModel gridArg) {
+    public SavedPuzzleViewModel(final PuzzleDetailsViewModel detailsArg, final SavedPuzzleGridViewModel gridArg) {
         details = detailsArg;
         grid = gridArg;
     }

@@ -5,6 +5,15 @@
 
 package re.belv.croiseur.tests.puzzle.persistence;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import io.cucumber.java.Transpose;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.util.Collections;
+import java.util.List;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePatch;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import re.belv.croiseur.common.puzzle.ChangedPuzzle;
@@ -15,16 +24,6 @@ import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 import re.belv.croiseur.tests.context.PuzzleRepositorySpy;
 import re.belv.croiseur.tests.context.TestContext;
-import io.cucumber.java.Transpose;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.util.Collections;
-import java.util.List;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 /**
  * Steps pertaining to the {@link PuzzlePersistenceService}.
@@ -153,5 +152,4 @@ public final class PuzzlePersistenceSteps {
     public void thenDelete(final long puzzleId) {
         puzzleRepositorySpy.verifyDeletion(puzzleId);
     }
-
 }

@@ -5,9 +5,8 @@
 
 package re.belv.croiseur.solver.ginsberg.elimination;
 
-import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
-
 import java.util.Collection;
+import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Write access to the {@link EliminationSpace}.
@@ -30,6 +29,5 @@ public interface EliminationSpaceWriter extends EliminationSpace {
      * @param reasons    the reasons of the elimination (other relevant slots)
      * @param eliminated the eliminated value
      */
-    void eliminate(final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons,
-                   final String eliminated);
+    void eliminate(final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons, final String eliminated);
 }

@@ -20,7 +20,6 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-
 /**
  * An implementation of the trie data structure.
  * <p>
@@ -59,8 +58,7 @@ final class Trie extends AbstractSet<String> {
          * @param position the position in the pattern
          * @return the next children nodes satisfying the given pattern
          */
-        Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
-                                                                   final int position);
+        Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node, final int position);
 
         /**
          * Whether the given word matches with the pattern.
@@ -79,8 +77,7 @@ final class Trie extends AbstractSet<String> {
         INSTANCE;
 
         @Override
-        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
-                                                                          final int position) {
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node, final int position) {
             return node.children.entrySet().iterator();
         }
 
@@ -129,8 +126,7 @@ final class Trie extends AbstractSet<String> {
         }
 
         @Override
-        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
-                                                                          final int position) {
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node, final int position) {
             final Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches;
             if (position >= pattern.length()) {
                 nextLetterMatches = Collections.emptyIterator();
@@ -141,8 +137,9 @@ final class Trie extends AbstractSet<String> {
                 } else {
                     final TrieNode exactLetterNode = node.children.get(patternLetter);
                     if (exactLetterNode != null) {
-                        nextLetterMatches = Collections.singletonMap(patternLetter,
-                                exactLetterNode).entrySet().iterator();
+                        nextLetterMatches = Collections.singletonMap(patternLetter, exactLetterNode)
+                                .entrySet()
+                                .iterator();
                     } else {
                         nextLetterMatches = Collections.emptyIterator();
                     }
@@ -187,8 +184,7 @@ final class Trie extends AbstractSet<String> {
         }
 
         @Override
-        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node,
-                                                                          final int position) {
+        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node, final int position) {
             // All children may match
             return node.children.entrySet().iterator();
         }
@@ -249,8 +245,7 @@ final class Trie extends AbstractSet<String> {
         TrieIterator(final PatternMatcher patternMatcherArg) {
             patternMatcher = patternMatcherArg;
             nextWordBuilder = new StringBuilder();
-            nodeIterators =
-                    new ArrayList<Iterator<Map.Entry<Character, TrieNode>>>().listIterator();
+            nodeIterators = new ArrayList<Iterator<Map.Entry<Character, TrieNode>>>().listIterator();
             nodeIterators.add(patternMatcher.nextLetterMatches(Trie.this.root, 0));
             findAndUpdateNextWord();
         }
@@ -261,7 +256,6 @@ final class Trie extends AbstractSet<String> {
         TrieIterator() {
             this(NoPatternMatcher.INSTANCE);
         }
-
 
         @Override
         public void remove() {
@@ -329,8 +323,7 @@ final class Trie extends AbstractSet<String> {
                     final char nodeChar = nodeEntry.getKey();
                     nextWordBuilder.append(nodeChar);
                     final TrieNode node = nodeEntry.getValue();
-                    nodeIterators.add(patternMatcher.nextLetterMatches(node,
-                            nodeIterators.nextIndex()));
+                    nodeIterators.add(patternMatcher.nextLetterMatches(node, nodeIterators.nextIndex()));
                     nodeIterators.previous();
                     foundWord = isMatchingTerminalNode(node);
                     if (foundWord) {
@@ -529,9 +522,8 @@ final class Trie extends AbstractSet<String> {
      */
     Stream<String> streamMatching(final String pattern) {
         final Iterator<String> iterator = new TrieIterator(new PositivePatternMatcher(pattern));
-        final Spliterator<String> splitIterator = Spliterators.spliteratorUnknownSize(iterator,
-                0 /* TODO specify characteristics? */);
+        final Spliterator<String> splitIterator =
+                Spliterators.spliteratorUnknownSize(iterator, 0 /* TODO specify characteristics? */);
         return StreamSupport.stream(splitIterator, false /* no parallel. */);
     }
-
 }

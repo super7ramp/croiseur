@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.cli.controller.dictionary.parser;
 
-import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 
 /**
  * Parser for {@link DictionaryIdentifier}.
@@ -16,8 +15,7 @@ import java.util.regex.Pattern;
 public final class DictionaryIdentifierParser {
 
     /** Textual representation pattern: providerName:dictionaryName. */
-    private static final Pattern PATTERN = Pattern.compile("((?<provider>[^:]+):)" +
-                                                           "(?<dictionary>[^:]+)");
+    private static final Pattern PATTERN = Pattern.compile("((?<provider>[^:]+):)" + "(?<dictionary>[^:]+)");
 
     /** Private constructor to prevent instantiation. */
     private DictionaryIdentifierParser() {
@@ -33,8 +31,7 @@ public final class DictionaryIdentifierParser {
     public static DictionaryIdentifier parse(final String text) {
         final Matcher matcher = PATTERN.matcher(text);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() +
-                                               ", was " + text);
+            throw new IllegalArgumentException("Invalid format: Expected " + PATTERN.pattern() + ", was " + text);
         }
         final String providerName = matcher.group("provider");
         final String dictionaryName = matcher.group("dictionary");

@@ -32,10 +32,8 @@ public final class Backtrackers {
      * @param history     assignment history
      * @return the best {@link Backtracker} in most situations.
      */
-    public static Backtracker<Slot, SlotIdentifier> byDefault(final Puzzle puzzle,
-                                                              final ProbePuzzle probePuzzle,
-                                                              final History history) {
+    public static Backtracker<Slot, SlotIdentifier> byDefault(
+            final Puzzle puzzle, final ProbePuzzle probePuzzle, final History history) {
         return new DynamicBacktracker(puzzle, probePuzzle, history);
     }
-
 }

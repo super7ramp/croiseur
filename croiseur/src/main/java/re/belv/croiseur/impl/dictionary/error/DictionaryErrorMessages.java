@@ -14,8 +14,8 @@ public final class DictionaryErrorMessages {
     public static final String NO_DICTIONARY_ERROR_MESSAGE = "No dictionary found";
 
     /** Error message to publish when an ambiguous request is received. */
-    public static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE = "Ambiguous request: Found " +
-            "matching dictionaries for several providers";
+    public static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE =
+            "Ambiguous request: Found " + "matching dictionaries for several providers";
 
     /**
      * Prevents instantiation.

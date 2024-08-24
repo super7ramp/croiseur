@@ -5,10 +5,9 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 
+import java.util.Collection;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
-
-import java.util.Collection;
 
 /**
  * A simple compound composed of two dictionary entries.
