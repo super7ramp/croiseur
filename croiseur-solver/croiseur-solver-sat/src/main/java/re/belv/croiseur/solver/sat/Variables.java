@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.solver.sat;
 
+import java.util.function.IntPredicate;
+
 /**
  * Where translation of problem data from/to integer variables occurs.
  * <p>
@@ -141,18 +143,17 @@ final class Variables {
     /**
      * Translates solver model back to a crossword grid.
      *
-     * @param model the solver model
+     * @param model the solver model, as an {@link IntPredicate} providing truth values of tested variables
      * @return a crossword grid
      */
-    char[][] backToDomain(final int[] model) {
+    char[][] backToDomain(final IntPredicate model) {
         final char[][] outGrid = new char[grid.rowCount()][grid.columnCount()];
         for (int row = 0; row < grid.rowCount(); row++) {
             for (int column = 0; column < grid.columnCount(); column++) {
                 for (int value = 0; value < CELL_VALUE_COUNT; value++) {
-                    final int variable = representingCell(row, column, value) - 1;
-                    if (model[variable] > 0) {
-                        outGrid[row][column] =
-                                value == BLOCK_INDEX ? Grid.BLOCK : Alphabet.letterAt(value);
+                    final int variable = representingCell(row, column, value);
+                    if (model.test(variable)) {
+                        outGrid[row][column] = value == BLOCK_INDEX ? Grid.BLOCK : Alphabet.letterAt(value);
                         break;
                     }
                 }

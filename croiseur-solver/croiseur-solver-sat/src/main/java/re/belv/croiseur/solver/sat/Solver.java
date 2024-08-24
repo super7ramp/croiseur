@@ -120,7 +120,7 @@ public final class Solver {
         if (!problemIsSatisfiable()) {
             return noSolution();
         }
-        return variables.backToDomain(satSolver.model());
+        return variables.backToDomain(satSolver::model);
     }
 
     /**
