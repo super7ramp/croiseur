@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.solver.sat;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -297,5 +298,10 @@ final class SolverComplexTest {
                 {'S', 'A', 'S', 'S', '#', 'S', 'A', 'L', 'A', 'L', '#', 'M', 'E', 'S', 'H'},
         };
         assertArrayEquals(expectedGrid, outputGrid);
+    }
+
+    @AfterAll
+    static void tearDown() {
+        words = null;
     }
 }
