@@ -30,6 +30,7 @@ Build on Linux:
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
   script:
     - reuse lint
+    - gradle spotlessCheck
     - gradle assemble -x distZip
     - gradle check -x croiseur-gui:croiseur-gui-tests:test
     - gradle croiseur-gui:croiseur-gui-tests:test
