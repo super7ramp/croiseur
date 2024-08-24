@@ -14,9 +14,7 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.reader.XdCrosswordReader;
 import re.belv.croiseur.puzzle.codec.xd.reader.XdReadException;
 
-/**
- * Reads puzzles from disk and converts them to domain {@link SavedPuzzle}s.
- */
+/** Reads puzzles from disk and converts them to domain {@link SavedPuzzle}s. */
 final class PuzzleReader {
 
     /** The logger. */
@@ -25,9 +23,7 @@ final class PuzzleReader {
     /** The file reader. */
     private final XdCrosswordReader reader;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     PuzzleReader() {
         reader = new XdCrosswordReader();
     }

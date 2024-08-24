@@ -9,9 +9,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 
-/**
- * The available codecs view model.
- */
+/** The available codecs view model. */
 public final class PuzzleCodecsViewModel {
 
     /** The available puzzle decoders. */
@@ -20,9 +18,7 @@ public final class PuzzleCodecsViewModel {
     /** The available puzzle encoders. */
     private final ListProperty<PuzzleCodec> encoders;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     PuzzleCodecsViewModel() {
         decoders = new SimpleListProperty<>(this, "decoders", FXCollections.observableArrayList());
         encoders = new SimpleListProperty<>(this, "encoders", FXCollections.observableArrayList());

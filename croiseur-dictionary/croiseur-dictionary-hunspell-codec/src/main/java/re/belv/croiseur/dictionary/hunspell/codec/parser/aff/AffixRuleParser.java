@@ -15,9 +15,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
-/**
- * Parses {@link AffixRule}.
- */
+/** Parses {@link AffixRule}. */
 final class AffixRuleParser {
 
     /** The pattern of an affix header. */
@@ -40,7 +38,7 @@ final class AffixRuleParser {
     /**
      * Parses an affix rule.
      *
-     * @param line     line to parse
+     * @param line line to parse
      * @param flagType the flag type (in order to split the continuation classes)
      * @return the {@link AffixRule}
      */

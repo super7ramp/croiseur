@@ -14,9 +14,7 @@ import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
-/**
- * Lists the dictionary providers.
- */
+/** Lists the dictionary providers. */
 final class ListDictionaryProvidersUsecase {
 
     /** The dictionary providers. */
@@ -29,7 +27,7 @@ final class ListDictionaryProvidersUsecase {
      * Constructs an instance.
      *
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg           the presenter
+     * @param presenterArg the presenter
      */
     ListDictionaryProvidersUsecase(
             final Collection<DictionaryProvider> dictionaryProvidersArg, final DictionaryPresenter presenterArg) {
@@ -37,9 +35,7 @@ final class ListDictionaryProvidersUsecase {
         presenter = presenterArg;
     }
 
-    /**
-     * Processes the 'list dictionary providers' event.
-     */
+    /** Processes the 'list dictionary providers' event. */
     void process() {
         if (dictionaryProviders.isEmpty()) {
             presenter.presentDictionaryError(DictionaryErrorMessages.NO_DICTIONARY_ERROR_MESSAGE);

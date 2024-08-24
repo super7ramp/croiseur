@@ -17,9 +17,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
-/**
- * Applies an affix class to a word.
- */
+/** Applies an affix class to a word. */
 final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
 
     /** The affix class. */
@@ -34,7 +32,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     /**
      * Constructs an instance.
      *
-     * @param affixClassArg   the affix class
+     * @param affixClassArg the affix class
      * @param affixClassesArg the other affix classes
      */
     AffixClassApplicator(final AffixClass affixClassArg, final AffixClasses affixClassesArg) {
@@ -49,11 +47,10 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     }
 
     /**
-     * Applies the given rule to given stem, accumulating the generated strings in the given
-     * accumulator.
+     * Applies the given rule to given stem, accumulating the generated strings in the given accumulator.
      *
-     * @param affixRule   the rule to apply
-     * @param entry       the dictionary entry
+     * @param affixRule the rule to apply
+     * @param entry the dictionary entry
      * @param accumulator the accumulator where to add new affixed forms
      */
     private void applyRule(final AffixRule affixRule, final DicEntry entry, final Consumer<String> accumulator) {
@@ -71,10 +68,9 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     }
 
     /**
-     * Applies the affix rules of the continuation classes of the given rule applied on the given
-     * word.
+     * Applies the affix rules of the continuation classes of the given rule applied on the given word.
      *
-     * @param affixRule   the affix rule to continue
+     * @param affixRule the affix rule to continue
      * @param affixedForm the word affixed using the given affix rule
      * @param accumulator the accumulator where to add new affixed forms
      */
@@ -86,21 +82,21 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
     }
 
     /**
-     * If cross-product is enabled for this class, applies, on the given already affixed form, the
-     * rules:
+     * If cross-product is enabled for this class, applies, on the given already affixed form, the rules:
+     *
      * <ul>
-     *     <li>Referenced by the given entry;
-     *     <li>For which cross-product is enabled;
-     *     <li>Of opposite kind (i.e. suffix if this class is prefix, and vice-versa)</li>
+     *   <li>Referenced by the given entry;
+     *   <li>For which cross-product is enabled;
+     *   <li>Of opposite kind (i.e. suffix if this class is prefix, and vice-versa)
      * </ul>
      *
-     * <p>
-     * Example:
+     * <p>Example:
+     *
      * <ul>
-     *     <li>Rule: Suffix 'suf'</li>
-     *     <li>Word: 'foosuf' (affixed form, stem was 'foo')</li>
-     *     <li>Other classes rules: Prefix 'pre', prefix 'Pre'</li>
-     *     <li>Cross-product result: 'prefoosuf' and 'Prefoosuf'.
+     *   <li>Rule: Suffix 'suf'
+     *   <li>Word: 'foosuf' (affixed form, stem was 'foo')
+     *   <li>Other classes rules: Prefix 'pre', prefix 'Pre'
+     *   <li>Cross-product result: 'prefoosuf' and 'Prefoosuf'.
      * </ul>
      *
      * @param affixedForm the word affixed using the given affix rule
@@ -115,8 +111,8 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
 
     /**
      * Gets the {@link AffixRuleApplicator} for the given rule.
-     * <p>
-     * Creates it if it is not cached yet.
+     *
+     * <p>Creates it if it is not cached yet.
      *
      * @param affixRule the affix rule
      * @return the corresponding {@link AffixRuleApplicator}
@@ -129,7 +125,7 @@ final class AffixClassApplicator implements Function<DicEntry, Stream<String>> {
      * Applies the given affix rule to the given word.
      *
      * @param affixRule the affix rule to apply
-     * @param word      the word to affix
+     * @param word the word to affix
      * @return the affixed word, if rule is applicable
      */
     private Optional<String> applyAffixRule(final AffixRule affixRule, final String word) {

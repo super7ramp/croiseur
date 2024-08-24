@@ -8,9 +8,7 @@ package re.belv.croiseur.gui.controller.puzzle;
 import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 
-/**
- * The 'list puzzle decoders' task.
- */
+/** The 'list puzzle decoders' task. */
 final class ListPuzzleDecodersTask extends Task<Void> {
 
     /** The puzzle service to call. */

@@ -12,19 +12,18 @@ import java.util.Optional;
 
 /**
  * Base abstraction for SAP solving
- * <p>
- * This class implements a solver, provided:
+ *
+ * <p>This class implements a solver, provided:
+ *
  * <ul>
- *     <li>an {@link Iterator iterator} to iterate on the variables</li>
- *     <li>a {@link CandidateChooser <VariableT,ValueT> candidate chooser} to select the best
- *     next variable</li>
- *     <li>a {@link Backtracker backtracking strategy} to handle the dead-ends</li>
- *     <li>a {@link ProblemStateUpdater problem state updater} to commit the changes to the
- *     problem</li>
+ *   <li>an {@link Iterator iterator} to iterate on the variables
+ *   <li>a {@link CandidateChooser <VariableT,ValueT> candidate chooser} to select the best next variable
+ *   <li>a {@link Backtracker backtracking strategy} to handle the dead-ends
+ *   <li>a {@link ProblemStateUpdater problem state updater} to commit the changes to the problem
  * </ul>
  *
- * @param <VariableT>          type of variable
- * @param <ValueT>             type of value assignable to the variables
+ * @param <VariableT> type of variable
+ * @param <ValueT> type of value assignable to the variables
  * @param <EliminationReasonT> type of elimination reasons
  */
 final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver {
@@ -46,7 +45,7 @@ final class SolverImpl<VariableT, ValueT, EliminationReasonT> implements Solver 
      *
      * @param aVariableIterator the variable iteration heuristics
      * @param aCandidateChooser the candidate choice heuristics
-     * @param aBacktracker      the backtracking heuristics
+     * @param aBacktracker the backtracking heuristics
      */
     SolverImpl(
             final ProblemStateUpdater<VariableT, ValueT, EliminationReasonT> aProblem,

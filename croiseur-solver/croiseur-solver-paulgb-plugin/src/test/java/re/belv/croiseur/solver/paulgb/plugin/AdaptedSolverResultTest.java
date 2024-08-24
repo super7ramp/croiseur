@@ -16,9 +16,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.solver.paulgb.Solution;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Tests for {@link AdaptedSolverResult}.
- */
+/** Tests for {@link AdaptedSolverResult}. */
 final class AdaptedSolverResultTest {
 
     @Test

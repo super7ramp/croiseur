@@ -39,9 +39,7 @@ import re.belv.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import re.belv.croiseur.gui.view.model.SolverConfigurationViewModel;
 import re.belv.croiseur.gui.view.model.SolverProgressViewModel;
 
-/**
- * The crossword editor controller.
- */
+/** The crossword editor controller. */
 final class CrosswordEditorController {
 
     /** The controller dedicated to the dictionary use-cases. */
@@ -76,10 +74,10 @@ final class CrosswordEditorController {
     /**
      * Constructs an instance.
      *
-     * @param crosswordService        the use-cases
+     * @param crosswordService the use-cases
      * @param applicationViewModelArg the view model
-     * @param sceneSwitcherArg        the scene switcher
-     * @param executor                the executor allowing to run background tasks
+     * @param sceneSwitcherArg the scene switcher
+     * @param executor the executor allowing to run background tasks
      */
     CrosswordEditorController(
             final CrosswordService crosswordService,
@@ -117,9 +115,7 @@ final class CrosswordEditorController {
         populateModels();
     }
 
-    /**
-     * Initializes bindings between the puzzle details view and the puzzle details view model.
-     */
+    /** Initializes bindings between the puzzle details view and the puzzle details view model. */
     private void initializePuzzleBindings() {
         final PuzzleDetailsViewModel viewModel = applicationViewModel.puzzleDetailsViewModel();
         view.puzzleTitleProperty().bindBidirectional(viewModel.titleProperty());
@@ -132,9 +128,7 @@ final class CrosswordEditorController {
         view.puzzleEditionDisableProperty().bind(puzzleIsBeingSaved);
     }
 
-    /**
-     * Initializes the bindings related to puzzle export function.
-     */
+    /** Initializes the bindings related to puzzle export function. */
     private void initializePuzzleExportBindings() {
         fileChooser.setTitle(resources.getString("export-filechooser-title"));
 
@@ -154,9 +148,7 @@ final class CrosswordEditorController {
         view.puzzleExportButtonDisableProperty().bind(puzzleNotSavedYet);
     }
 
-    /**
-     * Performs the export button action.
-     */
+    /** Performs the export button action. */
     private void onExportButtonAction() {
         final File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
         if (selectedFile != null) {
@@ -167,9 +159,7 @@ final class CrosswordEditorController {
         } // else do nothing since no file has been chosen
     }
 
-    /**
-     * Initializes bindings between the grid view and the crossword grid view model.
-     */
+    /** Initializes bindings between the grid view and the crossword grid view model. */
     private void initializeCrosswordGridBindings() {
         final CrosswordGridViewModel viewModel = applicationViewModel.crosswordGridViewModel();
         view.gridBoxesProperty().set(viewModel.boxesProperty());
@@ -195,9 +185,7 @@ final class CrosswordEditorController {
         });
     }
 
-    /**
-     * Initializes bindings between dictionary view and dictionary view model.
-     */
+    /** Initializes bindings between dictionary view and dictionary view model. */
     private void initializeDictionaryBindings() {
         final DictionariesViewModel viewModel = applicationViewModel.dictionaryViewModel();
         view.dictionariesProperty().set(viewModel.dictionariesProperty());
@@ -219,10 +207,7 @@ final class CrosswordEditorController {
         }
     }
 
-    /**
-     * Initializes bindings between the solver configuration view and the solver configuration view
-     * model.
-     */
+    /** Initializes bindings between the solver configuration view and the solver configuration view model. */
     private void initializeSolverConfigurationBindings() {
         final SolverConfigurationViewModel viewModel = applicationViewModel.solverConfigurationViewModel();
         view.solversProperty().set(viewModel.availableSolversProperty());
@@ -230,18 +215,14 @@ final class CrosswordEditorController {
         viewModel.fillCluesOnSuccessProperty().bind(view.fillClueOnSolverSuccessProperty());
     }
 
-    /**
-     * Initializes bindings between the solver progress view and the solver progress view models.
-     */
+    /** Initializes bindings between the solver progress view and the solver progress view models. */
     private void initializeSolverProgressBindings() {
         final SolverProgressViewModel solverProgressViewModel = applicationViewModel.solverProgressViewModel();
         view.solverProgressIndicatorVisibleProperty().bind(solverProgressViewModel.solverRunningProperty());
         view.solverProgressIndicatorValueProperty().bind(solverProgressViewModel.solverProgressProperty());
     }
 
-    /**
-     * Initializes transverse bindings between views and view models.
-     */
+    /** Initializes transverse bindings between views and view models. */
     private void initializeOtherSolverBindings() {
         // Edition shall be disabled when solver is running or when puzzle is being saved
         final BooleanProperty solverRunning = applicationViewModel.solverRunning();
@@ -274,9 +255,7 @@ final class CrosswordEditorController {
                                 .or(clueServiceIsRunning)));
     }
 
-    /**
-     * Performs the solve button action.
-     */
+    /** Performs the solve button action. */
     private void onSolveButtonAction() {
         if (!applicationViewModel.solverRunning().get()) {
             solverController.startSolver();
@@ -285,9 +264,7 @@ final class CrosswordEditorController {
         }
     }
 
-    /**
-     * Initialize view navigation bindings.
-     */
+    /** Initialize view navigation bindings. */
     private void initializeNavigationBindings() {
         view.onBackToPuzzleSelectionButtonActionProperty().set(e -> {
             sceneSwitcher.switchToWelcomeScreen();
@@ -296,9 +273,7 @@ final class CrosswordEditorController {
         });
     }
 
-    /**
-     * Initializes clue bindings
-     */
+    /** Initializes clue bindings */
     private void initializeClueBindings() {
         final CluesViewModel cluesViewModel =
                 applicationViewModel.puzzleEditionViewModel().cluesViewModel();
@@ -319,9 +294,7 @@ final class CrosswordEditorController {
         view.fillClueButtonDisableProperty().bind(slotEmpty.or(slotPartiallyFilled));
     }
 
-    /**
-     * Populates models.
-     */
+    /** Populates models. */
     private void populateModels() {
         dictionaryController.listDictionaries();
         solverController.listSolvers();

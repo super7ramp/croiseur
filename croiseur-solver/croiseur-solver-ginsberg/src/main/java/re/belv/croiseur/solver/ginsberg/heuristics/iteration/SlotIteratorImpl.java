@@ -16,29 +16,25 @@ import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.sap.VariableIterator;
 import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 
-/**
- * Implementation of {@link VariableIterator}.
- */
+/** Implementation of {@link VariableIterator}. */
 public final class SlotIteratorImpl implements VariableIterator<Slot> {
 
-    /**
-     * Associates a {@link Slot} to its number of candidates.
-     */
+    /** Associates a {@link Slot} to its number of candidates. */
     private record NumberOfCandidatesPerSlot(Slot slot, long numberOfCandidates) {
         // Nothing to add.
     }
 
     /**
      * Comparator of {@link Slot} by their openness.
-     * <p>
-     * Basically, a slot S1 is considered as less open (more constrained) than a slot S2 if S1 has
-     * fewer candidates than S2.
-     * <p>
-     * If the two slots have the same number of candidates, then the percentage of empty boxes is
-     * considered: S1 is considered more constrained than S2 if S1 has less empty boxes.
-     * <p>
-     * If the two slots also have the same ratio of empty boxes, then the slot identifier is
-     * used for the sake of reproducibility.
+     *
+     * <p>Basically, a slot S1 is considered as less open (more constrained) than a slot S2 if S1 has fewer candidates
+     * than S2.
+     *
+     * <p>If the two slots have the same number of candidates, then the percentage of empty boxes is considered: S1 is
+     * considered more constrained than S2 if S1 has less empty boxes.
+     *
+     * <p>If the two slots also have the same ratio of empty boxes, then the slot identifier is used for the sake of
+     * reproducibility.
      */
     private static final Comparator<NumberOfCandidatesPerSlot> BY_OPENNESS = Comparator.comparingLong(
                     NumberOfCandidatesPerSlot::numberOfCandidates)
@@ -57,7 +53,7 @@ public final class SlotIteratorImpl implements VariableIterator<Slot> {
     /**
      * Constructor.
      *
-     * @param slots       the slots
+     * @param slots the slots
      * @param aDictionary the dictionary
      */
     public SlotIteratorImpl(final Collection<Slot> slots, final CachedDictionary aDictionary) {

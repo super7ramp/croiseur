@@ -9,14 +9,10 @@ import java.util.Locale;
 import java.util.Optional;
 import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 
-/**
- * Implementation of {@link ListDictionariesRequest}.
- */
+/** Implementation of {@link ListDictionariesRequest}. */
 final class ListDictionaryRequestImpl implements ListDictionariesRequest {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     ListDictionaryRequestImpl() {
         // Nothing to do.
     }

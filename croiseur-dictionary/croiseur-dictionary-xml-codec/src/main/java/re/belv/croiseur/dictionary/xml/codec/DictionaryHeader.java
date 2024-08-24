@@ -13,15 +13,13 @@ import java.util.Objects;
 /**
  * The header of a dictionary.
  *
- * @param locale       the dictionary language
- * @param names        the names of the dictionary in various languages
+ * @param locale the dictionary language
+ * @param names the names of the dictionary in various languages
  * @param descriptions the descriptions of the dictionary in various languages
  */
 public record DictionaryHeader(Locale locale, Map<Locale, String> names, Map<Locale, String> descriptions) {
 
-    /**
-     * A classic builder.
-     */
+    /** A classic builder. */
     static final class Builder {
 
         /** The name, in various languages. */
@@ -33,9 +31,7 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names, Map<Loc
         /** The dictionary language. */
         private Locale locale;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         Builder() {
             locale = null;
             names = new HashMap<>();
@@ -60,7 +56,7 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names, Map<Loc
          * Adds a dictionary name for the given locale.
          *
          * @param locale the language in which is written the name
-         * @param name   a dictionary name
+         * @param name a dictionary name
          * @return this builder
          */
         Builder addName(final Locale locale, final String name) {
@@ -71,7 +67,7 @@ public record DictionaryHeader(Locale locale, Map<Locale, String> names, Map<Loc
         /**
          * Adds a dictionary description for the given locale.
          *
-         * @param locale      the language in which is written the description
+         * @param locale the language in which is written the description
          * @param description a dictionary description
          * @return this builder
          */

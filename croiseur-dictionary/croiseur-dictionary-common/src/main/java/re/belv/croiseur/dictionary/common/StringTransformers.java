@@ -8,9 +8,7 @@ package re.belv.croiseur.dictionary.common;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
-/**
- * Common transformations performed on dictionary entries so that it suits crossword usage.
- */
+/** Common transformations performed on dictionary entries so that it suits crossword usage. */
 public final class StringTransformers {
 
     /** Matches accents. */
@@ -29,19 +27,15 @@ public final class StringTransformers {
 
     private static final StringTransformer REMOVE_BLANKS = in -> in.replace(" ", "");
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private StringTransformers() {
         // Nothing to do.
     }
 
     /**
-     * Returns a {@link StringTransformer} which replaces accentuated characters by non-accentuated
-     * forms.
+     * Returns a {@link StringTransformer} which replaces accentuated characters by non-accentuated forms.
      *
-     * @return a {@link StringTransformer} which replaces accentuated characters by * non-accentuated
-     * forms
+     * @return a {@link StringTransformer} which replaces accentuated characters by * non-accentuated forms
      */
     public static StringTransformer removeAccentuation() {
         return REMOVE_ACCENTUATION;
@@ -66,19 +60,17 @@ public final class StringTransformers {
     }
 
     /**
-     * Returns a {@link StringTransformer} which converts all the characters in the input String to
-     * upper case.
+     * Returns a {@link StringTransformer} which converts all the characters in the input String to upper case.
      *
-     * @return a {@link StringTransformer} which converts all the characters in the input String to
-     * upper case.
+     * @return a {@link StringTransformer} which converts all the characters in the input String to upper case.
      */
     public static StringTransformer toUpperCase() {
         return String::toUpperCase;
     }
 
     /**
-     * Returns a {@link StringTransformer} applying all known transformations so that transformed
-     * string is an acceptable crossword entry.
+     * Returns a {@link StringTransformer} applying all known transformations so that transformed string is an
+     * acceptable crossword entry.
      *
      * @return a {@link StringTransformer} applying all known transformations
      */

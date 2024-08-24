@@ -11,9 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link BomInputStream}.
- */
+/** Tests for {@link BomInputStream}. */
 final class BomInputStreamTest {
 
     /**
@@ -33,7 +31,7 @@ final class BomInputStreamTest {
     /**
      * Concatenates the bom and the content into a new byte array.
      *
-     * @param bom     the BOM
+     * @param bom the BOM
      * @param content the encoded content
      * @return a new array containing the bom and the content
      */

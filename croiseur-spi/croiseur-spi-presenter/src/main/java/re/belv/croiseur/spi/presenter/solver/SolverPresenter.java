@@ -7,16 +7,14 @@ package re.belv.croiseur.spi.presenter.solver;
 
 import java.util.List;
 
-/**
- * Solver-related presentation services.
- */
+/** Solver-related presentation services. */
 public interface SolverPresenter {
 
     /**
      * Presents the available solvers.
-     * <p>
-     * First solver is the preferred solver and is implementation dependent. The other solvers are
-     * sorted alphabetically by their name.
+     *
+     * <p>First solver is the preferred solver and is implementation dependent. The other solvers are sorted
+     * alphabetically by their name.
      *
      * @param solverDescriptions the solver descriptions
      */

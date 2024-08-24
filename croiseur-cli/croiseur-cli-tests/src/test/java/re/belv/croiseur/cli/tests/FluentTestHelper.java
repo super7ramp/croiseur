@@ -18,10 +18,10 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.function.Executable;
 
 /**
- * A helper test class providing a fluent API over {@link TestRuntime} for writing simple BDD-like
- * tests.
- * <p>
- * To be extended by actual test classes, e.g.:
+ * A helper test class providing a fluent API over {@link TestRuntime} for writing simple BDD-like tests.
+ *
+ * <p>To be extended by actual test classes, e.g.:
+ *
  * <pre>{@code
  * final class MyFluentCliTest extends FluentTestHelper {
  *     @Test
@@ -36,9 +36,7 @@ import org.junit.jupiter.api.function.Executable;
  */
 abstract class FluentTestHelper extends TestRuntime {
 
-    /**
-     * A complex assertion on the content of an output stream.
-     */
+    /** A complex assertion on the content of an output stream. */
     static final class WriteExpectation {
 
         /** The output stream name. */
@@ -53,7 +51,7 @@ abstract class FluentTestHelper extends TestRuntime {
         /**
          * Constructs an instance.
          *
-         * @param actualArg     the provider of the output stream
+         * @param actualArg the provider of the output stream
          * @param streamNameArg the name of the output stream
          */
         private WriteExpectation(final Supplier<String> actualArg, final String streamNameArg) {
@@ -121,12 +119,12 @@ abstract class FluentTestHelper extends TestRuntime {
 
     /**
      * A builder of JUnit assertions.
-     * <p>
-     * All assertions are aggregated in a single context and are all executed when
-     * {@link #exitsWithCode(int)} or {@link #andThatIsIt()} is called.
-     * <p>
-     * A failing assertion does not prevent the others from being tested, which gives a complete
-     * picture of the result when test fails.
+     *
+     * <p>All assertions are aggregated in a single context and are all executed when {@link #exitsWithCode(int)} or
+     * {@link #andThatIsIt()} is called.
+     *
+     * <p>A failing assertion does not prevent the others from being tested, which gives a complete picture of the
+     * result when test fails.
      */
     static final class AssertionBuilder {
 
@@ -145,8 +143,8 @@ abstract class FluentTestHelper extends TestRuntime {
         /**
          * Constructs an instance.
          *
-         * @param outSupplier      the supplier of the standard output content
-         * @param errSupplier      the supplier of the standard error output content
+         * @param outSupplier the supplier of the standard output content
+         * @param errSupplier the supplier of the standard error output content
          * @param exitCodeSupplier the supplier of the exit code
          */
         private AssertionBuilder(
@@ -160,8 +158,8 @@ abstract class FluentTestHelper extends TestRuntime {
         }
 
         /**
-         * Adds an assertion on either the standard error output or the standard output matching the
-         * given {@link WriteExpectation}.
+         * Adds an assertion on either the standard error output or the standard output matching the given
+         * {@link WriteExpectation}.
          *
          * @return this assertion builder, for method chaining
          */
@@ -266,8 +264,7 @@ abstract class FluentTestHelper extends TestRuntime {
         }
 
         /**
-         * Adds an exit code assertion to this assertion builder then executes all assertions added
-         * so far.
+         * Adds an exit code assertion to this assertion builder then executes all assertions added so far.
          *
          * @param expected the expected exit code
          */
@@ -277,17 +274,14 @@ abstract class FluentTestHelper extends TestRuntime {
             andThatIsIt();
         }
 
-        /**
-         * Executes all the assertions added so far.
-         */
+        /** Executes all the assertions added so far. */
         void andThatIsIt() {
             assertAll(assertions);
         }
     }
 
     /**
-     * Executes the croiseur-cli command with given arguments and verifies it exits with success. A
-     * precondition step.
+     * Executes the croiseur-cli command with given arguments and verifies it exits with success. A precondition step.
      *
      * @param args the arguments
      * @return this object, for chaining

@@ -20,16 +20,14 @@ import java.util.function.Consumer;
 /**
  * Definition of the grid of a crossword puzzle.
  *
- * @param width  width of the grid
+ * @param width width of the grid
  * @param height height of the grid
  * @param shaded coordinates of the shaded boxes
  * @param filled prefilled boxes
  */
 public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<GridPosition, Character> filled) {
 
-    /**
-     * A {@link PuzzleGrid} builder.
-     */
+    /** A {@link PuzzleGrid} builder. */
     public static final class Builder {
 
         /** Shaded boxes. */
@@ -44,9 +42,7 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
         /** Height of the grid. */
         private int height;
 
-        /**
-         * Constructor.
-         */
+        /** Constructor. */
         public Builder() {
             shaded = new HashSet<>();
             filled = new HashMap<>();
@@ -54,8 +50,8 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
 
         /**
          * Shades the given grid position.
-         * <p>
-         * Removes previous character associated to this position, if any.
+         *
+         * <p>Removes previous character associated to this position, if any.
          *
          * @param position the position to shade
          * @return this builder
@@ -68,10 +64,10 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
 
         /**
          * Fills the given position with the given character.
-         * <p>
-         * Removes shading on the given position, if any.
          *
-         * @param position  the position to fill
+         * <p>Removes shading on the given position, if any.
+         *
+         * @param position the position to fill
          * @param character the character to set
          * @return this builder
          */
@@ -119,7 +115,7 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
     /**
      * Validates grid.
      *
-     * @param width  width of the grid
+     * @param width width of the grid
      * @param height height of the grid
      * @param shaded coordinates of the shaded boxes
      * @param filled prefilled boxes
@@ -139,7 +135,7 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
     /**
      * Return a coordinate validation function.
      *
-     * @param width  width of the grid
+     * @param width width of the grid
      * @param height height of the grid
      * @return the validation function
      */
@@ -171,13 +167,13 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
     }
 
     /**
-     * Returns the across slot contents, naturally sorted according to the slot position on the grid
-     * (top to down then left to right).
-     * <p>
-     * Non-filled boxes will be replaced by the character '.'.
-     * <p>
-     * Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be
-     * considered as a slot and have its content returned by this method.
+     * Returns the across slot contents, naturally sorted according to the slot position on the grid (top to down then
+     * left to right).
+     *
+     * <p>Non-filled boxes will be replaced by the character '.'.
+     *
+     * <p>Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be considered as a slot and
+     * have its content returned by this method.
      *
      * @return the across slot contents
      */
@@ -207,14 +203,13 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
     }
 
     /**
-     * Returns the down slot contents, naturally sorted according to the slot position on the grid
-     * (left to right then top to down).
+     * Returns the down slot contents, naturally sorted according to the slot position on the grid (left to right then
+     * top to down).
      *
-     * <p>
-     * Non-filled boxes will be replaced by the character '.'.
-     * <p>
-     * Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be
-     * considered as a slot and have its content returned by this method.
+     * <p>Non-filled boxes will be replaced by the character '.'.
+     *
+     * <p>Note that a group of boxes must contain at least {@value MIN_SLOT_LENGTH} boxes to be considered as a slot and
+     * have its content returned by this method.
      *
      * @return the down slot contents
      */
@@ -245,9 +240,9 @@ public record PuzzleGrid(int width, int height, Set<GridPosition> shaded, Map<Gr
 
     /**
      * Returns all the slot contents, unordered.
-     * <p>
-     * Size may be less than the sum of the sizes of {@link #acrossSlotContents()} and
-     * {@link #downSlotContents()} since dupe words are removed.
+     *
+     * <p>Size may be less than the sum of the sizes of {@link #acrossSlotContents()} and {@link #downSlotContents()}
+     * since dupe words are removed.
      *
      * @return all the slot contents
      */

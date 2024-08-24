@@ -16,9 +16,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-/**
- * A stateless dictionary writer.
- */
+/** A stateless dictionary writer. */
 public final class DictionaryWriter {
 
     /** Private constructor to prevent instantiation. */
@@ -47,9 +45,9 @@ public final class DictionaryWriter {
     /**
      * Writes the given dictionary description using the given writer.
      *
-     * @param lang        the dictionary description locale
+     * @param lang the dictionary description locale
      * @param description the dictionary description to write
-     * @param writer      the writer to use
+     * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
     private static void writeDescription(final Locale lang, final String description, final XMLStreamWriter writer)
@@ -65,8 +63,8 @@ public final class DictionaryWriter {
     /**
      * Writes the given name using the given writer.
      *
-     * @param lang   the dictionary name locale
-     * @param name   the dictionary name to write
+     * @param lang the dictionary name locale
+     * @param name the dictionary name to write
      * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
@@ -96,7 +94,7 @@ public final class DictionaryWriter {
     /**
      * Writes the given word using the given writer.
      *
-     * @param word   the word to write
+     * @param word the word to write
      * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
@@ -109,7 +107,7 @@ public final class DictionaryWriter {
     /**
      * Writes the given words using the given writer.
      *
-     * @param words  the words to write
+     * @param words the words to write
      * @param writer the writer to use
      * @throws XMLStreamException if write fails
      */
@@ -124,7 +122,7 @@ public final class DictionaryWriter {
     /**
      * Writes the given {@link Dictionary} to the given {@link OutputStream}.
      *
-     * @param os         the output stream to write into
+     * @param os the output stream to write into
      * @param dictionary the dictionary to write
      * @throws DictionaryWriteException if write fails
      */

@@ -16,9 +16,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
-/**
- * Access to all the affix classes.
- */
+/** Access to all the affix classes. */
 final class AffixClasses implements Iterable<AffixClass> {
 
     /** The affix classes, indexed by their identifying flags. */

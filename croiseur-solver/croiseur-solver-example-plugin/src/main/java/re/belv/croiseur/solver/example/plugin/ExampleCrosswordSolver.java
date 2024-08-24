@@ -16,14 +16,10 @@ import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * An example crossword solver plugin.
- */
+/** An example crossword solver plugin. */
 public final class ExampleCrosswordSolver implements CrosswordSolver {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ExampleCrosswordSolver() {
         /*
          * It's important that the constructor is public and without arguments: The service

@@ -7,14 +7,10 @@ package re.belv.croiseur.cli.l10n;
 
 import java.util.ResourceBundle;
 
-/**
- * Retrieves {@link ResourceBundle}.
- */
+/** Retrieves {@link ResourceBundle}. */
 public final class ResourceBundles {
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private ResourceBundles() {
         // Nothing to do.
     }

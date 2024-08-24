@@ -9,9 +9,7 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-/**
- * {@link AutoCloseable} {@link XMLStreamWriter} decorator.
- */
+/** {@link AutoCloseable} {@link XMLStreamWriter} decorator. */
 final class AutocloseableXMLStreamWriter implements XMLStreamWriter, AutoCloseable {
 
     /** The actual writer. */

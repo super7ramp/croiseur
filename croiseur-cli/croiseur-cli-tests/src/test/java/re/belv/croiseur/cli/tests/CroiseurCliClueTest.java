@@ -7,9 +7,7 @@ package re.belv.croiseur.cli.tests;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on 'croiseur-cli clue *' commands.
- */
+/** Tests on 'croiseur-cli clue *' commands. */
 final class CroiseurCliClueTest extends FluentTestHelper {
 
     @Test

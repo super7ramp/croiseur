@@ -7,9 +7,7 @@ package re.belv.croiseur.dictionary.common;
 
 import java.net.URL;
 
-/**
- * A utility to segment URLs.
- */
+/** A utility to segment URLs. */
 // FIXME strange class; probably unnecessary now we don't read dictionaries from jar resources
 public final class SegmentableUrl {
 

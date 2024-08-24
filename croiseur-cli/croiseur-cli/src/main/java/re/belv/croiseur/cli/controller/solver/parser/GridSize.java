@@ -8,20 +8,16 @@ package re.belv.croiseur.cli.controller.solver.parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Grid size.
- */
+/** Grid size. */
 public record GridSize(int width, int height) {
 
-    /**
-     * Textual representation pattern.
-     */
+    /** Textual representation pattern. */
     private static final Pattern PATTERN = Pattern.compile("(?<width>[0-9]+)x(?<height>[0-9]+)");
 
     /**
      * Constructor.
      *
-     * @param width  width
+     * @param width width
      * @param height height
      */
     public GridSize {

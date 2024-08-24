@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-/**
- * {@link XdReadException} relevant to the clues section.
- */
+/** {@link XdReadException} relevant to the clues section. */
 public final class XdClueReadException extends XdReadException {
 
     /**

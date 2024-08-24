@@ -24,9 +24,9 @@ import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
 
 /**
  * A {@link Puzzle} with additional lookahead functions.
- * <p>
- * This class is <em>not</em> thread-safe: It works on a single copy of the {@link Puzzle} passed at
- * construction time, without any locking.
+ *
+ * <p>This class is <em>not</em> thread-safe: It works on a single copy of the {@link Puzzle} passed at construction
+ * time, without any locking.
  */
 public final class ProbePuzzle implements Puzzle {
 
@@ -42,9 +42,9 @@ public final class ProbePuzzle implements Puzzle {
     /**
      * Constructs an instance.
      *
-     * @param puzzleArg     a puzzle to probe
+     * @param puzzleArg a puzzle to probe
      * @param dictionaryArg a dictionary
-     * @param elsArg        an elimination space
+     * @param elsArg an elimination space
      */
     public ProbePuzzle(final Puzzle puzzleArg, final CachedDictionary dictionaryArg, final EliminationSpace elsArg) {
         puzzle = puzzleArg.copy();
@@ -78,16 +78,15 @@ public final class ProbePuzzle implements Puzzle {
     }
 
     /**
-     * Compute <em>an estimation</em> of the number of solutions for the grid zone impacted by the
-     * given assignment if it were applied. It corresponds to the product of the estimated number of
-     * candidates left for each connected variable.
-     * <p>
-     * Note that the estimation may return a value > 0 despite the grid not having an actual
-     * solution.
+     * Compute <em>an estimation</em> of the number of solutions for the grid zone impacted by the given assignment if
+     * it were applied. It corresponds to the product of the estimated number of candidates left for each connected
+     * variable.
+     *
+     * <p>Note that the estimation may return a value > 0 despite the grid not having an actual solution.
      *
      * @param assignment the assignment to evaluate
-     * @return the estimated number of local solutions for the grid after assignment; As the
-     * estimation can be very large computation is made using {@link BigInteger}
+     * @return the estimated number of local solutions for the grid after assignment; As the estimation can be very
+     *     large computation is made using {@link BigInteger}
      */
     public BigInteger computeNumberOfLocalSolutionsAfter(final Assignment assignment) {
         final Slot probedSlot = puzzle.slot(assignment.slotUid());
@@ -109,26 +108,24 @@ public final class ProbePuzzle implements Puzzle {
     }
 
     /**
-     * Returns whether after performing the given unassignment the given unassignable slot would
-     * become assignable again.
+     * Returns whether after performing the given unassignment the given unassignable slot would become assignable
+     * again.
      *
      * @param unassignment the unassignment to test
      * @param unassignable the unassignable variable
-     * @return whether after performing the given unassignment the given unassignable slot would
-     * become assignable again
+     * @return whether after performing the given unassignment the given unassignable slot would become assignable again
      */
     public boolean hasSolutionAfter(final Unassignment unassignment, final Slot unassignable) {
         return hasSolutionAfter(Collections.singletonList(unassignment), unassignable);
     }
 
     /**
-     * Returns whether after performing the given unassignment the given unassignable slot would
-     * become assignable again.
+     * Returns whether after performing the given unassignment the given unassignable slot would become assignable
+     * again.
      *
      * @param unassignments the unassignments to test
-     * @param unassignable  the unassignable variable
-     * @return whether after performing the given unassignment the given unassignable slot would
-     * become assignable again
+     * @param unassignable the unassignable variable
+     * @return whether after performing the given unassignment the given unassignable slot would become assignable again
      */
     public boolean hasSolutionAfter(final List<Unassignment> unassignments, final Slot unassignable) {
         final List<String> unassignedValues = unassign(unassignments);
@@ -173,7 +170,7 @@ public final class ProbePuzzle implements Puzzle {
      * Probes the {@link #els elimination space} against the given unassignments.
      *
      * @param unassignments the unassignments to apply
-     * @param unassignable  the unassignable slot
+     * @param unassignable the unassignable slot
      * @return the set of eliminated values for the unassignable variable
      */
     private Set<String> probeEliminationSpace(final Collection<Unassignment> unassignments, final Slot unassignable) {

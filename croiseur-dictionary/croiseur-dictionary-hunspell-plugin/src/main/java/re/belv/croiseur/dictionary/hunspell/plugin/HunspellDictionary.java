@@ -18,10 +18,7 @@ import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.dictionary.hunspell.codec.HunspellDictionaryReader;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 
-/**
- * Adapts {@link HunspellDictionaryReader} to
- * {@link Dictionary}.
- */
+/** Adapts {@link HunspellDictionaryReader} to {@link Dictionary}. */
 final class HunspellDictionary implements Dictionary {
 
     /** Details about the dictionary, lazily read. */
@@ -33,8 +30,7 @@ final class HunspellDictionary implements Dictionary {
     /**
      * Constructs an instance.
      *
-     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same
-     *                basename and extension .aff
+     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same basename and extension .aff
      */
     public HunspellDictionary(final URL aDicURL) {
         final HunspellDictionaryReader dictionary = new HunspellDictionaryReader(aDicURL);

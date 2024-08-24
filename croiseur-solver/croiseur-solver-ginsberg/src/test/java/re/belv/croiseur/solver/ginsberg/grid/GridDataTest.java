@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * Tests on {@link GridDataBuilder}.
- */
+/** Tests on {@link GridDataBuilder}. */
 final class GridDataTest {
 
     @Test

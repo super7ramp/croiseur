@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 import re.belv.croiseur.gui.view.model.testutil.ListChangeEventCounter;
 
-/**
- * Tests for {@link SlotsViewModel}.
- */
+/** Tests for {@link SlotsViewModel}. */
 final class SlotsViewModelTest {
 
     @Test

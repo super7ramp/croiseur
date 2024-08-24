@@ -10,9 +10,7 @@ import java.util.Set;
 import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 
-/**
- * Implementation of {@link GetClueRequest}.
- */
+/** Implementation of {@link GetClueRequest}. */
 final class GetClueRequestImpl implements GetClueRequest {
 
     /** The word for which to get a clue. */

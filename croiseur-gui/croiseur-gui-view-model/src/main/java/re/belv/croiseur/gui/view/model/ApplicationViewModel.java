@@ -7,9 +7,7 @@ package re.belv.croiseur.gui.view.model;
 
 import javafx.beans.property.BooleanProperty;
 
-/**
- * Access to the application view models.
- */
+/** Access to the application view models. */
 public final class ApplicationViewModel {
 
     /** The puzzle selection view model. */
@@ -33,9 +31,7 @@ public final class ApplicationViewModel {
     /** The errors view model. */
     private final ErrorsViewModel errorsViewModel;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ApplicationViewModel() {
         puzzleSelectionViewModel = new PuzzleSelectionViewModel();
         puzzleEditionViewModel = new PuzzleEditionViewModel();
@@ -82,8 +78,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns the view model of edited puzzle details.
-     * <p>
-     * Convenience shortcut for {@code puzzleEditionViewModel().puzzleDetailsViewModel()}.
+     *
+     * <p>Convenience shortcut for {@code puzzleEditionViewModel().puzzleDetailsViewModel()}.
      *
      * @return the view model of edited puzzle details
      */
@@ -93,8 +89,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns the view model of the edited crossword grid.
-     * <p>
-     * Convenience shortcut for: {@code puzzleEditionViewModel().crosswordGridViewModel()}.
+     *
+     * <p>Convenience shortcut for: {@code puzzleEditionViewModel().crosswordGridViewModel()}.
      *
      * @return the view model of the edited crossword grid
      */
@@ -104,8 +100,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns the view model of the edited crossword clues.
-     * <p>
-     * Convenience shortcut for: {@code puzzleEditionViewModel().cluesViewModel()}.
+     *
+     * <p>Convenience shortcut for: {@code puzzleEditionViewModel().cluesViewModel()}.
      *
      * @return the view model of the edited crossword clues
      */
@@ -115,8 +111,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns the property indicating whether the puzzle is being saved.
-     * <p>
-     * Convenience shortcut for {@code puzzleEditionViewModel().savingInProgress()}.
+     *
+     * <p>Convenience shortcut for {@code puzzleEditionViewModel().savingInProgress()}.
      *
      * @return the property indicating whether the puzzle is being saved
      */
@@ -153,8 +149,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns whether the solver is running.
-     * <p>
-     * Shortcut for {@code solverProgressViewModel().solverRunningProperty()}.
+     *
+     * <p>Shortcut for {@code solverProgressViewModel().solverRunningProperty()}.
      *
      * @return whether the solver is running
      */
@@ -164,8 +160,8 @@ public final class ApplicationViewModel {
 
     /**
      * Returns whether the clue service is running.
-     * <p>
-     * Shortcut for {@code cluesViewModel().clueServiceIsRunningProperty()}.
+     *
+     * <p>Shortcut for {@code cluesViewModel().clueServiceIsRunningProperty()}.
      *
      * @return whether the clue service is running
      */

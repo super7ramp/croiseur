@@ -12,9 +12,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Crossword;
 
-/**
- * Tests for {@link PuzzleAdapter}.
- */
+/** Tests for {@link PuzzleAdapter}. */
 final class PuzzleAdapterTest {
 
     @Test

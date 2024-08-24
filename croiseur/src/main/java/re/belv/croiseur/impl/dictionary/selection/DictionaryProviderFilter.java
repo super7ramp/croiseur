@@ -16,15 +16,10 @@ import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Filters dictionary providers using conditions on both the provider details and its dictionaries.
- */
+/** Filters dictionary providers using conditions on both the provider details and its dictionaries. */
 public final class DictionaryProviderFilter implements UnaryOperator<Collection<DictionaryProvider>> {
 
-    /**
-     * A decorator of {@link DictionaryProvider dictionary provider} filtering the dictionaries
-     * given a predicate.
-     */
+    /** A decorator of {@link DictionaryProvider dictionary provider} filtering the dictionaries given a predicate. */
     private static final class FilteredDictionaryProvider implements DictionaryProvider {
 
         /** The actual dictionary provider. */
@@ -36,7 +31,7 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
         /**
          * Constructor.
          *
-         * @param actualArg           the actual dictionary provider
+         * @param actualArg the actual dictionary provider
          * @param dictionaryFilterArg the filter on dictionary
          */
         FilteredDictionaryProvider(
@@ -66,7 +61,7 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
     /**
      * Private constructor, allows construction only using factory methods.
      *
-     * @param providerFilterArg   the filter on dictionary provider
+     * @param providerFilterArg the filter on dictionary provider
      * @param dictionaryFilterArg the filter on dictionary
      */
     private DictionaryProviderFilter(
@@ -79,8 +74,7 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * Creates a search by dictionary name.
      *
      * @param desiredDictionaryName the desired dictionary name
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose name matches the
-     * given name
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose name matches the given name
      */
     public static DictionaryProviderFilter byName(final String desiredDictionaryName) {
         return new DictionaryProviderFilter(
@@ -88,12 +82,11 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
     }
 
     /**
-     * Creates a search by dictionary locale - fallbacks on dictionary language if not country is
-     * information is present in given locale.
+     * Creates a search by dictionary locale - fallbacks on dictionary language if not country is information is present
+     * in given locale.
      *
      * @param desiredDictionaryLocale the desired dictionary locale
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
-     * the given locale
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches the given locale
      */
     public static DictionaryProviderFilter byLocale(final Locale desiredDictionaryLocale) {
         if (desiredDictionaryLocale.getCountry().isEmpty()) {
@@ -106,10 +99,9 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
     /**
      * Creates a search by dictionary language (i.e. only the language part of the locale).
      *
-     * @param desiredDictionaryLanguage the desired dictionary language, as returned by
-     *                                  {@link Locale#getLanguage()}
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
-     * the given language
+     * @param desiredDictionaryLanguage the desired dictionary language, as returned by {@link Locale#getLanguage()}
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches the given
+     *     language
      */
     public static DictionaryProviderFilter byLanguage(final String desiredDictionaryLanguage) {
         return new DictionaryProviderFilter(
@@ -121,8 +113,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * Creates a search by optional dictionary locale.
      *
      * @param desiredDictionaryLocale the desired dictionary locale, if any
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches
-     * the given locale, or any locale if given locale is {@link Optional#empty()}
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose locale matches the given locale,
+     *     or any locale if given locale is {@link Optional#empty()}
      */
     public static DictionaryProviderFilter byOptionalLocale(final Optional<Locale> desiredDictionaryLocale) {
         return desiredDictionaryLocale.map(DictionaryProviderFilter::byLocale).orElseGet(DictionaryProviderFilter::any);
@@ -132,8 +124,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * Creates a search by optional dictionary provider.
      *
      * @param desiredProviderName the required provider name, if any
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name
-     * matches the given provider name, or any if given provider name is {@link Optional#empty()}
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name matches the given
+     *     provider name, or any if given provider name is {@link Optional#empty()}
      */
     public static DictionaryProviderFilter byOptionalProvider(final Optional<String> desiredProviderName) {
         return desiredProviderName.map(DictionaryProviderFilter::byProvider).orElseGet(DictionaryProviderFilter::any);
@@ -143,8 +135,8 @@ public final class DictionaryProviderFilter implements UnaryOperator<Collection<
      * Creates a search by dictionary provider.
      *
      * @param desiredProviderName the required provider name
-     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name
-     * matches the given provider name
+     * @return a {@link DictionaryProviderFilter} matching any {@link Dictionary} whose provider name matches the given
+     *     provider name
      */
     public static DictionaryProviderFilter byProvider(final String desiredProviderName) {
         return new DictionaryProviderFilter(

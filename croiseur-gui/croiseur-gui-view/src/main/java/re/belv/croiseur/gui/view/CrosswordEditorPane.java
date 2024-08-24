@@ -36,10 +36,10 @@ import re.belv.croiseur.gui.view.model.SolverItemViewModel;
 
 /**
  * An entire crossword editor view, based on {@link BorderPane}.
- * <p>
- * In order to limit complexity, this big control is built as a composition of smaller controls such
- * as {@link CrosswordGridPane} or {@link DictionariesPane}. The relevant properties of each of
- * these controls are re-exported here.
+ *
+ * <p>In order to limit complexity, this big control is built as a composition of smaller controls such as
+ * {@link CrosswordGridPane} or {@link DictionariesPane}. The relevant properties of each of these controls are
+ * re-exported here.
  */
 public final class CrosswordEditorPane extends BorderPane {
 
@@ -92,9 +92,7 @@ public final class CrosswordEditorPane extends BorderPane {
     @FXML
     private CluesPane cluesPane;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordEditorPane() {
         FxmlLoaderHelper.load(this);
     }
@@ -155,11 +153,10 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * The puzzle export button disable property.
-     * <p>
-     * Allows to disable specifically the export button. Note that global
-     * {@link #puzzleEditionDisableProperty()} takes precedence (i.e. if
-     * {@link #puzzleEditionDisableProperty()} is {@code true} then the button will be effectively
-     * disabled).
+     *
+     * <p>Allows to disable specifically the export button. Note that global {@link #puzzleEditionDisableProperty()}
+     * takes precedence (i.e. if {@link #puzzleEditionDisableProperty()} is {@code true} then the button will be
+     * effectively disabled).
      *
      * @return the export button disable property
      */
@@ -277,9 +274,9 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Returns the grid edition controls disable property.
-     * <p>
-     * The controls are the toolbar 'add column', 'delete column', 'add row','delete row', 'clear'
-     * and 'save' buttons plus the central crossword grid pane.
+     *
+     * <p>The controls are the toolbar 'add column', 'delete column', 'add row','delete row', 'clear' and 'save' buttons
+     * plus the central crossword grid pane.
      *
      * @return the grid edition controls disable property
      */
@@ -371,8 +368,8 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Returns the "on suggestion selected" property.
-     * <p>
-     * The consumer will be given the selected suggested word, for every selection.
+     *
+     * <p>The consumer will be given the selected suggested word, for every selection.
      *
      * @return the "on suggestion selected" property
      */
@@ -391,8 +388,8 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Returns the selected solver.
-     * <p>
-     * If no selected solver, value is {@code null}.
+     *
+     * <p>If no selected solver, value is {@code null}.
      *
      * @return the displayed solver
      */
@@ -438,8 +435,8 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Returns the "selected across clue index" property.
-     * <p>
-     * Value is -1 if no across clue is selected.
+     *
+     * <p>Value is -1 if no across clue is selected.
      *
      * @return the "selected across clue index" property
      */
@@ -449,8 +446,8 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Returns the "selected down clue index" property.
-     * <p>
-     * Value is -1 if no down clue is selected.
+     *
+     * <p>Value is -1 if no down clue is selected.
      *
      * @return the "selected down clue index" property
      */
@@ -469,9 +466,9 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * The "fill clue button hide" property.
-     * <p>
-     * Note that a {@code false} value does not imply the button will be visible. The fill clue
-     * button of a cell is visible when this property value is {@code false} and cell is selected.
+     *
+     * <p>Note that a {@code false} value does not imply the button will be visible. The fill clue button of a cell is
+     * visible when this property value is {@code false} and cell is selected.
      *
      * @return the "fill clue button hide" property.
      */
@@ -497,17 +494,13 @@ public final class CrosswordEditorPane extends BorderPane {
         return cluesPane.disableProperty();
     }
 
-    /**
-     * Resets dictionary and puzzle panes to initial positions (i.e. collapsed).
-     */
+    /** Resets dictionary and puzzle panes to initial positions (i.e. collapsed). */
     public void resetLateralPanePositions() {
         toolbar.puzzleToggleButtonSelectedProperty().set(false);
         toolbar.dictionariesToggleButtonSelectedProperty().set(false);
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeToolbarPuzzlePaneBindings();
@@ -517,9 +510,7 @@ public final class CrosswordEditorPane extends BorderPane {
         initializeDictionariesPaneSplitPaneBindings();
     }
 
-    /**
-     * Binds the puzzle pane properties to toolbar ones.
-     */
+    /** Binds the puzzle pane properties to toolbar ones. */
     private void initializeToolbarPuzzlePaneBindings() {
         final BooleanBinding puzzleToggleButtonSelectedProperty = toolbar.puzzleToggleButtonSelectedProperty()
                 .and(toolbar.resizeModeProperty().not());
@@ -527,16 +518,12 @@ public final class CrosswordEditorPane extends BorderPane {
         puzzlePane.managedProperty().bind(puzzleToggleButtonSelectedProperty);
     }
 
-    /**
-     * Binds the grid pane properties to toolbar ones.
-     */
+    /** Binds the grid pane properties to toolbar ones. */
     private void initializeToolbarGridPaneBindings() {
         grid.disableProperty().bind(toolbar.editionButtonsDisableProperty());
     }
 
-    /**
-     * Binds the dictionaries pane properties to toolbar ones.
-     */
+    /** Binds the dictionaries pane properties to toolbar ones. */
     private void initializeToolbarDictionariesPaneBindings() {
         final BooleanBinding dictionariesToggleButtonSelectedProperty =
                 toolbar.dictionariesToggleButtonSelectedProperty()
@@ -545,9 +532,7 @@ public final class CrosswordEditorPane extends BorderPane {
         dictionariesPane.managedProperty().bind(dictionariesToggleButtonSelectedProperty);
     }
 
-    /**
-     * Binds the split pane properties with puzzle pane ones.
-     */
+    /** Binds the split pane properties with puzzle pane ones. */
     private void initializePuzzlePaneSplitPaneBindings() {
         updateLeftDividerPosition();
         final InvalidationListener updateLeftDividerNodeOnFirstShow = new InvalidationListener() {
@@ -561,9 +546,7 @@ public final class CrosswordEditorPane extends BorderPane {
         puzzlePane.visibleProperty().addListener(observable -> updateLeftDivider());
     }
 
-    /**
-     * Updates the left divider node visibility and position.
-     */
+    /** Updates the left divider node visibility and position. */
     private void updateLeftDivider() {
         updateLeftDividerNode();
         updateLeftDividerPosition();
@@ -571,14 +554,13 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Updates the left divider node visibility.
-     * <p>
-     * Left divider is on the window's left border when the left pane (the puzzle pane) is not
-     * visible. But if it is kept visible, user may select it when trying to resize the window,
-     * resulting in the blank left pane being resized instead of the window, which would be very
-     * confusing for user.
-     * <p>
-     * Hence, this method masks the left divider when puzzle pane is not visible. It is meant to be
-     * called every time puzzle pane visibility changes.
+     *
+     * <p>Left divider is on the window's left border when the left pane (the puzzle pane) is not visible. But if it is
+     * kept visible, user may select it when trying to resize the window, resulting in the blank left pane being resized
+     * instead of the window, which would be very confusing for user.
+     *
+     * <p>Hence, this method masks the left divider when puzzle pane is not visible. It is meant to be called every time
+     * puzzle pane visibility changes.
      */
     private void updateLeftDividerNode() {
         final boolean puzzlePaneVisible = puzzlePane.isVisible();
@@ -587,18 +569,14 @@ public final class CrosswordEditorPane extends BorderPane {
         dividerNode.setManaged(puzzlePaneVisible);
     }
 
-    /**
-     * Updates the left divider position.
-     */
+    /** Updates the left divider position. */
     private void updateLeftDividerPosition() {
         final boolean puzzlePaneVisible = puzzlePane.isVisible();
         centerSplitPane.setDividerPosition(
                 LEFT_DIVIDER_ID, puzzlePaneVisible ? LEFT_DIVIDER_IDEAL_POSITION : LEFT_DIVIDER_COLLAPSED_POSITION);
     }
 
-    /**
-     * Binds the split pane properties with dictionaries pane ones.
-     */
+    /** Binds the split pane properties with dictionaries pane ones. */
     private void initializeDictionariesPaneSplitPaneBindings() {
         updateRightDividerPosition();
         final InvalidationListener updateRightDividerNodeOnFirstShow = new InvalidationListener() {
@@ -612,9 +590,7 @@ public final class CrosswordEditorPane extends BorderPane {
         dictionariesPane.visibleProperty().addListener(observable -> updateRightDivider());
     }
 
-    /**
-     * Updates the right divider node visibility and position.
-     */
+    /** Updates the right divider node visibility and position. */
     private void updateRightDivider() {
         updateRightDividerNode();
         updateRightDividerPosition();
@@ -622,14 +598,13 @@ public final class CrosswordEditorPane extends BorderPane {
 
     /**
      * Updates the right divider node visibility.
-     * <p>
-     * Right divider is on the window's right border when the right pane (the dictionaries pane) is
-     * not visible. But if it is kept visible, user may select it when trying to resize the window,
-     * resulting in the blank right pane being resized instead of the window, which would be very
-     * confusing for user.
-     * <p>
-     * Hence, this method masks the right divider when dictionaries pane is not visible. It is meant
-     * to be called every time dictionaries pane visibility changes.
+     *
+     * <p>Right divider is on the window's right border when the right pane (the dictionaries pane) is not visible. But
+     * if it is kept visible, user may select it when trying to resize the window, resulting in the blank right pane
+     * being resized instead of the window, which would be very confusing for user.
+     *
+     * <p>Hence, this method masks the right divider when dictionaries pane is not visible. It is meant to be called
+     * every time dictionaries pane visibility changes.
      */
     private void updateRightDividerNode() {
         final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
@@ -638,9 +613,7 @@ public final class CrosswordEditorPane extends BorderPane {
         dividerNode.setManaged(dictionariesPaneVisible);
     }
 
-    /**
-     * Updates the right divider position.
-     */
+    /** Updates the right divider position. */
     private void updateRightDividerPosition() {
         final boolean dictionariesPaneVisible = dictionariesPane.isVisible();
         centerSplitPane.setDividerPosition(
@@ -653,8 +626,8 @@ public final class CrosswordEditorPane extends BorderPane {
      *
      * @param dividerId the divider id
      * @return the split pane divider node corresponding to given divider id
-     * @throws java.util.NoSuchElementException if divider is not found, likely because split pane
-     *                                          has not been laid out yet
+     * @throws java.util.NoSuchElementException if divider is not found, likely because split pane has not been laid out
+     *     yet
      */
     private Node dividerNodeOf(final int dividerId) {
         /*

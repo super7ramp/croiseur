@@ -12,9 +12,7 @@ import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * A wrapper of {@link PuzzleGrid} adding to each cell a unique integer identifier.
- */
+/** A wrapper of {@link PuzzleGrid} adding to each cell a unique integer identifier. */
 final class NumberedPuzzleDefinition {
 
     /** The original puzzle definition. */
@@ -97,8 +95,8 @@ final class NumberedPuzzleDefinition {
 
     /**
      * Returns a map associating position to a unique integer identifier.
-     * <p>
-     * Returned map is unmodifiable.
+     *
+     * <p>Returned map is unmodifiable.
      *
      * @return a map associating position to a unique integer identifier
      */
@@ -108,8 +106,8 @@ final class NumberedPuzzleDefinition {
 
     /**
      * Returns the reverse map of {@link #positionToId()}.
-     * <p>
-     * Returned map is unmodifiable.
+     *
+     * <p>Returned map is unmodifiable.
      *
      * @return the reverse map of {@link #positionToId()}
      */

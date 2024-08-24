@@ -12,9 +12,7 @@ import org.mockito.ArgumentMatcher;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * Allows creating custom {@link ArgumentMatcher}s related to solver result presentation.
- */
+/** Allows creating custom {@link ArgumentMatcher}s related to solver result presentation. */
 final class SolverMatchers {
 
     /**

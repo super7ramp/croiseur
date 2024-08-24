@@ -13,9 +13,7 @@ import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 import re.belv.croiseur.gui.view.model.DictionariesViewModel;
 import re.belv.croiseur.gui.view.model.SolverConfigurationViewModel;
 
-/**
- * Solve task.
- */
+/** Solve task. */
 final class SolveTask extends Task<Void> {
 
     /** The solver service */
@@ -27,11 +25,11 @@ final class SolveTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModelArg       the crossword model
-     * @param dictionariesViewModelArg        the dictionary model
+     * @param crosswordGridViewModelArg the crossword model
+     * @param dictionariesViewModelArg the dictionary model
      * @param solverConfigurationViewModelArg the solver configuration view mode
-     * @param solverServiceArg                the solver service
-     * @param randomArg                       the source of randomness
+     * @param solverServiceArg the solver service
+     * @param randomArg the source of randomness
      */
     SolveTask(
             final CrosswordGridViewModel crosswordGridViewModelArg,

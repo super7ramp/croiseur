@@ -12,9 +12,7 @@ import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 
-/**
- * A request to solve a crossword puzzle.
- */
+/** A request to solve a crossword puzzle. */
 public interface SolveRequest {
 
     /** Defines how progress should be notified to application for presentation. */
@@ -29,8 +27,8 @@ public interface SolveRequest {
 
     /**
      * The dictionaries to use.
-     * <p>
-     * An empty collection means the default dictionary for the system's locale will be used.
+     *
+     * <p>An empty collection means the default dictionary for the system's locale will be used.
      *
      * @return the identifier of the dictionary to use
      */
@@ -38,12 +36,12 @@ public interface SolveRequest {
 
     /**
      * The randomness source to use to shuffle the dictionaries.
-     * <p>
-     * The search for solutions depends on the order the words are read from the dictionaries.
-     * Shuffling dictionary is likely to lead to a different order of solutions.
      *
-     * @return The randomness source to use to shuffle the dictionaries; An empty source means the
-     * dictionaries will <em>not</em> be shuffled
+     * <p>The search for solutions depends on the order the words are read from the dictionaries. Shuffling dictionary
+     * is likely to lead to a different order of solutions.
+     *
+     * @return The randomness source to use to shuffle the dictionaries; An empty source means the dictionaries will
+     *     <em>not</em> be shuffled
      */
     Optional<Random> dictionariesShuffle();
 
@@ -56,9 +54,8 @@ public interface SolveRequest {
 
     /**
      * The name of the solver to use, if any.
-     * <p>
-     * If not present, the default solver will be used. The default solver is the first one
-     * detected.
+     *
+     * <p>If not present, the default solver will be used. The default solver is the first one detected.
      *
      * @return the name of the solver to use.
      */
@@ -75,8 +72,8 @@ public interface SolveRequest {
 
     /**
      * Whether to generate clues if solver finds a solution.
-     * <p>
-     * The first provider found is used.
+     *
+     * <p>The first provider found is used.
      *
      * @return {@code true} if clues shall be generated upon solver success
      */

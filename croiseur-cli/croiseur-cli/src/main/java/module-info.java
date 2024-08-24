@@ -6,9 +6,7 @@
 import re.belv.croiseur.cli.presenter.CliPresenter;
 import re.belv.croiseur.spi.presenter.Presenter;
 
-/**
- * Command-line frontend to croiseur.
- */
+/** Command-line frontend to croiseur. */
 module re.belv.croiseur.cli {
     requires re.belv.croiseur; // Core library
     requires info.picocli; // CLI framework

@@ -10,16 +10,14 @@ import re.belv.croiseur.solver.ginsberg.Dictionary;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
 
-/**
- * Write access to the {@link CachedDictionary}.
- */
+/** Write access to the {@link CachedDictionary}. */
 public interface CachedDictionaryWriter extends CachedDictionary {
 
     /**
      * Create a new {@link CachedDictionaryWriter}.
      *
-     * @param dictionary       a dictionary
-     * @param slots            the variables
+     * @param dictionary a dictionary
+     * @param slots the variables
      * @param eliminationSpace the eliminated candidates
      * @return the new {@link CachedDictionaryWriter}
      */
@@ -30,8 +28,8 @@ public interface CachedDictionaryWriter extends CachedDictionary {
 
     /**
      * Invalidates {@link #cachedCandidatesCount(Slot)} upon an assignment/unassignment.
-     * <p>
-     * Cache will be rebuilt on next call to {@link #cachedCandidatesCount(Slot)}.
+     *
+     * <p>Cache will be rebuilt on next call to {@link #cachedCandidatesCount(Slot)}.
      *
      * @param modifiedSlot the assigned/unassigned slot
      */

@@ -13,14 +13,10 @@ import re.belv.croiseur.common.dictionary.DictionaryDetails;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
-/**
- * Datatable and parameter types pertaining to dictionary service.
- */
+/** Datatable and parameter types pertaining to dictionary service. */
 public final class DictionaryTypes {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public DictionaryTypes() {
         // Nothing to do.
     }

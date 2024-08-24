@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Collection of utility classes useful for implementing dictionary providers.
- */
+/** Collection of utility classes useful for implementing dictionary providers. */
 module re.belv.croiseur.dictionary.common {
     exports re.belv.croiseur.dictionary.common;
     exports re.belv.croiseur.dictionary.common.io;

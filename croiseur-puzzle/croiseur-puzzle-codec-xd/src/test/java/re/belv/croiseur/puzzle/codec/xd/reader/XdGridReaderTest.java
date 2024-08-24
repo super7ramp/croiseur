@@ -17,9 +17,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
-/**
- * Tests for {@link XdGridReader}.
- */
+/** Tests for {@link XdGridReader}. */
 final class XdGridReaderTest {
 
     /** The reader under tests. */

@@ -9,9 +9,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 
-/**
- * Load selected puzzle task.
- */
+/** Load selected puzzle task. */
 final class LoadSelectedPuzzleTask extends Task<Void> {
 
     /** The puzzle service. */
@@ -24,7 +22,7 @@ final class LoadSelectedPuzzleTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzlePersistenceServiceArg            the puzzle service
+     * @param puzzlePersistenceServiceArg the puzzle service
      */
     LoadSelectedPuzzleTask(
             final PuzzleSelectionViewModel puzzleSelectionViewModelArg,

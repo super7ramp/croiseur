@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * The eliminated candidates.
- */
+/** The eliminated candidates. */
 public interface EliminationSpace {
 
     /**
@@ -25,8 +23,8 @@ public interface EliminationSpace {
     }
 
     /**
-     * Returns the eliminations for a given slot, i.e. the eliminated values associated with the
-     * reasons of their eliminations.
+     * Returns the eliminations for a given slot, i.e. the eliminated values associated with the reasons of their
+     * eliminations.
      *
      * @param slot the slot for which return the elimination
      * @return the eliminations for a given slot

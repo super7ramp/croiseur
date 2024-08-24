@@ -9,9 +9,7 @@ import java.util.Locale;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-/**
- * A dictionary list view entry.
- */
+/** A dictionary list view entry. */
 public final class DictionaryViewModel {
 
     /** Whether the dictionary is selected. */
@@ -32,9 +30,9 @@ public final class DictionaryViewModel {
     /**
      * Constructs an instance.
      *
-     * @param providerArg    the dictionary provider
-     * @param nameArg        the dictionary name
-     * @param localeArg      the dictionary locale
+     * @param providerArg the dictionary provider
+     * @param nameArg the dictionary name
+     * @param localeArg the dictionary locale
      * @param descriptionArg the dictionary description
      */
     public DictionaryViewModel(
@@ -64,16 +62,12 @@ public final class DictionaryViewModel {
         return selected.get();
     }
 
-    /**
-     * Sets the value of the selected property to {@code true}.
-     */
+    /** Sets the value of the selected property to {@code true}. */
     public void select() {
         selected.set(true);
     }
 
-    /**
-     * Sets the value of the selected property to {@code false}.
-     */
+    /** Sets the value of the selected property to {@code false}. */
     public void deselect() {
         selected.set(false);
     }

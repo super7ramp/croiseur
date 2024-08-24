@@ -14,15 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import re.belv.croiseur.gui.CroiseurGuiApplication;
 
-/**
- * Base class for Croiseur GUI end-to-end tests.
- */
+/** Base class for Croiseur GUI end-to-end tests. */
 @ExtendWith(ApplicationExtension.class)
 abstract class CroiseurGuiTest {
 
     /**
-     * The host locale, assumed constant for JVM lifetime. Locale is overridden during test
-     * execution for reproducibility and restored afterwards.
+     * The host locale, assumed constant for JVM lifetime. Locale is overridden during test execution for
+     * reproducibility and restored afterwards.
      */
     private static final Locale ORIGIN_LOCALE = Locale.getDefault();
 

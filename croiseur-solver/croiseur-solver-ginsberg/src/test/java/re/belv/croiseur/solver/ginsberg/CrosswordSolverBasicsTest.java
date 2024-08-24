@@ -11,13 +11,14 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /**
  * Tests for {@link GinsbergCrosswordSolver}.
- * <p>
- * These tests verify basic search and termination of the solver. Grids are very simple:
+ *
+ * <p>These tests verify basic search and termination of the solver. Grids are very simple:
+ *
  * <ul>
- *     <li>Small sizes</li>
- *     <li>No shaded boxes</li>
- *     <li>No prefilled boxes</li>
- *     <li>Very controlled dictionary</li>
+ *   <li>Small sizes
+ *   <li>No shaded boxes
+ *   <li>No prefilled boxes
+ *   <li>Very controlled dictionary
  * </ul>
  */
 final class CrosswordSolverBasicsTest {

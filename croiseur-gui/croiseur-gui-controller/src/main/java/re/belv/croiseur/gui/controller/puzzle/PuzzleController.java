@@ -14,9 +14,7 @@ import re.belv.croiseur.api.puzzle.PuzzleService;
 import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
 import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 
-/**
- * Controls calls to the puzzle service.
- */
+/** Controls calls to the puzzle service. */
 public final class PuzzleController {
 
     /** Logger. */
@@ -38,9 +36,9 @@ public final class PuzzleController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleEditionViewModelArg   the puzzle edition view model
-     * @param puzzleServiceArg            the puzzle service
-     * @param executorArg                 the worker executing the puzzle tasks
+     * @param puzzleEditionViewModelArg the puzzle edition view model
+     * @param puzzleServiceArg the puzzle service
+     * @param executorArg the worker executing the puzzle tasks
      */
     public PuzzleController(
             final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
@@ -53,33 +51,25 @@ public final class PuzzleController {
         executor = executorArg;
     }
 
-    /**
-     * Starts the 'list puzzles' task.
-     */
+    /** Starts the 'list puzzles' task. */
     public void listPuzzles() {
         final var task = new ListPuzzlesTask(puzzleService.persistence());
         execute(task);
     }
 
-    /**
-     * Starts the 'list puzzle decoders' task.
-     */
+    /** Starts the 'list puzzle decoders' task. */
     public void listPuzzleDecoders() {
         final var task = new ListPuzzleDecodersTask(puzzleService.importer());
         execute(task);
     }
 
-    /**
-     * Starts the 'list puzzle encoders' task.
-     */
+    /** Starts the 'list puzzle encoders' task. */
     public void listPuzzleEncoders() {
         final var task = new ListPuzzleEncodersTask(puzzleService.exporter());
         execute(task);
     }
 
-    /**
-     * Starts the 'load selected puzzle' task.
-     */
+    /** Starts the 'load selected puzzle' task. */
     public void loadSelectedPuzzle() {
         // It is artificial because we have all information to load the grid now but let's prevent
         // the controller to modify the view model directly.
@@ -87,17 +77,13 @@ public final class PuzzleController {
         execute(task);
     }
 
-    /**
-     * Starts the 'delete puzzle' task.
-     */
+    /** Starts the 'delete puzzle' task. */
     public void deleteSelectedPuzzle() {
         final var task = new DeleteSelectedPuzzleTask(puzzleSelectionViewModel, puzzleService.persistence());
         execute(task);
     }
 
-    /**
-     * Starts the 'save puzzle' task.
-     */
+    /** Starts the 'save puzzle' task. */
     public void savePuzzle() {
         final var task = new SavePuzzleTask(puzzleEditionViewModel, puzzleService.persistence());
         execute(task);
@@ -106,7 +92,7 @@ public final class PuzzleController {
     /**
      * Starts the 'import puzzle' task.
      *
-     * @param selectedFile   the file to import
+     * @param selectedFile the file to import
      * @param selectedFormat the puzzle format of the file to import
      */
     public void importPuzzle(final File selectedFile, final String selectedFormat) {
@@ -117,7 +103,7 @@ public final class PuzzleController {
     /**
      * Starts the 'export puzzle' task.
      *
-     * @param selectedFile   the destination file
+     * @param selectedFile the destination file
      * @param selectedFormat the puzzle format of the export
      */
     public void exportPuzzle(final File selectedFile, final String selectedFormat) {

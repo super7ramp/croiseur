@@ -5,16 +5,14 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-/**
- * Abstract read exception, thrown by xd readers.
- */
+/** Abstract read exception, thrown by xd readers. */
 public abstract class XdReadException extends Exception {
 
     /**
      * Constructs an instance.
      *
-     * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-     *              value is permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null value is permitted,
+     *     and indicates that the cause is nonexistent or unknown.)
      */
     XdReadException(final Throwable cause) {
         super(cause);

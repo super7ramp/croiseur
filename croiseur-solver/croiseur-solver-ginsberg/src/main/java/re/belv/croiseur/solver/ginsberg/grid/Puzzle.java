@@ -9,9 +9,7 @@ import java.util.Collection;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Read/write access to crossword puzzle model.
- */
+/** Read/write access to crossword puzzle model. */
 public interface Puzzle {
 
     /**

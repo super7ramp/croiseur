@@ -16,9 +16,7 @@ import re.belv.croiseur.api.solver.SolveRequest;
 import re.belv.croiseur.api.solver.SolverService;
 import re.belv.croiseur.gui.view.model.ApplicationViewModel;
 
-/**
- * Controls calls to the solver service.
- */
+/** Controls calls to the solver service. */
 public final class SolverController {
 
     /** Logger. */
@@ -34,11 +32,11 @@ public final class SolverController {
     private final Executor executor;
 
     /**
-     * A JavaFx {@link Service} calling {@link SolverService#solve(SolveRequest)} asynchronously,
-     * using {@link #executor}.
-     * <p>Reason why {@link Service } is preferred over direct use of the executor is that the
-     * solver call may take a really long time to complete and need to be stoppable/restartable by
-     * user - {@link Service} provides just that.
+     * A JavaFx {@link Service} calling {@link SolverService#solve(SolveRequest)} asynchronously, using
+     * {@link #executor}.
+     *
+     * <p>Reason why {@link Service } is preferred over direct use of the executor is that the solver call may take a
+     * really long time to complete and need to be stoppable/restartable by user - {@link Service} provides just that.
      */
     private final Service<Void> solver;
 
@@ -46,8 +44,8 @@ public final class SolverController {
      * Constructs an instance.
      *
      * @param applicationViewModel the application view model
-     * @param solverServiceArg     the solver service
-     * @param executorArg          the backing executor
+     * @param solverServiceArg the solver service
+     * @param executorArg the backing executor
      */
     public SolverController(
             final ApplicationViewModel applicationViewModel,
@@ -84,9 +82,7 @@ public final class SolverController {
                 .set(newValue));
     }
 
-    /**
-     * Starts the solver.
-     */
+    /** Starts the solver. */
     public void startSolver() {
         if (solver.getState() != Worker.State.READY) {
             stopSolver();
@@ -94,17 +90,13 @@ public final class SolverController {
         solver.start();
     }
 
-    /**
-     * Stops the solver.
-     */
+    /** Stops the solver. */
     public void stopSolver() {
         solver.cancel();
         solver.reset();
     }
 
-    /**
-     * Lists the available solvers.
-     */
+    /** Lists the available solvers. */
     public void listSolvers() {
         final ListSolversTask listSolversTask = new ListSolversTask(solverService);
         listSolversTask.setOnFailed(e -> LOGGER.log(

@@ -17,9 +17,7 @@ import re.belv.croiseur.gui.view.model.DictionariesViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SolverConfigurationViewModel;
 
-/**
- * Implementation of {@link SolveRequest}, adapting {@link CrosswordGridViewModel}.
- */
+/** Implementation of {@link SolveRequest}, adapting {@link CrosswordGridViewModel}. */
 final class SolveRequestImpl implements SolveRequest {
 
     /** The puzzle definition. */
@@ -40,10 +38,10 @@ final class SolveRequestImpl implements SolveRequest {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModel       the crossword model
-     * @param dictionariesViewModel        the dictionary model
+     * @param crosswordGridViewModel the crossword model
+     * @param dictionariesViewModel the dictionary model
      * @param solverConfigurationViewModel the solver configuration model
-     * @param randomArg                    the source of randomness
+     * @param randomArg the source of randomness
      */
     SolveRequestImpl(
             final CrosswordGridViewModel crosswordGridViewModel,

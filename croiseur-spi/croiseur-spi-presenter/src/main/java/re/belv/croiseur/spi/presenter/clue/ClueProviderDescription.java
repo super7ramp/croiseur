@@ -8,7 +8,7 @@ package re.belv.croiseur.spi.presenter.clue;
 /**
  * Describes a clue provider.
  *
- * @param name        the clue provider's name
+ * @param name the clue provider's name
  * @param description a short description
  */
 public record ClueProviderDescription(String name, String description) {

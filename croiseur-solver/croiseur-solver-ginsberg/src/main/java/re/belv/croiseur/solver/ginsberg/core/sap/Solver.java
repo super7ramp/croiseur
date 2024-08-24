@@ -7,20 +7,18 @@ package re.belv.croiseur.solver.ginsberg.core.sap;
 
 import java.util.Iterator;
 
-/**
- * A constraint satisfaction problem solver.
- */
+/** A constraint satisfaction problem solver. */
 public interface Solver {
 
     /**
      * Creates a new solver.
      *
-     * @param aProblem             the problem to solve
-     * @param aVariableIterator    the variable iterator
-     * @param aCandidateChooser    the candidate chooser
-     * @param aBacktracker         the backtracker
-     * @param <VariableT>          type of variable
-     * @param <ValueT>             type of value assignable to the variables
+     * @param aProblem the problem to solve
+     * @param aVariableIterator the variable iterator
+     * @param aCandidateChooser the candidate chooser
+     * @param aBacktracker the backtracker
+     * @param <VariableT> type of variable
+     * @param <ValueT> type of value assignable to the variables
      * @param <EliminationReasonT> type of elimination reasons
      * @return a new solver
      */

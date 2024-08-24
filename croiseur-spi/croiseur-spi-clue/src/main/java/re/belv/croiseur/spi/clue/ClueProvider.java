@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Provides crossword clues.
- */
+/** Provides crossword clues. */
 public interface ClueProvider {
 
     /**

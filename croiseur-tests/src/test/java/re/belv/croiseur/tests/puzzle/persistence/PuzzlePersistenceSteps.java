@@ -25,9 +25,7 @@ import re.belv.croiseur.spi.puzzle.repository.WriteException;
 import re.belv.croiseur.tests.context.PuzzleRepositorySpy;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to the {@link PuzzlePersistenceService}.
- */
+/** Steps pertaining to the {@link PuzzlePersistenceService}. */
 public final class PuzzlePersistenceSteps {
 
     /** The puzzle service. */

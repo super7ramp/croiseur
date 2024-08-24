@@ -35,9 +35,7 @@ import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Solve usecase.
- */
+/** Solve usecase. */
 final class SolveUsecase {
 
     /** The crossword solvers indexed by names. */
@@ -61,9 +59,9 @@ final class SolveUsecase {
     /**
      * Constructs an instance.
      *
-     * @param solversArg             the solvers
+     * @param solversArg the solvers
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg           the presenter
+     * @param presenterArg the presenter
      */
     SolveUsecase(
             final Collection<CrosswordSolver> solversArg,
@@ -140,13 +138,13 @@ final class SolveUsecase {
     }
 
     /**
-     * Returns a dictionary shuffled with the request's randomness source, if any, otherwise returns
-     * the given dictionary as is.
+     * Returns a dictionary shuffled with the request's randomness source, if any, otherwise returns the given
+     * dictionary as is.
      *
-     * @param event      the solve request
+     * @param event the solve request
      * @param dictionary the non-shuffled dictionary
-     * @return the dictionary shuffled with the request's randomness source, if any, otherwise
-     * returns the given dictionary as is.
+     * @return the dictionary shuffled with the request's randomness source, if any, otherwise returns the given
+     *     dictionary as is.
      */
     private static Dictionary optionallyShuffledDictionary(final SolveRequest event, final Dictionary dictionary) {
         return event.dictionariesShuffle()
@@ -157,9 +155,9 @@ final class SolveUsecase {
     /**
      * Runs the solver, handling potential exceptions.
      *
-     * @param solver           the solver to run
-     * @param puzzle           the puzzle to solve
-     * @param dictionary       the dictionary to use
+     * @param solver the solver to run
+     * @param puzzle the puzzle to solve
+     * @param dictionary the dictionary to use
      * @param progressListener the progress listener
      */
     private Optional<SolverResult> runSolver(
@@ -187,7 +185,7 @@ final class SolveUsecase {
     /**
      * Gets clues, if explicitly requested and if solver has found a solution.
      *
-     * @param event             the solve request
+     * @param event the solve request
      * @param presentableResult the solver result
      * @return the clues, if any requested and found; otherwise, an empty map
      */
@@ -217,9 +215,9 @@ final class SolveUsecase {
     /**
      * Updates the previously saved puzzle, if any.
      *
-     * @param savedPuzzleOpt    the previously saved puzzle, if any
+     * @param savedPuzzleOpt the previously saved puzzle, if any
      * @param presentableResult the solver presentable result
-     * @param clues             the clues
+     * @param clues the clues
      */
     private void optionallyUpdateSavedPuzzle(
             final Optional<SavedPuzzle> savedPuzzleOpt,

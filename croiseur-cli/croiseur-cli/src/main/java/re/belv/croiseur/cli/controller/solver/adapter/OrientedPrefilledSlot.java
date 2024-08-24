@@ -11,9 +11,7 @@ import java.util.function.BiFunction;
 import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * An oriented pre-filled slot.
- */
+/** An oriented pre-filled slot. */
 final class OrientedPrefilledSlot {
 
     /** The offset function. */
@@ -26,7 +24,7 @@ final class OrientedPrefilledSlot {
      * Private constructor, use factory methods.
      *
      * @param aCoordinateOffset the offset function
-     * @param aNonOrientedSlot  the non-oriented data
+     * @param aNonOrientedSlot the non-oriented data
      */
     private OrientedPrefilledSlot(
             final BiFunction<GridPosition, Integer, GridPosition> aCoordinateOffset,

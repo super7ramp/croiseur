@@ -28,14 +28,10 @@ import re.belv.croiseur.gui.view.javafx.scene.canvas.CanvasUtil;
 import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 
-/**
- * A puzzle identity card.
- */
+/** A puzzle identity card. */
 public final class SavedPuzzleCard extends HBox {
 
-    /**
-     * Grid image drawer.
-     */
+    /** Grid image drawer. */
     private static final class GridDrawer {
 
         /** Font family used for the grid letters. */
@@ -65,9 +61,9 @@ public final class SavedPuzzleCard extends HBox {
         /**
          * Constructs an instance.
          *
-         * @param width  the desired image width
+         * @param width the desired image width
          * @param height the desired image height
-         * @param grid   the grid model
+         * @param grid the grid model
          */
         GridDrawer(final double width, final double height, final SavedPuzzleViewModel grid) {
             canvas = new Canvas(width, height);
@@ -157,8 +153,7 @@ public final class SavedPuzzleCard extends HBox {
         }
 
         /**
-         * Returns the horizontal start position (i.e. left border) of the given column on the
-         * canvas.
+         * Returns the horizontal start position (i.e. left border) of the given column on the canvas.
          *
          * @param columnNumber the column number
          * @return the horizontal position of the given column on the canvas
@@ -202,9 +197,7 @@ public final class SavedPuzzleCard extends HBox {
     @FXML
     private Text date;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SavedPuzzleCard() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
@@ -224,9 +217,7 @@ public final class SavedPuzzleCard extends HBox {
         thumbnail.setImage(image);
     }
 
-    /**
-     * Resets all content of this card.
-     */
+    /** Resets all content of this card. */
     public void reset() {
         thumbnail.setImage(null);
         Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));

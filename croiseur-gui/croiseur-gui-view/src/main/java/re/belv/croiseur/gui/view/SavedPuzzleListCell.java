@@ -15,9 +15,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 
-/**
- * A specialized {@link ListCell} for displaying saved puzzles.
- */
+/** A specialized {@link ListCell} for displaying saved puzzles. */
 public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
 
     /** The graphic container, when element is present. */
@@ -32,9 +30,7 @@ public final class SavedPuzzleListCell extends ListCell<SavedPuzzleViewModel> {
     @FXML
     private Button openButton, deleteButton;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SavedPuzzleListCell() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }

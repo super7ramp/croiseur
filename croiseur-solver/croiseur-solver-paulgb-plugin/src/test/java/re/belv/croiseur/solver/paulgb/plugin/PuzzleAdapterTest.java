@@ -16,14 +16,10 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.paulgb.Puzzle;
 
-/**
- * Tests for {@link PuzzleAdapter}.
- */
+/** Tests for {@link PuzzleAdapter}. */
 final class PuzzleAdapterTest {
 
-    /**
-     * Simple symmetric grid, no shaded box, no pre-filled box.
-     */
+    /** Simple symmetric grid, no shaded box, no pre-filled box. */
     @Test
     void symmetric() {
         final PuzzleGrid puzzle = new PuzzleGrid(4, 4, Collections.emptySet(), Collections.emptyMap());
@@ -47,9 +43,7 @@ final class PuzzleAdapterTest {
         assertArrayEquals(expectedSlots, emptyGrid.slots());
     }
 
-    /**
-     * Simple asymmetric grid, no shaded box, no pre-filled box.
-     */
+    /** Simple asymmetric grid, no shaded box, no pre-filled box. */
     @Test
     void asymmetric() {
         final PuzzleGrid puzzle = new PuzzleGrid(3, 5, Collections.emptySet(), Collections.emptyMap());
@@ -75,6 +69,7 @@ final class PuzzleAdapterTest {
 
     /**
      * Symmetric grid with shaded boxes.
+     *
      * <pre>
      *     | #| 0| 1| 2|
      *     | 3| 4| 5| 6|
@@ -112,8 +107,8 @@ final class PuzzleAdapterTest {
     }
 
     /**
-     * Crossword Composer doesn't support partially pre-filled grid. An exception should be raised
-     * when a pre-filled grid is given.
+     * Crossword Composer doesn't support partially pre-filled grid. An exception should be raised when a pre-filled
+     * grid is given.
      */
     @Test
     void prefilled() {

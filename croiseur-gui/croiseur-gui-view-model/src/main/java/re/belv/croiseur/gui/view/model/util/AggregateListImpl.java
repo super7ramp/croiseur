@@ -21,9 +21,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
     /** The aggregated lists. */
     private final List<List<T>> lists;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     AggregateListImpl() {
         lists = new LinkedList<>();
     }
@@ -43,7 +41,7 @@ final class AggregateListImpl<T> extends AbstractList<T> implements AggregateLis
      * Constructs an instance from given collections.
      *
      * @param collection a collection
-     * @param others     other collections
+     * @param others other collections
      * @throws NullPointerException if a given collection is {@code null}
      */
     @SafeVarargs

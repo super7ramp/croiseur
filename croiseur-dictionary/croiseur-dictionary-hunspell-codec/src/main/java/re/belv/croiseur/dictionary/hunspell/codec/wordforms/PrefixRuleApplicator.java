@@ -9,9 +9,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 
-/**
- * Implementation of {@link AffixRuleApplicator} for prefix.
- */
+/** Implementation of {@link AffixRuleApplicator} for prefix. */
 final class PrefixRuleApplicator implements AffixRuleApplicator {
 
     /** The rule data. */

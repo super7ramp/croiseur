@@ -14,32 +14,31 @@ import java.util.Map;
 import java.util.Set;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Stores the no-goods encountered during backtrack.
- */
+/** Stores the no-goods encountered during backtrack. */
 final class EliminationSpaceImpl implements EliminationSpaceWriter {
 
     /**
      * The eliminated no-goods as a map:
+     *
      * <ul>
-     *     <li>Key: The slot identifier </li>
-     *     <li>Value: The eliminations for this slot</li>
+     *   <li>Key: The slot identifier
+     *   <li>Value: The eliminations for this slot
      * </ul>
+     *
      * The eliminations for a slot are also stored as a map with:
+     *
      * <ul>
-     *     <li>Key: The eliminated value</li>
-     *     <li>Value: The reasons(s) for this value to be eliminated - typically some well
-     *     chosen slots connected to the unassignable variable at the origin of the elimination</li>
+     *   <li>Key: The eliminated value
+     *   <li>Value: The reasons(s) for this value to be eliminated - typically some well chosen slots connected to the
+     *       unassignable variable at the origin of the elimination
      * </ul>
-     * <p>
-     * Eliminations for a slot are indexed by eliminated values rather than by reasons because
-     * it's faster on read and read is more used than write.
+     *
+     * <p>Eliminations for a slot are indexed by eliminated values rather than by reasons because it's faster on read
+     * and read is more used than write.
      */
     private final Map<SlotIdentifier, Map<String, Set<SlotIdentifier>>> eliminations;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     EliminationSpaceImpl() {
         eliminations = new HashMap<>();
     }
@@ -86,7 +85,7 @@ final class EliminationSpaceImpl implements EliminationSpaceWriter {
     /**
      * Return the reasons of given eliminated value - adding eliminated value if necessary.
      *
-     * @param slot            the slot for which to return the elimination reasons
+     * @param slot the slot for which to return the elimination reasons
      * @param eliminatedValue the eliminated value
      * @return the elimination reasons
      */

@@ -14,8 +14,8 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 /**
  * A presentable solver result.
  *
- * @param isSuccess       whether solver found a solution
- * @param grid            the filled (or partially filled) grid
+ * @param isSuccess whether solver found a solution
+ * @param grid the filled (or partially filled) grid
  * @param unsolvableBoxes the unsolvable boxes, if any
  */
 public record SolverResult(boolean isSuccess, PuzzleGrid grid, Set<GridPosition> unsolvableBoxes) {
@@ -23,8 +23,8 @@ public record SolverResult(boolean isSuccess, PuzzleGrid grid, Set<GridPosition>
     /**
      * Validates fields.
      *
-     * @param isSuccess       whether solver found a solution
-     * @param grid            the filled (or partially filled) grid
+     * @param isSuccess whether solver found a solution
+     * @param grid the filled (or partially filled) grid
      * @param unsolvableBoxes the unsolvable boxes, if any
      * @throws NullPointerException if any of the field is {@code null}
      * @throws IllegalArgumentException if result is a success and unsolvableBoxes is not empty
@@ -40,8 +40,8 @@ public record SolverResult(boolean isSuccess, PuzzleGrid grid, Set<GridPosition>
 
     /**
      * Returns the puzzle grid filled boxes.
-     * <p>
-     * A shortcut for {@code solverResult.grid().filled()}.
+     *
+     * <p>A shortcut for {@code solverResult.grid().filled()}.
      *
      * @return the puzzle grid filled boxes
      */

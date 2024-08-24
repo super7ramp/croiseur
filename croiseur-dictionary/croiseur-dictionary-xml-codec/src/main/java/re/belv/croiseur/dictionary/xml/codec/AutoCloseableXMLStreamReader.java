@@ -8,9 +8,7 @@ package re.belv.croiseur.dictionary.xml.codec;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.util.StreamReaderDelegate;
 
-/**
- * An {@link AutoCloseable} {@link XMLStreamReader}.
- */
+/** An {@link AutoCloseable} {@link XMLStreamReader}. */
 final class AutoCloseableXMLStreamReader extends StreamReaderDelegate implements AutoCloseable {
 
     /**

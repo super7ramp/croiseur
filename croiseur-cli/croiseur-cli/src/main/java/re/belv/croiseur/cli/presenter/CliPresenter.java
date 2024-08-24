@@ -21,9 +21,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * CLI implementation of {@link Presenter}.
- */
+/** CLI implementation of {@link Presenter}. */
 public final class CliPresenter implements Presenter {
 
     /** The {@link CliSolverPresenter}. */
@@ -38,9 +36,7 @@ public final class CliPresenter implements Presenter {
     /** The {@link CliCluePresenter}. */
     private final CliCluePresenter cliCluePresenter;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CliPresenter() {
         cliSolverPresenter = new CliSolverPresenter();
         cliDictionaryPresenter = new CliDictionaryPresenter();

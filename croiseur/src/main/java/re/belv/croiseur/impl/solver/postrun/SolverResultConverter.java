@@ -8,10 +8,7 @@ package re.belv.croiseur.impl.solver.postrun;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * Converts from {@link re.belv.croiseur.spi.solver.SolverResult} to
- * {@link SolverResult}.
- */
+/** Converts from {@link re.belv.croiseur.spi.solver.SolverResult} to {@link SolverResult}. */
 public final class SolverResultConverter {
 
     /** Private constructor to prevent instantiation, static methods only. */
@@ -20,9 +17,8 @@ public final class SolverResultConverter {
     }
 
     /**
-     * Converts solver result from solver SPI - which contains partial information about the boxes
-     * filled during the solving process - to a solver result from presenter SPI - which contains
-     * everything needed to present the grid.
+     * Converts solver result from solver SPI - which contains partial information about the boxes filled during the
+     * solving process - to a solver result from presenter SPI - which contains everything needed to present the grid.
      *
      * @param solverResult the solver result from solver SPI
      * @param originalGrid the original grid, before the solving process started

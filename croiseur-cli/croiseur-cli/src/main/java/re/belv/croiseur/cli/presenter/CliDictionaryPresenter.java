@@ -16,9 +16,7 @@ import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
-/**
- * CLI implementation of {@link DictionaryPresenter}.
- */
+/** CLI implementation of {@link DictionaryPresenter}. */
 final class CliDictionaryPresenter implements DictionaryPresenter {
 
     /** Providers output format. */
@@ -27,9 +25,7 @@ final class CliDictionaryPresenter implements DictionaryPresenter {
     /** List output format. */
     private static final String LIST_FORMAT = "%-16s\t%-48s\t%-16s%n";
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     CliDictionaryPresenter() {
         // Nothing to do.
     }

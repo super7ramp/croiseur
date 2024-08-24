@@ -29,37 +29,26 @@ import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.dic.DicParser;
 import re.belv.croiseur.dictionary.hunspell.codec.wordforms.WordFormGenerator;
 
-/**
- * Dictionary relying on local text files in Hunspell format.
- */
+/** Dictionary relying on local text files in Hunspell format. */
 // TODO better API: No need to mimic crossword-dictionary SPI now that plugin has been split
 public final class HunspellDictionaryReader {
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(HunspellDictionaryReader.class.getName());
 
-    /**
-     * Extension of dictionary file.
-     */
+    /** Extension of dictionary file. */
     private static final String DIC_EXTENSION = ".dic";
 
-    /**
-     * Extension of affix file.
-     */
+    /** Extension of affix file. */
     private static final String AFF_EXTENSION = ".aff";
 
-    /**
-     * URL of dictionary.
-     */
+    /** URL of dictionary. */
     private final URL dicURL;
 
     /**
      * Constructor.
      *
-     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same
-     *                basename and extension .aff
+     * @param aDicURL URL to Hunspell dictionary (.dic); affix file is expected to have same basename and extension .aff
      */
     public HunspellDictionaryReader(final URL aDicURL) {
         dicURL = Objects.requireNonNull(aDicURL);

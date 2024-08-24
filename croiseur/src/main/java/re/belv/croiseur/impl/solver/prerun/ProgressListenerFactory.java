@@ -13,14 +13,10 @@ import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.solver.ProgressListener;
 
-/**
- * A {@link ProgressListener} factory.
- */
+/** A {@link ProgressListener} factory. */
 public final class ProgressListenerFactory {
 
-    /**
-     * Implementation of a periodical progress listener.
-     */
+    /** Implementation of a periodical progress listener. */
     private static final class ProgressListenerImpl implements ProgressListener {
 
         /** The presenter. */

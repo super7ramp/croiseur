@@ -10,9 +10,7 @@ import java.util.logging.Logger;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.grid.Grid;
 
-/**
- * Prints fine progress information about the solver.
- */
+/** Prints fine progress information about the solver. */
 public final class FineProgressPrinter implements SolverListener {
 
     /** Logger. */

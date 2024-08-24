@@ -12,8 +12,8 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
 /**
  * Pure Java implementation of {@link WordFormGenerator}.
- * <p>
- * Note: This implements a minimal amount of Hunspell options.
+ *
+ * <p>Note: This implements a minimal amount of Hunspell options.
  */
 final class WordFormGeneratorImpl implements WordFormGenerator {
 
@@ -27,8 +27,8 @@ final class WordFormGeneratorImpl implements WordFormGenerator {
     private final Compounder beginEndCompounder;
 
     /**
-     * The function to create begin-middle-end compounds, based on the {@code COMPOUNDBEGIN},
-     * {@code COMPOUNDMIDDLE} and {@code COMPOUNDEND} options.
+     * The function to create begin-middle-end compounds, based on the {@code COMPOUNDBEGIN}, {@code COMPOUNDMIDDLE} and
+     * {@code COMPOUNDEND} options.
      */
     private final Compounder beginMiddleEndCompounder;
 

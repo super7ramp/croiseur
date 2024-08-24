@@ -12,11 +12,12 @@ import java.util.Arrays;
 
 /**
  * An {@link InputStream} filtering Byte Order Mark (BOM) at start of file, if any.
- * <p>
- * Only UTF-8 BOM is supported for now.
  *
- * @see
- * <a href="https://github.com/apache/commons-io/blob/master/src/main/java/org/apache/commons/io/input/BOMInputStream.java">Apache Commons implementation</a>
+ * <p>Only UTF-8 BOM is supported for now.
+ *
+ * @see <a
+ *     href="https://github.com/apache/commons-io/blob/master/src/main/java/org/apache/commons/io/input/BOMInputStream.java">Apache
+ *     Commons implementation</a>
  */
 public final class BomInputStream extends FilterInputStream {
 

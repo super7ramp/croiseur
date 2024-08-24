@@ -14,9 +14,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.paulgb.Puzzle;
 
-/**
- * Adapts {@link PuzzleGrid} into Crossword Composer's {@link Puzzle}.
- */
+/** Adapts {@link PuzzleGrid} into Crossword Composer's {@link Puzzle}. */
 // TODO simplify (just like GridDataBuilder in ginsberg solver, code is too convoluted)
 final class PuzzleAdapter {
 
@@ -30,8 +28,8 @@ final class PuzzleAdapter {
      *
      * @param puzzleDefinition a {@link PuzzleGrid}
      * @return Crossword Composer's {@link Puzzle}
-     * @throws UnsupportedOperationException if the grid contains pre-filled cells: It is not
-     *                                       supported by Crossword Composer
+     * @throws UnsupportedOperationException if the grid contains pre-filled cells: It is not supported by Crossword
+     *     Composer
      */
     static Puzzle adapt(final NumberedPuzzleDefinition puzzleDefinition) {
 

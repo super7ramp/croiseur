@@ -24,9 +24,7 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Converts crossword from/to persistence format (xd).
- */
+/** Converts crossword from/to persistence format (xd). */
 final class PuzzleConverter {
 
     /** The metadata key for the revision information, in persisted crossword model. */
@@ -40,7 +38,7 @@ final class PuzzleConverter {
     /**
      * Converts the persistence crossword model to the domain crossword model.
      *
-     * @param id                        the id of the crossword
+     * @param id the id of the crossword
      * @param persistenceCrosswordModel the persistence crossword model
      * @return the domain crossword model
      * @throws PuzzleConversionException if conversion fails
@@ -168,7 +166,7 @@ final class PuzzleConverter {
      * Utility method to determine the max dimension (width or height) of the given persisted grid.
      *
      * @param persistedGrid the persisted grid
-     * @param dimension     the dimension of the grid for which get the max value
+     * @param dimension the dimension of the grid for which get the max value
      * @return the max value of the given dimension of the given grid
      * @throws PuzzleConversionException if grid is empty
      */
@@ -185,7 +183,7 @@ final class PuzzleConverter {
     /**
      * Converts domain metadata model to persistence metadata model.
      *
-     * @param details  the domain metadata model
+     * @param details the domain metadata model
      * @param revision the revision number
      * @return the persistence metadata model
      */
@@ -234,7 +232,7 @@ final class PuzzleConverter {
     /**
      * Converts a domain clues model to a persistence clues model.
      *
-     * @param grid  the domain grid model
+     * @param grid the domain grid model
      * @param clues the domain clues model
      * @return the persistence clues model
      */

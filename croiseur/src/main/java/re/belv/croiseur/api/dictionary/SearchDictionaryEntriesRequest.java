@@ -7,17 +7,14 @@ package re.belv.croiseur.api.dictionary;
 
 import java.util.Objects;
 
-/**
- * A request to search a given dictionary for words matching the given expression.
- */
+/** A request to search a given dictionary for words matching the given expression. */
 public interface SearchDictionaryEntriesRequest {
 
     /**
      * Creates a new {@link SearchDictionaryEntriesRequest} from given information.
      *
      * @param dictionaryIdentifier the dictionary identifier
-     * @param searchExpression     the search expression; The given expression shall be a valid
-     *                             regular expression
+     * @param searchExpression the search expression; The given expression shall be a valid regular expression
      * @return a new {@link SearchDictionaryEntriesRequest}
      */
     static SearchDictionaryEntriesRequest of(
@@ -47,8 +44,8 @@ public interface SearchDictionaryEntriesRequest {
 
     /**
      * Returns the search expression.
-     * <p>
-     * The given expression shall be a valid regular expression.
+     *
+     * <p>The given expression shall be a valid regular expression.
      *
      * @return the search expression
      * @see java.util.regex.Pattern

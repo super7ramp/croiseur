@@ -26,9 +26,7 @@ import re.belv.croiseur.dictionary.common.StringTransformers;
 import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 
-/**
- * Dictionary backed by simple text file.
- */
+/** Dictionary backed by simple text file. */
 final class TxtDictionary implements Dictionary {
 
     /** Logger. */
@@ -52,8 +50,8 @@ final class TxtDictionary implements Dictionary {
 
     /**
      * Reads the dictionary words.
-     * <p>
-     * One word is expected by line.
+     *
+     * <p>One word is expected by line.
      *
      * @return the dictionary words
      */
@@ -70,13 +68,11 @@ final class TxtDictionary implements Dictionary {
 
     /**
      * Reads the dictionary details.
-     * <p>
-     * Details are stored in a companion properties file, so that dictionary remains a simple
-     * list of words.
-     * <p>
-     * Name of the companion properties file is the name of the dictionary file suffixed with
-     * {@code .properties}, e.g. if dictionary is {@code example.txt}, then details are stored in
-     * {@code example.txt.properties}.
+     *
+     * <p>Details are stored in a companion properties file, so that dictionary remains a simple list of words.
+     *
+     * <p>Name of the companion properties file is the name of the dictionary file suffixed with {@code .properties},
+     * e.g. if dictionary is {@code example.txt}, then details are stored in {@code example.txt.properties}.
      *
      * @return the dictionary details
      */

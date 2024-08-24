@@ -19,9 +19,7 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * James Bond's retirement.
- */
+/** James Bond's retirement. */
 public final class PuzzleRepositorySpy implements PuzzleRepository {
 
     /** The spied repository. */
@@ -131,8 +129,7 @@ public final class PuzzleRepositorySpy implements PuzzleRepository {
     /**
      * Retrieves the captured value of the id variable referenced by its given key.
      *
-     * @param idVariableKey the id variable key (0 corresponds to the first record created, 1 to the
-     *                      second, and so on)
+     * @param idVariableKey the id variable key (0 corresponds to the first record created, 1 to the second, and so on)
      * @return the captured id variable value, if any
      */
     public Optional<Long> idVariableValue(final int idVariableKey) {

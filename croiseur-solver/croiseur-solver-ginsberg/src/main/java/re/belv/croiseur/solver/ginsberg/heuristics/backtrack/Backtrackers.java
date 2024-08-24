@@ -12,14 +12,10 @@ import re.belv.croiseur.solver.ginsberg.grid.Puzzle;
 import re.belv.croiseur.solver.ginsberg.history.History;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
-/**
- * A factory of backtracking strategies.
- */
+/** A factory of backtracking strategies. */
 public final class Backtrackers {
 
-    /**
-     * Private constructor, static factory methods only.
-     */
+    /** Private constructor, static factory methods only. */
     private Backtrackers() {
         // Nothing to do.
     }
@@ -27,9 +23,9 @@ public final class Backtrackers {
     /**
      * Returns the best {@link Backtracker} in most situations.
      *
-     * @param puzzle      the puzzle
+     * @param puzzle the puzzle
      * @param probePuzzle the copy of the puzzle used for look-ahead
-     * @param history     assignment history
+     * @param history assignment history
      * @return the best {@link Backtracker} in most situations.
      */
     public static Backtracker<Slot, SlotIdentifier> byDefault(

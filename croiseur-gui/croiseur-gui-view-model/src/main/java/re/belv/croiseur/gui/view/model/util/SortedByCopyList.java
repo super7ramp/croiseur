@@ -14,17 +14,14 @@ import javafx.collections.ModifiableObservableListBase;
 import javafx.collections.ObservableList;
 
 /**
- * A sorted view of an {@link ObservableList} similar to
- * {@link javafx.collections.transformation.SortedList}.
- * <p>
- * The difference with {@link javafx.collections.transformation.SortedList} is that
- * {@link SortedByCopyList} fires only one event on every backing list change, doing a full copy of
- * the backing list and sorting that copy.
- * <p>
- * This is interesting when the source list is huge and receives only a few modifications of big
- * size. Memory footprint may be more important than
- * {@link javafx.collections.transformation.SortedList} but speed gain is significant on source list
- * with tens or hundreds of thousands of elements.
+ * A sorted view of an {@link ObservableList} similar to {@link javafx.collections.transformation.SortedList}.
+ *
+ * <p>The difference with {@link javafx.collections.transformation.SortedList} is that {@link SortedByCopyList} fires
+ * only one event on every backing list change, doing a full copy of the backing list and sorting that copy.
+ *
+ * <p>This is interesting when the source list is huge and receives only a few modifications of big size. Memory
+ * footprint may be more important than {@link javafx.collections.transformation.SortedList} but speed gain is
+ * significant on source list with tens or hundreds of thousands of elements.
  *
  * @param <E> the element type
  */
@@ -36,7 +33,7 @@ public final class SortedByCopyList<E> extends ModifiableObservableListBase<E> i
     /**
      * Constructs an instance.
      *
-     * @param backing    the backing observable list
+     * @param backing the backing observable list
      * @param comparator the comparator
      */
     public SortedByCopyList(final ObservableList<E> backing, final Comparator<E> comparator) {

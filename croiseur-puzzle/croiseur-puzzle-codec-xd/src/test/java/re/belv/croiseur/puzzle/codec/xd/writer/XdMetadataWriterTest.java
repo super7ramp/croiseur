@@ -11,9 +11,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Tests for {@link XdMetadataWriter}.
- */
+/** Tests for {@link XdMetadataWriter}. */
 final class XdMetadataWriterTest {
 
     @Test

@@ -15,8 +15,8 @@ import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 
 /**
  * Implementation of {@link PuzzlePersistenceService}.
- * <p>
- * Mostly boilerplate between {@link PuzzleRepository} and {@link PuzzlePresenter}.
+ *
+ * <p>Mostly boilerplate between {@link PuzzleRepository} and {@link PuzzlePresenter}.
  */
 public final class PuzzlePersistenceServiceImpl implements PuzzlePersistenceService {
 
@@ -45,7 +45,7 @@ public final class PuzzlePersistenceServiceImpl implements PuzzlePersistenceServ
      * Constructs an instance.
      *
      * @param repository the puzzle repository
-     * @param presenter  the puzzle presenter
+     * @param presenter the puzzle presenter
      */
     public PuzzlePersistenceServiceImpl(final SafePuzzleRepository repository, final PuzzlePresenter presenter) {
         listPuzzlesUsecase = new ListPuzzlesUsecase(repository, presenter);

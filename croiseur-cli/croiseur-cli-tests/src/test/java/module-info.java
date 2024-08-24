@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * End-to-end tests of Croiseur CLI.
- */
+/** End-to-end tests of Croiseur CLI. */
 module re.belv.croiseur.cli.tests {
     requires org.junit.jupiter.api;
     requires re.belv.croiseur.cli;

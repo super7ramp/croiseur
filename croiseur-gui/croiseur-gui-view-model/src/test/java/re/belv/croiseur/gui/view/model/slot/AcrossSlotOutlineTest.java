@@ -13,9 +13,7 @@ import static re.belv.croiseur.gui.view.model.GridCoord.at;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on {@link AcrossSlotOutline}s.
- */
+/** Tests on {@link AcrossSlotOutline}s. */
 final class AcrossSlotOutlineTest {
 
     @Test

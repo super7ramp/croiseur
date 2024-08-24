@@ -11,14 +11,14 @@ import java.util.Locale;
  * Gathers provider and dictionary information.
  *
  * @param providerName provider name
- * @param dictionary   dictionary description
+ * @param dictionary dictionary description
  */
 public record ProvidedDictionaryDetails(String providerName, DictionaryDetails dictionary) {
 
     /**
      * Returns the dictionary name.
-     * <p>
-     * Shortcut for {@code dictionary().name()}.
+     *
+     * <p>Shortcut for {@code dictionary().name()}.
      *
      * @return the dictionary name
      */
@@ -28,8 +28,8 @@ public record ProvidedDictionaryDetails(String providerName, DictionaryDetails d
 
     /**
      * Returns the dictionary locale.
-     * <p>
-     * Shortcut for {@code dictionary().locale()}.
+     *
+     * <p>Shortcut for {@code dictionary().locale()}.
      *
      * @return the dictionary locale
      */
@@ -39,8 +39,8 @@ public record ProvidedDictionaryDetails(String providerName, DictionaryDetails d
 
     /**
      * Returns the dictionary description.
-     * <p>
-     * Shortcut for {@code dictionary().description()}.
+     *
+     * <p>Shortcut for {@code dictionary().description()}.
      *
      * @return the dictionary description
      */

@@ -8,9 +8,7 @@ package re.belv.croiseur.cli.presenter;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * Formatter for the solver result.
- */
+/** Formatter for the solver result. */
 final class SolverResultFormatter {
 
     /** Private constructor, static utility methods only. */

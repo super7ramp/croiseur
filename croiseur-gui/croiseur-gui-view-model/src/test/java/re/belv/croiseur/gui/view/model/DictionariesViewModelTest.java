@@ -14,19 +14,14 @@ import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link DictionariesViewModel}.
- */
+/** Tests for {@link DictionariesViewModel}. */
 final class DictionariesViewModelTest {
 
     private DictionariesViewModel dictionaries;
 
     private DictionaryViewModel dictionary;
 
-    /**
-     * For each test, creates a fresh {@link #dictionaries} populated with a fresh unselected
-     * {@link #dictionary}.
-     */
+    /** For each test, creates a fresh {@link #dictionaries} populated with a fresh unselected {@link #dictionary}. */
     @BeforeEach
     void beforeEach() {
         dictionaries = new DictionariesViewModel();
@@ -38,9 +33,7 @@ final class DictionariesViewModelTest {
         dictionaries.dictionariesProperty().add(dictionary);
     }
 
-    /**
-     * Verifies that deselecting dictionary removes the words from the words property.
-     */
+    /** Verifies that deselecting dictionary removes the words from the words property. */
     @Test
     void deselectDictionary() {
         dictionary.select();
@@ -52,9 +45,7 @@ final class DictionariesViewModelTest {
         assertTrue(dictionaries.wordsProperty().isEmpty());
     }
 
-    /**
-     * Verifies that deselecting dictionary with no words does not fail.
-     */
+    /** Verifies that deselecting dictionary with no words does not fail. */
     @Test
     void deselectDictionary_noWords() {
         dictionary.select();
@@ -65,9 +56,7 @@ final class DictionariesViewModelTest {
         assertTrue(dictionaries.wordsProperty().isEmpty());
     }
 
-    /**
-     * Verifies that adding words for a selected dictionary adds them to the words property.
-     */
+    /** Verifies that adding words for a selected dictionary adds them to the words property. */
     @Test
     void addWords() {
         dictionary.select();
@@ -75,9 +64,7 @@ final class DictionariesViewModelTest {
         assertEquals(List.of("HELLO", "WORLD"), dictionaries.wordsProperty());
     }
 
-    /**
-     * Verifies that added dictionary words are sorted.
-     */
+    /** Verifies that added dictionary words are sorted. */
     @Test
     void addWords_sorted() {
         dictionary.select();
@@ -85,10 +72,7 @@ final class DictionariesViewModelTest {
         assertEquals(List.of("HELLO", "WORLD"), dictionaries.wordsProperty());
     }
 
-    /**
-     * Verifies that words for unselected dictionaries are not added to the selected dictionaries
-     * word list.
-     */
+    /** Verifies that words for unselected dictionaries are not added to the selected dictionaries word list. */
     @Test
     void addWords_discardWordsForUnselectedDictionary() {
         dictionary.deselect();

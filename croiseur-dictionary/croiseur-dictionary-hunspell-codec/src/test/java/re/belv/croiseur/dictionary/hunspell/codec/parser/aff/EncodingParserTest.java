@@ -12,9 +12,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link EncodingParser}.
- */
+/** Tests for {@link EncodingParser}. */
 final class EncodingParserTest {
 
     @Test

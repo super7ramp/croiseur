@@ -26,9 +26,7 @@ import re.belv.croiseur.dictionary.xml.codec.DictionaryReadException;
 import re.belv.croiseur.dictionary.xml.codec.DictionaryReader;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 
-/**
- * An XML dictionary.
- */
+/** An XML dictionary. */
 final class XmlDictionary implements Dictionary {
 
     /** Logger. */
@@ -52,12 +50,12 @@ final class XmlDictionary implements Dictionary {
     }
 
     /**
-     * Returns the name of the dictionary from the given header, in the system's current locale if
-     * present and fallbacks on English if not present.
+     * Returns the name of the dictionary from the given header, in the system's current locale if present and fallbacks
+     * on English if not present.
      *
      * @param header the dictionary header
-     * @return the name of the dictionary, in system's locale or in English if no translation in
-     * system's locale is available
+     * @return the name of the dictionary, in system's locale or in English if no translation in system's locale is
+     *     available
      */
     private static String extractName(final DictionaryHeader header) {
         final Map<Locale, String> names = header.names();
@@ -65,12 +63,12 @@ final class XmlDictionary implements Dictionary {
     }
 
     /**
-     * Returns the description of the dictionary from the given header, in the system's current
-     * locale if present and fallbacks on English if not present.
+     * Returns the description of the dictionary from the given header, in the system's current locale if present and
+     * fallbacks on English if not present.
      *
      * @param header the dictionary header
-     * @return the description of the dictionary, in system's locale or in English if no translation
-     * in system's locale is available
+     * @return the description of the dictionary, in system's locale or in English if no translation in system's locale
+     *     is available
      */
     private static String extractDescription(final DictionaryHeader header) {
         final Map<Locale, String> descriptions = header.descriptions();

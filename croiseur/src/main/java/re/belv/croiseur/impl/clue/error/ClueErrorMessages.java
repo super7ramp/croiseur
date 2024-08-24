@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.impl.clue.error;
 
-/**
- * Some clue error messages.
- */
+/** Some clue error messages. */
 public final class ClueErrorMessages {
 
     /** Error message to publish when no clue is returned by clue provider. */

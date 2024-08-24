@@ -11,9 +11,7 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-/**
- * The 'list puzzles' usecase.
- */
+/** The 'list puzzles' usecase. */
 final class ListPuzzlesUsecase {
 
     /** The puzzle repository. */
@@ -26,16 +24,14 @@ final class ListPuzzlesUsecase {
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
-     * @param presenterArg  the puzzle presenter
+     * @param presenterArg the puzzle presenter
      */
     ListPuzzlesUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
         presenter = presenterArg;
     }
 
-    /**
-     * Processes the 'list puzzle' event.
-     */
+    /** Processes the 'list puzzle' event. */
     void process() {
         final List<SavedPuzzle> puzzles = new ArrayList<>(repository.list());
         presenter.presentAvailablePuzzles(puzzles);

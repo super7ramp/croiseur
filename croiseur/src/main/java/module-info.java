@@ -13,8 +13,8 @@ import re.belv.croiseur.spi.solver.CrosswordSolver;
 
 /**
  * Application core library.
- * <p>
- * This module is a library providing several high-level crossword puzzle use-cases.
+ *
+ * <p>This module is a library providing several high-level crossword puzzle use-cases.
  */
 module re.belv.croiseur {
 

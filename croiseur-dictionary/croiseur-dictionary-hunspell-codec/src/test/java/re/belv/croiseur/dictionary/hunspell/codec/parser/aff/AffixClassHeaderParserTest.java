@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
 
-/**
- * Tests for {@link AffixClassHeader}.
- */
+/** Tests for {@link AffixClassHeader}. */
 final class AffixClassHeaderParserTest {
 
     @Test

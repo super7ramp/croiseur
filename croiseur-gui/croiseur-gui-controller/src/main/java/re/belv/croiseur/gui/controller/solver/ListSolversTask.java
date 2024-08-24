@@ -8,9 +8,7 @@ package re.belv.croiseur.gui.controller.solver;
 import javafx.concurrent.Task;
 import re.belv.croiseur.api.solver.SolverService;
 
-/**
- * List solvers task.
- */
+/** List solvers task. */
 final class ListSolversTask extends Task<Void> {
 
     /** The solver service. */

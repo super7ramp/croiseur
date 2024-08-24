@@ -10,9 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- * View-model for a puzzle details editor view.
- */
+/** View-model for a puzzle details editor view. */
 public final class PuzzleDetailsViewModel {
 
     /** The puzzle id. */
@@ -24,9 +22,7 @@ public final class PuzzleDetailsViewModel {
     /** The various puzzle fields. */
     private final StringProperty title, author, editor, copyright, date;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public PuzzleDetailsViewModel() {
         id = new SimpleObjectProperty<>(this, "id");
         revision = new SimpleObjectProperty<>(this, "revision");
@@ -39,8 +35,8 @@ public final class PuzzleDetailsViewModel {
 
     /**
      * The puzzle id property.
-     * <p>
-     * Value can {@code null} if puzzle hasn't been saved yet.
+     *
+     * <p>Value can {@code null} if puzzle hasn't been saved yet.
      *
      * @return the puzzle id property
      */
@@ -50,8 +46,8 @@ public final class PuzzleDetailsViewModel {
 
     /**
      * Returns the value of the id property.
-     * <p>
-     * Can be {@code null} if puzzle hasn't been saved yet.
+     *
+     * <p>Can be {@code null} if puzzle hasn't been saved yet.
      *
      * @return the value of the id property
      */
@@ -70,8 +66,8 @@ public final class PuzzleDetailsViewModel {
 
     /**
      * Returns the value of the revision property.
-     * <p>
-     * Can be {@code null} if puzzle hasn't been saved yet.
+     *
+     * <p>Can be {@code null} if puzzle hasn't been saved yet.
      *
      * @return the value of the revision property
      */
@@ -223,9 +219,7 @@ public final class PuzzleDetailsViewModel {
         date.set(value);
     }
 
-    /**
-     * Resets this model to defaults.
-     */
+    /** Resets this model to defaults. */
     public void reset() {
         id.setValue(null);
         revision.setValue(null);

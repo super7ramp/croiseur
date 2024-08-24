@@ -11,9 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link PuzzleSelectionViewModel}.
- */
+/** Tests for {@link PuzzleSelectionViewModel}. */
 final class PuzzleSelectionViewModelTest {
 
     /** The model under tests. */
@@ -37,9 +35,8 @@ final class PuzzleSelectionViewModelTest {
     }
 
     /**
-     * Verifies that {@link PuzzleSelectionViewModel#removeAvailablePuzzleWithId(long)} does not
-     * change the available puzzle list nor raise an exception when given is is not present in the
-     * list.
+     * Verifies that {@link PuzzleSelectionViewModel#removeAvailablePuzzleWithId(long)} does not change the available
+     * puzzle list nor raise an exception when given is is not present in the list.
      */
     @Test
     void removeAvailablePuzzleWithId_noSuchPuzzle() {

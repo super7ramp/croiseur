@@ -12,9 +12,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
-/**
- * Parses {@link DicEntry}.
- */
+/** Parses {@link DicEntry}. */
 final class DicEntryParser {
 
     /** The pattern of a dictionary entry. */
@@ -23,9 +21,7 @@ final class DicEntryParser {
             + "([\t| ]+(?<morphology>.+))?"
             + "[ \t]*$"); // trailing spaces or tabs should not cause parsing failure
 
-    /**
-     * Private constructor to prevent instantiation, static methods only.
-     */
+    /** Private constructor to prevent instantiation, static methods only. */
     private DicEntryParser() {
         // Nothing to do.
     }
@@ -44,7 +40,7 @@ final class DicEntryParser {
     /**
      * Parses a {@link DicEntry}.
      *
-     * @param line     the line to parse
+     * @param line the line to parse
      * @param flagType the flag type
      * @return a {@link DicEntry}
      * @throws InvalidDicEntryException if parsing goes wrong

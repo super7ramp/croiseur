@@ -13,9 +13,7 @@ import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.solver.ginsberg.SolverResult;
 
-/**
- * Implementation of {@link SolverResult}.
- */
+/** Implementation of {@link SolverResult}. */
 final class SolverResultImpl implements SolverResult {
 
     /** Not filled/shaded character. */
@@ -42,10 +40,10 @@ final class SolverResultImpl implements SolverResult {
     /**
      * Constructs an instance.
      *
-     * @param kindArg            the result kind
-     * @param filledBoxes        the filled boxes, either pre-filled or filled by the solver
+     * @param kindArg the result kind
+     * @param filledBoxes the filled boxes, either pre-filled or filled by the solver
      * @param unsolvableBoxesArg the unsolvable boxes, if any
-     * @param statisticsArg      the resolution statistics
+     * @param statisticsArg the resolution statistics
      */
     private SolverResultImpl(
             final Kind kindArg,
@@ -62,7 +60,7 @@ final class SolverResultImpl implements SolverResult {
      * Builds a {@link SolverResultImpl} denoting a successful resolution.
      *
      * @param solvedBoxes the solved boxes
-     * @param statistics  the resolution statistics
+     * @param statistics the resolution statistics
      * @return a {@link SolverResultImpl} denoting a successful resolution
      */
     static SolverResultImpl success(final Map<GridPosition, Character> solvedBoxes, final Statistics statistics) {
@@ -72,9 +70,9 @@ final class SolverResultImpl implements SolverResult {
     /**
      * Builds a {@link SolverResultImpl} denoting the impossibility to solve the problem.
      *
-     * @param filledBoxes     the filled boxes, if any
+     * @param filledBoxes the filled boxes, if any
      * @param unsolvableBoxes the unsolvable boxes
-     * @param statistics      the resolution statistics
+     * @param statistics the resolution statistics
      * @return a {@link SolverResultImpl} denoting the impossibility to solve the problem
      */
     static SolverResultImpl impossible(

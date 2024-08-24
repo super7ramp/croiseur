@@ -14,15 +14,16 @@ import java.util.Optional;
 
 /**
  * The crossword metadata.
- * <p>
- * Metadata are immutable and can only be built using the associated {@link Builder} class.
+ *
+ * <p>Metadata are immutable and can only be built using the associated {@link Builder} class.
  */
 public final class XdMetadata {
 
     /**
      * The builder class for {@link XdMetadata}.
-     * <p>
-     * Usage:
+     *
+     * <p>Usage:
+     *
      * <pre>{@code
      * var builder = new XdMetadata.Builder();
      * var xdMetadata = builder.title("An example grid")
@@ -51,17 +52,15 @@ public final class XdMetadata {
         /** The date property, {@code null} by default. */
         private LocalDate date;
 
-        /**
-         * Constructs a new instance.
-         */
+        /** Constructs a new instance. */
         public Builder() {
             otherProperties = new HashMap<>();
         }
 
         /**
          * Sets the title value.
-         * <p>
-         * Erases any previously set value.
+         *
+         * <p>Erases any previously set value.
          *
          * @param titleValue the new value
          * @return this builder
@@ -74,8 +73,8 @@ public final class XdMetadata {
 
         /**
          * Sets the author value.
-         * <p>
-         * Erases any previously set value.
+         *
+         * <p>Erases any previously set value.
          *
          * @param authorValue the new value
          * @return this builder
@@ -88,8 +87,8 @@ public final class XdMetadata {
 
         /**
          * Sets the editor value.
-         * <p>
-         * Erases any previously set value.
+         *
+         * <p>Erases any previously set value.
          *
          * @param editorValue the new value
          * @return this builder
@@ -102,8 +101,8 @@ public final class XdMetadata {
 
         /**
          * Sets the copyright value.
-         * <p>
-         * Erases any previously set value.
+         *
+         * <p>Erases any previously set value.
          *
          * @param copyrightValue the new value
          * @return this builder
@@ -116,8 +115,8 @@ public final class XdMetadata {
 
         /**
          * Sets the date value.
-         * <p>
-         * Erases any previously set value.
+         *
+         * <p>Erases any previously set value.
          *
          * @param dateValue the new value
          * @return this builder
@@ -130,8 +129,8 @@ public final class XdMetadata {
 
         /**
          * Sets another property, as a String.
-         * <p>
-         * Erases any previously set value for the given key.
+         *
+         * <p>Erases any previously set value for the given key.
          *
          * @param key the new property key
          * @param value the new property value
@@ -147,8 +146,8 @@ public final class XdMetadata {
 
         /**
          * Builds the metadata.
-         * <p>
-         * Data will be deep-copied from the builder, thus this builder can be reused.
+         *
+         * <p>Data will be deep-copied from the builder, thus this builder can be reused.
          *
          * @return the metadata
          */
@@ -156,9 +155,7 @@ public final class XdMetadata {
             return new XdMetadata(this);
         }
 
-        /**
-         * Resets this builder.
-         */
+        /** Resets this builder. */
         public void reset() {
             title = null;
             author = null;
@@ -201,44 +198,32 @@ public final class XdMetadata {
         otherProperties = new HashMap<>(builder.otherProperties);
     }
 
-    /**
-     * @return all other, non-standard, properties
-     */
+    /** @return all other, non-standard, properties */
     public Map<String, String> otherProperties() {
         return Collections.unmodifiableMap(otherProperties);
     }
 
-    /**
-     * @return the value of the "Author" property, if any
-     */
+    /** @return the value of the "Author" property, if any */
     public Optional<String> author() {
         return Optional.ofNullable(author);
     }
 
-    /**
-     * @return the value of the "Date" property, if any
-     */
+    /** @return the value of the "Date" property, if any */
     public Optional<LocalDate> date() {
         return Optional.ofNullable(date);
     }
 
-    /**
-     * @return the value of the "Copyright" property, if any
-     */
+    /** @return the value of the "Copyright" property, if any */
     public Optional<String> copyright() {
         return Optional.ofNullable(copyright);
     }
 
-    /**
-     * @return the value of the "Editor" property, if any
-     */
+    /** @return the value of the "Editor" property, if any */
     public Optional<String> editor() {
         return Optional.ofNullable(editor);
     }
 
-    /**
-     * @return the value of the "Title" property, if any
-     */
+    /** @return the value of the "Title" property, if any */
     public Optional<String> title() {
         return Optional.ofNullable(title);
     }

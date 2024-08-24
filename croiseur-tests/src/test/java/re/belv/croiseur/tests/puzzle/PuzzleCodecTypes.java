@@ -11,14 +11,10 @@ import java.util.List;
 import java.util.Map;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 
-/**
- * Datatable and parameter types pertaining to puzzle codec service.
- */
+/** Datatable and parameter types pertaining to puzzle codec service. */
 public final class PuzzleCodecTypes {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public PuzzleCodecTypes() {
         // Nothing to do.
     }

@@ -9,9 +9,7 @@ import org.junit.platform.suite.api.ExcludeTags;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
-/**
- * Suite testing dictionary service.
- */
+/** Suite testing dictionary service. */
 @Suite
 @SelectClasspathResource("re/belv/croiseur/tests/dictionary")
 @ExcludeTags("disabled")

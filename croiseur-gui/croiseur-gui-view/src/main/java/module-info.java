@@ -5,8 +5,8 @@
 
 /**
  * View submodule of croiseur-gui.
- * <p>
- * Widgets of croiseur-gui.
+ *
+ * <p>Widgets of croiseur-gui.
  */
 module re.belv.croiseur.gui.view {
     requires transitive re.belv.croiseur.gui.view.model;

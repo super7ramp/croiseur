@@ -7,9 +7,7 @@ package re.belv.croiseur.cli.controller.solver.parser;
 
 import java.util.Random;
 
-/**
- * Parser for {@link Random}. Expects the value of the seed.
- */
+/** Parser for {@link Random}. Expects the value of the seed. */
 public final class RandomParser {
 
     /** Private constructor to prevent instantiation. */

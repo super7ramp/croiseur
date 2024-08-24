@@ -14,9 +14,7 @@ import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.cli.status.Status;
 
-/**
- * The 'clue' command.
- */
+/** The 'clue' command. */
 @Command(name = "clue")
 public final class ClueCommand {
 

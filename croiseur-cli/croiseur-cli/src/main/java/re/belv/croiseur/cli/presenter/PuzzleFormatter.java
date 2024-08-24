@@ -19,9 +19,7 @@ import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
-/**
- * Formats crossword puzzles.
- */
+/** Formats crossword puzzles. */
 final class PuzzleFormatter {
 
     /** The format used to display unsolvable boxes (red background). */
@@ -39,9 +37,7 @@ final class PuzzleFormatter {
     /** Column separator. */
     private static final char COLUMN_SEPARATOR = '|';
 
-    /**
-     * Private constructor, static utility methods only.
-     */
+    /** Private constructor, static utility methods only. */
     private PuzzleFormatter() {
         // Nothing to do.
     }
@@ -90,10 +86,10 @@ final class PuzzleFormatter {
 
     /**
      * Formats the given puzzle grid.
-     * <p>
-     * Given unsolvable positions will be formatted using {@link #UNSOLVABLE_FORMAT}.
      *
-     * @param grid            the puzzle grid
+     * <p>Given unsolvable positions will be formatted using {@link #UNSOLVABLE_FORMAT}.
+     *
+     * @param grid the puzzle grid
      * @param unsolvableBoxes optionally, the unsolvable boxes
      * @return the formatted puzzle
      */

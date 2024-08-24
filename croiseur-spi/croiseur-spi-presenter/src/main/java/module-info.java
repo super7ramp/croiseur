@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Interface definition for presenters.
- */
+/** Interface definition for presenters. */
 module re.belv.croiseur.spi.presenter {
     requires transitive re.belv.croiseur.common;
 

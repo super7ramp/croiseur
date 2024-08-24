@@ -16,9 +16,7 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Tests for {@link XdCrosswordReader}.
- */
+/** Tests for {@link XdCrosswordReader}. */
 final class XdCrosswordReaderTest {
 
     /** The reader under tests. */

@@ -15,9 +15,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Tests for {@link XdMetadataReader}.
- */
+/** Tests for {@link XdMetadataReader}. */
 final class XdMetadataReaderTest {
 
     /** The reader under tests. */
@@ -50,8 +48,8 @@ final class XdMetadataReaderTest {
 
     /**
      * Verify that metadata missing standard fields is still allowed.
-     * <p>
-     * Spec does not say whether standard fields are mandatory or not, assuming optional.
+     *
+     * <p>Spec does not say whether standard fields are mandatory or not, assuming optional.
      *
      * @throws XdReadException should not happen
      */
@@ -104,9 +102,7 @@ final class XdMetadataReaderTest {
                 exception.getMessage());
     }
 
-    /**
-     * No empty line is expected.
-     */
+    /** No empty line is expected. */
     @Test
     void malformedField_emptyLine() {
         final String rawMetadata =

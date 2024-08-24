@@ -9,14 +9,10 @@ import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClue;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 
-/**
- * Encodes {@link XdClues} to its textual representation.
- */
+/** Encodes {@link XdClues} to its textual representation. */
 final class XdCluesWriter {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdCluesWriter() {
         // Nothing to do.
     }

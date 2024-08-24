@@ -11,9 +11,7 @@ import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.gui.view.model.CluesViewModel;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 
-/**
- * Task to asynchronously generate a clue for the current slot.
- */
+/** Task to asynchronously generate a clue for the current slot. */
 final class GetClueTask extends Task<Void> {
 
     /** The service to call. */
@@ -25,9 +23,9 @@ final class GetClueTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param cluesViewModel         the clues view model
+     * @param cluesViewModel the clues view model
      * @param crosswordGridViewModel the crossword grid view model
-     * @param clueServiceArg         the service to call
+     * @param clueServiceArg the service to call
      */
     public GetClueTask(
             final CluesViewModel cluesViewModel,

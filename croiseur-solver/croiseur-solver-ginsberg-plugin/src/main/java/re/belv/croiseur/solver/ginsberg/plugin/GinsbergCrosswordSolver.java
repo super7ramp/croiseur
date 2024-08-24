@@ -16,15 +16,11 @@ import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
 /**
- * Implementation of {@link CrosswordSolver} adapting
- * {@link re.belv.croiseur.solver.ginsberg.GinsbergCrosswordSolver}.
+ * Implementation of {@link CrosswordSolver} adapting {@link re.belv.croiseur.solver.ginsberg.GinsbergCrosswordSolver}.
  */
 public final class GinsbergCrosswordSolver implements CrosswordSolver {
 
-    /**
-     * Adapts a {@link ProgressListener} to
-     * {@link re.belv.croiseur.solver.ginsberg.ProgressListener}.
-     */
+    /** Adapts a {@link ProgressListener} to {@link re.belv.croiseur.solver.ginsberg.ProgressListener}. */
     private static final class AdaptedProgressListener implements re.belv.croiseur.solver.ginsberg.ProgressListener {
 
         /** The adapted listener. */
@@ -55,9 +51,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
         }
     }
 
-    /**
-     * Adapts a {@link re.belv.croiseur.solver.ginsberg.SolverResult} to {@link SolverResult}.
-     */
+    /** Adapts a {@link re.belv.croiseur.solver.ginsberg.SolverResult} to {@link SolverResult}. */
     private static final class AdaptedSolverResult implements SolverResult {
 
         /** The adapted instance. */
@@ -99,9 +93,7 @@ public final class GinsbergCrosswordSolver implements CrosswordSolver {
     /** The adapted solver. */
     private final re.belv.croiseur.solver.ginsberg.GinsbergCrosswordSolver adapted;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public GinsbergCrosswordSolver() {
         adapted = new re.belv.croiseur.solver.ginsberg.GinsbergCrosswordSolver();
     }

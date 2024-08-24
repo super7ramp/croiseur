@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.cli.status;
 
-/**
- * The status codes.
- */
+/** The status codes. */
 public final class StatusCodes {
 
     /** Default status, no error. */

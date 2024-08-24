@@ -15,9 +15,7 @@ import re.belv.croiseur.solver.ginsberg.grid.Grid;
 import re.belv.croiseur.solver.ginsberg.history.HistoryWriter;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
-/**
- * The state of the crossword puzzle, including caches used for resolution.
- */
+/** The state of the crossword puzzle, including caches used for resolution. */
 public final class Crossword {
 
     /** The grid (the variables). */
@@ -38,10 +36,10 @@ public final class Crossword {
     /**
      * Constructor.
      *
-     * @param gridArg              a grid
-     * @param dictionaryArg        a dictionary
+     * @param gridArg a grid
+     * @param dictionaryArg a dictionary
      * @param eliminationSpaceArg an elimination space
-     * @param historyArg           a history
+     * @param historyArg a history
      */
     private Crossword(
             final Grid gridArg,
@@ -58,7 +56,7 @@ public final class Crossword {
     /**
      * Creates new {@link Crossword} from API.
      *
-     * @param puzzleGrid   the puzzle definition
+     * @param puzzleGrid the puzzle definition
      * @param externalDictionary the external dictionary service
      * @return a new {@link Crossword}
      */
@@ -76,37 +74,27 @@ public final class Crossword {
         return new Crossword(grid, dictionary, eliminationSpace, history);
     }
 
-    /**
-     * @return the {@link Grid}
-     */
+    /** @return the {@link Grid} */
     public Grid grid() {
         return grid;
     }
 
-    /**
-     * @return the copy of the puzzle used for look-ahead
-     */
+    /** @return the copy of the puzzle used for look-ahead */
     public ProbePuzzle probePuzzle() {
         return probe;
     }
 
-    /**
-     * @return the {@link CachedDictionaryWriter}
-     */
+    /** @return the {@link CachedDictionaryWriter} */
     public CachedDictionaryWriter dictionary() {
         return dictionary;
     }
 
-    /**
-     * @return the {@link EliminationSpaceWriter}
-     */
+    /** @return the {@link EliminationSpaceWriter} */
     public EliminationSpaceWriter eliminationSpace() {
         return eliminationSpace;
     }
 
-    /**
-     * @return the {@link HistoryWriter}
-     */
+    /** @return the {@link HistoryWriter} */
     public HistoryWriter history() {
         return history;
     }

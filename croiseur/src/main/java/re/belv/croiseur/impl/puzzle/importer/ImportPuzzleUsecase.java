@@ -14,9 +14,7 @@ import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
-/**
- * The 'import puzzle' usecase.
- */
+/** The 'import puzzle' usecase. */
 final class ImportPuzzleUsecase {
 
     /** The available decoders. */
@@ -31,9 +29,9 @@ final class ImportPuzzleUsecase {
     /**
      * Constructs an instance.
      *
-     * @param decodersArg   the available puzzle decoders
+     * @param decodersArg the available puzzle decoders
      * @param repositoryArg the puzzle repository
-     * @param presenterArg  the puzzle presenter
+     * @param presenterArg the puzzle presenter
      */
     ImportPuzzleUsecase(
             final Collection<PuzzleDecoder> decodersArg,
@@ -47,7 +45,7 @@ final class ImportPuzzleUsecase {
     /**
      * Processes the 'import puzzle' request.
      *
-     * @param format      the format of the puzzle
+     * @param format the format of the puzzle
      * @param inputStream the input stream where to read the puzzle to import
      */
     void process(final String format, final InputStream inputStream) {
@@ -70,8 +68,7 @@ final class ImportPuzzleUsecase {
      * Selects the first decoder supporting the given format.
      *
      * @param format the puzzle format
-     * @return the first decoder supporting the given format, if any; otherwise
-     * {@link Optional#empty()}
+     * @return the first decoder supporting the given format, if any; otherwise {@link Optional#empty()}
      */
     private Optional<PuzzleDecoder> selectDecoder(final String format) {
         return decoders.stream()

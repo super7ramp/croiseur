@@ -15,9 +15,7 @@ import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncodingException;
 
-/**
- * The 'export puzzle' usecase.
- */
+/** The 'export puzzle' usecase. */
 final class ExportPuzzleUsecase {
 
     /** The puzzle repository. */
@@ -33,8 +31,8 @@ final class ExportPuzzleUsecase {
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
-     * @param encodersArg   the puzzle encoders
-     * @param presenterArg  the puzzle presenter
+     * @param encodersArg the puzzle encoders
+     * @param presenterArg the puzzle presenter
      */
     ExportPuzzleUsecase(
             final SafePuzzleRepository repositoryArg,
@@ -48,8 +46,8 @@ final class ExportPuzzleUsecase {
     /**
      * Processes the 'export puzzle' request.
      *
-     * @param id           the id of the saved puzzle to export
-     * @param format       the export format
+     * @param id the id of the saved puzzle to export
+     * @param format the export format
      * @param outputStream where to encode the puzzle
      */
     public void process(final long id, final String format, final OutputStream outputStream) {
@@ -77,8 +75,7 @@ final class ExportPuzzleUsecase {
      * Selects the first encoder supporting the given format.
      *
      * @param format the puzzle format
-     * @return the first encoder supporting the given format, if any; otherwise
-     * {@link Optional#empty()}
+     * @return the first encoder supporting the given format, if any; otherwise {@link Optional#empty()}
      */
     private Optional<PuzzleEncoder> selectEncoder(final String format) {
         return encoders.stream()

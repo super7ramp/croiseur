@@ -16,8 +16,8 @@ import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 
 /**
  * A wrapper around {@link ClueProvider} which handles common errors.
- * <p>
- * It basically allows to share clue-related behaviours across services.
+ *
+ * <p>It basically allows to share clue-related behaviours across services.
  */
 public final class SafeClueProvider {
 
@@ -52,7 +52,7 @@ public final class SafeClueProvider {
      * Safely get clues, using the given provider.
      *
      * @param providerName the provider to use
-     * @param words        the words to define
+     * @param words the words to define
      * @return the clues, indexed by the defined words
      */
     public Map<String, String> getClues(final String providerName, final Set<String> words) {
@@ -85,7 +85,7 @@ public final class SafeClueProvider {
      * Calls the clue provider, handling the potential exceptions.
      *
      * @param clueProvider the clue provider
-     * @param words        the words for which to get clues
+     * @param words the words for which to get clues
      * @return the clues indexed by the defined words
      */
     private Map<String, String> safeGetClues(final ClueProvider clueProvider, final Set<String> words) {

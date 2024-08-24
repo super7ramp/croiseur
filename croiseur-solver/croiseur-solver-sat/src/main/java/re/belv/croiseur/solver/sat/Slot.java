@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-/**
- * The definition of a group of contiguous cells.
- */
+/** The definition of a group of contiguous cells. */
 final class Slot {
 
     /** The minimal length of a slot. */
@@ -35,11 +33,10 @@ final class Slot {
     /**
      * Constructs an instance.
      *
-     * @param indexArg  the index of this slot in the grid list of slots
-     * @param startArg  the start of the varying coordinate (start row for a down slot, start column
-     *                  for an across slot)
-     * @param endArg    the end (exclusive) of the varying coordinate (end row for a down slot, end
-     *                  column for an across slot)
+     * @param indexArg the index of this slot in the grid list of slots
+     * @param startArg the start of the varying coordinate (start row for a down slot, start column for an across slot)
+     * @param endArg the end (exclusive) of the varying coordinate (end row for a down slot, end column for an across
+     *     slot)
      * @param offsetArg the fixed coordinate
      * @param isDownArg whether this is a down slot (= vertical)
      * @throws IllegalArgumentException if length is less than {@value #MIN_LENGTH}
@@ -62,10 +59,10 @@ final class Slot {
     /**
      * Constructs an across slot.
      *
-     * @param index       the index of this slot in the grid list of slots
+     * @param index the index of this slot in the grid list of slots
      * @param startColumn the start column
-     * @param endColumn   the end column
-     * @param row         the row
+     * @param endColumn the end column
+     * @param row the row
      */
     static Slot across(final int index, final int startColumn, final int endColumn, final int row) {
         return new Slot(index, startColumn, endColumn, row, false);
@@ -74,10 +71,10 @@ final class Slot {
     /**
      * Constructs a down slot.
      *
-     * @param index    the index of this slot in the grid list of slots
+     * @param index the index of this slot in the grid list of slots
      * @param startRow the start row
-     * @param endRow   the end row
-     * @param column   the column
+     * @param endRow the end row
+     * @param column the column
      */
     static Slot down(final int index, final int startRow, final int endRow, final int column) {
         return new Slot(index, startRow, endRow, column, true);

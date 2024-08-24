@@ -8,17 +8,14 @@ package re.belv.croiseur.api.dictionary;
 import java.util.Locale;
 import java.util.Optional;
 
-/**
- * A request to list available dictionaries.
- */
+/** A request to list available dictionaries. */
 public interface ListDictionariesRequest {
 
     /**
      * Creates a new {@link ListDictionaryEntriesRequest}.
      *
-     * @param locale   the locale to filter dictionaries with or @{code null} if no filter desired
-     * @param provider the provider name to filter dictionaries with or {@code null} if no filter
-     *                 desired
+     * @param locale the locale to filter dictionaries with or @{code null} if no filter desired
+     * @param provider the provider name to filter dictionaries with or {@code null} if no filter desired
      * @return a new {@link ListDictionaryEntriesRequest}
      */
     static ListDictionariesRequest of(final Locale locale, final String provider) {

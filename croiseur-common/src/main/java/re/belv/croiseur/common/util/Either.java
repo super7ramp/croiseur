@@ -9,15 +9,12 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
- * A class of objects which can contain two forms of values: Either a Left value, or (exclusive) a
- * Right value.
+ * A class of objects which can contain two forms of values: Either a Left value, or (exclusive) a Right value.
  *
  * @param <L> the left form type
  * @param <R> the right form type
- * @see <a
- * href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/control/Either
- * .java">Vavr's
- * Either</a>
+ * @see <a href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/control/Either .java">Vavr's
+ *     Either</a>
  */
 public final class Either<L, R> {
 
@@ -30,7 +27,7 @@ public final class Either<L, R> {
     /**
      * Constructs an instance.
      *
-     * @param leftArg  the left value
+     * @param leftArg the left value
      * @param rightArg the right value
      */
     private Either(final L leftArg, final R rightArg) {
@@ -42,8 +39,8 @@ public final class Either<L, R> {
      * Creates an instance containing a left value.
      *
      * @param left the left value
-     * @param <L>  the left value type
-     * @param <R>  the right value type
+     * @param <L> the left value type
+     * @param <R> the right value type
      * @return an instance containing a left value
      * @throws NullPointerException if left value is {@code null}
      */
@@ -56,8 +53,8 @@ public final class Either<L, R> {
      * Creates an instance containing a right value.
      *
      * @param right the right value
-     * @param <L>   the left value type
-     * @param <R>   the right value type
+     * @param <L> the left value type
+     * @param <R> the right value type
      * @return an instance containing a right value
      * @throws NullPointerException if right value is {@code null}
      */

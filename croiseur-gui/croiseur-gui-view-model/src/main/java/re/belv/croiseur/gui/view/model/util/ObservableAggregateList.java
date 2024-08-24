@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 
 /**
  * An observable {@link AggregateList}.
- * <p>
- * Just like {@link AggregateList}, the list is modifiable only by using specific
- * aggregation/disaggregation methods defined in {@link AggregateList}.
+ *
+ * <p>Just like {@link AggregateList}, the list is modifiable only by using specific aggregation/disaggregation methods
+ * defined in {@link AggregateList}.
  *
  * @param <E> element type
  */

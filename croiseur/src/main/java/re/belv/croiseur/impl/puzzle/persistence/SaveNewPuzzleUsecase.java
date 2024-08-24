@@ -10,9 +10,9 @@ import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 
 /**
  * The 'save new' puzzle usecase.
- * <p>
- * In practice, just boilerplate around {@link SafePuzzleRepository} which manages error handling
- * and presentation for all services relying on the puzzle repository.
+ *
+ * <p>In practice, just boilerplate around {@link SafePuzzleRepository} which manages error handling and presentation
+ * for all services relying on the puzzle repository.
  */
 final class SaveNewPuzzleUsecase {
 

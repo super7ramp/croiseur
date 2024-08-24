@@ -6,9 +6,7 @@
 import re.belv.croiseur.dictionary.xml.plugin.XmlDictionaryProvider;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Dictionary provider of local word lists written in XML.
- */
+/** Dictionary provider of local word lists written in XML. */
 module re.belv.croiseur.dictionary.xml.plugin {
     requires re.belv.croiseur.dictionary.common;
     requires re.belv.croiseur.dictionary.xml.codec;

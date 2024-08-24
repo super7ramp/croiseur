@@ -17,14 +17,12 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
 /**
  * Parses text to {@link XdCrossword}.
- * <p>
- * Reader is <em>not</em> thread-safe.
+ *
+ * <p>Reader is <em>not</em> thread-safe.
  */
 public final class XdCrosswordReader {
 
-    /**
-     * The crossword sections.
-     */
+    /** The crossword sections. */
     private record Sections(String metadata, String grid, String clues) {
         // Nothing to add.
     }
@@ -38,9 +36,7 @@ public final class XdCrosswordReader {
     /** The clues section reader. */
     private final XdCluesReader cluesReader;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public XdCrosswordReader() {
         metadataReader = new XdMetadataReader();
         gridReader = new XdGridReader();

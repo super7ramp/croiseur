@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-/**
- * {@link XdReadException} raised when error occurred reading the crossword.
- */
+/** {@link XdReadException} raised when error occurred reading the crossword. */
 public final class XdCrosswordReadException extends XdReadException {
 
     /**

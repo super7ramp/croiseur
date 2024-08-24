@@ -8,9 +8,7 @@ package re.belv.croiseur.solver.ginsberg.elimination;
 import java.util.Collection;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Write access to the {@link EliminationSpace}.
- */
+/** Write access to the {@link EliminationSpace}. */
 public interface EliminationSpaceWriter extends EliminationSpace {
 
     /**
@@ -26,7 +24,7 @@ public interface EliminationSpaceWriter extends EliminationSpace {
      * Eliminate the given no-good.
      *
      * @param unassigned the unassigned slot
-     * @param reasons    the reasons of the elimination (other relevant slots)
+     * @param reasons the reasons of the elimination (other relevant slots)
      * @param eliminated the eliminated value
      */
     void eliminate(final SlotIdentifier unassigned, final Collection<SlotIdentifier> reasons, final String eliminated);

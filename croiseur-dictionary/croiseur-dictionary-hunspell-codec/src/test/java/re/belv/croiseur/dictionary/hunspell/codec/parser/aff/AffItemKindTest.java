@@ -11,9 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link AffItemKind}.
- */
+/** Tests for {@link AffItemKind}. */
 final class AffItemKindTest {
 
     @Test

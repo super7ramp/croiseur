@@ -9,9 +9,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Access to data for a given slot.
- */
+/** Access to data for a given slot. */
 final class SlotData {
 
     /** The whole grid data. */
@@ -22,10 +20,9 @@ final class SlotData {
 
     /**
      * Instantiation flag.
-     * <p>
-     * This flag allows to identify whether the variable represented by this data has been
-     * instantiated. Relying on value presence is not sufficient as slot data may entirely be
-     * filled by side effect of connected variables.
+     *
+     * <p>This flag allows to identify whether the variable represented by this data has been instantiated. Relying on
+     * value presence is not sufficient as slot data may entirely be filled by side effect of connected variables.
      */
     private boolean instantiated;
 
@@ -33,7 +30,7 @@ final class SlotData {
      * Constructor.
      *
      * @param aDefinition the slot definition
-     * @param aGrid       the whole grid data
+     * @param aGrid the whole grid data
      */
     SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid) {
         this(aDefinition, aGrid, false);
@@ -42,8 +39,8 @@ final class SlotData {
     /**
      * Constructor.
      *
-     * @param aDefinition    the slot definition
-     * @param aGrid          the whole grid data
+     * @param aDefinition the slot definition
+     * @param aGrid the whole grid data
      * @param anInstantiated whether the slot has been instantiated
      */
     SlotData(final SlotDefinition aDefinition, final BoxData[][] aGrid, final boolean anInstantiated) {
@@ -85,9 +82,7 @@ final class SlotData {
         instantiated = false;
     }
 
-    /**
-     * Delete all boxes of this slot.
-     */
+    /** Delete all boxes of this slot. */
     void clear() {
         clearExcept(Collections.emptySet());
     }

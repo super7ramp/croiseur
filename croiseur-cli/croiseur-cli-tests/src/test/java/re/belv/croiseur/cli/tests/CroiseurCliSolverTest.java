@@ -11,9 +11,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on 'croiseur-cli solver *' commands.
- */
+/** Tests on 'croiseur-cli solver *' commands. */
 final class CroiseurCliSolverTest extends FluentTestHelper {
 
     @Test

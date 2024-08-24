@@ -11,9 +11,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Crossword;
 
-/**
- * Adapts {@link PuzzleGrid} into xwords-rs' {@link Crossword}.
- */
+/** Adapts {@link PuzzleGrid} into xwords-rs' {@link Crossword}. */
 final class PuzzleAdapter {
 
     /** Private constructor - static utilities only. */

@@ -16,9 +16,7 @@ final class AffixRuleApplicators {
     /** {@link AffixRuleApplicator} to use when affix is {@value ZERO_AFFIX}. */
     private static final AffixRuleApplicator ZERO_AFFIX_APPLICATOR = stem -> Optional.empty();
 
-    /**
-     * Private constructor, static methods only.
-     */
+    /** Private constructor, static methods only. */
     private AffixRuleApplicators() {
         // Nothing to do
     }

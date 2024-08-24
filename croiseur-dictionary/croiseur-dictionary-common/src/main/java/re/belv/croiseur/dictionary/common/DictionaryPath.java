@@ -16,19 +16,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-/**
- * A dictionary path, similar to a classpath. Immutable.
- */
+/** A dictionary path, similar to a classpath. Immutable. */
 public final class DictionaryPath {
 
     /** The dictionary path system property name. */
     public static final String SYSTEM_PROPERTY = "re.belv.croiseur.dictionary.path";
 
     /**
-     * The dictionary path. Contains files or directory path, separated by ':', similarly to a
-     * classpath.
-     * <p>
-     * Example: {@code "/a/directory/:/a/dictionary.extension"}.
+     * The dictionary path. Contains files or directory path, separated by ':', similarly to a classpath.
+     *
+     * <p>Example: {@code "/a/directory/:/a/dictionary.extension"}.
      */
     private final String path;
 
@@ -42,8 +39,8 @@ public final class DictionaryPath {
     }
 
     /**
-     * Returns a {@link DictionaryPath} listing all possible locations for dictionaries, i.e.
-     * {@link #userSpecific()}, {@link #systemDefined()}, and {@link #relativeToJar()}.
+     * Returns a {@link DictionaryPath} listing all possible locations for dictionaries, i.e. {@link #userSpecific()},
+     * {@link #systemDefined()}, and {@link #relativeToJar()}.
      *
      * @return a {@link DictionaryPath} listing all possible locations for dictionaries
      */
@@ -64,8 +61,7 @@ public final class DictionaryPath {
     /**
      * Returns the dictionary path set as system property ({@value #SYSTEM_PROPERTY}).
      *
-     * @return the dictionary path set as system property; An empty path if system property is not
-     * set
+     * @return the dictionary path set as system property; An empty path if system property is not set
      */
     public static DictionaryPath systemDefined() {
         final String path = System.getProperty(SYSTEM_PROPERTY, "");
@@ -92,8 +88,7 @@ public final class DictionaryPath {
     /**
      * Returns the source code location as a {@link URI}.
      *
-     * @return the source code location as a {@link URI} or {@code null} if location could not be
-     * determined
+     * @return the source code location as a {@link URI} or {@code null} if location could not be determined
      */
     private static URI codeLocation() {
         final CodeSource codeSource = DictionaryPath.class.getProtectionDomain().getCodeSource();
@@ -125,13 +120,12 @@ public final class DictionaryPath {
 
     /**
      * Streams the files (not the directories) contained inside given directory.
-     * <p>
-     * Lookup stops at first level (no lookup inside directory contained in given directory).
+     *
+     * <p>Lookup stops at first level (no lookup inside directory contained in given directory).
      *
      * @param file the directory to expand
-     * @return the files (not the directories) contained inside given file, provided given file is a
-     * directory; If given file is not a directory, returns a singleton stream containing the given
-     * file.
+     * @return the files (not the directories) contained inside given file, provided given file is a directory; If given
+     *     file is not a directory, returns a singleton stream containing the given file.
      */
     private static Stream<File> expandDirectory(final File file) {
         final File[] files = file.listFiles(File::isFile);
@@ -169,9 +163,8 @@ public final class DictionaryPath {
 
     /**
      * Resolve this path into a list of files.
-     * <p>
-     * The returned files are "actual" file (i.e. no directory) and exist at the moment of the
-     * call.
+     *
+     * <p>The returned files are "actual" file (i.e. no directory) and exist at the moment of the call.
      *
      * @return the list of files represented by this path, at the moment of the call
      */

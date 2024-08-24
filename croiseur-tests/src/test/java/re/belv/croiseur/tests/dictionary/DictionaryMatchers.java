@@ -14,18 +14,16 @@ import org.mockito.ArgumentMatcher;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
-/**
- * Allows creating custom {@link ArgumentMatcher}s related to dictionary presentation.
- */
+/** Allows creating custom {@link ArgumentMatcher}s related to dictionary presentation. */
 final class DictionaryMatchers {
 
     /**
      * Matches an argument with a property matching the given property matcher.
      *
      * @param propertyExtractor the function to extract the property
-     * @param propertyMatcher   the property matcher
-     * @param <T>               the matched argument type
-     * @param <U>               the matched property type
+     * @param propertyMatcher the property matcher
+     * @param <T> the matched argument type
+     * @param <U> the matched property type
      */
     private record HasProperty<T, U>(Function<T, U> propertyExtractor, ArgumentMatcher<U> propertyMatcher)
             implements ArgumentMatcher<T> {
@@ -71,7 +69,7 @@ final class DictionaryMatchers {
      * Allows creating a {@link DictionaryContent} matcher.
      *
      * @param numberOfEntries the expected number of entries
-     * @param firstEntries    the expected first entries
+     * @param firstEntries the expected first entries
      * @return {@code null}
      */
     static DictionaryContent dictionaryContentWith(final int numberOfEntries, final List<String> firstEntries) {
@@ -84,7 +82,7 @@ final class DictionaryMatchers {
      * Allows creating a {@link DictionarySearchResult} matcher.
      *
      * @param numberOfMatches the expected number of matches
-     * @param firstMatches    the expected first matches
+     * @param firstMatches the expected first matches
      * @return {@code null}
      */
     static DictionarySearchResult searchResultWith(final int numberOfMatches, final List<String> firstMatches) {
@@ -98,8 +96,8 @@ final class DictionaryMatchers {
      *
      * @param propertyExtractor the function to extract the property from the tested object
      * @param propertyPredicate the predicate applicable to the extracted property
-     * @param <T>               the object type
-     * @param <U>               the matched property type
+     * @param <T> the object type
+     * @param <U> the matched property type
      * @return {@code null}
      */
     private static <T, U> T hasPropertyThat(

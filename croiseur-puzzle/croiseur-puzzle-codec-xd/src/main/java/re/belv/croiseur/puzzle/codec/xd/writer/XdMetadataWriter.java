@@ -8,14 +8,10 @@ package re.belv.croiseur.puzzle.codec.xd.writer;
 import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Encodes {@link XdMetadata} to its textual representation.
- */
+/** Encodes {@link XdMetadata} to its textual representation. */
 final class XdMetadataWriter {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdMetadataWriter() {
         // Nothing to do.
     }

@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Interface definition for clue providers.
- */
+/** Interface definition for clue providers. */
 module re.belv.croiseur.spi.clue {
     exports re.belv.croiseur.spi.clue;
 }

@@ -11,9 +11,7 @@ import java.io.IOException;
 import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 
-/**
- * The 'import puzzle' task.
- */
+/** The 'import puzzle' task. */
 final class ImportPuzzleTask extends Task<Void> {
 
     /** The file to import. */
@@ -28,8 +26,8 @@ final class ImportPuzzleTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param selectedFileArg        the file to import
-     * @param selectedFormatArg      the selected puzzle format
+     * @param selectedFileArg the file to import
+     * @param selectedFormatArg the selected puzzle format
      * @param puzzleImportServiceArg the puzzle service to call
      */
     ImportPuzzleTask(

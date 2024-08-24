@@ -9,14 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static re.belv.croiseur.solver.ginsberg.PuzzleGridParser.parse;
 
-/**
- * A factory of assertions.
- */
+/** A factory of assertions. */
 final class Assertions {
 
-    /**
-     * Private constructor, static methods only.
-     */
+    /** Private constructor, static methods only. */
     private Assertions() {
         // Nothing to do.
     }
@@ -25,7 +21,7 @@ final class Assertions {
      * Assert {@link SolverResult} matches the expected solution, given as a multi-line string.
      *
      * @param expected the expected result
-     * @param result   the actual result
+     * @param result the actual result
      */
     static void assertSuccess(final String expected, final SolverResult result) {
         assertEquals(SolverResult.Kind.SUCCESS, result.kind());

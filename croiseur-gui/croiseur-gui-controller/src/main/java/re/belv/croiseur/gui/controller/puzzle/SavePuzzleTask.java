@@ -26,9 +26,7 @@ import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.PuzzleDetailsViewModel;
 import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
 
-/**
- * Save (current) puzzle task.
- */
+/** Save (current) puzzle task. */
 final class SavePuzzleTask extends Task<Void> {
 
     /** The date formatter - assuming constant locale during application run-time. */
@@ -40,7 +38,7 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Constructs an instance.
      *
-     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzleEditionViewModel the puzzle edition view model
      * @param puzzlePersistenceService the puzzle service
      */
     SavePuzzleTask(
@@ -53,7 +51,7 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Builds the actual task - either a creation or an update.
      *
-     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzleEditionViewModel the puzzle edition view model
      * @param puzzlePersistenceService the puzzle service
      * @return the actual task
      */
@@ -72,7 +70,7 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Returns a new task suitable to saves the puzzle for the first time.
      *
-     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzleEditionViewModel the puzzle edition view model
      * @param puzzlePersistenceService the puzzle service
      * @return a new task suitable to saves the puzzle for the first time
      */
@@ -89,7 +87,7 @@ final class SavePuzzleTask extends Task<Void> {
     /**
      * Returns a new task suitable to Updates an already saved puzzle.
      *
-     * @param puzzleEditionViewModel   the puzzle edition view model
+     * @param puzzleEditionViewModel the puzzle edition view model
      * @param puzzlePersistenceService the puzzle service
      * @return a new task suitable to Updates an already saved puzzle.
      */

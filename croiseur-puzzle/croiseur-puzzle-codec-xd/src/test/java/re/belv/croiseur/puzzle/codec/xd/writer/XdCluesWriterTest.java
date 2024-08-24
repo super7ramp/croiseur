@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 
-/**
- * Tests for {@link XdCluesWriter}.
- */
+/** Tests for {@link XdCluesWriter}. */
 final class XdCluesWriterTest {
 
     @Test

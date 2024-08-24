@@ -9,9 +9,7 @@ import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 
-/**
- * Implementation of {@link ListDictionaryEntriesRequest}.
- */
+/** Implementation of {@link ListDictionaryEntriesRequest}. */
 final class ListDictionaryEntriesRequestImpl implements ListDictionaryEntriesRequest {
 
     /** The dictionary identifier. */

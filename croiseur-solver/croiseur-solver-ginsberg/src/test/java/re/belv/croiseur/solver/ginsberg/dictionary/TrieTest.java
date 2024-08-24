@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Trie}.
- */
+/** Tests for {@link Trie}. */
 final class TrieTest {
 
     @Test

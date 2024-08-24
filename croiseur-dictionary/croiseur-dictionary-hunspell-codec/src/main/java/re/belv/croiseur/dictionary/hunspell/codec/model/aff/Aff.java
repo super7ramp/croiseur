@@ -15,10 +15,10 @@ import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 /**
  * Represents a parsed ".aff" file.
  *
- * @param encoding                the declared encoding
- * @param flagType                the flag type
- * @param affixClasses            the affix classes
- * @param compoundFlag            the compound flag, if any
+ * @param encoding the declared encoding
+ * @param flagType the flag type
+ * @param affixClasses the affix classes
+ * @param compoundFlag the compound flag, if any
  * @param threePartsCompoundFlags the compound begin/middle/end flags, if any
  */
 public record Aff(
@@ -31,10 +31,10 @@ public record Aff(
     /**
      * Performs some null checks.
      *
-     * @param encoding                the declared encoding
-     * @param flagType                the flag type
-     * @param affixClasses            the affix classes
-     * @param compoundFlag            the compound flag, if any
+     * @param encoding the declared encoding
+     * @param flagType the flag type
+     * @param affixClasses the affix classes
+     * @param compoundFlag the compound flag, if any
      * @param threePartsCompoundFlags the compound begin/middle/end flags, if any
      */
     public Aff {

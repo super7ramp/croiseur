@@ -10,9 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-/**
- * Hunspell to XML dictionary format converter.
- */
+/** Hunspell to XML dictionary format converter. */
 public final class HunspellToXml {
 
     /** Logger. */

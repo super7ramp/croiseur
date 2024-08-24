@@ -9,9 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import re.belv.croiseur.api.dictionary.DictionaryIdentifier;
 
-/**
- * Parser for {@link DictionaryIdentifier}.
- */
+/** Parser for {@link DictionaryIdentifier}. */
 public final class DictionaryIdentifierParser {
 
     /** Textual representation pattern: providerName:dictionaryName. */

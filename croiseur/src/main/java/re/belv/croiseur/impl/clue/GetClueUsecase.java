@@ -12,9 +12,7 @@ import re.belv.croiseur.impl.clue.shared.SafeClueProvider;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 
-/**
- * Implementation of the 'get clue' usecase.
- */
+/** Implementation of the 'get clue' usecase. */
 final class GetClueUsecase {
 
     /** The clue retriever. */

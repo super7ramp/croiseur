@@ -9,12 +9,11 @@ import java.util.Objects;
 
 /**
  * A dictionary.
- * <p>
- * Used to create a trie on Rust side.
+ *
+ * <p>Used to create a trie on Rust side.
  *
  * @param words the words
- * @see <a href="https://docs.rs/xwords/0.3.1/xwords/trie/struct.Trie.html">The Crate
- * Documentation</a>
+ * @see <a href="https://docs.rs/xwords/0.3.1/xwords/trie/struct.Trie.html">The Crate Documentation</a>
  */
 public record Dictionary(Iterable<String> words) {
 

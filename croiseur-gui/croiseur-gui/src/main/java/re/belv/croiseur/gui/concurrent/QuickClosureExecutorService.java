@@ -11,9 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An {@link ExecutorService} with a simple and quick {@link #close()} implementation - initiate
- * termination, await termination, then interrupt if still not terminated after
- * {@link #SHUTDOWN_TIMEOUT a little while}.
+ * An {@link ExecutorService} with a simple and quick {@link #close()} implementation - initiate termination, await
+ * termination, then interrupt if still not terminated after {@link #SHUTDOWN_TIMEOUT a little while}.
  */
 final class QuickClosureExecutorService extends AbstractExecutorService {
 

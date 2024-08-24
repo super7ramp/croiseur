@@ -14,19 +14,13 @@ import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * An example dictionary provider plugin.
- */
+/** An example dictionary provider plugin. */
 public final class ExampleDictionaryProvider implements DictionaryProvider {
 
-    /**
-     * An example dictionary, with hard-coded words.
-     */
+    /** An example dictionary, with hard-coded words. */
     private static final class ExampleDictionary implements Dictionary {
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         ExampleDictionary() {
             // Nothing to do.
         }
@@ -42,9 +36,7 @@ public final class ExampleDictionaryProvider implements DictionaryProvider {
         }
     }
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ExampleDictionaryProvider() {
         /*
          * It's important that the constructor is public and without arguments: The service

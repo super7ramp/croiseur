@@ -13,9 +13,7 @@ import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
-/**
- * Searches dictionary entries.
- */
+/** Searches dictionary entries. */
 final class SearchDictionaryEntriesUsecase {
 
     /** The dictionary selector. */
@@ -27,7 +25,7 @@ final class SearchDictionaryEntriesUsecase {
     /**
      * Constructs an instance.
      *
-     * @param dictionarySelectorArg  the dictionary selector
+     * @param dictionarySelectorArg the dictionary selector
      * @param dictionaryPresenterArg the dictionary presenter
      */
     SearchDictionaryEntriesUsecase(

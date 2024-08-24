@@ -13,9 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 
-/**
- * The solver selection view model.
- */
+/** The solver selection view model. */
 public final class SolverConfigurationViewModel {
 
     /** The available solvers. */
@@ -27,9 +25,7 @@ public final class SolverConfigurationViewModel {
     /** Whether the clues should be automatically for the solution returned by solver. */
     private final BooleanProperty fillCluesOnSuccess;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SolverConfigurationViewModel() {
         selectedSolverName = new SimpleStringProperty(this, "selectedSolver");
         availableSolvers = new SimpleListProperty<>(this, "availableSolvers", FXCollections.observableArrayList());
@@ -38,8 +34,8 @@ public final class SolverConfigurationViewModel {
 
     /**
      * Returns the selected solver property.
-     * <p>
-     * Value is {@code null} if no solver is selected.
+     *
+     * <p>Value is {@code null} if no solver is selected.
      *
      * @return the selected solver property
      */

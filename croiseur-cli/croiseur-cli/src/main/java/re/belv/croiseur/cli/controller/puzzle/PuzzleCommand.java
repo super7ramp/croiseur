@@ -26,9 +26,7 @@ import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.cli.status.StatusCodes;
 import re.belv.croiseur.common.puzzle.Puzzle;
 
-/**
- * The 'puzzle' command: Manage the puzzle repository.
- */
+/** The 'puzzle' command: Manage the puzzle repository. */
 @Command(name = "puzzle")
 public final class PuzzleCommand {
 
@@ -88,7 +86,7 @@ public final class PuzzleCommand {
     /**
      * Imports the given puzzle.
      *
-     * @param file   the input file
+     * @param file the input file
      * @param format the file format; if not given, format is taken from file extension
      * @return the error status
      */
@@ -111,8 +109,8 @@ public final class PuzzleCommand {
     /**
      * Exports the puzzle to given file.
      *
-     * @param id     the puzzle id
-     * @param file   the output file
+     * @param id the puzzle id
+     * @param file the output file
      * @param format the file format; if not given, format is taken from file extension
      * @return the error status
      */
@@ -137,8 +135,8 @@ public final class PuzzleCommand {
      * Infers the puzzle import/export format from the extension of the given file.
      *
      * @param file the file
-     * @return the inferred format (basically {@literal "*.<file_extension>"}) or "unknown" if no
-     * format could be inferred
+     * @return the inferred format (basically {@literal "*.<file_extension>"}) or "unknown" if no format could be
+     *     inferred
      */
     private String inferFormatFrom(final File file) {
         final int lastDot = file.getName().lastIndexOf(".");
@@ -148,12 +146,12 @@ public final class PuzzleCommand {
     /**
      * Creates a puzzle.
      *
-     * @param title     the puzzle title, if any
-     * @param author    the puzzle author, if any
-     * @param editor    the puzzle editor, if any
+     * @param title the puzzle title, if any
+     * @param author the puzzle author, if any
+     * @param editor the puzzle editor, if any
      * @param copyright the puzzle copyright, if any
-     * @param date      the puzzle date, if any
-     * @param gridRows  the puzzle grid rows
+     * @param date the puzzle date, if any
+     * @param gridRows the puzzle grid rows
      * @return the error status
      */
     @Command
@@ -200,13 +198,13 @@ public final class PuzzleCommand {
     /**
      * Updates a puzzle
      *
-     * @param id        the puzzle id
-     * @param title     the new title, if any
-     * @param author    the new author, if any
-     * @param editor    the new editor, if any
+     * @param id the puzzle id
+     * @param title the new title, if any
+     * @param author the new author, if any
+     * @param editor the new editor, if any
      * @param copyright the new copyright, if any
-     * @param date      the new date, if any
-     * @param gridRows  the new grid rows, if any
+     * @param date the new date, if any
+     * @param gridRows the new grid rows, if any
      * @return the error status
      */
     @Command

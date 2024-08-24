@@ -7,15 +7,13 @@ package re.belv.croiseur.solver.ginsberg.listener;
 
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * Listener on puzzle modification.
- */
+/** Listener on puzzle modification. */
 public interface SolverListener {
 
     /**
      * Called when a slot which was entirely filled is cleared.
      *
-     * @param slot           the cleared slot
+     * @param slot the cleared slot
      * @param unassignedWord the value unset
      */
     default void onUnassignment(final Slot slot, final String unassignedWord) {

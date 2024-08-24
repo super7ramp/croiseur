@@ -7,9 +7,7 @@ package re.belv.croiseur.solver.ginsberg.grid;
 
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * Slot extended with additional data for internal usage in package.
- */
+/** Slot extended with additional data for internal usage in package. */
 interface InternalSlot extends Slot {
 
     /**

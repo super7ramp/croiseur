@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 /**
  * A clue.
  *
- * @param number  the clue number; It corresponds to its position in the clue list, which depends on
- *                the orientation (i.e. across and down clues are numbered independently)
+ * @param number the clue number; It corresponds to its position in the clue list, which depends on the orientation
+ *     (i.e. across and down clues are numbered independently)
  * @param content the clue content
  */
 public record Clue(int number, String content) {
@@ -23,7 +23,7 @@ public record Clue(int number, String content) {
     /**
      * Validates fields.
      *
-     * @param number  the clue number
+     * @param number the clue number
      * @param content the clue content
      */
     public Clue {

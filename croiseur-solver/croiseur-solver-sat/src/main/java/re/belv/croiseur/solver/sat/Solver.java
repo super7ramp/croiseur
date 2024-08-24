@@ -16,30 +16,34 @@ import org.sat4j.specs.ContradictionException;
 
 /**
  * A SAT (actually, pseudo-boolean) solver configured to solve crossword problems.
- * <p>
- * It is a basic definition of the problem, without any optimization attempt. As such, it is quite
- * slow. The problem definition follows.
+ *
+ * <p>It is a basic definition of the problem, without any optimization attempt. As such, it is quite slow. The problem
+ * definition follows.
+ *
  * <h2>Variables</h2>
+ *
  * <ul>
- *     <li>Cell variables: For each pair (cell,letter) is associated a variable.
- *     <li>Slot variables: For each pair (slot,word) is associated a variable. They are placed
- *     "after" the cell variables in the model.
+ *   <li>Cell variables: For each pair (cell,letter) is associated a variable.
+ *   <li>Slot variables: For each pair (slot,word) is associated a variable. They are placed "after" the cell variables
+ *       in the model.
  * </ul>
+ *
  * <h2>Constraints</h2>
+ *
  * <ol>
- *     <li>Each cell must contain one and only one letter from the alphabet or a block.
- *     <li>Each slot must contain one and only one word from the input word list. This is the tricky
- *     part, as there must be a correspondence between cell variables and slot variables. Basically,
- *     each slot variable - i.e. a representation of a (slot,word) pair - is equivalent to a
- *     conjunction (= and) of cell variables - i.e. (cell,letter) pairs.
- *     <li>Prefilled cells must be kept as is.</li>
+ *   <li>Each cell must contain one and only one letter from the alphabet or a block.
+ *   <li>Each slot must contain one and only one word from the input word list. This is the tricky part, as there must
+ *       be a correspondence between cell variables and slot variables. Basically, each slot variable - i.e. a
+ *       representation of a (slot,word) pair - is equivalent to a conjunction (= and) of cell variables - i.e.
+ *       (cell,letter) pairs.
+ *   <li>Prefilled cells must be kept as is.
  * </ol>
  *
- * @see <a href="https://codingnest.com/modern-sat-solvers-fast-neat-underused-part-1-of-n/">Martin
- * Hořeňovský's introduction to SAT solvers</a>. It very clearly explains the basics with the
- * example of the sudoku problem. Associated code is in C++.
- * @see <a href="https://gitlab.com/super7ramp/sudoku4j">Sudoku4j</a>, which is an example sudoku
- * solver in Java. (It is a translation in Java of Martin Hořeňovský's example sudoku C++ solver.)
+ * @see <a href="https://codingnest.com/modern-sat-solvers-fast-neat-underused-part-1-of-n/">Martin Hořeňovský's
+ *     introduction to SAT solvers</a>. It very clearly explains the basics with the example of the sudoku problem.
+ *     Associated code is in C++.
+ * @see <a href="https://gitlab.com/super7ramp/sudoku4j">Sudoku4j</a>, which is an example sudoku solver in Java. (It is
+ *     a translation in Java of Martin Hořeňovský's example sudoku C++ solver.)
  */
 public final class Solver {
 
@@ -57,9 +61,8 @@ public final class Solver {
      *
      * @param cells the grid cells
      * @param words the word list; Only characters of the {@link Alphabet} are supported
-     * @throws NullPointerException     if any of the given parameters is {@code null}
-     * @throws IllegalArgumentException if grid is invalid (e.g. inconsistent number of rows or
-     *                                  columns)
+     * @throws NullPointerException if any of the given parameters is {@code null}
+     * @throws IllegalArgumentException if grid is invalid (e.g. inconsistent number of rows or columns)
      */
     public Solver(final char[][] cells, final String[] words) {
         Objects.requireNonNull(words);
@@ -71,8 +74,8 @@ public final class Solver {
 
     /**
      * Runs the solver.
-     * <p>
-     * Method must be called at most once. Behavior upon a second call is undefined.
+     *
+     * <p>Method must be called at most once. Behavior upon a second call is undefined.
      *
      * @return the solved grid or an empty grid if no solution is found
      * @throws InterruptedException if interrupted while solving
@@ -87,9 +90,7 @@ public final class Solver {
         }
     }
 
-    /**
-     * Allocates variables. Optional but Sat4j javadoc advises to do it for performance.
-     */
+    /** Allocates variables. Optional but Sat4j javadoc advises to do it for performance. */
     private void allocateVariables() {
         final int numberOfVariables = variables.count();
         satSolver.newVar(numberOfVariables);
@@ -99,7 +100,7 @@ public final class Solver {
      * Adds clauses to the solver.
      *
      * @throws ContradictionException if grid is trivially unsatisfiable
-     * @throws InterruptedException   if interrupted while adding constraints to the solver
+     * @throws InterruptedException if interrupted while adding constraints to the solver
      */
     private void addClauses() throws ContradictionException, InterruptedException {
         constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
@@ -122,10 +123,10 @@ public final class Solver {
 
     /**
      * Evaluates whether the problem is satisfiable.
-     * <p>
-     * Implementation note: Sat4j solver does not respond to thread interruption. In order to
-     * respond to thread interruption, this method launches the solver in a dedicated thread and
-     * makes the caller thread waits (interruptibly) for a result.
+     *
+     * <p>Implementation note: Sat4j solver does not respond to thread interruption. In order to respond to thread
+     * interruption, this method launches the solver in a dedicated thread and makes the caller thread waits
+     * (interruptibly) for a result.
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
         try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {

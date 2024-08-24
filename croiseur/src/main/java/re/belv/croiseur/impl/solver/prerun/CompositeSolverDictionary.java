@@ -12,9 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import re.belv.croiseur.spi.solver.Dictionary;
 
-/**
- * A dictionary collecting results of several dictionaries.
- */
+/** A dictionary collecting results of several dictionaries. */
 final class CompositeSolverDictionary implements Dictionary {
 
     /** The words of the dictionary. */

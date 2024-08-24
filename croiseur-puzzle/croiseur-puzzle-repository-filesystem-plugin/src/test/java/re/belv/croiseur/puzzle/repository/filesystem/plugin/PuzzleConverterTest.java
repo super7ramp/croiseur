@@ -26,9 +26,7 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Tests for {@link PuzzleConverter}.
- */
+/** Tests for {@link PuzzleConverter}. */
 final class PuzzleConverterTest {
 
     @Test

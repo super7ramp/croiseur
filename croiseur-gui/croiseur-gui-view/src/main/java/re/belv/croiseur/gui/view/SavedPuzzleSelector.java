@@ -25,9 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 
-/**
- * A puzzle selector, allowing to search, open existing or new puzzles.
- */
+/** A puzzle selector, allowing to search, open existing or new puzzles. */
 public final class SavedPuzzleSelector extends VBox {
 
     /** The recent puzzles. */
@@ -55,9 +53,7 @@ public final class SavedPuzzleSelector extends VBox {
     @FXML
     private ListView<SavedPuzzleViewModel> recentPuzzleListView;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SavedPuzzleSelector() {
         recentPuzzles = new SimpleListProperty<>(this, "recentPuzzles", FXCollections.observableArrayList());
         onOpenSelectedPuzzleButtonAction = new SimpleObjectProperty<>(this, "onEditSelectedPuzzleButtonAction");
@@ -85,8 +81,8 @@ public final class SavedPuzzleSelector extends VBox {
 
     /**
      * Returns the "open selected puzzle button action" property.
-     * <p>
-     * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
+     *
+     * <p>Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
      *
      * @return the "open selected puzzle button action" property
      */
@@ -96,8 +92,8 @@ public final class SavedPuzzleSelector extends VBox {
 
     /**
      * Returns the "delete selected puzzle button action" property.
-     * <p>
-     * Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
+     *
+     * <p>Use {@link #selectedPuzzleProperty()} to get the currently selected puzzle.
      *
      * @return the "delete selected puzzle button action" property
      */
@@ -107,10 +103,9 @@ public final class SavedPuzzleSelector extends VBox {
 
     /**
      * Returns the "recent puzzles" property.
-     * <p>
-     * Note that this list contains all the recent puzzles unfiltered; The puzzles that will be
-     * actually displayed will be the puzzles whose metadata contain the
-     * {@link #searchTextField searched substring}.
+     *
+     * <p>Note that this list contains all the recent puzzles unfiltered; The puzzles that will be actually displayed
+     * will be the puzzles whose metadata contain the {@link #searchTextField searched substring}.
      *
      * @return the recent puzzles property
      */
@@ -120,8 +115,8 @@ public final class SavedPuzzleSelector extends VBox {
 
     /**
      * Returns the "selected puzzle" property.
-     * <p>
-     * Property value is {@code null} when no puzzle is selected.
+     *
+     * <p>Property value is {@code null} when no puzzle is selected.
      *
      * @return the selected puzzle property
      */
@@ -129,18 +124,14 @@ public final class SavedPuzzleSelector extends VBox {
         return recentPuzzleListView.getSelectionModel().selectedItemProperty();
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeListViewCells();
         initializeListViewSearch();
     }
 
-    /**
-     * Initializes {@link #recentPuzzleListView} cell factory.
-     */
+    /** Initializes {@link #recentPuzzleListView} cell factory. */
     private void initializeListViewCells() {
         recentPuzzleListView.setCellFactory(l -> {
             final var listCell = new SavedPuzzleListCell();
@@ -150,9 +141,7 @@ public final class SavedPuzzleSelector extends VBox {
         });
     }
 
-    /**
-     * Initializes {@link #recentPuzzleListView} filter using {@link #searchTextField}.
-     */
+    /** Initializes {@link #recentPuzzleListView} filter using {@link #searchTextField}. */
     private void initializeListViewSearch() {
         final var filteredPuzzles = new FilteredList<>(recentPuzzles);
         final var searchPredicate =
@@ -162,11 +151,9 @@ public final class SavedPuzzleSelector extends VBox {
     }
 
     /**
-     * Returns a new predicate matching puzzles whose metadata contains the current
-     * {@link #searchTextField}'s text.
+     * Returns a new predicate matching puzzles whose metadata contains the current {@link #searchTextField}'s text.
      *
-     * @return a new predicate matching puzzles whose metadata contains the current
-     * {@link #searchTextField}'s text
+     * @return a new predicate matching puzzles whose metadata contains the current {@link #searchTextField}'s text
      */
     private Predicate<SavedPuzzleViewModel> createSearchPredicate() {
         return puzzle -> {

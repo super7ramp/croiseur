@@ -18,9 +18,7 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-/**
- * The 'patch and save' puzzle usecase.
- */
+/** The 'patch and save' puzzle usecase. */
 final class PatchAndSavePuzzleUsecase {
 
     /** The puzzle repository. */
@@ -33,7 +31,7 @@ final class PatchAndSavePuzzleUsecase {
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
-     * @param presenterArg  the presenter
+     * @param presenterArg the presenter
      */
     PatchAndSavePuzzleUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         presenter = presenterArg;
@@ -43,7 +41,7 @@ final class PatchAndSavePuzzleUsecase {
     /**
      * Processes the given puzzle patch.
      *
-     * @param id    the puzzle id
+     * @param id the puzzle id
      * @param patch the puzzle patch
      */
     void process(final long id, final PuzzlePatch patch) {
@@ -60,7 +58,7 @@ final class PatchAndSavePuzzleUsecase {
     /**
      * Applies given {@link PuzzlePatch} to the given {@link SavedPuzzle}.
      *
-     * @param savedPuzzle  the saved puzzle to patch
+     * @param savedPuzzle the saved puzzle to patch
      * @param modification the patch to apply
      * @return the patched puzzle as a {@link ChangedPuzzle}
      */
@@ -76,7 +74,7 @@ final class PatchAndSavePuzzleUsecase {
      * Applies given {@link PuzzlePatch} to the given {@link PuzzleDetails}.
      *
      * @param original the original {@link PuzzleDetails}
-     * @param patch    the patch to apply
+     * @param patch the patch to apply
      * @return the patched {@link PuzzleDetails}
      */
     private static PuzzleDetails patch(final PuzzleDetails original, final PuzzlePatch patch) {
@@ -92,7 +90,7 @@ final class PatchAndSavePuzzleUsecase {
      * Applies given {@link PuzzlePatch} to the given {@link PuzzleClues}.
      *
      * @param original the original {@link PuzzleClues}
-     * @param patch    the patch to apply
+     * @param patch the patch to apply
      * @return the patched {@link PuzzleClues}
      */
     private static PuzzleClues patch(final PuzzleClues original, final PuzzlePatch patch) {

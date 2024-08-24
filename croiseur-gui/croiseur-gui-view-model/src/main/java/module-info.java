@@ -5,8 +5,8 @@
 
 /**
  * View-model submodule of croiseur-gui.
- * <p>
- * A model representing the state of the views, observed and displayed by croiseur-gui-view.
+ *
+ * <p>A model representing the state of the views, observed and displayed by croiseur-gui-view.
  */
 module re.belv.croiseur.gui.view.model {
     requires transitive javafx.base; // Requiring only javafx.base for javafx.beans

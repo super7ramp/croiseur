@@ -7,15 +7,11 @@ package re.belv.croiseur.cli.controller;
 
 import picocli.CommandLine.Command;
 
-/**
- * The top-level command, which only prints help.
- */
+/** The top-level command, which only prints help. */
 @Command(name = "croiseur-cli")
 public final class TopLevelCommand {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public TopLevelCommand() {
         // Nothing to do.
     }

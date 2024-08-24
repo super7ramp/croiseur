@@ -18,9 +18,7 @@ import re.belv.croiseur.common.puzzle.PuzzleClues;
 import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Tests for {@link XdEncoder}.
- */
+/** Tests for {@link XdEncoder}. */
 final class XdEncoderTest {
 
     @Test

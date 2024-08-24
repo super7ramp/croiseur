@@ -13,8 +13,8 @@ import re.belv.croiseur.solver.ginsberg.lookahead.Assignment;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
 /**
- * An {@link CandidateChooser} which selects the first value resulting in a viable grid (i.e. a grid
- * with all its slots having a least one candidate).
+ * An {@link CandidateChooser} which selects the first value resulting in a viable grid (i.e. a grid with all its slots
+ * having a least one candidate).
  */
 final class FirstViableCandidateChooser implements CandidateChooser<Slot, String> {
 
@@ -28,7 +28,7 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
      * Constructs an instance.
      *
      * @param probePuzzleArg the puzzle copy to use when evaluating candidates
-     * @param dictionaryArg   the dictionary to pick candidates from
+     * @param dictionaryArg the dictionary to pick candidates from
      */
     FirstViableCandidateChooser(final ProbePuzzle probePuzzleArg, final CachedDictionary dictionaryArg) {
         dictionary = dictionaryArg;
@@ -44,13 +44,12 @@ final class FirstViableCandidateChooser implements CandidateChooser<Slot, String
     }
 
     /**
-     * Assesses whether the grid would be viable after assigning the given candidate value to given
-     * slot, i.e. a grid with all its slots having at least one candidate.
+     * Assesses whether the grid would be viable after assigning the given candidate value to given slot, i.e. a grid
+     * with all its slots having at least one candidate.
      *
      * @param wordVariable the slot to test
-     * @param candidate    the candidate to test
-     * @return {@code true} iff the grid would be viable after assigning the given candidate value
-     * to given slot.
+     * @param candidate the candidate to test
+     * @return {@code true} iff the grid would be viable after assigning the given candidate value to given slot.
      */
     private boolean isViable(final Slot wordVariable, final String candidate) {
         return probePuzzle.hasSolutionAfter(Assignment.of(wordVariable.uid(), candidate));

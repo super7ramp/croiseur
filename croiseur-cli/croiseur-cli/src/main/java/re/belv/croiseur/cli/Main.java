@@ -5,14 +5,10 @@
 
 package re.belv.croiseur.cli;
 
-/**
- * Main.
- */
+/** Main. */
 public final class Main {
 
-    /**
-     * Private constructor.
-     */
+    /** Private constructor. */
     private Main() {
         // Nothing to do.
     }

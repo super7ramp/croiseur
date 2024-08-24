@@ -18,14 +18,10 @@ import re.belv.croiseur.spi.puzzle.repository.DummyPuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * A utility class to load {@link CrosswordService}.
- */
+/** A utility class to load {@link CrosswordService}. */
 final class CrosswordServiceLoader {
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private CrosswordServiceLoader() {
         // Nothing to do.
     }
@@ -58,7 +54,7 @@ final class CrosswordServiceLoader {
      * Loads all the implementations of the given service class.
      *
      * @param clazz the service provider class
-     * @param <T>   the type of the service
+     * @param <T> the type of the service
      * @return all the implementations of the given service class
      */
     private static <T> Collection<T> load(final Class<T> clazz) {

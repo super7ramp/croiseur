@@ -9,9 +9,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.api.dictionary.ListDictionariesRequest;
 
-/**
- * List dictionaries task.
- */
+/** List dictionaries task. */
 final class ListDictionariesTask extends Task<Void> {
 
     /** The dictionary service. */

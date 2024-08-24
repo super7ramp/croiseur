@@ -30,17 +30,13 @@ import re.belv.croiseur.cli.controller.solver.parser.RandomParser;
 import re.belv.croiseur.cli.l10n.ResourceBundles;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * The CLI Application.
- */
+/** The CLI Application. */
 public final class CroiseurCliApplication {
 
     /** The command line interpreter. */
     private final CommandLine command;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public CroiseurCliApplication() {
         loadLoggingConfiguration();
 
@@ -66,9 +62,7 @@ public final class CroiseurCliApplication {
                 .registerConverter(Clue.class, TypeConverter.wrap(Clue::valueOf));
     }
 
-    /**
-     * Load the logging configuration.
-     */
+    /** Load the logging configuration. */
     private static void loadLoggingConfiguration() {
         try (final InputStream is =
                 CroiseurCliApplication.class.getClassLoader().getResourceAsStream("logging.properties")) {

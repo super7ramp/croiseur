@@ -16,9 +16,7 @@ import re.belv.croiseur.impl.dictionary.selection.DictionaryProviderFilter;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
-/**
- * The 'list dictionaries' use case.
- */
+/** The 'list dictionaries' use case. */
 final class ListDictionariesUsecase {
 
     /** The dictionary providers. */
@@ -31,7 +29,7 @@ final class ListDictionariesUsecase {
      * Constructs an instance.
      *
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg           the presenter
+     * @param presenterArg the presenter
      */
     ListDictionariesUsecase(
             final Collection<DictionaryProvider> dictionaryProvidersArg, final DictionaryPresenter presenterArg) {
@@ -40,8 +38,7 @@ final class ListDictionariesUsecase {
     }
 
     /**
-     * Streams given dictionary provider collection and map item to
-     * {@link ProvidedDictionaryDetails}.
+     * Streams given dictionary provider collection and map item to {@link ProvidedDictionaryDetails}.
      *
      * @param provider the dictionary provider
      * @return a stream of {@link ProvidedDictionaryDetails}s
@@ -53,12 +50,10 @@ final class ListDictionariesUsecase {
     }
 
     /**
-     * Returns a list of the given selected dictionary providers ordered by
-     * {@link DictionaryComparator}.
+     * Returns a list of the given selected dictionary providers ordered by {@link DictionaryComparator}.
      *
      * @param selectedDictionaryProviders the selected dictionary providers
-     * @return a list of the given selected dictionary providers ordered by
-     * {@link DictionaryComparator}
+     * @return a list of the given selected dictionary providers ordered by {@link DictionaryComparator}
      */
     private static List<ProvidedDictionaryDetails> orderDictionaries(
             final Collection<DictionaryProvider> selectedDictionaryProviders) {

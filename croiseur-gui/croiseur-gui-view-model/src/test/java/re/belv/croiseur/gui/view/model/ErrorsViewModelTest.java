@@ -13,25 +13,19 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link ErrorsViewModel}.
- */
+/** Tests for {@link ErrorsViewModel}. */
 final class ErrorsViewModelTest {
 
     /** The view model under tests. */
     private ErrorsViewModel errorsViewModel;
 
-    /**
-     * Creates a fresh model for each test.
-     */
+    /** Creates a fresh model for each test. */
     @BeforeEach
     void beforeEach() {
         errorsViewModel = new ErrorsViewModel();
     }
 
-    /**
-     * Verifies that {@link ErrorsViewModel#addError} correctly sets the current error property.
-     */
+    /** Verifies that {@link ErrorsViewModel#addError} correctly sets the current error property. */
     @Test
     void addError() {
         errorsViewModel.addError("Sample error");
@@ -40,8 +34,8 @@ final class ErrorsViewModelTest {
     }
 
     /**
-     * Verifies that {@link ErrorsViewModel#addError} correctly queues the given error if the
-     * current error property already contains an unacknowledged error.
+     * Verifies that {@link ErrorsViewModel#addError} correctly queues the given error if the current error property
+     * already contains an unacknowledged error.
      */
     @Test
     void addError_queue() {
@@ -51,17 +45,15 @@ final class ErrorsViewModelTest {
         assertEquals(errorsViewModel.currentErrorProperty().get(), "Sample error #1");
     }
 
-    /**
-     * Verifies that {@link ErrorsViewModel#addError} rejects {@code null} errors.
-     */
+    /** Verifies that {@link ErrorsViewModel#addError} rejects {@code null} errors. */
     @Test
     void addError_invalid() {
         assertThrows(NullPointerException.class, () -> errorsViewModel.addError(null));
     }
 
     /**
-     * Verifies that {@link ErrorsViewModel#acknowledgeError()} correctly clears the current error
-     * property if no error is queued.
+     * Verifies that {@link ErrorsViewModel#acknowledgeError()} correctly clears the current error property if no error
+     * is queued.
      */
     @Test
     void acknowledgeError() {
@@ -72,8 +64,8 @@ final class ErrorsViewModelTest {
     }
 
     /**
-     * Verifies that {@link ErrorsViewModel#acknowledgeError()} correctly updates the current error
-     * property with next queued error if present.
+     * Verifies that {@link ErrorsViewModel#acknowledgeError()} correctly updates the current error property with next
+     * queued error if present.
      */
     @Test
     void acknowledgeError_nextError() {
@@ -92,8 +84,8 @@ final class ErrorsViewModelTest {
     }
 
     /**
-     * Verifies that {@link ErrorsViewModel#acknowledgeError()} does not trigger any update when no
-     * unacknowledged error is present.
+     * Verifies that {@link ErrorsViewModel#acknowledgeError()} does not trigger any update when no unacknowledged error
+     * is present.
      */
     @Test
     void acknowledgeError_noop() {

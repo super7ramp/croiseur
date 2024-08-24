@@ -13,9 +13,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * A {@link GridData} builder.
- */
+/** A {@link GridData} builder. */
 final class GridDataBuilder {
 
     /** The shaded boxes. */
@@ -30,9 +28,7 @@ final class GridDataBuilder {
     /** The width. */
     private int width;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     GridDataBuilder() {
         shaded = new HashSet<>();
         prefilled = new HashMap<>();

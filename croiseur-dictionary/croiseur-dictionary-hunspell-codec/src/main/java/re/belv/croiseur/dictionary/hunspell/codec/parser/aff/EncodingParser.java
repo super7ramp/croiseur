@@ -9,18 +9,14 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Parses the SET option.
- */
+/** Parses the SET option. */
 final class EncodingParser {
 
     /** The SET option pattern. */
     private static final Pattern PATTERN = Pattern.compile("^SET (UTF-8|ISO-?8859-1|ISO-?8859-10"
             + "|ISO-?8859-13|ISO-?8859-15|KOI8-R|KOI8-U|microsoft-cp1251|ISCII-DEVANAGARI)$");
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private EncodingParser() {
         // Nothing to do.
     }

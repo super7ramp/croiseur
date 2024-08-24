@@ -9,9 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
-/**
- * Compound flag parser.
- */
+/** Compound flag parser. */
 enum CompoundFlagParser {
 
     /** Parser for {@code COMPOUNDFLAG}. */

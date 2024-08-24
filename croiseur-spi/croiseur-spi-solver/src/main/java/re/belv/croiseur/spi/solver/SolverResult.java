@@ -9,14 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * Puzzle solving result.
- */
+/** Puzzle solving result. */
 public interface SolverResult {
 
-    /**
-     * Kind of result.
-     */
+    /** Kind of result. */
     enum Kind {
         /** The grid has been successfully solved. */
         SUCCESS,
@@ -33,28 +29,24 @@ public interface SolverResult {
         }
     }
 
-    /**
-     * @return the result kind
-     */
+    /** @return the result kind */
     Kind kind();
 
     /**
      * The filled boxes.
-     * <p>
-     * Contains the entire grid filled if {@link #kind()} is {@link Kind#SUCCESS}.
-     * <p>
-     * When {@link #kind()} is {@link Kind#IMPOSSIBLE}, the returned map contains only the boxes
-     * that have been successfully filled, either by the solver or pre-filled. A special situation
-     * is when a pre-filled box is not in the dictionary: In this case, the box will be here as well
-     * as in {@link #unsolvableBoxes()}.
+     *
+     * <p>Contains the entire grid filled if {@link #kind()} is {@link Kind#SUCCESS}.
+     *
+     * <p>When {@link #kind()} is {@link Kind#IMPOSSIBLE}, the returned map contains only the boxes that have been
+     * successfully filled, either by the solver or pre-filled. A special situation is when a pre-filled box is not in
+     * the dictionary: In this case, the box will be here as well as in {@link #unsolvableBoxes()}.
      *
      * @return the filled boxes
      */
     Map<GridPosition, Character> filledBoxes();
 
     /**
-     * Returns the boxes for which no solution could be found or an empty set if {@link #kind()} is
-     * {@link Kind#SUCCESS}
+     * Returns the boxes for which no solution could be found or an empty set if {@link #kind()} is {@link Kind#SUCCESS}
      *
      * @return the boxes for which no solution could be found
      */

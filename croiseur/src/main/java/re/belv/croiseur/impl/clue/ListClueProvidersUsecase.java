@@ -12,9 +12,7 @@ import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
 
-/**
- * Implementation of the 'list clue providers' usecase.
- */
+/** Implementation of the 'list clue providers' usecase. */
 final class ListClueProvidersUsecase {
 
     /** The clue providers. */
@@ -34,9 +32,7 @@ final class ListClueProvidersUsecase {
         cluePresenter = cluePresenterArg;
     }
 
-    /**
-     * Processes the 'list providers' event.
-     */
+    /** Processes the 'list providers' event. */
     void process() {
         final List<ClueProviderDescription> descriptions = clueProviders.stream()
                 .map(clueProvider -> new ClueProviderDescription(clueProvider.name(), clueProvider.description()))

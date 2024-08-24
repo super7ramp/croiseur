@@ -25,9 +25,7 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Technical steps related to deploying the test environment.
- */
+/** Technical steps related to deploying the test environment. */
 public final class DeploymentSteps {
 
     /** Locale before deployment. */
@@ -45,10 +43,7 @@ public final class DeploymentSteps {
         testContext = testContextArg;
     }
 
-    /**
-     * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
-     * system's locale.
-     */
+    /** Sets default locale to {@link Locale#ENGLISH} in order to have results independent of system's locale. */
     @Before(order = 1 /* run before deployment step */)
     public void setEnglishLocale() {
         Locale.setDefault(Locale.ENGLISH);
@@ -60,8 +55,8 @@ public final class DeploymentSteps {
     }
 
     /**
-     * Instantiates croiseur, simulating the deployment of an application using the library, without
-     * dictionary provider.
+     * Instantiates croiseur, simulating the deployment of an application using the library, without dictionary
+     * provider.
      */
     @Given("an application deployed without dictionary provider")
     public void givenDeployedWithoutDictionaryProvider() {
@@ -101,9 +96,7 @@ public final class DeploymentSteps {
                 presenterMock);
     }
 
-    /**
-     * Instantiates croiseur, simulating the deployment of an application using the library.
-     */
+    /** Instantiates croiseur, simulating the deployment of an application using the library. */
     @Before("not @no-auto-deploy")
     public void deploy() {
         final Collection<DictionaryProvider> dictionaryProviders = load(DictionaryProvider.class);
@@ -127,7 +120,7 @@ public final class DeploymentSteps {
      * Loads all the implementations of the given service class.
      *
      * @param clazz the service provider class
-     * @param <T>   the type of the service
+     * @param <T> the type of the service
      * @return all the implementations of the given service class
      */
     private static <T> Collection<T> load(final Class<T> clazz) {
@@ -166,19 +159,14 @@ public final class DeploymentSteps {
         testContext.deploy(crosswordService, puzzleRepository, presenter);
     }
 
-    /**
-     * Verifies that all interactions have been verified and cleans reference to the croiseur
-     * library.
-     */
+    /** Verifies that all interactions have been verified and cleans reference to the croiseur library. */
     @After
     public void after() {
         testContext.verifyNoMoreInteractions();
         testContext.undeploy();
     }
 
-    /**
-     * Restores origin locale.
-     */
+    /** Restores origin locale. */
     @AfterAll
     public static void afterAll() {
         Locale.setDefault(ORIGIN_LOCALE);

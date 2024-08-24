@@ -6,9 +6,7 @@
 import re.belv.croiseur.dictionary.hunspell.plugin.HunspellDictionaryProvider;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Dictionary provider of local word lists written as Hunspell dictionaries.
- */
+/** Dictionary provider of local word lists written as Hunspell dictionaries. */
 module re.belv.croiseur.dictionary.hunspell.plugin {
     requires re.belv.croiseur.dictionary.common;
     requires re.belv.croiseur.dictionary.hunspell.codec;

@@ -25,8 +25,8 @@ enum AffItemKind {
     /** A comment. */
     COMMENT("^#.*$"),
     /**
-     * Compounding option: Words signed with COMPOUNDBEGIN (or with a signed affix) may be first
-     * elements in compound words.
+     * Compounding option: Words signed with COMPOUNDBEGIN (or with a signed affix) may be first elements in compound
+     * words.
      */
     COMPOUNDING_COMPOUNDBEGIN("^COMPOUNDBEGIN [^ ]+$"),
     /** Compounding option: TODO document. */
@@ -36,15 +36,15 @@ enum AffItemKind {
     /** Compounding option: Forbid upper case characters at word boundaries in compounds. */
     COMPOUNDING_CHECK_CASE("^CHECKCOMPOUNDCASE$"),
     /**
-     * Compounding option: Words signed with COMPOUNDFLAG may be in compound words (except when
-     * word shorter than COMPOUNDMIN).
+     * Compounding option: Words signed with COMPOUNDFLAG may be in compound words (except when word shorter than
+     * COMPOUNDMIN).
      */
     COMPOUNDING_COMPOUNDFLAG("^COMPOUNDFLAG [^ ]+$"),
     /** Compounding option: TODO document. */
     COMPOUNDING_COMPOUNDEND("^COMPOUNDEND [^ ]+$"),
     /**
-     * Compounding option:  Words signed with COMPOUNDMIDDLE (or with a signed affix) may be
-     * middle elements in compound words.
+     * Compounding option: Words signed with COMPOUNDMIDDLE (or with a signed affix) may be middle elements in compound
+     * words.
      */
     COMPOUNDING_COMPOUNDMIDDLE("^COMPOUNDMIDDLE [^ ]+$"),
     /** Compounding option: TODO document. */
@@ -52,9 +52,8 @@ enum AffItemKind {
     /** Compounding option: TODO document. */
     COMPOUNGING_ONLY_IN("^ONLYINCOMPOUND [^ ]+$"),
     /**
-     * Compounding option: Prefixes are allowed at the beginning of compounds, suffixes are
-     * allowed at the end of compounds by default. Affixes with COMPOUNDPERMITFLAG may be inside
-     * of compounds.
+     * Compounding option: Prefixes are allowed at the beginning of compounds, suffixes are allowed at the end of
+     * compounds by default. Affixes with COMPOUNDPERMITFLAG may be inside of compounds.
      */
     COMPOUNDPERMITFLAG("^COMPOUNDPERMITFLAG [^ ]+$"),
     /** Compounding option: TODO document. */
@@ -74,17 +73,11 @@ enum AffItemKind {
     OTHERS_CIRCUMFIX("^CIRCUMFIX [^ ]+$"),
     /** Other option: TODO document, */
     OTHERS_FORBIDDEN_WORD("^FORBIDDENWORD [^ ]+$"),
-    /**
-     * Other option: Affix rules can strip full words, not only one less characters, before
-     * adding the affixes,
-     */
+    /** Other option: Affix rules can strip full words, not only one less characters, before adding the affixes, */
     OTHERS_FULL_STRIP("^FULLSTRIP$"),
     /** Other option: Input conversion table header. */
     OTHERS_INPUT_CONVERSION_TABLE_HEADER("^ICONV [0-9]+$"),
-    /**
-     * Other option: Input conversion table entry, used e.g. to convert one type of quote to
-     * another one.
-     */
+    /** Other option: Input conversion table entry, used e.g. to convert one type of quote to another one. */
     OTHERS_INPUT_CONVERSION_TABLE_ENTRY("^ICONV [^ ]+ [^ ]+$"),
     /** Other option: TODO document. */
     OTHERS_KEEP_CASE("^KEEPCASE [^ ]+$"),
@@ -96,10 +89,7 @@ enum AffItemKind {
     OTHERS_OUTPUT_CONVERSION_TABLE_ENTRY("^OCONV [^ ]+ [^ ]+$"),
     /** Other option: Characters specified are meant to extend Hunspell CLI tokenizer. */
     OTHERS_WORD_CHARS("^WORDCHARS [^ ]+$"),
-    /**
-     * Suggestion option: Neighbor characters, word is suggested by replacing one character by a
-     * neighbor character.
-     */
+    /** Suggestion option: Neighbor characters, word is suggested by replacing one character by a neighbor character. */
     SUGGESTION_KEY("^KEY [^ \\|]+(\\|[^ \\|]+)*"),
     /** Suggestion option: A map table entry; represents a list of related characters. */
     SUGGESTION_RELATED_CHARACTERS_TABLE_ENTRY("^MAP [^ ]+$"),
@@ -115,10 +105,7 @@ enum AffItemKind {
     SUGGESTION_NO_SPLIT("^NOSPLITSUGS$"),
     /** Option for suggestion: Words signed with flags should not be suggested. */
     SUGGESTION_NO_SUGGEST("^NOSUGGEST [^ ]+$"),
-    /**
-     * Option for suggestion: Suggest when word differs from the right word form by one of these
-     * characters
-     */
+    /** Option for suggestion: Suggest when word differs from the right word form by one of these characters */
     SUGGESTION_TRY("^TRY [^ ]+$"),
     /** Undocumented: Homepage of the dictionary, found in Italian dictionary. */
     UNDOCUMENTED_HOME("^HOME .+$"),
@@ -129,10 +116,10 @@ enum AffItemKind {
 
     /**
      * Cached values.
-     * <p>
-     * {@link #values()} creates a new array at every call because otherwise caller may modify
-     * the array backing the enum and create a mess (since an array is always mutable). This
-     * private cache allows to avoid creating a new array every time.
+     *
+     * <p>{@link #values()} creates a new array at every call because otherwise caller may modify the array backing the
+     * enum and create a mess (since an array is always mutable). This private cache allows to avoid creating a new
+     * array every time.
      */
     private static final AffItemKind[] ALL_ITEM_KINDS = values();
 

@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.solver.ginsberg.grid;
 
-/**
- * Access to the content of a box.
- */
+/** Access to the content of a box. */
 interface BoxData {
 
     /**
@@ -20,8 +18,8 @@ interface BoxData {
 
     /**
      * Returns whether the box is shaded.
-     * <p>
-     * Implies {@link #isEmpty()}.
+     *
+     * <p>Implies {@link #isEmpty()}.
      *
      * @return {@code true} iff the box is shaded
      */
@@ -29,8 +27,8 @@ interface BoxData {
 
     /**
      * Returns whether the box is empty.
-     * <p>
-     * Note that a shaded box is considered as empty.
+     *
+     * <p>Note that a shaded box is considered as empty.
      *
      * @return {@code true} iff the box is empty
      */
@@ -45,8 +43,8 @@ interface BoxData {
 
     /**
      * Resets the box.
-     * <p>
-     * No effect on empty or shaded boxes.
+     *
+     * <p>No effect on empty or shaded boxes.
      */
     void reset();
 

@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.impl.dictionary.error;
 
-/**
- * Some dictionary error messages.
- */
+/** Some dictionary error messages. */
 public final class DictionaryErrorMessages {
 
     /** Error message to publish when no dictionary matching the request is found. */
@@ -17,9 +15,7 @@ public final class DictionaryErrorMessages {
     public static final String AMBIGUOUS_REQUEST_ERROR_MESSAGE =
             "Ambiguous request: Found " + "matching dictionaries for several providers";
 
-    /**
-     * Prevents instantiation.
-     */
+    /** Prevents instantiation. */
     private DictionaryErrorMessages() {
         // Nothing to do.
     }

@@ -16,9 +16,7 @@ import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * A dictionary provider of simple text file dictionaries.
- */
+/** A dictionary provider of simple text file dictionaries. */
 public final class TxtDictionaryProvider implements DictionaryProvider {
 
     /** Details about the dictionary provider. */
@@ -27,9 +25,7 @@ public final class TxtDictionaryProvider implements DictionaryProvider {
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public TxtDictionaryProvider() {
         details = new DictionaryProviderDetails(
                 "Local Text Provider", "Provides access to local dictionaries in a simple text format.");

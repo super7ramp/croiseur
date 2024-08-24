@@ -13,16 +13,14 @@ import java.util.Set;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Stores a crossword puzzle data.
- */
+/** Stores a crossword puzzle data. */
 final class GridData {
 
     /**
      * The grid.
-     * <p>
-     * The grid is indexed by row index (y) then by column index (x) so that it is easier to
-     * print, i.e. one can access (x,y) = (col_index,row_index) with {@code grid[y][x]}.
+     *
+     * <p>The grid is indexed by row index (y) then by column index (x) so that it is easier to print, i.e. one can
+     * access (x,y) = (col_index,row_index) with {@code grid[y][x]}.
      */
     private final BoxData[][] grid;
 
@@ -35,7 +33,7 @@ final class GridData {
     /**
      * Constructor.
      *
-     * @param aGrid     the grid
+     * @param aGrid the grid
      * @param someSlots the word slots
      */
     GridData(final BoxData[][] aGrid, final Map<SlotIdentifier, SlotData> someSlots) {

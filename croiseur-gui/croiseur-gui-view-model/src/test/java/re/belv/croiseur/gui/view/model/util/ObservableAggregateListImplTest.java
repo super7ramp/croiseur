@@ -15,9 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javafx.collections.ListChangeListener;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on {@link ObservableAggregateListImpl}.
- */
+/** Tests on {@link ObservableAggregateListImpl}. */
 final class ObservableAggregateListImplTest {
 
     @Test

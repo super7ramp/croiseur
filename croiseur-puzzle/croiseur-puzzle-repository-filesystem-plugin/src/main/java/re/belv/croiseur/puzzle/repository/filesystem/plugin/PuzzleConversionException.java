@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 
-/**
- * Thrown when conversion between domain and persisted objects fails.
- */
+/** Thrown when conversion between domain and persisted objects fails. */
 final class PuzzleConversionException extends Exception {
 
     /**

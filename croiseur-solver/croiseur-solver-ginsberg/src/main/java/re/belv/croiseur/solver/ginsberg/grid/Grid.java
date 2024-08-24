@@ -11,9 +11,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * Access to the problem.
- */
+/** Access to the problem. */
 public interface Grid {
 
     /**
@@ -36,9 +34,9 @@ public interface Grid {
 
     /**
      * The boxes, i.e. the main physical view of the problem.
-     * <p>
-     * The returned map is immutable and only contains boxes with content (no {@code null} value).
-     * Data can only be modified using {@link #puzzle()}.
+     *
+     * <p>The returned map is immutable and only contains boxes with content (no {@code null} value). Data can only be
+     * modified using {@link #puzzle()}.
      *
      * @return the grid
      */
@@ -46,9 +44,9 @@ public interface Grid {
 
     /**
      * Returns the positions owned by the given slot.
-     * <p>
-     * The returned set is not backed by the actual grid, hence adding or removing position to the
-     * returned set has no effect. Data can only be modified using {@link #puzzle()}.
+     *
+     * <p>The returned set is not backed by the actual grid, hence adding or removing position to the returned set has
+     * no effect. Data can only be modified using {@link #puzzle()}.
      *
      * @param slot the slot
      * @return the positions owned by the given slot

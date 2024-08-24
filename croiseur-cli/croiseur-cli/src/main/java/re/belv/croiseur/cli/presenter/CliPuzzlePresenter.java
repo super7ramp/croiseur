@@ -13,9 +13,7 @@ import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-/**
- * CLI implementation of {@link PuzzlePresenter}.
- */
+/** CLI implementation of {@link PuzzlePresenter}. */
 final class CliPuzzlePresenter implements PuzzlePresenter {
 
     /** The format to present puzzle list. */
@@ -24,9 +22,7 @@ final class CliPuzzlePresenter implements PuzzlePresenter {
     /** The format to present the puzzle codec list. */
     private static final String PUZZLE_CODEC_LIST_FORMAT = "%-16s\t%-32s\t%-16s%n";
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     CliPuzzlePresenter() {
         // Nothing to do.
     }

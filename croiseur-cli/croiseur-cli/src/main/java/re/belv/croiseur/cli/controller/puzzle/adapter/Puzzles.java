@@ -20,9 +20,7 @@ import re.belv.croiseur.common.puzzle.PuzzleClues;
 import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Conversions from command-line to domain puzzle types.
- */
+/** Conversions from command-line to domain puzzle types. */
 public final class Puzzles {
 
     /** Private constructor to prevent instantiation, static methods only. */
@@ -33,14 +31,14 @@ public final class Puzzles {
     /**
      * Converts command-line options to a {@link Puzzle}.
      *
-     * @param title       the title option value
-     * @param author      the author option value
-     * @param editor      the editor option value
-     * @param copyright   the copyright option value
-     * @param date        the date option value
-     * @param gridRows    the grid rows
+     * @param title the title option value
+     * @param author the author option value
+     * @param editor the editor option value
+     * @param copyright the copyright option value
+     * @param date the date option value
+     * @param gridRows the grid rows
      * @param acrossClues the across clues
-     * @param downClues   the down clues
+     * @param downClues the down clues
      * @return the corresponding {@link Puzzle}
      */
     public static Puzzle puzzleFrom(
@@ -66,14 +64,14 @@ public final class Puzzles {
     /**
      * Converts command-line options to {@link PuzzlePatch}.
      *
-     * @param title       the modified title, if any
-     * @param author      the modified author, if any
-     * @param editor      the modified editor, if any
-     * @param copyright   the modified copyright, if any
-     * @param date        the modified date, if any
-     * @param gridRows    the modified grid rows, if any
+     * @param title the modified title, if any
+     * @param author the modified author, if any
+     * @param editor the modified editor, if any
+     * @param copyright the modified copyright, if any
+     * @param date the modified date, if any
+     * @param gridRows the modified grid rows, if any
      * @param acrossClues the modified across clues, if any
-     * @param downClues   the modified down clues, if any
+     * @param downClues the modified down clues, if any
      * @return the created {@link PuzzlePatch}
      */
     public static PuzzlePatch puzzlePatchFrom(

@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link SquareSolutionEstimator}
- */
+/** Tests for {@link SquareSolutionEstimator} */
 final class SquareSolutionEstimatorTest {
 
     @Test

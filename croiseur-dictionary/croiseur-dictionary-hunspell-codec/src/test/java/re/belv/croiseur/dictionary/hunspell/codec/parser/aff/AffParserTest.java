@@ -16,9 +16,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
-/**
- * Tests for {@link AffParser}.
- */
+/** Tests for {@link AffParser}. */
 final class AffParserTest {
 
     @Test

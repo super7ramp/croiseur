@@ -12,9 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link AggregateListImpl}.
- */
+/** Tests for {@link AggregateListImpl}. */
 final class AggregateListListImplTest {
 
     // Tests on get/size

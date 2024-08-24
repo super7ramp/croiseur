@@ -14,14 +14,10 @@ import re.belv.croiseur.solver.ginsberg.SolverResult;
 import re.belv.croiseur.solver.ginsberg.listener.StatisticsRecorder;
 import re.belv.croiseur.solver.ginsberg.state.Crossword;
 
-/**
- * Factory of {@link SolverResult}.
- */
+/** Factory of {@link SolverResult}. */
 public final class SolverResultFactory {
 
-    /**
-     * Private constructor, static factory methods only.
-     */
+    /** Private constructor, static factory methods only. */
     private SolverResultFactory() {
         // Nothing to do.
     }
@@ -29,9 +25,9 @@ public final class SolverResultFactory {
     /**
      * Creates a solver result from the given state.
      *
-     * @param crossword          the crossword state
+     * @param crossword the crossword state
      * @param statisticsRecorder the statistics record
-     * @param success            whether solver has succeeded
+     * @param success whether solver has succeeded
      * @return the solver result
      */
     public static SolverResult createFrom(

@@ -11,9 +11,7 @@ import java.util.List;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
-/**
- * {@link Dic} builder.
- */
+/** {@link Dic} builder. */
 final class DicBuilder {
 
     /** The list of entries being built. */

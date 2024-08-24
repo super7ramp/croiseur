@@ -27,14 +27,13 @@ import re.belv.croiseur.gui.view.model.SolverItemViewModel;
 
 /**
  * A toolbar to edit a crossword grid.
- * <p>
- * The toolbar has two 'modes':
+ *
+ * <p>The toolbar has two 'modes':
+ *
  * <ul>
- *     <li>Default mode: 'Resize grid (not toggled)', 'Clear grid', 'Solve' and 'Dictionaries' are
- *     visible.</li>
- *     <li>Resize mode: When 'Resize grid' is toggled, then it makes visible the 'Add column',
- *     'Add row', 'Delete row', 'Delete column' and 'Delete grid' buttons and hides the other
- *     ones.</li>
+ *   <li>Default mode: 'Resize grid (not toggled)', 'Clear grid', 'Solve' and 'Dictionaries' are visible.
+ *   <li>Resize mode: When 'Resize grid' is toggled, then it makes visible the 'Add column', 'Add row', 'Delete row',
+ *       'Delete column' and 'Delete grid' buttons and hides the other ones.
  * </ul>
  */
 public final class CrosswordEditorToolbar extends ToolBar {
@@ -106,17 +105,13 @@ public final class CrosswordEditorToolbar extends ToolBar {
     @FXML
     private ToggleButton dictionariesToggleButton;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordEditorToolbar() {
         gridEditionButtonsDisableProperty = new SimpleBooleanProperty(this, "gridEditionButtonsDisableProperty");
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeResizeButtons();
@@ -124,9 +119,7 @@ public final class CrosswordEditorToolbar extends ToolBar {
         initializeEditionButtons();
     }
 
-    /**
-     * Initializes nodes unrelated to resize mode: They shall be masked when resize mode is active.
-     */
+    /** Initializes nodes unrelated to resize mode: They shall be masked when resize mode is active. */
     private void initializeNonResizeButtons() {
         final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
         List.of(
@@ -143,9 +136,7 @@ public final class CrosswordEditorToolbar extends ToolBar {
                 });
     }
 
-    /**
-     * Initializes nodes related to resize mode: They shall be visible when resize mode is active.
-     */
+    /** Initializes nodes related to resize mode: They shall be visible when resize mode is active. */
     private void initializeResizeButtons() {
         final BooleanProperty resizeMode = resizeGridButton.selectedProperty();
         List.of(addColumnButton, addRowButton, deleteColumnButton, deleteRowButton, deleteGridButton)
@@ -156,8 +147,8 @@ public final class CrosswordEditorToolbar extends ToolBar {
     }
 
     /**
-     * Initializes nodes related to state edition: They shall be disabled when
-     * {@link #editionButtonsDisableProperty()} value is {@code true}.
+     * Initializes nodes related to state edition: They shall be disabled when {@link #editionButtonsDisableProperty()}
+     * value is {@code true}.
      */
     private void initializeEditionButtons() {
         List.of(
@@ -281,8 +272,7 @@ public final class CrosswordEditorToolbar extends ToolBar {
     }
 
     /**
-     * Returns the resize mode property, which is basically the selected property of the 'resize
-     * grid' button.
+     * Returns the resize mode property, which is basically the selected property of the 'resize grid' button.
      *
      * @return the resize mode property
      */
@@ -292,9 +282,9 @@ public final class CrosswordEditorToolbar extends ToolBar {
 
     /**
      * Returns the edition controls disable property.
-     * <p>
-     * The controls are 'resize grid', 'add column', 'delete column', 'add row','delete row', 'clear
-     * grid' as well as the 'save' button.
+     *
+     * <p>The controls are 'resize grid', 'add column', 'delete column', 'add row','delete row', 'clear grid' as well as
+     * the 'save' button.
      *
      * @return the grid edition controls disable property
      */
@@ -322,8 +312,8 @@ public final class CrosswordEditorToolbar extends ToolBar {
 
     /**
      * Returns the solve button selected solver property.
-     * <p>
-     * Value is {@code null} if no solver is selected.
+     *
+     * <p>Value is {@code null} if no solver is selected.
      *
      * @return the solve button selected solver property
      */

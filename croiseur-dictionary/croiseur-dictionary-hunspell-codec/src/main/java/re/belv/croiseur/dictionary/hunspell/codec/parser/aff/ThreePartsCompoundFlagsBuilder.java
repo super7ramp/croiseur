@@ -10,9 +10,7 @@ import java.util.Optional;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.ThreePartsCompoundFlags;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
-/**
- * Builder for {@link ThreePartsCompoundFlags}.
- */
+/** Builder for {@link ThreePartsCompoundFlags}. */
 final class ThreePartsCompoundFlagsBuilder {
 
     /** The value of the {@code COMPOUNDBEGIN} flag, or {@code null} if no value set. */
@@ -24,9 +22,7 @@ final class ThreePartsCompoundFlagsBuilder {
     /** The value of the {@code COMPOUNEND} flag, or {@code null} if no value set. */
     private Flag end;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     ThreePartsCompoundFlagsBuilder() {
         // flags are left null
     }
@@ -79,10 +75,9 @@ final class ThreePartsCompoundFlagsBuilder {
     /**
      * Builds a {@link ThreePartsCompoundFlags}.
      *
-     * @return a {@link ThreePartsCompoundFlags}, unless no flag have been set, in which case
-     * {@link Optional#empty()} is returned.
-     * @throws IllegalArgumentException if flags are not either all {@code null} or all
-     *                                  non-{@code null}
+     * @return a {@link ThreePartsCompoundFlags}, unless no flag have been set, in which case {@link Optional#empty()}
+     *     is returned.
+     * @throws IllegalArgumentException if flags are not either all {@code null} or all non-{@code null}
      */
     Optional<ThreePartsCompoundFlags> build() {
         if (begin == null) {

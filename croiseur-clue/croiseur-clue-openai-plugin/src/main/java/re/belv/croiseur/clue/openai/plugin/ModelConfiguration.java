@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Model configuration.
- */
+/** Model configuration. */
 final class ModelConfiguration {
 
     /** The properties holding the configuration. */
@@ -20,8 +18,7 @@ final class ModelConfiguration {
     /**
      * Constructs an instance.
      *
-     * @throws ModelConfigurationException if configuration is not found or is missing mandatory
-     *                                     model name
+     * @throws ModelConfigurationException if configuration is not found or is missing mandatory model name
      */
     ModelConfiguration() {
         properties = new Properties();
@@ -42,9 +39,8 @@ final class ModelConfiguration {
      * Returns the model name.
      *
      * @return the model name
-     * @see <a
-     * href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-model">OpenAI
-     * API Reference</a>
+     * @see <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-model">OpenAI
+     *     API Reference</a>
      */
     String model() {
         return properties.getProperty("model");
@@ -52,13 +48,13 @@ final class ModelConfiguration {
 
     /**
      * Returns the frequency penalty.
-     * <p>
-     * Within [-2.0, 2.0]. The higher the value is, the more random the completion will be.
+     *
+     * <p>Within [-2.0, 2.0]. The higher the value is, the more random the completion will be.
      *
      * @return the frequency penalty
      * @see <a
-     * href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">OpenAI
-     * API Reference</a>
+     *     href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">OpenAI
+     *     API Reference</a>
      */
     double frequencyPenalty() {
         return doubleProperty("frequency_penalty", 0.0);
@@ -66,14 +62,13 @@ final class ModelConfiguration {
 
     /**
      * Returns the temperature.
-     * <p>
-     * Within [0.0, 2.0]. The higher the value is, the lower chance for the completion to repeat the
-     * prompt.
+     *
+     * <p>Within [0.0, 2.0]. The higher the value is, the lower chance for the completion to repeat the prompt.
      *
      * @return the temperature
      * @see <a
-     * href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">OpenAI
-     * API Reference</a>
+     *     href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">OpenAI
+     *     API Reference</a>
      */
     double temperature() {
         return doubleProperty("temperature", 1.0);

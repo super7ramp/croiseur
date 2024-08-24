@@ -13,32 +13,30 @@ import java.util.regex.Pattern;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Parser for textual representation of puzzle definition.
- */
+/** Parser for textual representation of puzzle definition. */
 public final class PuzzleGridParser {
 
     private static final Pattern CHARACTER_SEPARATOR = Pattern.compile("(\\|)");
 
     private static final Character SHADED_CHARACTER = '#';
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     private PuzzleGridParser() {
         // Nothing to do.
     }
 
     /**
      * Parses puzzle from multi-line string such as:
+     *
      * <pre>
      *  |H|E|Y|
      *  | | | |
      *  | | |#|
      * </pre>
-     * This method is robust to line ending variations, i.e. one can indifferently pass a Java text
-     * block - whose line endings are the Unix ones, independently of the platform - or the content
-     * of a file with Windows or Unix line endings.
+     *
+     * This method is robust to line ending variations, i.e. one can indifferently pass a Java text block - whose line
+     * endings are the Unix ones, independently of the platform - or the content of a file with Windows or Unix line
+     * endings.
      *
      * @param puzzle the string representation
      * @return the {@link PuzzleGrid}

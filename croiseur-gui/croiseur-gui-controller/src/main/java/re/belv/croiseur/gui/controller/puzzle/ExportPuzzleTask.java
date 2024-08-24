@@ -12,9 +12,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
 import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
 
-/**
- * The 'export puzzle' task.
- */
+/** The 'export puzzle' task. */
 final class ExportPuzzleTask extends Task<Void> {
 
     /** The puzzle id. */
@@ -33,8 +31,8 @@ final class ExportPuzzleTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param puzzleEditionViewModel the puzzle edition view model
-     * @param selectedFileArg        the selected filed (where will be written the export)
-     * @param selectedFormatArg      the export format
+     * @param selectedFileArg the selected filed (where will be written the export)
+     * @param selectedFormatArg the export format
      * @param puzzleExportServiceArg the export service
      */
     ExportPuzzleTask(

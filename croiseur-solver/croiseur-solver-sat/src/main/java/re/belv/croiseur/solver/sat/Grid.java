@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-/**
- * A crossword grid.
- */
+/** A crossword grid. */
 final class Grid {
 
     /** The character representing a block, i.e. a shaded cell. */
@@ -32,7 +30,7 @@ final class Grid {
      * Constructs an instance.
      *
      * @param cellsArg the row cells
-     * @throws NullPointerException     if given cell array is {@code null}
+     * @throws NullPointerException if given cell array is {@code null}
      * @throws IllegalArgumentException if given cell array is non-{@code null} but invalid
      */
     Grid(final char[][] cellsArg) {
@@ -45,7 +43,7 @@ final class Grid {
      *
      * @param cells the cells to validate
      * @return the given cells
-     * @throws NullPointerException     if given cell array is {@code null}
+     * @throws NullPointerException if given cell array is {@code null}
      * @throws IllegalArgumentException if given cell array is non-{@code null} but invalid
      */
     private static char[][] validateGrid(final char[][] cells) {
@@ -114,9 +112,9 @@ final class Grid {
     /**
      * Computes the down slots from the cells.
      *
-     * @param startIndex the start index, i.e. the number of across slots (down slots are placed
-     *                   after the across slots in the slot list)
-     * @param cells      the cells
+     * @param startIndex the start index, i.e. the number of across slots (down slots are placed after the across slots
+     *     in the slot list)
+     * @param cells the cells
      * @return the across slots
      */
     private static List<Slot> downSlotsFrom(final int startIndex, final char[][] cells) {
@@ -142,11 +140,11 @@ final class Grid {
 
     /**
      * Returns the letter at given position.
-     * <p>
-     * Special character '{@value BLOCK}' is returned if the cell contains a block. Special
-     * character '{@value EMPTY}' is returned if the cell contains no value.
      *
-     * @param row    the cell row
+     * <p>Special character '{@value BLOCK}' is returned if the cell contains a block. Special character
+     * '{@value EMPTY}' is returned if the cell contains no value.
+     *
+     * @param row the cell row
      * @param column the cell column
      * @return the letter at given position
      * @throws IndexOutOfBoundsException if given position is outside grid

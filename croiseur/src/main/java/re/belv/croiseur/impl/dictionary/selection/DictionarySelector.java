@@ -17,9 +17,7 @@ import re.belv.croiseur.impl.dictionary.error.DictionaryErrorMessages;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Select dictionaries.
- */
+/** Select dictionaries. */
 public final class DictionarySelector {
 
     /** The dictionary providers. */
@@ -59,7 +57,7 @@ public final class DictionarySelector {
      * Returns a success result wrapping the selected dictionary.
      *
      * @param dictionaryProvider the selected dictionary provider
-     * @param dictionary         the selected dictionary
+     * @param dictionary the selected dictionary
      * @return a success result wrapping the selected dictionary
      */
     private static Either<String, SelectedDictionary> success(
@@ -70,8 +68,7 @@ public final class DictionarySelector {
     }
 
     /**
-     * Extracts the dictionaries of given dictionary provider into a stream of
-     * {@link SelectedDictionary}.
+     * Extracts the dictionaries of given dictionary provider into a stream of {@link SelectedDictionary}.
      *
      * @param p the dictionary provider
      * @return the dictionaries

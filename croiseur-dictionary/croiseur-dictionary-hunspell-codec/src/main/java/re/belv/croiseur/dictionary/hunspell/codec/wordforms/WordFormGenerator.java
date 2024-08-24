@@ -10,9 +10,7 @@ import java.util.stream.Stream;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.Dic;
 
-/**
- * Generate word forms.
- */
+/** Generate word forms. */
 public interface WordFormGenerator extends Supplier<Stream<String>> {
 
     /**

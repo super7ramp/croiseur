@@ -12,9 +12,7 @@ import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 
-/**
- * Implementation of {@link PuzzleImportService}.
- */
+/** Implementation of {@link PuzzleImportService}. */
 public final class PuzzleImportServiceImpl implements PuzzleImportService {
 
     /** The 'list puzzle decoders' usecase. */
@@ -27,8 +25,8 @@ public final class PuzzleImportServiceImpl implements PuzzleImportService {
      * Constructs an instance.
      *
      * @param repository the puzzle repository
-     * @param decoders   the puzzle decoders
-     * @param presenter  the puzzle presenter
+     * @param decoders the puzzle decoders
+     * @param presenter the puzzle presenter
      */
     public PuzzleImportServiceImpl(
             final SafePuzzleRepository repository,

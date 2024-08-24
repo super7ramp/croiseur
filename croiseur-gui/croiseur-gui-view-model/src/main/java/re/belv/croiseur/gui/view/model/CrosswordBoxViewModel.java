@@ -10,9 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- * Crossword box model.
- */
+/** Crossword box model. */
 public final class CrosswordBoxViewModel {
 
     /** Whether the box is shaded or not. */
@@ -30,9 +28,7 @@ public final class CrosswordBoxViewModel {
     /** The content of the box filled by the solver. */
     private final StringProperty solverContent;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordBoxViewModel() {
         shaded = new SimpleBooleanProperty(this, "shaded", false);
         unsolvable = new SimpleBooleanProperty(this, "unsolvable", false);
@@ -50,9 +46,7 @@ public final class CrosswordBoxViewModel {
         return shaded;
     }
 
-    /**
-     * Sets the shaded property value to {@code true}.
-     */
+    /** Sets the shaded property value to {@code true}. */
     public void shade() {
         shaded.set(true);
     }
@@ -80,9 +74,7 @@ public final class CrosswordBoxViewModel {
         return unsolvable;
     }
 
-    /**
-     * Sets the value of the unsolvable property to {@code false}.
-     */
+    /** Sets the value of the unsolvable property to {@code false}. */
     public void solvable() {
         unsolvable.set(false);
     }
@@ -168,16 +160,12 @@ public final class CrosswordBoxViewModel {
         return selected.get();
     }
 
-    /**
-     * Sets the value of the selected property to {@code true}.
-     */
+    /** Sets the value of the selected property to {@code true}. */
     public void select() {
         selected.set(true);
     }
 
-    /**
-     * Sets the value of the selected property to {@code false}.
-     */
+    /** Sets the value of the selected property to {@code false}. */
     public void deselect() {
         selected.set(false);
     }

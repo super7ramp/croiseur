@@ -9,9 +9,7 @@ import java.util.List;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
-/**
- * Puzzle-related presentation services.
- */
+/** Puzzle-related presentation services. */
 public interface PuzzlePresenter {
 
     /**
@@ -42,9 +40,7 @@ public interface PuzzlePresenter {
      */
     void presentSavedPuzzle(final SavedPuzzle puzzle);
 
-    /**
-     * Presents the confirmation that all puzzles have been deleted.
-     */
+    /** Presents the confirmation that all puzzles have been deleted. */
     void presentDeletedAllPuzzles();
 
     /**

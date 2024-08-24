@@ -22,9 +22,7 @@ import javafx.scene.layout.GridPane;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 
-/**
- * Tests on the editor view: Fill grid.
- */
+/** Tests on the editor view: Fill grid. */
 final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
 
     @Test

@@ -6,9 +6,7 @@
 import re.belv.croiseur.dictionary.example.plugin.ExampleDictionaryProvider;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * An example dictionary provider plugin.
- */
+/** An example dictionary provider plugin. */
 module re.belv.croiseur.dictionary.example.plugin {
     requires re.belv.croiseur.spi.dictionary;
 

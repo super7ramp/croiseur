@@ -17,13 +17,15 @@ import re.belv.croiseur.solver.ginsberg.listener.SolverListener;
 
 /**
  * Updates crossword problem state.
- * <p>
- * The update is performed in this order:
+ *
+ * <p>The update is performed in this order:
+ *
  * <ol>
- *     <li>Variables</li>
- *     <li>Eliminated values: Depends on variable states after unassignment</li>
- *     <li>Candidates: Depends on both variable states and eliminated values</li>
+ *   <li>Variables
+ *   <li>Eliminated values: Depends on variable states after unassignment
+ *   <li>Candidates: Depends on both variable states and eliminated values
  * </ol>
+ *
  * The rest can be done in any order.
  */
 public final class CrosswordUpdater implements ProblemStateUpdater<Slot, String, SlotIdentifier> {

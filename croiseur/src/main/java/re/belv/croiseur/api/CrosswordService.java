@@ -22,24 +22,22 @@ import re.belv.croiseur.spi.puzzle.repository.DummyPuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Crossword services.
- */
+/** Crossword services. */
 public interface CrosswordService {
 
     /**
      * Creates a new instance of {@link CrosswordService}.
-     * <p>
-     * Required services are explicitly passed as arguments.
+     *
+     * <p>Required services are explicitly passed as arguments.
      *
      * @param dictionaryProviders the dictionary providers
-     * @param solvers             the solvers
-     * @param clueProviders       the clue providers
-     * @param puzzleDecoders      the puzzle decoders
-     * @param puzzleEncoders      the puzzle encoders
-     * @param puzzleRepository    the puzzle repository; If puzzle repository service is not going
-     *                            to be used, then {@link DummyPuzzleRepository} can be passed here
-     * @param presenter           the presenter
+     * @param solvers the solvers
+     * @param clueProviders the clue providers
+     * @param puzzleDecoders the puzzle decoders
+     * @param puzzleEncoders the puzzle encoders
+     * @param puzzleRepository the puzzle repository; If puzzle repository service is not going to be used, then
+     *     {@link DummyPuzzleRepository} can be passed here
+     * @param presenter the presenter
      * @return a new instance of {@link CrosswordService}
      */
     static CrosswordService create(
@@ -62,8 +60,8 @@ public interface CrosswordService {
 
     /**
      * Creates a new instance of {@link CrosswordService}.
-     * <p>
-     * Required services are automatically loaded using {@link ServiceLoader}.
+     *
+     * <p>Required services are automatically loaded using {@link ServiceLoader}.
      *
      * @return a new instance of {@link CrosswordService}
      * @throws IllegalStateException if some required services cannot be found
@@ -94,7 +92,7 @@ public interface CrosswordService {
      * Loads all the implementations of the given service class.
      *
      * @param clazz the service provider class
-     * @param <T>   the type of the service
+     * @param <T> the type of the service
      * @return all the implementations of the given service class
      */
     private static <T> Collection<T> load(final Class<T> clazz) {

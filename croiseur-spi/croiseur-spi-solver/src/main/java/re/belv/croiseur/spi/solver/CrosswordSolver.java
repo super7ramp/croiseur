@@ -7,9 +7,7 @@ package re.belv.croiseur.spi.solver;
 
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * A crossword solver.
- */
+/** A crossword solver. */
 // TODO create a CrosswordSolverProvider interface (e.g. a factory). This would allow client to
 //  avoid loading the solver itself if it doesn't end up using it (e.g. avoid loading native
 //  libraries for nothing)
@@ -32,7 +30,7 @@ public interface CrosswordSolver {
     /**
      * Solves the given puzzle, using the given dictionary.
      *
-     * @param puzzle     the puzzle to solve
+     * @param puzzle the puzzle to solve
      * @param dictionary the dictionary to use
      * @return the result
      * @throws InterruptedException if interrupted while solving
@@ -44,8 +42,8 @@ public interface CrosswordSolver {
     /**
      * Solves the given puzzle, using the given dictionary.
      *
-     * @param puzzle           the puzzle to solve
-     * @param dictionary       the dictionary to use
+     * @param puzzle the puzzle to solve
+     * @param dictionary the dictionary to use
      * @param progressListener the progress listener
      * @return the result
      * @throws InterruptedException if interrupted while solving

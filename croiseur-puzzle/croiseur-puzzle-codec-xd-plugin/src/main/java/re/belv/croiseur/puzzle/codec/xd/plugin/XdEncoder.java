@@ -13,17 +13,13 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.writer.XdCrosswordWriter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 
-/**
- * {@link PuzzleEncoder} implementation for the xd format.
- */
+/** {@link PuzzleEncoder} implementation for the xd format. */
 public final class XdEncoder implements PuzzleEncoder {
 
     /** The actual encoder. */
     private final XdCrosswordWriter xd;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public XdEncoder() {
         xd = new XdCrosswordWriter();
     }

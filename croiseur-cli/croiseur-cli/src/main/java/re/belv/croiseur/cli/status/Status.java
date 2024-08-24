@@ -7,9 +7,9 @@ package re.belv.croiseur.cli.status;
 
 /**
  * The global application status, indicating whether an error has occurred.
- * <p>
- * Status is typically set by presenters and retrieved by controllers to report the exit code to
- * framework. There is no concurrency issue since CLI is mono-threaded.
+ *
+ * <p>Status is typically set by presenters and retrieved by controllers to report the exit code to framework. There is
+ * no concurrency issue since CLI is mono-threaded.
  */
 public final class Status {
 

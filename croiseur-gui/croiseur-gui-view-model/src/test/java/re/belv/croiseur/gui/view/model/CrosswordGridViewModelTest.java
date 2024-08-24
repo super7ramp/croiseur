@@ -19,17 +19,18 @@ import re.belv.croiseur.gui.view.model.testutil.ChangeEventCounter;
 
 /**
  * Tests for {@link CrosswordGridViewModel}.
- * <p>
- * Legend of grid schemas:
+ *
+ * <p>Legend of grid schemas:
+ *
  * <ul>
- *     <li>{@code |    |}: An empty cell
- *     <li>{@code | A  |}: A cell containing the letter 'A'
- *     <li>{@code | #  |}: A shaded cell
- *     <li>{@code |( ) |}: An empty cell part of the selected slot
- *     <li>{@code |(A) |}: A cell containing the letter 'A' and part of the selected slot
- *     <li>{@code |( )'|}: A focused cell part of the selected slot
- *     <li>{@code |(A)'|}: A focused cell containing the letter 'A' and part of the selected slot
- *     <li>{@code | # '|}: A focused shaded cell
+ *   <li>{@code | |}: An empty cell
+ *   <li>{@code | A |}: A cell containing the letter 'A'
+ *   <li>{@code | # |}: A shaded cell
+ *   <li>{@code |( ) |}: An empty cell part of the selected slot
+ *   <li>{@code |(A) |}: A cell containing the letter 'A' and part of the selected slot
+ *   <li>{@code |( )'|}: A focused cell part of the selected slot
+ *   <li>{@code |(A)'|}: A focused cell containing the letter 'A' and part of the selected slot
+ *   <li>{@code | # '|}: A focused shaded cell
  * </ul>
  */
 final class CrosswordGridViewModelTest {
@@ -42,18 +43,14 @@ final class CrosswordGridViewModelTest {
         crosswordGridViewModel = CrosswordGridViewModel.newGrid();
     }
 
-    /**
-     * Checks that default model is empty.
-     */
+    /** Checks that default model is empty. */
     @Test
     void dimensions_empty() {
         assertEquals(0, crosswordGridViewModel.columnCount());
         assertEquals(0, crosswordGridViewModel.rowCount());
     }
 
-    /**
-     * Checks that adding a row also updates the column count.
-     */
+    /** Checks that adding a row also updates the column count. */
     @Test
     void dimensions_1x1() {
         // First row implicitly adds a first column and vice-versa
@@ -65,8 +62,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks column/row additions with a 2x3 grid without any filled/shaded cells.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    |    |
      *     |    |    |
@@ -87,8 +85,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks column deletion with a 1x3 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    |
      *     |    |
@@ -111,8 +110,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks row deletion with a 3x1 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    |    |    |
      * </pre>
@@ -131,9 +131,7 @@ final class CrosswordGridViewModelTest {
         assertTrue(crosswordGridViewModel.boxesProperty().isEmpty());
     }
 
-    /**
-     * Verifies that direct modification of the map of boxes is rejected.
-     */
+    /** Verifies that direct modification of the map of boxes is rejected. */
     @Test
     void boxes_unmodifiable() {
         assertThrows(
@@ -143,8 +141,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks horizontal selection with a 2x3 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |( )'|( ) |
      *     |    |    |
@@ -165,8 +164,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks horizontal selection between shaded cells with a 6x1 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    | #  |( )'|( ) | #  |    |
      * </pre>
@@ -185,14 +185,16 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that horizontal selection between shaded cells with a 6x1 grid grows when shaded cells
-     * are removed.
-     * <p>
-     * Grid schema (before):
+     * Checks that horizontal selection between shaded cells with a 6x1 grid grows when shaded cells are removed.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |    | #  |( )'|( ) | #  |    |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |( ) |( ) |( )'|( ) |( ) |( ) |
      * </pre>
@@ -211,8 +213,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks vertical selection with a 2x3 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |( )'|    |
      *     |( ) |    |
@@ -234,8 +237,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks vertical selection between shaded cells with a 1x6 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    |
      *     | #  |
@@ -260,10 +264,10 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks vertical selection between shaded cells with a 1x6 grid grows when shaded cells are
-     * removed
-     * <p>
-     * Grid schema (before):
+     * Checks vertical selection between shaded cells with a 1x6 grid grows when shaded cells are removed
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |    |
      *     | #  |
@@ -272,7 +276,9 @@ final class CrosswordGridViewModelTest {
      *     | #  |
      *     |    |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |( ) |
      *     |( ) |
@@ -294,9 +300,7 @@ final class CrosswordGridViewModelTest {
                 crosswordGridViewModel.currentSlotPositionsProperty().get());
     }
 
-    /**
-     * Checks that when no box is focused, no slot is selected.
-     */
+    /** Checks that when no box is focused, no slot is selected. */
     @Test
     void selectedSlot_noCurrentBox() {
         crosswordGridViewModel.addColumn();
@@ -308,16 +312,18 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that selected horizontal slot is correctly cleared when the row it belongs to is
-     * deleted.
-     * <p>
-     * Grid schema (before):
+     * Checks that selected horizontal slot is correctly cleared when the row it belongs to is deleted.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |    |    |
      *     |    |    |
      *     |( )'|( ) |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |    |    |
      *     |    |    |
@@ -342,16 +348,18 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that selected vertical slot is correctly cleared when the column it belongs to is
-     * deleted.
-     * <p>
-     * Grid schema (before):
+     * Checks that selected vertical slot is correctly cleared when the column it belongs to is deleted.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |    |( )'|
      *     |    |( ) |
      *     |    |( ) |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |    |
      *     |    |
@@ -379,8 +387,9 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks that no selected slot is present when current box is a shaded box.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |    |    |
      *     | # '|    |
@@ -401,16 +410,18 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that selected slot is correctly cleared when current box moves from a non-shaded box
-     * to a shaded box.
-     * <p>
-     * Grid schema (before):
+     * Checks that selected slot is correctly cleared when current box moves from a non-shaded box to a shaded box.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |( )'|( ) |
      *     | #  |    |
      *     |    |    |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |    |    |
      *     | #' |    |
@@ -434,14 +445,17 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks that selected slot is correctly cleared when current non-shaded box becomes shaded.
-     * <p>
-     * Grid schema (before):
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |( )'|( ) |
      *     |    |    |
      *     |    |    |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     | #' |    |
      *     |    |    |
@@ -464,14 +478,17 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks that selected slot is correctly created when current shaded box becomes non-shaded.
-     * <p>
-     * Grid schema (before):
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     | #' |    |
      *     |    |    |
      *     |    |    |
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |( )'|( ) |
      *     |    |    |
@@ -495,11 +512,13 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks a fully filled current slot content on a 3x1 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |(A)'|(B) |(C) |
      * </pre>
+     *
      * Expected content is "ABC".
      */
     @Test
@@ -518,11 +537,13 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks a partially filled current slot content on a 3x1 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |(A)'|( ) |(C) |
      * </pre>
+     *
      * Expected content is "A.C".
      */
     @Test
@@ -540,11 +561,13 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks a blank current slot content on a 3x1 grid.
-     * <p>
-     * Grid schema:
+     *
+     * <p>Grid schema:
+     *
      * <pre>
      *     |( )'|( ) |( ) |
      * </pre>
+     *
      * Expected content is "...".
      */
     @Test
@@ -558,9 +581,7 @@ final class CrosswordGridViewModelTest {
         assertEquals("...", crosswordGridViewModel.currentSlotContent());
     }
 
-    /**
-     * Checks that by default no selected content is present.
-     */
+    /** Checks that by default no selected content is present. */
     @Test
     void selectedSlotContent_noSelection() {
         crosswordGridViewModel.addColumn();
@@ -572,17 +593,21 @@ final class CrosswordGridViewModelTest {
 
     /**
      * Checks that slot content is updated when grid boxes are modified.
-     * <p>
-     * Grid schema (before):
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |(A)'|( ) |(C) |
      * </pre>
+     *
      * Content was "A.C".
-     * <p>
-     * Grid schema (after):
+     *
+     * <p>Grid schema (after):
+     *
      * <pre>
      *     |(A)'|(B) |(C) |
      * </pre>
+     *
      * Expected content is "ABC".
      */
     @Test
@@ -595,19 +620,22 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Checks that slot content is updated when grid structure is modified - here a column is
-     * added.
-     * <p>
-     * Grid schema (before):
+     * Checks that slot content is updated when grid structure is modified - here a column is added.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     |(A)'|(B) |(C) |
      * </pre>
+     *
      * Content was "ABC".
-     * <p>
-     * Grid schema (after):
+     *
+     * <p>Grid schema (after):
+     *
      * <pre>
      *     |(A)'|(B) |(C) |( ) |
      * </pre>
+     *
      * Expected content is "ABC.".
      */
     @Test
@@ -620,8 +648,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies that when slot is unselected, the unsolvable status of its boxes is cleared (because
-     * only current slot unsolvable status is tracked).
+     * Verifies that when slot is unselected, the unsolvable status of its boxes is cleared (because only current slot
+     * unsolvable status is tracked).
      */
     @Test
     void unsolvableState_orientationChange() {
@@ -645,17 +673,19 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies that {@link CrosswordGridViewModel#resetContentLettersFilledBySolverOnly()} deletes
-     * only solver content.
-     * <p>
-     * Grid schema (before):
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersFilledBySolverOnly()} deletes only solver content.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     | A  | B  | #  |
      *       ^    ^
      *       |    `- solver content
      *       `- user content
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     | A  |    | #  |
      *       ^
@@ -680,17 +710,20 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears only letters
-     * (both user- and solver-filled).
-     * <p>
-     * Grid schema (before):
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears only letters (both user- and
+     * solver-filled).
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     | A  | B  | #  |
      *       ^    ^
      *       |    `- solver content
      *       `- user content
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |    |    | #  |
      * </pre>
@@ -712,17 +745,19 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears both letters
-     * and shaded boxes.
-     * <p>
-     * Grid schema (before):
+     * Verifies that {@link CrosswordGridViewModel#resetContentLettersOnly()} clears both letters and shaded boxes.
+     *
+     * <p>Grid schema (before):
+     *
      * <pre>
      *     | A  | B  | #  |
      *       ^    ^
      *       |    `- solver content
      *       `- user content
      * </pre>
+     *
      * Grid schema (after):
+     *
      * <pre>
      *     |    |    |    |
      * </pre>
@@ -743,9 +778,7 @@ final class CrosswordGridViewModelTest {
         assertFalse(crosswordGridViewModel.box(at(2, 0)).isShaded());
     }
 
-    /**
-     * Verifies that filling the current slot does not generate an event for each box modified.
-     */
+    /** Verifies that filling the current slot does not generate an event for each box modified. */
     @Test
     void setCurrentSlot() {
         crosswordGridViewModel.addColumn();
@@ -770,8 +803,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies that an {@link IllegalArgumentException} is raised when a string not matching
-     * current slot length is passed to {@link CrosswordGridViewModel#currentSlotContent(String)}.
+     * Verifies that an {@link IllegalArgumentException} is raised when a string not matching current slot length is
+     * passed to {@link CrosswordGridViewModel#currentSlotContent(String)}.
      */
     @Test
     void setCurrentSlot_invalidLength() {
@@ -784,8 +817,7 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and
-     * rows need to be added.
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and rows need to be added.
      */
     @Test
     void resizeTo_addColumnsAddRows() {
@@ -796,8 +828,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and
-     * rows need to be removed.
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which both columns and rows need to be
+     * removed.
      */
     @Test
     void resizeTo_removeColumnsRemoveRows() {
@@ -811,8 +843,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be
-     * added while rows need to be removed.
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be added while rows
+     * need to be removed.
      */
     @Test
     void resizeTo_addColumnsRemoveRows() {
@@ -826,8 +858,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be
-     * removed while rows need to be added.
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which columns need to be removed while rows
+     * need to be added.
      */
     @Test
     void resizeTo_removeColumnsAddRows() {
@@ -841,8 +873,8 @@ final class CrosswordGridViewModelTest {
     }
 
     /**
-     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which passed dimension is
-     * invalid (negative values).
+     * Verifies {@link CrosswordGridViewModel#resizeTo(int, int)}: Case in which passed dimension is invalid (negative
+     * values).
      */
     @Test
     void resizeTo_invalidNegative() {

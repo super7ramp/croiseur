@@ -9,9 +9,7 @@ import org.junit.platform.suite.api.ExcludeTags;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
-/**
- * Suite testing solver service.
- */
+/** Suite testing solver service. */
 @Suite
 @SelectClasspathResource("re/belv/croiseur/tests/solver")
 @ExcludeTags("disabled")

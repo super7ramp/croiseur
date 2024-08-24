@@ -12,15 +12,13 @@ import java.util.Objects;
 
 /**
  * The crossword clues.
- * <p>
- * Clues are immutable (returned collections are un-modifiable and will throw an exception if one
- * tries to modify them). Clues can only be created using the associated {@link Builder}.
+ *
+ * <p>Clues are immutable (returned collections are un-modifiable and will throw an exception if one tries to modify
+ * them). Clues can only be created using the associated {@link Builder}.
  */
 public final class XdClues {
 
-    /**
-     * Builder of {@link XdClues}.
-     */
+    /** Builder of {@link XdClues}. */
     public static final class Builder {
 
         /** The list of across clues being built. */
@@ -29,9 +27,7 @@ public final class XdClues {
         /** The list of down clues being built. */
         private final List<XdClue> downClues;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         public Builder() {
             acrossClues = new ArrayList<>();
             downClues = new ArrayList<>();
@@ -41,7 +37,7 @@ public final class XdClues {
          * Adds an across clue.
          *
          * @param number the across clue number
-         * @param clue   the clue
+         * @param clue the clue
          * @param answer the answer
          * @return this builder, for method chaining
          */
@@ -55,7 +51,7 @@ public final class XdClues {
          * Adds an own clue.
          *
          * @param number the across clue number
-         * @param clue   the clue
+         * @param clue the clue
          * @param answer the answer
          * @return this builder, for method chaining
          */
@@ -67,8 +63,8 @@ public final class XdClues {
 
         /**
          * Builds a {@link XdClues} from this builder.
-         * <p>
-         * Clues will be copied, this builder can be reused.
+         *
+         * <p>Clues will be copied, this builder can be reused.
          *
          * @return a new {@link XdClues}
          */
@@ -76,9 +72,7 @@ public final class XdClues {
             return new XdClues(acrossClues, downClues);
         }
 
-        /**
-         * Resets this builder.
-         */
+        /** Resets this builder. */
         public void reset() {
             acrossClues.clear();
             downClues.clear();
@@ -95,7 +89,7 @@ public final class XdClues {
      * Constructs an instance.
      *
      * @param acrossCluesArg the across clues
-     * @param downCluesArg   the down clues
+     * @param downCluesArg the down clues
      */
     private XdClues(final List<XdClue> acrossCluesArg, final List<XdClue> downCluesArg) {
         acrossClues = new ArrayList<>(acrossCluesArg);

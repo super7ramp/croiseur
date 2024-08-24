@@ -11,9 +11,7 @@ import static re.belv.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
-/**
- * Tests for {@link XdGridWriter}.
- */
+/** Tests for {@link XdGridWriter}. */
 final class XdGridWriterTest {
 
     @Test

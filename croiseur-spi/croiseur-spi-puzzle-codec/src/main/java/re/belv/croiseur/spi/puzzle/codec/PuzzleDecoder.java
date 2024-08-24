@@ -9,9 +9,7 @@ import java.io.InputStream;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 
-/**
- * A puzzle decoder.
- */
+/** A puzzle decoder. */
 public interface PuzzleDecoder {
 
     /**
@@ -26,9 +24,8 @@ public interface PuzzleDecoder {
      *
      * @param input the input to decode
      * @return the decoded {@link Puzzle}
-     * @throws NullPointerException    if the given input is {@code null}
-     * @throws PuzzleDecodingException if decoder fails to read the given input for any other
-     *                                 reason
+     * @throws NullPointerException if the given input is {@code null}
+     * @throws PuzzleDecodingException if decoder fails to read the given input for any other reason
      */
     Puzzle decode(final InputStream input) throws PuzzleDecodingException;
 }

@@ -21,9 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on {@link DictionaryWriter}.
- */
+/** Tests on {@link DictionaryWriter}. */
 final class DictionaryWriterTest {
 
     private static String formatXml(final String xml) {

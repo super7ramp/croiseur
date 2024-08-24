@@ -12,9 +12,7 @@ import static org.testfx.matcher.control.TextMatchers.hasText;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on welcome screen.
- */
+/** Tests on welcome screen. */
 final class WelcomeScreenTest extends CroiseurGuiTest {
 
     @Test

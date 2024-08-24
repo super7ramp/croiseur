@@ -6,9 +6,7 @@
 import re.belv.croiseur.dictionary.txt.plugin.TxtDictionaryProvider;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Dictionary provider of local word lists written as text files.
- */
+/** Dictionary provider of local word lists written as text files. */
 module re.belv.croiseur.dictionary.txt.plugin {
     requires re.belv.croiseur.dictionary.common;
     requires transitive re.belv.croiseur.spi.dictionary;

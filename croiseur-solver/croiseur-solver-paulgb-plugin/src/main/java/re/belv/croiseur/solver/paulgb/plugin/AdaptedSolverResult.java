@@ -14,9 +14,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.solver.paulgb.Solution;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Adapts Crossword Composer solver result into {@link SolverResult}.
- */
+/** Adapts Crossword Composer solver result into {@link SolverResult}. */
 final class AdaptedSolverResult implements SolverResult {
 
     /** The result kind. */
@@ -32,7 +30,7 @@ final class AdaptedSolverResult implements SolverResult {
      * Constructs an instance.
      *
      * @param idToPosition association between indexes and grid positions
-     * @param solution     the solution
+     * @param solution the solution
      */
     private AdaptedSolverResult(final Map<Integer, GridPosition> idToPosition, final Solution solution) {
         final char[] filledCells = solution.cells();

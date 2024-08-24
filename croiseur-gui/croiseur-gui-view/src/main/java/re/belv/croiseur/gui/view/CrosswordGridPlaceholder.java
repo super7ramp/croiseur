@@ -12,9 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-/**
- * A placeholder for the crossword grid.
- */
+/** A placeholder for the crossword grid. */
 public final class CrosswordGridPlaceholder extends VBox {
 
     /** The wrapping width. */
@@ -32,9 +30,7 @@ public final class CrosswordGridPlaceholder extends VBox {
     @FXML
     private Text adviceText;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordGridPlaceholder() {
         wrappingWidth = new SimpleDoubleProperty(this, "wrappingWidth", 0.0);
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
@@ -49,9 +45,7 @@ public final class CrosswordGridPlaceholder extends VBox {
         return wrappingWidth;
     }
 
-    /**
-     * Initializes the widget.
-     */
+    /** Initializes the widget. */
     @FXML
     private void initialize() {
         errorText.wrappingWidthProperty().bind(wrappingWidth);

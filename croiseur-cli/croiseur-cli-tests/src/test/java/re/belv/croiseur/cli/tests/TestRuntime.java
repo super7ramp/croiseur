@@ -15,8 +15,9 @@ import re.belv.croiseur.cli.CroiseurCliApplication;
 
 /**
  * A simple helper test class managing application runtime during tests.
- * <p>
- * To be extended by actual test classes, e.g.:
+ *
+ * <p>To be extended by actual test classes, e.g.:
+ *
  * <pre>{@code
  * final class MyCliTest extends TestRuntime {
  *     @Test
@@ -26,10 +27,10 @@ import re.belv.croiseur.cli.CroiseurCliApplication;
  *         assertEquals("", err());
  *         assertEquals(SUCCESS, exitCode());
  *     }
- * }}</pre>
+ * }
+ * }</pre>
  *
- * @see <a href=https://picocli.info/#_diy_output_capturing>DIY Output Capturing</a> in Picocli
- * documentation
+ * @see <a href=https://picocli.info/#_diy_output_capturing>DIY Output Capturing</a> in Picocli documentation
  */
 abstract class TestRuntime {
 
@@ -49,8 +50,8 @@ abstract class TestRuntime {
     protected static final int NO_SOLUTION_FOUND = 4;
 
     /**
-     * The host locale, assumed constant for JVM lifetime. Locale is overridden during test
-     * execution for reproducibility and restored afterwards.
+     * The host locale, assumed constant for JVM lifetime. Locale is overridden during test execution for
+     * reproducibility and restored afterwards.
      */
     private static final Locale ORIGIN_LOCALE = Locale.getDefault();
 
@@ -66,18 +67,13 @@ abstract class TestRuntime {
     /** The application exit code. */
     private Integer exitCode;
 
-    /**
-     * Sets default locale to {@link Locale#ENGLISH} in order to have results independent of
-     * system's locale.
-     */
+    /** Sets default locale to {@link Locale#ENGLISH} in order to have results independent of system's locale. */
     @BeforeAll
     static void setEnglishLocale() {
         Locale.setDefault(Locale.ENGLISH);
     }
 
-    /**
-     * Sets up the application and its runtime (i.e. output streams).
-     */
+    /** Sets up the application and its runtime (i.e. output streams). */
     @BeforeEach
     final void setUp() {
         out.reset();
@@ -88,9 +84,7 @@ abstract class TestRuntime {
         exitCode = null;
     }
 
-    /**
-     * Restores standard system output streams and default locale once tests have finished.
-     */
+    /** Restores standard system output streams and default locale once tests have finished. */
     @AfterAll
     static void tearDown() {
         System.setOut(System.out);
@@ -109,9 +103,8 @@ abstract class TestRuntime {
 
     /**
      * Returns the text written to output stream up to the moment of the call.
-     * <p>
-     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
-     * ({@code "\n"}).
+     *
+     * <p>Note: To simplify testing, line endings of returned text are forced to Unix line endings ({@code "\n"}).
      *
      * @return the text written to output stream up to the moment of the call
      */
@@ -119,18 +112,15 @@ abstract class TestRuntime {
         return out.toString().replace(System.lineSeparator(), "\n");
     }
 
-    /**
-     * Resets standard output stream;
-     */
+    /** Resets standard output stream; */
     protected final void drainOut() {
         out.reset();
     }
 
     /**
      * Returns the text written to error output stream up to the moment of the call.
-     * <p>
-     * Note: To simplify testing, line endings of returned text are forced to Unix line endings
-     * ({@code "\n"}).
+     *
+     * <p>Note: To simplify testing, line endings of returned text are forced to Unix line endings ({@code "\n"}).
      *
      * @return the text written to error output stream up to the moment of the call
      */
@@ -138,19 +128,15 @@ abstract class TestRuntime {
         return err.toString().replace(System.lineSeparator(), "\n");
     }
 
-    /**
-     * Resets standard error output stream;
-     */
+    /** Resets standard error output stream; */
     protected final void drainErr() {
         err.reset();
     }
 
     /**
-     * Returns the last exit code or {@code null} if application hasn't exited at the moment of the
-     * call.
+     * Returns the last exit code or {@code null} if application hasn't exited at the moment of the call.
      *
-     * @return the last exit code  or {@code null} if application hasn't exited at the moment of the
-     * call
+     * @return the last exit code or {@code null} if application hasn't exited at the moment of the call
      */
     protected final Integer exitCode() {
         return exitCode;

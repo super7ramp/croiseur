@@ -3,7 +3,5 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Dictionary selection logic shared by many use-cases.
- */
+/** Dictionary selection logic shared by many use-cases. */
 package re.belv.croiseur.impl.dictionary.selection;

@@ -11,9 +11,8 @@ import org.junit.platform.suite.api.Suite;
 
 /**
  * Test suite for work in progress.
- * <p>
- * Annotate a test you want to launch with {@literal @wip} so that you can launch it with this
- * test suite.
+ *
+ * <p>Annotate a test you want to launch with {@literal @wip} so that you can launch it with this test suite.
  */
 @Suite(failIfNoTests = false)
 @SelectClasspathResource("re/belv/croiseur/tests")

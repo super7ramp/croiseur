@@ -11,9 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * An immutable model for displaying a fixed view of a saved crossword puzzle grid.
- */
+/** An immutable model for displaying a fixed view of a saved crossword puzzle grid. */
 public final class SavedPuzzleGridViewModel {
 
     /** The number of columns. */
@@ -32,9 +30,9 @@ public final class SavedPuzzleGridViewModel {
      * Constructs an instance.
      *
      * @param columnCountArg the number of columns
-     * @param rowCountArg    the number of rows
-     * @param shadedArg      the shaded boxes
-     * @param filledArg      the filled boxes
+     * @param rowCountArg the number of rows
+     * @param shadedArg the shaded boxes
+     * @param filledArg the filled boxes
      */
     SavedPuzzleGridViewModel(
             final int columnCountArg,

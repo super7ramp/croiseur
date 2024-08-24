@@ -8,9 +8,7 @@ import re.belv.croiseur.puzzle.codec.xd.plugin.XdEncoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 
-/**
- * Puzzle codec provider adapting croiseur-puzzle-codec-xd.
- */
+/** Puzzle codec provider adapting croiseur-puzzle-codec-xd. */
 module re.belv.croiseur.puzzle.codec.xd.plugin {
     requires re.belv.croiseur.common;
     requires re.belv.croiseur.puzzle.codec.xd;

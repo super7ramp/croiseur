@@ -11,20 +11,18 @@ import java.util.Objects;
 /**
  * Details about a puzzle codec.
  *
- * @param name             the codec name
- * @param description      the codec description
- * @param supportedFormats the supported formats under the form of file extensions, e.g. ["*.xd"] or
- *                         mimetypes
+ * @param name the codec name
+ * @param description the codec description
+ * @param supportedFormats the supported formats under the form of file extensions, e.g. ["*.xd"] or mimetypes
  */
 public record PuzzleCodecDetails(String name, String description, List<String> supportedFormats) {
 
     /**
      * Validates fields
      *
-     * @param name             the codec name
-     * @param description      the codec description
-     * @param supportedFormats the supported formats under the form of file extensions, e.g.
-     *                         ["*.xd"] or mimetypes
+     * @param name the codec name
+     * @param description the codec description
+     * @param supportedFormats the supported formats under the form of file extensions, e.g. ["*.xd"] or mimetypes
      */
     public PuzzleCodecDetails {
         Objects.requireNonNull(name);

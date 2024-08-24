@@ -17,9 +17,7 @@ import re.belv.croiseur.solver.szunami.Crossword;
 import re.belv.croiseur.solver.szunami.Result;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Tests for {@link AdaptedSolverResult}.
- */
+/** Tests for {@link AdaptedSolverResult}. */
 final class AdaptedSolverResultTest {
 
     @Test

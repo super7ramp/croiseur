@@ -10,9 +10,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-/**
- * The solver progress view model.
- */
+/** The solver progress view model. */
 public final class SolverProgressViewModel {
 
     /** Value representing an indeterminate progress. */
@@ -24,9 +22,7 @@ public final class SolverProgressViewModel {
     /** The solver progress (0.0 - 1.0). */
     private final DoubleProperty solverProgress;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     SolverProgressViewModel() {
         solverRunning = new SimpleBooleanProperty(this, "solverRunning");
         solverProgress = new SimpleDoubleProperty(this, "solverProgress", INDETERMINATE_PROGRESS);
@@ -49,9 +45,9 @@ public final class SolverProgressViewModel {
 
     /**
      * Returns the solver progress property.
-     * <p>
-     * When progress is determinate, its value is between 0.0 (= 0 %) and 1.0 (= 100%). When
-     * progress is indeterminate, value is negative.
+     *
+     * <p>When progress is determinate, its value is between 0.0 (= 0 %) and 1.0 (= 100%). When progress is
+     * indeterminate, value is negative.
      *
      * @return the the solver progress property
      */

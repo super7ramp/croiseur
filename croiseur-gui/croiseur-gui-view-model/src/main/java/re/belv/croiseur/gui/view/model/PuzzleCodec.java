@@ -7,9 +7,7 @@ package re.belv.croiseur.gui.view.model;
 
 import java.util.List;
 
-/**
- * A puzzle codec.
- */
+/** A puzzle codec. */
 public final class PuzzleCodec {
 
     /** The codec name. */
@@ -21,7 +19,7 @@ public final class PuzzleCodec {
     /**
      * Constructs an instance.
      *
-     * @param nameArg       the codec name
+     * @param nameArg the codec name
      * @param extensionsArg the supported file extensions
      */
     public PuzzleCodec(final String nameArg, final List<String> extensionsArg) {

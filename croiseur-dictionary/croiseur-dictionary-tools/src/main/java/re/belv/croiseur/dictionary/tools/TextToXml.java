@@ -22,9 +22,7 @@ import re.belv.croiseur.dictionary.xml.codec.DictionaryHeader;
 import re.belv.croiseur.dictionary.xml.codec.DictionaryWriteException;
 import re.belv.croiseur.dictionary.xml.codec.DictionaryWriter;
 
-/**
- * Text for XML dictionary format converter.
- */
+/** Text for XML dictionary format converter. */
 public final class TextToXml {
 
     /** Logger. */

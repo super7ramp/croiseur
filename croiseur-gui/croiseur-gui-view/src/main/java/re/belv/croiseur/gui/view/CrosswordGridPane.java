@@ -36,21 +36,17 @@ import re.belv.croiseur.gui.view.model.GridCoord;
 
 /**
  * A standalone crossword grid control.
- * <p>
- * It is basically a {@link StackPane} encapsulating a {@link GridPane} and a placeholder with some
- * bindings defined with code to constrain the grid pane so that it always presents nice square
- * cells. See {@link #initializeGridConstraints()} to see how these constraints are built.
+ *
+ * <p>It is basically a {@link StackPane} encapsulating a {@link GridPane} and a placeholder with some bindings defined
+ * with code to constrain the grid pane so that it always presents nice square cells. See
+ * {@link #initializeGridConstraints()} to see how these constraints are built.
  */
 public final class CrosswordGridPane extends StackPane {
 
-    /**
-     * Allows to navigate the grid using arrow keys.
-     */
+    /** Allows to navigate the grid using arrow keys. */
     private final class ArrowKeyNavigator implements EventHandler<KeyEvent> {
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         ArrowKeyNavigator() {
             // Nothing to do.
         }
@@ -86,14 +82,10 @@ public final class CrosswordGridPane extends StackPane {
         }
     }
 
-    /**
-     * Processes events triggering slot orientation change.
-     */
+    /** Processes events triggering slot orientation change. */
     private final class SlotOrientationChanger implements EventHandler<InputEvent> {
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         SlotOrientationChanger() {
             // Nothing to do.
         }
@@ -121,8 +113,7 @@ public final class CrosswordGridPane extends StackPane {
          * Returns {@code true} if given event is a double click from primary mouse button.
          *
          * @param event the event
-         * @return {@code true} {@code true} if given event is a double click from primary mouse
-         * button
+         * @return {@code true} {@code true} if given event is a double click from primary mouse button
          */
         private static boolean doublePrimaryClick(final InputEvent event) {
             return event.getEventType() == MouseEvent.MOUSE_CLICKED
@@ -131,15 +122,15 @@ public final class CrosswordGridPane extends StackPane {
         }
 
         /**
-         * Returns {@code true} if given event is an arrow key pressed whose orientation is
-         * orthogonal to the current slot orientation.
-         * <p>
-         * E.g. for key UP or DOWN, method returns {@code true} if and only if current slot
-         * orientation is horizontal.
+         * Returns {@code true} if given event is an arrow key pressed whose orientation is orthogonal to the current
+         * slot orientation.
+         *
+         * <p>E.g. for key UP or DOWN, method returns {@code true} if and only if current slot orientation is
+         * horizontal.
          *
          * @param event the event
-         * @return {@code true} if given event is an arrow key pressed whose orientation is
-         * orthogonal to the current slot orientation
+         * @return {@code true} if given event is an arrow key pressed whose orientation is orthogonal to the current
+         *     slot orientation
          */
         private boolean arrowKeyPressedOrthogonalToSlotOrientation(final InputEvent event) {
             return event.getEventType() == KeyEvent.KEY_PRESSED
@@ -153,9 +144,9 @@ public final class CrosswordGridPane extends StackPane {
 
     /**
      * A comparator for the grid child boxes.
-     * <p>
-     * Children are sorted using this comparator in order to maintain a consistent navigation with
-     * tab key. Otherwise, navigation follows node insertion order, which may be erratic.
+     *
+     * <p>Children are sorted using this comparator in order to maintain a consistent navigation with tab key.
+     * Otherwise, navigation follows node insertion order, which may be erratic.
      */
     private static final Comparator<Node> BOX_COMPARATOR =
             Comparator.comparingInt(GridPane::getRowIndex).thenComparingInt(GridPane::getColumnIndex);
@@ -180,9 +171,7 @@ public final class CrosswordGridPane extends StackPane {
     @FXML
     private CrosswordGridPlaceholder placeholder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordGridPane() {
         boxModels = new SimpleMapProperty<>(this, "boxModels", FXCollections.observableHashMap());
         boxNodes = new HashMap<>();
@@ -193,14 +182,14 @@ public final class CrosswordGridPane extends StackPane {
 
     /**
      * Returns an observable map of boxes, i.e. the crossword grid view model.
-     * <p>
-     * <strong>The map contains a given ({@link GridCoord}, {@link CrosswordBoxViewModel})
-     * entry if and only if the view contains a {@link CrosswordBoxTextField} at the corresponding
-     * grid coordinates with the corresponding content.</strong>
-     * <p>
-     * Writer is responsible for ensuring data consistency, i.e. ensuring that rows and columns are
-     * added or removed incrementally (i.e. no missing row or column) and that inconsistent states
-     * (incomplete rows and columns) are only transient. Otherwise, display may be chaotic.
+     *
+     * <p><strong>The map contains a given ({@link GridCoord}, {@link CrosswordBoxViewModel}) entry if and only if the
+     * view contains a {@link CrosswordBoxTextField} at the corresponding grid coordinates with the corresponding
+     * content.</strong>
+     *
+     * <p>Writer is responsible for ensuring data consistency, i.e. ensuring that rows and columns are added or removed
+     * incrementally (i.e. no missing row or column) and that inconsistent states (incomplete rows and columns) are only
+     * transient. Otherwise, display may be chaotic.
      *
      * @return an observable map of boxes, i.e. the crossword grid view model
      */
@@ -226,9 +215,7 @@ public final class CrosswordGridPane extends StackPane {
         return currentSlotVertical;
     }
 
-    /**
-     * Initializes the widget.
-     */
+    /** Initializes the widget. */
     @FXML
     private void initialize() {
         initializeGridConstraints();
@@ -313,9 +300,7 @@ public final class CrosswordGridPane extends StackPane {
         }
     }
 
-    /**
-     * Removes leftover constraints if all boxes have been removed.
-     */
+    /** Removes leftover constraints if all boxes have been removed. */
     private void maybeClearConstraints() {
         if (boxNodes.isEmpty()) {
             if (!grid.getRowConstraints().isEmpty()) {
@@ -331,7 +316,7 @@ public final class CrosswordGridPane extends StackPane {
      * Handles a model update: Box added case.
      *
      * @param coordinate where the box is added
-     * @param boxModel   what the box contains
+     * @param boxModel what the box contains
      */
     private void onBoxAdded(final GridCoord coordinate, final CrosswordBoxViewModel boxModel) {
         addBoxNode(coordinate, boxModel);
@@ -343,7 +328,7 @@ public final class CrosswordGridPane extends StackPane {
      * Adds a new box node to the grid corresponding to the given new box model.
      *
      * @param coordinate where the box is added
-     * @param boxModel   what the box contains
+     * @param boxModel what the box contains
      */
     private void addBoxNode(final GridCoord coordinate, final CrosswordBoxViewModel boxModel) {
         final CrosswordBoxTextField node = new CrosswordBoxTextField(boxModel);
@@ -387,18 +372,14 @@ public final class CrosswordGridPane extends StackPane {
         }
     }
 
-    /**
-     * Adds a row constraint.
-     */
+    /** Adds a row constraint. */
     private void addRowConstraint() {
         final RowConstraints rowConstraint = new RowConstraints();
         rowConstraint.setPercentHeight(100);
         grid.getRowConstraints().add(rowConstraint);
     }
 
-    /**
-     * Adds a column constraint.
-     */
+    /** Adds a column constraint. */
     private void addColumnConstraint() {
         final ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setPercentWidth(100);
@@ -406,8 +387,8 @@ public final class CrosswordGridPane extends StackPane {
     }
 
     /**
-     * Binds grid pane dimensions to this enclosing stack pane dimensions in a way which ensures
-     * that grid cells remain visible squares.
+     * Binds grid pane dimensions to this enclosing stack pane dimensions in a way which ensures that grid cells remain
+     * visible squares.
      */
     private void initializeGridConstraints() {
 

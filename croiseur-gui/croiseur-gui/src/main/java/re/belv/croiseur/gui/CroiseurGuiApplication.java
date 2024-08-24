@@ -27,9 +27,7 @@ import re.belv.croiseur.gui.view.model.ApplicationViewModel;
 import re.belv.croiseur.gui.view.model.ErrorsViewModel;
 import re.belv.croiseur.spi.presenter.Presenter;
 
-/**
- * The Croiseur GUI application.
- */
+/** The Croiseur GUI application. */
 public final class CroiseurGuiApplication extends Application {
 
     /** The stage's title. */
@@ -47,18 +45,13 @@ public final class CroiseurGuiApplication extends Application {
     /** The application stylesheet. */
     private static final String STYLESHEET = "theme-light.css";
 
-    /**
-     * The number of background threads. At least 2 so that dictionaries can be browsed while solver
-     * is running.
-     */
+    /** The number of background threads. At least 2 so that dictionaries can be browsed while solver is running. */
     private static final int NUMBER_OF_BACKGROUND_THREADS = 2;
 
     /** Resources to be closed upon application shutdown. */
     private final Collection<AutoCloseable> resources;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public CroiseurGuiApplication() {
         resources = new ArrayList<>();
     }
@@ -122,9 +115,9 @@ public final class CroiseurGuiApplication extends Application {
     /**
      * Loads the application components.
      *
-     * @param stage         the stage
+     * @param stage the stage
      * @param sceneSwitcher the scene switcher
-     * @param executor      the background task executor
+     * @param executor the background task executor
      * @throws IOException if loading from FXML files fails
      */
     private static void loadComponents(final Stage stage, final SceneSwitcher sceneSwitcher, final Executor executor)
@@ -141,11 +134,10 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads the special error popup control logic. Popup can happen on all scenes of the given
-     * stage.
+     * Loads the special error popup control logic. Popup can happen on all scenes of the given stage.
      *
      * @param errorsViewModel the errors view model
-     * @param stage           the application stage
+     * @param stage the application stage
      */
     private static void loadErrorPopup(final ErrorsViewModel errorsViewModel, final Stage stage) {
         errorsViewModel.currentErrorProperty().addListener((observable, oldError, newError) -> {
@@ -162,9 +154,9 @@ public final class CroiseurGuiApplication extends Application {
      * Loads the welcome screen.
      *
      * @param applicationViewModel the application view-models
-     * @param crosswordService     the croiseur core library
-     * @param sceneSwitcher        the scene switcher
-     * @param executor             the background task executor
+     * @param crosswordService the croiseur core library
+     * @param sceneSwitcher the scene switcher
+     * @param executor the background task executor
      * @throws IOException if loading from FXML file fails
      */
     private static void loadWelcomeScreen(
@@ -188,9 +180,9 @@ public final class CroiseurGuiApplication extends Application {
      * Loads the crossword editor.
      *
      * @param applicationViewModel the application view model
-     * @param crosswordService     the croiseur core library
-     * @param sceneSwitcher        the scene switcher
-     * @param executor             the executor
+     * @param crosswordService the croiseur core library
+     * @param sceneSwitcher the scene switcher
+     * @param executor the executor
      */
     private static void loadCrosswordEditor(
             final ApplicationViewModel applicationViewModel,
@@ -205,8 +197,8 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Creates an executor to run tasks on the background. The created executor will be added to
-     * this application closeable {@link #resources}.
+     * Creates an executor to run tasks on the background. The created executor will be added to this application
+     * closeable {@link #resources}.
      *
      * @return the executor
      */

@@ -16,10 +16,7 @@ import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Implementation of {@link CrosswordSolver} adapting {@link Solver paulgb's Crossword Composer}
- * solver}.
- */
+/** Implementation of {@link CrosswordSolver} adapting {@link Solver paulgb's Crossword Composer} solver}. */
 public final class CrosswordComposerSolver implements CrosswordSolver {
 
     /** The solver name. */
@@ -28,9 +25,7 @@ public final class CrosswordComposerSolver implements CrosswordSolver {
     /** The adapted solver. */
     private final Solver solver;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CrosswordComposerSolver() {
         solver = new Solver();
     }

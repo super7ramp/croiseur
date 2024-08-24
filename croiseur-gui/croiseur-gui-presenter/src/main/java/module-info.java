@@ -5,8 +5,8 @@
 
 /**
  * Presenter submodule of croiseur-gui.
- * <p>
- * Presents croiseur outputs by updating croiseur-gui-view-model.
+ *
+ * <p>Presents croiseur outputs by updating croiseur-gui-view-model.
  */
 module re.belv.croiseur.gui.presenter {
     requires transitive re.belv.croiseur.spi.presenter;

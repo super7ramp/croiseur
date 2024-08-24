@@ -7,9 +7,7 @@ package re.belv.croiseur.gui.view.javafx.scene.canvas;
 
 import static java.lang.Math.rint;
 
-/**
- * Utility methods related to drawing on canvas.
- */
+/** Utility methods related to drawing on canvas. */
 public final class CanvasUtil {
 
     /** The size of one pixel. */
@@ -25,10 +23,9 @@ public final class CanvasUtil {
      *
      * @param coordinate the coordinate
      * @return the coordinate snapped to the nearest pixel
-     * @see <a href="https://dlsc.com/2014/04/10/javafx-tip-2-sharp-drawing-with-canvas-api/">This
-     * tip from DLSC</a>
-     * @see javafx.scene.shape.Shape Shape's Javadoc paragraph "Interaction with coordinate systems"
-     * for more explanations
+     * @see <a href="https://dlsc.com/2014/04/10/javafx-tip-2-sharp-drawing-with-canvas-api/">This tip from DLSC</a>
+     * @see javafx.scene.shape.Shape Shape's Javadoc paragraph "Interaction with coordinate systems" for more
+     *     explanations
      */
     public static double snapToPixel(final double coordinate) {
         /*

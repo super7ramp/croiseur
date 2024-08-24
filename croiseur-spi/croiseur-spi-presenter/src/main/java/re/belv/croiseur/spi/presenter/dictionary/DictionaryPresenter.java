@@ -10,9 +10,7 @@ import java.util.List;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
-/**
- * Dictionary-related presentation services.
- */
+/** Dictionary-related presentation services. */
 public interface DictionaryPresenter {
 
     /**
@@ -24,8 +22,8 @@ public interface DictionaryPresenter {
 
     /**
      * Presents the dictionaries.
-     * <p>
-     * The returned dictionaries are sorted by order of preference.
+     *
+     * <p>The returned dictionaries are sorted by order of preference.
      *
      * @param dictionaries the dictionaries
      */
@@ -33,9 +31,9 @@ public interface DictionaryPresenter {
 
     /**
      * Presents the content of a dictionary.
-     * <p>
-     * Dictionary word list is given as read from the dictionary: It may or may not be sorted.
-     * Presenter should sort it when sort order is important.
+     *
+     * <p>Dictionary word list is given as read from the dictionary: It may or may not be sorted. Presenter should sort
+     * it when sort order is important.
      *
      * @param content the dictionary content
      */
@@ -50,8 +48,8 @@ public interface DictionaryPresenter {
 
     /**
      * Presents the default dictionary.
-     * <p>
-     * Typically, this is the first dictionary returned by {@link #presentDictionaries(List)}.
+     *
+     * <p>Typically, this is the first dictionary returned by {@link #presentDictionaries(List)}.
      *
      * @param defaultDictionary the default dictionary, if any; {@code null} otherwise
      */

@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.model.aff;
 
-/**
- * Kind of affix.
- */
+/** Kind of affix. */
 public enum AffixKind {
     /** Prefix. */
     PFX,

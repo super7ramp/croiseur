@@ -11,8 +11,8 @@ import java.util.Objects;
 /**
  * Details about a dictionary.
  *
- * @param name        the name of the dictionary
- * @param locale      the locale of the dictionary
+ * @param name the name of the dictionary
+ * @param locale the locale of the dictionary
  * @param description a (preferably short) description
  */
 public record DictionaryDetails(String name, Locale locale, String description) {
@@ -20,8 +20,8 @@ public record DictionaryDetails(String name, Locale locale, String description) 
     /**
      * Validates fields.
      *
-     * @param name        the name of the dictionary
-     * @param locale      the locale of the dictionary
+     * @param name the name of the dictionary
+     * @param locale the locale of the dictionary
      * @param description a (preferably short) description
      */
     public DictionaryDetails {

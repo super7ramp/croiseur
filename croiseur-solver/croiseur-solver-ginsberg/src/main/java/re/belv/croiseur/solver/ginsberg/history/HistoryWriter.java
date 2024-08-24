@@ -7,9 +7,7 @@ package re.belv.croiseur.solver.ginsberg.history;
 
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * Write access to {@link History}.
- */
+/** Write access to {@link History}. */
 public interface HistoryWriter extends History {
 
     /**

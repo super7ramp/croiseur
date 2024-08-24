@@ -8,9 +8,7 @@ package re.belv.croiseur.dictionary.xml.codec;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Supplies an {@link InputStream}.
- */
+/** Supplies an {@link InputStream}. */
 public interface InputStreamSupplier {
 
     /**

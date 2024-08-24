@@ -10,9 +10,7 @@ import java.util.Map;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * Utility class to switch between scenes.
- */
+/** Utility class to switch between scenes. */
 final class SceneSwitcher {
 
     /** Scene identifier. */
@@ -40,12 +38,12 @@ final class SceneSwitcher {
 
     /**
      * Registers a scene.
-     * <p>
-     * If stage has no scene, then the given scene is set as stage scene. In other words, stage's
-     * scene is initialized with first registered scene.
+     *
+     * <p>If stage has no scene, then the given scene is set as stage scene. In other words, stage's scene is
+     * initialized with first registered scene.
      *
      * @param sceneId the scene id
-     * @param scene   the scene
+     * @param scene the scene
      */
     void registerScene(final SceneId sceneId, final Scene scene) {
         scenes.put(sceneId, scene);
@@ -54,16 +52,12 @@ final class SceneSwitcher {
         }
     }
 
-    /**
-     * Switches to welcome screen scene.
-     */
+    /** Switches to welcome screen scene. */
     void switchToWelcomeScreen() {
         switchTo(SceneId.WELCOME_SCREEN);
     }
 
-    /**
-     * Switches to crossword editor scene.
-     */
+    /** Switches to crossword editor scene. */
     void switchToEditorView() {
         switchTo(SceneId.CROSSWORD_EDITOR);
     }

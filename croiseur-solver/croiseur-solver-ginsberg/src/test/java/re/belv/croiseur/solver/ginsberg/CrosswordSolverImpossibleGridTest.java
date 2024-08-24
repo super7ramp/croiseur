@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Tests for {@link GinsbergCrosswordSolver}: Verify behaviour when faced to impossible grids.
- */
+/** Tests for {@link GinsbergCrosswordSolver}: Verify behaviour when faced to impossible grids. */
 final class CrosswordSolverImpossibleGridTest {
 
     @Test

@@ -11,20 +11,19 @@ import java.util.function.Supplier;
 
 /**
  * A lazily evaluated value.
- * <p>
- * Difference with other Lazy implementations such as Vavr's is that retrieved value is stored in a
- * {@link SoftReference}, allowing the value to be garbage-collected under memory pressure, if no
- * strong reference on the value exists outside the Lazy instance.
- * <p>
- * This means that the value may be evaluated more than once, and thus that the given value supplier
- * will not be eligible to garbage-collection before the Lazy object is.
- * <p>
- * This class is not thread-safe. Internal synchronisation should be added in the future if
- * thread-safety becomes a concern.
+ *
+ * <p>Difference with other Lazy implementations such as Vavr's is that retrieved value is stored in a
+ * {@link SoftReference}, allowing the value to be garbage-collected under memory pressure, if no strong reference on
+ * the value exists outside the Lazy instance.
+ *
+ * <p>This means that the value may be evaluated more than once, and thus that the given value supplier will not be
+ * eligible to garbage-collection before the Lazy object is.
+ *
+ * <p>This class is not thread-safe. Internal synchronisation should be added in the future if thread-safety becomes a
+ * concern.
  *
  * @param <T> the value type
- * @see <a href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/Lazy.java">Vavr's
- * Lazy</a>
+ * @see <a href="https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/Lazy.java">Vavr's Lazy</a>
  */
 public final class Lazy<T> implements Supplier<T> {
 
@@ -48,7 +47,7 @@ public final class Lazy<T> implements Supplier<T> {
      * Creates a new {@link Lazy} value.
      *
      * @param supplierArg the value supplier
-     * @param <T>         the value type
+     * @param <T> the value type
      * @return a new {@link Lazy} value
      */
     public static <T> Lazy<T> of(final Supplier<T> supplierArg) {
@@ -64,8 +63,8 @@ public final class Lazy<T> implements Supplier<T> {
     /**
      * Retrieves the cached value.
      *
-     * @return the cached value; {@code null} if value has never been retrieved or has been
-     * garbage-collected since last retrieval
+     * @return the cached value; {@code null} if value has never been retrieved or has been garbage-collected since last
+     *     retrieval
      */
     private T cachedValue() {
         return cached != null ? cached.get() : null;

@@ -23,9 +23,7 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * Tests for {@link InMemoryPuzzleRepository}.
- */
+/** Tests for {@link InMemoryPuzzleRepository}. */
 final class InMemoryPuzzleRepositoryTest {
 
     /** The repository under tests. */

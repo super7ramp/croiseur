@@ -17,9 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Tests on classic Anglo-Saxon symmetric grids.
- */
+/** Tests on classic Anglo-Saxon symmetric grids. */
 final class CrosswordSolverSymmetricGridTest {
 
     /** The test dictionary. */

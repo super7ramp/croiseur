@@ -8,9 +8,7 @@ package re.belv.croiseur.puzzle.repository.filesystem.plugin;
 import java.nio.file.Path;
 import java.util.Optional;
 
-/**
- * Path to repository.
- */
+/** Path to repository. */
 final class PuzzleRepositoryPath {
 
     /** Private constructor to prevent instantiation. */

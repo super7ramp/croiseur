@@ -9,14 +9,10 @@ import static java.util.function.Predicate.not;
 
 import java.util.function.Predicate;
 
-/**
- * Common filters applied on dictionaries.
- */
+/** Common filters applied on dictionaries. */
 public final class StringFilters {
 
-    /**
-     * Private constructor, static utilities only.
-     */
+    /** Private constructor, static utilities only. */
     private StringFilters() {
         // Nothing to do.
     }
@@ -31,11 +27,9 @@ public final class StringFilters {
     }
 
     /**
-     * Returns a filter suitable to exclude dictionary entries containing characters outside range
-     * A-Z.
+     * Returns a filter suitable to exclude dictionary entries containing characters outside range A-Z.
      *
-     * @return a filter suitable to exclude dictionary entries containing characters outside range
-     * A-Z.
+     * @return a filter suitable to exclude dictionary entries containing characters outside range A-Z.
      */
     public static Predicate<String> hasOnlyCharactersInRangeAtoZ() {
         return s -> s.chars().allMatch(c -> c >= 'A' && c <= 'Z');

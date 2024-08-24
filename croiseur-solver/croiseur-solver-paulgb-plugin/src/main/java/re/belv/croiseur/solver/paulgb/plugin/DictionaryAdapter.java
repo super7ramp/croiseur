@@ -7,10 +7,7 @@ package re.belv.croiseur.solver.paulgb.plugin;
 
 import re.belv.croiseur.spi.solver.Dictionary;
 
-/**
- * Adapts {@link Dictionary} into Crossword Composer's
- * {@link re.belv.croiseur.solver.paulgb.Dictionary}.
- */
+/** Adapts {@link Dictionary} into Crossword Composer's {@link re.belv.croiseur.solver.paulgb.Dictionary}. */
 final class DictionaryAdapter {
 
     /** Private constructor - static utilities only. */
@@ -19,12 +16,10 @@ final class DictionaryAdapter {
     }
 
     /**
-     * Adapts {@link Dictionary} into Crossword Composer's
-     * {@link re.belv.croiseur.solver.paulgb.Dictionary}.
+     * Adapts {@link Dictionary} into Crossword Composer's {@link re.belv.croiseur.solver.paulgb.Dictionary}.
      *
      * @param dictionary a {@link Dictionary}
-     * @return Crossword Composer's
-     * {@link re.belv.croiseur.solver.paulgb.Dictionary}
+     * @return Crossword Composer's {@link re.belv.croiseur.solver.paulgb.Dictionary}
      */
     static re.belv.croiseur.solver.paulgb.Dictionary adapt(final Dictionary dictionary) {
         return new re.belv.croiseur.solver.paulgb.Dictionary(dictionary.words());

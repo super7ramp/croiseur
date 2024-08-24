@@ -8,25 +8,21 @@ package re.belv.croiseur.dictionary.hunspell.codec.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Additional collection utilities.
- */
+/** Additional collection utilities. */
 public final class MoreCollections {
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private MoreCollections() {
         // Nothing to do.
     }
 
     /**
      * Generates all the pairs of elements of given collection.
-     * <p>
-     * Example: [1,2,3] will give [(1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3)].
+     *
+     * <p>Example: [1,2,3] will give [(1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3)].
      *
      * @param collection the collection
-     * @param <T>        the type of elements
+     * @param <T> the type of elements
      * @return all the pairs of elements
      * @throws NullPointerException if given collection is {@code null}
      */
@@ -42,24 +38,23 @@ public final class MoreCollections {
 
     /**
      * Generates all the triplets of elements of the given collections.
-     * <p>
-     * Example:
+     *
+     * <p>Example:
+     *
      * <ul>
-     *     <li>Lefts: ["left1"}</li>
-     *     <li>Middles: ["middle1", "middle2", "middle3"]</li>
-     *     <li>Rights: ["right1", "right2"]</li>
-     *     <li>Result: [("left1", "middle1", "end1"), ("left1", "middle1", "right2"), ("left1",
-     *     "middle2", "right1"), ("left1", "middle2", "right2"), ("left1", "middle3", "right1"),
-     *     ("left1", "middle3", "right2")]
-     *     </li>
+     *   <li>Lefts: ["left1"}
+     *   <li>Middles: ["middle1", "middle2", "middle3"]
+     *   <li>Rights: ["right1", "right2"]
+     *   <li>Result: [("left1", "middle1", "end1"), ("left1", "middle1", "right2"), ("left1", "middle2", "right1"),
+     *       ("left1", "middle2", "right2"), ("left1", "middle3", "right1"), ("left1", "middle3", "right2")]
      * </ul>
      *
-     * @param lefts   the elements that can be on the left of the triplets
+     * @param lefts the elements that can be on the left of the triplets
      * @param middles the elements that can be in the middle of the triplets
-     * @param rights  the elements that can be on the right of the tripplets
-     * @param <L>     the type of the left elements
-     * @param <M>     the type of the middle elements
-     * @param <R>     the type of the right elements
+     * @param rights the elements that can be on the right of the tripplets
+     * @param <L> the type of the left elements
+     * @param <M> the type of the middle elements
+     * @param <R> the type of the right elements
      * @return all the triplets of elements
      * @throws NullPointerException if given collection is {@code null}
      */

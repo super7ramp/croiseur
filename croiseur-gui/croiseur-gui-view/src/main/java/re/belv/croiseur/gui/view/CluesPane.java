@@ -25,9 +25,7 @@ import javafx.scene.control.SelectionModel;
 import javafx.scene.layout.HBox;
 import re.belv.croiseur.gui.view.model.ClueViewModel;
 
-/**
- * Clues pane.
- */
+/** Clues pane. */
 public final class CluesPane extends HBox {
 
     /** The across clues. */
@@ -59,9 +57,7 @@ public final class CluesPane extends HBox {
     @FXML
     private ListView<ClueViewModel> downClueListView;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public CluesPane() {
         acrossClues = new SimpleListProperty<>(this, "acrossClues", FXCollections.observableArrayList());
         downClues = new SimpleListProperty<>(this, "downClues", FXCollections.observableArrayList());
@@ -93,8 +89,8 @@ public final class CluesPane extends HBox {
 
     /**
      * Returns the "selected across clue index" property.
-     * <p>
-     * Value is -1 if no across clue is selected.
+     *
+     * <p>Value is -1 if no across clue is selected.
      *
      * @return the "selected across clue index" property
      */
@@ -104,8 +100,8 @@ public final class CluesPane extends HBox {
 
     /**
      * Returns the "selected down clue index" property.
-     * <p>
-     * Value is -1 if no down clue is selected.
+     *
+     * <p>Value is -1 if no down clue is selected.
      *
      * @return the "selected down clue index" property
      */
@@ -133,9 +129,9 @@ public final class CluesPane extends HBox {
 
     /**
      * The "fill clue button hide" property.
-     * <p>
-     * Note that a {@code false} value does not imply the button will be visible. The fill clue
-     * button of a cell is visible when this property value is {@code false} and cell is selected.
+     *
+     * <p>Note that a {@code false} value does not imply the button will be visible. The fill clue button of a cell is
+     * visible when this property value is {@code false} and cell is selected.
      *
      * @return the "fill clue button hide" property.
      */
@@ -143,18 +139,14 @@ public final class CluesPane extends HBox {
         return fillClueButtonHide;
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeAcrossClueListView();
         initializeDownClueListView();
     }
 
-    /**
-     * Initializes across clue list view bindings.
-     */
+    /** Initializes across clue list view bindings. */
     private void initializeAcrossClueListView() {
         // model -> view
         acrossClueListView.setCellFactory(l -> newClueListCell());
@@ -169,9 +161,7 @@ public final class CluesPane extends HBox {
                 .addListener(this::updateAcrossModelSelectionUponViewSelectionIndexChange);
     }
 
-    /**
-     * Initializes down clue list view bindings.
-     */
+    /** Initializes down clue list view bindings. */
     private void initializeDownClueListView() {
         // model -> view
         downClueListView.setCellFactory(l -> newClueListCell());
@@ -222,21 +212,20 @@ public final class CluesPane extends HBox {
 
     /**
      * Clears view selection upon selected item deletion from model.
-     * <p>
-     * {@link ListView} has a non-trivial and non-customizable strategy to update the selection upon
-     * model modification. In particular, if the selected item is deleted, it will try to shift the
-     * selection to the previous row. This behaviour is <em>not</em> desirable here: Deleting a clue
-     * does <em>not</em> mean we want to select the previous clue.
-     * <p>
-     * This behaviour is particularly visible when binding slots selection to clue selection
-     * bi-directionally: Shading a box may delete a slot, which would delete a clue, which would
-     * make ListView select the previous clue, which would trigger the selection of the previous
-     * slot, which is definitely not desirable.
-     * <p>
-     * This method forces the list view to clear its selection when the selected item is deleted.
-     * This method must be registered first to the model.
      *
-     * @param c             the model change
+     * <p>{@link ListView} has a non-trivial and non-customizable strategy to update the selection upon model
+     * modification. In particular, if the selected item is deleted, it will try to shift the selection to the previous
+     * row. This behaviour is <em>not</em> desirable here: Deleting a clue does <em>not</em> mean we want to select the
+     * previous clue.
+     *
+     * <p>This behaviour is particularly visible when binding slots selection to clue selection bi-directionally:
+     * Shading a box may delete a slot, which would delete a clue, which would make ListView select the previous clue,
+     * which would trigger the selection of the previous slot, which is definitely not desirable.
+     *
+     * <p>This method forces the list view to clear its selection when the selected item is deleted. This method must be
+     * registered first to the model.
+     *
+     * @param c the model change
      * @param viewSelection the view selection to clear
      */
     private void clearViewSelectionUponItemDeletion(
@@ -277,7 +266,7 @@ public final class CluesPane extends HBox {
      * Updates view selection upon model change.
      *
      * @param modelNewSelectedIndex the model new selected index
-     * @param viewSelection         the view selection
+     * @param viewSelection the view selection
      */
     private void updateViewSelectionUponModelSelectionIndexChange(
             final int modelNewSelectedIndex, final SelectionModel<ClueViewModel> viewSelection) {
@@ -312,7 +301,7 @@ public final class CluesPane extends HBox {
      * Updates the model selection upon view selection change.
      *
      * @param modelSelectedIndex the model selection to update
-     * @param viewSelection      the view selection
+     * @param viewSelection the view selection
      * @param otherViewSelection the other view selection
      */
     private void updateModelSelectionUponViewSelectionIndexChange(

@@ -19,9 +19,7 @@ import re.belv.croiseur.gui.view.model.PuzzleCodecsViewModel;
 import re.belv.croiseur.gui.view.model.PuzzleEditionViewModel;
 import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 
-/**
- * The welcome screen controller.
- */
+/** The welcome screen controller. */
 final class WelcomeScreenController {
 
     /** The puzzle selection view model. */
@@ -51,11 +49,11 @@ final class WelcomeScreenController {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleEditionViewModel      the puzzle edition view model
-     * @param puzzleCodecsViewModelArg    the puzzle codecs view model
-     * @param puzzleService               the puzzle service
-     * @param sceneSwitcherArg            the scene switcher
-     * @param executor                    the background task executor
+     * @param puzzleEditionViewModel the puzzle edition view model
+     * @param puzzleCodecsViewModelArg the puzzle codecs view model
+     * @param puzzleService the puzzle service
+     * @param sceneSwitcherArg the scene switcher
+     * @param executor the background task executor
      */
     WelcomeScreenController(
             final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
@@ -73,9 +71,7 @@ final class WelcomeScreenController {
         sceneSwitcher = sceneSwitcherArg;
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeListViewBindings();
@@ -84,17 +80,13 @@ final class WelcomeScreenController {
         populateModels();
     }
 
-    /**
-     * Initializes bindings between the puzzle selection view model and the list view.
-     */
+    /** Initializes bindings between the puzzle selection view model and the list view. */
     private void initializeListViewBindings() {
         selectorView.recentPuzzles().set(puzzleSelectionViewModel.availablePuzzlesProperty());
         puzzleSelectionViewModel.selectedPuzzleProperty().bind(selectorView.selectedPuzzleProperty());
     }
 
-    /**
-     * Initializes the bindings related to file chooser.
-     */
+    /** Initializes the bindings related to file chooser. */
     private void initializeFileChooserBindings() {
         fileChooser.setTitle(resources.getString("import-filechooser-title"));
         puzzleCodecsViewModel.decodersProperty().addListener((InvalidationListener) observable -> {
@@ -105,9 +97,7 @@ final class WelcomeScreenController {
         });
     }
 
-    /**
-     * Initializes bindings between the controller and the view buttons.
-     */
+    /** Initializes bindings between the controller and the view buttons. */
     private void initializeButtonsBindings() {
         selectorView.onNewPuzzleButtonActionProperty().set(e -> onNewPuzzleButtonAction());
         selectorView.onOpenSelectedPuzzleButtonActionProperty().set(e -> onOpenPuzzleButtonAction());
@@ -116,16 +106,14 @@ final class WelcomeScreenController {
     }
 
     /**
-     * Action when 'new puzzle' button is pressed: Just switches to editor view (it is already
-     * loaded with a default crossword).
+     * Action when 'new puzzle' button is pressed: Just switches to editor view (it is already loaded with a default
+     * crossword).
      */
     private void onNewPuzzleButtonAction() {
         switchToEditorView();
     }
 
-    /**
-     * Action when 'import puzzle' button is pressed: Selects a file and import it.
-     */
+    /** Action when 'import puzzle' button is pressed: Selects a file and import it. */
     private void onImportPuzzleButtonAction() {
         final File selectedFile =
                 fileChooser.showOpenDialog(selectorView.getScene().getWindow());
@@ -138,31 +126,25 @@ final class WelcomeScreenController {
     }
 
     /**
-     * Action when the 'edit selected puzzle' button is pressed: Loads the selected puzzle in editor
-     * view then switches to editor view.
+     * Action when the 'edit selected puzzle' button is pressed: Loads the selected puzzle in editor view then switches
+     * to editor view.
      */
     private void onOpenPuzzleButtonAction() {
         puzzleController.loadSelectedPuzzle();
         switchToEditorView();
     }
 
-    /**
-     * Switches to editor view.
-     */
+    /** Switches to editor view. */
     private void switchToEditorView() {
         sceneSwitcher.switchToEditorView();
     }
 
-    /**
-     * Action when delete button is pressed: Deletes the selected puzzle from puzzle repository.
-     */
+    /** Action when delete button is pressed: Deletes the selected puzzle from puzzle repository. */
     private void onDeletePuzzleButtonAction() {
         puzzleController.deleteSelectedPuzzle();
     }
 
-    /**
-     * Populate view models by calling the {@link #puzzleController}.
-     */
+    /** Populate view models by calling the {@link #puzzleController}. */
     private void populateModels() {
         puzzleController.listPuzzles();
         puzzleController.listPuzzleDecoders();

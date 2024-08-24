@@ -14,9 +14,7 @@ import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.presenter.Presenter;
 
-/**
- * Implementation of {@link DictionaryService}.
- */
+/** Implementation of {@link DictionaryService}. */
 public final class DictionaryServiceImpl implements DictionaryService {
 
     /** The 'list dictionary providers' usecase. */
@@ -38,7 +36,7 @@ public final class DictionaryServiceImpl implements DictionaryService {
      * Constructs an instance.
      *
      * @param dictionaryProvidersArg the dictionary providers
-     * @param presenterArg           the presenter
+     * @param presenterArg the presenter
      */
     public DictionaryServiceImpl(
             final Collection<DictionaryProvider> dictionaryProvidersArg, final Presenter presenterArg) {

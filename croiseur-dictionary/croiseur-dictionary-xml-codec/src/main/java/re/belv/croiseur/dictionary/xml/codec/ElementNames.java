@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.dictionary.xml.codec;
 
-/**
- * Constant element names.
- */
+/** Constant element names. */
 final class ElementNames {
 
     /** {@code <locale>}'s name. */

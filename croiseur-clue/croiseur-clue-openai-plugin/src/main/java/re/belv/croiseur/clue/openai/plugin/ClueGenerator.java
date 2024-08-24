@@ -20,9 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-/**
- * Clue generator backed by OpenAI API.
- */
+/** Clue generator backed by OpenAI API. */
 final class ClueGenerator {
 
     /** Name of the environment variable storing the OpenAI API access key. */
@@ -43,9 +41,7 @@ final class ClueGenerator {
     /** The placeholder. */
     private final String placeholder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ClueGenerator() {
         final String token = System.getenv(OPENAI_API_KEY);
         openAiService =
@@ -60,7 +56,7 @@ final class ClueGenerator {
     /**
      * Extracts the clues from the generated completion.
      *
-     * @param words      the input words
+     * @param words the input words
      * @param completion the completion
      * @return the clues extracted from the completion
      */
@@ -113,20 +109,22 @@ final class ClueGenerator {
 
     /**
      * Creates prompt.
-     * <p>
-     * Prompt is like this:
+     *
+     * <p>Prompt is like this:
+     *
      * <ul>
-     *     <li>System: ${system_message}</li>
-     *     <li>User: ${user_message_header}/li>
-     *     <li>User:
-     *         <ul>
-     *             <li>${word1}:${placeholder}</li>
-     *             <li>${word2}:${placeholder}</li>
-     *            <li>...</li>
-     *         </ul>
-     *    </li>
+     *   <li>System: ${system_message}
+     *   <li>User: ${user_message_header}/li>
+     *   <li>User:
+     *       <ul>
+     *         <li>${word1}:${placeholder}
+     *         <li>${word2}:${placeholder}
+     *         <li>...
+     *       </ul>
      * </ul>
+     *
      * Example:
+     *
      * <pre>
      * System: You are Shakespeare
      * User: Define the following words, without naming them, in less than 5 words

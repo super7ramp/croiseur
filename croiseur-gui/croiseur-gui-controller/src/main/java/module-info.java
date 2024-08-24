@@ -5,8 +5,8 @@
 
 /**
  * Controller submodule of croiseur-gui.
- * <p>
- * Calls croiseur service upon croiseur-gui-view events.
+ *
+ * <p>Calls croiseur service upon croiseur-gui-view events.
  */
 module re.belv.croiseur.gui.controller {
     requires transitive re.belv.croiseur;

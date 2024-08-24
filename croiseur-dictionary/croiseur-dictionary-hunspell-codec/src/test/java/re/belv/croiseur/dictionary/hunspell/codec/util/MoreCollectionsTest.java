@@ -12,9 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on {@link MoreCollections}.
- */
+/** Tests on {@link MoreCollections}. */
 final class MoreCollectionsTest {
 
     @Test

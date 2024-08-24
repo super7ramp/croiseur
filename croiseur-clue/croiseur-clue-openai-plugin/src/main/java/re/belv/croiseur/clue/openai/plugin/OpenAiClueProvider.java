@@ -10,9 +10,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import re.belv.croiseur.spi.clue.ClueProvider;
 
-/**
- * {@link ClueProvider} implementation for {@link ClueGenerator}.
- */
+/** {@link ClueProvider} implementation for {@link ClueGenerator}. */
 public final class OpenAiClueProvider implements ClueProvider {
 
     /** The provider name. */
@@ -21,9 +19,7 @@ public final class OpenAiClueProvider implements ClueProvider {
     /** The actual provider, lazily initialized. */
     private ClueGenerator clueGenerator;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public OpenAiClueProvider() {
         // Nothing to do.
     }

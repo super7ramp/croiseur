@@ -14,7 +14,7 @@ import java.util.Objects;
  * Crossword puzzle clues.
  *
  * @param across the clues for the across (= horizontal) slots
- * @param down   the clues for the down (= vertical) slots
+ * @param down the clues for the down (= vertical) slots
  */
 public record PuzzleClues(List<String> across, List<String> down) {
 
@@ -25,7 +25,7 @@ public record PuzzleClues(List<String> across, List<String> down) {
      * Validates fields.
      *
      * @param across the clues for the across (= horizontal) slots
-     * @param down   the clues for the down (= vertical) slots
+     * @param down the clues for the down (= vertical) slots
      */
     public PuzzleClues {
         Objects.requireNonNull(across);
@@ -36,7 +36,7 @@ public record PuzzleClues(List<String> across, List<String> down) {
      * Creates a new {@link PuzzleClues} from the given puzzle grid and given clues.
      *
      * @param clues the clues
-     * @param grid  the grid
+     * @param grid the grid
      * @return a new {@link PuzzleClues}
      */
     public static PuzzleClues from(final Map<String, String> clues, final PuzzleGrid grid) {

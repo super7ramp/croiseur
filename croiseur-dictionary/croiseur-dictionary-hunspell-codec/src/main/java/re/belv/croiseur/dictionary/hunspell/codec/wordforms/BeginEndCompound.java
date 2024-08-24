@@ -13,14 +13,14 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
  * A simple compound composed of two dictionary entries.
  *
  * @param begin the dictionary entry for the begin part
- * @param end   the dictionary entry for the end part
+ * @param end the dictionary entry for the end part
  */
 record BeginEndCompound(DicEntry begin, DicEntry end) {
 
     /**
      * Returns the flags of left part dictionary entry.
-     * <p>
-     * Shortcut for {@code left().flags()}.
+     *
+     * <p>Shortcut for {@code left().flags()}.
      *
      * @return the flags of left part dictionary entry
      */
@@ -30,8 +30,8 @@ record BeginEndCompound(DicEntry begin, DicEntry end) {
 
     /**
      * Returns the flags of right part dictionary entry.
-     * <p>
-     * Shortcut for {@code right().flags()}.
+     *
+     * <p>Shortcut for {@code right().flags()}.
      *
      * @return the flags of right part dictionary entry
      */

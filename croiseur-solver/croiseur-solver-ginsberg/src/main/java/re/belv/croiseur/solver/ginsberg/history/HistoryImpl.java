@@ -10,9 +10,7 @@ import java.util.Map;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Implementation of {@link History}.
- */
+/** Implementation of {@link History}. */
 final class HistoryImpl implements HistoryWriter {
 
     /** Ages for each assignment. */
@@ -21,9 +19,7 @@ final class HistoryImpl implements HistoryWriter {
     /** The number of assignments so far. */
     private long assignmentNumber;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     HistoryImpl() {
         assignmentNumbers = new HashMap<>();
     }

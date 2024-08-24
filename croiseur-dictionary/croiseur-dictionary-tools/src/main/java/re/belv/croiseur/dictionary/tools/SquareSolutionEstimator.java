@@ -19,13 +19,14 @@ import re.belv.croiseur.dictionary.common.StringTransformers;
 
 /**
  * Estimates the number of solutions for a square grid of given size n and a given dictionary.
- * <p>
- * The estimation comes from Chris Long's 1992 paper "Mathematics of Square Construction" and is:
- * <em>{@literal E = W^(2n) * p^(n^2))}</em> where:
+ *
+ * <p>The estimation comes from Chris Long's 1992 paper "Mathematics of Square Construction" and is: <em>{@literal E =
+ * W^(2n) * p^(n^2))}</em> where:
+ *
  * <ul>
- *     <li>n is the size of the square grid</li>
- *     <li>W is the number of words of size n in the dictionary</li>
- *     <li>p = f(a)^2 + f(b)^2 + ... + f(z)^2 where f(*) is the frequency of letter * in the word list.
+ *   <li>n is the size of the square grid
+ *   <li>W is the number of words of size n in the dictionary
+ *   <li>p = f(a)^2 + f(b)^2 + ... + f(z)^2 where f(*) is the frequency of letter * in the word list.
  * </ul>
  */
 public final class SquareSolutionEstimator implements Callable<SquareSolutionEstimator.EstimationSummary> {
@@ -33,9 +34,9 @@ public final class SquareSolutionEstimator implements Callable<SquareSolutionEst
     /**
      * The summary of the estimation of the number of solutions for a square grid.
      *
-     * @param estimation                the estimation itself (E)
-     * @param squareSize                the square size (n)
-     * @param numberOfWords             the number of words in the dictionary (W)
+     * @param estimation the estimation itself (E)
+     * @param squareSize the square size (n)
+     * @param numberOfWords the number of words in the dictionary (W)
      * @param letterFrequenciesPowerSum the power sum of letter frequencies in dictionary (p)
      */
     public record EstimationSummary(
@@ -57,7 +58,7 @@ public final class SquareSolutionEstimator implements Callable<SquareSolutionEst
      * Constructs an instance.
      *
      * @param wordsArg the words for which to compute the score
-     * @param sizeArg  the size of the square grid
+     * @param sizeArg the size of the square grid
      */
     SquareSolutionEstimator(final List<String> wordsArg, final int sizeArg) {
         words = wordsArg.stream()
@@ -100,10 +101,10 @@ public final class SquareSolutionEstimator implements Callable<SquareSolutionEst
     }
 
     /**
-     * Computes the estimated number of solutions for square grids of sizes 5, 6, 7 with the
-     * dictionary whose path is given as argument.
-     * <p>
-     * Usage: {@code scorer path/to/wordlist.txt}.
+     * Computes the estimated number of solutions for square grids of sizes 5, 6, 7 with the dictionary whose path is
+     * given as argument.
+     *
+     * <p>Usage: {@code scorer path/to/wordlist.txt}.
      *
      * @param args arguments
      */

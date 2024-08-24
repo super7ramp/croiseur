@@ -15,9 +15,7 @@ import re.belv.croiseur.spi.presenter.Presenter;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
 
-/**
- * CLI implementation of {@link Presenter}.
- */
+/** CLI implementation of {@link Presenter}. */
 final class CliCluePresenter implements CluePresenter {
 
     /** Providers output format. */
@@ -26,9 +24,7 @@ final class CliCluePresenter implements CluePresenter {
     /** Clue presentation format. */
     private static final String CLUE_FORMAT = $("clue-format");
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     CliCluePresenter() {
         // Nothing to do.
     }

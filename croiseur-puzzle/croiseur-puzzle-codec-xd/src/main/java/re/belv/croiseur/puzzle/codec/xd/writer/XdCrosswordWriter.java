@@ -14,9 +14,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 
-/**
- * Encodes {@link XdCrossword} to its textual representation.
- */
+/** Encodes {@link XdCrossword} to its textual representation. */
 public final class XdCrosswordWriter {
 
     /** The section delimiter. */
@@ -31,9 +29,7 @@ public final class XdCrosswordWriter {
     /** The clues writer. */
     private final XdCluesWriter cluesWriter;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public XdCrosswordWriter() {
         metadataWriter = new XdMetadataWriter();
         gridWriter = new XdGridWriter();
@@ -60,9 +56,9 @@ public final class XdCrosswordWriter {
      * Writes the given crossword to a file at given path.
      *
      * @param crossword the crossword to write
-     * @param path      the path of the file to write
+     * @param path the path of the file to write
      * @throws NullPointerException if given crossword or any of its fields is {@code null}
-     * @throws IOException          if an I/O error occurs when writing the text to file
+     * @throws IOException if an I/O error occurs when writing the text to file
      */
     public void write(final XdCrossword crossword, final Path path) throws IOException {
         Objects.requireNonNull(path);
@@ -74,7 +70,7 @@ public final class XdCrosswordWriter {
     /**
      * Writes the given crossword to a given output stream.
      *
-     * @param crossword    the crossword to write
+     * @param crossword the crossword to write
      * @param outputStream where to write the crossword
      * @throws NullPointerException if any of the arguments is {@code null}
      */

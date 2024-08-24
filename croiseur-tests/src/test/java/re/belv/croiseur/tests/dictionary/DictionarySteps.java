@@ -24,9 +24,7 @@ import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to the {@link DictionaryService}.
- */
+/** Steps pertaining to the {@link DictionaryService}. */
 public final class DictionarySteps {
 
     /** The dictionary service. */

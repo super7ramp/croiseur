@@ -15,8 +15,8 @@ import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
 /**
  * Implementation of {@link Slot}.
- * <p>
- * Just a view above {@link SlotData}.
+ *
+ * <p>Just a view above {@link SlotData}.
  */
 final class SlotImpl implements InternalSlot {
 
@@ -32,7 +32,7 @@ final class SlotImpl implements InternalSlot {
     /**
      * Constructor.
      *
-     * @param anUid    a {@link SlotIdentifier}
+     * @param anUid a {@link SlotIdentifier}
      * @param someData raw data access
      */
     SlotImpl(final SlotIdentifier anUid, final SlotData someData, final Connectivity connectivityArg) {

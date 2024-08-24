@@ -5,16 +5,14 @@
 
 package re.belv.croiseur.puzzle.codec.xd.reader;
 
-/**
- * Exception raised when failing to read metadata.
- */
+/** Exception raised when failing to read metadata. */
 public final class XdMetadataReadException extends XdReadException {
 
     /**
      * Constructs an instance.
      *
-     * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-     *              value is permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null value is permitted,
+     *     and indicates that the cause is nonexistent or unknown.)
      */
     XdMetadataReadException(final Throwable cause) {
         super(cause);

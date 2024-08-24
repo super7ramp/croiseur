@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * An elimination.
  *
- * @param <VariableT>          the eliminated variable type
+ * @param <VariableT> the eliminated variable type
  * @param <EliminationReasonT> the elimination reasons
  */
 // FIXME EliminationReasonT should be VariableT, clarify Slot vs. SlotIdentifier usage

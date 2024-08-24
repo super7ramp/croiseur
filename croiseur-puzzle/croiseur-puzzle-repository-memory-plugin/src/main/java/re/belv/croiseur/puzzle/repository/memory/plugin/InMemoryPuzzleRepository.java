@@ -17,9 +17,7 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * An implementation of {@link PuzzleRepository} whose storage is purely in memory.
- */
+/** An implementation of {@link PuzzleRepository} whose storage is purely in memory. */
 public final class InMemoryPuzzleRepository implements PuzzleRepository {
 
     /** The free and used ids. */
@@ -28,9 +26,7 @@ public final class InMemoryPuzzleRepository implements PuzzleRepository {
     /** The stored puzzles. */
     private final Map<Long, SavedPuzzle> puzzles;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public InMemoryPuzzleRepository() {
         puzzles = new HashMap<>();
         availableIds = new BitSet();

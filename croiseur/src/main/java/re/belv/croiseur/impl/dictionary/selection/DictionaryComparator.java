@@ -11,32 +11,27 @@ import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 
 /**
  * Compares dictionaries by preference.
- * <p>
- * The smaller, the more preferred.
- * <p>
- * The criteria used to compare dictionaries are, by order of preference:
+ *
+ * <p>The smaller, the more preferred.
+ *
+ * <p>The criteria used to compare dictionaries are, by order of preference:
+ *
  * <ul>
- *     <li>Locale: Dictionary matching system's locale (language + country) is preferred over
- *     one which doesn't;</li>
- *     <li>Language: Dictionary matching system's language is preferred over one which doesn't;
- *     </li>
- *     <li>Fallback language: Dictionary matching English language is preferred over one which
- *     doesn't;</li>
- *     <li>Provider: Dictionary of provider "Local XML Provider" is preferred over one of another
- *     type;</li>
- *     <li>Name: Dictionary whose dictionary identifier string representation is smaller (in
- *     lexicographical sense) is preferred. (This is not a relevant criterion, it is used to
- *     guarantee the dictionary list can be completely sorted, assuming that identifiers are
- *     unique.)</li>
+ *   <li>Locale: Dictionary matching system's locale (language + country) is preferred over one which doesn't;
+ *   <li>Language: Dictionary matching system's language is preferred over one which doesn't;
+ *   <li>Fallback language: Dictionary matching English language is preferred over one which doesn't;
+ *   <li>Provider: Dictionary of provider "Local XML Provider" is preferred over one of another type;
+ *   <li>Name: Dictionary whose dictionary identifier string representation is smaller (in lexicographical sense) is
+ *       preferred. (This is not a relevant criterion, it is used to guarantee the dictionary list can be completely
+ *       sorted, assuming that identifiers are unique.)
  * </ul>
- * Concerning locale criterion: The system locale at construction time is used. It means that this comparator
- * shouldn't be cached if changing locale support is a requirement.
+ *
+ * Concerning locale criterion: The system locale at construction time is used. It means that this comparator shouldn't
+ * be cached if changing locale support is a requirement.
  */
 public final class DictionaryComparator implements Comparator<ProvidedDictionaryDetails> {
 
-    /**
-     * Comparator for dictionary locales.
-     */
+    /** Comparator for dictionary locales. */
     private static final class LocaleComparator implements Comparator<Locale> {
 
         /** The English language. */
@@ -48,9 +43,7 @@ public final class DictionaryComparator implements Comparator<ProvidedDictionary
         /** The default system language. */
         private final String defaultSystemLanguage;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         LocaleComparator() {
             defaultSystemLocale = Locale.getDefault();
             defaultSystemLanguage = defaultSystemLocale.getLanguage();
@@ -87,18 +80,14 @@ public final class DictionaryComparator implements Comparator<ProvidedDictionary
         }
     }
 
-    /**
-     * Comparator for dictionary providers.
-     */
+    /** Comparator for dictionary providers. */
     private static final class ProviderNameComparator implements Comparator<String> {
 
         /** The name of the preferred dictionary. */
         // TODO to be passed by configuration
         private static final String PREFERRED_PROVIDER = "Local XML Provider";
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         ProviderNameComparator() {
             // Nothing to do.
         }
@@ -121,9 +110,7 @@ public final class DictionaryComparator implements Comparator<ProvidedDictionary
     /** The comparator of dictionary provider. */
     private final ProviderNameComparator providerNameComparator;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public DictionaryComparator() {
         localeComparator = new LocaleComparator();
         providerNameComparator = new ProviderNameComparator();

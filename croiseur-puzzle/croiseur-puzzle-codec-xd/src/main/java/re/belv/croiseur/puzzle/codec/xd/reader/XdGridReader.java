@@ -10,17 +10,13 @@ import static re.belv.croiseur.puzzle.codec.xd.model.XdGrid.Index.at;
 import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
-/**
- * Parses text to {@link XdGrid}.
- */
+/** Parses text to {@link XdGrid}. */
 final class XdGridReader {
 
     /** The grid model builder. */
     private final XdGrid.Builder builder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdGridReader() {
         builder = new XdGrid.Builder();
     }

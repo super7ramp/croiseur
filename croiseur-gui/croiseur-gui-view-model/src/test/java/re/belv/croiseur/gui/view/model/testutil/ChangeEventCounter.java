@@ -7,9 +7,7 @@ package re.belv.croiseur.gui.view.model.testutil;
 
 import javafx.beans.value.ObservableValue;
 
-/**
- * A util for counting change events.
- */
+/** A util for counting change events. */
 public final class ChangeEventCounter<T> {
 
     private int count;

@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.cli.presenter;
 
-/**
- * Some presentation utility methods.
- */
+/** Some presentation utility methods. */
 final class CliPresenterUtil {
 
     /** Private constructor, static utilities only. */

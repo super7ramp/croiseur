@@ -15,9 +15,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.util.Callback;
 
-/**
- * The clues view model: Represents all the clues of the grid.
- */
+/** The clues view model: Represents all the clues of the grid. */
 public final class CluesViewModel {
 
     /** The names of the available clue providers. */
@@ -38,9 +36,7 @@ public final class CluesViewModel {
     /** Whether the clue service is running. */
     private final BooleanProperty clueServiceIsRunning;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     CluesViewModel() {
         clueProviders = new SimpleListProperty<>(this, "clueProviders", FXCollections.observableArrayList());
 
@@ -85,8 +81,8 @@ public final class CluesViewModel {
 
     /**
      * The selected across clue index property.
-     * <p>
-     * Value is -1 if no across clue is selected.
+     *
+     * <p>Value is -1 if no across clue is selected.
      *
      * @return the selected across clue index property
      */
@@ -112,9 +108,7 @@ public final class CluesViewModel {
         selectedAcrossClueIndex.set(value);
     }
 
-    /**
-     * Sets the value of the selected across clue index property to -1.
-     */
+    /** Sets the value of the selected across clue index property to -1. */
     public void deselectAcrossClue() {
         selectedAcrossClueIndex.set(-1);
     }
@@ -141,8 +135,8 @@ public final class CluesViewModel {
 
     /**
      * The selected down clue index property.
-     * <p>
-     * Value is -1 if no down clue is selected.
+     *
+     * <p>Value is -1 if no down clue is selected.
      *
      * @return the selected down clue index property
      */
@@ -168,16 +162,12 @@ public final class CluesViewModel {
         selectedDownClueIndex.set(value);
     }
 
-    /**
-     * Sets the value of the selected down clue index property to -1.
-     */
+    /** Sets the value of the selected down clue index property to -1. */
     public void deselectDownClue() {
         selectedDownClueIndex.set(-1);
     }
 
-    /**
-     * Resets all clues to empty strings.
-     */
+    /** Resets all clues to empty strings. */
     public void reset() {
         acrossClues.forEach(ClueViewModel::reset);
         deselectAcrossClue();

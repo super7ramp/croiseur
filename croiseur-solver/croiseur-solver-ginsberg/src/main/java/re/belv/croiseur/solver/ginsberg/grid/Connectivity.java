@@ -9,9 +9,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Connectivity between slots.
- */
+/** Connectivity between slots. */
 interface Connectivity extends BiPredicate<SlotIdentifier, SlotIdentifier> {
 
     /**

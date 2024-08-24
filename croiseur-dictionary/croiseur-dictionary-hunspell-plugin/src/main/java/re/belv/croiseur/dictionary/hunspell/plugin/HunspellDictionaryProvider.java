@@ -17,9 +17,7 @@ import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Hunspell dictionary provider.
- */
+/** Hunspell dictionary provider. */
 public final class HunspellDictionaryProvider implements DictionaryProvider {
 
     /** Details about the dictionary provider. */
@@ -28,9 +26,7 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public HunspellDictionaryProvider() {
         details = new DictionaryProviderDetails(
                 "Local Hunspell Provider", "Provides access to local dictionaries in the Hunspell format.");
@@ -51,12 +47,10 @@ public final class HunspellDictionaryProvider implements DictionaryProvider {
     }
 
     /**
-     * Returns the given file's URL, or {@code null} if file location cannot be expressed with a
-     * URL.
+     * Returns the given file's URL, or {@code null} if file location cannot be expressed with a URL.
      *
      * @param file the file
-     * @return the given file's URL, or {@code null} if file location cannot be expressed with a
-     * URL.
+     * @return the given file's URL, or {@code null} if file location cannot be expressed with a URL.
      */
     private static URL urlFrom(File file) {
         // FIXME Not great, maybe drop entirely URL from reader's API and work with File only

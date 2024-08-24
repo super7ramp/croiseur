@@ -15,9 +15,7 @@ import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 import re.belv.croiseur.spi.solver.Dictionary;
 
-/**
- * Dictionary loader.
- */
+/** Dictionary loader. */
 public final class DictionaryLoader {
 
     /** The actual dictionary providers. */
@@ -33,8 +31,8 @@ public final class DictionaryLoader {
     }
 
     /**
-     * Loads and aggregates requested dictionaries into a single {@link Dictionary} suitable for
-     * solver, if any dictionary found.
+     * Loads and aggregates requested dictionaries into a single {@link Dictionary} suitable for solver, if any
+     * dictionary found.
      *
      * @param dictionaries the ids of the requested dictionaries
      * @return the dictionary, aggregating all the requested dictionaries, if any found

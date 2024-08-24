@@ -18,8 +18,8 @@ import re.belv.croiseur.dictionary.hunspell.codec.util.Pair;
 
 /**
  * Creates compounds based on the compound flag option.
- * <p>
- * Every entry referencing the compound flag can be compounded with each other, in any order.
+ *
+ * <p>Every entry referencing the compound flag can be compounded with each other, in any order.
  */
 final class BeginEndCompounder implements Compounder {
 
@@ -33,7 +33,7 @@ final class BeginEndCompounder implements Compounder {
      * Creates an instance.
      *
      * @param compoundFlagArg the compound flag
-     * @param affixerArg      the affixer
+     * @param affixerArg the affixer
      */
     BeginEndCompounder(final Flag compoundFlagArg, final Affixer affixerArg) {
         compoundFlag = compoundFlagArg;
@@ -54,11 +54,11 @@ final class BeginEndCompounder implements Compounder {
 
     /**
      * Creates the compound from the given parts.
-     * <p>
-     * The created compounded is added to the accumulator.
+     *
+     * <p>The created compounded is added to the accumulator.
      *
      * @param compoundParts the compound parts
-     * @param accumulator   the accumulator where the compound is added
+     * @param accumulator the accumulator where the compound is added
      * @return the created compound
      */
     private BeginEndCompound compound(
@@ -71,7 +71,7 @@ final class BeginEndCompounder implements Compounder {
     /**
      * Applies the affixes on the given compound.
      *
-     * @param compound    the compound
+     * @param compound the compound
      * @param accumulator the accumulator where the compound is added.
      */
     private void applyAffixes(final BeginEndCompound compound, final Consumer<String> accumulator) {

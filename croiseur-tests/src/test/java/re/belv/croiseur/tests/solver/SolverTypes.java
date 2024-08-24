@@ -9,14 +9,10 @@ import io.cucumber.java.DataTableType;
 import java.util.Map;
 import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 
-/**
- * Datatable and parameter types pertaining to solver service.
- */
+/** Datatable and parameter types pertaining to solver service. */
 public final class SolverTypes {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SolverTypes() {
         // Nothing to do.
     }

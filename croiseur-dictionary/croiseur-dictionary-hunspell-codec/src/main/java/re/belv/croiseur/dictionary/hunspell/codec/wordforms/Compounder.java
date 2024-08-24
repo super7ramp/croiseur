@@ -10,9 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
-/**
- * Creates compounds from the given entries.
- */
+/** Creates compounds from the given entries. */
 interface Compounder extends Function<Collection<DicEntry>, Stream<String>> {
     // Marker interface
 }

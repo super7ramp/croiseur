@@ -14,23 +14,19 @@ import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * The list-solvers usecase.
- */
+/** The list-solvers usecase. */
 final class ListSolversUsecase {
 
     /**
-     * Compares solver name by their name: Just the default order except if given name is the
-     * preferred one which is always considered as the lowest (hence the first).
+     * Compares solver name by their name: Just the default order except if given name is the preferred one which is
+     * always considered as the lowest (hence the first).
      */
     private static final class SolverNameComparator implements Comparator<String> {
 
         /** The preferred known solver. */
         private static final String PREFERRED_SOLVER = "Ginsberg";
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         SolverNameComparator() {
             // Nothing to do.
         }
@@ -64,7 +60,7 @@ final class ListSolversUsecase {
     /**
      * Constructs an instance.
      *
-     * @param solversArg   the solvers
+     * @param solversArg the solvers
      * @param presenterArg the presenter
      */
     ListSolversUsecase(final Collection<CrosswordSolver> solversArg, final SolverPresenter presenterArg) {
@@ -75,9 +71,7 @@ final class ListSolversUsecase {
         presenter = presenterArg;
     }
 
-    /**
-     * Processes the list solvers command.
-     */
+    /** Processes the list solvers command. */
     void process() {
         if (solvers.isEmpty()) {
             presenter.presentSolverError("No solver found");

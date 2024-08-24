@@ -9,9 +9,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 
-/**
- * Delete selected puzzle task.
- */
+/** Delete selected puzzle task. */
 final class DeleteSelectedPuzzleTask extends Task<Void> {
 
     /** The selected puzzle id. */
@@ -24,7 +22,7 @@ final class DeleteSelectedPuzzleTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModel the puzzle selection view model
-     * @param puzzlePersistenceServiceArg         the puzzle service
+     * @param puzzlePersistenceServiceArg the puzzle service
      */
     public DeleteSelectedPuzzleTask(
             final PuzzleSelectionViewModel puzzleSelectionViewModel,

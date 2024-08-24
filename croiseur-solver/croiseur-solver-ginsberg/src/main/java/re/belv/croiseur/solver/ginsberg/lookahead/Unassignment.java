@@ -7,9 +7,7 @@ package re.belv.croiseur.solver.ginsberg.lookahead;
 
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Represents the unassignment of a slot.
- */
+/** Represents the unassignment of a slot. */
 public interface Unassignment {
 
     /**

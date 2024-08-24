@@ -16,36 +16,34 @@ import java.util.stream.Stream;
 import re.belv.croiseur.dictionary.common.StringTransformers;
 
 /**
- * For a given word list, computes a score corresponding to the capability of the words to cross
- * with each other: A <em>crossability</em> score.
- * <p>
- * This score corresponds to the cumulated sum of the number of crossings between word pairs divided
- * by the number of pairs.
- * <p>
- * Example: "HELLO", "CROSS", "WORLD" will return 2.0 (6.0/3.0) because there are 6 ways to cross
- * word pairs on a total of 3 word pairs.
+ * For a given word list, computes a score corresponding to the capability of the words to cross with each other: A
+ * <em>crossability</em> score.
+ *
+ * <p>This score corresponds to the cumulated sum of the number of crossings between word pairs divided by the number of
+ * pairs.
+ *
+ * <p>Example: "HELLO", "CROSS", "WORLD" will return 2.0 (6.0/3.0) because there are 6 ways to cross word pairs on a
+ * total of 3 word pairs.
  *
  * <ul>
- * <li>HELLO and CROSS:
- * <pre>
+ *   <li>HELLO and CROSS:
+ *       <pre>
  *             |C|
  *             |R|
  *     |H|E|L|L|O|
  *             |S|
  *             |S|
  * </pre>
- * </li>
- * <li>HELLO and WORLD:
- * <pre>
+ *   <li>HELLO and WORLD:
+ *       <pre>
  *        |W|             |W|             |W|
  *        |O|             |O|     |H|E|L|L|O|
  *        |R|             |R|             |R|
  *    |H|E|L|L|O|   |H|E|L|L|O|           |L|
  *        |D|             |D|             |D|
  * </pre>
- * </li>
- * <li>CROSS and WORLD:
- * <pre>
+ *   <li>CROSS and WORLD:
+ *       <pre>
  *        |W|            |W|
  *        |O|        |C|R|O|S|S|
  *      |C|R|O|S|S|      |R|
@@ -53,7 +51,6 @@ import re.belv.croiseur.dictionary.common.StringTransformers;
  *        |D|            |D|
  *
  * </pre>
- * </li>
  * </ul>
  */
 public final class BasicScorer implements Callable<Double> {

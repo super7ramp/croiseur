@@ -21,9 +21,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-/**
- * A pane to edit puzzle details.
- */
+/** A pane to edit puzzle details. */
 public final class PuzzlePane extends Accordion {
 
     /** The various text fields. No specific validation. */
@@ -42,9 +40,7 @@ public final class PuzzlePane extends Accordion {
     @FXML
     private Button backToSelectionButton;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public PuzzlePane() {
         FxmlLoaderHelper.load(this, ResourceBundle.getBundle(getClass().getName()));
     }
@@ -87,11 +83,10 @@ public final class PuzzlePane extends Accordion {
 
     /**
      * Returns the date property.
-     * <p>
-     * Watch out: Expected date format is {@link DatePicker#converterProperty() DatePicker}'s
-     * default one. Supporting a different formatter would require changes in this class (likely
-     * exposing date formatter as a property) as well as in client classes (likely bind date
-     * formatter property with view model).
+     *
+     * <p>Watch out: Expected date format is {@link DatePicker#converterProperty() DatePicker}'s default one. Supporting
+     * a different formatter would require changes in this class (likely exposing date formatter as a property) as well
+     * as in client classes (likely bind date formatter property with view model).
      *
      * @return the date property
      */
@@ -110,10 +105,9 @@ public final class PuzzlePane extends Accordion {
 
     /**
      * The export button disable property.
-     * <p>
-     * Allows to disable specifically the export button. Note that global {@link #disableProperty()}
-     * takes precedence (i.e. if {@link #disableProperty()} is {@code true} then the button will be
-     * effectively disabled).
+     *
+     * <p>Allows to disable specifically the export button. Note that global {@link #disableProperty()} takes precedence
+     * (i.e. if {@link #disableProperty()} is {@code true} then the button will be effectively disabled).
      *
      * @return the export button disable property
      */
@@ -130,18 +124,14 @@ public final class PuzzlePane extends Accordion {
         return backToSelectionButton.onActionProperty();
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeTitledPanes();
         initializeDatePicker();
     }
 
-    /**
-     * Initializes titled panes: Make sure always one titled pane is expanded.
-     */
+    /** Initializes titled panes: Make sure always one titled pane is expanded. */
     private void initializeTitledPanes() {
         expandedPaneProperty().addListener((observable, oldValue, newValue) -> {
             final boolean hasExpanded = getPanes().stream().anyMatch(TitledPane::isExpanded);
@@ -153,9 +143,8 @@ public final class PuzzlePane extends Accordion {
     }
 
     /**
-     * Initializes date picker: Since text field is not editable (to avoid the validation it would
-     * require) and picker does not have a button to reset the value, allow to clear the text field
-     * using backspace and delete keys.
+     * Initializes date picker: Since text field is not editable (to avoid the validation it would require) and picker
+     * does not have a button to reset the value, allow to clear the text field using backspace and delete keys.
      */
     private void initializeDatePicker() {
         date.addEventFilter(KeyEvent.KEY_PRESSED, e -> {

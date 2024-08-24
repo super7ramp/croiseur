@@ -18,9 +18,7 @@ import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to the {@link ClueService}.
- */
+/** Steps pertaining to the {@link ClueService}. */
 public final class ClueSteps {
 
     /** The clue service. */

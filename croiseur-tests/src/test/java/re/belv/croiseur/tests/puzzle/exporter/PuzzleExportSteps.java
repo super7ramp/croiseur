@@ -17,9 +17,7 @@ import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to the {@link PuzzleExportService}.
- */
+/** Steps pertaining to the {@link PuzzleExportService}. */
 public final class PuzzleExportSteps {
 
     /** The puzzle export service. */

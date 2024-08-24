@@ -9,9 +9,7 @@ import java.util.Objects;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- * The clues view model: Represents a single clue in the grid.
- */
+/** The clues view model: Represents a single clue in the grid. */
 public final class ClueViewModel {
 
     /** The clue, as entered by the user. */
@@ -20,9 +18,7 @@ public final class ClueViewModel {
     /** The clue, as determined by the system. */
     private final StringProperty systemContent;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ClueViewModel() {
         this("");
     }
@@ -95,9 +91,7 @@ public final class ClueViewModel {
         systemContent.set(value);
     }
 
-    /**
-     * Resets both user and system content to an empty string.
-     */
+    /** Resets both user and system content to an empty string. */
     public void reset() {
         userContent.set("");
         systemContent.set("");

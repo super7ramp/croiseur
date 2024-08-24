@@ -23,9 +23,7 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Implementation of {@link CrosswordService}.
- */
+/** Implementation of {@link CrosswordService}. */
 public final class CrosswordServiceImpl implements CrosswordService {
 
     /** Dictionary service. */
@@ -44,12 +42,12 @@ public final class CrosswordServiceImpl implements CrosswordService {
      * Constructor.
      *
      * @param dictionaryProviders the dictionary providers
-     * @param solvers             the solvers
-     * @param clueProviders       the clue providers
-     * @param puzzleDecoders      the puzzle decoders
-     * @param puzzleEncoders      the puzzle encoders
-     * @param puzzleRepository    the puzzle repository
-     * @param presenter           the publisher
+     * @param solvers the solvers
+     * @param clueProviders the clue providers
+     * @param puzzleDecoders the puzzle decoders
+     * @param puzzleEncoders the puzzle encoders
+     * @param puzzleRepository the puzzle repository
+     * @param presenter the publisher
      */
     public CrosswordServiceImpl(
             final Collection<DictionaryProvider> dictionaryProviders,

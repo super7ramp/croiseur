@@ -14,9 +14,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import re.belv.croiseur.gui.view.model.slot.SlotOutline;
 
-/**
- * Puzzle edition view model.
- */
+/** Puzzle edition view model. */
 public final class PuzzleEditionViewModel {
 
     /** The puzzle details view model. */
@@ -31,9 +29,7 @@ public final class PuzzleEditionViewModel {
     /** Property following the saving state. */
     private final BooleanProperty savingInProgress;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     PuzzleEditionViewModel() {
         puzzleDetailsViewModel = new PuzzleDetailsViewModel();
         crosswordGridViewModel = CrosswordGridViewModel.welcomeGrid();
@@ -83,10 +79,9 @@ public final class PuzzleEditionViewModel {
 
     /**
      * Returns the clues view model.
-     * <p>
-     * Note: The clue lists are synchronized with {@link #crosswordGridViewModel()}'s slots so that
-     * there is a 1:1 mapping between clues and slots. The clue position in a clue list is the same
-     * as a slot in a slot list.
+     *
+     * <p>Note: The clue lists are synchronized with {@link #crosswordGridViewModel()}'s slots so that there is a 1:1
+     * mapping between clues and slots. The clue position in a clue list is the same as a slot in a slot list.
      *
      * @return the clues view model
      */
@@ -103,9 +98,7 @@ public final class PuzzleEditionViewModel {
         return savingInProgress;
     }
 
-    /**
-     * Resets edition view model to default.
-     */
+    /** Resets edition view model to default. */
     public void reset() {
         puzzleDetailsViewModel.reset();
         crosswordGridViewModel.reset();

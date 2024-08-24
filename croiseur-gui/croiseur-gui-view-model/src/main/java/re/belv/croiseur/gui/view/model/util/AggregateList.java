@@ -10,10 +10,9 @@ import java.util.List;
 
 /**
  * Combine several collections in a single {@link List} view.
- * <p>
- * This list is unmodifiable with the modifiers of the {@link List} interface. This list is
- * modifiable only by adding or removing collection using {@link #aggregate} and
- * {@link #disaggregate} methods.
+ *
+ * <p>This list is unmodifiable with the modifiers of the {@link List} interface. This list is modifiable only by adding
+ * or removing collection using {@link #aggregate} and {@link #disaggregate} methods.
  *
  * @param <T> type of the element of the list
  */
@@ -22,9 +21,9 @@ public interface AggregateList<T> extends List<T> {
     /**
      * Creates a new {@link AggregateList}.
      *
-     * @param collection       a first aggregate
+     * @param collection a first aggregate
      * @param otherCollections other aggregates
-     * @param <T>              the element type
+     * @param <T> the element type
      * @return the created {@link AggregateList}
      */
     @SafeVarargs
@@ -43,7 +42,7 @@ public interface AggregateList<T> extends List<T> {
      * Aggregates the given collection at the given index
      *
      * @param aggregateIndex the desired <em>aggregate</em> index (not an element index)
-     * @param collection     the collection to aggregate
+     * @param collection the collection to aggregate
      */
     void aggregate(final int aggregateIndex, final Collection<T> collection);
 
@@ -64,8 +63,7 @@ public interface AggregateList<T> extends List<T> {
     List<T> aggregatedAt(final int aggregateIndex);
 
     /**
-     * Returns the actual start index of the aggregated collection at given <em>aggregate
-     * index</em>.
+     * Returns the actual start index of the aggregated collection at given <em>aggregate index</em>.
      *
      * @param aggregateIndex the <em>aggregate index</em>
      * @return the actual (i.e. element) start index of the aggregated collection

@@ -7,9 +7,9 @@ package re.belv.croiseur.api.solver;
 
 /**
  * Services pertaining to solving crossword puzzle.
- * <p>
- * Results of the requests are forwarded to the
- * {@link  re.belv.croiseur.spi.presenter.solver.SolverPresenter SolverPresenter}.
+ *
+ * <p>Results of the requests are forwarded to the {@link re.belv.croiseur.spi.presenter.solver.SolverPresenter
+ * SolverPresenter}.
  */
 public interface SolverService {
 
@@ -17,7 +17,7 @@ public interface SolverService {
      * Lists available solver providers.
      *
      * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentAvailableSolvers
-     * SolverPresenter#presentAvailableSolvers
+     *     SolverPresenter#presentAvailableSolvers
      */
     void listSolvers();
 
@@ -26,13 +26,12 @@ public interface SolverService {
      *
      * @param event details about the puzzle to solve
      * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverInitialisationState
-     * SolverPresenter#presentSolverInitialisationState
+     *     SolverPresenter#presentSolverInitialisationState
      * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverProgress
-     * SolverPresenter#presentSolverProgress
+     *     SolverPresenter#presentSolverProgress
      * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverResult
-     * SolverPresenter#presentSolverResult
-     * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverError
-     * SolverPresenter#presentSolverError
+     *     SolverPresenter#presentSolverResult
+     * @see re.belv.croiseur.spi.presenter.solver.SolverPresenter#presentSolverError SolverPresenter#presentSolverError
      */
     void solve(final SolveRequest event);
 }

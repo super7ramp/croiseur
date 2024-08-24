@@ -22,9 +22,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * GUI implementation of {@link Presenter}.
- */
+/** GUI implementation of {@link Presenter}. */
 public final class GuiPresenter implements Presenter {
 
     /** Dictionary presenter. */

@@ -9,9 +9,7 @@ import java.io.OutputStream;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 
-/**
- * A puzzle encoder.
- */
+/** A puzzle encoder. */
 public interface PuzzleEncoder {
 
     /**
@@ -26,9 +24,8 @@ public interface PuzzleEncoder {
      *
      * @param puzzle the puzzle to encode
      * @param output where to encode the puzzle
-     * @throws NullPointerException    if any of the parameters is {@code null}
-     * @throws PuzzleEncodingException if encoder fails to read the given input for any other
-     *                                 reason
+     * @throws NullPointerException if any of the parameters is {@code null}
+     * @throws PuzzleEncodingException if encoder fails to read the given input for any other reason
      */
     void encode(final Puzzle puzzle, final OutputStream output) throws PuzzleEncodingException;
 }

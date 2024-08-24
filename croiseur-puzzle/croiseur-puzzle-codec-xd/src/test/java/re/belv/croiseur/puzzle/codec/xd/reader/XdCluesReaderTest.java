@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 
-/**
- * Tests for {@link XdCluesReader}.
- */
+/** Tests for {@link XdCluesReader}. */
 final class XdCluesReaderTest {
 
     /** The reader under tests. */
@@ -78,8 +76,8 @@ final class XdCluesReaderTest {
 
     /**
      * Verifies that reader accepts crosswords with missing clue numbers.
-     * <p>
-     * Format does not specify that all clue numbers shall be present.
+     *
+     * <p>Format does not specify that all clue numbers shall be present.
      *
      * @throws XdClueReadException should not happen
      */
@@ -111,8 +109,8 @@ final class XdCluesReaderTest {
 
     /**
      * Verifies that reader accepts crosswords with unsorted clue numbers.
-     * <p>
-     * Spec says "The clues should be sorted" (it's not a "shall").
+     *
+     * <p>Spec says "The clues should be sorted" (it's not a "shall").
      */
     @Test
     void notSorted() throws XdClueReadException {

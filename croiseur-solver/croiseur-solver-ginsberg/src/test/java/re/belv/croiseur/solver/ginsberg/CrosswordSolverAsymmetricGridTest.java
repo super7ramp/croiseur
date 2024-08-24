@@ -15,9 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Tests on some asymmetric French grids.
- */
+/** Tests on some asymmetric French grids. */
 final class CrosswordSolverAsymmetricGridTest {
 
     /** The test dictionary. */

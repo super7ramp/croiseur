@@ -26,9 +26,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 
-/**
- * A pane to browse dictionaries and dictionary entries.
- */
+/** A pane to browse dictionaries and dictionary entries. */
 public final class DictionariesPane extends Accordion {
 
     /** The dictionaries. */
@@ -59,9 +57,7 @@ public final class DictionariesPane extends Accordion {
     @FXML
     private ListView<String> suggestionsListView;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public DictionariesPane() {
         dictionaries = new SimpleListProperty<>(this, "dictionaries", FXCollections.observableArrayList());
         words = new SimpleListProperty<>(this, "words", FXCollections.observableArrayList());
@@ -79,9 +75,7 @@ public final class DictionariesPane extends Accordion {
         initializeSuggestionsListView();
     }
 
-    /**
-     * Initializes titled panes: Make sure always one titled pane is expanded.
-     */
+    /** Initializes titled panes: Make sure always one titled pane is expanded. */
     private void initializeTitledPanes() {
         expandedPaneProperty().addListener((observable, oldValue, newValue) -> {
             final boolean hasExpanded = getPanes().stream().anyMatch(TitledPane::isExpanded);
@@ -93,8 +87,7 @@ public final class DictionariesPane extends Accordion {
     }
 
     /**
-     * Initializes dictionaries list: Sets custom cell factory (adds checkboxes and customises
-     * string representation).
+     * Initializes dictionaries list: Sets custom cell factory (adds checkboxes and customises string representation).
      */
     private void initializeDictionariesListView() {
         dictionariesListView.setCellFactory(list -> new DictionaryListCell());
@@ -102,8 +95,8 @@ public final class DictionariesPane extends Accordion {
     }
 
     /**
-     * Initializes search box: Adds a text formatter to search box so that text field contains only
-     * upper case characters.
+     * Initializes search box: Adds a text formatter to search box so that text field contains only upper case
+     * characters.
      */
     private void initializeSearchTextField() {
         searchTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -112,9 +105,7 @@ public final class DictionariesPane extends Accordion {
         }));
     }
 
-    /**
-     * Initializes words list: Binds to property, adds filter from search box.
-     */
+    /** Initializes words list: Binds to property, adds filter from search box. */
     private void initializeWordsListView() {
         final Predicate<String> matchesSearch = word -> word.startsWith(searchTextField.getText());
         final ObservableValue<Predicate<String>> searchPredicate = Bindings.createObjectBinding(
@@ -124,9 +115,7 @@ public final class DictionariesPane extends Accordion {
         wordsListView.setItems(searchedWords);
     }
 
-    /**
-     * Initializes the suggestions list view.
-     */
+    /** Initializes the suggestions list view. */
     private void initializeSuggestionsListView() {
         suggestionsListView.setItems(suggestions);
         suggestionsListView.setOnMouseClicked(event -> {
@@ -142,10 +131,9 @@ public final class DictionariesPane extends Accordion {
 
     /**
      * Returns the words to display.
-     * <p>
-     * Note that this list contains all the words unfiltered; The words that will be actually
-     * displayed will be the given words which contain the
-     * {@link #searchTextField searched substring}.
+     *
+     * <p>Note that this list contains all the words unfiltered; The words that will be actually displayed will be the
+     * given words which contain the {@link #searchTextField searched substring}.
      *
      * @return the words
      */
@@ -173,8 +161,8 @@ public final class DictionariesPane extends Accordion {
 
     /**
      * Returns the "on suggestion selected" property.
-     * <p>
-     * The consumer will be given the selected suggested word, for every selection.
+     *
+     * <p>The consumer will be given the selected suggested word, for every selection.
      *
      * @return the "on suggestion selected" property
      */

@@ -19,9 +19,7 @@ import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 import re.belv.croiseur.spi.presenter.dictionary.DictionarySearchResult;
 
-/**
- * GUI implementation of {@link DictionaryPresenter}.
- */
+/** GUI implementation of {@link DictionaryPresenter}. */
 final class GuiDictionaryPresenter implements DictionaryPresenter {
 
     /** Logger. */
@@ -37,7 +35,7 @@ final class GuiDictionaryPresenter implements DictionaryPresenter {
      * Constructs an instance.
      *
      * @param dictionariesViewModelArg the dictionaries view model
-     * @param errorsViewModelArg       the errors view model
+     * @param errorsViewModelArg the errors view model
      */
     GuiDictionaryPresenter(
             final DictionariesViewModel dictionariesViewModelArg, final ErrorsViewModel errorsViewModelArg) {

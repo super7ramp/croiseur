@@ -12,15 +12,10 @@ import re.belv.croiseur.common.puzzle.ChangedPuzzle;
 import re.belv.croiseur.common.puzzle.Puzzle;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
-/**
- * A dummy repository that always rejects writes. Can be used when repository services are not
- * used.
- */
+/** A dummy repository that always rejects writes. Can be used when repository services are not used. */
 public final class DummyPuzzleRepository implements PuzzleRepository {
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public DummyPuzzleRepository() {
         // Nothing to do.
     }

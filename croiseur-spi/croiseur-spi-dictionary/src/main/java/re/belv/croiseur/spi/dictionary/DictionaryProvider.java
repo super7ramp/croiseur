@@ -10,9 +10,7 @@ import java.util.Iterator;
 import java.util.Optional;
 import re.belv.croiseur.common.dictionary.DictionaryProviderDetails;
 
-/**
- * {@link Dictionary} provider.
- */
+/** {@link Dictionary} provider. */
 public interface DictionaryProvider {
 
     /**
@@ -24,10 +22,9 @@ public interface DictionaryProvider {
 
     /**
      * Retrieves the available dictionaries.
-     * <p>
-     * Note for implementers: Actual dictionary location is at the discretion of implementation. For
-     * local filesystem dictionaries, consider visiting the path given by the
-     * {@code re.belv.croiseur.dictionary.path} system property.
+     *
+     * <p>Note for implementers: Actual dictionary location is at the discretion of implementation. For local filesystem
+     * dictionaries, consider visiting the path given by the {@code re.belv.croiseur.dictionary.path} system property.
      *
      * @return the available dictionaries.
      */

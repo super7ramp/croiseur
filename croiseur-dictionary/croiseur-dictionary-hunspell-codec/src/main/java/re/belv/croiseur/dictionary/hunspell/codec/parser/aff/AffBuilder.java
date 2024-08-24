@@ -21,9 +21,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
-/**
- * {@link Aff} builder.
- */
+/** {@link Aff} builder. */
 final class AffBuilder {
 
     /** Affix class builders, access by flag identifying the affix class. */
@@ -41,9 +39,7 @@ final class AffBuilder {
     /** The builder for {@link ThreePartsCompoundFlags}. */
     private ThreePartsCompoundFlagsBuilder threePartsCompoundFlagsBuilder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     AffBuilder() {
         affixClassBuilders = new HashMap<>();
         encoding = StandardCharsets.US_ASCII;
@@ -157,12 +153,12 @@ final class AffBuilder {
 
     /**
      * Returns the flag type.
-     * <p>
-     * Flag type is an information provided by the Aff file but is actually necessary to correctly
-     * parses some options of the Aff file.
-     * <p>
-     * Assuming the flag type is always put at the beginning of the document and parsed first,
-     * this getter allows the following parsers to know the flag type to use.
+     *
+     * <p>Flag type is an information provided by the Aff file but is actually necessary to correctly parses some
+     * options of the Aff file.
+     *
+     * <p>Assuming the flag type is always put at the beginning of the document and parsed first, this getter allows the
+     * following parsers to know the flag type to use.
      *
      * @return the flag type
      */

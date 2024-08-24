@@ -15,11 +15,10 @@ import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
 /**
- * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into
- * {@link Optional}s - and calls the presentation service to present the errors as well as success
- * notifications.
- * <p>
- * It basically allows to share repository-related behaviours across services.
+ * A {@link PuzzleRepository} wrapper that catches {@link WriteException} - turning the results into {@link Optional}s -
+ * and calls the presentation service to present the errors as well as success notifications.
+ *
+ * <p>It basically allows to share repository-related behaviours across services.
  */
 public final class SafePuzzleRepository {
 
@@ -33,7 +32,7 @@ public final class SafePuzzleRepository {
      * Constructs an instance.
      *
      * @param repositoryArg the actual repository
-     * @param presenterArg  the presenter
+     * @param presenterArg the presenter
      */
     public SafePuzzleRepository(final PuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;
@@ -44,8 +43,8 @@ public final class SafePuzzleRepository {
      * Creates a new data.
      *
      * @param puzzle the new data
-     * @return the {@link SavedPuzzle} representing the data committed to the repository (just the
-     * given data with an additional identifier), or {@link Optional#empty()} if write failed
+     * @return the {@link SavedPuzzle} representing the data committed to the repository (just the given data with an
+     *     additional identifier), or {@link Optional#empty()} if write failed
      * @throws NullPointerException if given data is {@code null}
      */
     public Optional<SavedPuzzle> create(final Puzzle puzzle) {
@@ -101,9 +100,7 @@ public final class SafePuzzleRepository {
         }
     }
 
-    /**
-     * Deletes all the puzzles.
-     */
+    /** Deletes all the puzzles. */
     public void deleteAll() {
         try {
             repository.deleteAll();

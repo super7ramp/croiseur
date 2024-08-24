@@ -12,9 +12,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 
-/**
- * Common boilerplate code to load object hierarchies from FXML files.
- */
+/** Common boilerplate code to load object hierarchies from FXML files. */
 final class FxmlLoaderHelper {
 
     /** Private constructor to prevent instantiation, static methods only. */
@@ -25,9 +23,8 @@ final class FxmlLoaderHelper {
     /**
      * Loads given object hierarchy from FXML.
      *
-     * @param object the object for which to load the object hierarchy; FXML file is assumed to be
-     *               named like this object's class simple name, with the extension ".fxml", and
-     *               located in the same package
+     * @param object the object for which to load the object hierarchy; FXML file is assumed to be named like this
+     *     object's class simple name, with the extension ".fxml", and located in the same package
      * @throws NullPointerException if FXML file cannot be located
      * @throws UncheckedIOException if an error occurs during loading
      */
@@ -38,11 +35,10 @@ final class FxmlLoaderHelper {
     /**
      * Loads given object hierarchy from FXML.
      *
-     * @param object         the object for which to load the object hierarchy; FXML file is assumed
-     *                       to be named like this object's class simple name, with the extension
-     *                       ".fxml", and located in the same package
-     * @param resourceBundle the resource bundle to use to resolve resource key attribute values;
-     *                       may be {@code null} if not necessary
+     * @param object the object for which to load the object hierarchy; FXML file is assumed to be named like this
+     *     object's class simple name, with the extension ".fxml", and located in the same package
+     * @param resourceBundle the resource bundle to use to resolve resource key attribute values; may be {@code null} if
+     *     not necessary
      * @throws NullPointerException if FXML file cannot be located
      * @throws UncheckedIOException if an error occurs during loading
      */

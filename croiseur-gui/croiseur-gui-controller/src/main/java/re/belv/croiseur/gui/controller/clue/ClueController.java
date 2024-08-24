@@ -13,9 +13,7 @@ import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.gui.view.model.CluesViewModel;
 import re.belv.croiseur.gui.view.model.CrosswordGridViewModel;
 
-/**
- * Controls calls to the clue service.
- */
+/** Controls calls to the clue service. */
 public final class ClueController {
 
     /** The logger. */
@@ -36,10 +34,10 @@ public final class ClueController {
     /**
      * Constructs an instance.
      *
-     * @param cluesViewModelArg         the clues view model
+     * @param cluesViewModelArg the clues view model
      * @param crosswordGridViewModelArg the crossword grid view model
-     * @param clueServiceArg            the clue service to call
-     * @param executorArg               the worker executing the clue tasks.
+     * @param clueServiceArg the clue service to call
+     * @param executorArg the worker executing the clue tasks.
      */
     public ClueController(
             final CluesViewModel cluesViewModelArg,
@@ -52,16 +50,12 @@ public final class ClueController {
         executor = executorArg;
     }
 
-    /**
-     * Lists the available clue providers.
-     */
+    /** Lists the available clue providers. */
     public void listClueProviders() {
         execute(new ListClueProviderTask(cluesViewModel, clueService));
     }
 
-    /**
-     * Gets the clue for the currently selected slot.
-     */
+    /** Gets the clue for the currently selected slot. */
     public void getClueForCurrentSlot() {
         execute(new GetClueTask(cluesViewModel, crosswordGridViewModel, clueService));
     }

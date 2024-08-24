@@ -10,9 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import re.belv.croiseur.puzzle.codec.xd.model.XdClues;
 
-/**
- * Parses text to {@link XdClues}.
- */
+/** Parses text to {@link XdClues}. */
 final class XdCluesReader {
 
     /** Regex matching a clue. */
@@ -22,9 +20,7 @@ final class XdCluesReader {
     /** The clues model builder. */
     private final XdClues.Builder builder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdCluesReader() {
         builder = new XdClues.Builder();
     }

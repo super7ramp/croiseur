@@ -10,9 +10,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.ArgumentMatcher;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 
-/**
- * Allows creating custom {@link ArgumentMatcher}s related to puzzles.
- */
+/** Allows creating custom {@link ArgumentMatcher}s related to puzzles. */
 final class PuzzleMatchers {
 
     /** Private constructor to prevent instantiation, static utilities only. */

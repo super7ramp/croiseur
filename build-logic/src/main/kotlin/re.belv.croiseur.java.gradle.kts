@@ -27,6 +27,12 @@ java {
     }
 }
 
+spotless {
+    java {
+        palantirJavaFormat().formatJavadoc(true)
+    }
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
@@ -42,10 +48,4 @@ tasks.withType<Test> {
 tasks.jacocoTestReport {
     // Do not generate reports for individual projects by default.
     enabled = false
-}
-
-spotless {
-    java {
-        palantirJavaFormat()
-    }
 }

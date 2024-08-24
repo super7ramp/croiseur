@@ -9,13 +9,14 @@ import java.util.function.IntPredicate;
 
 /**
  * Where translation of problem data from/to integer variables occurs.
- * <p>
- * There are two kinds of variables:
+ *
+ * <p>There are two kinds of variables:
+ *
  * <ul>
- *     <li>Variables representing cells: For each pair (cell,letter) is associated a variable. See
- *     {@link #representingCell(int, int, int)} for the translation.
- *     <li>Variables representing slots: For each pair (slot,word) is associated a variable. They are placed
- *     "after" the cell variables in the model. See {@link #representingSlot(int, int)} for the translation.
+ *   <li>Variables representing cells: For each pair (cell,letter) is associated a variable. See
+ *       {@link #representingCell(int, int, int)} for the translation.
+ *   <li>Variables representing slots: For each pair (slot,word) is associated a variable. They are placed "after" the
+ *       cell variables in the model. See {@link #representingSlot(int, int)} for the translation.
  * </ul>
  */
 final class Variables {
@@ -35,7 +36,7 @@ final class Variables {
     /**
      * Constructs an instance.
      *
-     * @param gridArg      the grid
+     * @param gridArg the grid
      * @param wordCountArg the number of words in the dictionary
      */
     Variables(final Grid gridArg, final int wordCountArg) {
@@ -72,8 +73,9 @@ final class Variables {
 
     /**
      * Returns the variable associated to the given value at the given cell.
-     * <p>
-     * Cell variables are put first in the model.
+     *
+     * <p>Cell variables are put first in the model.
+     *
      * <table>
      *     <caption>Variable/letter association</caption>
      *   <tr>
@@ -112,9 +114,9 @@ final class Variables {
      *   </tr>
      * </table>
      *
-     * @param row    the cell row
+     * @param row the cell row
      * @param column the cell column
-     * @param value  the numerical representation of the cell value
+     * @param value the numerical representation of the cell value
      * @return the variable associated to the given value of the given cell
      */
     int representingCell(final int row, final int column, final int value) {
@@ -126,8 +128,8 @@ final class Variables {
 
     /**
      * Returns the variable associated to the given word at the given slot.
-     * <p>
-     * Slot variables are put after cell variables in the model.
+     *
+     * <p>Slot variables are put after cell variables in the model.
      *
      * @param slotIndex the slot index in the grid slot list
      * @param wordIndex the word index in the word list

@@ -10,9 +10,7 @@ import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 
-/**
- * List dictionaries task.
- */
+/** List dictionaries task. */
 final class ListDictionaryEntriesTask extends Task<Void> {
 
     /** The dictionary service. */
@@ -25,7 +23,7 @@ final class ListDictionaryEntriesTask extends Task<Void> {
      * Constructs an instance.
      *
      * @param dictionaryViewModelArg the dictionary view model
-     * @param dictionaryServiceArg   the dictionary service
+     * @param dictionaryServiceArg the dictionary service
      */
     ListDictionaryEntriesTask(
             final DictionaryViewModel dictionaryViewModelArg, final DictionaryService dictionaryServiceArg) {

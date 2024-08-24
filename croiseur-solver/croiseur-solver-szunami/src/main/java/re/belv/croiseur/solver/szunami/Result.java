@@ -10,8 +10,8 @@ import java.util.Objects;
 
 /**
  * The result returned by the filler.
- * <p>
- * Basically an {@code Either<String, Crossword>}.
+ *
+ * <p>Basically an {@code Either<String, Crossword>}.
  *
  * @see <a href="https://docs.rs/xwords/0.3.1/xwords/fill/trait.Fill.html">Crate Documentation</a>
  * @see <a href="https://docs.vavr.io/#_either">Vavr's Either</a>
@@ -28,7 +28,7 @@ public final class Result {
      * Constructs an instance.
      *
      * @param solutionArg the solution
-     * @param errorArg    the error
+     * @param errorArg the error
      */
     private Result(final Crossword solutionArg, final String errorArg) {
         solution = solutionArg;
@@ -61,8 +61,7 @@ public final class Result {
      * Returns the solution, if any.
      *
      * @return the solution if any
-     * @throws NoSuchElementException if this result does not contain a solution (i.e. if this
-     *                                result is of type "Err")
+     * @throws NoSuchElementException if this result does not contain a solution (i.e. if this result is of type "Err")
      */
     public Crossword solution() {
         if (!isOk()) {
@@ -75,8 +74,7 @@ public final class Result {
      * Returns the error, if any.
      *
      * @return the error if any
-     * @throws NoSuchElementException if this result does not contain an error (i.e. if this
-     *                                result is of type "Ok")
+     * @throws NoSuchElementException if this result does not contain an error (i.e. if this result is of type "Ok")
      */
     public String error() {
         if (!isErr()) {

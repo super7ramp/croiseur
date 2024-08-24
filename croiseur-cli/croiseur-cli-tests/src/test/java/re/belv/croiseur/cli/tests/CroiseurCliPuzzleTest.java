@@ -14,9 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-/**
- * Tests on 'croiseur-cli puzzle *' commands.
- */
+/** Tests on 'croiseur-cli puzzle *' commands. */
 final class CroiseurCliPuzzleTest extends FluentTestHelper {
 
     @Test
@@ -317,7 +315,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     /**
      * Writes the given puzzle content at given path.
      *
-     * @param path    where to write the puzzle
+     * @param path where to write the puzzle
      * @param content the content to write
      * @throws IOException if file couldn't be written
      */

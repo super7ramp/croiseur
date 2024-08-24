@@ -8,9 +8,7 @@ package re.belv.croiseur.impl.puzzle.persistence;
 import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-/**
- * The 'load puzzle' usecase.
- */
+/** The 'load puzzle' usecase. */
 final class LoadPuzzleUsecase {
 
     /** The puzzle repository. */
@@ -23,7 +21,7 @@ final class LoadPuzzleUsecase {
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
-     * @param presenterArg  the presenter
+     * @param presenterArg the presenter
      */
     LoadPuzzleUsecase(final SafePuzzleRepository repositoryArg, final PuzzlePresenter presenterArg) {
         repository = repositoryArg;

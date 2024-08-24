@@ -11,18 +11,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import re.belv.croiseur.puzzle.codec.xd.model.XdGrid;
 
-/**
- * Encodes {@link XdGrid} to its textual representation.
- */
+/** Encodes {@link XdGrid} to its textual representation. */
 final class XdGridWriter {
 
     /** Compares grid indexes by row then by column. */
     private static final Comparator<XdGrid.Index> SORTED_BY_ROW_THEN_BY_COLUMN =
             Comparator.comparingInt(XdGrid.Index::row).thenComparing(XdGrid.Index::column);
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdGridWriter() {
         // Nothing to do.
     }

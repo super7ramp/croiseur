@@ -23,9 +23,7 @@ import javafx.collections.ObservableMap;
 import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
 import re.belv.croiseur.gui.view.model.GridCoord;
 
-/**
- * The slots view model.
- */
+/** The slots view model. */
 public final class SlotsViewModel {
 
     /** A predicate to filter boxes; Slot of a single box will be ignored. */
@@ -57,12 +55,12 @@ public final class SlotsViewModel {
 
     /**
      * Constructs an instance.
-     * <p>
-     * All parameters are only listened; No modification will be attempted.
      *
-     * @param boxes       the grid boxes
+     * <p>All parameters are only listened; No modification will be attempted.
+     *
+     * @param boxes the grid boxes
      * @param columnCount the grid column count
-     * @param rowCount    the grid row count
+     * @param rowCount the grid row count
      */
     public SlotsViewModel(
             final ObservableMap<GridCoord, CrosswordBoxViewModel> boxes,
@@ -204,9 +202,9 @@ public final class SlotsViewModel {
     /**
      * Creates the initial across slot list.
      *
-     * @param boxes       the initial boxes
+     * @param boxes the initial boxes
      * @param columnCount the initial column count
-     * @param rowCount    the initial row count
+     * @param rowCount the initial row count
      * @return the initial across slot list
      */
     private static ObservableList<SlotOutline> initialAcrossSlots(
@@ -232,9 +230,9 @@ public final class SlotsViewModel {
     /**
      * Creates the initial down slot list.
      *
-     * @param boxes       the initial boxes
+     * @param boxes the initial boxes
      * @param columnCount the initial column count
-     * @param rowCount    the initial row count
+     * @param rowCount the initial row count
      * @return the initial down slot list
      */
     private static ObservableList<SlotOutline> initialDownSlots(
@@ -260,7 +258,7 @@ public final class SlotsViewModel {
     /**
      * Processes a box shading change.
      *
-     * @param box   the changed box
+     * @param box the changed box
      * @param coord the coordinate of the changed box
      */
     private void onBoxShadingChange(final CrosswordBoxViewModel box, final GridCoord coord) {

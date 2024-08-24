@@ -17,15 +17,16 @@ import re.belv.croiseur.gui.view.model.CrosswordBoxViewModel;
 
 /**
  * A crossword box control.
- * <p>
- * It features:
+ *
+ * <p>It features:
+ *
  * <ul>
- *     <li>Binding to {@link CrosswordBoxViewModel} model</li>
- *     <li>Formatting that limits the input to a single character</li>
- *     <li>A shaded version, which can be toggled using right-click or the space key</li>
- *     <li>Additional selected and unsolvable states</li>
- *     <li>Font auto-sizing</li>
- *     <li>A customizable appearance using the {@value #CSS_CLASS} CSS class</li>
+ *   <li>Binding to {@link CrosswordBoxViewModel} model
+ *   <li>Formatting that limits the input to a single character
+ *   <li>A shaded version, which can be toggled using right-click or the space key
+ *   <li>Additional selected and unsolvable states
+ *   <li>Font auto-sizing
+ *   <li>A customizable appearance using the {@value #CSS_CLASS} CSS class
  * </ul>
  */
 public final class CrosswordBoxTextField extends TextField {
@@ -99,9 +100,7 @@ public final class CrosswordBoxTextField extends TextField {
         });
     }
 
-    /**
-     * Toggles shading of the box.
-     */
+    /** Toggles shading of the box. */
     private void toggleShading() {
         if (model.isShaded()) {
             model.lighten();

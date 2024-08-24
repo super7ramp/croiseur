@@ -12,16 +12,16 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 /**
  * A compound composed of three dictionary entries.
  *
- * @param begin  the dictionary entry for the beginning part
+ * @param begin the dictionary entry for the beginning part
  * @param middle the dictionary entry for the middle part
- * @param end    the dictionary entry for the end part
+ * @param end the dictionary entry for the end part
  */
 record BeginMiddleEndCompound(DicEntry begin, DicEntry middle, DicEntry end) {
 
     /**
      * Returns the flags of left part dictionary entry.
-     * <p>
-     * Shortcut for {@code left().flags()}.
+     *
+     * <p>Shortcut for {@code left().flags()}.
      *
      * @return the flags of left part dictionary entry
      */
@@ -31,8 +31,8 @@ record BeginMiddleEndCompound(DicEntry begin, DicEntry middle, DicEntry end) {
 
     /**
      * Returns the flags of right part dictionary entry.
-     * <p>
-     * Shortcut for {@code right().flags()}.
+     *
+     * <p>Shortcut for {@code right().flags()}.
      *
      * @return the flags of right part dictionary entry
      */

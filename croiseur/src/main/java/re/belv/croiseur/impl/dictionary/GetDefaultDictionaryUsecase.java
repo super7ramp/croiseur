@@ -11,9 +11,7 @@ import re.belv.croiseur.impl.dictionary.selection.DictionarySelector;
 import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
-/**
- * The 'get default dictionary' usecase.
- */
+/** The 'get default dictionary' usecase. */
 final class GetDefaultDictionaryUsecase {
 
     /** The dictionary selector. */
@@ -26,7 +24,7 @@ final class GetDefaultDictionaryUsecase {
      * Constructs an instance.
      *
      * @param dictionarySelectorArg the dictionary selector
-     * @param presenterArg          the presenter
+     * @param presenterArg the presenter
      */
     GetDefaultDictionaryUsecase(
             final DictionarySelector dictionarySelectorArg, final DictionaryPresenter presenterArg) {
@@ -34,9 +32,7 @@ final class GetDefaultDictionaryUsecase {
         presenter = presenterArg;
     }
 
-    /**
-     * Processes the 'get default dictionary' event.
-     */
+    /** Processes the 'get default dictionary' event. */
     void process() {
         final Optional<SelectedDictionary> selectedDictionary = dictionarySelector.selectDefault();
         if (selectedDictionary.isEmpty()) {

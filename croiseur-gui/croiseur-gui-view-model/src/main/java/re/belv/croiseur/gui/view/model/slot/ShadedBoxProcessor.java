@@ -10,8 +10,8 @@ import re.belv.croiseur.gui.view.model.GridCoord;
 
 /**
  * Updates a list of slots after a box has been shaded, with the minimal number of modifications.
- * <p>
- * Given slots must be of same type: Either across or down.
+ *
+ * <p>Given slots must be of same type: Either across or down.
  */
 abstract sealed class ShadedBoxProcessor {
 
@@ -66,16 +66,16 @@ abstract sealed class ShadedBoxProcessor {
     /**
      * Creates a new slot.
      *
-     * @param start  the start index (inclusive)
-     * @param end    the end index (exclusive)
+     * @param start the start index (inclusive)
+     * @param end the end index (exclusive)
      * @param offset the offset
      * @return a new slot
      */
     abstract SlotOutline slotOf(final int start, final int end, final int offset);
 
     /**
-     * Returns the value of the varying coordinate - from the point of the view of the slot type -
-     * of the given {@link GridCoord}.
+     * Returns the value of the varying coordinate - from the point of the view of the slot type - of the given
+     * {@link GridCoord}.
      *
      * @param coord some coordinates
      * @return the value of the varying coordinate of the given {@link GridCoord}.
@@ -83,9 +83,7 @@ abstract sealed class ShadedBoxProcessor {
     abstract int varyingCoordinateOf(final GridCoord coord);
 }
 
-/**
- * {@link ShadedBoxProcessor} for across slots.
- */
+/** {@link ShadedBoxProcessor} for across slots. */
 final class AcrossSlotShadedBoxProcessor extends ShadedBoxProcessor {
 
     /**
@@ -108,9 +106,7 @@ final class AcrossSlotShadedBoxProcessor extends ShadedBoxProcessor {
     }
 }
 
-/**
- * {@link ShadedBoxProcessor} for down slots.
- */
+/** {@link ShadedBoxProcessor} for down slots. */
 final class DownSlotShadedBoxProcessor extends ShadedBoxProcessor {
 
     /**

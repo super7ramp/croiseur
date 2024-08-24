@@ -8,10 +8,10 @@ package re.belv.croiseur.dictionary.hunspell.codec.util;
 /**
  * Just a pair of elements.
  *
- * @param left  the left part
+ * @param left the left part
  * @param right the right part
- * @param <L>   the left part type
- * @param <R>   the right part type
+ * @param <L> the left part type
+ * @param <R> the right part type
  */
 public record Pair<L, R>(L left, R right) {
     // Nothing to add

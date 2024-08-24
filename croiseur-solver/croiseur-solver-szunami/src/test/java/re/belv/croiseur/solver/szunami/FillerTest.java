@@ -19,14 +19,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Filler}.
- */
+/** Tests for {@link Filler}. */
 final class FillerTest {
 
     /**
-     * Verifies that native code panic upon a {@code null} {@link Crossword} is correctly caught and
-     * turned into a {@link NativePanicException}.
+     * Verifies that native code panic upon a {@code null} {@link Crossword} is correctly caught and turned into a
+     * {@link NativePanicException}.
      */
     @Test
     void failureNullCrossword() {
@@ -126,8 +124,8 @@ final class FillerTest {
      * Verifies that an {@link InterruptedException} is thrown when filler is interrupted.
      *
      * @throws InterruptedException if test is interrupted, should not happen
-     * @throws ExecutionException   should not happen
-     * @throws TimeoutException     should not happen
+     * @throws ExecutionException should not happen
+     * @throws TimeoutException should not happen
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {

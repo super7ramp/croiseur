@@ -8,9 +8,7 @@ package re.belv.croiseur.gui.controller.puzzle;
 import javafx.concurrent.Task;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 
-/**
- * List puzzles task.
- */
+/** List puzzles task. */
 final class ListPuzzlesTask extends Task<Void> {
 
     /** The puzzle service. */

@@ -11,9 +11,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 
-/**
- * Builds an {@link AffixClass}.
- */
+/** Builds an {@link AffixClass}. */
 final class AffixClassBuilder {
 
     /** The affix rules. */
@@ -22,9 +20,7 @@ final class AffixClassBuilder {
     /** The affix header. */
     private AffixClassHeader header;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     AffixClassBuilder() {
         rules = new ArrayList<>();
     }

@@ -7,8 +7,8 @@ package re.belv.croiseur.api.dictionary;
 
 /**
  * The dictionary service.
- * <p>
- * Mainly queries on the available dictionaries. Results of the requests are forwarded to the
+ *
+ * <p>Mainly queries on the available dictionaries. Results of the requests are forwarded to the
  * {@link re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter DictionaryPresenter}.
  */
 public interface DictionaryService {
@@ -17,7 +17,7 @@ public interface DictionaryService {
      * Lists available dictionary providers.
      *
      * @see re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaryProviders
-     * DictionaryPresenter#presentDictionaryProviders
+     *     DictionaryPresenter#presentDictionaryProviders
      */
     void listProviders();
 
@@ -26,7 +26,7 @@ public interface DictionaryService {
      *
      * @param request the request
      * @see re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaries
-     * DictionaryPresenter#presentDictionaries
+     *     DictionaryPresenter#presentDictionaries
      */
     void listDictionaries(final ListDictionariesRequest request);
 
@@ -35,7 +35,7 @@ public interface DictionaryService {
      *
      * @param request the request
      * @see re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionaryEntries
-     * DictionaryPresenter#presentDictionaryEntries
+     *     DictionaryPresenter#presentDictionaryEntries
      */
     void listEntries(final ListDictionaryEntriesRequest request);
 
@@ -44,31 +44,27 @@ public interface DictionaryService {
      *
      * @param request the request
      * @see re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDictionarySearchResult
-     * DictionaryPresenter#presentDictionarySearchResult
+     *     DictionaryPresenter#presentDictionarySearchResult
      */
     void searchEntries(final SearchDictionaryEntriesRequest request);
 
     /**
      * Gets the default dictionary.
-     * <p>
-     * The criteria used to compare dictionaries are, by order of preference:
+     *
+     * <p>The criteria used to compare dictionaries are, by order of preference:
+     *
      * <ul>
-     *     <li>Locale: Dictionary matching system's locale (language + country) is preferred over
-     *     one which doesn't;</li>
-     *     <li>Language: Dictionary matching system's language is preferred over one which doesn't;
-     *     </li>
-     *     <li>Fallback language: Dictionary matching English language is preferred over one which
-     *     doesn't;</li>
-     *     <li>Provider: Dictionary provided by "Local XML Provider" is preferred over one of an
-     *     other provider;</li>
-     *     <li>Name: Dictionary whose dictionary identifier string representation is smaller (in
-     *     lexicographical sense) is preferred. (This is not a relevant criterion, it is used to
-     *     guarantee the dictionary list can be completely sorted, assuming that identifiers are
-     *     unique.)</li>
+     *   <li>Locale: Dictionary matching system's locale (language + country) is preferred over one which doesn't;
+     *   <li>Language: Dictionary matching system's language is preferred over one which doesn't;
+     *   <li>Fallback language: Dictionary matching English language is preferred over one which doesn't;
+     *   <li>Provider: Dictionary provided by "Local XML Provider" is preferred over one of an other provider;
+     *   <li>Name: Dictionary whose dictionary identifier string representation is smaller (in lexicographical sense) is
+     *       preferred. (This is not a relevant criterion, it is used to guarantee the dictionary list can be completely
+     *       sorted, assuming that identifiers are unique.)
      * </ul>
      *
      * @see re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter#presentDefaultDictionary
-     * DictionaryPresenter#presentDefaultDictionary
+     *     DictionaryPresenter#presentDefaultDictionary
      */
     void getDefaultDictionary();
 }

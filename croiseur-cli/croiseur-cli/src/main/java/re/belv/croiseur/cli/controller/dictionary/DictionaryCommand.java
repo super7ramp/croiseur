@@ -16,9 +16,7 @@ import re.belv.croiseur.api.dictionary.ListDictionaryEntriesRequest;
 import re.belv.croiseur.api.dictionary.SearchDictionaryEntriesRequest;
 import re.belv.croiseur.cli.status.Status;
 
-/**
- * "dictionary" subcommand: List and print available dictionaries.
- */
+/** "dictionary" subcommand: List and print available dictionaries. */
 @Command(name = "dictionary")
 public final class DictionaryCommand {
 
@@ -76,7 +74,7 @@ public final class DictionaryCommand {
      * Lists the available dictionary.
      *
      * @param provider filter on the provider
-     * @param locale   filter on the locale
+     * @param locale filter on the locale
      * @return the error status
      */
     @Command(aliases = {"ls"})

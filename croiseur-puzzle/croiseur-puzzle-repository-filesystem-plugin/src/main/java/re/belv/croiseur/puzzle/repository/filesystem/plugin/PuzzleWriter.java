@@ -12,17 +12,13 @@ import re.belv.croiseur.puzzle.codec.xd.model.XdCrossword;
 import re.belv.croiseur.puzzle.codec.xd.writer.XdCrosswordWriter;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * Writes {@link SavedPuzzle}s to disk.
- */
+/** Writes {@link SavedPuzzle}s to disk. */
 final class PuzzleWriter {
 
     /** The file writer. */
     private final XdCrosswordWriter writer;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     PuzzleWriter() {
         writer = new XdCrosswordWriter();
     }

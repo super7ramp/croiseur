@@ -14,9 +14,7 @@ import re.belv.croiseur.dictionary.common.util.Lazy;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * A dictionary provider for XML-based dictionaries.
- */
+/** A dictionary provider for XML-based dictionaries. */
 public final class XmlDictionaryProvider implements DictionaryProvider {
 
     /** Details about the dictionary provider. */
@@ -25,9 +23,7 @@ public final class XmlDictionaryProvider implements DictionaryProvider {
     /** The dictionaries, lazily evaluated */
     private final Lazy<Collection<Dictionary>> dictionaries;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public XmlDictionaryProvider() {
         details = new DictionaryProviderDetails(
                 "Local XML Provider", "Provides access to local dictionaries in an XML format.");

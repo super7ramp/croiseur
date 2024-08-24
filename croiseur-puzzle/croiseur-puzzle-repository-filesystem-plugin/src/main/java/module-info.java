@@ -7,8 +7,8 @@ import re.belv.croiseur.puzzle.repository.filesystem.plugin.FileSystemPuzzleRepo
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 
 /**
- * A puzzle repository implementation whose storage is filesystem. Files are written in the xd
- * format, which is easily readable by user.
+ * A puzzle repository implementation whose storage is filesystem. Files are written in the xd format, which is easily
+ * readable by user.
  */
 module re.belv.croiseur.puzzle.repository.filesystem.plugin {
     requires re.belv.croiseur.puzzle.codec.xd;

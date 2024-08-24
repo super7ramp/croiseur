@@ -8,23 +8,17 @@ package re.belv.croiseur.solver.ginsberg.listener;
 import re.belv.croiseur.solver.ginsberg.SolverResult;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * Records solver statistics.
- */
+/** Records solver statistics. */
 public final class StatisticsRecorder implements SolverListener {
 
-    /**
-     * Implementation of {@link SolverResult.Statistics}.
-     */
+    /** Implementation of {@link SolverResult.Statistics}. */
     private static final class StatisticsImpl implements SolverResult.Statistics {
 
         private long numberOfUnassignments;
 
         private long numberOfAssignments;
 
-        /**
-         * Constructor.
-         */
+        /** Constructor. */
         StatisticsImpl() {
             // Nothing to do.
         }
@@ -55,9 +49,7 @@ public final class StatisticsRecorder implements SolverListener {
 
     private final StatisticsImpl stat;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public StatisticsRecorder() {
         stat = new StatisticsImpl();
     }

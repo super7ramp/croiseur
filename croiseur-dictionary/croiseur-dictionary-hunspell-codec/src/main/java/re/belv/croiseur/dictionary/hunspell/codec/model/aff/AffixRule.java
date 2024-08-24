@@ -13,12 +13,12 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 /**
  * Represents a parsed affix rule.
  *
- * @param kind                the affix rule kind
- * @param flag                the flag which applies this rule
+ * @param kind the affix rule kind
+ * @param flag the flag which applies this rule
  * @param strippingCharacters characters to strip from base word before applying the affix
- * @param affix               the affix to apply
+ * @param affix the affix to apply
  * @param continuationClasses the affix classes that can be applied on the affixed word
- * @param condition           pattern that the base word must match to be eligible to the affix rule
+ * @param condition pattern that the base word must match to be eligible to the affix rule
  */
 public record AffixRule(
         AffixKind kind,
@@ -31,13 +31,12 @@ public record AffixRule(
     /**
      * Performs some null checks.
      *
-     * @param kind                the affix rule kind
-     * @param flag                the flag which applies this rule
+     * @param kind the affix rule kind
+     * @param flag the flag which applies this rule
      * @param strippingCharacters characters to strip from base word before applying the affix
-     * @param affix               the affix to apply
+     * @param affix the affix to apply
      * @param continuationClasses the affix classes that can be applied on the affixed word
-     * @param condition           pattern that the base word must match to be eligible to the
-     *                            affix rule
+     * @param condition pattern that the base word must match to be eligible to the affix rule
      */
     public AffixRule {
         Objects.requireNonNull(kind);

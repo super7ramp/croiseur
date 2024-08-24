@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Interface definition for puzzle codecs.
- */
+/** Interface definition for puzzle codecs. */
 module re.belv.croiseur.spi.puzzle.codec {
     requires transitive re.belv.croiseur.common;
 

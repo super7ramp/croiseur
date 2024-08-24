@@ -22,10 +22,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverInitialisationState;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * A {@link Presenter} which encapsulates other {@link Presenter}s and forwards method calls to all
- * of them.
- */
+/** A {@link Presenter} which encapsulates other {@link Presenter}s and forwards method calls to all of them. */
 final class BroadcastingPresenter implements Presenter {
 
     /** The presenters. */

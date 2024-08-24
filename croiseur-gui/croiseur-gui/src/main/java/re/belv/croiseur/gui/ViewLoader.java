@@ -11,29 +11,24 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 
-/**
- * A utility class to load the application views.
- */
+/** A utility class to load the application views. */
 final class ViewLoader {
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private ViewLoader() {
         // Nothing to do.
     }
 
     /**
      * Loads a view from a FXML file, using the given controller.
-     * <p>
-     * View is expected to be named like given controller class name, with "Controller" suffix
-     * replaced with "View" and the extension ".fxml".
-     * <p>
-     * Resource file is expected be named like given controller class name, without its "Controller"
-     * suffix.
+     *
+     * <p>View is expected to be named like given controller class name, with "Controller" suffix replaced with "View"
+     * and the extension ".fxml".
+     *
+     * <p>Resource file is expected be named like given controller class name, without its "Controller" suffix.
      *
      * @param controller the controller
-     * @param <T>        the loaded object type
+     * @param <T> the loaded object type
      * @return the loaded object hierarchy
      * @throws IOException if an error occurs during loading
      */

@@ -12,9 +12,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
-/**
- * Parses a Hunspell ".dic" file.
- */
+/** Parses a Hunspell ".dic" file. */
 public final class DicParser {
 
     /** Pattern for the number of entries at the start of the "*.dic" file. */
@@ -40,8 +38,7 @@ public final class DicParser {
      *
      * @param lines the iterator of lines
      * @return the estimated number of entries
-     * @throws MissingEstimatedNumberOfEntriesException if the estimated number of entries is
-     *                                                  missing
+     * @throws MissingEstimatedNumberOfEntriesException if the estimated number of entries is missing
      */
     private static int readEstimatedNumberOfEntries(final Iterator<String> lines)
             throws MissingEstimatedNumberOfEntriesException {
@@ -81,7 +78,7 @@ public final class DicParser {
      * Reads the dic file entries.
      *
      * @param estimatedNumberOfEntries the estimated number of entries
-     * @param lines                    the iterator on lines
+     * @param lines the iterator on lines
      * @return the {@link Dic} model
      * @throws InvalidDicEntryException if an invalid entry is encountered
      */

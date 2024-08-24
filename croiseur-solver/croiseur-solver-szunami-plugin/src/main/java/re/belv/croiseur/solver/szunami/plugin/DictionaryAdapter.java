@@ -7,10 +7,7 @@ package re.belv.croiseur.solver.szunami.plugin;
 
 import re.belv.croiseur.spi.solver.Dictionary;
 
-/**
- * Adapts {@link Dictionary} into xwords-rs'
- * {@link re.belv.croiseur.solver.szunami.Dictionary}.
- */
+/** Adapts {@link Dictionary} into xwords-rs' {@link re.belv.croiseur.solver.szunami.Dictionary}. */
 final class DictionaryAdapter {
 
     /** Private constructor - static utilities only. */
@@ -19,8 +16,7 @@ final class DictionaryAdapter {
     }
 
     /**
-     * Adapts {@link Dictionary} into xwords-rs'
-     * {@link re.belv.croiseur.solver.szunami.Dictionary}.
+     * Adapts {@link Dictionary} into xwords-rs' {@link re.belv.croiseur.solver.szunami.Dictionary}.
      *
      * @param dictionary a {@link Dictionary}
      * @return xwords-rs' {@link re.belv.croiseur.solver.szunami.Dictionary}

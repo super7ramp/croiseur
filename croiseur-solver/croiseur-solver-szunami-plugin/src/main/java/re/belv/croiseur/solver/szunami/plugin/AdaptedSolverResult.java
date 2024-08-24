@@ -15,9 +15,7 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.solver.szunami.Result;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Adapts xwords-rs filler {@link Result} into {@link SolverResult}.
- */
+/** Adapts xwords-rs filler {@link Result} into {@link SolverResult}. */
 final class AdaptedSolverResult implements SolverResult {
 
     /** The result kind. */
@@ -32,7 +30,7 @@ final class AdaptedSolverResult implements SolverResult {
     /**
      * Constructs an instance.
      *
-     * @param result   the result returned by xwords-rs
+     * @param result the result returned by xwords-rs
      * @param original the original puzzle
      */
     AdaptedSolverResult(final Result result, final PuzzleGrid original) {

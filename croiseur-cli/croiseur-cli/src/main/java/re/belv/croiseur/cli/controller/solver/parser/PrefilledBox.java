@@ -13,7 +13,7 @@ import re.belv.croiseur.common.puzzle.GridPosition;
  * A parsed pre-filled box information.
  *
  * @param gridPosition the position of the box
- * @param value        the value inside the box
+ * @param value the value inside the box
  */
 public record PrefilledBox(GridPosition gridPosition, char value) {
 

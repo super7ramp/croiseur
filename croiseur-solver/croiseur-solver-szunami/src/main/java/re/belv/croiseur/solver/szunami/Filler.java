@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.solver.szunami;
 
-/**
- * A solver wrapping szunami's xword-rs filler written in Rust.
- */
+/** A solver wrapping szunami's xword-rs filler written in Rust. */
 public final class Filler {
 
     static {
@@ -18,8 +16,7 @@ public final class Filler {
      * Fills the given {@link Crossword}.
      *
      * @param crossword the crossword to fill
-     * @return the fill {@link Result}, containing either the filled {@link Crossword} or an
-     * error message
+     * @return the fill {@link Result}, containing either the filled {@link Crossword} or an error message
      * @throws InterruptedException if interrupted while filling
      * @throws NativePanicException if native code panics
      */

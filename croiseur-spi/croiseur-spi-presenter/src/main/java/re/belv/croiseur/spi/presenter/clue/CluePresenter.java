@@ -8,9 +8,7 @@ package re.belv.croiseur.spi.presenter.clue;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Clue presentation service.
- */
+/** Clue presentation service. */
 public interface CluePresenter {
 
     /**

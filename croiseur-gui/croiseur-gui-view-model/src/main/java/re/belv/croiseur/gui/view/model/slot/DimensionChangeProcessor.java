@@ -7,9 +7,7 @@ package re.belv.croiseur.gui.view.model.slot;
 
 import java.util.List;
 
-/**
- * Updates the slots after a grid dimension change.
- */
+/** Updates the slots after a grid dimension change. */
 abstract sealed class DimensionChangeProcessor {
 
     /** The slots collinear to the added/removed slot(s). */
@@ -21,7 +19,7 @@ abstract sealed class DimensionChangeProcessor {
     /**
      * Constructs an instance.
      *
-     * @param collinearSlotsArg  the slots collinear to the added/removed slot(s)
+     * @param collinearSlotsArg the slots collinear to the added/removed slot(s)
      * @param orthogonalSlotsArg the slots orthogonal to the added/removed slot(s)
      */
     DimensionChangeProcessor(final List<SlotOutline> collinearSlotsArg, final List<SlotOutline> orthogonalSlotsArg) {
@@ -32,8 +30,8 @@ abstract sealed class DimensionChangeProcessor {
     /**
      * Processes the dimension change
      *
-     * @param oldLength            the old dimension value
-     * @param newLength            the new dimension valye
+     * @param oldLength the old dimension value
+     * @param newLength the new dimension valye
      * @param otherDimensionLength the other dimension value
      */
     final void process(final int oldLength, final int newLength, final int otherDimensionLength) {
@@ -71,8 +69,8 @@ abstract sealed class DimensionChangeProcessor {
     /**
      * Creates a new slot, collinear to the added/removed slot(s).
      *
-     * @param start  the start index (inclusive)
-     * @param end    the end index (exclusive)
+     * @param start the start index (inclusive)
+     * @param end the end index (exclusive)
      * @param offset the offset
      * @return a new slot
      */
@@ -81,23 +79,21 @@ abstract sealed class DimensionChangeProcessor {
     /**
      * Creates a new slot, orthogonal to the added/removed slot(s).
      *
-     * @param start  the start index (inclusive)
-     * @param end    the end index (exclusive)
+     * @param start the start index (inclusive)
+     * @param end the end index (exclusive)
      * @param offset the offset
      * @return a new slot
      */
     abstract SlotOutline orthogonalSlotOf(final int start, final int end, final int offset);
 }
 
-/**
- * {@link DimensionChangeProcessor} for grid width.
- */
+/** {@link DimensionChangeProcessor} for grid width. */
 final class ColumnCountChangeProcessor extends DimensionChangeProcessor {
 
     /**
      * Constructs an instance.
      *
-     * @param downSlots   the down slots
+     * @param downSlots the down slots
      * @param acrossSlots the across slots
      */
     ColumnCountChangeProcessor(final List<SlotOutline> downSlots, final List<SlotOutline> acrossSlots) {
@@ -115,15 +111,13 @@ final class ColumnCountChangeProcessor extends DimensionChangeProcessor {
     }
 }
 
-/**
- * {@link DimensionChangeProcessor} for grid height.
- */
+/** {@link DimensionChangeProcessor} for grid height. */
 final class RowCountChangeProcessor extends DimensionChangeProcessor {
 
     /**
      * Constructs an instance.
      *
-     * @param downSlots   the down slots
+     * @param downSlots the down slots
      * @param acrossSlots the across slots
      */
     RowCountChangeProcessor(final List<SlotOutline> downSlots, final List<SlotOutline> acrossSlots) {

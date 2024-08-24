@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.spi.puzzle.codec;
 
-/**
- * Exception raised whenever something goes wrong when decoding a puzzle.
- */
+/** Exception raised whenever something goes wrong when decoding a puzzle. */
 public final class PuzzleDecodingException extends Exception {
     /**
      * Constructs an instance.

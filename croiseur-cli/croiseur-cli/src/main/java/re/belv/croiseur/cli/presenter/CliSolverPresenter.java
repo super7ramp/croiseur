@@ -16,9 +16,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * CLI implementation of {@link SolverPresenter}.
- */
+/** CLI implementation of {@link SolverPresenter}. */
 final class CliSolverPresenter implements SolverPresenter {
 
     /** The message format. */
@@ -30,9 +28,7 @@ final class CliSolverPresenter implements SolverPresenter {
     /** The best completion percentage reached. */
     private short bestCompletionPercentage;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     CliSolverPresenter() {
         // Nothing to do.
     }

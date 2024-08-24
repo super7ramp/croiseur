@@ -7,11 +7,11 @@ package re.belv.croiseur.gui.view.model;
 
 /**
  * Coordinates on the grid.
- * <p>
- * The grid starts at (0,0). Row axis is reversed, meaning that (0,1) is below (0,0).
- * <p>
- * Coordinates cannot be negative. Attempting to create a new instance using negative coordinate
- * will result into an {@link IllegalArgumentException}.
+ *
+ * <p>The grid starts at (0,0). Row axis is reversed, meaning that (0,1) is below (0,0).
+ *
+ * <p>Coordinates cannot be negative. Attempting to create a new instance using negative coordinate will result into an
+ * {@link IllegalArgumentException}.
  *
  * @param column the column number, i.e. the horizontal index, starting at 0
  * @param row the row number, i.e. the vertical index, starting at 0
@@ -32,16 +32,14 @@ public record GridCoord(int column, int row) {
 
     /**
      * Convenience factory method.
-     * <pre>
-     * {@code
+     *
+     * <pre>{@code
      * import static re.belv.croiseur.gui.view.model.GridCoord.at;
      *
      * ...
      *
      * final GridCoord myPosition = at(0,0);
-     * }
-     * </pre>
-     *
+     * }</pre>
      *
      * @param x the column number, i.e. the horizontal index, starting at 0
      * @param y the row number, i.e. the vertical index, starting at 0
@@ -61,11 +59,11 @@ public record GridCoord(int column, int row) {
     }
 
     /**
-     * Returns a new {@link GridCoord} corresponding to the position above this one or this
-     * position if this position is on the first row.
+     * Returns a new {@link GridCoord} corresponding to the position above this one or this position if this position is
+     * on the first row.
      *
-     * @return a new {@link GridCoord} corresponding to the position above this one  or this
-     * position if this position is on the first row.
+     * @return a new {@link GridCoord} corresponding to the position above this one or this position if this position is
+     *     on the first row.
      */
     public GridCoord up() {
         return plusVerticalOffset(-1);
@@ -81,11 +79,11 @@ public record GridCoord(int column, int row) {
     }
 
     /**
-     * Returns a new {@link GridCoord} corresponding to the position on the left of this one
-     * or this position if this position is on the first column.
+     * Returns a new {@link GridCoord} corresponding to the position on the left of this one or this position if this
+     * position is on the first column.
      *
-     * @return a new {@link GridCoord} corresponding to the position on the left of this one
-     * this position if this position is on the first column
+     * @return a new {@link GridCoord} corresponding to the position on the left of this one this position if this
+     *     position is on the first column
      */
     public GridCoord left() {
         return plusHorizontalOffset(-1);
@@ -93,9 +91,9 @@ public record GridCoord(int column, int row) {
 
     /**
      * Returns a new {@link GridCoord} at specified horizontal offset of this coordinate.
-     * <p>
-     * If the given offset leads to a negative horizontal coordinate, then the horizontal
-     * coordinate of the returned position is set to 0.
+     *
+     * <p>If the given offset leads to a negative horizontal coordinate, then the horizontal coordinate of the returned
+     * position is set to 0.
      *
      * @param offset the horizontal offset
      * @return a new {@link GridCoord} at specified horizontal offset of this coordinate.
@@ -106,9 +104,9 @@ public record GridCoord(int column, int row) {
 
     /**
      * Returns a new {@link GridCoord} at specified vertical offset of this coordinate.
-     * <p>
-     * If the given offset leads to a negative vertical coordinate, then the vertical coordinate
-     * of the returned position is set to 0.
+     *
+     * <p>If the given offset leads to a negative vertical coordinate, then the vertical coordinate of the returned
+     * position is set to 0.
      *
      * @param offset the vertical offset
      * @return a new {@link GridCoord} at specified vertical offset of this coordinate.

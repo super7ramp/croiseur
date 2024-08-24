@@ -10,8 +10,8 @@ import java.util.Map;
 
 /**
  * A map with a max size.
- * <p>
- * Eldest entry will be removed if necessary to ensure size does not exceed max size.
+ *
+ * <p>Eldest entry will be removed if necessary to ensure size does not exceed max size.
  *
  * @param <K> the key type
  * @param <V> the value type

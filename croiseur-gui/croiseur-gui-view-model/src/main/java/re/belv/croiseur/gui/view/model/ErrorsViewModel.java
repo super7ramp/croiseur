@@ -10,9 +10,7 @@ import java.util.Objects;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 
-/**
- * Errors view model.
- */
+/** Errors view model. */
 public final class ErrorsViewModel {
 
     /** The current error. */
@@ -21,9 +19,7 @@ public final class ErrorsViewModel {
     /** The queued errors. */
     private final LinkedList<String> queuedErrors;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     ErrorsViewModel() {
         currentError = new ReadOnlyStringWrapper(this, "currentError");
         queuedErrors = new LinkedList<>();
@@ -31,8 +27,8 @@ public final class ErrorsViewModel {
 
     /**
      * Returns the current error property.
-     * <p>
-     * Property value is {@code null} if no error is present.
+     *
+     * <p>Property value is {@code null} if no error is present.
      *
      * @return the current error property
      */
@@ -42,10 +38,9 @@ public final class ErrorsViewModel {
 
     /**
      * Adds an error.
-     * <p>
-     * The given error will be set as value of the {@link #currentErrorProperty()} unless this
-     * property already contains an unacknowledged error (i.e. a non-{@code null} value), in which
-     * case given error will be queued.
+     *
+     * <p>The given error will be set as value of the {@link #currentErrorProperty()} unless this property already
+     * contains an unacknowledged error (i.e. a non-{@code null} value), in which case given error will be queued.
      *
      * @param error the error to add
      */
@@ -60,12 +55,11 @@ public final class ErrorsViewModel {
 
     /**
      * Acknowledges the current error.
-     * <p>
-     * The {@link #currentErrorProperty()} value will be set to {@code null} unless a queued error
-     * exists, in which case the queued error will be removed from queue and set as value of
-     * {@link #currentErrorProperty()}.
-     * <p>
-     * If current error is {@code null}, the method has no effect.
+     *
+     * <p>The {@link #currentErrorProperty()} value will be set to {@code null} unless a queued error exists, in which
+     * case the queued error will be removed from queue and set as value of {@link #currentErrorProperty()}.
+     *
+     * <p>If current error is {@code null}, the method has no effect.
      */
     public void acknowledgeError() {
         final String firstMessage = queuedErrors.pollFirst();

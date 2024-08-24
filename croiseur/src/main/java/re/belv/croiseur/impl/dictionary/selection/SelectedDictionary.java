@@ -9,9 +9,7 @@ import java.util.Set;
 import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 
-/**
- * Just another dictionary type gathering provider details, dictionary details and dictionary words.
- */
+/** Just another dictionary type gathering provider details, dictionary details and dictionary words. */
 public interface SelectedDictionary {
 
     /**
@@ -32,7 +30,7 @@ public interface SelectedDictionary {
      * Creates a new {@link SelectedDictionary} wrapping the given arguments.
      *
      * @param providerName the provider name
-     * @param dictionary   the actual dictionary
+     * @param dictionary the actual dictionary
      * @return a new {@link SelectedDictionary} wrapping the given arguments.
      */
     static SelectedDictionary of(final String providerName, final Dictionary dictionary) {

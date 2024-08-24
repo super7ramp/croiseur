@@ -15,9 +15,7 @@ import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Implementation of {@link CrosswordSolver} adapting {@link Filler szunami's xwords-rs solver}.
- */
+/** Implementation of {@link CrosswordSolver} adapting {@link Filler szunami's xwords-rs solver}. */
 public final class SzunamiSolver implements CrosswordSolver {
 
     /** The solver name. */
@@ -26,9 +24,7 @@ public final class SzunamiSolver implements CrosswordSolver {
     /** The adapted solver. */
     private final Filler filler;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SzunamiSolver() {
         filler = new Filler();
     }

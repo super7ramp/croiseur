@@ -31,9 +31,7 @@ import re.belv.croiseur.gui.view.model.PuzzleSelectionViewModel;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 
-/**
- * GUI implementation of {@link PuzzlePresenter}.
- */
+/** GUI implementation of {@link PuzzlePresenter}. */
 final class GuiPuzzlePresenter implements PuzzlePresenter {
 
     /** Logger. */
@@ -64,9 +62,9 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
      * Constructs an instance.
      *
      * @param puzzleSelectionViewModelArg the puzzle selection view model
-     * @param puzzleEditionViewModelArg   the puzzle edition view model
-     * @param puzzleCodecsViewModelArg    the puzzle codecs view model
-     * @param errorsViewModelArg          the errors view model
+     * @param puzzleEditionViewModelArg the puzzle edition view model
+     * @param puzzleCodecsViewModelArg the puzzle codecs view model
+     * @param errorsViewModelArg the errors view model
      */
     GuiPuzzlePresenter(
             final PuzzleSelectionViewModel puzzleSelectionViewModelArg,
@@ -194,9 +192,9 @@ final class GuiPuzzlePresenter implements PuzzlePresenter {
     /**
      * Synchronizes the puzzle details view model with given puzzle details.
      *
-     * @param id       the puzzle id
+     * @param id the puzzle id
      * @param revision the puzzle revision
-     * @param details  the other puzzle details
+     * @param details the other puzzle details
      */
     private void fillDetailsViewModelWith(final long id, final int revision, final PuzzleDetails details) {
         puzzleDetailsViewModel.id(id);

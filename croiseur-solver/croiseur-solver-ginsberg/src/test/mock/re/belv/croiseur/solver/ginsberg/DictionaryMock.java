@@ -17,9 +17,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 import re.belv.croiseur.dictionary.common.StringTransformers;
 
-/**
- * Mock for {@link Dictionary}.
- */
+/** Mock for {@link Dictionary}. */
 final class DictionaryMock implements Dictionary {
 
     private final Set<String> words;

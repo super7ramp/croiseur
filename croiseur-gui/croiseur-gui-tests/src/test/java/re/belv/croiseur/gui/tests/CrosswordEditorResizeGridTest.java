@@ -15,9 +15,7 @@ import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 
-/**
- * Tests on the editor view: Resize grid.
- */
+/** Tests on the editor view: Resize grid. */
 final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
 
     @Test

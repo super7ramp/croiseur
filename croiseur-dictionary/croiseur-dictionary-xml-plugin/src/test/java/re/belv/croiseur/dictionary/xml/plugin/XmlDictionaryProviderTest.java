@@ -17,17 +17,13 @@ import re.belv.croiseur.dictionary.common.DictionaryPath;
 import re.belv.croiseur.spi.dictionary.Dictionary;
 import re.belv.croiseur.spi.dictionary.DictionaryProvider;
 
-/**
- * Tests on {@link XmlDictionaryProvider}.
- */
+/** Tests on {@link XmlDictionaryProvider}. */
 final class XmlDictionaryProviderTest {
 
     /** The default locale. */
     private Locale defaultLocale;
 
-    /**
-     * Sets the locale to English for reproducible results.
-     */
+    /** Sets the locale to English for reproducible results. */
     @BeforeEach
     void before() {
         defaultLocale = Locale.getDefault();
@@ -49,9 +45,7 @@ final class XmlDictionaryProviderTest {
         assertEquals(Set.of("HELLO", "WORLD"), dictionary.words());
     }
 
-    /**
-     * No dictionary found: Dictionary path is empty.
-     */
+    /** No dictionary found: Dictionary path is empty. */
     @Test
     void getNone() {
         final DictionaryProvider xmlDictionaryProvider = new XmlDictionaryProvider();
@@ -61,9 +55,7 @@ final class XmlDictionaryProviderTest {
         assertEquals(0, dictionaries.size());
     }
 
-    /**
-     * Resets the default locale.
-     */
+    /** Resets the default locale. */
     @AfterEach
     void after() {
         Locale.setDefault(defaultLocale);

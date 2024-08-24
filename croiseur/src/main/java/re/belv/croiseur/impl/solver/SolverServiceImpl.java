@@ -14,9 +14,7 @@ import re.belv.croiseur.spi.presenter.Presenter;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Implementation of {@link SolverService}.
- */
+/** Implementation of {@link SolverService}. */
 public final class SolverServiceImpl implements SolverService {
 
     /** The 'list-solver' usecase. */
@@ -28,11 +26,11 @@ public final class SolverServiceImpl implements SolverService {
     /**
      * Constructs an instance.
      *
-     * @param solvers             the solvers
+     * @param solvers the solvers
      * @param dictionaryProviders the dictionary providers
-     * @param clueProviders       the clue providers
-     * @param puzzleRepository    the puzzle repository
-     * @param presenter           the solver presenter
+     * @param clueProviders the clue providers
+     * @param puzzleRepository the puzzle repository
+     * @param presenter the solver presenter
      * @throws IllegalArgumentException if solver collection is empty
      */
     public SolverServiceImpl(

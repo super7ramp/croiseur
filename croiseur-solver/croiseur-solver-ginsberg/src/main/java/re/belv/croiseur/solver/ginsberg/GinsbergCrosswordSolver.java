@@ -29,17 +29,13 @@ import re.belv.croiseur.solver.ginsberg.result.SolverResultFactory;
 import re.belv.croiseur.solver.ginsberg.state.Crossword;
 import re.belv.croiseur.solver.ginsberg.state.CrosswordUpdater;
 
-/**
- * A crossword solver.
- */
+/** A crossword solver. */
 public final class GinsbergCrosswordSolver {
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(GinsbergCrosswordSolver.class.getName());
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public GinsbergCrosswordSolver() {
         // Nothing to do.
     }
@@ -47,8 +43,8 @@ public final class GinsbergCrosswordSolver {
     /**
      * Creates new internal solver.
      *
-     * @param problem            the solver internal state
-     * @param progressListener   a progress listener
+     * @param problem the solver internal state
+     * @param progressListener a progress listener
      * @param statisticsRecorder another listener for stats
      * @return the created solver
      */
@@ -98,9 +94,9 @@ public final class GinsbergCrosswordSolver {
     /**
      * Solve the given puzzle, using the given dictionary.
      *
-     * @param puzzleGrid   the puzzle to solve
+     * @param puzzleGrid the puzzle to solve
      * @param externalDictionary the dictionary to use
-     * @param progressListener   the progress listener
+     * @param progressListener the progress listener
      * @return the result
      * @throws InterruptedException if interrupted while solving
      */
@@ -127,7 +123,7 @@ public final class GinsbergCrosswordSolver {
     /**
      * Solve the given puzzle, using the given dictionary.
      *
-     * @param puzzle     the puzzle to solve
+     * @param puzzle the puzzle to solve
      * @param dictionary the dictionary to use
      * @return the result
      * @throws InterruptedException if interrupted while solving

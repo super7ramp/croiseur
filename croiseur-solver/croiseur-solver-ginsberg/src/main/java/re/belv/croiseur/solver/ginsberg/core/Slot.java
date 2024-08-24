@@ -8,9 +8,7 @@ package re.belv.croiseur.solver.ginsberg.core;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-/**
- * Read/write access to a slot of a crossword puzzle.
- */
+/** Read/write access to a slot of a crossword puzzle. */
 // TODO to split, at least assign/unassign from the rest
 public interface Slot {
 
@@ -30,10 +28,10 @@ public interface Slot {
 
     /**
      * Returns this slot as a pattern.
-     * <p>
-     * Non-filled boxes will be replaced with the space character (' ').
-     * <p>
-     * If the slot is assigned, then pattern is strictly equal to the {@link #value()}.
+     *
+     * <p>Non-filled boxes will be replaced with the space character (' ').
+     *
+     * <p>If the slot is assigned, then pattern is strictly equal to the {@link #value()}.
      *
      * @return the slot as a pattern
      */
@@ -56,8 +54,8 @@ public interface Slot {
     /**
      * The ratio of empty boxes inside this slot, as a percentage.
      *
-     * @return the ratio as an integer in [0,100]; 100 indicates the variable has no box filled;
-     * 0 indicates the variable is fully filled (i.e. has a value)
+     * @return the ratio as an integer in [0,100]; 100 indicates the variable has no box filled; 0 indicates the
+     *     variable is fully filled (i.e. has a value)
      */
     int emptyBoxRatio();
 
@@ -77,8 +75,8 @@ public interface Slot {
     String unassign();
 
     /**
-     * Returns if given string fits inside slot - without consideration on the given string being
-     * in a dictionary or not.
+     * Returns if given string fits inside slot - without consideration on the given string being in a dictionary or
+     * not.
      *
      * @param value the value to test
      * @return {@code true} if the given value fits inside this slot

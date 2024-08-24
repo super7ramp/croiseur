@@ -6,9 +6,7 @@
 import re.belv.croiseur.solver.szunami.plugin.SzunamiSolver;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Solver provider adapting croiseur-solver-szunami.
- */
+/** Solver provider adapting croiseur-solver-szunami. */
 module re.belv.croiseur.solver.szunami.plugin {
     requires re.belv.croiseur.solver.szunami;
     requires re.belv.croiseur.spi.solver;

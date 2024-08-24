@@ -25,9 +25,7 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * A {@link PuzzleRepository} implemented by files on disk, written in the xd format.
- */
+/** A {@link PuzzleRepository} implemented by files on disk, written in the xd format. */
 public final class FileSystemPuzzleRepository implements PuzzleRepository {
 
     /** The logger. */

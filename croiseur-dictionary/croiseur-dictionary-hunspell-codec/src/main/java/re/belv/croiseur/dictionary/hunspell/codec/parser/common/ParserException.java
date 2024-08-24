@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.dictionary.hunspell.codec.parser.common;
 
-/**
- * Parser exception.
- */
+/** Parser exception. */
 public abstract class ParserException extends Exception {
 
     /**

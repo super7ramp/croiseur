@@ -8,7 +8,7 @@ package re.belv.croiseur.api.dictionary;
 /**
  * Unique identification for a dictionary.
  *
- * @param providerName   the dictionary provider name
+ * @param providerName the dictionary provider name
  * @param dictionaryName the dictionary name
  */
 public record DictionaryIdentifier(String providerName, String dictionaryName) {

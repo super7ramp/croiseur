@@ -7,14 +7,10 @@ package re.belv.croiseur.gui;
 
 import javafx.application.Application;
 
-/**
- * Program entry point.
- */
+/** Program entry point. */
 public final class Main {
 
-    /**
-     * Static methods only.
-     */
+    /** Static methods only. */
     private Main() {
         // Nothing to do.
     }

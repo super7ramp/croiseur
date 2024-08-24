@@ -9,9 +9,7 @@ import re.belv.croiseur.api.puzzle.exporter.PuzzleExportService;
 import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 import re.belv.croiseur.api.puzzle.persistence.PuzzlePersistenceService;
 
-/**
- * Services pertaining to puzzle management.
- */
+/** Services pertaining to puzzle management. */
 public interface PuzzleService {
 
     /**

@@ -21,9 +21,7 @@ import re.belv.croiseur.common.puzzle.PuzzleDetails;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
-/**
- * Tests for {@link XdDecoder}.
- */
+/** Tests for {@link XdDecoder}. */
 final class XdDecoderTest {
 
     /** The decoder under tests. */

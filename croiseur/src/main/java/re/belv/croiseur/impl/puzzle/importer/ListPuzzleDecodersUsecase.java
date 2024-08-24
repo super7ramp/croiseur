@@ -11,9 +11,7 @@ import re.belv.croiseur.common.puzzle.PuzzleCodecDetails;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 
-/**
- * The 'list puzzle decoders' usecase.
- */
+/** The 'list puzzle decoders' usecase. */
 final class ListPuzzleDecodersUsecase {
 
     /** The available puzzle decoders. */
@@ -33,9 +31,7 @@ final class ListPuzzleDecodersUsecase {
         presenter = presenterArg;
     }
 
-    /**
-     * Processes the 'list puzzle decoders' event.
-     */
+    /** Processes the 'list puzzle decoders' event. */
     void process() {
         presenter.presentPuzzleDecoders(decoders);
     }

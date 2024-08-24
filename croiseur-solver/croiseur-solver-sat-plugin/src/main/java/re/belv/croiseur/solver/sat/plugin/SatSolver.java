@@ -21,14 +21,10 @@ import re.belv.croiseur.spi.solver.Dictionary;
 import re.belv.croiseur.spi.solver.ProgressListener;
 import re.belv.croiseur.spi.solver.SolverResult;
 
-/**
- * Implementation of {@link CrosswordSolver} adapting croiseur-solver-sat's solver.
- */
+/** Implementation of {@link CrosswordSolver} adapting croiseur-solver-sat's solver. */
 public final class SatSolver implements CrosswordSolver {
 
-    /**
-     * Adapts the raw SAT solver result to {@link SolverResult}.
-     */
+    /** Adapts the raw SAT solver result to {@link SolverResult}. */
     private static final class AdaptedSolverResult implements SolverResult {
 
         /** The raw result. */
@@ -88,9 +84,7 @@ public final class SatSolver implements CrosswordSolver {
         }
     }
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SatSolver() {
         // Nothing to do.
     }
@@ -145,12 +139,12 @@ public final class SatSolver implements CrosswordSolver {
     }
 
     /**
-     * Filters dictionary to eliminate words containing characters outside A-Z range, since solver
-     * only accepts this very narrow range.
-     * <p>
-     * Performance-wise, it's bad since it does yet another expensive copy of the dictionary but
-     * unless the solver covers a wider character range or the input dictionary is more aggressively
-     * filtered upstream, there is not much that can be done here.
+     * Filters dictionary to eliminate words containing characters outside A-Z range, since solver only accepts this
+     * very narrow range.
+     *
+     * <p>Performance-wise, it's bad since it does yet another expensive copy of the dictionary but unless the solver
+     * covers a wider character range or the input dictionary is more aggressively filtered upstream, there is not much
+     * that can be done here.
      *
      * @param dictionary the dictionary to filter
      * @return the filtered dictionary as a new raw array

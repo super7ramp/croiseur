@@ -29,9 +29,7 @@ import re.belv.croiseur.solver.ginsberg.history.History;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 import re.belv.croiseur.solver.ginsberg.lookahead.Unassignment;
 
-/**
- * A dynamic backtracker, inspired by the "Dynamic Backtracking" paper.
- */
+/** A dynamic backtracker, inspired by the "Dynamic Backtracking" paper. */
 final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
 
     /** The logger. */
@@ -49,9 +47,9 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
     /**
      * Constructs an instance.
      *
-     * @param puzzleArg      the puzzle
+     * @param puzzleArg the puzzle
      * @param probePuzzleArg the copy of the puzzle used for look-ahead
-     * @param historyArg     the history
+     * @param historyArg the history
      */
     DynamicBacktracker(final Puzzle puzzleArg, final ProbePuzzle probePuzzleArg, final History historyArg) {
         probePuzzle = probePuzzleArg;
@@ -71,8 +69,8 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
 
     /**
      * Short-lists the backtrack candidates.
-     * <p>
-     * The backtrack candidates are typically the connected slots of the unassignable variable.
+     *
+     * <p>The backtrack candidates are typically the connected slots of the unassignable variable.
      *
      * @param unassignable the unassignable variable
      * @return the backtrack candidates
@@ -102,7 +100,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
     /**
      * Chooses the slots to eliminate among given candidates.
      *
-     * @param candidates   the backtrack candidates
+     * @param candidates the backtrack candidates
      * @param unassignable the unassignable variable that lead to backtrack
      * @return the chosen eliminated slots
      */
@@ -143,7 +141,7 @@ final class DynamicBacktracker implements Backtracker<Slot, SlotIdentifier> {
      * Builds the eliminations corresponding to the given eliminated slots.
      *
      * @param candidates all the backtrack candidates
-     * @param chosen     the chosen eliminated slots
+     * @param chosen the chosen eliminated slots
      * @return the eliminations corresponding to the given eliminated slots
      */
     private List<Elimination<Slot, SlotIdentifier>> eliminationsFrom(

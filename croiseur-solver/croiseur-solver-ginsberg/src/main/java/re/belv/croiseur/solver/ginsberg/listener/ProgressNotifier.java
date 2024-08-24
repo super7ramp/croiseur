@@ -12,10 +12,7 @@ import java.util.Collections;
 import re.belv.croiseur.solver.ginsberg.ProgressListener;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 
-/**
- * A {@link SolverListener} decorator that notifies progress to an external
- * {@link ProgressListener}.
- */
+/** A {@link SolverListener} decorator that notifies progress to an external {@link ProgressListener}. */
 public final class ProgressNotifier implements SolverListener {
 
     /** Interval between two progress notifications. */
@@ -33,7 +30,7 @@ public final class ProgressNotifier implements SolverListener {
     /**
      * Constructor.
      *
-     * @param someSlots         the variables
+     * @param someSlots the variables
      * @param aProgressListener the notification callback
      */
     public ProgressNotifier(final Collection<Slot> someSlots, final ProgressListener aProgressListener) {
@@ -52,17 +49,13 @@ public final class ProgressNotifier implements SolverListener {
         refresh();
     }
 
-    /**
-     * @return the completion percentage
-     */
+    /** @return the completion percentage */
     private short completionPercentage() {
         final long slotSolved = slots.stream().filter(Slot::isInstantiated).count();
         return (short) (100 * slotSolved / slots.size());
     }
 
-    /**
-     * Refresh the statistics.
-     */
+    /** Refresh the statistics. */
     private void refresh() {
         final Instant now = Instant.now();
         if (Duration.between(lastProgressNotificationTime, now).compareTo(PROGRESS_NOTIFICATION_INTERVAL) >= 0) {

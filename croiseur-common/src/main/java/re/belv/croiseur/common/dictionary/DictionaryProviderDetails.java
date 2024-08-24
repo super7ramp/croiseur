@@ -8,7 +8,7 @@ package re.belv.croiseur.common.dictionary;
 /**
  * Details about a dictionary provider.
  *
- * @param name        the name of this dictionary provider
+ * @param name the name of this dictionary provider
  * @param description a short description of this dictionary provider
  */
 public record DictionaryProviderDetails(String name, String description) {

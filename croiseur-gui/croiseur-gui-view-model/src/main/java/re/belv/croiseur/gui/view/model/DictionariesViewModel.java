@@ -29,9 +29,7 @@ import re.belv.croiseur.gui.view.model.util.MoreFXCollections;
 import re.belv.croiseur.gui.view.model.util.ObservableAggregateList;
 import re.belv.croiseur.gui.view.model.util.SortedByCopyList;
 
-/**
- * The dictionary view model.
- */
+/** The dictionary view model. */
 public final class DictionariesViewModel {
 
     /** The available dictionaries. */
@@ -50,17 +48,14 @@ public final class DictionariesViewModel {
     private final ReadOnlyListWrapper<String> suggestions;
 
     /**
-     * Associates a selected dictionary with the identifier of its word list inside
-     * {@link #backingAggregateWordList}.
+     * Associates a selected dictionary with the identifier of its word list inside {@link #backingAggregateWordList}.
      */
     private final Map<DictionaryKey, Integer> dictionaryToWordAggregateIndex;
 
     /** An {@link ObservableAggregateList} backing {@link #words}. */
     private final ObservableAggregateList<String> backingAggregateWordList;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public DictionariesViewModel() {
         dictionaries = new SimpleListProperty<>(this, "dictionaries", FXCollections.observableArrayList(entry ->
                 new Observable[] {entry.selectedProperty()}));
@@ -97,8 +92,8 @@ public final class DictionariesViewModel {
 
     /**
      * Returns the selected dictionaries.
-     * <p>
-     * Just a filtered view of {@link #dictionariesProperty()}.
+     *
+     * <p>Just a filtered view of {@link #dictionariesProperty()}.
      *
      * @return the selected dictionaries
      */
@@ -117,12 +112,13 @@ public final class DictionariesViewModel {
 
     /**
      * Returns the suggestion filter property.
-     * <p>
-     * Value is a primitive regular expression:
+     *
+     * <p>Value is a primitive regular expression:
+     *
      * <ul>
-     *     <li>Wildcard character is represented by a '.'</li>
-     *     <li>No cardinality accepted, i.e. for filtering 5-character long words starting with the
-     *     letter 'A', don't write "A.{4}" but write "A...."</li>
+     *   <li>Wildcard character is represented by a '.'
+     *   <li>No cardinality accepted, i.e. for filtering 5-character long words starting with the letter 'A', don't
+     *       write "A.{4}" but write "A...."
      * </ul>
      *
      * @return the suggestion filter
@@ -143,10 +139,10 @@ public final class DictionariesViewModel {
 
     /**
      * Adds words for a selected dictionary.
-     * <p>
-     * If the dictionary is not selected, given words are ignored.
      *
-     * @param key        the dictionary key
+     * <p>If the dictionary is not selected, given words are ignored.
+     *
+     * @param key the dictionary key
      * @param addedWords the words
      */
     public void addWords(final DictionaryKey key, final Collection<String> addedWords) {
@@ -191,8 +187,8 @@ public final class DictionariesViewModel {
 
     /**
      * Processes dictionary selection change.
-     * <p>
-     * It removes words when dictionary is un-selected.
+     *
+     * <p>It removes words when dictionary is un-selected.
      *
      * @param change the dictionary selection change
      */

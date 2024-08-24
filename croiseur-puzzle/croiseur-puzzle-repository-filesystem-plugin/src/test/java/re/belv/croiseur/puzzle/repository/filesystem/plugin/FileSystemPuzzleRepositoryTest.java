@@ -28,9 +28,7 @@ import re.belv.croiseur.common.puzzle.PuzzleGrid;
 import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.spi.puzzle.repository.WriteException;
 
-/**
- * Tests for {@link FileSystemPuzzleRepository}.
- */
+/** Tests for {@link FileSystemPuzzleRepository}. */
 final class FileSystemPuzzleRepositoryTest {
 
     /** An example xd puzzle used for tests. */

@@ -8,8 +8,8 @@ package re.belv.croiseur.common.puzzle;
 import java.util.Objects;
 
 /**
- * Represents a changed puzzle, i.e. a puzzle that has been saved to a repository then modified
- * without having been re-saved yet.
+ * Represents a changed puzzle, i.e. a puzzle that has been saved to a repository then modified without having been
+ * re-saved yet.
  */
 public final class ChangedPuzzle {
 
@@ -22,7 +22,7 @@ public final class ChangedPuzzle {
     /**
      * Validates fields.
      *
-     * @param idArg   the unique identifier of the puzzle
+     * @param idArg the unique identifier of the puzzle
      * @param dataArg the modified puzzle data
      */
     ChangedPuzzle(final long idArg, final Puzzle dataArg) {

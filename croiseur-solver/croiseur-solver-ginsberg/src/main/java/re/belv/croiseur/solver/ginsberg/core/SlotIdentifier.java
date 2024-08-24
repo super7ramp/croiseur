@@ -7,9 +7,7 @@ package re.belv.croiseur.solver.ginsberg.core;
 
 import java.util.Objects;
 
-/**
- * Unique identifier for a variable inside a given problem.
- */
+/** Unique identifier for a variable inside a given problem. */
 public final class SlotIdentifier {
 
     /** Just an integer. */

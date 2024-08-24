@@ -10,34 +10,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link SolverProgressViewModel}.
- */
+/** Tests for {@link SolverProgressViewModel}. */
 final class SolverProgressViewModelTest {
 
     /** The model under test. */
     private SolverProgressViewModel solverProgressViewModel;
 
-    /**
-     * Creates a fresh model for each test.
-     */
+    /** Creates a fresh model for each test. */
     @BeforeEach
     void beforeEach() {
         solverProgressViewModel = new SolverProgressViewModel();
     }
 
     /**
-     * Verifies that default value is negative, i.e. indeterminate (because it's easy to forget and
-     * incorrectly use the default double value 0.0).
+     * Verifies that default value is negative, i.e. indeterminate (because it's easy to forget and incorrectly use the
+     * default double value 0.0).
      */
     @Test
     void defaultToIndeterminate() {
         assertTrue(solverProgressViewModel.solverProgressProperty().get() < 0.0);
     }
 
-    /**
-     * Verifies that progress is reset to a negative (= indeterminate) value when solver stops.
-     */
+    /** Verifies that progress is reset to a negative (= indeterminate) value when solver stops. */
     @Test
     void resetToIndeterminate() {
         solverProgressViewModel.solverRunningProperty().set(true);

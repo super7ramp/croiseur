@@ -10,9 +10,7 @@ import re.belv.croiseur.solver.ginsberg.core.sap.CandidateChooser;
 import re.belv.croiseur.solver.ginsberg.dictionary.CachedDictionary;
 import re.belv.croiseur.solver.ginsberg.lookahead.ProbePuzzle;
 
-/**
- * Factory of {@link CandidateChooser}s.
- */
+/** Factory of {@link CandidateChooser}s. */
 public final class CandidateChoosers {
 
     /** Prevents instantiation. */
@@ -24,7 +22,7 @@ public final class CandidateChoosers {
      * Returns the default {@link CandidateChooser}.
      *
      * @param probePuzzle the probed puzzle
-     * @param dictionary   the dictionary
+     * @param dictionary the dictionary
      * @return the default {@link CandidateChooser}
      */
     public static CandidateChooser<Slot, String> byDefault(
@@ -36,7 +34,7 @@ public final class CandidateChoosers {
      * Creates a {@link CandidateChooser} selecting the first viable value.
      *
      * @param probePuzzle the probed puzzle
-     * @param dictionary   the dictionary
+     * @param dictionary the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
     public static CandidateChooser<Slot, String> firstViable(
@@ -45,13 +43,13 @@ public final class CandidateChoosers {
     }
 
     /**
-     * Creates a {@link CandidateChooser} selecting the viable value which applies the least amount
-     * of constraints on the grid.
-     * <p>
-     * Although intellectually interesting, this chooser comes with a cost which may not worth it.
+     * Creates a {@link CandidateChooser} selecting the viable value which applies the least amount of constraints on
+     * the grid.
+     *
+     * <p>Although intellectually interesting, this chooser comes with a cost which may not worth it.
      *
      * @param probePuzzle the probed puzzle
-     * @param dictionary   the dictionary
+     * @param dictionary the dictionary
      * @return a {@link CandidateChooser} selecting the first viable value
      */
     public static CandidateChooser<Slot, String> leastConstraining(

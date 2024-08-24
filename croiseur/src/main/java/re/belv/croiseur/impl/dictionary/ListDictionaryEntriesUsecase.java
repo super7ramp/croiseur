@@ -14,9 +14,7 @@ import re.belv.croiseur.impl.dictionary.selection.SelectedDictionary;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryContent;
 import re.belv.croiseur.spi.presenter.dictionary.DictionaryPresenter;
 
-/**
- * Lists the dictionary entries.
- */
+/** Lists the dictionary entries. */
 final class ListDictionaryEntriesUsecase {
 
     /** The dictionary selector. */
@@ -29,7 +27,7 @@ final class ListDictionaryEntriesUsecase {
      * Constructs an instance.
      *
      * @param dictionarySelectorArg the dictionary selector
-     * @param presenterArg          the presenter
+     * @param presenterArg the presenter
      */
     ListDictionaryEntriesUsecase(
             final DictionarySelector dictionarySelectorArg, final DictionaryPresenter presenterArg) {

@@ -9,9 +9,7 @@ import picocli.CommandLine.Command;
 import re.belv.croiseur.api.solver.SolverService;
 import re.belv.croiseur.cli.status.Status;
 
-/**
- * The 'solver' command: Solve crosswords and list available solvers.
- */
+/** The 'solver' command: Solve crosswords and list available solvers. */
 @Command(name = "solver")
 public final class SolverCommand {
 

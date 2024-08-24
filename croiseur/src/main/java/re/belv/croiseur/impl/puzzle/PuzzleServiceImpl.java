@@ -19,9 +19,7 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 
-/**
- * Implementation of {@link PuzzleService}.
- */
+/** Implementation of {@link PuzzleService}. */
 public final class PuzzleServiceImpl implements PuzzleService {
 
     /** The persistence service. */
@@ -37,9 +35,9 @@ public final class PuzzleServiceImpl implements PuzzleService {
      * Constructs an instance.
      *
      * @param repositoryArg the puzzle repository
-     * @param decoders      the puzzle decoders
-     * @param encoders      the puzzle encoders
-     * @param presenter     the puzzle presenter
+     * @param decoders the puzzle decoders
+     * @param encoders the puzzle encoders
+     * @param presenter the puzzle presenter
      */
     public PuzzleServiceImpl(
             final PuzzleRepository repositoryArg,

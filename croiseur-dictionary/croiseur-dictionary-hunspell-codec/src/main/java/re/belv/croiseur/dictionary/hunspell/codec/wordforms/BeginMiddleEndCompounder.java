@@ -19,9 +19,9 @@ import re.belv.croiseur.dictionary.hunspell.codec.util.Triplet;
 
 /**
  * Creates compounds based on the compound begin/middle/end flag options.
- * <p>
- * Every triplet of entries (word1,word2,word3) referencing respectively the compound begin flag,
- * compound middle flag and compound end flags can be compounded as "word1word2word3".
+ *
+ * <p>Every triplet of entries (word1,word2,word3) referencing respectively the compound begin flag, compound middle
+ * flag and compound end flags can be compounded as "word1word2word3".
  */
 final class BeginMiddleEndCompounder implements Compounder {
 
@@ -40,7 +40,7 @@ final class BeginMiddleEndCompounder implements Compounder {
     /**
      * Constructs an instance.
      *
-     * @param flags      the compound flags
+     * @param flags the compound flags
      * @param affixerArg the affixer
      */
     BeginMiddleEndCompounder(ThreePartsCompoundFlags flags, final Affixer affixerArg) {
@@ -84,11 +84,11 @@ final class BeginMiddleEndCompounder implements Compounder {
 
     /**
      * Creates the compound from the given parts.
-     * <p>
-     * The created compounded is added to the accumulator.
+     *
+     * <p>The created compounded is added to the accumulator.
      *
      * @param compoundParts the compound parts
-     * @param accumulator   the accumulator where the compound is added
+     * @param accumulator the accumulator where the compound is added
      * @return the created compound
      */
     private BeginMiddleEndCompound compound(
@@ -102,7 +102,7 @@ final class BeginMiddleEndCompounder implements Compounder {
     /**
      * Applies the affixes on the given compound.
      *
-     * @param compound    the compound
+     * @param compound the compound
      * @param accumulator the accumulator where the compound is added.
      */
     private void applyAffixes(final BeginMiddleEndCompound compound, final Consumer<String> accumulator) {

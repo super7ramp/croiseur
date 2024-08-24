@@ -9,9 +9,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.clue.ClueService;
 import re.belv.croiseur.gui.view.model.CluesViewModel;
 
-/**
- * Task to asynchronously list the clue providers.
- */
+/** Task to asynchronously list the clue providers. */
 final class ListClueProviderTask extends Task<Void> {
 
     /** The clue service to call. */

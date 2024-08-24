@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * Interface definition for dictionary providers.
- */
+/** Interface definition for dictionary providers. */
 module re.belv.croiseur.spi.dictionary {
     requires transitive re.belv.croiseur.common;
 

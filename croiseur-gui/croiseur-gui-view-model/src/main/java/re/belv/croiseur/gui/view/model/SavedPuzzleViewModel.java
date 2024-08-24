@@ -10,14 +10,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * An immutable model for displaying a fixed view of a saved crossword puzzle.
- */
+/** An immutable model for displaying a fixed view of a saved crossword puzzle. */
 public final class SavedPuzzleViewModel {
 
-    /**
-     * A builder of the immutable view model.
-     */
+    /** A builder of the immutable view model. */
     public static final class Builder {
 
         /** The shaded boxes. */
@@ -53,9 +49,7 @@ public final class SavedPuzzleViewModel {
         /** The number of rows. */
         private int numberOfRows;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         public Builder() {
             shaded = new HashSet<>();
             filled = new HashMap<>();
@@ -182,7 +176,7 @@ public final class SavedPuzzleViewModel {
          * Defines a filled box.
          *
          * @param position the box position
-         * @param content  the box content
+         * @param content the box content
          * @return this builder for chaining
          */
         public Builder filled(final GridCoord position, final Character content) {
@@ -225,7 +219,7 @@ public final class SavedPuzzleViewModel {
      * Constructs an instance.
      *
      * @param detailsArg the puzzle details
-     * @param gridArg    the puzzle grid
+     * @param gridArg the puzzle grid
      */
     public SavedPuzzleViewModel(final PuzzleDetailsViewModel detailsArg, final SavedPuzzleGridViewModel gridArg) {
         details = detailsArg;

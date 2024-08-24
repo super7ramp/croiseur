@@ -15,9 +15,7 @@ import re.belv.croiseur.gui.view.model.ErrorsViewModel;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 import re.belv.croiseur.spi.presenter.clue.ClueProviderDescription;
 
-/**
- * GUI implementation of {@link CluePresenter}
- */
+/** GUI implementation of {@link CluePresenter} */
 final class GuiCluePresenter implements CluePresenter {
 
     /** The logger. */
@@ -35,8 +33,8 @@ final class GuiCluePresenter implements CluePresenter {
     /**
      * Constructs an instance.
      *
-     * @param cluesViewModelArg  the clues view model
-     * @param gridViewModelArg   the crossword grid view model
+     * @param cluesViewModelArg the clues view model
+     * @param gridViewModelArg the crossword grid view model
      * @param errorsViewModelArg the errors view model
      */
     GuiCluePresenter(

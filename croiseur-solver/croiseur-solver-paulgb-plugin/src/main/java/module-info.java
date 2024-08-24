@@ -6,9 +6,7 @@
 import re.belv.croiseur.solver.paulgb.plugin.CrosswordComposerSolver;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Solver provider adapting croiseur-solver-paulgb.
- */
+/** Solver provider adapting croiseur-solver-paulgb. */
 module re.belv.croiseur.solver.paulgb.plugin {
     requires re.belv.croiseur.solver.paulgb;
     requires re.belv.croiseur.spi.solver;

@@ -22,9 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Solver}.
- */
+/** Tests for {@link Solver}. */
 final class SolverTest {
 
     /**
@@ -86,10 +84,7 @@ final class SolverTest {
         assertArrayEquals(new char[] {'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
     }
 
-    /**
-     * Verifies that Rust panic upon {@code null} puzzle is turned into
-     * {@link NativePanicException}.
-     */
+    /** Verifies that Rust panic upon {@code null} puzzle is turned into {@link NativePanicException}. */
     @Test
     void failureNullPuzzle() {
         final NativePanicException solverError = assertThrows(
@@ -97,10 +92,7 @@ final class SolverTest {
         assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")", solverError.getMessage());
     }
 
-    /**
-     * Verifies that Rust panic upon {@code null} dictionary is turned into
-     * {@link NativePanicException}.
-     */
+    /** Verifies that Rust panic upon {@code null} dictionary is turned into {@link NativePanicException}. */
     @Test
     void failureNullDictionary() {
         final NativePanicException solverError =
@@ -113,8 +105,8 @@ final class SolverTest {
      * Verifies that an {@link InterruptedException} is thrown when solver is interrupted.
      *
      * @throws InterruptedException if test is interrupted, should not happen
-     * @throws ExecutionException   should not happen
-     * @throws TimeoutException     should not happen
+     * @throws ExecutionException should not happen
+     * @throws TimeoutException should not happen
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {

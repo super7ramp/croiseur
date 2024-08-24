@@ -14,9 +14,7 @@ import java.util.function.BiConsumer;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.Aff;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.ParserException;
 
-/**
- * Parses a Hunspell ".aff" file.
- */
+/** Parses a Hunspell ".aff" file. */
 public final class AffParser {
 
     /** Convenience interface. */
@@ -66,9 +64,7 @@ public final class AffParser {
         PARSERS.put(AffItemKind.GENERAL_FLAG_TYPE, (builder, line) -> builder.setFlagType(FlagTypeParser.parse(line)));
     }
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public AffParser() {
         // Nothing to do.
     }
@@ -85,16 +81,16 @@ public final class AffParser {
 
     /**
      * Identifies the encoding of the given lines.
-     * <p>
-     * Method searches the encoding option in the first 50 lines, after which identification
-     * attempt stops and ASCII charset is assumed.
-     * <p>
-     * Typically caller should:
+     *
+     * <p>Method searches the encoding option in the first 50 lines, after which identification attempt stops and ASCII
+     * charset is assumed.
+     *
+     * <p>Typically caller should:
+     *
      * <ol>
-     *    <li>Open the aff file using its preferred charset</li>
-     *    <li>Identify the declared encoding using this method</li>
-     *    <li>Reopen the file with the detected encoding and parse the file with
-     *    {@link #parse(Iterator)}</li>
+     *   <li>Open the aff file using its preferred charset
+     *   <li>Identify the declared encoding using this method
+     *   <li>Reopen the file with the detected encoding and parse the file with {@link #parse(Iterator)}
      * </ol>
      *
      * @param lines iterator on the lines of the file

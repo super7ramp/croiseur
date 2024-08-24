@@ -16,29 +16,29 @@ import javax.xml.stream.XMLStreamException;
 
 /**
  * A dictionary reader.
- * <p>
- * It allows to read parts of the dictionary separately and repeatedly:
+ *
+ * <p>It allows to read parts of the dictionary separately and repeatedly:
+ *
  * <ul>
- *     <li>The "header" part with {@link #readHeader()}</li>
- *     <li>The "words" part with {@link #readWords()}</li>
+ *   <li>The "header" part with {@link #readHeader()}
+ *   <li>The "words" part with {@link #readWords()}
  * </ul>
- * This is useful when only description of the dictionary is needed, e.g. to present the
- * dictionary to the user: Calling {@link #readHeader()} is fast as it will not parse the word
- * list at all.
- * <p>
- * Note that in order to support multiple read on the same source, the reader is not bound directly
- * to an {@link InputStream} but to an {@link InputStreamSupplier}. Such a supplier can easily be
- * created from e.g. a URL:
+ *
+ * This is useful when only description of the dictionary is needed, e.g. to present the dictionary to the user: Calling
+ * {@link #readHeader()} is fast as it will not parse the word list at all.
+ *
+ * <p>Note that in order to support multiple read on the same source, the reader is not bound directly to an
+ * {@link InputStream} but to an {@link InputStreamSupplier}. Such a supplier can easily be created from e.g. a URL:
+ *
  * <pre>{@code
  * final URL dictionaryUrl = MyReaderTest.class.getResource("/example.xml");
  * final DictionaryReader = new DictionaryReader(dictionaryUrl::openStream);
- * }
- * </pre>
- * <p>
- * The reader will close the stream appropriately when it doesn't need it any more.
- * <p>
- * Finally, note that the results of calls to {@link #readHeader()} and {@link #readWords()} are
- * not cached: Values will be read every time.
+ * }</pre>
+ *
+ * <p>The reader will close the stream appropriately when it doesn't need it any more.
+ *
+ * <p>Finally, note that the results of calls to {@link #readHeader()} and {@link #readWords()} are not cached: Values
+ * will be read every time.
  */
 public final class DictionaryReader {
 

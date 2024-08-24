@@ -5,14 +5,10 @@
 
 package re.belv.croiseur.gui.view.model.util;
 
-/**
- * Additions to fx collections.
- */
+/** Additions to fx collections. */
 public final class MoreFXCollections {
 
-    /**
-     * Private constructor, static factories only.
-     */
+    /** Private constructor, static factories only. */
     private MoreFXCollections() {
         // Nothing to do
     }

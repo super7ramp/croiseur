@@ -30,19 +30,19 @@ import re.belv.croiseur.gui.view.model.ClueViewModel;
 
 /**
  * A clue list cell.
- * <p>
- * It is a list cell inspired by {@link javafx.scene.control.cell.TextFieldListCell} with the
- * following particularities:
+ *
+ * <p>It is a list cell inspired by {@link javafx.scene.control.cell.TextFieldListCell} with the following
+ * particularities:
+ *
  * <ul>
- *     <li>Its label is empty: Everything is in the graphic part;
- *     <li>It displays the cell index in a label on the left;
- *     <li>It displays the clue content in a text area (not a text field) in the middle;
- *     <li>It displays a button on the right, whose action is configurable;</li>
- *     <li>Its appearance can be customized via the {@code .clue-list-cell} CSS class allowing the
- *     following properties:
- *     <ul>
+ *   <li>Its label is empty: Everything is in the graphic part;
+ *   <li>It displays the cell index in a label on the left;
+ *   <li>It displays the clue content in a text area (not a text field) in the middle;
+ *   <li>It displays a button on the right, whose action is configurable;
+ *   <li>Its appearance can be customized via the {@code .clue-list-cell} CSS class allowing the following properties:
+ *       <ul>
  *         <li>{@code -index-format: [roman|arabic]}: Defines the format of the cell index
- *     </ul>
+ *       </ul>
  * </ul>
  */
 final class ClueListCell extends ListCell<ClueViewModel> {
@@ -87,9 +87,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
     @FXML
     private Button fillButton;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     ClueListCell() {
         indexFormat =
                 new SimpleStyleableObjectProperty<>(INDEX_FORMAT_CSS_METADATA, this, "indexFormat", IndexFormat.ARABIC);
@@ -124,8 +122,8 @@ final class ClueListCell extends ListCell<ClueViewModel> {
 
     /**
      * The "fill clue button hide" property.
-     * <p>
-     * Fill button is visible when this property value is {@code false} and the cell is selected.
+     *
+     * <p>Fill button is visible when this property value is {@code false} and the cell is selected.
      *
      * @return the "fill clue button hide" property
      */
@@ -173,17 +171,13 @@ final class ClueListCell extends ListCell<ClueViewModel> {
         return FACTORY.getCssMetaData();
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         initializeTextArea();
     }
 
-    /**
-     * Initializes text area event handlers.
-     */
+    /** Initializes text area event handlers. */
     private void initializeTextArea() {
         textArea.addEventFilter(KeyEvent.ANY, event -> {
             if (event.getCode() == KeyCode.ENTER) {

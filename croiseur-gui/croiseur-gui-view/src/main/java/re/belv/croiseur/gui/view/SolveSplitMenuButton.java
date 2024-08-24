@@ -24,10 +24,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import re.belv.croiseur.gui.view.model.SolverItemViewModel;
 
-/**
- * A start/stop solve button with additional menu to select solver and behaviour upon solver
- * success.
- */
+/** A start/stop solve button with additional menu to select solver and behaviour upon solver success. */
 public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /** The number of static items defined in fxml (separator item + get clues item). */
@@ -46,9 +43,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
     @FXML
     private CheckMenuItem fillCluesOnSuccessMenuItem;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public SolveSplitMenuButton() {
         availableSolvers = new SimpleListProperty<>(this, "availableSolvers", FXCollections.observableArrayList());
         selectedSolver = new ReadOnlyStringWrapper(this, "selectedSolver");
@@ -58,8 +53,8 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /**
      * Returns the selected solver property.
-     * <p>
-     * Value is {@code null} if no solver is selected.
+     *
+     * <p>Value is {@code null} if no solver is selected.
      *
      * @return the selected solver property
      */
@@ -85,9 +80,7 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
         return fillCluesOnSuccessMenuItem.selectedProperty();
     }
 
-    /**
-     * Initializes the control after object hierarchy has been loaded from FXML.
-     */
+    /** Initializes the control after object hierarchy has been loaded from FXML. */
     @FXML
     private void initialize() {
         availableSolvers.addListener((ListChangeListener<SolverItemViewModel>) c -> {
@@ -106,8 +99,8 @@ public final class SolveSplitMenuButton extends SplitMenuButton {
 
     /**
      * Adds a new menu item representing the given solver item view model.
-     * <p>
-     * The first added item is automatically selected.
+     *
+     * <p>The first added item is automatically selected.
      *
      * @param solver the solver item view model
      */

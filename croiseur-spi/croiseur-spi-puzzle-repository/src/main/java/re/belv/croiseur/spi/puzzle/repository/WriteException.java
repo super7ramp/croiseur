@@ -5,9 +5,7 @@
 
 package re.belv.croiseur.spi.puzzle.repository;
 
-/**
- * An exception occurring when repository cannot be written.
- */
+/** An exception occurring when repository cannot be written. */
 public final class WriteException extends Exception {
 
     /**

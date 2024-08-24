@@ -9,9 +9,9 @@ import re.belv.croiseur.impl.puzzle.persistence.shared.SafePuzzleRepository;
 
 /**
  * The 'delete all puzzles' usecase.
- * <p>
- * In practice, just boilerplate around {@link SafePuzzleRepository} which manages error handling
- * and presentation for all services relying on the puzzle repository.
+ *
+ * <p>In practice, just boilerplate around {@link SafePuzzleRepository} which manages error handling and presentation
+ * for all services relying on the puzzle repository.
  */
 final class DeleteAllPuzzlesUsecase {
 
@@ -27,9 +27,7 @@ final class DeleteAllPuzzlesUsecase {
         repository = repositoryArg;
     }
 
-    /**
-     * Processes the 'delete all puzzles' event.
-     */
+    /** Processes the 'delete all puzzles' event. */
     void process() {
         repository.deleteAll();
         // SafePuzzleRepository.deleteAll() handles presentation for both success and error cases

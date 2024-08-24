@@ -11,14 +11,14 @@ import java.util.Optional;
 
 /**
  * Details about a puzzle.
- * <p>
- * All fields can be empty can return can be empty but never {@code null}.
  *
- * @param title     the title
- * @param author    the author
- * @param editor    the editor
+ * <p>All fields can be empty can return can be empty but never {@code null}.
+ *
+ * @param title the title
+ * @param author the author
+ * @param editor the editor
  * @param copyright the copyright
- * @param date      the date
+ * @param date the date
  */
 public record PuzzleDetails(String title, String author, String editor, String copyright, Optional<LocalDate> date) {
 
@@ -28,11 +28,11 @@ public record PuzzleDetails(String title, String author, String editor, String c
     /**
      * Validates the record fields.
      *
-     * @param title     the title
-     * @param author    the author
-     * @param editor    the editor
+     * @param title the title
+     * @param author the author
+     * @param editor the editor
      * @param copyright the copyright
-     * @param date      the date
+     * @param date the date
      */
     public PuzzleDetails {
         Objects.requireNonNull(title, "Puzzle title shall not be null, use an empty String.");

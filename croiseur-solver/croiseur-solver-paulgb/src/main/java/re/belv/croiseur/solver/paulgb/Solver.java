@@ -10,9 +10,8 @@ import java.util.Optional;
 /**
  * A solver wrapping paulgb's crossword-composer written in Rust.
  *
- * @see <a href="https://github.com/paulgb/crossword-composer/blob/master/README.md#auto-filler">
- * The crossword-composer documentation
- * </a>
+ * @see <a href="https://github.com/paulgb/crossword-composer/blob/master/README.md#auto-filler">The crossword-composer
+ *     documentation </a>
  */
 public final class Solver {
 
@@ -23,7 +22,7 @@ public final class Solver {
     /**
      * Solves the given puzzle with the given dictionary.
      *
-     * @param puzzle     the puzzle to solve
+     * @param puzzle the puzzle to solve
      * @param dictionary the dictionary
      * @return the {@link Solution}
      * @throws InterruptedException if interrupted while solving

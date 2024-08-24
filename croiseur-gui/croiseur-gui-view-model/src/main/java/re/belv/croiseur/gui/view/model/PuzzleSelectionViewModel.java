@@ -12,9 +12,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 
-/**
- * Puzzle selection view model.
- */
+/** Puzzle selection view model. */
 public final class PuzzleSelectionViewModel {
 
     /** The available puzzles. */
@@ -23,9 +21,7 @@ public final class PuzzleSelectionViewModel {
     /** The selected puzzle. Value is {@code null} if no puzzle is selected. */
     private final ObjectProperty<SavedPuzzleViewModel> selectedPuzzle;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     PuzzleSelectionViewModel() {
         availablePuzzles = new SimpleListProperty<>(this, "availablePuzzles", FXCollections.observableArrayList());
         selectedPuzzle = new SimpleObjectProperty<>(this, "selectedPuzzle");
@@ -42,9 +38,9 @@ public final class PuzzleSelectionViewModel {
 
     /**
      * Updates the available puzzles with given puzzle.
-     * <p>
-     * If a puzzle with same id already exists, it will be replaced by given puzzle. Otherwise,
-     * given puzzle will be added to the available puzzles.
+     *
+     * <p>If a puzzle with same id already exists, it will be replaced by given puzzle. Otherwise, given puzzle will be
+     * added to the available puzzles.
      *
      * @param puzzle a new or updated puzzle
      */
@@ -57,8 +53,8 @@ public final class PuzzleSelectionViewModel {
 
     /**
      * Removes the puzzle with given id from the view model's available puzzles.
-     * <p>
-     * Does nothing if no such puzzle exists.
+     *
+     * <p>Does nothing if no such puzzle exists.
      *
      * @param id the id of the puzzle to delete
      */
@@ -75,8 +71,8 @@ public final class PuzzleSelectionViewModel {
 
     /**
      * Returns the selected puzzle property.
-     * <p>
-     * Value is {@code null} if no puzzle is selected.
+     *
+     * <p>Value is {@code null} if no puzzle is selected.
      *
      * @return the selected puzzle property
      */

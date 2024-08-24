@@ -15,17 +15,13 @@ import re.belv.croiseur.puzzle.codec.xd.reader.XdReadException;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecoder;
 import re.belv.croiseur.spi.puzzle.codec.PuzzleDecodingException;
 
-/**
- * {@link PuzzleDecoder} implementation for the xd format.
- */
+/** {@link PuzzleDecoder} implementation for the xd format. */
 public final class XdDecoder implements PuzzleDecoder {
 
     /** The actual decoder. */
     private final XdCrosswordReader xd;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public XdDecoder() {
         xd = new XdCrosswordReader();
     }

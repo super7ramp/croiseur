@@ -12,9 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
-/**
- * An affix flag type.
- */
+/** An affix flag type. */
 public enum FlagType {
 
     /** Affix name is composed of a single extended-ASCII character. */

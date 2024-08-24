@@ -10,14 +10,10 @@ import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import re.belv.croiseur.puzzle.codec.xd.model.XdMetadata;
 
-/**
- * Parses text to {@link XdMetadata}.
- */
+/** Parses text to {@link XdMetadata}. */
 final class XdMetadataReader {
 
-    /**
-     * Standard metadata property keys.
-     */
+    /** Standard metadata property keys. */
     private static final class StandardKeys {
         private static final String TITLE = "Title";
         private static final String AUTHOR = "Author";
@@ -27,8 +23,8 @@ final class XdMetadataReader {
     }
 
     /**
-     * Line separator regex. Handles both Unix and Windows line-endings (although format
-     * specification seems to assume Unix line-endings).
+     * Line separator regex. Handles both Unix and Windows line-endings (although format specification seems to assume
+     * Unix line-endings).
      */
     private static final String LINE_SEPARATOR = "\\R";
 
@@ -38,9 +34,7 @@ final class XdMetadataReader {
     /** The metadata model builder. */
     private final XdMetadata.Builder builder;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     XdMetadataReader() {
         builder = new XdMetadata.Builder();
     }
@@ -50,7 +44,7 @@ final class XdMetadataReader {
      *
      * @param rawMetadata the metadata to read
      * @return the read {@link XdMetadata}
-     * @throws XdReadException      if read fails
+     * @throws XdReadException if read fails
      * @throws NullPointerException if given string is {@code null}
      */
     XdMetadata read(final String rawMetadata) throws XdReadException {
@@ -76,10 +70,8 @@ final class XdMetadataReader {
      * Split metadata line between key and value parts.
      *
      * @param line the line
-     * @return an array of size 2, whose first element is the property key and its second element is
-     * the property value
-     * @throws XdMetadataReadException if line is invalid (i.e. not respecting the format "Key:
-     *                                 Value")
+     * @return an array of size 2, whose first element is the property key and its second element is the property value
+     * @throws XdMetadataReadException if line is invalid (i.e. not respecting the format "Key: Value")
      */
     private static String[] splitKeyValues(final String line) throws XdMetadataReadException {
         if (line.isEmpty()) {
@@ -95,8 +87,8 @@ final class XdMetadataReader {
 
     /**
      * Parses the given date.
-     * <p>
-     * The expected format is "YYYY-MM-DD".
+     *
+     * <p>The expected format is "YYYY-MM-DD".
      *
      * @param date the date to parse
      * @return the parsed {@link LocalDate}

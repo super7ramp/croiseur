@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests on {@link DictionaryReader}.
- */
+/** Tests on {@link DictionaryReader}. */
 final class DictionaryReaderTest {
 
     @Test

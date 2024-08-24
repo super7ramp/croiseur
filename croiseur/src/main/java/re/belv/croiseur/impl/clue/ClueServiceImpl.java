@@ -11,9 +11,7 @@ import re.belv.croiseur.api.clue.GetClueRequest;
 import re.belv.croiseur.spi.clue.ClueProvider;
 import re.belv.croiseur.spi.presenter.clue.CluePresenter;
 
-/**
- * Implementation of {@link ClueService}.
- */
+/** Implementation of {@link ClueService}. */
 public final class ClueServiceImpl implements ClueService {
 
     /** The 'list clue providers' use case. */

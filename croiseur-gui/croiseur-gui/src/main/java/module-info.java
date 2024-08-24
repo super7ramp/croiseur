@@ -10,9 +10,7 @@ import re.belv.croiseur.spi.puzzle.codec.PuzzleEncoder;
 import re.belv.croiseur.spi.puzzle.repository.PuzzleRepository;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 
-/**
- * Desktop application, frontend to croiseur.
- */
+/** Desktop application, frontend to croiseur. */
 module re.belv.croiseur.gui {
 
     // GUI submodules

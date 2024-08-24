@@ -11,18 +11,14 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClassHeader;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 
-/**
- * Parses {@link AffixClassHeader}.
- */
+/** Parses {@link AffixClassHeader}. */
 final class AffixClassHeaderParser {
 
     /** The pattern of an affix header. */
     private static final Pattern PATTERN = Pattern.compile(
             "^(?<kind>(PFX|SFX)) +" + "(?<flag>[^ /]+) +" + "(?<crossProduct>[YN]) +" + "(?<numberOfRules>[0-9]+)$");
 
-    /**
-     * Private constructor to prevent instantiation, static methods only.
-     */
+    /** Private constructor to prevent instantiation, static methods only. */
     private AffixClassHeaderParser() {
         // Nothing to do.
     }

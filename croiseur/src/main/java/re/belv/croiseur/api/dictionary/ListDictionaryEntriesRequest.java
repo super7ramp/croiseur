@@ -7,9 +7,7 @@ package re.belv.croiseur.api.dictionary;
 
 import java.util.Objects;
 
-/**
- * The request to list entries for a specific dictionary.
- */
+/** The request to list entries for a specific dictionary. */
 public interface ListDictionaryEntriesRequest {
 
     /**

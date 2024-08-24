@@ -20,9 +20,7 @@ import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
 import re.belv.croiseur.cli.status.Status;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * "solver run" subcommand: Solves a crossword puzzle.
- */
+/** "solver run" subcommand: Solves a crossword puzzle. */
 @Command(
         name = "run",
         aliases = {"solve"})

@@ -15,9 +15,7 @@ import re.belv.croiseur.api.puzzle.importer.PuzzleImportService;
 import re.belv.croiseur.spi.presenter.puzzle.PuzzlePresenter;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to {@link PuzzleImportService}.
- */
+/** Steps pertaining to {@link PuzzleImportService}. */
 public final class PuzzleImportSteps {
 
     /** The puzzle import service. */

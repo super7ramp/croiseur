@@ -29,19 +29,17 @@ import re.belv.croiseur.common.puzzle.SavedPuzzle;
 import re.belv.croiseur.tests.context.PuzzleRepositorySpy;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Datatable and parameter types pertaining to puzzle service.
- */
+/** Datatable and parameter types pertaining to puzzle service. */
 public final class PuzzleTypes {
 
     /**
      * A pattern matching an <em>id variable</em>.
-     * <p>
-     * An id variable looks like {@literal $id_0 (or just $id), $id_1, $id_2}. It masks the real
-     * value of the record identifier. It allows to avoid scenarios with hard coded values depending
-     * on a particular repository id allocation implementation.
-     * <p>
-     * This pattern offers a capture group on the key of the id variable (i.e. the number 0, 1, 2).
+     *
+     * <p>An id variable looks like {@literal $id_0 (or just $id), $id_1, $id_2}. It masks the real value of the record
+     * identifier. It allows to avoid scenarios with hard coded values depending on a particular repository id
+     * allocation implementation.
+     *
+     * <p>This pattern offers a capture group on the key of the id variable (i.e. the number 0, 1, 2).
      */
     private static final Pattern ID_VARIABLE_PATTERN = Pattern.compile("\\$id(?:_(1-9)+)?");
 
@@ -62,14 +60,14 @@ public final class PuzzleTypes {
 
     /**
      * Parses a puzzle id or a <em>puzzle id variable</em>.
-     * <p>
-     * A puzzle id variable looks like {@literal $id, $id_1, $id_2}. It masks the real value of the
-     * identifier of the puzzle in puzzle repository. It allows to avoid scenarios with hard coded
-     * values depending on a particular repository id allocation implementation.
+     *
+     * <p>A puzzle id variable looks like {@literal $id, $id_1, $id_2}. It masks the real value of the identifier of the
+     * puzzle in puzzle repository. It allows to avoid scenarios with hard coded values depending on a particular
+     * repository id allocation implementation.
      *
      * @param idOrIdVariable id variable
-     * @return the value of the id variable; If given string cannot be identified as an id variable,
-     * then it will assume a raw id value is given and return its parsed integer value
+     * @return the value of the id variable; If given string cannot be identified as an id variable, then it will assume
+     *     a raw id value is given and return its parsed integer value
      */
     @ParameterType(".+")
     public long puzzleId(final String idOrIdVariable) {

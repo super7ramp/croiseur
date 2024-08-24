@@ -14,10 +14,10 @@ import javafx.scene.layout.Region;
 /**
  * A {@link TextArea} which auto-resizes its height according to its text content.
  *
- * @see <a href="https://stackoverflow.com/a/72007076">Sai Dandem's original implementation</a>,
- * which is the base for this implementation
- * @see <a href="https://github.com/HanSolo/expandabletextarea">Gerrit Grunwald's alternative
- * implementation</a>: A different approach, not used here but good to know.
+ * @see <a href="https://stackoverflow.com/a/72007076">Sai Dandem's original implementation</a>, which is the base for
+ *     this implementation
+ * @see <a href="https://github.com/HanSolo/expandabletextarea">Gerrit Grunwald's alternative implementation</a>: A
+ *     different approach, not used here but good to know.
  */
 public final class ExpandableTextArea extends TextArea {
 
@@ -27,9 +27,7 @@ public final class ExpandableTextArea extends TextArea {
     /** Cached text nodes. */
     private Set<Node> textNodes;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public ExpandableTextArea() {
         // Nothing to do.
     }

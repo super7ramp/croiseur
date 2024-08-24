@@ -7,14 +7,10 @@ package re.belv.croiseur.solver.ginsberg.grid;
 
 import java.util.NoSuchElementException;
 
-/**
- * Factory of {@link BoxData} implementations.
- */
+/** Factory of {@link BoxData} implementations. */
 final class Boxes {
 
-    /**
-     * A box containing a computed letter.
-     */
+    /** A box containing a computed letter. */
     private static final class ComputedBox implements BoxData {
 
         /** The empty value. */
@@ -23,9 +19,7 @@ final class Boxes {
         /** The value. */
         private char character;
 
-        /**
-         * Constructor.
-         */
+        /** Constructor. */
         ComputedBox() {
             character = EMPTY_VALUE;
         }
@@ -78,9 +72,7 @@ final class Boxes {
         }
     }
 
-    /**
-     * A box containing a pre-filled letter.
-     */
+    /** A box containing a pre-filled letter. */
     private static final class PrefilledBox implements BoxData {
 
         /** The value. */
@@ -134,17 +126,13 @@ final class Boxes {
         }
     }
 
-    /**
-     * A shaded box.
-     */
+    /** A shaded box. */
     private static final class ShadedBox implements BoxData {
 
         /** Error message. */
         private static final String SHADED_BOXES_ARE_IMMUTABLE = "Shaded boxes are immutable";
 
-        /**
-         * Constructor.
-         */
+        /** Constructor. */
         ShadedBox() {
             // Nothing to do.
         }
@@ -189,23 +177,17 @@ final class Boxes {
     /** Shaded box constant. */
     private static final BoxData SHADED = new ShadedBox();
 
-    /**
-     * Private constructor, static utilities only.
-     */
+    /** Private constructor, static utilities only. */
     private Boxes() {
         // Nothing to do.
     }
 
-    /**
-     * @return a shaded unmodifiable box
-     */
+    /** @return a shaded unmodifiable box */
     static BoxData shaded() {
         return SHADED;
     }
 
-    /**
-     * @return an empty modifiable box
-     */
+    /** @return an empty modifiable box */
     static BoxData computed() {
         return new ComputedBox();
     }

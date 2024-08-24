@@ -8,9 +8,7 @@ package re.belv.croiseur.solver.ginsberg;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Tests on grids with shaded boxes.
- */
+/** Tests on grids with shaded boxes. */
 final class CrosswordSolverShadedGridTest {
 
     /**

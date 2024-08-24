@@ -13,9 +13,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-/**
- * Reader dedicated to the {@code <word>} elements.
- */
+/** Reader dedicated to the {@code <word>} elements. */
 final class DictionaryWordsReader {
 
     /** Filter on {@code <word>} element start event. */
@@ -31,7 +29,7 @@ final class DictionaryWordsReader {
     /**
      * Constructs an instance.
      *
-     * @param xmlInputFactoryArg  the XML input factory
+     * @param xmlInputFactoryArg the XML input factory
      * @param dictionaryStreamArg the dictionary input stream supplier
      */
     DictionaryWordsReader(final XMLInputFactory xmlInputFactoryArg, final InputStreamSupplier dictionaryStreamArg) {
@@ -43,7 +41,7 @@ final class DictionaryWordsReader {
      * Reads the words of the dictionary.
      *
      * @return the words of the dictionary as a {@link Stream}
-     * @throws IOException        if input stream cannot be opened on given dictionary
+     * @throws IOException if input stream cannot be opened on given dictionary
      * @throws XMLStreamException if read failed
      */
     Stream<String> read() throws IOException, XMLStreamException {

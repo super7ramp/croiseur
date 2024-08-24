@@ -95,8 +95,7 @@ abstract class WordFormGeneratorTestCase {
     }
 
     /**
-     * Returns the base name of the test dictionary (e.g. for "simple.dic" and "simple.aff", name is
-     * "simple").
+     * Returns the base name of the test dictionary (e.g. for "simple.dic" and "simple.aff", name is "simple").
      *
      * @return the base of the test dictionary
      */

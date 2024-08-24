@@ -24,9 +24,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverDescription;
 import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.tests.context.TestContext;
 
-/**
- * Steps pertaining to the solver service.
- */
+/** Steps pertaining to the solver service. */
 public final class SolverSteps {
 
     /** Non-capturing regex for " and". */
@@ -122,13 +120,13 @@ public final class SolverSteps {
     /**
      * Calls solver service.
      *
-     * @param solver             the solver name, if any, otherwise {@code null}
-     * @param dictionary         the dictionary name, if any, otherwise {@code null}
+     * @param solver the solver name, if any, otherwise {@code null}
+     * @param dictionary the dictionary name, if any, otherwise {@code null}
      * @param dictionaryProvider the dictionary provider, if any, otherwise {@code null}
-     * @param randomSeed         the random seed, if any, otherwise {@code null}
-     * @param puzzleGrid         the grid
-     * @param withClues          whether to get clues for the solution, if any found
-     * @param savePuzzle         whether to publish the given grid as a puzzle in repository
+     * @param randomSeed the random seed, if any, otherwise {@code null}
+     * @param puzzleGrid the grid
+     * @param withClues whether to get clues for the solution, if any found
+     * @param savePuzzle whether to publish the given grid as a puzzle in repository
      */
     private void callSolver(
             final String solver,

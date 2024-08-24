@@ -9,9 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import re.belv.croiseur.common.puzzle.GridPosition;
 
-/**
- * Parser for {@link GridPosition}.
- */
+/** Parser for {@link GridPosition}. */
 public final class GridPositionParser {
 
     /** Textual representation. */

@@ -15,9 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.gui.view.model.slot.SlotOutline;
 
-/**
- * Tests for {@link PuzzleEditionViewModel}.
- */
+/** Tests for {@link PuzzleEditionViewModel}. */
 final class PuzzleEditionViewModelTest {
 
     /** The model under tests. */
@@ -123,9 +121,7 @@ final class PuzzleEditionViewModelTest {
                 model.cluesViewModel().downCluesProperty().get());
     }
 
-    /**
-     * Don't clear clues if slot is not modified.
-     */
+    /** Don't clear clues if slot is not modified. */
     @Test
     void addSlot_dontChangeNonImpactedClues() {
         model.crosswordGridViewModel().box(at(3, 0)).shade();
@@ -138,9 +134,7 @@ final class PuzzleEditionViewModelTest {
         assertEquals("A down clue", model.cluesViewModel().downClue(0).userContent());
     }
 
-    /**
-     * Clear clue if slot is modified.
-     */
+    /** Clear clue if slot is modified. */
     @Test
     void addSlot_clearInvalidatedClues() {
         model.crosswordGridViewModel().box(at(3, 0)).shade();

@@ -16,19 +16,13 @@ import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 
-/**
- * Implementation of {@link Grid}.
- */
+/** Implementation of {@link Grid}. */
 final class GridImpl implements Grid {
 
-    /**
-     * Implementation of {@link Puzzle}.
-     */
+    /** Implementation of {@link Puzzle}. */
     private static final class PuzzleImpl implements Puzzle, Connectivity {
 
-        /**
-         * The underlying data.
-         */
+        /** The underlying data. */
         private final GridData data;
 
         /**
@@ -69,14 +63,10 @@ final class GridImpl implements Grid {
         }
     }
 
-    /**
-     * The {@link Puzzle} implementation.
-     */
+    /** The {@link Puzzle} implementation. */
     private final Puzzle puzzle;
 
-    /**
-     * The underlying data.
-     */
+    /** The underlying data. */
     private final GridData data;
 
     /**

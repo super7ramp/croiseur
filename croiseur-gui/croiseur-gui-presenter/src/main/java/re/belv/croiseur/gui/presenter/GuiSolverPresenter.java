@@ -24,9 +24,7 @@ import re.belv.croiseur.spi.presenter.solver.SolverPresenter;
 import re.belv.croiseur.spi.presenter.solver.SolverProgress;
 import re.belv.croiseur.spi.presenter.solver.SolverResult;
 
-/**
- * GUI implementation of {@link SolverPresenter}.
- */
+/** GUI implementation of {@link SolverPresenter}. */
 final class GuiSolverPresenter implements SolverPresenter {
 
     /** Logger. */
@@ -47,9 +45,9 @@ final class GuiSolverPresenter implements SolverPresenter {
     /**
      * Constructs an instance.
      *
-     * @param crosswordGridViewModelArg   the grid view model
+     * @param crosswordGridViewModelArg the grid view model
      * @param solverConfigurationViewModelArg the solver selection view model
-     * @param errorsViewModelArg          the errors view model
+     * @param errorsViewModelArg the errors view model
      */
     GuiSolverPresenter(
             final CrosswordGridViewModel crosswordGridViewModelArg,
@@ -102,9 +100,9 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     /**
      * Updates box solvable state.
-     * <p>
-     * All boxes will be updated with returned result. This ensures that previously set unsolvable
-     * status will be cleared.
+     *
+     * <p>All boxes will be updated with returned result. This ensures that previously set unsolvable status will be
+     * cleared.
      *
      * @param result the solver result
      */
@@ -127,8 +125,8 @@ final class GuiSolverPresenter implements SolverPresenter {
 
     /**
      * Updates box content.
-     * <p>
-     * Only boxes that have been filled by solver will be updated.
+     *
+     * <p>Only boxes that have been filled by solver will be updated.
      *
      * @param result the solver result
      */

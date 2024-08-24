@@ -13,9 +13,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixClass;
 import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 import re.belv.croiseur.dictionary.hunspell.codec.model.dic.DicEntry;
 
-/**
- * Applies all the appropriate affix classes to a dic entry.
- */
+/** Applies all the appropriate affix classes to a dic entry. */
 final class Affixer implements Function<DicEntry, Stream<String>> {
 
     /** The affix classes access. */
@@ -47,14 +45,14 @@ final class Affixer implements Function<DicEntry, Stream<String>> {
 
     /**
      * Applies affix classes on a compound.
-     * <p>
-     * It is slightly more complex than on a normal entry:
+     *
+     * <p>It is slightly more complex than on a normal entry:
+     *
      * <ul>
-     *     <li>Apply prefixes referenced by the begin part on the compound</li>
-     *     <li>Apply suffixes referenced by the end part on the prefixed compound
-     *     (cross-product)</li>
-     *     <li>Apply suffixes referenced by the end part on the compound</li>
-     *     <li>Apply prefixes referenced by begin part on the suffixed compound (cross-product)</li>
+     *   <li>Apply prefixes referenced by the begin part on the compound
+     *   <li>Apply suffixes referenced by the end part on the prefixed compound (cross-product)
+     *   <li>Apply suffixes referenced by the end part on the compound
+     *   <li>Apply prefixes referenced by begin part on the suffixed compound (cross-product)
      * </ul>
      *
      * @param compound the compound to affix

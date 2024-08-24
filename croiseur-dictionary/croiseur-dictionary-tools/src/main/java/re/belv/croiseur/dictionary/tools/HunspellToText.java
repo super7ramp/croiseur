@@ -17,9 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import re.belv.croiseur.dictionary.hunspell.codec.HunspellDictionaryReader;
 
-/**
- * A tool to deflate a Hunspell dictionary into a big text file containing all valid forms;
- */
+/** A tool to deflate a Hunspell dictionary into a big text file containing all valid forms; */
 public final class HunspellToText {
 
     /** Logger. */

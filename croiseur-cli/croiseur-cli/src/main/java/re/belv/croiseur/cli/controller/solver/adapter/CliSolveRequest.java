@@ -24,15 +24,10 @@ import re.belv.croiseur.cli.controller.solver.parser.PrefilledSlot;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Adapts command line arguments into a {@link SolveRequest}.
- */
+/** Adapts command line arguments into a {@link SolveRequest}. */
 public final class CliSolveRequest implements SolveRequest {
 
-    /**
-     * A builder. Unless specified otherwise, all method arguments are required to be
-     * {@code non-null}.
-     */
+    /** A builder. Unless specified otherwise, all method arguments are required to be {@code non-null}. */
     public static final class Builder {
 
         private String solver;
@@ -47,9 +42,7 @@ public final class CliSolveRequest implements SolveRequest {
         private boolean clues;
         private boolean save;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         public Builder() {
             // Nothing to do.
         }
@@ -194,8 +187,8 @@ public final class CliSolveRequest implements SolveRequest {
         }
 
         /**
-         * Merge {@link #prefilledBoxes}, {@link #prefilledHorizontalSlots} and
-         * {@link #prefilledVerticalSlots} into a single map.
+         * Merge {@link #prefilledBoxes}, {@link #prefilledHorizontalSlots} and {@link #prefilledVerticalSlots} into a
+         * single map.
          *
          * @return the merged map
          * @throws IllegalArgumentException if boxes overlap
@@ -237,13 +230,13 @@ public final class CliSolveRequest implements SolveRequest {
     /**
      * Constructs an instance.
      *
-     * @param solverArg       the solver name
-     * @param puzzleGridArg   the puzzle grid
+     * @param solverArg the solver name
+     * @param puzzleGridArg the puzzle grid
      * @param dictionaryIdArg the dictionary identifiers
-     * @param randomArg       the randomness source to shuffle dictionaries
-     * @param progressArg     whether progress should be notified
-     * @param cluesArg        whether to generate clues for result slot words
-     * @param saveArg         whether given grid shall be saved
+     * @param randomArg the randomness source to shuffle dictionaries
+     * @param progressArg whether progress should be notified
+     * @param cluesArg whether to generate clues for result slot words
+     * @param saveArg whether given grid shall be saved
      */
     private CliSolveRequest(
             final String solverArg,

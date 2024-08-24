@@ -11,18 +11,18 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.common.Flag;
 /**
  * The compounding flags specific to three-part flag-based compounding.
  *
- * @param begin  the value of {@code COMPOUNDBEGIN}
+ * @param begin the value of {@code COMPOUNDBEGIN}
  * @param middle the value of {@code COMPOUNDMIDDLE}
- * @param end    the value of {@code COMPOUNDEND}
+ * @param end the value of {@code COMPOUNDEND}
  */
 public record ThreePartsCompoundFlags(Flag begin, Flag middle, Flag end) {
 
     /**
      * Performs some null checks.
      *
-     * @param begin  the value of {@code COMPOUNDBEGIN}
+     * @param begin the value of {@code COMPOUNDBEGIN}
      * @param middle the value of {@code COMPOUNDMIDDLE}
-     * @param end    the value of {@code COMPOUNDEND}
+     * @param end the value of {@code COMPOUNDEND}
      */
     public ThreePartsCompoundFlags {
         Objects.requireNonNull(begin);

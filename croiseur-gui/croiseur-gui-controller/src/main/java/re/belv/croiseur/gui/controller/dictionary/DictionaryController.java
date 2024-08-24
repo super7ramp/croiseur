@@ -12,9 +12,7 @@ import javafx.concurrent.Task;
 import re.belv.croiseur.api.dictionary.DictionaryService;
 import re.belv.croiseur.gui.view.model.DictionaryViewModel;
 
-/**
- * Controls calls to the dictionary service.
- */
+/** Controls calls to the dictionary service. */
 public final class DictionaryController {
 
     /** Logger. */
@@ -30,7 +28,7 @@ public final class DictionaryController {
      * Constructs an instance.
      *
      * @param dictionaryServiceArg the dictionary service
-     * @param executorArg          the worker executing the dictionary tasks
+     * @param executorArg the worker executing the dictionary tasks
      */
     public DictionaryController(final DictionaryService dictionaryServiceArg, final Executor executorArg) {
         dictionaryService = dictionaryServiceArg;
@@ -46,9 +44,7 @@ public final class DictionaryController {
         execute(new ListDictionaryEntriesTask(dictionaryViewModel, dictionaryService));
     }
 
-    /**
-     * Lists the available dictionaries.
-     */
+    /** Lists the available dictionaries. */
     public void listDictionaries() {
         execute(new ListDictionariesTask(dictionaryService));
     }

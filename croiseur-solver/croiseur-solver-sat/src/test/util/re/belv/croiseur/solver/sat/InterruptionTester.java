@@ -36,8 +36,7 @@ final class InterruptionTester {
     private final Future<Boolean> runnableInterrupted;
 
     /**
-     * Constructs an instance. Immediately starts the given interruptible runnable in a dedicated
-     * thread.
+     * Constructs an instance. Immediately starts the given interruptible runnable in a dedicated thread.
      *
      * @param runnable the interruptible runnable to test
      */
@@ -54,8 +53,7 @@ final class InterruptionTester {
     }
 
     /**
-     * Interrupts the thread in which the interruptible runnable is supposed to run, after the given
-     * delay is elapsed.
+     * Interrupts the thread in which the interruptible runnable is supposed to run, after the given delay is elapsed.
      *
      * @param delay the delay before interrupting
      */
@@ -65,9 +63,8 @@ final class InterruptionTester {
     }
 
     /**
-     * Verifies that the interruptible runnable passed at construction has raised an {@link
-     * InterruptedException} withing timeout. Will always fail if {@link #interruptThreadAfter} has
-     * not been called.
+     * Verifies that the interruptible runnable passed at construction has raised an {@link InterruptedException}
+     * withing timeout. Will always fail if {@link #interruptThreadAfter} has not been called.
      *
      * @param timeout the timeout (in seconds)
      */

@@ -23,9 +23,7 @@ final class FlagTypeParser {
         PATTERNS.put(FlagType.UTF_8, Pattern.compile("^FLAG UTF-8$"));
     }
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     private FlagTypeParser() {
         // Nothing to do.
     }

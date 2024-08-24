@@ -16,9 +16,7 @@ import re.belv.croiseur.api.puzzle.PuzzleService;
 import re.belv.croiseur.api.solver.SolverService;
 import re.belv.croiseur.spi.presenter.Presenter;
 
-/**
- * Test context.
- */
+/** Test context. */
 public final class TestContext {
 
     /** The crossword service. */
@@ -119,9 +117,9 @@ public final class TestContext {
     /**
      * Initialises the test context with the given information.
      *
-     * @param crosswordServiceArg    the crossword service
+     * @param crosswordServiceArg the crossword service
      * @param puzzleRepositorySpyArg the spied puzzle repository
-     * @param presenterMockArg       the mocked presenter
+     * @param presenterMockArg the mocked presenter
      * @throws IllegalStateException if test context is already initialised
      */
     void deploy(
@@ -148,9 +146,7 @@ public final class TestContext {
         puzzleRepositorySpy.verifyNoMoreInteractions();
     }
 
-    /**
-     * Resets the test context.
-     */
+    /** Resets the test context. */
     void undeploy() {
         crosswordService = null;
         puzzleRepositorySpy = null;

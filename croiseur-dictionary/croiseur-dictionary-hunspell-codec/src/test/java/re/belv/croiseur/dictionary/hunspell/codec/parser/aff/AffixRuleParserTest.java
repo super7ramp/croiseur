@@ -14,9 +14,7 @@ import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixKind;
 import re.belv.croiseur.dictionary.hunspell.codec.model.aff.AffixRule;
 import re.belv.croiseur.dictionary.hunspell.codec.parser.common.FlagType;
 
-/**
- * Tests for {@link AffixRule}.
- */
+/** Tests for {@link AffixRule}. */
 final class AffixRuleParserTest {
 
     @Test

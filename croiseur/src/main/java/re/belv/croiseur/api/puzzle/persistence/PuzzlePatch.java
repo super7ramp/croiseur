@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
-/**
- * Modifications to be applied on a puzzle.
- */
+/** Modifications to be applied on a puzzle. */
 public interface PuzzlePatch {
 
     /**
@@ -60,8 +58,7 @@ public interface PuzzlePatch {
     /**
      * The new across clues, or {@link Optional#empty()} if across clues shouldn't be changed.
      *
-     * @return the new across clues, or {@link Optional#empty()} if across clues shouldn't be
-     * changed.
+     * @return the new across clues, or {@link Optional#empty()} if across clues shouldn't be changed.
      */
     Optional<List<String>> modifiedAcrossClues();
 

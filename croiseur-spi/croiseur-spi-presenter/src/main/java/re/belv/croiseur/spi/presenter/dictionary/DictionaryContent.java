@@ -12,7 +12,7 @@ import re.belv.croiseur.common.dictionary.ProvidedDictionaryDetails;
  * The words of a dictionary for presentation purposes.
  *
  * @param details details about the dictionary and its provider
- * @param words   all the words inside the dictionary
+ * @param words all the words inside the dictionary
  */
 public record DictionaryContent(ProvidedDictionaryDetails details, Set<String> words) {
     // Nothing to add.

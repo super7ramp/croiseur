@@ -18,9 +18,7 @@ import re.belv.croiseur.solver.ginsberg.core.Slot;
 import re.belv.croiseur.solver.ginsberg.core.SlotIdentifier;
 import re.belv.croiseur.solver.ginsberg.elimination.EliminationSpace;
 
-/**
- * Implementation of {@link CachedDictionary}.
- */
+/** Implementation of {@link CachedDictionary}. */
 final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
     /** The number of patterns to cache per slot. */
@@ -30,8 +28,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
     private final Map<SlotIdentifier, Trie> initialCandidates;
 
     /**
-     * Associations between patterns and dictionary words satisfying these patterns. Avoids repeated
-     * traversals of {@link #initialCandidates}.
+     * Associations between patterns and dictionary words satisfying these patterns. Avoids repeated traversals of
+     * {@link #initialCandidates}.
      */
     private final Map<String, List<String>> wordsByPattern;
 
@@ -45,7 +43,7 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
      * Constructor.
      *
      * @param dictionary a dictionary
-     * @param slots      the slots
+     * @param slots the slots
      */
     CachedDictionaryImpl(
             final Dictionary dictionary, final Collection<Slot> slots, final EliminationSpace eliminationSpace) {
@@ -110,8 +108,8 @@ final class CachedDictionaryImpl implements CachedDictionaryWriter {
 
     /**
      * Gets the words satisfying the pattern of given slot.
-     * <p>
-     * Updates {@link #wordsByPattern} cache if necessary.
+     *
+     * <p>Updates {@link #wordsByPattern} cache if necessary.
      *
      * @param slot the slot
      * @return the words satisfying the pattern of given slot

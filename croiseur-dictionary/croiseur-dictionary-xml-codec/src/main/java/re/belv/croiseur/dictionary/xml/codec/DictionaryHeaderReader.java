@@ -14,16 +14,13 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-/**
- * Parses the header part of the dictionary: {@code <locale>}, {@code <name>} and {@code
- * <description>}.
- */
+/** Parses the header part of the dictionary: {@code <locale>}, {@code <name>} and {@code <description>}. */
 final class DictionaryHeaderReader {
 
     /**
      * Filters on {@code <locale>}, {@code <name>} and {@code <description>} element start events.
-     * <p>
-     * Also filters on {@code <words>} start event (i.e. the end of the header).
+     *
+     * <p>Also filters on {@code <words>} start event (i.e. the end of the header).
      */
     private static final StreamFilter DICTIONARY_HEADER_STREAM_FILTER = (final XMLStreamReader reader) -> {
         if (!reader.isStartElement()) {
@@ -45,7 +42,7 @@ final class DictionaryHeaderReader {
     /**
      * Constructs an instance.
      *
-     * @param xmlInputFactoryArg  the XML input factory
+     * @param xmlInputFactoryArg the XML input factory
      * @param dictionaryStreamArg the dictionary input stream supplier
      */
     DictionaryHeaderReader(final XMLInputFactory xmlInputFactoryArg, final InputStreamSupplier dictionaryStreamArg) {
@@ -57,7 +54,7 @@ final class DictionaryHeaderReader {
      * Parses a {@code <description>} element.
      *
      * @param xmlStreamReader the XML reader
-     * @param headerBuilder   the header builder
+     * @param headerBuilder the header builder
      * @throws XMLStreamException if read fails
      */
     private static void parseDescription(
@@ -74,7 +71,7 @@ final class DictionaryHeaderReader {
      * Parses a {@code <name>} element.
      *
      * @param xmlStreamReader the XML reader
-     * @param headerBuilder   the header builder
+     * @param headerBuilder the header builder
      * @throws XMLStreamException if read fails
      */
     private static void parseName(final XMLStreamReader xmlStreamReader, final DictionaryHeader.Builder headerBuilder)
@@ -90,7 +87,7 @@ final class DictionaryHeaderReader {
      * Parses the {@code <locale>} element.
      *
      * @param xmlStreamReader the XML reader
-     * @param headerBuilder   the header builder
+     * @param headerBuilder the header builder
      * @throws XMLStreamException if read fails
      */
     private static void parseLocale(final XMLStreamReader xmlStreamReader, final DictionaryHeader.Builder headerBuilder)
@@ -103,7 +100,7 @@ final class DictionaryHeaderReader {
      * Reads the header of the dictionary and put them into a {@link DictionaryHeader}.
      *
      * @return the {@link DictionaryHeader}
-     * @throws IOException        if input stream cannot be opened on given dictionary
+     * @throws IOException if input stream cannot be opened on given dictionary
      * @throws XMLStreamException if read fails
      */
     DictionaryHeader read() throws XMLStreamException, IOException {

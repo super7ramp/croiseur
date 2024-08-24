@@ -17,28 +17,28 @@ import org.sat4j.tools.GateTranslator;
 
 /**
  * Where crossword problem constraints are built.
- * <p>
- * The constraints are:
+ *
+ * <p>The constraints are:
+ *
  * <ol>
- *     <li>Each cell must contain one and only one letter from the alphabet or a block. See
- *     {@link #addOneLetterOrBlockPerCellClausesTo}.</li>
- *     <li>Each slot must contain one and only one word from the input word list. This is the tricky
- *     part, as there must be a correspondence between cell variables and slot variables. Basically,
- *     each slot variable - i.e. a representation of a (slot,word) pair - is equivalent to a
- *     conjunction (= and) of cell variables - i.e. (cell,letter) pairs. See
- *     {@link #addOneWordPerSlotClausesTo}.</li>
- *     <li>Prefilled cells must be kept as is. See {@link #addInputGridConstraintsAreSatisfiedClausesTo}.</li>
+ *   <li>Each cell must contain one and only one letter from the alphabet or a block. See
+ *       {@link #addOneLetterOrBlockPerCellClausesTo}.
+ *   <li>Each slot must contain one and only one word from the input word list. This is the tricky part, as there must
+ *       be a correspondence between cell variables and slot variables. Basically, each slot variable - i.e. a
+ *       representation of a (slot,word) pair - is equivalent to a conjunction (= and) of cell variables - i.e.
+ *       (cell,letter) pairs. See {@link #addOneWordPerSlotClausesTo}.
+ *   <li>Prefilled cells must be kept as is. See {@link #addInputGridConstraintsAreSatisfiedClausesTo}.
  * </ol>
- * Implementation note: Methods here add rules to the solver passed as parameter. Although having
- * just a factory of constraints here, to be applied separately, would be nice, it does not scale
- * in terms of memory: There are too many literals and clauses. Hence, the choice to add the clauses
- * progressively to the solver.
+ *
+ * Implementation note: Methods here add rules to the solver passed as parameter. Although having just a factory of
+ * constraints here, to be applied separately, would be nice, it does not scale in terms of memory: There are too many
+ * literals and clauses. Hence, the choice to add the clauses progressively to the solver.
  */
 final class Constraints {
 
     /**
-     * The length of the buffer used to store cell literals corresponding to a word in a slot. Most
-     * words/slots should be smaller than this size.
+     * The length of the buffer used to store cell literals corresponding to a word in a slot. Most words/slots should
+     * be smaller than this size.
      */
     private static final int CELL_LITERALS_BUFFER_LENGTH = 20;
 
@@ -54,8 +54,8 @@ final class Constraints {
     /**
      * Constructs an instance.
      *
-     * @param gridArg      the grid
-     * @param wordsArg     the words
+     * @param gridArg the grid
+     * @param wordsArg the words
      * @param variablesArg the variables
      */
     Constraints(final Grid gridArg, final String[] wordsArg, final Variables variablesArg) {
@@ -65,12 +65,12 @@ final class Constraints {
     }
 
     /**
-     * Adds the clauses ensuring that each cell must contain exactly one letter from the alphabet -
-     * or a block - to the given solver.
+     * Adds the clauses ensuring that each cell must contain exactly one letter from the alphabet - or a block - to the
+     * given solver.
      *
      * @param solver the solver to which to add the clauses
      * @throws ContradictionException should not happen
-     * @throws InterruptedException   if interrupted while adding constraints to the solver
+     * @throws InterruptedException if interrupted while adding constraints to the solver
      */
     void addOneLetterOrBlockPerCellClausesTo(final IPBSolver solver)
             throws ContradictionException, InterruptedException {
@@ -91,12 +91,11 @@ final class Constraints {
     }
 
     /**
-     * Adds the clauses ensuring that each slot must contain exactly one word from the word list to
-     * the given solver.
+     * Adds the clauses ensuring that each slot must contain exactly one word from the word list to the given solver.
      *
      * @param solver the solver to which to add the clauses
      * @throws ContradictionException if a slot has no word candidate
-     * @throws InterruptedException   if interrupted while adding constraints to the solver
+     * @throws InterruptedException if interrupted while adding constraints to the solver
      */
     void addOneWordPerSlotClausesTo(final IPBSolver solver) throws ContradictionException, InterruptedException {
         final GateTranslator gator = new GateTranslator(solver);
@@ -123,15 +122,14 @@ final class Constraints {
     }
 
     /**
-     * Fills the given vector with the cell literals whose conjunction (= and) is equivalent to the
-     * slot variable of the given slot and word.
+     * Fills the given vector with the cell literals whose conjunction (= and) is equivalent to the slot variable of the
+     * given slot and word.
      *
-     * @param cellLiterals the vector to fill  with the cell literals equivalent to the slot
-     *                     variable of the given slot and word
-     * @param slot         the slot
-     * @param word         the word
-     * @throws IllegalStateException if the given word contains a letter which is not in the
-     *                               {@link Alphabet}
+     * @param cellLiterals the vector to fill with the cell literals equivalent to the slot variable of the given slot
+     *     and word
+     * @param slot the slot
+     * @param word the word
+     * @throws IllegalStateException if the given word contains a letter which is not in the {@link Alphabet}
      */
     private void fillCellLiteralsConjunction(final IVecInt cellLiterals, final Slot slot, final String word) {
         final List<Pos> slotPositions = slot.positions();
@@ -149,12 +147,11 @@ final class Constraints {
     }
 
     /**
-     * Adds the clauses ensuring that each prefilled letter/block must be preserved to the given
-     * solver.
+     * Adds the clauses ensuring that each prefilled letter/block must be preserved to the given solver.
      *
      * @param solver the solver to which to add the clauses
      * @throws ContradictionException should not happen
-     * @throws InterruptedException   if interrupted while adding constraints to the solver
+     * @throws InterruptedException if interrupted while adding constraints to the solver
      */
     void addInputGridConstraintsAreSatisfiedClausesTo(final ISolver solver)
             throws ContradictionException, InterruptedException {
@@ -183,14 +180,13 @@ final class Constraints {
 
     /**
      * Adds the given literal to the solver as <em>exactly-one</em> clauses.
-     * <p>
-     * Note in implementation the usage of {@link IPBSolver#addExactly(IVecInt, IVecInt, int)}
-     * instead of {@link IPBSolver#addExactly(IVecInt, int)}: The first one uses the pseudo-boolean
-     * solver implementation while the second one actually delegates to the original core solver
-     * implementation. Note sure why {@link IPBSolver} doesn't override implementation of the second
-     * method.
      *
-     * @param solver   the solver to which to add the literals as an <em>exactly-one</em> clause
+     * <p>Note in implementation the usage of {@link IPBSolver#addExactly(IVecInt, IVecInt, int)} instead of
+     * {@link IPBSolver#addExactly(IVecInt, int)}: The first one uses the pseudo-boolean solver implementation while the
+     * second one actually delegates to the original core solver implementation. Note sure why {@link IPBSolver} doesn't
+     * override implementation of the second method.
+     *
+     * @param solver the solver to which to add the literals as an <em>exactly-one</em> clause
      * @param literals the literals to add
      * @throws ContradictionException should not happen
      */

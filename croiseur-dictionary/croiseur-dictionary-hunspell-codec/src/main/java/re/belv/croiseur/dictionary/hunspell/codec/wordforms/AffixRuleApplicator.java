@@ -8,9 +8,7 @@ package re.belv.croiseur.dictionary.hunspell.codec.wordforms;
 import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * Applies an affix to a word.
- */
+/** Applies an affix to a word. */
 interface AffixRuleApplicator extends Function<String, Optional<String>> {
     // Marker interface
 }

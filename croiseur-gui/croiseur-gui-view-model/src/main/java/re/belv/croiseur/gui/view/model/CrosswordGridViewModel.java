@@ -38,20 +38,18 @@ import javafx.collections.ObservableMap;
 import re.belv.croiseur.gui.view.model.slot.SlotOutline;
 import re.belv.croiseur.gui.view.model.slot.SlotsViewModel;
 
-/**
- * The crossword grid view model.
- */
+/** The crossword grid view model. */
 public final class CrosswordGridViewModel {
 
     /**
-     * The area under work, which consists of the last focused box and the slot (either horizontal
-     * or vertical) it belongs to.
+     * The area under work, which consists of the last focused box and the slot (either horizontal or vertical) it
+     * belongs to.
      */
     private final class WorkingArea {
 
         /**
-         * A listener attached to each box model content property. Allows to trigger slot content
-         * re-computation when content change.
+         * A listener attached to each box model content property. Allows to trigger slot content re-computation when
+         * content change.
          */
         private final class ContentChangeListener implements InvalidationListener {
 
@@ -76,14 +74,14 @@ public final class CrosswordGridViewModel {
         }
 
         /**
-         * The position of the box being worked on. The value it contains is {@code null} if no box
-         * has been focused or the last focused box has been deleted.
+         * The position of the box being worked on. The value it contains is {@code null} if no box has been focused or
+         * the last focused box has been deleted.
          */
         private final ObjectProperty<GridCoord> currentBoxPosition;
 
         /**
-         * The current slot, described by the positions of the boxes it contains. The list value is
-         * empty if no slot is focused.
+         * The current slot, described by the positions of the boxes it contains. The list value is empty if no slot is
+         * focused.
          */
         private final ReadOnlyListWrapper<GridCoord> currentSlotPositions;
 
@@ -99,9 +97,7 @@ public final class CrosswordGridViewModel {
         /** Whether the current slot is unsolvable. */
         private final BooleanProperty currentSlotUnsolvable;
 
-        /**
-         * Constructs an instance.
-         */
+        /** Constructs an instance. */
         WorkingArea() {
             currentBoxPosition = new SimpleObjectProperty<>(this, "currentBoxPosition");
             currentSlotPositions =
@@ -145,7 +141,7 @@ public final class CrosswordGridViewModel {
          * Registers box listeners.
          *
          * @param coordinate the coordinate of the added box
-         * @param box        the added box
+         * @param box the added box
          */
         private void onBoxAdded(final GridCoord coordinate, final CrosswordBoxViewModel box) {
             box.userContentProperty().addListener(new ContentChangeListener(coordinate));
@@ -154,7 +150,7 @@ public final class CrosswordGridViewModel {
         /**
          * Processes a current box change.
          *
-         * @param observable     the current box observable
+         * @param observable the current box observable
          * @param oldBoxPosition the previous box position
          * @param newBoxPosition the current box position
          */
@@ -172,7 +168,7 @@ public final class CrosswordGridViewModel {
         /**
          * Processes a column or row count change.
          *
-         * @param observable   the observable
+         * @param observable the observable
          * @param newDimension the new value
          * @param oldDimension the old value
          */
@@ -183,10 +179,7 @@ public final class CrosswordGridViewModel {
             resetCurrentBoxPositionIfRemoved();
         }
 
-        /**
-         * Checks if {@link #currentBoxPosition} still exists in {@link #boxes}, resets it if it is
-         * not the case.
-         */
+        /** Checks if {@link #currentBoxPosition} still exists in {@link #boxes}, resets it if it is not the case. */
         private void resetCurrentBoxPositionIfRemoved() {
             final GridCoord current = currentBoxPosition.get();
             if (current != null && !boxes.containsKey(current)) {
@@ -242,9 +235,7 @@ public final class CrosswordGridViewModel {
             }
         }
 
-        /**
-         * Recomputes the {@link #currentSlotPositions}.
-         */
+        /** Recomputes the {@link #currentSlotPositions}. */
         private void recomputeCurrentSlotPositions() {
             if (currentBoxPosition.get() == null) {
                 currentSlotPositions.clear();
@@ -255,9 +246,7 @@ public final class CrosswordGridViewModel {
             }
         }
 
-        /**
-         * Recomputes the positions of current when it is horizontal.
-         */
+        /** Recomputes the positions of current when it is horizontal. */
         private void recomputeCurrentHorizontalSlotPositions() {
             final var current = currentBoxPosition.get();
             slotsViewModel
@@ -266,9 +255,7 @@ public final class CrosswordGridViewModel {
                     .ifPresentOrElse(currentSlotPositions::setAll, currentSlotPositions::clear);
         }
 
-        /**
-         * Recomputes the positions of the current slot when it is vertical.
-         */
+        /** Recomputes the positions of the current slot when it is vertical. */
         private void recomputeVerticalCurrentSlotPositions() {
             final var current = currentBoxPosition.get();
             slotsViewModel
@@ -277,10 +264,7 @@ public final class CrosswordGridViewModel {
                     .ifPresentOrElse(currentSlotPositions::setAll, currentSlotPositions::clear);
         }
 
-        /**
-         * Recomputes {@link #currentSlotContent} based on {@link #currentSlotPositions} and
-         * {@link #boxes}.
-         */
+        /** Recomputes {@link #currentSlotContent} based on {@link #currentSlotPositions} and {@link #boxes}. */
         private void recomputeCurrentSlotContent() {
             final StringBuilder contentBuilder = new StringBuilder(currentSlotPositions.size());
             for (final GridCoord position : currentSlotPositions) {
@@ -352,9 +336,9 @@ public final class CrosswordGridViewModel {
     /**
      * Constructs an instance.
      *
-     * @param boxesArg       the initial grid
+     * @param boxesArg the initial grid
      * @param columnCountArg grid column count
-     * @param rowCountArg    the grid row count
+     * @param rowCountArg the grid row count
      */
     private CrosswordGridViewModel(
             final Map<GridCoord, CrosswordBoxViewModel> boxesArg, final int columnCountArg, final int rowCountArg) {
@@ -392,10 +376,10 @@ public final class CrosswordGridViewModel {
 
     /**
      * Returns the boxes property.
-     * <p>
-     * Returned property is read-only and the Map value it contains is unmodifiable. Use
-     * {@link #addColumn()}, {@link #addRow()}, {@link #deleteLastColumn()},
-     * {@link #deleteLastRow()} or {@link #clear()} to modify the grid structure.
+     *
+     * <p>Returned property is read-only and the Map value it contains is unmodifiable. Use {@link #addColumn()},
+     * {@link #addRow()}, {@link #deleteLastColumn()}, {@link #deleteLastRow()} or {@link #clear()} to modify the grid
+     * structure.
      *
      * @return the boxes property
      */
@@ -415,8 +399,8 @@ public final class CrosswordGridViewModel {
 
     /**
      * The column count property.
-     * <p>
-     * Transient incomplete columns are not counted, i.e. value is updated when grid is consistent.
+     *
+     * <p>Transient incomplete columns are not counted, i.e. value is updated when grid is consistent.
      *
      * @return the column count property
      */
@@ -435,8 +419,8 @@ public final class CrosswordGridViewModel {
 
     /**
      * The row count property.
-     * <p>
-     * Transient incomplete rows are not counted, i.e. value is updated when grid is consistent.
+     *
+     * <p>Transient incomplete rows are not counted, i.e. value is updated when grid is consistent.
      *
      * @return the row count property
      */
@@ -528,8 +512,8 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The current box position property. The value it contains is {@code null} if no box has been
-     * focused or the last focused box has been deleted.
+     * The current box position property. The value it contains is {@code null} if no box has been focused or the last
+     * focused box has been deleted.
      *
      * @return the current box
      */
@@ -565,8 +549,7 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The value of the current slot positions property. The list value is empty if no slot is
-     * selected.
+     * The value of the current slot positions property. The list value is empty if no slot is selected.
      *
      * @return the current slot positions
      */
@@ -576,9 +559,9 @@ public final class CrosswordGridViewModel {
 
     /**
      * The current slot content property.
-     * <p>
-     * The String value is empty if no slot is selected. Any non-filled box content of the current
-     * slot is replaced by a dot ('.').
+     *
+     * <p>The String value is empty if no slot is selected. Any non-filled box content of the current slot is replaced
+     * by a dot ('.').
      *
      * @return the current slot content property
      */
@@ -597,16 +580,16 @@ public final class CrosswordGridViewModel {
 
     /**
      * Sets the value of the current slot content property.
-     * <p>
-     * Note that the current slot property is a read-only property, as it is internally computed
-     * from the grid content. This method indirectly sets the current slot property by modifying the
-     * grid box contents. Thus, this method will generate several change events on the grid.
-     * <p>
-     * This method will not generate more than one change event for the current slot property
-     * though, as a special care is made to avoid that.
+     *
+     * <p>Note that the current slot property is a read-only property, as it is internally computed from the grid
+     * content. This method indirectly sets the current slot property by modifying the grid box contents. Thus, this
+     * method will generate several change events on the grid.
+     *
+     * <p>This method will not generate more than one change event for the current slot property though, as a special
+     * care is made to avoid that.
      *
      * @param value the new value
-     * @throws NullPointerException     if given value is {@code null}
+     * @throws NullPointerException if given value is {@code null}
      * @throws IllegalArgumentException if given value is not of the length of the current slot
      */
     public void currentSlotContent(final String value) {
@@ -623,8 +606,7 @@ public final class CrosswordGridViewModel {
     }
 
     /**
-     * The orientation property of the current slot (or the previous slot if current slot is
-     * empty).
+     * The orientation property of the current slot (or the previous slot if current slot is empty).
      *
      * @return the orientation of the current slot
      */
@@ -632,16 +614,12 @@ public final class CrosswordGridViewModel {
         return workingArea.currentSlotVertical;
     }
 
-    /**
-     * Sets the orientation property of the current slot to vertical.
-     */
+    /** Sets the orientation property of the current slot to vertical. */
     public void currentSlotVertical() {
         workingArea.currentSlotVertical.set(true);
     }
 
-    /**
-     * Sets the orientation property of the current slot to horizontal.
-     */
+    /** Sets the orientation property of the current slot to horizontal. */
     public void currentSlotHorizontal() {
         workingArea.currentSlotVertical.set(false);
     }
@@ -655,16 +633,12 @@ public final class CrosswordGridViewModel {
         return workingArea.currentSlotUnsolvable;
     }
 
-    /**
-     * Sets the value of the unsolvable current slot property to {@code true}.
-     */
+    /** Sets the value of the unsolvable current slot property to {@code true}. */
     public void currentSlotUnsolvable() {
         workingArea.currentSlotUnsolvable.set(true);
     }
 
-    /**
-     * Creates an empty column at the right of the grid.
-     */
+    /** Creates an empty column at the right of the grid. */
     public void addColumn() {
         final int newColumnIndex = columnCount.get();
         if (newColumnIndex >= MAX_ROW_COLUMN_COUNT) {
@@ -682,9 +656,7 @@ public final class CrosswordGridViewModel {
         }
     }
 
-    /**
-     * Creates an empty row at the bottom of the grid.
-     */
+    /** Creates an empty row at the bottom of the grid. */
     public void addRow() {
         final int newRowIndex = rowCount.get();
         if (newRowIndex >= MAX_ROW_COLUMN_COUNT) {
@@ -702,9 +674,7 @@ public final class CrosswordGridViewModel {
         }
     }
 
-    /**
-     * Deletes the last row (reading top to bottom, so the row at the bottom of the grid).
-     */
+    /** Deletes the last row (reading top to bottom, so the row at the bottom of the grid). */
     public void deleteLastRow() {
         final int oldRowCount = rowCount.get();
         if (oldRowCount == 0) {
@@ -724,9 +694,7 @@ public final class CrosswordGridViewModel {
         }
     }
 
-    /**
-     * Deletes the last column (reading left to right, so the column on the right of the grid).
-     */
+    /** Deletes the last column (reading left to right, so the column on the right of the grid). */
     public void deleteLastColumn() {
         final int oldColumnCount = columnCount.get();
         if (oldColumnCount == 0) {
@@ -750,7 +718,7 @@ public final class CrosswordGridViewModel {
      * Resizes the grid model to the given dimensions.
      *
      * @param desiredColumnCount the desired number of columns
-     * @param desiredRowCount    the desired number of rows
+     * @param desiredRowCount the desired number of rows
      * @throws IllegalArgumentException if any dimension is negative
      */
     public void resizeTo(final int desiredColumnCount, final int desiredRowCount) {
@@ -772,9 +740,7 @@ public final class CrosswordGridViewModel {
         }
     }
 
-    /**
-     * Clears the entire grid, including its structure, i.e. box nodes are removed from the grid.
-     */
+    /** Clears the entire grid, including its structure, i.e. box nodes are removed from the grid. */
     public void clear() {
         boxes.clear();
         columnCount.set(0);
@@ -783,10 +749,9 @@ public final class CrosswordGridViewModel {
 
     /**
      * Retrieves the contents of the given slots.
-     * <p>
-     * Slots' {@link CrosswordBoxViewModel#userContentProperty() User content} is returned, unless
-     * it is empty, in which case the {@link CrosswordBoxViewModel#solverContent() solver content}
-     * is used.
+     *
+     * <p>Slots' {@link CrosswordBoxViewModel#userContentProperty() User content} is returned, unless it is empty, in
+     * which case the {@link CrosswordBoxViewModel#solverContent() solver content} is used.
      *
      * @param slots the slots
      * @return the slot contents
@@ -808,8 +773,8 @@ public final class CrosswordGridViewModel {
 
     /**
      * Resets the grid content (both shaded and non-shaded boxes).
-     * <p>
-     * This method preserves the structure of the grid, box nodes are not removed.
+     *
+     * <p>This method preserves the structure of the grid, box nodes are not removed.
      */
     public void resetContentAll() {
         resetContent(box -> true);
@@ -817,8 +782,8 @@ public final class CrosswordGridViewModel {
 
     /**
      * Resets the grid content (only non-shaded boxes).
-     * <p>
-     * This method preserves the structure of the grid, box nodes are not removed.
+     *
+     * <p>This method preserves the structure of the grid, box nodes are not removed.
      */
     public void resetContentLettersOnly() {
         resetContent(not(CrosswordBoxViewModel::isShaded));
@@ -835,16 +800,14 @@ public final class CrosswordGridViewModel {
 
     /**
      * Resets the grid content (only content filled by solver).
-     * <p>
-     * This method preserves the structure of the grid, box nodes are not removed.
+     *
+     * <p>This method preserves the structure of the grid, box nodes are not removed.
      */
     public void resetContentLettersFilledBySolverOnly() {
         boxes.values().forEach(box -> box.solverContent(""));
     }
 
-    /**
-     * Resets the model to defaults.
-     */
+    /** Resets the model to defaults. */
     public void reset() {
         workingArea.currentBoxPosition.set(null);
         boxes.values().forEach(this::resetBox);
