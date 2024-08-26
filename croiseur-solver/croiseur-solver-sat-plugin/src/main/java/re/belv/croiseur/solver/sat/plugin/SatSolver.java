@@ -64,8 +64,8 @@ public final class SatSolver implements CrosswordSolver {
         public Set<GridPosition> unsolvableBoxes() {
             return switch (result) {
                 case Solver.Result.Sat ignored -> Collections.emptySet();
-                case Solver.Result.Unsat(final Set<Pos> unassignablePositions) ->
-                        unassignablePositions.stream().map(pos -> at(pos.column(), pos.row())).collect(toSet());
+                case Solver.Result.Unsat(final Set<Pos> nonAssignablePositions) ->
+                        nonAssignablePositions.stream().map(pos -> at(pos.column(), pos.row())).collect(toSet());
             };
         }
     }

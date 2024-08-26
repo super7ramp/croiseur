@@ -79,9 +79,9 @@ public final class Solver {
         /**
          * Result returned when the problem is unsatisfiable.
          *
-         * @param unassignablePositions the positions that cannot be assigned
+         * @param nonAssignablePositions the positions that cannot be assigned
          */
-        record Unsat(Set<Pos> unassignablePositions) implements Result {}
+        record Unsat(Set<Pos> nonAssignablePositions) implements Result {}
 
         /**
          * Returns a new {@link Sat} instance.
@@ -105,11 +105,11 @@ public final class Solver {
         /**
          * Returns a new {@link Unsat} instance.
          *
-         * @param unassignablePositions the positions that cannot be assigned
+         * @param nonAssignablePositions the positions that cannot be assigned
          * @return a new {@link Unsat} instance
          */
-        static Unsat unsat(final Set<Pos> unassignablePositions) {
-            return new Unsat(unassignablePositions);
+        static Unsat unsat(final Set<Pos> nonAssignablePositions) {
+            return new Unsat(nonAssignablePositions);
         }
     }
 
@@ -143,7 +143,7 @@ public final class Solver {
      *
      * <p>Method must be called at most once. Behavior upon a second call is undefined.
      *
-     * @return the solved grid or an empty grid if no solution is found
+     * @return a {@link Result} encapsulating either the solved grid or the non-assignable positions
      * @throws InterruptedException if interrupted while solving
      */
     public Result solve() throws InterruptedException {
@@ -171,8 +171,8 @@ public final class Solver {
     private void addClauses() throws ContradictionException, InterruptedException {
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
         constraints.addOneWordPerSlotClausesTo(satSolver);
-        // The input constraint clauses are not added to the solver here but as an assumption when calling solve(), so
-        // that explanation can be retrieved from the solver when the problem is unsatisfiable.
+        // The input constraint clauses are not added to the solver here but as assumptions when calling solve(), so
+        // that an explanation can be retrieved from the solver when the problem is unsatisfiable.
     }
 
     /**
@@ -184,15 +184,10 @@ public final class Solver {
     private Result findSolution() throws InterruptedException {
         if (!problemIsSatisfiable()) {
             final IVecInt unsatExplanation = satSolver.unsatExplanation();
-            final var unassignablePositions = new HashSet<Pos>();
-            for (int i = 0; i < unsatExplanation.size(); i++) {
-                final int literal = unsatExplanation.get(i);
-                final Optional<Pos> pos = variables.backToDomain(literal);
-                pos.ifPresent(unassignablePositions::add);
-            }
-            return Result.unsat(unassignablePositions);
+            final var nonAssignablePositions = variables.backToPositions(unsatExplanation);
+            return Result.unsat(nonAssignablePositions);
         }
-        final char[][] solution = variables.backToDomain(satSolver::model);
+        final char[][] solution = variables.backToGrid(satSolver::model);
         return Result.sat(solution);
     }
 

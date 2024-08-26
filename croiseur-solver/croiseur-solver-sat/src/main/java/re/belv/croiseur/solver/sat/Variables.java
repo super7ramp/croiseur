@@ -5,8 +5,11 @@
 
 package re.belv.croiseur.solver.sat;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.IntPredicate;
+import org.sat4j.specs.IVecInt;
 
 /**
  * Where translation of problem data from/to integer variables occurs.
@@ -149,7 +152,7 @@ final class Variables {
      * @param model the solver model, as an {@link IntPredicate} providing truth values of tested variables
      * @return a crossword grid
      */
-    char[][] backToDomain(final IntPredicate model) {
+    char[][] backToGrid(final IntPredicate model) {
         final char[][] outGrid = new char[grid.rowCount()][grid.columnCount()];
         for (int row = 0; row < grid.rowCount(); row++) {
             for (int column = 0; column < grid.columnCount(); column++) {
@@ -166,12 +169,27 @@ final class Variables {
     }
 
     /**
+     * Translates literals representing cells back to the cell positions.
+     *
+     * @param literals literals of variables representing cells
+     * @return the cell positions; literals not representing cells are ignored
+     */
+    Set<Pos> backToPositions(final IVecInt literals) {
+        final var positions = new HashSet<Pos>();
+        for (int i = 0; i < literals.size(); i++) {
+            final int literal = literals.get(i);
+            backToPosition(literal).ifPresent(positions::add);
+        }
+        return positions;
+    }
+
+    /**
      * Translates a literal representing a cell back to the cell position.
      *
      * @param literal a literal of a variable representing a cell
      * @return the cell position, if the literal is actually representing a cell
      */
-    Optional<Pos> backToDomain(final int literal) {
+    private Optional<Pos> backToPosition(final int literal) {
         final int variable = Math.abs(literal);
         if (variable > representingCellCount()) {
             return Optional.empty();

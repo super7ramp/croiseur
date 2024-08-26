@@ -111,7 +111,7 @@ final class SolverSimpleTest {
         final Solver.Result result = new Solver(inputGrid, words).solve();
 
         final var output = assertInstanceOf(Solver.Result.Unsat.class, result);
-        assertEquals(Set.of(new Pos(1, 0), new Pos(2, 0)), output.unassignablePositions());
+        assertEquals(Set.of(new Pos(1, 0), new Pos(2, 0)), output.nonAssignablePositions());
     }
 
     @Test
@@ -126,6 +126,6 @@ final class SolverSimpleTest {
         final Solver.Result result = new Solver(inputGrid, words).solve();
 
         final var output = assertInstanceOf(Solver.Result.Unsat.class, result);
-        assertEquals(Set.of(), output.unassignablePositions());
+        assertEquals(Set.of(), output.nonAssignablePositions());
     }
 }
