@@ -54,9 +54,9 @@ Feature: Run Solver - SAT
       | C |  |  |
       | T |  |  |
     Then the application presents the following successful solver result:
-      | A | I | D |
+      | A | N | D |
       | C | R | C |
-      | T | A | B |
+      | T | A | M |
 
   Scenario: Run Solver - SAT - With Prefilled and Shaded Cells
 
