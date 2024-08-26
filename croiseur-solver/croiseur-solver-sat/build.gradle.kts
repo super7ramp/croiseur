@@ -21,6 +21,13 @@ sourceSets.named("test") {
     java.srcDir("src/test/util")
 }
 
+spotless {
+    java {
+        // https://github.com/palantir/palantir-java-format/issues/933
+        targetExclude("**/Solver.java")
+    }
+}
+
 // UKACD is used as test word list
 tasks.processTestResources {
     from(

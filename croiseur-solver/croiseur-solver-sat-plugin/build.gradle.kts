@@ -11,3 +11,10 @@ dependencies {
     api(project(":croiseur-spi:croiseur-spi-solver"))
     implementation(project(":croiseur-solver:croiseur-solver-sat"))
 }
+
+spotless {
+    java {
+        // https://github.com/palantir/palantir-java-format/issues/933
+        targetExclude("**/SatSolver.java")
+    }
+}

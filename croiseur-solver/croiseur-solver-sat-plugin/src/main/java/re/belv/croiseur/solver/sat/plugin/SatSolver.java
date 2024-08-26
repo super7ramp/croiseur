@@ -5,16 +5,13 @@
 
 package re.belv.croiseur.solver.sat.plugin;
 
+import static java.util.stream.Collectors.toSet;
 import static re.belv.croiseur.common.puzzle.GridPosition.at;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.solver.sat.Pos;
 import re.belv.croiseur.solver.sat.Solver;
 import re.belv.croiseur.spi.solver.CrosswordSolver;
 import re.belv.croiseur.spi.solver.Dictionary;
@@ -28,59 +25,48 @@ public final class SatSolver implements CrosswordSolver {
     private static final class AdaptedSolverResult implements SolverResult {
 
         /** The raw result. */
-        private final char[][] outputGrid;
-
-        /** The input grid row count. */
-        private final int inputGridRowCount;
-
-        /** The output grid row count. */
-        private final int inputGridColumnCount;
+        private final Solver.Result result;
 
         /**
          * Constructs an instance.
          *
-         * @param outputGridArg the output grid
-         * @param inputGrid the input grid
+         * @param solverResultArg the solver result
          */
-        AdaptedSolverResult(final char[][] outputGridArg, final char[][] inputGrid) {
-            outputGrid = outputGridArg;
-            inputGridRowCount = inputGrid.length;
-            inputGridColumnCount = inputGridRowCount > 0 ? inputGrid[0].length : 0;
+        AdaptedSolverResult(final Solver.Result solverResultArg) {
+            result = solverResultArg;
         }
 
         @Override
         public Kind kind() {
-            return outputGrid.length == 0 && inputGridRowCount != 0 ? Kind.IMPOSSIBLE : Kind.SUCCESS;
+            return result instanceof Solver.Result.Sat ? Kind.SUCCESS : Kind.IMPOSSIBLE;
         }
 
         @Override
         public Map<GridPosition, Character> filledBoxes() {
-            final Map<GridPosition, Character> filledBoxes = new HashMap<>();
-            for (int row = 0; row < outputGrid.length; row++) {
-                for (int column = 0; column < outputGrid[row].length; column++) {
-                    final char value = outputGrid[row][column];
-                    if (value != '#') {
-                        filledBoxes.put(at(column, row), value);
+            return switch (result) {
+                case Solver.Result.Unsat ignored -> Collections.emptyMap();
+                case Solver.Result.Sat(final char[][] grid) -> {
+                    final var filledBoxes = new HashMap<GridPosition, Character>();
+                    for (int row = 0; row < grid.length; row++) {
+                        for (int column = 0; column < grid[row].length; column++) {
+                            final char value = grid[row][column];
+                            if (value != '#') {
+                                filledBoxes.put(at(column, row), value);
+                            }
+                        }
                     }
+                    yield filledBoxes;
                 }
-            }
-            return filledBoxes;
+            };
         }
 
         @Override
         public Set<GridPosition> unsolvableBoxes() {
-            if (kind() == Kind.SUCCESS) {
-                return Collections.emptySet();
-            }
-            // Return all boxes, since solver API does not expose found conflicts in case of
-            // non-satisfiability.
-            final Set<GridPosition> allBoxes = new HashSet<>();
-            for (int row = 0; row < inputGridRowCount; row++) {
-                for (int column = 0; column < inputGridColumnCount; column++) {
-                    allBoxes.add(at(column, row));
-                }
-            }
-            return allBoxes;
+            return switch (result) {
+                case Solver.Result.Sat ignored -> Collections.emptySet();
+                case Solver.Result.Unsat(final Set<Pos> unassignablePositions) ->
+                        unassignablePositions.stream().map(pos -> at(pos.column(), pos.row())).collect(toSet());
+            };
         }
     }
 
@@ -111,10 +97,10 @@ public final class SatSolver implements CrosswordSolver {
         final Solver solver = new Solver(inputGrid, words);
         progressListener.onInitialisationEnd();
 
-        final char[][] outputGrid = solver.solve();
+        final Solver.Result result = solver.solve();
         progressListener.onSolverProgressUpdate((short) 100);
 
-        return new AdaptedSolverResult(outputGrid, inputGrid);
+        return new AdaptedSolverResult(result);
     }
 
     /**

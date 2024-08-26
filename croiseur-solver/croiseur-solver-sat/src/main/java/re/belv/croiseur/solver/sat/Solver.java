@@ -5,14 +5,14 @@
 
 package re.belv.croiseur.solver.sat;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.pb.SolverFactory;
 import org.sat4j.specs.ContradictionException;
+import org.sat4j.specs.IVecInt;
 
 /**
  * A SAT (actually, pseudo-boolean) solver configured to solve crossword problems.
@@ -47,6 +47,72 @@ import org.sat4j.specs.ContradictionException;
  */
 public final class Solver {
 
+    /** The result of the solver. */
+    public sealed interface Result {
+
+        /**
+         * Result returned when the problem is satisfiable.
+         *
+         * @param grid a solution grid¬
+         */
+        record Sat(char[][] grid) implements Result {
+            @Override
+            public boolean equals(Object other) {
+                if (other == this) return true;
+                if (!(other instanceof Sat(char[][] otherGrid))) return false;
+                return Arrays.deepEquals(this.grid, otherGrid);
+            }
+
+            @Override
+            public int hashCode() {
+                return Arrays.deepHashCode(grid);
+            }
+
+            @Override
+            public String toString() {
+                return "Sat{" +
+                        "grid=" + Arrays.deepToString(grid) +
+                        '}';
+            }
+        }
+
+        /**
+         * Result returned when the problem is unsatisfiable.
+         *
+         * @param unassignablePositions the positions that cannot be assigned
+         */
+        record Unsat(Set<Pos> unassignablePositions) implements Result {}
+
+        /**
+         * Returns a new {@link Sat} instance.
+         *
+         * @param grid the solution grid
+         * @return a new {@link Sat} instance
+         */
+        static Sat sat(char[][] grid) {
+            return new Sat(grid);
+        }
+
+        /**
+         * Returns a new {@link Unsat} instance.
+         *
+         * @return a new {@link Unsat} instance
+         */
+        static Unsat unsat() {
+            return new Unsat(Set.of());
+        }
+
+        /**
+         * Returns a new {@link Unsat} instance.
+         *
+         * @param unassignablePositions the positions that cannot be assigned
+         * @return a new {@link Unsat} instance
+         */
+        static Unsat unsat(final Set<Pos> unassignablePositions) {
+            return new Unsat(unassignablePositions);
+        }
+    }
+
     /** The actual solver. */
     private final IPBSolver satSolver;
 
@@ -66,7 +132,7 @@ public final class Solver {
      */
     public Solver(final char[][] cells, final String[] words) {
         Objects.requireNonNull(words);
-        final Grid grid = new Grid(cells);
+        final var grid = new Grid(cells);
         variables = new Variables(grid, words.length);
         constraints = new Constraints(grid, words, variables);
         satSolver = SolverFactory.newDefault();
@@ -80,13 +146,13 @@ public final class Solver {
      * @return the solved grid or an empty grid if no solution is found
      * @throws InterruptedException if interrupted while solving
      */
-    public char[][] solve() throws InterruptedException {
+    public Result solve() throws InterruptedException {
         try {
             allocateVariables();
             addClauses();
             return findSolution();
         } catch (final ContradictionException e) {
-            return noSolution();
+            return Result.unsat();
         }
     }
 
@@ -103,9 +169,10 @@ public final class Solver {
      * @throws InterruptedException if interrupted while adding constraints to the solver
      */
     private void addClauses() throws ContradictionException, InterruptedException {
-        constraints.addInputGridConstraintsAreSatisfiedClausesTo(satSolver);
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
         constraints.addOneWordPerSlotClausesTo(satSolver);
+        // The input constraint clauses are not added to the solver here but as an assumption when calling solve(), so
+        // that explanation can be retrieved from the solver when the problem is unsatisfiable.
     }
 
     /**
@@ -114,11 +181,19 @@ public final class Solver {
      * @return the solution, if any, otherwise an empty array
      * @throws InterruptedException if interrupted while solving
      */
-    private char[][] findSolution() throws InterruptedException {
+    private Result findSolution() throws InterruptedException {
         if (!problemIsSatisfiable()) {
-            return noSolution();
+            final IVecInt unsatExplanation = satSolver.unsatExplanation();
+            final var unassignablePositions = new HashSet<Pos>();
+            for (int i = 0; i < unsatExplanation.size(); i++) {
+                final int literal = unsatExplanation.get(i);
+                final Optional<Pos> pos = variables.backToDomain(literal);
+                pos.ifPresent(unassignablePositions::add);
+            }
+            return Result.unsat(unassignablePositions);
         }
-        return variables.backToDomain(satSolver::model);
+        final char[][] solution = variables.backToDomain(satSolver::model);
+        return Result.sat(solution);
     }
 
     /**
@@ -130,8 +205,9 @@ public final class Solver {
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
         try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {
-            final Future<Boolean> problemIsSatisfiable = executor.submit(() -> satSolver.isSatisfiable());
-            return problemIsSatisfiable.get();
+            final IVecInt inputGridConstraints = constraints.inputGridConstraintsAreSatisfied();
+            return executor.submit(() -> satSolver.isSatisfiable(inputGridConstraints))
+                    .get();
         } catch (final ExecutionException e) {
             // Should not happen.
             throw new IllegalStateException(e);
@@ -140,14 +216,5 @@ public final class Solver {
             satSolver.expireTimeout();
             throw e;
         }
-    }
-
-    /**
-     * Returns a new empty 2D array, denoting the absence of solution.
-     *
-     * @return a new empty 2D array
-     */
-    private static char[][] noSolution() {
-        return new char[][] {};
     }
 }

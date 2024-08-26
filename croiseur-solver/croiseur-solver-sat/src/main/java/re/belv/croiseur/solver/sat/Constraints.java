@@ -11,7 +11,6 @@ import org.sat4j.core.Vec;
 import org.sat4j.core.VecInt;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.specs.ContradictionException;
-import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.tools.GateTranslator;
 
@@ -147,38 +146,6 @@ final class Constraints {
     }
 
     /**
-     * Adds the clauses ensuring that each prefilled letter/block must be preserved to the given solver.
-     *
-     * @param solver the solver to which to add the clauses
-     * @throws ContradictionException should not happen
-     * @throws InterruptedException if interrupted while adding constraints to the solver
-     */
-    void addInputGridConstraintsAreSatisfiedClausesTo(final ISolver solver)
-            throws ContradictionException, InterruptedException {
-        final IVecInt literalsBuffer = new VecInt(1);
-        for (int row = 0; row < grid.rowCount(); row++) {
-            for (int column = 0; column < grid.columnCount(); column++) {
-                checkForInterruption();
-                final char prefilledLetter = grid.letterAt(row, column);
-                if (prefilledLetter == Grid.EMPTY) {
-                    // Disallow solver to create a block
-                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
-                    literalsBuffer.push(-blockVariable);
-                } else if (prefilledLetter == Grid.BLOCK) {
-                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
-                    literalsBuffer.push(blockVariable);
-                } else {
-                    final int letterIndex = Alphabet.letterIndex(prefilledLetter);
-                    final int letterVariable = variables.representingCell(row, column, letterIndex);
-                    literalsBuffer.push(letterVariable);
-                }
-                solver.addClause(literalsBuffer);
-                literalsBuffer.clear();
-            }
-        }
-    }
-
-    /**
      * Adds the given literal to the solver as <em>exactly-one</em> clauses.
      *
      * <p>Note in implementation the usage of {@link IPBSolver#addExactly(IVecInt, IVecInt, int)} instead of
@@ -193,6 +160,29 @@ final class Constraints {
     private void addExactlyOne(final IPBSolver solver, final IVecInt literals) throws ContradictionException {
         final var coefficients = new Vec<>(literals.size(), BigInteger.ONE);
         solver.addExactly(literals, coefficients, BigInteger.ONE);
+    }
+
+    /** Returns the clauses ensuring that each prefilled letter/block must be preserved to the given solver. */
+    IVecInt inputGridConstraintsAreSatisfied() {
+        final var literals = new VecInt(grid.rowCount() * grid.columnCount());
+        for (int row = 0; row < grid.rowCount(); row++) {
+            for (int column = 0; column < grid.columnCount(); column++) {
+                final char prefilledLetter = grid.letterAt(row, column);
+                if (prefilledLetter == Grid.EMPTY) {
+                    // Disallow solver to create a block
+                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
+                    literals.push(-blockVariable);
+                } else if (prefilledLetter == Grid.BLOCK) {
+                    final int blockVariable = variables.representingCell(row, column, Variables.BLOCK_INDEX);
+                    literals.push(blockVariable);
+                } else {
+                    final int letterIndex = Alphabet.letterIndex(prefilledLetter);
+                    final int letterVariable = variables.representingCell(row, column, letterIndex);
+                    literals.push(letterVariable);
+                }
+            }
+        }
+        return literals;
     }
 
     /**

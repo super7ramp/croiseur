@@ -6,6 +6,7 @@
 package re.belv.croiseur.solver.sat;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -57,14 +58,15 @@ final class SolverComplexTest {
             {'.', '.', '.'}
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'B', 'A', 'A'},
             {'A', 'B', 'B'},
             {'B', 'A', 'A'}
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     // ~ 5s at 1GHz
@@ -77,15 +79,16 @@ final class SolverComplexTest {
             {'.', '.', '.', '.'}
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'P', 'E', 'R', 'V'},
             {'H', 'U', 'I', 'A'},
             {'U', 'R', 'E', 'A'},
             {'T', 'O', 'L', 'L'}
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     // ~5s at 1GHz
@@ -99,8 +102,9 @@ final class SolverComplexTest {
             {'#', '#', '.', '#', '#'}
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'#', '#', 'A', 'A', '#'},
             {'#', 'T', 'A', 'B', '#'},
@@ -108,7 +112,7 @@ final class SolverComplexTest {
             {'#', 'D', 'O', 'C', '#'},
             {'#', '#', 'N', '#', '#'}
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     // ~12s at 1GHz
@@ -126,8 +130,9 @@ final class SolverComplexTest {
             {'#', '#', '#', '.', '.', '.', '#', '#', '#'},
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'#', '#', '#', 'Z', 'I', 'A', '#', '#', '#'},
             {'#', '#', 'B', 'E', 'A', 'N', 'S', '#', '#'},
@@ -139,7 +144,7 @@ final class SolverComplexTest {
             {'#', '#', 'U', 'N', 'D', 'U', 'G', '#', '#'},
             {'#', '#', '#', 'T', 'O', 'N', '#', '#', '#'},
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     /**
@@ -192,8 +197,9 @@ final class SolverComplexTest {
             {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'S', 'C', 'A', 'T', '#', 'G', 'O', 'A', '#', 'O', 'A', 'H', 'U'},
             {'E', 'I', 'R', 'E', '#', 'R', 'O', 'Z', '#', 'X', 'M', 'A', 'S'},
@@ -209,7 +215,7 @@ final class SolverComplexTest {
             {'B', 'I', 'L', 'K', '#', 'O', 'N', 'O', '#', 'S', 'K', 'U', 'A'},
             {'O', 'L', 'E', 'O', '#', 'N', 'A', 'B', '#', 'A', 'E', 'S', 'C'},
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     // ~45s at 1GHz
@@ -232,8 +238,9 @@ final class SolverComplexTest {
             {'.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.'},
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'P', 'A', 'T', 'H', '#', 'S', 'A', 'D', '#', 'C', 'H', 'A', 'I'},
             {'E', 'R', 'I', 'E', '#', 'O', 'B', 'A', '#', 'H', 'A', 'I', 'R'},
@@ -249,7 +256,7 @@ final class SolverComplexTest {
             {'Y', 'O', 'R', 'E', '#', 'T', 'E', 'C', '#', 'E', 'W', 'E', 'R'},
             {'S', 'P', 'A', 'R', '#', 'S', 'W', 'Y', '#', 'R', 'A', 'P', 'S'},
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     // ~2min24s at 1GHz
@@ -274,8 +281,9 @@ final class SolverComplexTest {
             {'.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.'},
         };
 
-        final char[][] outputGrid = new Solver(inputGrid, words).solve();
+        final Solver.Result result = new Solver(inputGrid, words).solve();
 
+        final var output = assertInstanceOf(Solver.Result.Sat.class, result);
         final char[][] expectedGrid = new char[][] {
             {'I', 'P', 'O', 'H', '#', 'Q', 'U', 'A', 'T', 'S', '#', 'M', 'I', 'N', 'A'},
             {'T', 'A', 'R', 'O', '#', 'U', 'P', 'T', 'I', 'E', '#', 'A', 'C', 'E', 'R'},
@@ -293,7 +301,7 @@ final class SolverComplexTest {
             {'D', 'O', 'D', 'O', '#', 'T', 'I', 'A', 'R', 'A', '#', 'S', 'E', 'G', 'S'},
             {'S', 'A', 'S', 'S', '#', 'S', 'A', 'L', 'A', 'L', '#', 'M', 'E', 'S', 'H'},
         };
-        assertArrayEquals(expectedGrid, outputGrid);
+        assertArrayEquals(expectedGrid, output.grid());
     }
 
     @AfterAll

@@ -5,6 +5,7 @@
 
 package re.belv.croiseur.solver.sat;
 
+import java.util.Optional;
 import java.util.function.IntPredicate;
 
 /**
@@ -162,5 +163,21 @@ final class Variables {
             }
         }
         return outGrid;
+    }
+
+    /**
+     * Translates a literal representing a cell back to the cell position.
+     *
+     * @param literal a literal of a variable representing a cell
+     * @return the cell position, if the literal is actually representing a cell
+     */
+    Optional<Pos> backToDomain(final int literal) {
+        final int variable = Math.abs(literal);
+        if (variable > representingCellCount()) {
+            return Optional.empty();
+        }
+        final int column = ((variable - 1) / CELL_VALUE_COUNT) % grid.columnCount();
+        final int row = (variable - 1) / (grid.columnCount() * CELL_VALUE_COUNT);
+        return Optional.of(new Pos(column, row));
     }
 }
