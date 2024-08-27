@@ -171,20 +171,20 @@ public final class Solver {
     private void addClauses() throws ContradictionException, InterruptedException {
         constraints.addOneLetterOrBlockPerCellClausesTo(satSolver);
         constraints.addOneWordPerSlotClausesTo(satSolver);
-        // The input constraint clauses are not added to the solver here but as assumptions when calling solve(), so
-        // that an explanation can be retrieved from the solver when the problem is unsatisfiable.
+        // The input grid constraints are not added to the solver here as clauses but later in solve() as assumptions.
+        // Using them as assumptions allows to get an explanation when the problem is unsatisfiable.
     }
 
     /**
      * Runs the solver.
      *
-     * @return the solution, if any, otherwise an empty array
+     * @return a {@link Result} encapsulating either the solved grid or the non-assignable positions
      * @throws InterruptedException if interrupted while solving
      */
     private Result findSolution() throws InterruptedException {
         if (!problemIsSatisfiable()) {
             final IVecInt unsatExplanation = satSolver.unsatExplanation();
-            final var nonAssignablePositions = variables.backToPositions(unsatExplanation);
+            final Set<Pos> nonAssignablePositions = variables.backToPositions(unsatExplanation);
             return Result.unsat(nonAssignablePositions);
         }
         final char[][] solution = variables.backToGrid(satSolver::model);
@@ -194,9 +194,10 @@ public final class Solver {
     /**
      * Evaluates whether the problem is satisfiable.
      *
-     * <p>Implementation note: Sat4j solver does not respond to thread interruption. In order to respond to thread
+     * @implNote Sat4j solver does not respond to thread interruption. In order to respond to thread
      * interruption, this method launches the solver in a dedicated thread and makes the caller thread waits
-     * (interruptibly) for a result.
+     * for the result. If this wait is interrupted, then the solver is stopped from caller thread using
+     * {@link IPBSolver#expireTimeout} which seems the only way to stop a running Sat4j solver.
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
         try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {

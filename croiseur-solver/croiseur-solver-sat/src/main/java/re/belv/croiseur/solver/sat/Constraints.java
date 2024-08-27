@@ -26,12 +26,12 @@ import org.sat4j.tools.GateTranslator;
  *       be a correspondence between cell variables and slot variables. Basically, each slot variable - i.e. a
  *       representation of a (slot,word) pair - is equivalent to a conjunction (= and) of cell variables - i.e.
  *       (cell,letter) pairs. See {@link #addOneWordPerSlotClausesTo}.
- *   <li>Prefilled cells must be kept as is. See {@link #addInputGridConstraintsAreSatisfiedClausesTo}.
+ *   <li>Prefilled cells must be kept as is. See {@link #inputGridConstraintsAreSatisfied()}.
  * </ol>
  *
- * Implementation note: Methods here add rules to the solver passed as parameter. Although having just a factory of
- * constraints here, to be applied separately, would be nice, it does not scale in terms of memory: There are too many
- * literals and clauses. Hence, the choice to add the clauses progressively to the solver.
+ * @implNote Most of the methods here add clauses to the solver passed as parameter. Although having just a factory of
+ *     constraints would be nice, it does not scale in terms of memory: There are too many literals and clauses. Hence,
+ *     the choice to add the clauses progressively to the solver.
  */
 final class Constraints {
 
@@ -148,11 +148,12 @@ final class Constraints {
     /**
      * Adds the given literal to the solver as <em>exactly-one</em> clauses.
      *
-     * <p>Note in implementation the usage of {@link IPBSolver#addExactly(IVecInt, IVecInt, int)} instead of
-     * {@link IPBSolver#addExactly(IVecInt, int)}: The first one uses the pseudo-boolean solver implementation while the
-     * second one actually delegates to the original core solver implementation. Note sure why {@link IPBSolver} doesn't
-     * override implementation of the second method.
-     *
+     * @implNote Implementation uses {@link IPBSolver#addExactly(IVecInt, org.sat4j.specs.IVec, BigInteger)} instead of
+     *     {@link IPBSolver#addExactly(IVecInt, int)}: The first method adds native pseudo-boolean constraints while the
+     *     second adds cardinality constraints using the core SAT solver implementation. Note sure why {@link IPBSolver}
+     *     doesn't override implementation of the second method; Maybe native pseudo-boolean constraints are not
+     *     desirable in the general case to express simple cardinality constraints, although they prove to be more
+     *     efficient for crosswords.
      * @param solver the solver to which to add the literals as an <em>exactly-one</em> clause
      * @param literals the literals to add
      * @throws ContradictionException should not happen
