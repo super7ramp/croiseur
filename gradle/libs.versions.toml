@@ -3,7 +3,7 @@
 
 [versions]
 cargo-plugin = "1.1.0"
-conveyor-plugin = "1.9"
+conveyor-plugin = "1.12"
 cucumber = "7.20.1"
 java = "21"
 javafx = "21"
