@@ -29,8 +29,8 @@ cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
 cucumber-junit5-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
 # Java Microbenchmark Harness
-jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-annotations = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-plugin = { module = "me.champeau.jmh:jmh-gradle-plugin", version.ref = "jmh-plugin" }
 # Test libraries
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
@@ -63,7 +63,7 @@ testfx-monocle = { module = "one.jpro:openjfx-monocle", version.ref = "testfx-mo
 [plugins]
 # Plugin to help embedding rust code, only used by native solvers
 cargo = { id = "io.github.arc-blroth.cargo-wrapper", version.ref = "cargo-plugin" }
-# Plugin to pull JavaFx; only used by gui module
-javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
 # Plugin for conveyor (to create application package)
 conveyor = { id = "dev.hydraulic.conveyor", version.ref = "conveyor-plugin" }
+# Plugin to pull JavaFx; only used by gui module
+javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
