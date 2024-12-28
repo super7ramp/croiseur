@@ -10,9 +10,9 @@ plugins {
 dependencies {
     // Hack to make sbom accessible in convention plugin bodies (gh#gradle/gradle#15383)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    implementation(libs.jmh.plugin)
     implementation(libs.native)
     implementation(libs.spotless)
-    implementation(libs.jmh)
 }
 
 repositories {

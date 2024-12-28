@@ -38,6 +38,7 @@ include("croiseur-dictionary:croiseur-dictionary-xml-data")
 include("croiseur-dictionary:croiseur-dictionary-xml-plugin")
 
 // Solvers libraries/plugins
+include("croiseur-solver:croiseur-solver-benchmark")
 include("croiseur-solver:croiseur-solver-example-plugin")
 include("croiseur-solver:croiseur-solver-ginsberg")
 include("croiseur-solver:croiseur-solver-ginsberg-plugin")

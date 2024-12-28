@@ -3,13 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package re.belv.croiseur.solver.ginsberg.benchmark;
+package re.belv.croiseur.solver.benchmark;
 
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import re.belv.croiseur.dictionary.common.StringTransformers;
-import re.belv.croiseur.solver.ginsberg.Dictionary;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,12 +15,21 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+import re.belv.croiseur.dictionary.common.StringTransformers;
+import re.belv.croiseur.spi.solver.Dictionary;
 
-import static java.util.stream.Collectors.toCollection;
-
+/**
+ * The dictionary used in the benchmarks.
+ *
+ * <p>This class is not meant to be overridden, it is public and not final only for the JMH instrumentation to work.
+ */
 @State(Scope.Benchmark)
-public class DictionaryProvider {
+public class BenchDictionary {
 
+    /** A basic {@link Dictionary} implementation for benchmarks. */
     private static class DictionaryImpl implements Dictionary {
 
         private final Set<String> words;
@@ -46,15 +51,23 @@ public class DictionaryProvider {
 
     private Dictionary dictionary;
 
+    /**
+     * Sets up the dictionary.
+     * @throws IOException if dictionary cannot be read
+     */
     @Setup
-    public void setup() throws IOException {
+    public final void setup() throws IOException {
         final InputStream is = Objects.requireNonNull(
-                SolverBenchmark.class.getResourceAsStream("/UKACD18plus.txt"),
+                BenchDictionary.class.getResourceAsStream("/UKACD18plus.txt"),
                 "Test dictionary not found, verify the jmh resources.");
         dictionary = new DictionaryImpl(is);
     }
 
-    public Dictionary get() {
+    /**
+     * Returns the dictionary.
+     * @return the dictionary
+     */
+    public final Dictionary get() {
         return dictionary;
     }
 }

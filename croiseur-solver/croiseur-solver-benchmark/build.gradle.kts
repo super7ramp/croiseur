@@ -8,19 +8,16 @@ plugins {
 }
 
 dependencies {
-    api(project(":croiseur-common"))
-    testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common")) {
+    api(project(":croiseur-spi:croiseur-spi-solver"))
+    implementation(project(":croiseur-dictionary:croiseur-dictionary-common")) {
         because("It is used to clean/filter the test word list")
     }
+    implementation(libs.jmh.annotations)
+    implementation(libs.jmh.core)
 }
 
-// Additional mock directory for tests
-sourceSets.named("test") {
-    java.srcDir("src/test/mock")
-}
-
-// UKACD is used as test word list
-tasks.processTestResources {
+// UKACD is used as word list for benchmarks
+tasks.processResources {
     from(
         project(":croiseur-dictionary:croiseur-dictionary-txt-data")
             .layout
