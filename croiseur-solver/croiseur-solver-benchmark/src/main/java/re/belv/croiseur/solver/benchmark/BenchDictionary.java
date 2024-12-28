@@ -53,6 +53,7 @@ public class BenchDictionary {
 
     /**
      * Sets up the dictionary.
+     *
      * @throws IOException if dictionary cannot be read
      */
     @Setup
@@ -65,6 +66,7 @@ public class BenchDictionary {
 
     /**
      * Returns the dictionary.
+     *
      * @return the dictionary
      */
     public final Dictionary get() {
