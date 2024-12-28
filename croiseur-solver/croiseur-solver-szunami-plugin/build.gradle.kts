@@ -5,9 +5,11 @@
 
 plugins {
     id("re.belv.croiseur.java-library")
+    id("re.belv.croiseur.java-benchmark")
 }
 
 dependencies {
     api(project(":croiseur-spi:croiseur-spi-solver"))
     implementation(project(":croiseur-solver:croiseur-solver-szunami"))
+    jmh(project(":croiseur-solver:croiseur-solver-benchmark"))
 }
