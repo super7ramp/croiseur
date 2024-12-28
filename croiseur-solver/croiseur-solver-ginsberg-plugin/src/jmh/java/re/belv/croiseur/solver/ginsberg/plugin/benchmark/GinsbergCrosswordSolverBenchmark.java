@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Antoine Belvire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package re.belv.croiseur.solver.ginsberg.plugin.benchmark;
 
 import re.belv.croiseur.solver.benchmark.CrosswordSolverBenchmark;
