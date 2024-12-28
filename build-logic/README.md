@@ -14,6 +14,7 @@ This folder gathers custom Gradle convention plugins used by the project.
 - [`java`][]: General conventions for Java components: Encoding, test and coverage.
 - [`java-aggregate-coverage-tests`][]: Conventions for modules producing or aggregating test
   coverage on other modules.
+- [`java-benchmark`][]: Conventions for micro-benchmarks.
 - [`java-aot`][]: Conventions for Java Ahead-of-Time compilation. Adds a pre-configuration for building
   native images with GraalVM. Extends the `java` conventions.
 - [`java-application`][]: Conventions for Java applications. Extends the `java` convention plugin.
@@ -39,5 +40,7 @@ This folder gathers custom Gradle convention plugins used by the project.
 [`java`]: src/main/kotlin/re.belv.croiseur.java.gradle.kts
 
 [`java-library`]: src/main/kotlin/re.belv.croiseur.java-library.gradle.kts
+
+[`java-benchmark`]: src/main/kotlin/re.belv.croiseur.java-benchmark.gradle.kts
 
 [`jni-rust`]: src/main/kotlin/re.belv.croiseur.jni-rust.gradle.kts

@@ -12,6 +12,7 @@ dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.native)
     implementation(libs.spotless)
+    implementation(libs.jmh)
 }
 
 repositories {

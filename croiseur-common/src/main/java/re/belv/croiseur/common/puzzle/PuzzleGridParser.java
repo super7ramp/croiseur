@@ -3,15 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package re.belv.croiseur.solver.ginsberg;
+package re.belv.croiseur.common.puzzle;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import re.belv.croiseur.common.puzzle.GridPosition;
-import re.belv.croiseur.common.puzzle.PuzzleGrid;
 
 /** Parser for textual representation of puzzle definition. */
 public final class PuzzleGridParser {
@@ -61,9 +59,7 @@ public final class PuzzleGridParser {
                     } else {
                         prefilled.put(gridPosition, character);
                     }
-                } else {
-                    // Empty box.
-                }
+                } // else empty box
             }
         }
 
@@ -77,6 +73,6 @@ public final class PuzzleGridParser {
      * @return the textual representation of rows
      */
     private static String[] splitLines(final String puzzle) {
-        return puzzle.replaceAll("\r\n", "\n").split("\n");
+        return puzzle.replace("\r\n", "\n").split("\n");
     }
 }

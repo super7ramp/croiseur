@@ -5,7 +5,7 @@
 
 package re.belv.croiseur.solver.ginsberg;
 
-import static re.belv.croiseur.solver.ginsberg.PuzzleGridParser.parse;
+import static re.belv.croiseur.common.puzzle.PuzzleGridParser.parse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

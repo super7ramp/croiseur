@@ -7,6 +7,7 @@ package re.belv.croiseur.solver.ginsberg;
 
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.common.puzzle.PuzzleGridParser;
 
 final class CrosswordSolverPrefilledGridTest {
 

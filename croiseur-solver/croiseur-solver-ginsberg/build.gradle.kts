@@ -5,6 +5,7 @@
 
 plugins {
     id("re.belv.croiseur.java-library")
+    id("re.belv.croiseur.java-benchmark")
 }
 
 dependencies {
@@ -21,6 +22,16 @@ sourceSets.named("test") {
 
 // UKACD is used as test word list
 tasks.processTestResources {
+    from(
+        project(":croiseur-dictionary:croiseur-dictionary-txt-data")
+            .layout
+            .projectDirectory
+            .file("ukacd/UKACD18plus.txt")
+    )
+}
+
+// UKACD is used as word list for benchmarks too
+tasks.processJmhResources {
     from(
         project(":croiseur-dictionary:croiseur-dictionary-txt-data")
             .layout

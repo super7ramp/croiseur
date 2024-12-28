@@ -7,7 +7,7 @@ package re.belv.croiseur.solver.ginsberg;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static re.belv.croiseur.solver.ginsberg.PuzzleGridParser.parse;
+import static re.belv.croiseur.common.puzzle.PuzzleGridParser.parse;
 
 /** A factory of assertions. */
 final class Assertions {

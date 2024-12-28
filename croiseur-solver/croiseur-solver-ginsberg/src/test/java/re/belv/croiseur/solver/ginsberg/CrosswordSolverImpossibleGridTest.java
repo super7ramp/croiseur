@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.GridPosition;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.common.puzzle.PuzzleGridParser;
 
 /** Tests for {@link GinsbergCrosswordSolver}: Verify behaviour when faced to impossible grids. */
 final class CrosswordSolverImpossibleGridTest {

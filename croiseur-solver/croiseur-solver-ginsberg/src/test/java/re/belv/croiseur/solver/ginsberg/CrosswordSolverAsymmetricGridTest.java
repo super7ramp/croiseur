@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import re.belv.croiseur.common.puzzle.PuzzleGrid;
+import re.belv.croiseur.common.puzzle.PuzzleGridParser;
 
 /** Tests on some asymmetric French grids. */
 final class CrosswordSolverAsymmetricGridTest {
