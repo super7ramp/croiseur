@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## croiseur-solver-benchmark
 
-`croiseur-solveur-benchmark` provides a benchmark suite for crossword solvers implementing the [
+`croiseur-solver-benchmark` provides a benchmark suite for crossword solvers implementing the [
 `CrosswordSolver`](../../croiseur-spi/croiseur-spi-solver/src/main/java/re/belv/croiseur/spi/solver/CrosswordSolver.java)
 interface.
 
