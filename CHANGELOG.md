@@ -1,7 +1,16 @@
 <!--
-SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-FileCopyrightText: 2023-2024 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+
+## Version 0.11 - Not much but still - not yet released
+
+- clue-openai: Update model to gpt-4o-mini (!169).
+- solver-sat: Misc improvements (!187).
+- solver-sat: Explain unsat instances (!189).
+- solvers: Add benchmarks (!204, #42).
+- Reformat source code wih spotless.
+- Update dependencies.
 
 ## Version 0.10 - Under the hood improvements - 2024/04/21
 
