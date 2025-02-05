@@ -5,14 +5,28 @@ variables:
   GIT_SUBMODULE_STRATEGY: normal
   # Include only Crossword Composer submodule, LibreOffice dictionaries are not required for build
   GIT_SUBMODULE_PATHS: croiseur-solver/croiseur-solver-paulgb/crossword-composer
-  # For Linux builds, use a tailored image derived from a minimal openSUSE Tumbleweed image, built via the openSUSE Build Platform.
-  # See https://build.opensuse.org/package/show/home:1Antoine1:croiseur:head/croiseur-build-platform.
-  LINUX_IMAGE: registry.opensuse.org/home/1antoine1/croiseur/head/tumbleweed_containers/opensuse/croiseur-build-platform:27.1
+  LINUX_IMAGE: $CI_REGISTRY_IMAGE
 
 stages:
+  - prepare
   - build
   - publish
   - pages
+
+##
+# Prepare CI image that will be used for the next stages.
+#
+Build CI image:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  stage: prepare
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE docker
+    - docker push $CI_REGISTRY_IMAGE
 
 ##
 # Builds croiseur on a Linux machine.
