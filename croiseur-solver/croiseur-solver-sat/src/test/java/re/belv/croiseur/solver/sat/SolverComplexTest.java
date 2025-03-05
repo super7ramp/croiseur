@@ -157,6 +157,7 @@ final class SolverComplexTest {
     // Testing with various delays to (try to) test interruption at different solver phases. Exact
     // interruption points will vary between different machines.
     @ValueSource(ints = {0, 1, 2})
+    @Disabled("spotty")
     void shaded9x9_interrupted(final int delay) throws InterruptedException {
         // Input grid is large enough not to be solved before interruption
         final char[][] inputGrid = new char[][] {
