@@ -44,6 +44,9 @@ tasks.withType<Javadoc> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    reports {
+        html.required = false
+    }
 }
 
 tasks.jacocoTestReport {
