@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -17,8 +17,9 @@ plugins {
 // Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
 val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 dependencies {
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
+    testImplementation(platform(libs.junit5.bom))
+    testImplementation(libs.junit5.jupiter)
+    testRuntimeOnly(libs.junit5.platform.launcher)
 }
 
 java {

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-FileCopyrightText: 2025 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [versions]
@@ -11,7 +11,6 @@ javafx-plugin = "0.1.0"
 jmh = "1.37"
 jmh-plugin = "0.7.3"
 junit5 = "5.12.0"
-junit5-platform = "1.12.0"
 mockito = "5.16.0"
 native-plugin = "0.10.5"
 openai = "1.0.0-beta.13"
@@ -33,10 +32,10 @@ jmh-annotations = { module = "org.openjdk.jmh:jmh-generator-annprocess", version
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-plugin = { module = "me.champeau.jmh:jmh-gradle-plugin", version.ref = "jmh-plugin" }
 # Test libraries
-junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
-junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
-junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
-junit5-platform-suite = { module = "org.junit.platform:junit-platform-suite", version.ref = "junit5-platform" }
+junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
+junit5-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit5-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit5-platform-suite = { module = "org.junit.platform:junit-platform-suite" }
 # Additional test library for mock objects
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # A plugin for creating native executable using GraalVM, only used by cli module for now. It

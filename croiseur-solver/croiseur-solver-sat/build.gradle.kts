@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -13,7 +13,6 @@ dependencies {
     testImplementation(project(":croiseur-dictionary:croiseur-dictionary-common")) {
         because("It is used to clean/filter the test word list")
     }
-    testImplementation(libs.junit5.params)
 }
 
 // Additional directory for test utils
