@@ -66,6 +66,7 @@ Build on Linux:
       coverage_report:
         coverage_format: jacoco
         path: "croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml"
+    expire_in: 30 days
 
 ##
 # Builds croiseur on a Windows machine.
@@ -106,6 +107,7 @@ Build on Windows:
   artifacts:
     reports:
       junit: "**/TEST-*.xml"
+    expire_in: 30 days
 
 ##
 # Publishes a portable Linux distribution of croiseur.
