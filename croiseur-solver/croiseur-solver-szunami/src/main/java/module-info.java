@@ -5,5 +5,8 @@
 
 /** Crossword solver library based on szunami's xwords-rs. */
 module re.belv.croiseur.solver.szunami {
+    requires com.fasterxml.jackson.databind;
+    requires chicory.sdk;
+
     exports re.belv.croiseur.solver.szunami;
 }
