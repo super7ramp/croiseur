@@ -5,6 +5,8 @@
 
 package re.belv.croiseur.solver.szunami;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -46,12 +48,22 @@ public final class Result {
         return new Result(solution, null);
     }
 
+    @JsonCreator
+    public static Result ok(
+            @JsonProperty("contents") final String contents,
+            @JsonProperty("width") final int width,
+            @JsonProperty("height") final int height) {
+        Objects.requireNonNull(contents);
+        return ok(new Crossword(contents, width, height));
+    }
+
     /**
      * Constructs a result of type "Err", containing the given error message.
      *
      * @param error the error message
      * @return a result of type "Err", containing the given error message
      */
+    @JsonCreator
     public static Result err(final String error) {
         Objects.requireNonNull(error);
         return new Result(null, error);

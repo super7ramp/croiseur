@@ -49,6 +49,7 @@ include("croiseur-solver:croiseur-solver-sat")
 include("croiseur-solver:croiseur-solver-sat-plugin")
 include("croiseur-solver:croiseur-solver-szunami")
 include("croiseur-solver:croiseur-solver-szunami:xwords-rs-jni")
+include("croiseur-solver:croiseur-solver-szunami:xwords-rs-wasm")
 include("croiseur-solver:croiseur-solver-szunami-plugin")
 
 // Clue libraries/plugins
