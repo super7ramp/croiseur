@@ -2,7 +2,7 @@
   "bundles": [],
   "resources": [
     {
-      "pattern": ".*.(dll|dylib|so)"
+      "pattern": ".*.(dll|dylib|so|wasm)"
     }
   ]
 }

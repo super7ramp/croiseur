@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 Antoine Belvire
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "xwords-rs-wasm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+xwords = { version = "0.3.1", default-features = false }
+extism-pdk = "1.3.0"
+anyhow = "1.0.97"
+serde = { version = "1.0.219", features = ["derive"] }
+
+[patch.crates-io]
+xwords = { git = "https://github.com/super7ramp/xwords-rs", rev = "62cd3da" }
+
+[lib]
+crate-type = ["cdylib", "rlib"]

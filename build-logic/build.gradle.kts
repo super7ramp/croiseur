@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.jmh.plugin)
     implementation(libs.native)
     implementation(libs.spotless)
+    implementation(libs.extra.java.module.info)
 }
 
 repositories {

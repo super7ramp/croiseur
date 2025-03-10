@@ -5,7 +5,10 @@
 cargo-plugin = "1.2.0"
 conveyor-plugin = "1.12"
 cucumber = "7.31.0"
+extism-chicory = "0.1.5"
+extra-java-module-info = "1.10.1"
 ikonli = "12.4.0"
+jackson = "2.18.3"
 java = "25"
 javafx = "25"
 javafx-plugin = "0.1.0"
@@ -28,10 +31,18 @@ testfx-monocle = "jfx-21"
 cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
 cucumber-junit-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
+# Wasm runtime, for wasm solver plugins
+extism-chicory = { module = "org.extism.sdk:chicory-sdk", version.ref = "extism-chicory" }
+# A Gradle plugin to modularize dependencies, applied in conventions
+extra-java-module-info = { module = "org.gradlex:extra-java-module-info", version.ref = "extra-java-module-info" }
 # Ikonli is a library to use icon packs; only used by gui module
 ikonli-bom = { module = "org.kordamp.ikonli:ikonli-bom", version.ref = "ikonli" }
 ikonli-javafx = { module = "org.kordamp.ikonli:ikonli-javafx" }
 ikonli-materialdesign2 = { module = "org.kordamp.ikonli:ikonli-materialdesign2-pack" }
+# Jackson, for json serialization from/to wasm
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 # Java Microbenchmark Harness
 jmh-annotations = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }

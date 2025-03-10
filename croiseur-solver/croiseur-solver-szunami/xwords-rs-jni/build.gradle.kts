@@ -8,6 +8,7 @@ plugins {
 }
 
 cargo {
+    cargoCommand = "/Users/57139H/.cargo/bin/cargo"
     arguments = listOf("--verbose")
     outputs = mapOf("" to System.mapLibraryName("xwords_rs_jni"))
     profile = "release"
