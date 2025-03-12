@@ -27,8 +27,12 @@ struct Output {
 
 #[plugin_fn]
 pub fn fill(input: Input) -> FnResult<Output> {
-    let crossword = Crossword::rectangle(input.contents, input.width, input.height)
-        .map_err(|err| WithReturnCode::from(anyhow!(err)))?;
+    do_fill(input).map_err(|err| WithReturnCode::from(anyhow!(err)))
+}
+
+fn do_fill(mut input: Input) -> Result<Output, String> {
+    let crossword = Crossword::rectangle(input.contents, input.width, input.height)?;
+    input.words.retain(|word| word.is_ascii());
     let trie = Trie::build(input.words);
     let mut never_interrupt = || false;
     Filler::new(&trie, &mut never_interrupt)
@@ -38,5 +42,4 @@ pub fn fill(input: Input) -> FnResult<Output> {
             width: input.width,
             height: input.height,
         })
-        .map_err(|err| WithReturnCode::from(anyhow!(err)))
 }
