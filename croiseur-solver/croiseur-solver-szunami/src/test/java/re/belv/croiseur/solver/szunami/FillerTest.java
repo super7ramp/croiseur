@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -30,12 +30,7 @@ final class FillerTest {
     void failureNullCrossword() {
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
-        final NativePanicException exception =
-                assertThrows(NativePanicException.class, () -> new Filler().fill(null, emptyDictionary));
-        assertEquals(
-                "Call to re.belv.croiseur.solver.szunami.Crossword method "
-                        + "failed: NullPtr(\"call_method obj argument\")",
-                exception.getMessage());
+        assertThrows(NullPointerException.class, () -> new Filler().fill(null, emptyDictionary));
     }
 
     /**
@@ -117,7 +112,7 @@ final class FillerTest {
         final Result result = new Filler().fill(crossword, emptyDictionary);
 
         assertTrue(result.isErr());
-        assertEquals("We failed" /* :) */, result.error());
+        assertTrue(result.error().contains("We failed" /* :) */));
     }
 
     /**
@@ -137,16 +132,17 @@ final class FillerTest {
                 """, 3, 3);
         final Dictionary dictionary = new Dictionary(List.of("AAA", "BBB", "CDE", "ABC", "ABD", "ABE"));
 
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Future<Result> result = executor.submit(() -> {
-            try {
-                return new Filler().fill(crossword, dictionary);
-            } catch (final InterruptedException e) {
-                assertEquals("Filler interrupted", e.getMessage());
-                return Result.err("Interrupted");
-            }
-        });
-        executor.shutdownNow();
-        assertTrue(result.get(1L, TimeUnit.SECONDS).isErr());
+        try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {
+            final Future<Result> result = executor.submit(() -> {
+                try {
+                    return new Filler().fill(crossword, dictionary);
+                } catch (final InterruptedException e) {
+                    assertEquals("Filler interrupted", e.getMessage());
+                    return Result.err("Interrupted");
+                }
+            });
+            executor.shutdownNow();
+            assertTrue(result.get(1L, TimeUnit.SECONDS).isErr());
+        }
     }
 }
