@@ -35,9 +35,7 @@ public final class Filler {
     /** The extism plugin running wasm code. */
     private final Plugin plugin;
 
-    /**
-     * Constructs an instance.
-     */
+    /** Constructs an instance. */
     public Filler() {
         om = new ObjectMapper();
         final URL wasmUrl = Objects.requireNonNull(
