@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -142,6 +142,24 @@ public final class CrosswordGridPane extends StackPane {
         }
     }
 
+    /** Processes letter key events to auto-advance the current (focused) box. */
+    private final class AutoAdvanceCurrentBox implements EventHandler<KeyEvent> {
+        @Override
+        public void handle(final KeyEvent event) {
+            if (event.getCode().isLetterKey()) {
+                final GridCoord currentCoordinate = currentBoxPosition.get();
+                if (!boxModels.get(currentCoordinate).isShaded()) {
+                    final GridCoord nextCoordinate =
+                            currentSlotVertical.get() ? currentCoordinate.down() : currentCoordinate.right();
+                    final Node nextNode = boxNodes.get(nextCoordinate);
+                    if (nextNode != null && !boxModels.get(nextCoordinate).isShaded()) {
+                        nextNode.requestFocus();
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * A comparator for the grid child boxes.
      *
@@ -222,6 +240,7 @@ public final class CrosswordGridPane extends StackPane {
         boxModels.addListener(this::onModelUpdate);
         grid.addEventFilter(InputEvent.ANY, new SlotOrientationChanger());
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
+        grid.addEventHandler(KeyEvent.KEY_RELEASED, new AutoAdvanceCurrentBox());
         placeholder.visibleProperty().bind(boxModels.emptyProperty());
         placeholder.managedProperty().bind(boxModels.emptyProperty());
         placeholder.wrappingWidthProperty().bind(grid.widthProperty().subtract(10));
