@@ -45,20 +45,10 @@ public final class CrosswordGridPane extends StackPane {
 
     /** Allows to navigate the grid using arrow keys. */
     private final class ArrowKeyNavigator implements EventHandler<KeyEvent> {
-
-        /** Constructs an instance. */
-        ArrowKeyNavigator() {
-            // Nothing to do.
-        }
-
         @Override
         public void handle(final KeyEvent event) {
-            final Node source = (Node) event.getSource(); // the GridPane
-            final Node focused = source.getScene().getFocusOwner();
             if (event.getCode().isArrowKey()) {
-                final int col = GridPane.getColumnIndex(focused);
-                final int row = GridPane.getRowIndex(focused);
-                final GridCoord currentCoordinate = new GridCoord(col, row);
+                final GridCoord currentCoordinate = currentBoxPosition.get();
                 final GridCoord nextCoordinate =
                         switch (event.getCode()) {
                             case LEFT -> currentCoordinate.left();
@@ -84,12 +74,6 @@ public final class CrosswordGridPane extends StackPane {
 
     /** Processes events triggering slot orientation change. */
     private final class SlotOrientationChanger implements EventHandler<InputEvent> {
-
-        /** Constructs an instance. */
-        SlotOrientationChanger() {
-            // Nothing to do.
-        }
-
         @Override
         public void handle(final InputEvent event) {
             if (enterKeyPressed(event)
