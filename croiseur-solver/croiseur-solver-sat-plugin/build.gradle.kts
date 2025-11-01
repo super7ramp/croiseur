@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -12,11 +12,4 @@ dependencies {
     api(project(":croiseur-spi:croiseur-spi-solver"))
     implementation(project(":croiseur-solver:croiseur-solver-sat"))
     jmh(project(":croiseur-solver:croiseur-solver-benchmark"))
-}
-
-spotless {
-    java {
-        // https://github.com/palantir/palantir-java-format/issues/933
-        targetExclude("**/SatSolver.java")
-    }
 }

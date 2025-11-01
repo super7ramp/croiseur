@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -65,7 +65,9 @@ public final class SatSolver implements CrosswordSolver {
             return switch (result) {
                 case Solver.Result.Sat ignored -> Collections.emptySet();
                 case Solver.Result.Unsat(final Set<Pos> nonAssignablePositions) ->
-                        nonAssignablePositions.stream().map(pos -> at(pos.column(), pos.row())).collect(toSet());
+                    nonAssignablePositions.stream()
+                            .map(pos -> at(pos.column(), pos.row()))
+                            .collect(toSet());
             };
         }
     }

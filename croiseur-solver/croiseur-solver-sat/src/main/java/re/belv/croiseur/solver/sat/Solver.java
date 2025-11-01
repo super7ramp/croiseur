@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -70,9 +70,7 @@ public final class Solver {
 
             @Override
             public String toString() {
-                return "Sat{" +
-                        "grid=" + Arrays.deepToString(grid) +
-                        '}';
+                return "Sat{" + "grid=" + Arrays.deepToString(grid) + '}';
             }
         }
 
@@ -194,10 +192,10 @@ public final class Solver {
     /**
      * Evaluates whether the problem is satisfiable.
      *
-     * @implNote Sat4j solver does not respond to thread interruption. In order to respond to thread
-     * interruption, this method launches the solver in a dedicated thread and makes the caller thread waits
-     * for the result. If this wait is interrupted, then the solver is stopped from caller thread using
-     * {@link IPBSolver#expireTimeout} which seems the only way to stop a running Sat4j solver.
+     * @implNote Sat4j solver does not respond to thread interruption. In order to respond to thread interruption, this
+     *     method launches the solver in a dedicated thread and makes the caller thread waits for the result. If this
+     *     wait is interrupted, then the solver is stopped from caller thread using {@link IPBSolver#expireTimeout}
+     *     which seems the only way to stop a running Sat4j solver.
      */
     private boolean problemIsSatisfiable() throws InterruptedException {
         try (final ExecutorService executor = Executors.newSingleThreadExecutor()) {
