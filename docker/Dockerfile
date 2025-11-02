@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2025 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM gradle:8.12.1-jdk21-alpine
+FROM gradle:9.2.0-jdk21-alpine
 
 # cargo: For Rust
 # font-liberation: For JavaFx tests
