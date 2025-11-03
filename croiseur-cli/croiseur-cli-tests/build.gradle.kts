@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import java.nio.file.Files
@@ -9,8 +9,11 @@ plugins {
     id("re.belv.croiseur.java-aot")
 }
 
+val testDictionaryPath by configurations.registering
+
 dependencies {
     testImplementation(project(":croiseur-cli:croiseur-cli"))
+    testDictionaryPath(project(":croiseur-cli:croiseur-cli", "dictionaryPath"))
 }
 
 /** Configures tests paths. */
@@ -26,7 +29,7 @@ tasks.nativeTest {
 }
 
 fun resolvedDicPath(): String {
-    return project(":croiseur-cli:croiseur-cli").configurations.getByName("dictionaryPath").asPath
+    return testDictionaryPath.get().asPath
 }
 
 fun testRepoPath(): String {

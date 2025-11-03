@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -17,10 +17,7 @@ plugins {
 /**
  * The resolvable dictionary path, where the dictionaries come from.
  */
-configurations.register("dictionaryPath") {
-    isCanBeConsumed = false
-    isCanBeResolved = true
-}
+val dictionaryPath by configurations.registering
 
 /**
  * Configures application parameters.
@@ -32,7 +29,7 @@ configurations.register("dictionaryPath") {
 application {
     mainClass.set("${project.group}.${project.name}.Main".replace('-', '.'))
     mainModule.set("${project.group}.${project.name}".replace('-', '.'))
-    applicationDistribution.from(configurations.named("dictionaryPath")).into(dictionaryDistDir())
+    applicationDistribution.from(dictionaryPath).into(dictionaryDistDir())
 }
 
 /**
@@ -90,7 +87,7 @@ fun dictionaryDistDir(): String {
 }
 
 fun resolvedDicPath(): String {
-    return configurations.getByName("dictionaryPath").asPath
+    return dictionaryPath.get().asPath
 }
 
 fun testPuzzlePath(): String {

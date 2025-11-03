@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 Antoine Belvire
+SPDX-FileCopyrightText: 2025 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
@@ -28,7 +28,7 @@ Important notes:
 
 In order to build Croiseur GUI from sources, you need:
 
-- [Gradle](https://gradle.org/) 8.5 or later
+- [Gradle](https://gradle.org/) 9.0.0 or later
 - [Java](https://adoptium.net/temurin/releases/) 21 or later (this one is required at run-time too)
 - [Rust](https://www.rust-lang.org/tools/install) 2021 or later
 

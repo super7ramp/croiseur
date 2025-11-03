@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import java.nio.file.Files
@@ -14,12 +14,15 @@ javafx {
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
+val testDictionaryPath by configurations.registering
+
 dependencies {
     testImplementation(project(":croiseur-gui:croiseur-gui"))
     testImplementation(libs.testfx.core)
     testImplementation(libs.testfx.hamcrest)
     testImplementation(libs.testfx.junit)
     testRuntimeOnly(libs.testfx.monocle)
+    testDictionaryPath(project(":croiseur-gui:croiseur-gui", "dictionaryPath"))
 }
 
 tasks.test {
@@ -45,7 +48,7 @@ tasks.test {
 }
 
 fun resolvedDicPath(): String {
-    return project(":croiseur-gui:croiseur-gui").configurations.getByName("dictionaryPath").asPath
+    return testDictionaryPath.get().asPath
 }
 
 fun testRepoPath(): String {
