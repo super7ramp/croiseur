@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 - gui: Auto-advance current box when typing.
 - Upgrade to Java 25.
+- Upgrade to JavaFx 25.
 
 ## Version 0.11 - Not much but still - 2024/12/30
 
