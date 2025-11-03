@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [versions]
-cargo-plugin = "1.1.0"
+cargo-plugin = "1.2.0"
 conveyor-plugin = "1.12"
 cucumber = "7.31.0"
 java = "21"
