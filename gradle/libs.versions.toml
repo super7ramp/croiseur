@@ -10,7 +10,7 @@ javafx = "21"
 javafx-plugin = "0.1.0"
 jmh = "1.37"
 jmh-plugin = "0.7.3"
-junit5 = "6.0.1"
+junit = "6.0.1"
 mockito = "5.20.0"
 native-plugin = "0.11.2"
 openai = "1.0.0-beta.16"
@@ -25,17 +25,17 @@ testfx-monocle = "jfx-21"
 [libraries]
 # BDD library, for acceptance tests
 cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
-cucumber-junit5-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
+cucumber-junit-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
 # Java Microbenchmark Harness
 jmh-annotations = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-plugin = { module = "me.champeau.jmh:jmh-gradle-plugin", version.ref = "jmh-plugin" }
 # Test libraries
-junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
-junit5-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
-junit5-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
-junit5-platform-suite = { module = "org.junit.platform:junit-platform-suite" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-platform-suite = { module = "org.junit.platform:junit-platform-suite" }
 # Additional test library for mock objects
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 # A plugin for creating native executable using GraalVM, only used by cli module for now. It

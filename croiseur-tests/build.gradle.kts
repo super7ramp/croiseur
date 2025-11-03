@@ -7,7 +7,7 @@ plugins {
     id("re.belv.croiseur.java-aggregate-coverage")
 }
 
-configurations.register("testDictionaryPath") {
+val testDictionaryPath by configurations.registering {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
@@ -15,8 +15,8 @@ configurations.register("testDictionaryPath") {
 dependencies {
     testImplementation(project(":croiseur"))
     testImplementation(libs.cucumber)
-    testImplementation(libs.cucumber.junit5.engine)
-    testImplementation(libs.junit5.platform.suite)
+    testImplementation(libs.cucumber.junit.engine)
+    testImplementation(libs.junit.platform.suite)
     testImplementation(libs.mockito)
     testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-hunspell-plugin"))
     testRuntimeOnly(project(":croiseur-dictionary:croiseur-dictionary-txt-plugin"))
@@ -28,15 +28,12 @@ dependencies {
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-sat-plugin"))
     testRuntimeOnly(project(":croiseur-solver:croiseur-solver-szunami-plugin"))
     testRuntimeOnly(libs.cucumber.picocontainer)
-    "testDictionaryPath"(project(":croiseur-dictionary:croiseur-dictionary-hunspell-data"))
-    "testDictionaryPath"(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
-    "testDictionaryPath"(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-hunspell-data"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-txt-data"))
+    testDictionaryPath(project(":croiseur-dictionary:croiseur-dictionary-xml-data"))
 }
 
 tasks.test {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
-    systemProperty(
-        "re.belv.croiseur.dictionary.path",
-        configurations.getByName("testDictionaryPath").asPath
-    )
+    systemProperty("re.belv.croiseur.dictionary.path", testDictionaryPath.get().asPath)
 }

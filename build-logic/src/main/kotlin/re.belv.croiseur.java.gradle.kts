@@ -17,9 +17,9 @@ plugins {
 // Hack to make version catalog works with kotlin, see https://github.com/gradle/gradle/issues/15383
 val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 dependencies {
-    testImplementation(platform(libs.junit5.bom))
-    testImplementation(libs.junit5.jupiter)
-    testRuntimeOnly(libs.junit5.platform.launcher)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 java {
