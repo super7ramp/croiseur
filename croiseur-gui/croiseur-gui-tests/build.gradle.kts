@@ -26,14 +26,21 @@ dependencies {
 }
 
 tasks.test {
-    // Export/open JavaFx internals to TestFx: TestFx relies on them.
-    /* TODO uncomment these lines when project is modularized again (#84)
     jvmArgs = listOf(
+        // Allow JNI for native solvers
+        "--enable-native-access=ALL-UNNAMED",
+        /* TODO uncomment these lines when project is modularized again (#84)
+        "--enable-native-access=re.belv.croiseur.solver.paulgb",
+        "--enable-native-access=re.belv.croiseur.solver.szunami",
+         */
+
+        // Export/open JavaFx internals to TestFx: TestFx relies on them.
+        /* TODO uncomment these lines when project is modularized again (#84)
         "--add-exports", "javafx.graphics/com.sun.javafx.application=org.testfx",
         "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx",
         "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle"
+         */
     )
-    */
 
     // Configure JavaFx/TestFx to run in headless mode, in order to run the tests on CI machines.
     systemProperty("headless.geometry", "1920x1080-32")

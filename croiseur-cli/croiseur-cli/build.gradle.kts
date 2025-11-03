@@ -38,6 +38,10 @@ application {
         "-Xms64M",                      // initial heap size
         "-Xmx1g",                       // maximum heap size; SAT solver can consume a lot of memory
 
+        // Allow JNI for native solvers
+        "--enable-native-access=re.belv.croiseur.solver.paulgb",
+        "--enable-native-access=re.belv.croiseur.solver.szunami",
+
         // Useful Java debug options
         //"-XX:+PrintCommandLineFlags",
         //"-Xlog:gc",                   // print garbage collection events

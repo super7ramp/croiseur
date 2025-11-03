@@ -58,10 +58,10 @@ final class DictionaryWriterTest {
                      <?xml version="1.0" encoding="UTF-8"?>\
                      <tns:dictionary xmlns:tns="http://www.example.org/dictionary" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dictionary dictionary.xsd">
                          <locale>en</locale>
-                         <name>Dictionary example</name>
                          <name xml:lang="fr-FR">Exemple de dictionnaire</name>
-                         <description>An example of XML dictionary. Useful for discovery and testing purposes.</description>
+                         <name>Dictionary example</name>
                          <description xml:lang="fr-FR">Un exemple de dictionnaire. Utile à des fins de découverte et de tests.</description>
+                         <description>An example of XML dictionary. Useful for discovery and testing purposes.</description>
                          <words>
                              <word>Hello</word>
                              <word>World</word>

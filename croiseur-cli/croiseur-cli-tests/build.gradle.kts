@@ -16,8 +16,14 @@ dependencies {
     testDictionaryPath(project(":croiseur-cli:croiseur-cli", "dictionaryPath"))
 }
 
-/** Configures tests paths. */
 tasks.test {
+    // Allow JNI for native solvers
+    jvmArgs = listOf(
+        "--enable-native-access=re.belv.croiseur.solver.paulgb",
+        "--enable-native-access=re.belv.croiseur.solver.szunami",
+    )
+
+    // Configure tests paths
     systemProperty("re.belv.croiseur.dictionary.path", resolvedDicPath())
     systemProperty("re.belv.croiseur.puzzle.path", testRepoPath())
 }

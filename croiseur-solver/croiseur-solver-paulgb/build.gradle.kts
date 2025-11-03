@@ -10,3 +10,7 @@ plugins {
 dependencies {
     rust(project(":croiseur-solver:croiseur-solver-paulgb:crossword-composer-jni"))
 }
+
+tasks.test {
+    jvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
+}

@@ -18,7 +18,7 @@ No package of Croiseur CLI has been made yet. This section will be updated when 
 In order to build `croiseur-cli` from sources, you need:
 
 - [Gradle](https://gradle.org/) 9.0.0 or later
-- [Java](https://adoptium.net/temurin/releases/) 21 or later (this one is required at run-time too)
+- [Java](https://adoptium.net/temurin/releases/) 25 or later (this one is required at run-time too)
 - [Rust](https://www.rust-lang.org/tools/install) 2021 or later
 
 Note that Rust is only needed for
@@ -58,7 +58,7 @@ gradle run --args=help
 ##### Additional prerequisites
 
 Native build requires a specific JVM called [GraalVM](https://www.graalvm.org/). Any version will do
-as long as it supports Java 21.
+as long as it supports Java 25.
 
 Once GraalVM is installed in a standard location, Gradle should be able to automatically detect and
 use it when running the native compilation task.
