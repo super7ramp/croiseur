@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Not released
 
-- gui: Auto-advance current box when typing.
+- GUI: Auto-move current box when typing.
 - Upgrade to Java 25.
 - Upgrade to JavaFx 25.
 
