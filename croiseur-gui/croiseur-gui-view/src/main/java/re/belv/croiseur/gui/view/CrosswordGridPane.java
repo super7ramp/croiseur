@@ -8,6 +8,7 @@ package re.belv.croiseur.gui.view;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
@@ -126,19 +127,45 @@ public final class CrosswordGridPane extends StackPane {
         }
     }
 
-    /** Processes letter key events to auto-advance the current (focused) box. */
-    private final class AutoAdvanceCurrentBox implements EventHandler<KeyEvent> {
+    /** Processes letter key and backspace events to auto-move the current (focused) box. */
+    private final class AutoMoveCurrentBox implements EventHandler<KeyEvent> {
+
+        /** Moves from a coordinate to another. */
+        private enum Move implements BiFunction<GridCoord, Boolean, GridCoord> {
+            TO_NEXT,
+            TO_PREVIOUS;
+
+            @Override
+            public GridCoord apply(final GridCoord coord, final Boolean verticalSlot) {
+                return switch (this) {
+                    case TO_NEXT -> verticalSlot ? coord.down() : coord.right();
+                    case TO_PREVIOUS -> verticalSlot ? coord.up() : coord.left();
+                };
+            }
+        }
+
         @Override
         public void handle(final KeyEvent event) {
             if (event.getCode().isLetterKey()) {
-                final GridCoord currentCoordinate = currentBoxPosition.get();
-                if (!boxModels.get(currentCoordinate).isShaded()) {
-                    final GridCoord nextCoordinate =
-                            currentSlotVertical.get() ? currentCoordinate.down() : currentCoordinate.right();
-                    final Node nextNode = boxNodes.get(nextCoordinate);
-                    if (nextNode != null && !boxModels.get(nextCoordinate).isShaded()) {
-                        nextNode.requestFocus();
-                    }
+                ifNotShaded(Move.TO_NEXT);
+            } else if (event.getCode() == KeyCode.BACK_SPACE) {
+                ifNotShaded(Move.TO_PREVIOUS);
+            }
+        }
+
+        /**
+         * Applies the given move to the current box and requests focus on the resulting box, if both current and new
+         * boxes are not shaded.
+         *
+         * @param move the move to apply
+         */
+        private void ifNotShaded(final Move move) {
+            final GridCoord currentCoordinate = currentBoxPosition.get();
+            if (!boxModels.get(currentCoordinate).isShaded()) {
+                final GridCoord newCoordinate = move.apply(currentCoordinate, currentSlotVertical.get());
+                final Node newNode = boxNodes.get(newCoordinate);
+                if (newNode != null && !boxModels.get(newCoordinate).isShaded()) {
+                    newNode.requestFocus();
                 }
             }
         }
@@ -224,7 +251,7 @@ public final class CrosswordGridPane extends StackPane {
         boxModels.addListener(this::onModelUpdate);
         grid.addEventFilter(InputEvent.ANY, new SlotOrientationChanger());
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
-        grid.addEventHandler(KeyEvent.KEY_RELEASED, new AutoAdvanceCurrentBox());
+        grid.addEventHandler(KeyEvent.KEY_RELEASED, new AutoMoveCurrentBox());
         placeholder.visibleProperty().bind(boxModels.emptyProperty());
         placeholder.managedProperty().bind(boxModels.emptyProperty());
         placeholder.wrappingWidthProperty().bind(grid.widthProperty().subtract(10));
