@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -8,8 +8,8 @@ package re.belv.croiseur.gui.tests;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasChildren;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
-import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static re.belv.croiseur.gui.tests.CrosswordEditorFixtures.goToEditorView;
 
 import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.Test;
@@ -34,10 +34,7 @@ final class CrosswordEditorResizeGridTest extends CroiseurGuiTest {
      * @param robot the TestFx robot
      */
     private void step1_GoToEditorView(final FxRobot robot) {
-        robot.clickOn("#newPuzzleButton");
-        verifyThat("#crossword-grid", isVisible());
-        verifyThat("#crossword-grid", hasChildren(42 /* 6 columns, 7 rows */, ".crossword-box-text"));
-        verifyThat("#solveButton", isEnabled());
+        goToEditorView(robot);
     }
 
     /**
