@@ -5,9 +5,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## Not released
 
-- GUI: Auto-move current box when typing.
-- Upgrade to Java 25.
-- Upgrade to JavaFx 25.
+- Upgrade to Java 25 (!260).
+- GUI:
+    - Auto-move current box when typing (!259, !262).
+    - Upgrade to JavaFx 25 (!261).
+    - Update theme to AtlantaFx 2.1.0 (!263).
 
 ## Version 0.11 - Not much but still - 2024/12/30
 
@@ -31,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - Upgrade to Java 21 (#87, !131)
 - Upgrade to JavaFx 21 (#88, !132)
 - Fix obsolete Javadoc (!134)
-- Collapse editor's lateral panes when switching back to welcome screen (!125) 
+- Collapse editor's lateral panes when switching back to welcome screen (!125)
 
 ## Version 0.8 – New SAT Solver – 2023/10/06
 
