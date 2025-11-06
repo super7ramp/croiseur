@@ -10,10 +10,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import javafx.application.Application;
+import javafx.application.ColorScheme;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -42,8 +44,10 @@ public final class CroiseurGuiApplication extends Application {
     /** The application icon name. */
     private static final String ICON_NAME = "application-icon.png";
 
-    /** The application stylesheet. */
-    private static final String STYLESHEET = "theme-light.css";
+    /** The application stylesheets. */
+    private static final Map<ColorScheme, String> STYLESHEETS = Map.of(
+            ColorScheme.LIGHT, "theme-light.css",
+            ColorScheme.DARK, "theme-dark.css");
 
     /** The number of background threads. At least 2 so that dictionaries can be browsed while solver is running. */
     private static final int NUMBER_OF_BACKGROUND_THREADS = 2;
@@ -62,7 +66,7 @@ public final class CroiseurGuiApplication extends Application {
         final Executor executor = createExecutor();
         loadComponents(stage, sceneSwitcher, executor);
         configureStage(stage);
-        configureStyleSheet();
+        configureStyleSheets();
         stage.show();
     }
 
@@ -102,14 +106,28 @@ public final class CroiseurGuiApplication extends Application {
     }
 
     /**
-     * Loads application stylesheet and sets it as user agent stylesheet.
+     * Configures application stylesheets.
      *
+     * @throws NullPointerException if a stylesheet is not found
+     */
+    private static void configureStyleSheets() {
+        final Platform.Preferences prefs = Platform.getPreferences();
+        setStyleSheet(prefs.getColorScheme());
+        prefs.colorSchemeProperty()
+                .addListener((ignoredObservable, ignoredOldScheme, newScheme) -> setStyleSheet(newScheme));
+    }
+
+    /**
+     * Sets the user agent stylesheet matching the given color scheme.
+     *
+     * @param scheme the color scheme
      * @throws NullPointerException if stylesheet is not found
      */
-    private static void configureStyleSheet() {
-        final URL themeUrl = CroiseurGuiApplication.class.getResource(STYLESHEET);
-        Objects.requireNonNull(themeUrl, "Application stylesheet not found");
-        Application.setUserAgentStylesheet(themeUrl.toString());
+    private static void setStyleSheet(final ColorScheme scheme) {
+        final String styleSheet = STYLESHEETS.get(scheme);
+        final URL styleSheetUrl = CroiseurGuiApplication.class.getResource(styleSheet);
+        Objects.requireNonNull(styleSheetUrl, () -> "Application stylesheet " + styleSheet + " not found");
+        setUserAgentStylesheet(styleSheetUrl.toString());
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -57,6 +57,12 @@
     -fx-image: url("icon/system-search-symbolic.png");
 }
 
+@media (prefers-color-scheme: dark) {
+    .placeholder-image-view {
+        -fx-image: url("icon/dark/system-search-symbolic.png");
+    }
+}
+
 .placeholder-label {
     -fx-font-size: 1.2em;
     -fx-padding: 10px;
@@ -66,10 +72,28 @@
     -fx-image: url("icon/accessories-dictionary-symbolic.png");
 }
 
+@media (prefers-color-scheme: dark) {
+    #titled-pane-dictionaries-icon-image-view {
+        -fx-image: url("icon/dark/accessories-dictionary-symbolic.png");
+    }
+}
+
 #titled-pane-words-icon-image-view {
     -fx-image: url("icon/sc_text.png");
 }
 
+@media (prefers-color-scheme: dark) {
+    #titled-pane-words-icon-image-view {
+        -fx-image: url("icon/dark/sc_text.png");
+    }
+}
+
 #titled-pane-suggestions-icon-image-view {
     -fx-image: url("icon/light.png");
+}
+
+@media (prefers-color-scheme: dark) {
+    #titled-pane-suggestions-icon-image-view {
+        -fx-image: url("icon/dark/light.png");
+    }
 }

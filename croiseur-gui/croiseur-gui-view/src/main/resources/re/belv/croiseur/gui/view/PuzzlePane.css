@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -33,6 +33,12 @@
     -fx-image: url("icon/sc_dbformedit.png");
 }
 
+@media (prefers-color-scheme: dark) {
+    #titled-pane-details-icon-image-view {
+        -fx-image: url("icon/dark/sc_dbformedit.png");
+    }
+}
+
 #puzzle-title-text-field {
     -fx-font-size: 1.2em;
 }
@@ -60,4 +66,10 @@
 
 #back-button {
     -fx-graphic: url("icon/sc_zoomprevious.png");
+}
+
+@media (prefers-color-scheme: dark) {
+    #back-button {
+        -fx-graphic: url("icon/dark/sc_zoomprevious.png");
+    }
 }
