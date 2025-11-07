@@ -46,6 +46,9 @@ application {
         "--enable-native-access=re.belv.croiseur.solver.paulgb",
         "--enable-native-access=re.belv.croiseur.solver.szunami",
 
+        // Allow native access for JavaFx (JDK-8347744)
+        "--enable-native-access=javafx.graphics",
+
         // Useful application debug options
         //"-Dre.belv.croiseur.puzzle.path=/your/debug/puzzle/path",
 
