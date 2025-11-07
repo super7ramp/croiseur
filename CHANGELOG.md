@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 ## Not released
 
 - Upgrade to Java 25 (!260).
+- Reduce memory usage (!267).
 - GUI:
     - Auto-move current box when typing (!259, !262).
     - Upgrade to JavaFx 25 (!261).

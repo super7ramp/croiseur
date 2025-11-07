@@ -34,6 +34,9 @@ dependencies {
 
 application {
     applicationDefaultJvmArgs = listOf(
+        // Use compact object headers to reduce memory footprint (JEP 519)
+        "-XX:+UseCompactObjectHeaders",
+
         // Memory tuning
         "-Xms64M",                      // initial heap size
         "-Xmx1g",                       // maximum heap size; SAT solver can consume a lot of memory
