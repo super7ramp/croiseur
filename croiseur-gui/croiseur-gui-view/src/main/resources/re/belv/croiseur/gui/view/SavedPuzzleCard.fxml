@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-FileCopyrightText: 2025 Antoine Belvire
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.canvas.Canvas?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="spaced-hvbox" stylesheets="@SavedPuzzleCard.css"
          type="HBox" xmlns="http://javafx.com/javafx/17">
-    <!-- fitHeight and fitWidth cannot be set via CSS. -->
-    <ImageView fx:id="thumbnail" fitHeight="96.0" fitWidth="96.0" preserveRatio="true"/>
+    <!-- Canvas cannot be styled via CSS. -->
+    <Canvas fx:id="thumbnail" height="96.0" width="96.0"/>
     <VBox styleClass="puzzle-details-vbox,spaced-hvbox" HBox.hgrow="ALWAYS">
         <Text fx:id="title" styleClass="puzzle-title"/>
         <HBox styleClass="puzzle-details-hbox,spaced-hvbox">

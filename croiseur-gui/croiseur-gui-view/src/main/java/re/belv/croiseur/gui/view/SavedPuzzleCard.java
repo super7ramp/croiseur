@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -13,12 +13,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -61,12 +57,11 @@ public final class SavedPuzzleCard extends HBox {
         /**
          * Constructs an instance.
          *
-         * @param width the desired image width
-         * @param height the desired image height
+         * @param canvas the canvas to draw on
          * @param grid the grid model
          */
-        GridDrawer(final double width, final double height, final SavedPuzzleViewModel grid) {
-            canvas = new Canvas(width, height);
+        private GridDrawer(final Canvas canvas, final SavedPuzzleViewModel grid) {
+            this.canvas = canvas;
 
             filledBoxes = grid.filledBoxes();
             shadedBoxes = grid.shadedBoxes();
@@ -74,8 +69,8 @@ public final class SavedPuzzleCard extends HBox {
             numberOfRows = grid.rowCount();
 
             // Reserve one pixel for pixel snapping, otherwise last strokes could be outside canvas
-            final double exploitableWidth = width - CanvasUtil.pixelSize();
-            final double exploitableHeight = height - CanvasUtil.pixelSize();
+            final double exploitableWidth = canvas.getWidth() - CanvasUtil.pixelSize();
+            final double exploitableHeight = canvas.getHeight() - CanvasUtil.pixelSize();
             final double columnPerRowRatio = ((double) numberOfColumns / (double) numberOfRows);
             gridWidth = min(exploitableWidth, exploitableWidth * columnPerRowRatio);
             gridHeight = min(exploitableHeight, exploitableHeight / columnPerRowRatio);
@@ -86,17 +81,32 @@ public final class SavedPuzzleCard extends HBox {
         }
 
         /**
-         * Creates an image of the grid.
+         * Draws the given grid on the given canvas.
          *
-         * @return an image of the grid
+         * @param canvas the canvas to draw on
+         * @param grid the grid model
          */
-        Image draw() {
+        static void draw(final Canvas canvas, final SavedPuzzleViewModel grid) {
+            new GridDrawer(canvas, grid).draw();
+        }
+
+        /**
+         * Clears the given canvas.
+         *
+         * @param canvas the canvas to reset
+         */
+        static void clear(final Canvas canvas) {
+            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        }
+
+        /** Draws the grid image on the canvas. */
+        private void draw() {
+            clear(canvas);
             fillBackground();
             drawColumns();
             drawRows();
             drawShadedBoxes();
             drawFilledBoxes();
-            return toImage();
         }
 
         /** Fills the background of the grid with white. */
@@ -144,14 +154,6 @@ public final class SavedPuzzleCard extends HBox {
                     String.valueOf(letter), x(position.column()) + boxWidth / 2, y(position.row()) + boxHeight / 2));
         }
 
-        /** Snapshots the canvas into an image. */
-        private Image toImage() {
-            final var image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
-            final var params = new SnapshotParameters();
-            params.setFill(Color.TRANSPARENT);
-            return canvas.snapshot(params, image);
-        }
-
         /**
          * Returns the horizontal start position (i.e. left border) of the given column on the canvas.
          *
@@ -175,7 +177,7 @@ public final class SavedPuzzleCard extends HBox {
 
     /** A preview of the puzzle. */
     @FXML
-    private ImageView thumbnail;
+    private Canvas thumbnail;
 
     /** The title. May be empty. */
     @FXML
@@ -213,26 +215,12 @@ public final class SavedPuzzleCard extends HBox {
         editor.setText(model.editor());
         copyright.setText(model.copyright());
         date.setText(model.date());
-        final Image image = drawGridImage(model);
-        thumbnail.setImage(image);
+        GridDrawer.draw(thumbnail, model);
     }
 
     /** Resets all content of this card. */
     public void reset() {
-        thumbnail.setImage(null);
+        GridDrawer.clear(thumbnail);
         Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));
-    }
-
-    /**
-     * Draws a grid image.
-     *
-     * @param grid the grid model
-     * @return a grid image
-     */
-    private Image drawGridImage(final SavedPuzzleViewModel grid) {
-        final double imageWidth = thumbnail.getFitWidth();
-        final double imageHeight = thumbnail.getFitHeight();
-        final GridDrawer gridDrawer = new GridDrawer(imageWidth, imageHeight, grid);
-        return gridDrawer.draw();
     }
 }

@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - Update theme to AtlantaFx 2.1.0 (!263).
     - Add dark theme (#66, !264).
     - Improve icons quality (!265)
+    - Improve thumbnail quality (!266)
 
 ## Version 0.11 - Not much but still - 2024/12/30
 
