@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -12,6 +12,8 @@ module re.belv.croiseur.gui.view {
     requires transitive re.belv.croiseur.gui.view.model;
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.materialdesign2;
 
     exports re.belv.croiseur.gui.view;
     exports re.belv.croiseur.gui.view.javafx.scene.control;

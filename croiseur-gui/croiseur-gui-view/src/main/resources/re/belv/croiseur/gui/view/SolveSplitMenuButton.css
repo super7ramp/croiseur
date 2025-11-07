@@ -3,12 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#solve-button-image-view {
-    -fx-image: url("icon/lc_runmacro.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #solve-button-image-view {
-        -fx-image: url("icon/dark/lc_runmacro.png");
-    }
+#solve-button-icon {
+    -fx-icon-code: "mdi2c-cog-play-outline";
 }

@@ -11,15 +11,9 @@
     -fx-spacing: 10px;
 }
 
-#puzzle-placeholder-image-view {
-    -fx-image: url("icon/system-search-symbolic.png");
-}
-
-
-@media (prefers-color-scheme: dark) {
-    #puzzle-placeholder-image-view {
-        -fx-image: url("icon/dark/system-search-symbolic.png");
-    }
+#puzzle-placeholder-icon {
+    -fx-icon-code: "mdi2f-folder-search-outline";
+    -fx-icon-size: 96px;
 }
 
 #puzzle-placeholder-text {

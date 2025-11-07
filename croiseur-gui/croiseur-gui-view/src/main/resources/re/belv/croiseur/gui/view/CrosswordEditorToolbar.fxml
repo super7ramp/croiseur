@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-FileCopyrightText: 2025 Antoine Belvire
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
@@ -11,15 +11,15 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import re.belv.croiseur.gui.view.SolveSplitMenuButton?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@CrosswordEditorToolbar.css"
          type="ToolBar" xmlns="http://javafx.com/javafx/17">
     <ToggleButton fx:id="puzzleToggleButton" text="%puzzle-button">
         <graphic>
-            <ImageView id="show-puzzle-button-image-view"/>
+            <FontIcon id="show-puzzle-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%puzzle-tooltip"/>
@@ -28,7 +28,7 @@
     <Pane fx:id="leftSeparator" HBox.hgrow="ALWAYS"/>
     <ToggleButton fx:id="resizeGridButton" text="%resize-grid-button">
         <graphic>
-            <ImageView id="resize-grid-button-image-view"/>
+            <FontIcon id="resize-grid-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%resize-grid-tooltip"/>
@@ -36,7 +36,7 @@
     </ToggleButton>
     <Button fx:id="addRowButton" text="%add-row-button">
         <graphic>
-            <ImageView id="add-row-button-image-view"/>
+            <FontIcon id="add-row-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%add-row-tooltip"/>
@@ -44,7 +44,7 @@
     </Button>
     <Button fx:id="deleteRowButton" text="%delete-row-button">
         <graphic>
-            <ImageView id="delete-row-button-image-view"/>
+            <FontIcon id="delete-row-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%delete-row-tooltip"/>
@@ -52,7 +52,7 @@
     </Button>
     <Button fx:id="addColumnButton" text="%add-column-button">
         <graphic>
-            <ImageView id="add-column-button-image-view"/>
+            <FontIcon id="add-column-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%add-column-tooltip"/>
@@ -60,7 +60,7 @@
     </Button>
     <Button fx:id="deleteColumnButton" text="%delete-column-button">
         <graphic>
-            <ImageView id="delete-column-button-image-view"/>
+            <FontIcon id="delete-column-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%delete-column-tooltip"/>
@@ -68,7 +68,7 @@
     </Button>
     <Button fx:id="deleteGridButton" text="%delete-grid-button">
         <graphic>
-            <ImageView id="delete-grid-button-image-view"/>
+            <FontIcon id="delete-grid-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%delete-grid-tooltip"/>
@@ -82,7 +82,7 @@
             <MenuItem fx:id="clearGridContentMenuItem" text="%clear-grid-content-menu-item"/>
         </items>
         <graphic>
-            <ImageView id="clear-grid-menu-button-image-view"/>
+            <FontIcon id="clear-grid-menu-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%clear-grid-tooltip"/>
@@ -91,7 +91,7 @@
     <SolveSplitMenuButton fx:id="solveButton"/>
     <Button fx:id="saveButton" text="%save-button">
         <graphic>
-            <ImageView id="save-button-image-view"/>
+            <FontIcon id="save-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%save-tooltip"/>
@@ -100,7 +100,7 @@
     <Pane fx:id="rightSeparator" HBox.hgrow="ALWAYS"/>
     <ToggleButton fx:id="dictionariesToggleButton" text="%dictionaries-button">
         <graphic>
-            <ImageView id="show-dictionaries-button-image-view"/>
+            <FontIcon id="show-dictionaries-button-icon"/>
         </graphic>
         <tooltip>
             <Tooltip text="%dictionaries-tooltip"/>

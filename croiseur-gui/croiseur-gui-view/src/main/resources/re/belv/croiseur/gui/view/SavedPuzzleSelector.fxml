@@ -9,10 +9,10 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SavedPuzzleSelector.css" type="VBox"
          xmlns="http://javafx.com/javafx/17">
     <HBox id="puzzle-actions-hbox">
@@ -32,7 +32,7 @@
     <ListView fx:id="recentPuzzleListView" styleClass="edge-to-edge">
         <placeholder>
             <VBox id="puzzle-placeholder-vbox" alignment="CENTER">
-                <ImageView id="puzzle-placeholder-image-view"/>
+                <FontIcon id="puzzle-placeholder-icon"/>
                 <Text id="puzzle-placeholder-text" text="%no-puzzle-found"/>
             </VBox>
         </placeholder>

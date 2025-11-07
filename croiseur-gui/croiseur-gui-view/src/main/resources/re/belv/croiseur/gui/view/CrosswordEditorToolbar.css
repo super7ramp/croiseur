@@ -2,102 +2,47 @@
  * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-#show-puzzle-button-image-view {
-    -fx-image: url("icon/lc_fillright.png");
+
+.ikonli-font-icon {
+    -fx-icon-size: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-    #show-puzzle-button-image-view {
-        -fx-image: url("icon/dark/lc_fillright.png");
-    }
+#show-puzzle-button-icon {
+    -fx-icon-code: "mdi2d-dock-left";
 }
 
-#resize-grid-button-image-view {
-    -fx-image: url("icon/lc_tabledesign.png");
+#resize-grid-button-icon {
+    -fx-icon-code: "mdi2t-table-edit";
 }
 
-@media (prefers-color-scheme: dark) {
-    #resize-grid-button-image-view {
-        -fx-image: url("icon/dark/lc_tabledesign.png");
-    }
+#add-row-button-icon {
+    -fx-icon-code: "mdi2t-table-row-plus-after";
 }
 
-#add-row-button-image-view {
-    -fx-image: url("icon/lc_insertrowsafter.png");
+#delete-row-button-icon {
+    -fx-icon-code: "mdi2t-table-row-remove";
 }
 
-@media (prefers-color-scheme: dark) {
-    #add-row-button-image-view {
-        -fx-image: url("icon/dark/lc_insertrowsafter.png");
-    }
+#add-column-button-icon {
+    -fx-icon-code: "mdi2t-table-column-plus-after";
 }
 
-#delete-row-button-image-view {
-    -fx-image: url("icon/lc_deleterows.png");
+#delete-column-button-icon {
+    -fx-icon-code: "mdi2t-table-column-remove";
 }
 
-@media (prefers-color-scheme: dark) {
-    #delete-row-button-image-view {
-        -fx-image: url("icon/dark/lc_deleterows.png");
-    }
+#delete-grid-button-icon {
+    -fx-icon-code: "mdi2t-table-remove";
 }
 
-#add-column-button-image-view {
-    -fx-image: url("icon/lc_insertcolumnsafter.png");
+#clear-grid-menu-button-icon {
+    -fx-icon-code: "mdi2f-format-strikethrough-variant";
 }
 
-@media (prefers-color-scheme: dark) {
-    #add-column-button-image-view {
-        -fx-image: url("icon/dark/lc_insertcolumnsafter.png");
-    }
+#save-button-icon {
+    -fx-icon-code: "mdi2c-content-save-outline";
 }
 
-#delete-column-button-image-view {
-    -fx-image: url("icon/lc_deletecolumns.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #delete-column-button-image-view {
-        -fx-image: url("icon/dark/lc_deletecolumns.png");
-    }
-}
-
-#delete-grid-button-image-view {
-    -fx-image: url("icon/lc_deletetable.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #delete-grid-button-image-view {
-        -fx-image: url("icon/dark/lc_deletetable.png");
-    }
-}
-
-#clear-grid-menu-button-image-view {
-    -fx-image: url("icon/lc_strikeout.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #clear-grid-menu-button-image-view {
-        -fx-image: url("icon/dark/lc_strikeout.png");
-    }
-}
-
-#save-button-image-view {
-    -fx-image: url("icon/lc_save.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #save-button-image-view {
-        -fx-image: url("icon/dark/lc_save.png");
-    }
-}
-
-#show-dictionaries-button-image-view {
-    -fx-image: url("icon/lc_fillleft.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #show-dictionaries-button-image-view {
-        -fx-image: url("icon/dark/lc_fillleft.png");
-    }
+#show-dictionaries-button-icon {
+    -fx-icon-code: "mdi2d-dock-right";
 }

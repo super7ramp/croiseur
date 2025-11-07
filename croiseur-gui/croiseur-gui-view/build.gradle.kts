@@ -15,6 +15,9 @@ javafx {
 
 dependencies {
     api(project(":croiseur-gui:croiseur-gui-view-model"))
+    implementation(platform(libs.ikonli.bom))
+    implementation(libs.ikonli.javafx)
+    implementation(libs.ikonli.materialdesign2)
 }
 
 tasks.processResources {

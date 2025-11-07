@@ -5,6 +5,7 @@
 cargo-plugin = "1.2.0"
 conveyor-plugin = "1.12"
 cucumber = "7.31.0"
+ikonli = "12.4.0"
 java = "25"
 javafx = "25"
 javafx-plugin = "0.1.0"
@@ -27,6 +28,10 @@ testfx-monocle = "jfx-21"
 cucumber = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
 cucumber-junit-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
 cucumber-picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumber" }
+# Ikonli is a library to use icon packs; only used by gui module
+ikonli-bom = { module = "org.kordamp.ikonli:ikonli-bom", version.ref = "ikonli" }
+ikonli-javafx = { module = "org.kordamp.ikonli:ikonli-javafx" }
+ikonli-materialdesign2 = { module = "org.kordamp.ikonli:ikonli-materialdesign2-pack" }
 # Java Microbenchmark Harness
 jmh-annotations = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }

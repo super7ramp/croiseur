@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-FileCopyrightText: 2025 Antoine Belvire
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
@@ -10,8 +10,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DictionariesPane.css"
          type="Accordion" xmlns="http://javafx.com/javafx/17">
     <panes>
@@ -19,7 +19,7 @@
             <ListView fx:id="dictionariesListView" styleClass="dense">
                 <placeholder>
                     <VBox alignment="CENTER">
-                        <ImageView styleClass="placeholder-image-view"/>
+                        <FontIcon styleClass="placeholder-icon"/>
                         <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
                         <Label minWidth="-Infinity" styleClass="placeholder-label"
                                text="%dictionaries-placeholder-label"/>
@@ -27,7 +27,7 @@
                 </placeholder>
             </ListView>
             <graphic>
-                <ImageView id="titled-pane-dictionaries-icon-image-view" preserveRatio="true"/>
+                <FontIcon id="titled-pane-dictionaries-icon-icon"/>
             </graphic>
         </TitledPane>
         <TitledPane styleClass="dense" text="%words-label">
@@ -36,7 +36,7 @@
                 <ListView fx:id="wordsListView" styleClass="dense" VBox.vgrow="ALWAYS">
                     <placeholder>
                         <VBox alignment="CENTER">
-                            <ImageView styleClass="placeholder-image-view"/>
+                            <FontIcon styleClass="placeholder-icon"/>
                             <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
                             <Label minWidth="-Infinity" styleClass="placeholder-label"
                                    text="%words-placeholder-label"/>
@@ -45,14 +45,14 @@
                 </ListView>
             </VBox>
             <graphic>
-                <ImageView id="titled-pane-words-icon-image-view" preserveRatio="true"/>
+                <FontIcon id="titled-pane-words-icon-icon"/>
             </graphic>
         </TitledPane>
         <TitledPane styleClass="dense" text="%suggestions-label">
             <ListView fx:id="suggestionsListView" styleClass="dense">
                 <placeholder>
                     <VBox alignment="CENTER">
-                        <ImageView styleClass="placeholder-image-view"/>
+                        <FontIcon styleClass="placeholder-icon"/>
                         <!-- -Infinity = use pref width (no ellipsis). Not settable via CSS. -->
                         <Label minWidth="-Infinity" styleClass="placeholder-label"
                                text="%suggestions-placeholder-label"/>
@@ -60,7 +60,7 @@
                 </placeholder>
             </ListView>
             <graphic>
-                <ImageView id="titled-pane-suggestions-icon-image-view" preserveRatio="true"/>
+                <FontIcon id="titled-pane-suggestions-icon-icon"/>
             </graphic>
         </TitledPane>
     </panes>

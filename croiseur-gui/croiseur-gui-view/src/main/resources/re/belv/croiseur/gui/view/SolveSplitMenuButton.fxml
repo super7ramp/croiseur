@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ SPDX-FileCopyrightText: 2023 Antoine Belvire
+  ~ SPDX-FileCopyrightText: 2025 Antoine Belvire
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
 
@@ -10,11 +10,11 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.ImageView?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@SolveSplitMenuButton.css" text="%solve-button"
          type="SplitMenuButton" xmlns="http://javafx.com/javafx/17">
     <graphic>
-        <ImageView id="solve-button-image-view"/>
+        <FontIcon id="solve-button-icon"/>
     </graphic>
     <tooltip>
         <Tooltip text="%solve-tooltip"/>

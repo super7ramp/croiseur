@@ -12,10 +12,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="@PuzzlePane.css" type="Accordion"
          xmlns="http://javafx.com/javafx/17">
     <panes>
@@ -55,15 +55,18 @@
                         <Tooltip text="%export.button.tooltip"/>
                     </tooltip>
                 </Button>
-                <Button id="back-button" fx:id="backToSelectionButton" mnemonicParsing="false"
+                <Button fx:id="backToSelectionButton" mnemonicParsing="false"
                         text="%back.button.text" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                    <graphic>
+                        <FontIcon id="back-button"/>
+                    </graphic>
                     <tooltip>
                         <Tooltip text="%back.button.tooltip"/>
                     </tooltip>
                 </Button>
             </GridPane>
             <graphic>
-                <ImageView id="titled-pane-details-icon-image-view" preserveRatio="true"/>
+                <FontIcon id="titled-pane-details-icon-icon"/>
             </graphic>
         </TitledPane>
     </panes>

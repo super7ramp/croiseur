@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - Upgrade to JavaFx 25 (!261).
     - Update theme to AtlantaFx 2.1.0 (!263).
     - Add dark theme (#66, !264).
+    - Improve icons quality (!265)
 
 ## Version 0.11 - Not much but still - 2024/12/30
 

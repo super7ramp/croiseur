@@ -30,12 +30,6 @@
     -fx-vbar-policy: never;
 }
 
-.fill-button-image-view {
-    -fx-image: url("icon/sc_usewizards.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    .fill-button-image-view {
-        -fx-image: url("icon/dark/sc_usewizards.png");
-    }
+.fill-button-icon {
+    -fx-icon-code: "mdi2m-magic-staff";
 }

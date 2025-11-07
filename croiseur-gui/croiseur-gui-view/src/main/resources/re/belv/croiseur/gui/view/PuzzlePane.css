@@ -29,14 +29,8 @@
     -fx-border-width: 0px 1px 0px 0px;
 }
 
-#titled-pane-details-icon-image-view {
-    -fx-image: url("icon/sc_dbformedit.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #titled-pane-details-icon-image-view {
-        -fx-image: url("icon/dark/sc_dbformedit.png");
-    }
+#titled-pane-details-icon-icon {
+    -fx-icon-code: "mdi2t-text-box-edit-outline";
 }
 
 #puzzle-title-text-field {
@@ -65,11 +59,5 @@
 }
 
 #back-button {
-    -fx-graphic: url("icon/sc_zoomprevious.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #back-button {
-        -fx-graphic: url("icon/dark/sc_zoomprevious.png");
-    }
+    -fx-icon-code: "mdi2a-arrow-left-bold-box-outline";
 }

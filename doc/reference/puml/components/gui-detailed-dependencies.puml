@@ -1,4 +1,4 @@
-'SPDX-FileCopyrightText: 2023 Antoine Belvire
+'SPDX-FileCopyrightText: 2025 Antoine Belvire
 'SPDX-License-Identifier: GPL-3.0-or-later
 
 @startdot
@@ -12,26 +12,35 @@ digraph "gui" {
   "javafx.controls" [style=filled fillcolor=lightgrey];
   "javafx.graphics" [style=filled fillcolor=lightgrey];
   "javafx.fxml" [style=filled fillcolor=lightgrey];
+  "org.kordamp.ikonli.core" [style=filled fillcolor=lightgrey];
+  "org.kordamp.ikonli.javafx" [style=filled fillcolor=lightgrey];
+  "org.kordamp.ikonli.materialdesign2" [style=filled fillcolor=lightgrey];
 
-  "javafx.controls"            -> "javafx.graphics";
-  "croiseur.gui.view"          -> "croiseur.gui.view.model";
-  "croiseur.gui.view"          -> "javafx.controls";
-  "croiseur.gui.view"          -> "javafx.fxml";
-  "croiseur"                   -> "croiseur.spi.presenter" [label=uses];
-  "croiseur.gui.view.model"    -> "javafx.base";
-  "croiseur.common"            -> "java.base";
-  "javafx.graphics"            -> "javafx.base";
-  "croiseur.gui.presenter"     -> "croiseur.gui.view.model";
-  "croiseur.gui.presenter"     -> "croiseur.spi.presenter" [label=provides];
-  "croiseur.gui.presenter"     -> "javafx.graphics";
-  "javafx.base"                -> "java.base";
-  "croiseur.spi.presenter"     -> "croiseur.common";
-  "javafx.fxml"                -> "javafx.graphics";
-  "croiseur.gui"               -> "croiseur.gui.controller";
-  "croiseur.gui"               -> "croiseur.gui.presenter";
-  "croiseur.gui"               -> "croiseur.gui.view";
-  "croiseur.gui.controller"    -> "croiseur";
-  "croiseur.gui.controller"    -> "croiseur.gui.view.model";
-  "croiseur.gui.controller"    -> "javafx.graphics";
+  "javafx.controls"                    -> "javafx.graphics";
+  "croiseur.gui.view"                  -> "croiseur.gui.view.model";
+  "croiseur.gui.view"                  -> "javafx.controls";
+  "croiseur.gui.view"                  -> "javafx.fxml";
+  "croiseur.gui.view"                  -> "org.kordamp.ikonli.javafx";
+  "croiseur.gui.view"                  -> "org.kordamp.ikonli.materialdesign2";
+  "croiseur"                           -> "croiseur.spi.presenter" [label=uses];
+  "croiseur.gui.view.model"            -> "javafx.base";
+  "croiseur.common"                    -> "java.base";
+  "javafx.graphics"                    -> "javafx.base";
+  "croiseur.gui.presenter"             -> "croiseur.gui.view.model";
+  "croiseur.gui.presenter"             -> "croiseur.spi.presenter" [label=provides];
+  "croiseur.gui.presenter"             -> "javafx.graphics";
+  "javafx.base"                        -> "java.base";
+  "croiseur.spi.presenter"             -> "croiseur.common";
+  "javafx.fxml"                        -> "javafx.graphics";
+  "croiseur.gui"                       -> "croiseur.gui.controller";
+  "croiseur.gui"                       -> "croiseur.gui.presenter";
+  "croiseur.gui"                       -> "croiseur.gui.view";
+  "croiseur.gui.controller"            -> "croiseur";
+  "croiseur.gui.controller"            -> "croiseur.gui.view.model";
+  "croiseur.gui.controller"            -> "javafx.graphics";
+  "org.kordamp.ikonli.materialdesign2" -> "org.kordamp.ikonli.core";
+  "org.kordamp.ikonli.javafx"          -> "org.kordamp.ikonli.core";
+  "org.kordamp.ikonli.javafx"          -> "javafx.graphics";
+  "org.kordamp.ikonli.core"            -> "java.base";
 }
 @enddot

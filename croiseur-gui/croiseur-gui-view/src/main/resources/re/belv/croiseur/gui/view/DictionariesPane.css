@@ -52,15 +52,10 @@
     -fx-spacing: 10px;
 }
 
-.placeholder-image-view {
-    /* Placeholder when items are not present, an image-view. */
-    -fx-image: url("icon/system-search-symbolic.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    .placeholder-image-view {
-        -fx-image: url("icon/dark/system-search-symbolic.png");
-    }
+.placeholder-icon {
+    /* Placeholder when items are not present, a FontIcon. */
+    -fx-icon-code: "mdi2b-book-search-outline";
+    -fx-icon-size: 64px;
 }
 
 .placeholder-label {
@@ -68,32 +63,14 @@
     -fx-padding: 10px;
 }
 
-#titled-pane-dictionaries-icon-image-view {
-    -fx-image: url("icon/accessories-dictionary-symbolic.png");
+#titled-pane-dictionaries-icon-icon {
+    -fx-icon-code: "mdi2b-book-outline";
 }
 
-@media (prefers-color-scheme: dark) {
-    #titled-pane-dictionaries-icon-image-view {
-        -fx-image: url("icon/dark/accessories-dictionary-symbolic.png");
-    }
+#titled-pane-words-icon-icon {
+    -fx-icon-code: "mdi2f-format-text";
 }
 
-#titled-pane-words-icon-image-view {
-    -fx-image: url("icon/sc_text.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #titled-pane-words-icon-image-view {
-        -fx-image: url("icon/dark/sc_text.png");
-    }
-}
-
-#titled-pane-suggestions-icon-image-view {
-    -fx-image: url("icon/light.png");
-}
-
-@media (prefers-color-scheme: dark) {
-    #titled-pane-suggestions-icon-image-view {
-        -fx-image: url("icon/dark/light.png");
-    }
+#titled-pane-suggestions-icon-icon {
+    -fx-icon-code: "mdi2l-lightbulb-outline";
 }

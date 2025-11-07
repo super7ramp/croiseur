@@ -51,10 +51,11 @@ In addition to these components, the following external components are used:
 
 | Name                      | Description                                        |
 |---------------------------|----------------------------------------------------|
+| `info.picocli`            | Framework for creating command-line user interface |
 | `java`                    | The Java platform                                  |
 | `javafx`                  | Framework for creating graphical user interface    |
-| `info.picocli`            | Framework for creating command-line user interface |
 | `com.azure.ai.openai`     | OpenAI Web API Client                              |
+| `org.kordamp.ikonli`      | Icon packs for JavaFx                              |
 | `org.ow2.sat4j.{core,pb}` | Boolean reasoning library                          | 
 
 ### Dependencies
