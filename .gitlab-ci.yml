@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-FileCopyrightText: 2025 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 variables:
@@ -66,6 +66,36 @@ Build on Linux:
       coverage_report:
         coverage_format: jacoco
         path: "croiseur-tests-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml"
+
+##
+# Builds a native-image on a Linux machine.
+#
+Build Native on Linux:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  image: $LINUX_IMAGE
+  stage: build
+  before_script:
+    # Choose wisely cargo and gradle homes so that they can easily be cached later
+    - export CARGO_HOME="$(pwd)/.cargo"
+    - export GRADLE_USER_HOME="$(pwd)/.gradle"
+  script:
+    - gradle nativeBuild
+    - gradle nativeTest
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-linux-native"
+    fallback_keys: [ master-cache-linux ] # Use master cache for first build on branch
+    paths:
+      # Gradle caches
+      - .gradle
+      # Cargo caches
+      - "**/target"
+      - .cargo
+  artifacts:
+    reports:
+      junit: "**/TEST-*.xml"
 
 ##
 # Builds croiseur on a Windows machine.
