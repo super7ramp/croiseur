@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -18,9 +18,4 @@ dependencies {
     implementation(platform(libs.ikonli.bom))
     implementation(libs.ikonli.javafx)
     implementation(libs.ikonli.materialdesign2)
-}
-
-tasks.processResources {
-    // There is no point to include .license files in jar, nobody is going to read them there
-    exclude("**/*.license")
 }
