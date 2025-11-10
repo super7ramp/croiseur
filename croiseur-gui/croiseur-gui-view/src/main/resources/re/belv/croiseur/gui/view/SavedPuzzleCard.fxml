@@ -8,11 +8,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.canvas.Canvas?>
+<?import re.belv.croiseur.gui.view.SavedPuzzleGridThumbnail?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="spaced-hvbox" stylesheets="@SavedPuzzleCard.css"
          type="HBox" xmlns="http://javafx.com/javafx/17">
-    <!-- Canvas cannot be styled via CSS. -->
-    <Canvas fx:id="thumbnail" height="96.0" width="96.0"/>
+    <SavedPuzzleGridThumbnail fx:id="thumbnail" styleClass="puzzle-thumbnail" height="96.0" width="96.0"/>
     <VBox styleClass="puzzle-details-vbox,spaced-hvbox" HBox.hgrow="ALWAYS">
         <Text fx:id="title" styleClass="puzzle-title"/>
         <HBox styleClass="puzzle-details-hbox,spaced-hvbox">

@@ -5,179 +5,19 @@
 
 package re.belv.croiseur.gui.view;
 
-import static java.lang.Math.min;
-
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.stream.Stream;
 import javafx.fxml.FXML;
-import javafx.geometry.VPos;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import re.belv.croiseur.gui.view.javafx.scene.canvas.CanvasUtil;
-import re.belv.croiseur.gui.view.model.GridCoord;
 import re.belv.croiseur.gui.view.model.SavedPuzzleViewModel;
 
 /** A puzzle identity card. */
 public final class SavedPuzzleCard extends HBox {
 
-    /** Grid image drawer. */
-    private static final class GridDrawer {
-
-        /** Font family used for the grid letters. */
-        private static final String FONT_FAMILY = "Serif";
-
-        /** Empirical value to divide the box height with to get an acceptable font size. */
-        private static final double FONT_SIZE_MAGIC = 2.2;
-
-        /** Where the drawing is made. */
-        private final Canvas canvas;
-
-        /** The grid filled boxes. */
-        private final Map<GridCoord, Character> filledBoxes;
-
-        /** The grid shaded box positions. */
-        private final Set<GridCoord> shadedBoxes;
-
-        /** The grid dimensions. */
-        private final int numberOfColumns, numberOfRows;
-
-        /** Grid/box drawing sizes. */
-        private final double gridWidth, gridHeight, boxWidth, boxHeight;
-
-        /** Offsets to center the drawing. Relevant when the grid is not a square. */
-        private final double verticalOffset, horizontalOffset;
-
-        /**
-         * Constructs an instance.
-         *
-         * @param canvas the canvas to draw on
-         * @param grid the grid model
-         */
-        private GridDrawer(final Canvas canvas, final SavedPuzzleViewModel grid) {
-            this.canvas = canvas;
-
-            filledBoxes = grid.filledBoxes();
-            shadedBoxes = grid.shadedBoxes();
-            numberOfColumns = grid.columnCount();
-            numberOfRows = grid.rowCount();
-
-            // Reserve one pixel for pixel snapping, otherwise last strokes could be outside canvas
-            final double exploitableWidth = canvas.getWidth() - CanvasUtil.pixelSize();
-            final double exploitableHeight = canvas.getHeight() - CanvasUtil.pixelSize();
-            final double columnPerRowRatio = ((double) numberOfColumns / (double) numberOfRows);
-            gridWidth = min(exploitableWidth, exploitableWidth * columnPerRowRatio);
-            gridHeight = min(exploitableHeight, exploitableHeight / columnPerRowRatio);
-            boxWidth = gridWidth / numberOfColumns;
-            boxHeight = gridHeight / numberOfRows;
-            horizontalOffset = (exploitableWidth - gridWidth) / 2;
-            verticalOffset = (exploitableHeight - gridHeight) / 2;
-        }
-
-        /**
-         * Draws the given grid on the given canvas.
-         *
-         * @param canvas the canvas to draw on
-         * @param grid the grid model
-         */
-        static void draw(final Canvas canvas, final SavedPuzzleViewModel grid) {
-            new GridDrawer(canvas, grid).draw();
-        }
-
-        /**
-         * Clears the given canvas.
-         *
-         * @param canvas the canvas to reset
-         */
-        static void clear(final Canvas canvas) {
-            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        }
-
-        /** Draws the grid image on the canvas. */
-        private void draw() {
-            clear(canvas);
-            fillBackground();
-            drawColumns();
-            drawRows();
-            drawShadedBoxes();
-            drawFilledBoxes();
-        }
-
-        /** Fills the background of the grid with white. */
-        private void fillBackground() {
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.setFill(Color.WHITE);
-            gc.fillRect(x(0), y(0), gridWidth, gridHeight);
-            // Reset fill color to default black for subsequent fills
-            gc.setFill(Color.BLACK);
-        }
-
-        /** Draws the columns of the grid. */
-        private void drawColumns() {
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            final double yStart = y(0);
-            final double yEnd = y(numberOfRows);
-            for (int column = 0; column < numberOfColumns + 1; column++) {
-                gc.strokeLine(x(column), yStart, x(column), yEnd);
-            }
-        }
-
-        /** Draws the rows of the grid. */
-        private void drawRows() {
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            final double xStart = x(0);
-            final double xEnd = x(numberOfColumns);
-            for (int row = 0; row < numberOfRows + 1; row++) {
-                gc.strokeLine(xStart, y(row), xEnd, y(row));
-            }
-        }
-
-        /** Draws the shaded boxes. Does nothing if no shaded box. */
-        private void drawShadedBoxes() {
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            shadedBoxes.forEach(position -> gc.fillRect(x(position.column()), y(position.row()), boxWidth, boxHeight));
-        }
-
-        /** Draws the filled boxes. Does nothing if no filled box. */
-        private void drawFilledBoxes() {
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.setTextAlign(TextAlignment.CENTER);
-            gc.setTextBaseline(VPos.CENTER);
-            gc.setFont(Font.font(FONT_FAMILY, boxHeight / FONT_SIZE_MAGIC));
-            filledBoxes.forEach((position, letter) -> gc.fillText(
-                    String.valueOf(letter), x(position.column()) + boxWidth / 2, y(position.row()) + boxHeight / 2));
-        }
-
-        /**
-         * Returns the horizontal start position (i.e. left border) of the given column on the canvas.
-         *
-         * @param columnNumber the column number
-         * @return the horizontal position of the given column on the canvas
-         */
-        private double x(final int columnNumber) {
-            return CanvasUtil.snapToPixel(boxWidth * columnNumber + horizontalOffset);
-        }
-
-        /**
-         * Returns the vertical position (i.e. top border) of the given row on the canvas.
-         *
-         * @param rowNumber the row number
-         * @return the vertical position of the given row on the canvas
-         */
-        private double y(final int rowNumber) {
-            return CanvasUtil.snapToPixel(boxHeight * rowNumber + verticalOffset);
-        }
-    }
-
     /** A preview of the puzzle. */
     @FXML
-    private Canvas thumbnail;
+    private SavedPuzzleGridThumbnail thumbnail;
 
     /** The title. May be empty. */
     @FXML
@@ -215,12 +55,12 @@ public final class SavedPuzzleCard extends HBox {
         editor.setText(model.editor());
         copyright.setText(model.copyright());
         date.setText(model.date());
-        GridDrawer.draw(thumbnail, model);
+        thumbnail.setGrid(model.grid());
     }
 
     /** Resets all content of this card. */
     public void reset() {
-        GridDrawer.clear(thumbnail);
         Stream.of(title, author, editor, copyright, date).forEach(t -> t.setText(null));
+        thumbnail.setGrid(null);
     }
 }

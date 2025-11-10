@@ -290,38 +290,11 @@ public final class SavedPuzzleViewModel {
     }
 
     /**
-     * Returns the grid column count.
+     * Returns the grid model.
      *
-     * @return the grid column count
+     * @return the grid model
      */
-    public int columnCount() {
-        return grid.columnCount();
-    }
-
-    /**
-     * Returns the grid row count.
-     *
-     * @return the grid row count
-     */
-    public int rowCount() {
-        return grid.rowCount();
-    }
-
-    /**
-     * Returns the grid shaded box positions.
-     *
-     * @return the grid shaded box positions.
-     */
-    public Set<GridCoord> shadedBoxes() {
-        return grid.shaded();
-    }
-
-    /**
-     * Returns the grid filled boxes.
-     *
-     * @return the grid filled boxes
-     */
-    public Map<GridCoord, Character> filledBoxes() {
-        return grid.filled();
+    public SavedPuzzleGridViewModel grid() {
+        return grid;
     }
 }
