@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-FileCopyrightText: 2025 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 variables:
@@ -78,10 +78,10 @@ Build on Windows:
       when: manual
       allow_failure: true
   stage: build
-  tags: [ windows ]
+  tags: [ saas-windows-medium-amd64 ]
   before_script:
     # To be eventually extracted to build a dedicated image, too many limitations on Gitlab side for now
-    - choco install -y temurin21 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJavaHome"
+    - choco install -y temurin25 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJavaHome"
     - choco install -y gradle
     - choco install -y rust
     - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
