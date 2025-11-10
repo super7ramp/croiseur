@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -234,7 +234,7 @@ final class ClueListCell extends ListCell<ClueViewModel> {
      */
     private String formattedIndex() {
         final int index = getIndex() + 1;
-        return switch (indexFormat.getValue()) {
+        return switch (indexFormat.get()) {
                     case ARABIC -> arabicFormat(index);
                     case ROMAN -> romanFormat(index);
                 } + ".";

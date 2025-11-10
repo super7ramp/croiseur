@@ -233,11 +233,11 @@ public final class SavedPuzzleGridThumbnail extends Canvas {
      * @param ignored the ignored observable
      */
     private void redraw(final Observable ignored) {
-        final SavedPuzzleGridViewModel currentGrid = this.grid.get();
+        final SavedPuzzleGridViewModel currentGrid = grid.get();
         if (currentGrid == null) {
             GridDrawer.clear(this);
         } else {
-            GridDrawer.draw(this, foregroundColor.getValue(), backgroundColor.getValue(), grid.getValue());
+            GridDrawer.draw(this, foregroundColor.get(), backgroundColor.get(), currentGrid);
         }
     }
 
