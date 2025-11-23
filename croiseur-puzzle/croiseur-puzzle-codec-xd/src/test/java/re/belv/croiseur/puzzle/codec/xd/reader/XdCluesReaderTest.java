@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -19,8 +19,7 @@ final class XdCluesReaderTest {
 
     @Test
     void nominal() throws XdClueReadException {
-        final String rawClues =
-                """
+        final String rawClues = """
                 A1. Sadness. ~ HEARTACHE
                 A2. Progenitor. ~ ADAM
                 A3. Mae West stand-by. ~ DIAMONDLIL
@@ -50,8 +49,7 @@ final class XdCluesReaderTest {
      */
     @Test
     void emptyClues() throws XdClueReadException {
-        final String rawClues =
-                """
+        final String rawClues = """
                 A1. Sadness. ~ HEARTACHE
                 A2.  ~ ADAM
                 A3. Mae West stand-by. ~ DIAMONDLIL
@@ -83,8 +81,7 @@ final class XdCluesReaderTest {
      */
     @Test
     void missingClue() throws XdClueReadException {
-        final String rawClues =
-                """
+        final String rawClues = """
                 A1. Sadness. ~ HEARTACHE
                 A4. Progenitor. ~ ADAM
                 A5. Mae West stand-by. ~ DIAMONDLIL
@@ -114,8 +111,7 @@ final class XdCluesReaderTest {
      */
     @Test
     void notSorted() throws XdClueReadException {
-        final String rawClues =
-                """
+        final String rawClues = """
                 A3. Sadness. ~ HEARTACHE
                 A1. Progenitor. ~ ADAM
                 A2. Mae West stand-by. ~ DIAMONDLIL
@@ -141,8 +137,7 @@ final class XdCluesReaderTest {
     @Disabled("multi-line clues not supported yet")
     @Test
     void multiline() throws XdClueReadException {
-        final String rawClues =
-                """
+        final String rawClues = """
                 A1. Sadness. \\
                  Follow-up. ~ HEARTACHE
                 A2. Progenitor. ~ ADAM

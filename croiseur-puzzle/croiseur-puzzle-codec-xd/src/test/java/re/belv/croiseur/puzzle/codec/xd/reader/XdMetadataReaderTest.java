@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -23,8 +23,7 @@ final class XdMetadataReaderTest {
 
     @Test
     void nominalCase() throws XdReadException {
-        final String rawMetadata =
-                """
+        final String rawMetadata = """
                 Title: New York Times, Saturday, January 1, 1955
                 Author: Anthony Morse
                 Editor: Margaret Farrar
@@ -55,8 +54,7 @@ final class XdMetadataReaderTest {
      */
     @Test
     void missingStandardFields() throws XdReadException {
-        final String rawMetadata =
-                """
+        final String rawMetadata = """
                 Title: New York Times, Saturday, January 1, 1955
                 """;
 
@@ -70,8 +68,7 @@ final class XdMetadataReaderTest {
 
     @Test
     void extraFields() throws XdReadException {
-        final String rawMetadata =
-                """
+        final String rawMetadata = """
                 Extra: Field
                 Extra Extra: Field Field
                 """;
@@ -105,8 +102,7 @@ final class XdMetadataReaderTest {
     /** No empty line is expected. */
     @Test
     void malformedField_emptyLine() {
-        final String rawMetadata =
-                """
+        final String rawMetadata = """
                 Title: New York Times, Saturday, January 1, 1955
 
                 Author: Anthony Morse

@@ -70,13 +70,11 @@ final class CrosswordEditorFillGridTest extends CroiseurGuiTest {
         waitFor(3L, TimeUnit.SECONDS, grid.disabledProperty().not());
         waitForFxEvents();
 
-        assertEquals(
-                """
+        assertEquals("""
                      WWW
                      WAP
                      WPV
-                     """,
-                gridAsString(robot));
+                     """, gridAsString(robot));
     }
 
     /**

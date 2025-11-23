@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -45,8 +45,7 @@ final class FillerTest {
      */
     @Test
     void possible3x3() throws InterruptedException {
-        final Crossword crossword = new Crossword(
-                """
+        final Crossword crossword = new Crossword("""
                 \s\s\s
                 \s\s\s
                 \s\s\s
@@ -57,13 +56,11 @@ final class FillerTest {
 
         assertTrue(result.isOk());
         final Crossword solution = result.solution();
-        assertEquals(
-                """
+        assertEquals("""
                 ABC
                 ABD
                 ABE
-                """,
-                solution.contents());
+                """, solution.contents());
         assertEquals(3, solution.width());
         assertEquals(3, solution.height());
     }
@@ -75,8 +72,7 @@ final class FillerTest {
      */
     @Test
     void possible3x3PreFilled() throws InterruptedException {
-        final Crossword crossword = new Crossword(
-                """
+        final Crossword crossword = new Crossword("""
                 \s\sC
                 \s\s*
                 \s\sE
@@ -88,13 +84,11 @@ final class FillerTest {
 
         assertTrue(result.isOk());
         final Crossword solution = result.solution();
-        assertEquals(
-                """
+        assertEquals("""
                 ABC
                 AB*
                 ABE
-                """,
-                solution.contents());
+                """, solution.contents());
         assertEquals(3, solution.width());
         assertEquals(3, solution.height());
     }
@@ -106,8 +100,7 @@ final class FillerTest {
      */
     @Test
     void impossible3x3() throws InterruptedException {
-        final Crossword crossword = new Crossword(
-                """
+        final Crossword crossword = new Crossword("""
                 \s\s\s
                 \s\s\s
                 \s\s\s
@@ -129,8 +122,7 @@ final class FillerTest {
      */
     @Test
     void interruption() throws InterruptedException, ExecutionException, TimeoutException {
-        final Crossword crossword = new Crossword(
-                """
+        final Crossword crossword = new Crossword("""
                 \s\s\s
                 \s\s\s
                 \s\s\s

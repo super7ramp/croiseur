@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -19,8 +19,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void allSlotsImpossible() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | |
                 | | | |
                 | | | |
@@ -35,8 +34,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void oneSlotImpossible() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |X| | |
                 |Y| | |
                 |Z| | |
@@ -53,8 +51,7 @@ final class CrosswordSolverImpossibleGridTest {
 
     @Test
     void twoSlotsImpossible() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |X| | |
                 |Y| | |
                 |Z| | |

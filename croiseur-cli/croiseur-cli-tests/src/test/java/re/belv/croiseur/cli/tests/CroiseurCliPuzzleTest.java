@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -20,11 +20,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void puzzle() {
         whenOneRunsCli("puzzle");
-        thenCli()
-                .doesNotWriteToStdOut()
-                .and()
-                .writesToStdErr(
-                        """
+        thenCli().doesNotWriteToStdOut().and().writesToStdErr("""
                          Missing required subcommand
                          Usage: croiseur-cli puzzle COMMAND
                          Manage saved puzzles
@@ -40,9 +36,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                            list-decoders  List puzzle decoders
                            list-encoders  List puzzle encoders
                            update         Update a saved puzzle
-                         """)
-                .and()
-                .exitsWithCode(INPUT_ERROR);
+                         """).and().exitsWithCode(INPUT_ERROR);
     }
 
     @Test
@@ -58,9 +52,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                 "--across-clue", "2,Some Very.",
                 "--down-clue", "1,Dummy.",
                 "--down-clue", "3,Clues.");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                                  Saved puzzle.
 
                                  Identifier: 1
@@ -80,11 +72,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  1. Dummy.
                                  3. Clues.
 
-                                 """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                                 """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -96,9 +84,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                 "--rows", "...,ABC,#D.");
         whenOneRunsCli(
                 "puzzle", "update", "1", "--title", "Example", "--rows", "XYZ,ABC,#D.", "--across-clue", "1,A clue.");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                                  Saved puzzle.
 
                                  Identifier: 1
@@ -116,11 +102,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                                  1. A clue.
                                  Down:
 
-                                 """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                                 """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -165,9 +147,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     void cat() {
         givenOneHasRunCli("puzzle", "create", "--author", "Me", "--date", "2023-06-22", "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "cat", "1");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Identifier: 1
                          Revision: 1
                          Title:\s
@@ -182,11 +162,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          Across:
                          Down:
 
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -198,17 +174,11 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                 "--date", "2023-06-21",
                 "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "list");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                                  Id  	Rev 	Title           	Author          	Date           \s
                                  --  	--- 	-----           	------          	----           \s
                                  1   	1   	First Example   	Me              	2023-06-21     \s
-                                 """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                                 """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -241,25 +211,17 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void listDecoders() {
         whenOneRunsCli("puzzle", "list-decoders");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Name            	Description                     	Supported formats
                          ----            	-----------                     	-----------------
                          xd              	xd format decoder               	*.xd           \s
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void importPuzzle(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example.xd");
-        givenPuzzle(
-                example,
-                """
+        givenPuzzle(example, """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -280,9 +242,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                              D3. Clues. ~ CFI
                              """);
         whenOneRunsCli("puzzle", "import", example.toString());
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Saved puzzle.
 
                          Identifier: 1
@@ -305,11 +265,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          2. Dummy.
                          3. Clues.
 
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     /**
@@ -326,9 +282,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void importPuzzle_formatOption(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example");
-        givenPuzzle(
-                example,
-                """
+        givenPuzzle(example, """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -349,9 +303,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                              D3. Clues. ~ CFI
                              """);
         whenOneRunsCli("puzzle", "import", "--format", "*.xd", example.toString());
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Saved puzzle.
 
                          Identifier: 1
@@ -374,19 +326,13 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                          2. Dummy.
                          3. Clues.
 
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void importPuzzle_unknownFormatOption(@TempDir final Path tempDir) throws IOException {
         final Path example = tempDir.resolve("example");
-        givenPuzzle(
-                example,
-                """
+        givenPuzzle(example, """
                              Title: Example Grid
                              Author: Jane Doe
                              Editor: John Doe
@@ -429,17 +375,11 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
     @Test
     void listEncoders() {
         whenOneRunsCli("puzzle", "list-encoders");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Name            	Description                     	Supported formats
                          ----            	-----------                     	-----------------
                          xd              	xd format encoder               	*.xd           \s
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
@@ -457,9 +397,7 @@ final class CroiseurCliPuzzleTest extends FluentTestHelper {
                 "--rows", "...,ABC,#D.");
         whenOneRunsCli("puzzle", "export", "1", exampleXd);
         thenCli()
-                .writesToFile(
-                        exampleXdPath,
-                        """
+                .writesToFile(exampleXdPath, """
                                               Title: Example Grid
                                               Author: Me
                                               Editor: Myself

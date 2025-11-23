@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -27,8 +27,7 @@ final class XdCluesWriterTest {
 
         final String text = writer.write(model);
 
-        assertEquals(
-                """
+        assertEquals("""
                      A1. Sadness. ~ HEARTACHE
                      A2. Progenitor. ~ ADAM
                      A3. Mae West stand-by. ~ DIAMONDLIL
@@ -36,7 +35,6 @@ final class XdCluesWriterTest {
                      D1. Vital throb. ~ HEARTBEAT
                      D2. Having wings. ~ ALATE
                      D3. Start the card game. ~ CUTANDDEAL
-                     """,
-                text);
+                     """, text);
     }
 }

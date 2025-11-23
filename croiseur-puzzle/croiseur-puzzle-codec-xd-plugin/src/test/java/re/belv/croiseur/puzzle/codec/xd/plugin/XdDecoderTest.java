@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -29,8 +29,7 @@ final class XdDecoderTest {
 
     @Test
     void decode() throws PuzzleDecodingException {
-        final String crossword =
-                """
+        final String crossword = """
                                  Title: Example Grid
                                  Author: Me
                                  Editor: Croiseur
@@ -78,8 +77,7 @@ final class XdDecoderTest {
 
     @Test
     void decode_unsupportedSpaces() {
-        final String crossword =
-                """
+        final String crossword = """
                                  Title: Example Grid
                                  Author: Me
                                  Editor: Croiseur

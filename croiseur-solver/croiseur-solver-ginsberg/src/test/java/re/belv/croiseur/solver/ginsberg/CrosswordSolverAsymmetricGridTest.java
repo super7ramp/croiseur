@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -38,8 +38,7 @@ final class CrosswordSolverAsymmetricGridTest {
 
     @Test
     void shaded6x4() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | | |#| |
                 | | |#| | | |
                 | | |#| | | |
@@ -48,20 +47,17 @@ final class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                 |S|H|A|T|#|H|
                 |A|A|#|A|I|A|
                 |A|R|#|A|R|E|
                 |B|E|#|L|A|D|
-                """,
-                result);
+                """, result);
     }
 
     @Test
     void shaded12x10() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | | | | | | | | | | |
                 | | | | |#| | | | | | | |
                 | | | | | | | | | | |#| |
@@ -76,8 +72,7 @@ final class CrosswordSolverAsymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                 |O|B|T|E|S|T|A|T|I|O|N|S|
                 |P|E|A|N|#|A|R|B|O|R|E|T|
                 |S|L|I|C|K|S|T|O|N|E|#|R|
@@ -88,7 +83,6 @@ final class CrosswordSolverAsymmetricGridTest {
                 |I|N|#|D|I|#|R|A|S|#|F|A|
                 |A|N|A|#|B|A|A|S|#|A|R|Y|
                 |C|A|R|P|E|N|T|A|R|I|A|S|
-                """,
-                result);
+                """, result);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -28,13 +28,11 @@ final class PuzzleAdapterTest {
 
         assertEquals(4, crossword.height());
         assertEquals(3, crossword.width());
-        assertEquals(
-                """
+        assertEquals("""
                 \s\s\s
                 \s\sA
                 \s*\s
                 \s\s\s
-                """,
-                crossword.contents());
+                """, crossword.contents());
     }
 }

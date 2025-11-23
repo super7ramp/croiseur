@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -43,8 +43,7 @@ final class XdEncoderTest {
 
         new XdEncoder().encode(puzzle, out);
 
-        assertEquals(
-                """
+        assertEquals("""
                      Title: Example Grid
                      Author: Me
                      Editor: Croiseur
@@ -62,7 +61,6 @@ final class XdEncoderTest {
                      D1. Some Very. ~ .DG
                      D2. Dummy. ~ EH
                      D3. Clues. ~ CFI
-                     """,
-                out.toString());
+                     """, out.toString());
     }
 }

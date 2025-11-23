@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -50,8 +50,7 @@ final class XdCrosswordWriterTest {
 
         final String text = writer.write(model);
 
-        assertEquals(
-                """
+        assertEquals("""
                      Title: Example Grid
                      Author: Me
                      Editor: Croiseur
@@ -70,7 +69,6 @@ final class XdCrosswordWriterTest {
                      D1. Some Very. ~ ADG
                      D2. Dummy. ~ BEH
                      D3. Clues. ~ CFI
-                     """,
-                text);
+                     """, text);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -53,8 +53,7 @@ final class DictionaryWriterTest {
 
         DictionaryWriter.write(outputStream, dictionary);
 
-        assertEquals(
-                """
+        assertEquals("""
                      <?xml version="1.0" encoding="UTF-8"?>\
                      <tns:dictionary xmlns:tns="http://www.example.org/dictionary" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dictionary dictionary.xsd">
                          <locale>en</locale>
@@ -67,7 +66,6 @@ final class DictionaryWriterTest {
                              <word>World</word>
                          </words>
                      </tns:dictionary>
-                     """,
-                formatXml(outputStream.toString()));
+                     """, formatXml(outputStream.toString()));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -27,12 +27,10 @@ final class XdGridWriterTest {
         final XdGridWriter writer = new XdGridWriter();
 
         final String text = writer.write(model);
-        assertEquals(
-                """
+        assertEquals("""
                      A.
                      _#
                      B.
-                     """,
-                text);
+                     """, text);
     }
 }

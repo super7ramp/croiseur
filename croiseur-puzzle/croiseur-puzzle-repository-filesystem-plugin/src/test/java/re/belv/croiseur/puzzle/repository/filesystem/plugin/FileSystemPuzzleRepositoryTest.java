@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -32,8 +32,7 @@ import re.belv.croiseur.spi.puzzle.repository.WriteException;
 final class FileSystemPuzzleRepositoryTest {
 
     /** An example xd puzzle used for tests. */
-    private static final String XD_PUZZLE =
-            """
+    private static final String XD_PUZZLE = """
             Title: Example Grid
             Author: Me
             Editor: Croiseur

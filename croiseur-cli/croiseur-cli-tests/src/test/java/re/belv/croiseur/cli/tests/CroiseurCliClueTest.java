@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -13,11 +13,7 @@ final class CroiseurCliClueTest extends FluentTestHelper {
     @Test
     void clue() {
         whenOneRunsCli("clue");
-        thenCli()
-                .doesNotWriteToStdOut()
-                .and()
-                .writesToStdErr(
-                        """
+        thenCli().doesNotWriteToStdOut().and().writesToStdErr("""
                          Missing required subcommand
                          Usage: croiseur-cli clue COMMAND
                          Get crossword clues and list available clue providers
@@ -25,9 +21,7 @@ final class CroiseurCliClueTest extends FluentTestHelper {
                          Commands:
                            get             Get clues for the given words
                            list-providers  List available clue providers
-                         """)
-                .and()
-                .exitsWithCode(INPUT_ERROR);
+                         """).and().exitsWithCode(INPUT_ERROR);
     }
 
     @Test
@@ -44,16 +38,10 @@ final class CroiseurCliClueTest extends FluentTestHelper {
     @Test
     void listProviders() {
         whenOneRunsCli("clue", "list-providers");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                                  Name            	Description                                          \s
                                  ----            	-----------                                          \s
                                  OpenAI          	Clue generator backed by OpenAI's ChatGPT service    \s
-                                 """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                                 """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 }

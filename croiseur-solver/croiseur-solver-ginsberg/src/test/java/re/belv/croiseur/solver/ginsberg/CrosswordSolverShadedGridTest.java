@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -19,8 +19,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void partiallyShadedGrid() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 | | | |
                 | | | |
                 | | |#|
@@ -29,13 +28,11 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                 |A|B|C|
                 |A|B|D|
                 |A|B|#|
-                """,
-                result);
+                """, result);
     }
 
     /**
@@ -45,8 +42,7 @@ final class CrosswordSolverShadedGridTest {
      */
     @Test
     void entirelyShadedGrid() throws InterruptedException {
-        final PuzzleGrid puzzle = PuzzleGridParser.parse(
-                """
+        final PuzzleGrid puzzle = PuzzleGridParser.parse("""
                 |#|#|#|
                 |#|#|#|
                 |#|#|#|
@@ -55,12 +51,10 @@ final class CrosswordSolverShadedGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                 |#|#|#|
                 |#|#|#|
                 |#|#|#|
-                """,
-                result);
+                """, result);
     }
 }

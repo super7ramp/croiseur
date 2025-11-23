@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -13,11 +13,7 @@ final class CroiseurCliTest extends FluentTestHelper {
     @Test
     void noArg() {
         whenOneRunsCli(/* without argument */ );
-        thenCli()
-                .doesNotWriteToStdOut()
-                .and()
-                .writesToStdErr(
-                        """
+        thenCli().doesNotWriteToStdOut().and().writesToStdErr("""
                          Missing required subcommand
                          Usage: croiseur-cli COMMAND
 
@@ -36,8 +32,6 @@ final class CroiseurCliTest extends FluentTestHelper {
                          options and the examples of the 'solver run' subcommand with:
 
                          	croiseur-cli solver run --help
-                         """)
-                .and()
-                .exitsWithCode(INPUT_ERROR);
+                         """).and().exitsWithCode(INPUT_ERROR);
     }
 }

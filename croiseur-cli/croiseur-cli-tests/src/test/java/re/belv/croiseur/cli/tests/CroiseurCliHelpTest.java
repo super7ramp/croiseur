@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -13,9 +13,7 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
     @Test
     void help() {
         whenOneRunsCli("help");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Usage: croiseur-cli COMMAND
 
                          Commands:
@@ -33,21 +31,13 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                          options and the examples of the 'solver run' subcommand with:
 
                          	croiseur-cli solver run --help
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpUnknown() {
         whenOneRunsCli("help", "unknown");
-        thenCli()
-                .doesNotWriteToStdOut()
-                .and()
-                .writesToStdErr(
-                        """
+        thenCli().doesNotWriteToStdOut().and().writesToStdErr("""
                          Unknown subcommand 'unknown'.
                          Usage: croiseur-cli COMMAND
 
@@ -66,17 +56,13 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                          options and the examples of the 'solver run' subcommand with:
 
                          	croiseur-cli solver run --help
-                         """)
-                .and()
-                .exitsWithCode(INPUT_ERROR);
+                         """).and().exitsWithCode(INPUT_ERROR);
     }
 
     @Test
     void helpDictionary() {
         whenOneRunsCli("help", "dictionary");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Usage: croiseur-cli dictionary COMMAND
                          List and print available dictionaries
 
@@ -86,57 +72,39 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            grep, search    Display dictionary entries which match a given pattern
                            list, ls        List available dictionaries
                            list-providers  List available dictionary providers
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpClue() {
         whenOneRunsCli("help", "clue");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Usage: croiseur-cli clue COMMAND
                          Get crossword clues and list available clue providers
 
                          Commands:
                            get             Get clues for the given words
                            list-providers  List available clue providers
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpSolver() {
         whenOneRunsCli("help", "solver");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Usage: croiseur-cli solver COMMAND
                          Solve crosswords and list available solvers
 
                          Commands:
                            list, ls    List available solvers
                            run, solve  Solve a crossword puzzle
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 
     @Test
     void helpPuzzle() {
         whenOneRunsCli("help", "puzzle");
-        thenCli()
-                .writesToStdOut(
-                        """
+        thenCli().writesToStdOut("""
                          Usage: croiseur-cli puzzle COMMAND
                          Manage saved puzzles
 
@@ -151,10 +119,6 @@ final class CroiseurCliHelpTest extends FluentTestHelper {
                            list-decoders  List puzzle decoders
                            list-encoders  List puzzle encoders
                            update         Update a saved puzzle
-                         """)
-                .and()
-                .doesNotWriteToStdErr()
-                .and()
-                .exitsWithCode(SUCCESS);
+                         """).and().doesNotWriteToStdErr().and().exitsWithCode(SUCCESS);
     }
 }

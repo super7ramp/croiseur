@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -42,8 +42,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded5x5() throws InterruptedException {
-        final PuzzleGrid puzzle = parse(
-                """
+        final PuzzleGrid puzzle = parse("""
                                         |#|#| | | |
                                         |#| | | | |
                                         | | | | | |
@@ -53,15 +52,13 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                                  |#|#|H|A|T|
                                  |#|A|I|R|E|
                                  |A|L|L|I|N|
                                  |B|O|D|S|#|
                                  |A|D|A|#|#|
-                                 """,
-                result);
+                                 """, result);
     }
 
     /*
@@ -69,8 +66,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded9x9() throws InterruptedException {
-        final PuzzleGrid puzzle = parse(
-                """
+        final PuzzleGrid puzzle = parse("""
                                         |#|#|#| | | |#|#|#|
                                         |#|#| | | | | |#|#|
                                         |#| | | | | | | |#|
@@ -84,8 +80,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                                  |#|#|#|C|A|T|#|#|#|
                                  |#|#|C|H|I|R|M|#|#|
                                  |#|A|R|A|L|I|A|S|#|
@@ -95,8 +90,7 @@ final class CrosswordSolverSymmetricGridTest {
                                  |#|A|R|A|L|I|A|S|#|
                                  |#|#|S|A|Y|O|N|#|#|
                                  |#|#|#|R|E|N|#|#|#|
-                                 """,
-                result);
+                                 """, result);
     }
 
     /*
@@ -104,8 +98,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded13x13WithLongWords() throws InterruptedException {
-        final PuzzleGrid puzzle = parse(
-                """
+        final PuzzleGrid puzzle = parse("""
                                         | | | | |#| | | |#| | | | |
                                         | | | | |#| | | |#| | | | |
                                         | | | | |#| | | |#| | | | |
@@ -123,8 +116,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                                  |A|T|A|P|#|A|Y|S|#|A|B|B|A|
                                  |R|O|N|A|#|B|A|A|#|G|R|A|N|
                                  |A|L|A|R|#|A|R|Y|#|R|A|F|T|
@@ -138,8 +130,7 @@ final class CrosswordSolverSymmetricGridTest {
                                  |A|I|R|S|#|B|O|A|#|E|A|L|E|
                                  |S|L|A|E|#|R|O|T|#|S|L|A|Y|
                                  |T|E|W|S|#|A|T|E|#|S|E|E|S|
-                                  """,
-                result);
+                                  """, result);
     }
 
     /*
@@ -147,8 +138,7 @@ final class CrosswordSolverSymmetricGridTest {
      */
     @Test
     void shaded13x13() throws InterruptedException {
-        final PuzzleGrid puzzle = parse(
-                """
+        final PuzzleGrid puzzle = parse("""
                                         | | | | |#| | | |#| | | | |
                                         | | | | |#| | | |#| | | | |
                                         | | | | |#| | | |#| | | | |
@@ -166,8 +156,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                                  |R|A|C|A|#|F|R|A|#|A|M|L|A|
                                  |A|R|U|M|#|A|I|R|#|D|O|E|S|
                                  |M|U|R|E|#|T|O|E|#|D|A|N|A|
@@ -181,8 +170,7 @@ final class CrosswordSolverSymmetricGridTest {
                                  |C|H|A|D|#|B|A|A|#|N|I|U|E|
                                  |T|I|D|E|#|R|I|N|#|E|A|L|E|
                                  |A|Z|E|D|#|A|R|T|#|N|O|E|S|
-                                 """,
-                result);
+                                 """, result);
     }
 
     /*
@@ -191,8 +179,7 @@ final class CrosswordSolverSymmetricGridTest {
     @Test
     void shaded15x15() throws InterruptedException {
 
-        final PuzzleGrid puzzle = parse(
-                """
+        final PuzzleGrid puzzle = parse("""
                                         | | | | |#| | | | | |#| | | | |
                                         | | | | |#| | | | | |#| | | | |
                                         | | | | |#| | | | | |#| | | | |
@@ -212,8 +199,7 @@ final class CrosswordSolverSymmetricGridTest {
 
         final SolverResult result = new GinsbergCrosswordSolver().solve(puzzle, dictionary);
 
-        Assertions.assertSuccess(
-                """
+        Assertions.assertSuccess("""
                                  |B|L|A|B|#|M|A|M|E|E|#|C|A|G|E|
                                  |E|O|R|L|#|A|L|A|R|Y|#|A|M|I|E|
                                  |M|O|N|A|#|S|O|R|E|E|#|S|A|N|K|
@@ -229,7 +215,6 @@ final class CrosswordSolverSymmetricGridTest {
                                  |B|A|B|S|#|C|A|D|E|T|#|S|A|R|I|
                                  |B|U|B|A|#|A|C|A|R|I|#|S|A|I|S|
                                  |S|L|A|Y|#|L|E|R|E|S|#|A|B|E|T|
-                                 """,
-                result);
+                                 """, result);
     }
 }

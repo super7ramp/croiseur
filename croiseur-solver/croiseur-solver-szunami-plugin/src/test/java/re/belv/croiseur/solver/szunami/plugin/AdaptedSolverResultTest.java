@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2025 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -29,8 +29,7 @@ final class AdaptedSolverResultTest {
                 .shade(new GridPosition(1, 2))
                 .fill(new GridPosition(1, 1), 'A')
                 .build();
-        final Crossword solvedCrossword =
-                new Crossword("""
+        final Crossword solvedCrossword = new Crossword("""
                 XX
                 AA
                 B*

@@ -237,7 +237,8 @@ final class ClueListCell extends ListCell<ClueViewModel> {
         return switch (indexFormat.get()) {
                     case ARABIC -> arabicFormat(index);
                     case ROMAN -> romanFormat(index);
-                } + ".";
+                }
+                + ".";
     }
 
     /**
