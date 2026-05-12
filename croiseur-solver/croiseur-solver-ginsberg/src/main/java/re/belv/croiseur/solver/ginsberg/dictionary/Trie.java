@@ -389,9 +389,9 @@ final class Trie extends AbstractSet<String> {
      * @see Trie class documentation about patterns
      */
     Stream<String> streamMatching(final String pattern) {
-        final Iterator<String> iterator = new TrieIterator(new PositivePatternMatcher(pattern));
+        final var iterator = new TrieIterator(new PositivePatternMatcher(pattern));
         final Spliterator<String> splitIterator =
-                Spliterators.spliteratorUnknownSize(iterator, 0 /* TODO specify characteristics? */);
+                Spliterators.spliteratorUnknownSize(iterator, Spliterator.DISTINCT | Spliterator.ORDERED);
         return StreamSupport.stream(splitIterator, false /* no parallel. */);
     }
 }
