@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -23,12 +23,11 @@ import java.util.stream.StreamSupport;
 /**
  * An implementation of the trie data structure.
  *
- * <p>All methods expect non-null arguments.
+ * <p>All methods expect non-null arguments. Removal is not supported.
  *
  * <h2>Patterns</h2>
  *
- * Some methods ({@link #containsMatching(String)}, {@link #removeNonMatching(String)}, {@link #streamMatching(String)})
- * support a simplistic form of pattern matching. The supported wildcards for these methods are:
+ * <p>{@link #streamMatching(String)}) supports a simplistic form of pattern matching. The supported wildcards are:
  *
  * <ul>
  *   <li>"{@value PatternMatcher#ANY_CHARACTER_WILDCARD}": Any character
@@ -36,7 +35,7 @@ import java.util.stream.StreamSupport;
  *
  * <h2>Thread safety</h2>
  *
- * This collection is not thread-safe.
+ * <p>This collection is not thread-safe.
  *
  * @see <a href="https://en.wikipedia.org/wiki/Trie">Trie on Wikipedia</a>
  */
@@ -154,56 +153,8 @@ final class Trie extends AbstractSet<String> {
     }
 
     /**
-     * A {@link PatternMatcher} that matches words <em>not</em> respecting a given pattern.
-     *
-     * <p>For a pattern of letters (or wildcards of length 1) {@literal p_i}, a word negatively matches if and only if
-     * it has different size, or it has same size n and all its letters {@literal x_j} matches, i.e. {@literal x_1 !~
-     * p_1 && x_2 !~ p_2 && ... && x_n !~ p_n}.
-     *
-     * <p>It is less natural than a positive matcher because a word may match the pattern thanks only to its first
-     * letter, but it can only be definitive when checking the final word {@link #matches(CharSequence)}. This means
-     * matcher has to maintain some kind of memory of the previous matches or perform the entire check in the
-     * {@link #matches(CharSequence)} method. Implementation performs the latter, which may not be the most efficient,
-     * but it certainly is simpler than making the class stateful.
-     */
-    private static final class NegativePatternMatcher implements PatternMatcher {
-
-        /** The pattern <em>not</em> to match. */
-        private final String pattern;
-
-        /**
-         * Constructs an instance.
-         *
-         * @param patternArg the pattern <em>not</em> to match
-         */
-        NegativePatternMatcher(final String patternArg) {
-            pattern = Objects.requireNonNull(patternArg);
-        }
-
-        @Override
-        public Iterator<Map.Entry<Character, TrieNode>> nextLetterMatches(final TrieNode node, final int position) {
-            // All children may match
-            return node.children.entrySet().iterator();
-        }
-
-        @Override
-        public boolean matches(final CharSequence word) {
-            if (pattern.length() != word.length()) {
-                return true;
-            }
-            for (int i = 0; i < pattern.length(); i++) {
-                final char pi = pattern.charAt(i);
-                if (pi != ANY_CHARACTER_WILDCARD && pi != word.charAt(i)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    /**
      * A trie {@link Iterator} implementation. Optionally filters words according to a {@link PatternMatcher} passed at
-     * construction time.
+     * construction time. Does not support removal.
      */
     private final class TrieIterator implements Iterator<String> {
 
@@ -227,12 +178,6 @@ final class Trie extends AbstractSet<String> {
          */
         private String nextWord;
 
-        /** The next node or {@code null} if iterator has no next element. */
-        private TrieNode next;
-
-        /** The current node, or {@code null} if {@link #next()} hasn't been called yet. */
-        private TrieNode current;
-
         /**
          * Constructs an instance iterating on all words contained in the enclosing trie matching the given pattern.
          *
@@ -253,16 +198,7 @@ final class Trie extends AbstractSet<String> {
 
         @Override
         public void remove() {
-            if (current == null) {
-                throw new IllegalStateException();
-            }
-            /*
-             * Lazy removal: Do not actually remove node from trie. Not great, leaves useless
-             * nodes in the trie which slows down iteration.
-             */
-            current.isTerminal = false;
-            Trie.this.size--;
-            current = null;
+            throw new UnsupportedOperationException("TrieIterator does not support removal");
         }
 
         @Override
@@ -275,7 +211,6 @@ final class Trie extends AbstractSet<String> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            current = next;
             final String currentWord = nextWord;
             findAndUpdateNextWord();
             return currentWord;
@@ -320,9 +255,6 @@ final class Trie extends AbstractSet<String> {
                     nodeIterators.add(patternMatcher.nextLetterMatches(node, nodeIterators.nextIndex()));
                     nodeIterators.previous();
                     foundWord = isMatchingTerminalNode(node);
-                    if (foundWord) {
-                        next = node;
-                    }
                 } else {
                     nodeIterators.remove();
                 }
@@ -424,30 +356,6 @@ final class Trie extends AbstractSet<String> {
     }
 
     @Override
-    public boolean remove(final Object o) {
-        final boolean removed;
-        if (!(o instanceof String word)) {
-            removed = false;
-        } else {
-            final Iterator<String> it = new TrieIterator(new PositivePatternMatcher(word));
-            if (it.hasNext()) {
-                it.next();
-                it.remove();
-                removed = true;
-            } else {
-                removed = false;
-            }
-        }
-        return removed;
-    }
-
-    @Override
-    public void clear() {
-        root.children.clear();
-        size = 0;
-    }
-
-    @Override
     public boolean contains(final Object object) {
         final boolean result;
         if (!(object instanceof String word)) {
@@ -471,35 +379,6 @@ final class Trie extends AbstractSet<String> {
     @Override
     public int size() {
         return size;
-    }
-
-    /**
-     * Similar to {@link #contains(Object)} but the given string is a pattern that may contain wildcards.
-     *
-     * @param pattern the pattern
-     * @return {@code true} iff the given candidate is
-     * @see Trie class documentation about patterns
-     */
-    boolean containsMatching(final String pattern) {
-        return new TrieIterator(new PositivePatternMatcher(pattern)).hasNext();
-    }
-
-    /**
-     * Similar to {@link #remove(Object)} but the given string is a pattern removed elements do not match.
-     *
-     * @param pattern the pattern the removed elements do not match
-     * @return {@code true} if a word has been removed
-     * @see Trie class documentation about patterns
-     */
-    boolean removeNonMatching(final String pattern) {
-        final TrieIterator it = new TrieIterator(new NegativePatternMatcher(pattern));
-        boolean removed = false;
-        while (it.hasNext()) {
-            it.next();
-            it.remove();
-            removed = true;
-        }
-        return removed;
     }
 
     /**
