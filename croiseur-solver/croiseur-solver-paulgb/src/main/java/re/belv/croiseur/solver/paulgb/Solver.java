@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -26,7 +26,7 @@ public final class Solver {
      * @param dictionary the dictionary
      * @return the {@link Solution}
      * @throws InterruptedException if interrupted while solving
-     * @throws NativePanicException if solver encountered an error
+     * @throws RuntimeException if solver encountered an error
      */
     public native Optional<Solution> solve(final Puzzle puzzle, final Dictionary dictionary)
             throws InterruptedException;

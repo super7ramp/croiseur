@@ -1,24 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
-use std::any::Any;
-use std::ops::DerefMut;
-use std::panic::catch_unwind;
-
-use crossword::solver;
-use jni::JNIEnv;
-use jni::objects::JObject;
-use jni::sys::jobject;
 
 use crate::jdictionary::JDictionary;
 use crate::joptional::JOptional;
 use crate::jpuzzle::JPuzzle;
 use crate::jsolution::JSolution;
 use crate::jthread::JThread;
+use crossword::solver;
+use jni::errors::{Error, ThrowRuntimeExAndDefault};
+use jni::objects::JObject;
+use jni::{jni_str, Env, EnvUnowned};
 
-mod jarray;
 mod jdictionary;
 mod jiterable;
 mod joptional;
@@ -41,19 +35,22 @@ mod jthread;
 /// * The `Solution` Java object (see Java side).
 ///
 #[no_mangle]
-pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve(
-    mut env: JNIEnv,
+pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve<'a>(
+    mut env_unowned: EnvUnowned<'a>,
     _java_solver: JObject,
     java_puzzle: JObject,
     java_dictionary: JObject,
-) -> jobject {
-    let mut wrapped_env = std::panic::AssertUnwindSafe(&mut env);
-    let result = catch_unwind(move || solve(wrapped_env.deref_mut(), java_puzzle, java_dictionary));
-    result.unwrap_or_else(|err| handle_panic(env, err))
+) -> JObject<'a> {
+    env_unowned
+        .with_env(|env| {
+            let result = solve(env, java_puzzle, java_dictionary);
+            Ok::<JObject<'_>, Error>(result)
+        })
+        .resolve::<ThrowRuntimeExAndDefault>()
 }
 
 /// Where the actual solve job is done.
-fn solve(env: &mut JNIEnv, java_puzzle: JObject, java_dictionary: JObject) -> jobject {
+fn solve<'a>(env: &mut Env<'a>, java_puzzle: JObject, java_dictionary: JObject) -> JObject<'a> {
     let grid = JPuzzle::new(java_puzzle).into_grid(env);
     let dictionary = JDictionary::new(java_dictionary).into_dictionary(env);
 
@@ -62,34 +59,16 @@ fn solve(env: &mut JNIEnv, java_puzzle: JObject, java_dictionary: JObject) -> jo
     let result = solver::solve_interruptible(&grid, &dictionary, &mut is_interrupted);
 
     if is_interrupted() {
-        let _ = env.throw_new("java/lang/InterruptedException", "Solver interrupted");
-        JObject::default().into_raw()
+        let _ = env.throw_new(
+            jni_str!("java/lang/InterruptedException"),
+            jni_str!("Solver interrupted"),
+        );
+        JObject::default()
     } else {
         result
             .map(|chars| JSolution::from(chars, env))
             .map(|solution| JOptional::of(solution.into_object(), env))
             .unwrap_or_else(|| JOptional::empty(env))
             .into_object()
-            .into_raw()
     }
-}
-
-/// Handles panic from native code by throwing an appropriate exception to the JVM.
-///
-/// Inspired by:
-/// - The [`catch_panic`](https://github.com/HermitSocialClub/catch_panic) macro
-/// - This [blog post](https://engineering.avast.io/scala-and-rust-interoperability-via-jni/)
-fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
-    let error_msg = match err.downcast_ref::<&'static str>() {
-        Some(s) => *s,
-        None => match err.downcast_ref::<String>() {
-            Some(s) => &s[..],
-            None => "Unknown error in native code.",
-        },
-    };
-    let _ = env.throw_new(
-        "re/belv/croiseur/solver/paulgb/NativePanicException",
-        error_msg,
-    );
-    JObject::default().into_raw()
 }

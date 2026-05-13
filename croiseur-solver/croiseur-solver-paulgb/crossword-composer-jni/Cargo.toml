@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Antoine Belvire
+# SPDX-FileCopyrightText: 2026 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 crossword = { path = "../crossword-composer" }
-jni = "0.22.0"
+jni = "0.22.4"
 
 [lib]
-crate_type = ["cdylib"]
+crate-type = ["cdylib"]

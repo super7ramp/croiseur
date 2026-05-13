@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -84,21 +84,20 @@ final class SolverTest {
         assertArrayEquals(new char[] {'A', 'B', 'C', 'A', 'B', 'D', 'A', 'B', 'E'}, cells);
     }
 
-    /** Verifies that Rust panic upon {@code null} puzzle is turned into {@link NativePanicException}. */
+    /** Verifies that Rust panic upon {@code null} puzzle is turned into {@link RuntimeException}. */
     @Test
     void failureNullPuzzle() {
-        final NativePanicException solverError = assertThrows(
-                NativePanicException.class, () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
-        assertEquals("Failed to access puzzle slots: NullPtr(\"call_method obj argument\")", solverError.getMessage());
+        final var solverError = assertThrows(
+                RuntimeException.class, () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
+        assertEquals("Rust panic: non-string panic payload", solverError.getMessage());
     }
 
-    /** Verifies that Rust panic upon {@code null} dictionary is turned into {@link NativePanicException}. */
+    /** Verifies that Rust panic upon {@code null} dictionary is turned into {@link RuntimeException}. */
     @Test
     void failureNullDictionary() {
-        final NativePanicException solverError =
-                assertThrows(NativePanicException.class, () -> new Solver().solve(new Puzzle(new int[0][]), null));
-        assertEquals(
-                "Failed to retrieve dictionary words: NullPtr(\"call_method obj argument\")", solverError.getMessage());
+        final var solverError =
+                assertThrows(RuntimeException.class, () -> new Solver().solve(new Puzzle(new int[0][]), null));
+        assertEquals("Rust panic: non-string panic payload", solverError.getMessage());
     }
 
     /**
