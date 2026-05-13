@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -18,7 +18,7 @@ public final class Filler {
      * @param crossword the crossword to fill
      * @return the fill {@link Result}, containing either the filled {@link Crossword} or an error message
      * @throws InterruptedException if interrupted while filling
-     * @throws NativePanicException if native code panics
+     * @throws RuntimeException if native code panics
      */
     public native Result fill(final Crossword crossword, final Dictionary dictionary) throws InterruptedException;
 }

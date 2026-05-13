@@ -1,11 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 use jni::objects::{JObject, JString, JValue, JValueOwned};
+use jni::signature::MethodSignature;
+use jni::strings::JNIStr;
 use jni::sys::jint;
-use jni::JNIEnv;
+use jni::{jni_sig, jni_str, Env};
 use xwords::crossword::Crossword;
 
 /// Wrapper for the `re.belv.croiseur.solver.szunami.Crossword` Java object.
@@ -22,7 +24,7 @@ impl<'a> JCrossword<'a> {
 
     /// Creates a new `JCrossword` wrapping a new Java `Crossword` object built from the given native
     /// `Crossword` structure.
-    pub fn from_crossword(crossword: Crossword, env: &mut JNIEnv<'a>) -> Self {
+    pub fn from_crossword(crossword: Crossword, env: &mut Env<'a>) -> Self {
         let contents = crossword.to_string();
         // Re-find height and width since they are not exposed
         let height = contents.chars().filter(|c| *c == '\n').count();
@@ -44,16 +46,20 @@ impl<'a> JCrossword<'a> {
             .expect("Failed to convert width to jint (i32)");
 
         let class = env
-            .find_class("re/belv/croiseur/solver/szunami/Crossword")
+            .find_class(jni_str!("re/belv/croiseur/solver/szunami/Crossword"))
             .expect("Crossword class not found");
         let value = env
-            .new_object(class, "(Ljava/lang/String;II)V", &[contents, width, height])
+            .new_object(
+                class,
+                jni_sig!("(Ljava/lang/String;II)V"),
+                &[contents, width, height],
+            )
             .expect("Failed to create Crossword Java object");
         Self::new(value)
     }
 
     /// Transforms this `JCrossword` into a `Crossword`.
-    pub fn into_crossword(mut self, env: &mut JNIEnv<'a>) -> Crossword {
+    pub fn into_crossword(mut self, env: &mut Env<'a>) -> Crossword {
         let contents = self.contents(env);
         let width = self.width(env);
         let height = self.height(env);
@@ -68,27 +74,32 @@ impl<'a> JCrossword<'a> {
     }
 
     /// Returns the `content` data encapsulated in the `Crossword` Java object.
-    fn contents(&mut self, env: &mut JNIEnv<'a>) -> String {
-        self.call_and_unwrap_string(env, "contents", "()Ljava/lang/String;", &[])
+    fn contents(&mut self, env: &mut Env<'a>) -> String {
+        self.call_and_unwrap_string(
+            env,
+            jni_str!("contents"),
+            jni_sig!("()Ljava/lang/String;"),
+            &[],
+        )
     }
 
     /// Returns the `height` data encapsulated in the `Crossword` Java object.
-    fn height(&mut self, env: &mut JNIEnv<'a>) -> usize {
-        self.call_and_unwrap_int(env, "height", "()I", &[])
+    fn height(&mut self, env: &mut Env<'a>) -> usize {
+        self.call_and_unwrap_int(env, jni_str!("height"), jni_sig!("()I"), &[])
     }
 
     /// Returns the width data encapsulated in the `Crossword` Java object.
-    fn width(&mut self, env: &mut JNIEnv<'a>) -> usize {
-        self.call_and_unwrap_int(env, "width", "()I", &[])
+    fn width(&mut self, env: &mut Env<'a>) -> usize {
+        self.call_and_unwrap_int(env, jni_str!("width"), jni_sig!("()I"), &[])
     }
 
     /// Calls the specified method of `re.belv.croiseur.solver.szunami.Crossword` and
     /// returns its returned value under the form of a `uzise`.
     fn call_and_unwrap_int(
         &mut self,
-        env: &mut JNIEnv<'a>,
-        method: &str,
-        signature: &str,
+        env: &mut Env<'a>,
+        method: &JNIStr,
+        signature: MethodSignature,
         args: &[JValue],
     ) -> usize {
         let jint = self
@@ -103,28 +114,27 @@ impl<'a> JCrossword<'a> {
     /// returns its returned value under the form of a `String`.
     fn call_and_unwrap_string(
         &mut self,
-        env: &mut JNIEnv<'a>,
-        method: &str,
-        signature: &str,
+        env: &mut Env<'a>,
+        method: &JNIStr,
+        signature: MethodSignature,
         args: &[JValue],
     ) -> String {
         let jobject = self
             .call(env, method, signature, args)
             .l()
             .expect("Failed to unwrap Java value as a JObject");
-        let j_string = JString::from(jobject);
-        env.get_string(&j_string)
+        env.as_cast::<JString>(&jobject)
             .expect("Failed to convert JObject to String")
-            .into()
+            .to_string()
     }
 
     /// Calls the specified method of `re.belv.croiseur.solver.szunami.Crossword` and
     /// returns its returned value under the form of a `JValueOwned`.
     fn call(
         &mut self,
-        env: &mut JNIEnv<'a>,
-        method: &str,
-        signature: &str,
+        env: &mut Env<'a>,
+        method: &JNIStr,
+        signature: MethodSignature,
         args: &[JValue],
     ) -> JValueOwned<'_> {
         let object = &mut self.value;

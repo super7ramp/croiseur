@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -24,18 +24,14 @@ final class FillerTest {
 
     /**
      * Verifies that native code panic upon a {@code null} {@link Crossword} is correctly caught and turned into a
-     * {@link NativePanicException}.
+     * {@link RuntimeException}.
      */
     @Test
     void failureNullCrossword() {
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
-        final NativePanicException exception =
-                assertThrows(NativePanicException.class, () -> new Filler().fill(null, emptyDictionary));
-        assertEquals(
-                "Call to re.belv.croiseur.solver.szunami.Crossword method "
-                        + "failed: NullPtr(\"call_method obj argument\")",
-                exception.getMessage());
+        final var exception = assertThrows(RuntimeException.class, () -> new Filler().fill(null, emptyDictionary));
+        assertEquals("Rust panic: non-string panic payload", exception.getMessage());
     }
 
     /**

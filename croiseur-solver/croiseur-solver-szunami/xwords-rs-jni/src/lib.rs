@@ -1,17 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use std::any::Any;
-use std::ops::DerefMut;
-use std::panic::catch_unwind;
-
-use jni::JNIEnv;
+use jni::errors::{Error, ThrowRuntimeExAndDefault};
 use jni::objects::JObject;
-use jni::sys::jobject;
-use xwords::fill::Fill;
+use jni::{jni_str, Env, EnvUnowned};
 use xwords::fill::filler::Filler;
+use xwords::fill::Fill;
 
 use crate::jcrossword::JCrossword;
 use crate::jdictionary::JDictionary;
@@ -29,7 +25,7 @@ mod jthread;
 /// method.
 ///
 /// # Arguments
-/// * `env`: The [JNI environment](JNIEnv).
+/// * `env`: The [JNI environment](EnvUnowned).
 /// * `_java_filler`: The corresponding Java `Filler`. Unused, just here to respect the JNI.
 /// * `java_crossword`: The crossword puzzle. See the `Crossword` class on Java side.
 /// * `java_dictionary`: The dictionary. See the `Dictionary` class on Java side.
@@ -40,23 +36,25 @@ mod jthread;
 ///
 #[no_mangle]
 pub extern "system" fn Java_re_belv_croiseur_solver_szunami_Filler_fill<'a>(
-    mut env: JNIEnv<'a>,
+    mut env_unowned: EnvUnowned<'a>,
     _java_filler: JObject,
     java_crossword: JObject<'a>,
     java_dictionary: JObject,
-) -> jobject {
-    let mut wrapped_env = std::panic::AssertUnwindSafe(&mut env);
-    let result =
-        catch_unwind(move || solve(wrapped_env.deref_mut(), java_crossword, java_dictionary));
-    result.unwrap_or_else(|err| handle_panic(env, err))
+) -> JObject<'a> {
+    env_unowned
+        .with_env(|env| {
+            let result = solve(env, java_crossword, java_dictionary);
+            Ok::<JObject<'_>, Error>(result)
+        })
+        .resolve::<ThrowRuntimeExAndDefault>()
 }
 
 /// Where the actual solve job is done.
 fn solve<'a>(
-    env: &mut JNIEnv<'a>,
+    env: &mut Env<'a>,
     java_crossword: JObject<'a>,
     java_dictionary: JObject,
-) -> jobject {
+) -> JObject<'a> {
     let crossword = JCrossword::new(java_crossword).into_crossword(env);
     let trie = JDictionary::new(java_dictionary).into_trie(env);
 
@@ -65,33 +63,15 @@ fn solve<'a>(
     let result = Filler::new(&trie, &mut is_interrupted).fill(&crossword);
 
     if is_interrupted() {
-        let _ = env.throw_new("java/lang/InterruptedException", "Filler interrupted");
-        JObject::default().into_raw()
+        let _ = env.throw_new(
+            jni_str!("java/lang/InterruptedException"),
+            jni_str!("Filler interrupted"),
+        );
+        JObject::default()
     } else {
         result
             .map(|solution| JResult::ok(solution, env))
             .unwrap_or_else(|err| JResult::err(err.as_str(), env))
             .into_object()
-            .into_raw()
     }
-}
-
-/// Handles panic from native code by throwing an appropriate exception to the JVM.
-///
-/// Inspired by:
-/// - The [`catch_panic`](https://github.com/HermitSocialClub/catch_panic) macro
-/// - This [blog post](https://engineering.avast.io/scala-and-rust-interoperability-via-jni/)
-fn handle_panic(mut env: JNIEnv, err: Box<dyn Any + Send>) -> jobject {
-    let error_msg = match err.downcast_ref::<&'static str>() {
-        Some(s) => *s,
-        None => match err.downcast_ref::<String>() {
-            Some(s) => &s[..],
-            None => "Unknown error in native code.",
-        },
-    };
-    let _ = env.throw_new(
-        "re/belv/croiseur/solver/szunami/NativePanicException",
-        error_msg,
-    );
-    JObject::default().into_raw()
 }

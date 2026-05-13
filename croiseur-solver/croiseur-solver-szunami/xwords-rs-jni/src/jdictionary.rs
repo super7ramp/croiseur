@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-use jni::JNIEnv;
 use jni::objects::{JObject, JString};
+use jni::{jni_sig, jni_str, Env};
 use xwords::trie::Trie;
 
 use crate::jiterable::JIterable;
@@ -22,47 +22,39 @@ impl<'a> JDictionary<'a> {
     }
 
     /// Transforms this `JDictionary` into a [`Trie`][]
-    pub fn into_trie(self, env: &mut JNIEnv) -> Trie {
+    pub fn into_trie(self, env: &mut Env) -> Trie {
         let words = self.words(env);
         Trie::build(words)
     }
 
     /// Retrieves the words of the `Dictionary` object and returns them as a vector of `String`s.
-    fn words(&self, env: &mut JNIEnv) -> Vec<String> {
-        let words_jobject = env
-            .call_method(&self.value, "words", "()Ljava/lang/Iterable;", &[])
+    fn words(&self, env: &mut Env) -> Vec<String> {
+        let words_jiterable = env
+            .call_method(
+                &self.value,
+                jni_str!("words"),
+                jni_sig!("()Ljava/lang/Iterable;"),
+                &[],
+            )
             .expect("Failed to retrieve dictionary words")
             .l()
             .expect("Failed to convert JValue to JObject");
 
-        let words_jiterable = JIterable::from_env(env, &words_jobject)
-            .expect("Failed to get word list from Dictionary");
-
-        let mut iterator = words_jiterable
+        let iterator = JIterable::new(words_jiterable)
             .iter(env)
-            .expect("Failed to create word list iterator");
+            .expect("Failed to get iterator from words iterable");
 
         let mut words = Vec::new();
         while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
-            let j_string = env.auto_local(JString::from(obj));
-            let word = Self::rust_string_from(&j_string, env);
+            let word = env
+                .cast_local::<JString>(obj)
+                .expect("Failed to convert JObject to String")
+                .to_string();
             if word.is_ascii() {
                 // xwords-rs only supports ASCII: https://github.com/szunami/xwords-rs/issues/2
                 words.push(word);
             }
         }
         words
-    }
-
-    /// Converts a `JString` into a `String`.
-    fn rust_string_from(j_string: &JString, env: &mut JNIEnv) -> String {
-        unsafe {
-            // Use unchecked flavour of get_string() for performance reason. Also, safe
-            // get_string() seems to create local references behind the hood so it is not very
-            // practical when called in a loop.
-            env.get_string_unchecked(j_string)
-                .expect("Failed to convert JObject to String")
-                .into()
-        }
     }
 }
