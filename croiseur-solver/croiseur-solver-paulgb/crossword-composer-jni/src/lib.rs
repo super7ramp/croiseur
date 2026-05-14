@@ -9,7 +9,7 @@ use crate::jpuzzle::JPuzzle;
 use crate::jsolution::JSolution;
 use crate::jthread::JThread;
 use crossword::solver;
-use jni::errors::{Error, ThrowRuntimeExAndDefault};
+use jni::errors::{Result, ThrowRuntimeExAndDefault};
 use jni::objects::JObject;
 use jni::{jni_str, Env, EnvUnowned};
 
@@ -42,33 +42,34 @@ pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve<'a>(
     java_dictionary: JObject,
 ) -> JObject<'a> {
     env_unowned
-        .with_env(|env| {
-            let result = solve(env, java_puzzle, java_dictionary);
-            Ok::<JObject<'_>, Error>(result)
-        })
+        .with_env(|env| solve(env, java_puzzle, java_dictionary))
         .resolve::<ThrowRuntimeExAndDefault>()
 }
 
 /// Where the actual solve job is done.
-fn solve<'a>(env: &mut Env<'a>, java_puzzle: JObject, java_dictionary: JObject) -> JObject<'a> {
-    let grid = JPuzzle::new(java_puzzle).into_grid(env);
-    let dictionary = JDictionary::new(java_dictionary).into_dictionary(env);
-
-    let current_thread = JThread::current_thread(env);
+fn solve<'a>(
+    env: &mut Env<'a>,
+    java_puzzle: JObject,
+    java_dictionary: JObject,
+) -> Result<JObject<'a>> {
+    let grid = JPuzzle::new(java_puzzle).into_grid(env)?;
+    let dictionary = JDictionary::new(java_dictionary).into_dictionary(env)?;
+    let current_thread = JThread::current_thread(env)?;
     let mut is_interrupted = || current_thread.is_interrupted(env);
+
     let result = solver::solve_interruptible(&grid, &dictionary, &mut is_interrupted);
 
     if is_interrupted() {
-        let _ = env.throw_new(
+        env.throw_new(
             jni_str!("java/lang/InterruptedException"),
             jni_str!("Solver interrupted"),
-        );
-        JObject::default()
+        )
+        .map(|_| JObject::default())
     } else {
         result
             .map(|chars| JSolution::from(chars, env))
-            .map(|solution| JOptional::of(solution.into_object(), env))
+            .map(|solution| JOptional::of(solution?.into_object(), env))
             .unwrap_or_else(|| JOptional::empty(env))
-            .into_object()
+            .map(JOptional::into_object)
     }
 }

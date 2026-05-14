@@ -89,7 +89,7 @@ final class SolverTest {
     void failureNullPuzzle() {
         final var solverError = assertThrows(
                 RuntimeException.class, () -> new Solver().solve(null, new Dictionary(Collections.emptySet())));
-        assertEquals("Rust panic: non-string panic payload", solverError.getMessage());
+        assertEquals("Rust error: Null pointer in call_method obj argument", solverError.getMessage());
     }
 
     /** Verifies that Rust panic upon {@code null} dictionary is turned into {@link RuntimeException}. */
@@ -97,7 +97,7 @@ final class SolverTest {
     void failureNullDictionary() {
         final var solverError =
                 assertThrows(RuntimeException.class, () -> new Solver().solve(new Puzzle(new int[0][]), null));
-        assertEquals("Rust panic: non-string panic payload", solverError.getMessage());
+        assertEquals("Rust error: Null pointer in call_method obj argument", solverError.getMessage());
     }
 
     /**

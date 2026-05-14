@@ -1,8 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+use jni::errors::Result;
 use jni::objects::{JCharArray, JObject, JValue};
 use jni::sys::jchar;
 use jni::{jni_sig, jni_str, Env};
@@ -20,7 +21,7 @@ impl<'a> JSolution<'a> {
     }
 
     /// Creates a new `JSolution` from given vector of `char`s.
-    pub fn from(chars: Vec<char>, env: &mut Env<'a>) -> Self {
+    pub fn from(chars: Vec<char>, env: &mut Env<'a>) -> Result<Self> {
         // Convert to string back to a vector just to have the java char = u16 type
         let jchars: Vec<jchar> = chars
             .into_iter()
@@ -30,20 +31,14 @@ impl<'a> JSolution<'a> {
             .encode_utf16()
             .collect();
 
-        let jchar_array = JCharArray::new(env, jchars.len()).expect("Failed to create char array");
-        jchar_array
-            .set_region(env, 0, jchars.as_slice())
-            .expect("Failed to set char array region");
+        let jchar_array = JCharArray::new(env, jchars.len())?;
+        jchar_array.set_region(env, 0, jchars.as_slice())?;
 
-        let class = env
-            .find_class(jni_str!("re/belv/croiseur/solver/paulgb/Solution"))
-            .expect("Solution class not found");
+        let class = env.find_class(jni_str!("re/belv/croiseur/solver/paulgb/Solution"))?;
         let array_object = JObject::from(jchar_array);
         let array_value = JValue::from(&array_object);
-        let solution = env
-            .new_object(class, jni_sig!("([C)V"), &[array_value])
-            .expect("Failed to create a Solution object");
-        Self::new(solution)
+        let solution = env.new_object(class, jni_sig!("([C)V"), &[array_value])?;
+        Ok(Self::new(solution))
     }
 
     /// Unwraps the underlying `JObject`.

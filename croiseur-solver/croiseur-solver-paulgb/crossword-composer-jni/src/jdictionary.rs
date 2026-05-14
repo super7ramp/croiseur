@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
 use crossword::dictionary::Dictionary;
+use jni::errors::Result;
 use jni::objects::{JObject, JString};
 use jni::{jni_sig, jni_str, Env};
 
@@ -22,36 +22,32 @@ impl<'a> JDictionary<'a> {
     }
 
     /// Transforms the given `JDictionary` into a [`Dictionary`][].
-    pub fn into_dictionary(self, env: &mut Env) -> Dictionary {
-        let words = self.into_vec_string(env);
-        Dictionary::from_vec(words)
+    pub fn into_dictionary(self, env: &mut Env) -> Result<Dictionary> {
+        let words = self.into_vec_string(env)?;
+        Ok(Dictionary::from_vec(words))
     }
 
     /// Transforms this `JDictionary` into a vector of `String`s.
-    fn into_vec_string(self, env: &mut Env) -> Vec<String> {
+    fn into_vec_string(self, env: &mut Env) -> Result<Vec<String>> {
         let words_jobject = env
             .call_method(
                 &self.dic,
                 jni_str!("words"),
                 jni_sig!("()Ljava/lang/Iterable;"),
                 &[],
-            )
-            .expect("Failed to retrieve dictionary words")
-            .l()
-            .expect("Failed to convert JValue to JObject");
+            )?
+            .l()?;
 
-        let iterator = JIterable::new(words_jobject)
-            .iter(env)
-            .expect("Failed to create word list iterator");
+        let iterator = JIterable::new(words_jobject).iter(env)?;
 
         let mut words = Vec::new();
-        while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
+        while let Some(obj) = iterator.next(env)? {
             let word = env
                 .cast_local::<JString>(obj)
                 .expect("Failed to convert JObject to String")
                 .to_string();
             words.push(word);
         }
-        words
+        Ok(words)
     }
 }
