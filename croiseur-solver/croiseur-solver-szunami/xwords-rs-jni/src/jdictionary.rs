@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+use jni::errors::Result;
 use jni::objects::{JObject, JString};
 use jni::{jni_sig, jni_str, Env};
 use xwords::trie::Trie;
@@ -22,39 +23,32 @@ impl<'a> JDictionary<'a> {
     }
 
     /// Transforms this `JDictionary` into a [`Trie`][]
-    pub fn into_trie(self, env: &mut Env) -> Trie {
-        let words = self.words(env);
-        Trie::build(words)
+    pub fn into_trie(self, env: &mut Env) -> Result<Trie> {
+        let words = self.words(env)?;
+        Ok(Trie::build(words))
     }
 
     /// Retrieves the words of the `Dictionary` object and returns them as a vector of `String`s.
-    fn words(&self, env: &mut Env) -> Vec<String> {
+    fn words(&self, env: &mut Env) -> Result<Vec<String>> {
         let words_jiterable = env
             .call_method(
                 &self.value,
                 jni_str!("words"),
                 jni_sig!("()Ljava/lang/Iterable;"),
                 &[],
-            )
-            .expect("Failed to retrieve dictionary words")
-            .l()
-            .expect("Failed to convert JValue to JObject");
+            )?
+            .l()?;
 
-        let iterator = JIterable::new(words_jiterable)
-            .iter(env)
-            .expect("Failed to get iterator from words iterable");
+        let iterator = JIterable::new(words_jiterable).iter(env)?;
 
         let mut words = Vec::new();
-        while let Some(obj) = iterator.next(env).expect("Failed to iterate on word list") {
-            let word = env
-                .cast_local::<JString>(obj)
-                .expect("Failed to convert JObject to String")
-                .to_string();
+        while let Some(obj) = iterator.next(env)? {
+            let word = env.cast_local::<JString>(obj)?.to_string();
             if word.is_ascii() {
                 // xwords-rs only supports ASCII: https://github.com/szunami/xwords-rs/issues/2
                 words.push(word);
             }
         }
-        words
+        Ok(words)
     }
 }

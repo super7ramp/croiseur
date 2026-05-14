@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+use jni::errors::Result;
 use jni::objects::JObject;
 use jni::{jni_sig, jni_str, Env};
 
@@ -21,7 +22,7 @@ impl<'a> JThread<'a> {
     }
 
     /// Creates a new `JThread` wrapping the current Java Thread object.
-    pub fn current_thread(env: &mut Env<'a>) -> Self {
+    pub fn current_thread(env: &mut Env<'a>) -> Result<Self> {
         let clazz = env.find_class(jni_str!("java/lang/Thread")).unwrap();
         let current_thread = env
             .call_static_method(
@@ -29,11 +30,9 @@ impl<'a> JThread<'a> {
                 jni_str!("currentThread"),
                 jni_sig!("()Ljava/lang/Thread;"),
                 &[],
-            )
-            .expect("Failed to retrieve current thread")
-            .l()
-            .expect("Invalid current thread object");
-        Self::new(current_thread)
+            )?
+            .l()?;
+        Ok(Self::new(current_thread))
     }
 
     /// Checks whether this thread is interrupted.

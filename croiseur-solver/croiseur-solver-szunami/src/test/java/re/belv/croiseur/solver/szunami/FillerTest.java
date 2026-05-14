@@ -31,7 +31,7 @@ final class FillerTest {
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
         final var exception = assertThrows(RuntimeException.class, () -> new Filler().fill(null, emptyDictionary));
-        assertEquals("Rust panic: non-string panic payload", exception.getMessage());
+        assertEquals("Rust error: Null pointer in call_method obj argument", exception.getMessage());
     }
 
     /**
