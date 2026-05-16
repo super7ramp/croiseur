@@ -3,7 +3,7 @@
 
 [versions]
 cargo-plugin = "1.2.0"
-conveyor-plugin = "1.13"
+conveyor-plugin = "2.0"
 cucumber = "7.34.3"
 ikonli = "12.4.0"
 java = "25"
