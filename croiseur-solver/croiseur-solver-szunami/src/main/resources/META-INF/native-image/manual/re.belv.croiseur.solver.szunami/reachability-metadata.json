@@ -1,0 +1,158 @@
+{
+  "reflection": [
+    {
+      "type": "java.lang.CharSequence",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "charAt",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "length",
+          "parameterTypes": []
+        },
+        {
+          "name": "subSequence",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Class",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "forName",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "forName",
+          "parameterTypes": [
+            "java.lang.String",
+            "boolean",
+            "java.lang.ClassLoader"
+          ]
+        },
+        {
+          "name": "getClassLoader",
+          "parameterTypes": []
+        },
+        {
+          "name": "getName",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Iterable",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "iterator",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.String",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "intern",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Thread",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "currentThread",
+          "parameterTypes": []
+        },
+        {
+          "name": "getContextClassLoader",
+          "parameterTypes": []
+        },
+        {
+          "name": "getId",
+          "parameterTypes": []
+        },
+        {
+          "name": "getName",
+          "parameterTypes": []
+        },
+        {
+          "name": "isInterrupted",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContextClassLoader",
+          "parameterTypes": [
+            "java.lang.ClassLoader"
+          ]
+        },
+        {
+          "name": "setName",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.Iterator",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "hasNext",
+          "parameterTypes": []
+        },
+        {
+          "name": "next",
+          "parameterTypes": []
+        },
+        {
+          "name": "remove",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "re.belv.croiseur.solver.szunami.Crossword",
+      "jniAccessible": true,
+      "allPublicMethods": true,
+      "allPublicConstructors": true
+    },
+    {
+      "type": "re.belv.croiseur.solver.szunami.Dictionary",
+      "jniAccessible": true,
+      "allPublicMethods": true
+    },
+    {
+      "type": "re.belv.croiseur.solver.szunami.Result",
+      "jniAccessible": true,
+      "allPublicMethods": true
+    }
+  ],
+  "resources": [
+    {
+      "glob": "xwords_rs_jni.dll"
+    },
+    {
+      "glob": "libxwords_rs_jni.dylib"
+    },
+    {
+      "glob": "libxwords_rs_jni.so"
+    }
+  ]
+}

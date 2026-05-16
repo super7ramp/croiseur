@@ -1,8 +1,0 @@
-{
-  "bundles": [],
-  "resources": [
-    {
-      "pattern": ".*.(dll|dylib|so)"
-    }
-  ]
-}
