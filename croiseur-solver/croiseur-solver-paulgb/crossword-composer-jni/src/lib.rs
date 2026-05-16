@@ -35,25 +35,25 @@ mod jthread;
 /// * The `Solution` Java object (see Java side).
 ///
 #[no_mangle]
-pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve<'a>(
-    mut env_unowned: EnvUnowned<'a>,
+pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve<'env>(
+    mut env_unowned: EnvUnowned<'env>,
     _java_solver: JObject,
-    java_puzzle: JObject,
-    java_dictionary: JObject,
-) -> JObject<'a> {
+    java_puzzle: JPuzzle,
+    java_dictionary: JDictionary,
+) -> JOptional<'env> {
     env_unowned
         .with_env(|env| solve(env, java_puzzle, java_dictionary))
         .resolve::<ThrowRuntimeExAndDefault>()
 }
 
 /// Where the actual solve job is done.
-fn solve<'a>(
-    env: &mut Env<'a>,
-    java_puzzle: JObject,
-    java_dictionary: JObject,
-) -> Result<JObject<'a>> {
-    let grid = JPuzzle::new(java_puzzle).into_grid(env)?;
-    let dictionary = JDictionary::new(java_dictionary).into_dictionary(env)?;
+fn solve<'env>(
+    env: &mut Env<'env>,
+    java_puzzle: JPuzzle,
+    java_dictionary: JDictionary,
+) -> Result<JOptional<'env>> {
+    let grid = java_puzzle.into_grid(env)?;
+    let dictionary = java_dictionary.into_dictionary(env)?;
     let current_thread = JThread::current_thread(env)?;
     let mut is_interrupted = || current_thread.is_interrupted(env);
 
@@ -64,12 +64,11 @@ fn solve<'a>(
             jni_str!("java/lang/InterruptedException"),
             jni_str!("Solver interrupted"),
         )
-        .map(|_| JObject::default())
+        .map(|_| JOptional::default())
     } else {
         result
-            .map(|chars| JSolution::from(chars, env))
-            .map(|solution| JOptional::of(solution?.into_object(), env))
+            .map(|chars| JSolution::from(env, chars))
+            .map(|solution| JOptional::of(env, solution?))
             .unwrap_or_else(|| JOptional::empty(env))
-            .map(JOptional::into_object)
     }
 }

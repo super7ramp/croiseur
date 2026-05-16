@@ -5,27 +5,20 @@
 
 use crossword::grid::Grid;
 use jni::errors::Result;
-use jni::objects::{JIntArray, JObject, JObjectArray};
-use jni::{jni_sig, jni_str, Env};
+use jni::{bind_java_type, Env};
 
-/// Wrapper for the `re.belv.croiseur.solver.paulgb.Puzzle` Java object.
-pub struct JPuzzle<'a> {
-    /// The wrapped `Puzzle` Java object.
-    puzzle: JObject<'a>,
-}
-
-impl<'a> JPuzzle<'a> {
-    /// Creates a new `JPuzzle` wrapping the given `JObject`.
-    pub fn new(puzzle: JObject<'a>) -> Self {
-        Self { puzzle }
+bind_java_type!(
+    pub JPuzzle => re.belv.croiseur.solver.paulgb.Puzzle,
+    methods {
+        /// Retrieves the 2D array of slots from the `Puzzle` object.
+        fn slots() -> jint[][],
     }
+);
 
+impl JPuzzle<'_> {
     /// Transforms this `JPuzzle` to a [`Grid`][].
     pub fn into_grid(self, env: &mut Env) -> Result<Grid> {
-        let j_array_2d = env
-            .call_method(self.puzzle, jni_str!("slots"), jni_sig!("()[[I"), &[])?
-            .l()
-            .and_then(|obj| env.cast_local::<JObjectArray<JIntArray>>(obj))?;
+        let j_array_2d = self.slots(env)?;
 
         let mut vec_2d: Vec<Vec<usize>> = Vec::new();
         let row_count = j_array_2d.len(env)?;
