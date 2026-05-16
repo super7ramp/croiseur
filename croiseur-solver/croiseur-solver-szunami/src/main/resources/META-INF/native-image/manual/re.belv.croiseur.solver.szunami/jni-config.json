@@ -13,10 +13,6 @@
         "allPublicMethods": true
     },
     {
-        "name": "re.belv.croiseur.solver.szunami.NativePanicException",
-        "allPublicConstructors": true
-    },
-    {
         "name": "java.lang.Thread",
         "methods": [
             {

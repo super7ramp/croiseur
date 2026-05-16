@@ -12,10 +12,6 @@
         "allPublicConstructors": true
     },
     {
-        "name": "re.belv.croiseur.solver.paulgb.NativePanicException",
-        "allPublicConstructors": true
-    },
-    {
         "name": "java.util.Optional",
         "allPublicMethods": true
     },
