@@ -3,67 +3,34 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+use crate::jcrossword::JCrossword;
 use jni::errors::Result;
-use jni::objects::{JObject, JValue};
-use jni::signature::MethodSignature;
-use jni::strings::JNIStr;
-use jni::{jni_sig, jni_str, Env};
+use jni::objects::JString;
+use jni::{bind_java_type, Env};
 use xwords::crossword::Crossword;
 
-use crate::jcrossword::JCrossword;
-
-/// Wrapper for the `re.belv.croiseur.solver.szunami.Result` Java object.
-pub struct JResult<'a> {
-    /// The wrapper `Result` Java object.
-    value: JObject<'a>,
-}
-
-impl<'a> JResult<'a> {
-    /// Creates a new `JResult` wrapping the given `JObject`.
-    fn new(result: JObject<'a>) -> Self {
-        JResult { value: result }
+bind_java_type!(
+    pub JResult => re.belv.croiseur.solver.szunami.Result,
+    type_map = {
+        JCrossword => re.belv.croiseur.solver.szunami.Crossword,
+    },
+    methods {
+        /// Creates a new `JResult` wrapping a Java `Result` of type `Err`.
+        static fn err(error: JString) -> JResult,
+        /// Creates a new `JResult` wrapping a Java `Result` of type `Ok`.
+        static fn ok(solution: JCrossword) -> JResult,
     }
+);
 
-    /// Creates a new `JResult` wrapping a Java `Result` of type `Err`.
-    pub fn err(error: &str, env: &mut Env<'a>) -> Result<Self> {
-        let j_string = env.new_string(error)?;
-        let j_value = JValue::from(&j_string);
-        let result = Self::call(
-            env,
-            jni_str!("err"),
-            jni_sig!("(Ljava/lang/String;)Lre/belv/croiseur/solver/szunami/Result;"),
-            &[j_value],
-        )?;
-        Ok(Self::new(result))
+impl JResult<'_> {
+    /// Creates a new `JResult` wrapping a Java `Result` of type `Err`, with the given error message.
+    pub fn from_error<'env>(env: &mut Env<'env>, error: String) -> Result<JResult<'env>> {
+        let error = JString::new(env, error)?;
+        JResult::err(env, error)
     }
-
-    /// Creates a new `JResult` wrapping a Java `Result` of type `Err`.
-    pub fn ok(solution: Crossword, env: &mut Env<'a>) -> Result<Self> {
-        let solved_crossword = JCrossword::from_crossword(solution, env)?.into_object();
-        let result = Self::call(
-            env,
-            jni_str!("ok"),
-            jni_sig!("(Lre/belv/croiseur/solver/szunami/Crossword;)Lre/belv/croiseur/solver/szunami/Result;"),
-            &[JValue::from(&solved_crossword)],
-        )?;
-        Ok(Self::new(result))
-    }
-
-    /// Unwraps the underlying `JObject`.
-    pub fn into_object(self) -> JObject<'a> {
-        self.value
-    }
-
-    /// Calls the specified method of `re.belv.croiseur.solver.szunami.Result` and
-    /// returns its returned value under the form of a `JObject`.
-    fn call(
-        env: &mut Env<'a>,
-        method: &JNIStr,
-        signature: MethodSignature,
-        args: &[JValue],
-    ) -> Result<JObject<'a>> {
-        let optional_class = env.find_class(jni_str!("re/belv/croiseur/solver/szunami/Result"))?;
-        let j_value = env.call_static_method(optional_class, method, signature, args)?;
-        j_value.l()
+    /// Creates a new `JResult` wrapping a Java `Result` of type `Ok`, with the given solution.
+    pub fn from_solution<'env>(env: &mut Env<'env>, solution: Crossword) -> Result<JResult<'env>> {
+        let jcrossword = JCrossword::from_crossword(env, solution)?;
+        JResult::ok(env, jcrossword)
     }
 }

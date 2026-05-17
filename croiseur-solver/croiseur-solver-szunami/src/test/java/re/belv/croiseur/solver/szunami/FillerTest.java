@@ -31,7 +31,8 @@ final class FillerTest {
         final Dictionary emptyDictionary = new Dictionary(Collections.emptySet());
 
         final var exception = assertThrows(RuntimeException.class, () -> new Filler().fill(null, emptyDictionary));
-        assertEquals("Rust error: Null pointer in call_method obj argument", exception.getMessage());
+        assertEquals(
+                "Rust error: Null pointer in Attempted to call 'contents' with a null object", exception.getMessage());
     }
 
     /**

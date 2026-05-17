@@ -38,22 +38,22 @@ mod jthread;
 pub extern "system" fn Java_re_belv_croiseur_solver_szunami_Filler_fill<'a>(
     mut env_unowned: EnvUnowned<'a>,
     _java_filler: JObject,
-    java_crossword: JObject<'a>,
-    java_dictionary: JObject,
-) -> JObject<'a> {
+    java_crossword: JCrossword,
+    java_dictionary: JDictionary,
+) -> JResult<'a> {
     env_unowned
         .with_env(|env| solve(env, java_crossword, java_dictionary))
         .resolve::<ThrowRuntimeExAndDefault>()
 }
 
 /// Where the actual solve job is done.
-fn solve<'a>(
-    env: &mut Env<'a>,
-    java_crossword: JObject<'a>,
-    java_dictionary: JObject,
-) -> Result<JObject<'a>> {
-    let crossword = JCrossword::new(java_crossword).into_crossword(env)?;
-    let trie = JDictionary::new(java_dictionary).into_trie(env)?;
+fn solve<'env>(
+    env: &mut Env<'env>,
+    java_crossword: JCrossword,
+    java_dictionary: JDictionary,
+) -> Result<JResult<'env>> {
+    let crossword = java_crossword.into_crossword(env)?;
+    let trie = java_dictionary.into_trie(env)?;
 
     let current_thread = JThread::current_thread(env)?;
     let mut is_interrupted = || current_thread.is_interrupted(env);
@@ -64,11 +64,10 @@ fn solve<'a>(
             jni_str!("java/lang/InterruptedException"),
             jni_str!("Filler interrupted"),
         )
-        .map(|_| JObject::default())
+        .map(|_| JResult::default())
     } else {
         result
-            .map(|solution| JResult::ok(solution, env))
-            .unwrap_or_else(|err| JResult::err(err.as_str(), env))
-            .map(JResult::into_object)
+            .map(|solution| JResult::from_solution(env, solution))
+            .unwrap_or_else(|err| JResult::from_error(env, err))
     }
 }

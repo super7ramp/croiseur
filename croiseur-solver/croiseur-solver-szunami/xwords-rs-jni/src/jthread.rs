@@ -4,35 +4,24 @@
  */
 
 use jni::errors::Result;
-use jni::objects::JObject;
+use jni::objects::JThread as WrappedJThread;
 use jni::{jni_sig, jni_str, Env};
 
 /// Wrapper for Java `Thread` object.
-pub struct JThread<'a> {
+pub struct JThread<'env> {
     /// The wrapped Java Thread object.
-    value: JObject<'a>,
+    value: WrappedJThread<'env>,
 }
 
-impl<'a> JThread<'a> {
+impl JThread<'_> {
     /// Creates a new `JThread` wrapping the given `Thread` Java object.
-    fn new(current_thread: JObject<'a>) -> Self {
-        JThread {
-            value: current_thread,
-        }
+    fn new(value: WrappedJThread) -> JThread {
+        JThread { value }
     }
 
     /// Creates a new `JThread` wrapping the current Java Thread object.
-    pub fn current_thread(env: &mut Env<'a>) -> Result<Self> {
-        let clazz = env.find_class(jni_str!("java/lang/Thread")).unwrap();
-        let current_thread = env
-            .call_static_method(
-                clazz,
-                jni_str!("currentThread"),
-                jni_sig!("()Ljava/lang/Thread;"),
-                &[],
-            )?
-            .l()?;
-        Ok(Self::new(current_thread))
+    pub fn current_thread<'env>(env: &mut Env<'env>) -> Result<JThread<'env>> {
+        WrappedJThread::current_thread(env).map(Self::new)
     }
 
     /// Checks whether this thread is interrupted.

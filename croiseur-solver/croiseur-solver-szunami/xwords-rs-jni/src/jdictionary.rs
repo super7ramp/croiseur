@@ -4,43 +4,33 @@
  */
 
 use jni::errors::Result;
-use jni::objects::{JObject, JString};
-use jni::{jni_sig, jni_str, Env};
+use jni::objects::JString;
+use jni::{bind_java_type, Env};
 use xwords::trie::Trie;
 
 use crate::jiterable::JIterable;
 
-/// Wrapper for the `re.belv.croiseur.solver.szunami.Dictionary` Java object.
-pub struct JDictionary<'a> {
-    /// The wrapped Java `Dictionary` object
-    value: JObject<'a>,
-}
-
-impl<'a> JDictionary<'a> {
-    /// Creates a new `JDictionary` wrapping the given Java `Dictionary` object
-    pub fn new(value: JObject<'a>) -> Self {
-        Self { value }
+bind_java_type!(
+    pub JDictionary => re.belv.croiseur.solver.szunami.Dictionary,
+    type_map = {
+        JIterable => java.lang.Iterable,
+    },
+    methods {
+        /// Retrieves the words of the `Dictionary` object.
+        fn words() -> JIterable
     }
+);
 
+impl JDictionary<'_> {
     /// Transforms this `JDictionary` into a [`Trie`][]
     pub fn into_trie(self, env: &mut Env) -> Result<Trie> {
-        let words = self.words(env)?;
+        let words = self.words_as_vec(env)?;
         Ok(Trie::build(words))
     }
 
     /// Retrieves the words of the `Dictionary` object and returns them as a vector of `String`s.
-    fn words(&self, env: &mut Env) -> Result<Vec<String>> {
-        let words_jiterable = env
-            .call_method(
-                &self.value,
-                jni_str!("words"),
-                jni_sig!("()Ljava/lang/Iterable;"),
-                &[],
-            )?
-            .l()?;
-
-        let iterator = JIterable::new(words_jiterable).iter(env)?;
-
+    fn words_as_vec(&self, env: &mut Env) -> Result<Vec<String>> {
+        let iterator = self.words(env)?.iter(env)?;
         let mut words = Vec::new();
         while let Some(obj) = iterator.next(env)? {
             let word = env.cast_local::<JString>(obj)?.to_string();
