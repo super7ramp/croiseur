@@ -5,7 +5,7 @@
 
 use jni::errors::Result;
 use jni::objects::JThread as WrappedJThread;
-use jni::{jni_sig, jni_str, Env};
+use jni::{Env, jni_sig, jni_str};
 
 /// Wrapper for Java `Thread` object.
 pub struct JThread<'env> {

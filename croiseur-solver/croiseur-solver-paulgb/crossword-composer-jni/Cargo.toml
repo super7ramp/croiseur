@@ -4,7 +4,7 @@
 [package]
 name = "crossword-composer-jni"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 crossword = { path = "../crossword-composer" }

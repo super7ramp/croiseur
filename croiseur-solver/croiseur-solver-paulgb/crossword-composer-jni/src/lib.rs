@@ -11,7 +11,7 @@ use crate::jthread::JThread;
 use crossword::solver;
 use jni::errors::{Result, ThrowRuntimeExAndDefault};
 use jni::objects::JObject;
-use jni::{jni_str, Env, EnvUnowned};
+use jni::{Env, EnvUnowned, jni_str};
 
 mod jdictionary;
 mod jiterable;
@@ -25,7 +25,7 @@ mod jthread;
 /// method.
 ///
 /// # Arguments
-/// * `env`: The [JNI environment](JNIEnv).
+/// * `env_unowned`: The [JNI environment](EnvUnowned).
 /// * `_java_solver`: The corresponding Java `Solver`. Unused, just here to respect the JNI.
 /// * `java_puzzle`: The crossword puzzle. See the `Puzzle` class on Java side.
 /// * `java_dictionary`: The dictionary. See the `Dictionary` class on Java side.
@@ -34,7 +34,7 @@ mod jthread;
 ///
 /// * The `Solution` Java object (see Java side).
 ///
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "system" fn Java_re_belv_croiseur_solver_paulgb_Solver_solve<'env>(
     mut env_unowned: EnvUnowned<'env>,
     _java_solver: JObject,

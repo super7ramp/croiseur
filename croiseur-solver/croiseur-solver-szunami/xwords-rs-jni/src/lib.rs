@@ -5,9 +5,9 @@
 
 use jni::errors::{Result, ThrowRuntimeExAndDefault};
 use jni::objects::JObject;
-use jni::{jni_str, Env, EnvUnowned};
-use xwords::fill::filler::Filler;
+use jni::{Env, EnvUnowned, jni_str};
 use xwords::fill::Fill;
+use xwords::fill::filler::Filler;
 
 use crate::jcrossword::JCrossword;
 use crate::jdictionary::JDictionary;
@@ -25,7 +25,7 @@ mod jthread;
 /// method.
 ///
 /// # Arguments
-/// * `env`: The [JNI environment](EnvUnowned).
+/// * `env_unowned`: The [JNI environment](EnvUnowned).
 /// * `_java_filler`: The corresponding Java `Filler`. Unused, just here to respect the JNI.
 /// * `java_crossword`: The crossword puzzle. See the `Crossword` class on Java side.
 /// * `java_dictionary`: The dictionary. See the `Dictionary` class on Java side.
@@ -34,13 +34,13 @@ mod jthread;
 ///
 /// * The `Result` Java object (see Java side).
 ///
-#[no_mangle]
-pub extern "system" fn Java_re_belv_croiseur_solver_szunami_Filler_fill<'a>(
-    mut env_unowned: EnvUnowned<'a>,
+#[unsafe(no_mangle)]
+pub extern "system" fn Java_re_belv_croiseur_solver_szunami_Filler_fill<'env>(
+    mut env_unowned: EnvUnowned<'env>,
     _java_filler: JObject,
     java_crossword: JCrossword,
     java_dictionary: JDictionary,
-) -> JResult<'a> {
+) -> JResult<'env> {
     env_unowned
         .with_env(|env| solve(env, java_crossword, java_dictionary))
         .resolve::<ThrowRuntimeExAndDefault>()

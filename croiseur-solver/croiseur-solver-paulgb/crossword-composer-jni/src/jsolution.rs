@@ -6,7 +6,7 @@
 use jni::errors::Result;
 use jni::objects::JCharArray;
 use jni::sys::jchar;
-use jni::{bind_java_type, Env};
+use jni::{Env, bind_java_type};
 
 bind_java_type!(
     pub JSolution => re.belv.croiseur.solver.paulgb.Solution,

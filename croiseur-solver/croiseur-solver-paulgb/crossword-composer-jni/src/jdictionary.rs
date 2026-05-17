@@ -6,7 +6,7 @@ use crate::jiterable::JIterable;
 use crossword::dictionary::Dictionary;
 use jni::errors::Result;
 use jni::objects::JString;
-use jni::{bind_java_type, Env};
+use jni::{Env, bind_java_type};
 
 bind_java_type!(
     pub JDictionary => re.belv.croiseur.solver.paulgb.Dictionary,

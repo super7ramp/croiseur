@@ -5,7 +5,7 @@
 
 use jni::errors::Result;
 use jni::objects::JString;
-use jni::{bind_java_type, Env};
+use jni::{Env, bind_java_type};
 use xwords::trie::Trie;
 
 use crate::jiterable::JIterable;

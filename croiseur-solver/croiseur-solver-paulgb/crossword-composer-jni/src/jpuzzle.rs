@@ -5,7 +5,7 @@
 
 use crossword::grid::Grid;
 use jni::errors::Result;
-use jni::{bind_java_type, Env};
+use jni::{Env, bind_java_type};
 
 bind_java_type!(
     pub JPuzzle => re.belv.croiseur.solver.paulgb.Puzzle,
