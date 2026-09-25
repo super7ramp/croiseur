@@ -1,11 +1,13 @@
 <!--
-SPDX-FileCopyrightText: 2025 Antoine Belvire
+SPDX-FileCopyrightText: 2026 Antoine Belvire
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 ## Not released
 
-- GUI: Add dark theme support for puzzle thumbnail (!270). 
+- GUI:
+   - Add dark theme support for puzzle thumbnail (!270).
+   - Update to AtlantaFx 3.0.0 (!315).
 
 ## Version 0.12 - Upgrade to Java 25 - 2025/11/09
 
