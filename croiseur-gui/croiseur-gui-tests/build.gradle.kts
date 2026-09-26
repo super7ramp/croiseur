@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import java.nio.file.Files
@@ -28,18 +28,15 @@ dependencies {
 tasks.test {
     jvmArgs = listOf(
         // Allow JNI for native solvers
-        "--enable-native-access=ALL-UNNAMED",
-        /* TODO uncomment these lines when project is modularized again (#84)
         "--enable-native-access=re.belv.croiseur.solver.paulgb",
         "--enable-native-access=re.belv.croiseur.solver.szunami",
-         */
 
         // Export/open JavaFx internals to TestFx: TestFx relies on them.
-        /* TODO uncomment these lines when project is modularized again (#84)
-        "--add-exports", "javafx.graphics/com.sun.javafx.application=org.testfx",
+        "--add-exports", "javafx.base/com.sun.javafx.logging=org.testfx.monocle",
+        "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle",
+        "--add-exports", "javafx.graphics/com.sun.javafx.util=org.testfx.monocle",
         "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx",
-        "--add-opens", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle"
-         */
+        "--add-opens", "javafx.graphics/com.sun.javafx.application=org.testfx"
     )
 
     // Configure JavaFx/TestFx to run in headless mode, in order to run the tests on CI machines.

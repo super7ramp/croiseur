@@ -1,12 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/**
- * End-to-end tests of Croiseur GUI.
- */
-// TODO enable modularization (#84)
+/** End-to-end tests of Croiseur GUI. */
 module re.belv.croiseur.gui.tests {
     // The module under tests
     requires re.belv.croiseur.gui;
@@ -18,5 +15,7 @@ module re.belv.croiseur.gui.tests {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens re.belv.croiseur.gui.tests to org.junit.platform.commons, org.testfx.junit5;
+    opens re.belv.croiseur.gui.tests to
+            org.junit.platform.commons,
+            org.testfx.junit5;
 }

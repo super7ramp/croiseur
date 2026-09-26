@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - GUI:
    - Add dark theme support for puzzle thumbnail (!270).
    - Update to AtlantaFx 3.0.0 (!315).
+   - Modularize tests again (#84, !316).
 
 ## Version 0.12 - Upgrade to Java 25 - 2025/11/09
 
