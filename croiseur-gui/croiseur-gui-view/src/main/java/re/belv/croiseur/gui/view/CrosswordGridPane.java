@@ -1,15 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package re.belv.croiseur.gui.view;
 
+import static javafx.beans.binding.Bindings.createDoubleBinding;
+import static javafx.beans.binding.Bindings.min;
+import static re.belv.croiseur.gui.view.javafx.beans.binding.MoreBindings.floor;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.BooleanProperty;
@@ -433,21 +436,21 @@ public final class CrosswordGridPane extends StackPane {
      */
     private void initializeGridConstraints() {
 
-        final DoubleBinding paddingWidth = Bindings.createDoubleBinding(
-                () -> getPadding().getLeft() + getPadding().getRight(), paddingProperty());
-        final DoubleBinding paddingHeight = Bindings.createDoubleBinding(
-                () -> getPadding().getTop() + getPadding().getBottom(), paddingProperty());
+        final DoubleBinding paddingWidth =
+                createDoubleBinding(() -> getPadding().getLeft() + getPadding().getRight(), paddingProperty());
+        final DoubleBinding paddingHeight =
+                createDoubleBinding(() -> getPadding().getTop() + getPadding().getBottom(), paddingProperty());
 
-        final NumberBinding smallerSideContentSize = Bindings.min(
-                widthProperty().subtract(paddingWidth), heightProperty().subtract(paddingHeight));
+        final NumberBinding smallerSideContentSize =
+                min(widthProperty().subtract(paddingWidth), heightProperty().subtract(paddingHeight));
 
-        final DoubleBinding columnPerRowRatio = Bindings.createDoubleBinding(
-                this::columnPerRowRatio, grid.getColumnConstraints(), grid.getRowConstraints());
+        final DoubleBinding columnPerRowRatio =
+                createDoubleBinding(this::columnPerRowRatio, grid.getColumnConstraints(), grid.getRowConstraints());
 
         grid.maxHeightProperty()
-                .bind(Bindings.min(smallerSideContentSize, smallerSideContentSize.divide(columnPerRowRatio)));
+                .bind(floor(min(smallerSideContentSize, smallerSideContentSize.divide(columnPerRowRatio))));
         grid.maxWidthProperty()
-                .bind(Bindings.min(smallerSideContentSize, smallerSideContentSize.multiply(columnPerRowRatio)));
+                .bind(floor(min(smallerSideContentSize, smallerSideContentSize.multiply(columnPerRowRatio))));
     }
 
     /**

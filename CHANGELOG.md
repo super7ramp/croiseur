@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
    - Update to AtlantaFx 3.0.0 (!315).
    - Modularize tests again (#84, !316).
    - Fix auto-move current box when typing fast (!321)
+   - Fix grid glitches (!322)
 
 ## Version 0.12 - Upgrade to Java 25 - 2025/11/09
 
