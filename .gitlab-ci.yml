@@ -1,10 +1,9 @@
-# SPDX-FileCopyrightText: 2025 Antoine Belvire
+# SPDX-FileCopyrightText: 2026 Antoine Belvire
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 variables:
-  GIT_SUBMODULE_STRATEGY: normal
-  # Include only Crossword Composer submodule, LibreOffice dictionaries are not required for build
-  GIT_SUBMODULE_PATHS: croiseur-solver/croiseur-solver-paulgb/crossword-composer
+  # Don't pull the submodule for dictionary sources, not needed for build
+  GIT_SUBMODULE_STRATEGY: none
   LINUX_IMAGE: $CI_REGISTRY_IMAGE
 
 stages:
