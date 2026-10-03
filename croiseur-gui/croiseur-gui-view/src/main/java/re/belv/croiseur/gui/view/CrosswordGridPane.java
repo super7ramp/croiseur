@@ -146,11 +146,21 @@ public final class CrosswordGridPane extends StackPane {
 
         @Override
         public void handle(final KeyEvent event) {
-            if (event.getCode().isLetterKey()) {
+            if (isLetter(event.getCharacter())) {
                 ifNotShaded(Move.TO_NEXT);
             } else if (event.getCode() == KeyCode.BACK_SPACE) {
                 ifNotShaded(Move.TO_PREVIOUS);
             }
+        }
+
+        /**
+         * Returns {@code true} if the given character, composed of potentially several code points, is a letter.
+         *
+         * @param character the character to test
+         * @return {@code true} if the given character is a letter
+         */
+        private static boolean isLetter(final String character) {
+            return !character.isEmpty() && character.codePoints().allMatch(Character::isLetter);
         }
 
         /**
@@ -251,6 +261,7 @@ public final class CrosswordGridPane extends StackPane {
         boxModels.addListener(this::onModelUpdate);
         grid.addEventFilter(InputEvent.ANY, new SlotOrientationChanger());
         grid.addEventFilter(KeyEvent.KEY_PRESSED, new ArrowKeyNavigator());
+        grid.addEventFilter(KeyEvent.KEY_TYPED, new AutoMoveCurrentBox());
         grid.addEventHandler(KeyEvent.KEY_RELEASED, new AutoMoveCurrentBox());
         placeholder.visibleProperty().bind(boxModels.emptyProperty());
         placeholder.managedProperty().bind(boxModels.emptyProperty());

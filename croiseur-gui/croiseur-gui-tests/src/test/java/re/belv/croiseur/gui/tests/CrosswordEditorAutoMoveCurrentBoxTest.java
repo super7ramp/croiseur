@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -26,8 +26,9 @@ final class CrosswordEditorAutoMoveCurrentBoxTest extends CroiseurGuiTest {
         step3_DeleteLetterHorizontalSlot(robot);
         step4_SwitchSlotOrientation(robot);
         step5_TypeLetterVerticalSlot(robot);
-        step6_AddBlockInNextBox(robot);
-        step7_TypeLetterBeforeBlock(robot);
+        step6_TypeSeveralLettersFast(robot);
+        step7_AddBlockInNextBox(robot);
+        step8_TypeLetterBeforeBlock(robot);
     }
 
     /**
@@ -98,11 +99,27 @@ final class CrosswordEditorAutoMoveCurrentBoxTest extends CroiseurGuiTest {
     }
 
     /**
+     * Type several letters fast and verify auto-move to next box works for each letter typed.
+     *
+     * @param robot the TestFx robot
+     */
+    private void step6_TypeSeveralLettersFast(final FxRobot robot) {
+        verifyThat("#crossword-grid", hasChildThatAt(0, 1, isFocused()));
+
+        robot.write("BCD");
+
+        verifyThat("#crossword-grid", hasChildThatAt(0, 1, hasText("B")));
+        verifyThat("#crossword-grid", hasChildThatAt(0, 2, hasText("C")));
+        verifyThat("#crossword-grid", hasChildThatAt(0, 3, hasText("D")));
+        verifyThat("#crossword-grid", hasChildThatAt(0, 4, isFocused()));
+    }
+
+    /**
      * Add a block in the next box.
      *
      * @param robot the TestFx robot
      */
-    private void step6_AddBlockInNextBox(final FxRobot robot) {
+    private void step7_AddBlockInNextBox(final FxRobot robot) {
         robot.type(KeyCode.DOWN, KeyCode.SPACE, KeyCode.UP);
     }
 
@@ -111,12 +128,12 @@ final class CrosswordEditorAutoMoveCurrentBoxTest extends CroiseurGuiTest {
      *
      * @param robot the TestFx robot
      */
-    private void step7_TypeLetterBeforeBlock(final FxRobot robot) {
-        verifyThat("#crossword-grid", hasChildThatAt(0, 1, isFocused()));
+    private void step8_TypeLetterBeforeBlock(final FxRobot robot) {
+        verifyThat("#crossword-grid", hasChildThatAt(0, 4, isFocused()));
 
-        robot.type(KeyCode.B);
+        robot.type(KeyCode.E);
 
-        verifyThat("#crossword-grid", hasChildThatAt(0, 1, hasText("B")));
-        verifyThat("#crossword-grid", hasChildThatAt(0, 1, isFocused()));
+        verifyThat("#crossword-grid", hasChildThatAt(0, 4, hasText("E")));
+        verifyThat("#crossword-grid", hasChildThatAt(0, 4, isFocused()));
     }
 }
