@@ -31,6 +31,9 @@ tasks.test {
         "--enable-native-access=re.belv.croiseur.solver.paulgb",
         "--enable-native-access=re.belv.croiseur.solver.szunami",
 
+        // Allow native access for JavaFx (JDK-8347744)
+        "--enable-native-access=javafx.graphics",
+
         // Export/open JavaFx internals to TestFx: TestFx relies on them.
         "--add-exports", "javafx.base/com.sun.javafx.logging=org.testfx.monocle",
         "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx.monocle",
