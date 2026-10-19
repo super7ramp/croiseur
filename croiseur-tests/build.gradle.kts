@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Antoine Belvire
+ * SPDX-FileCopyrightText: 2026 Antoine Belvire
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -34,6 +34,10 @@ dependencies {
 }
 
 tasks.test {
+    jvmArgs = listOf(
+        "--enable-native-access=re.belv.croiseur.solver.paulgb",
+        "--enable-native-access=re.belv.croiseur.solver.szunami",
+    )
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     systemProperty("re.belv.croiseur.dictionary.path", testDictionaryPath.get().asPath)
 }
